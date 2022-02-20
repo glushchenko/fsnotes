@@ -21,7 +21,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var rows = [
         [
-            NSLocalizedString("Extension", comment: "Settings"),
+            NSLocalizedString("File format", comment: "Settings"),
             NSLocalizedString("Editor", comment: "Settings"),
             NSLocalizedString("Night Mode", comment: "Settings"),
             NSLocalizedString("Pro", comment: "Settings"),
@@ -183,9 +183,11 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 0:
                 break
             case 1:
-                let viewController = ExternalViewController(documentTypes: [kUTTypeFolder as String], in: .open)
-                viewController.delegate = viewController
-                present(viewController, animated: true, completion: nil)
+                if #available(iOS 13.0, *) {
+                    let viewController = ExternalViewController(documentTypes: [kUTTypeFolder as String], in: .open)
+                    viewController.delegate = viewController
+                    present(viewController, animated: true, completion: nil)
+                }
                 break
             case 2:
                 lvc = ProjectsViewController()

@@ -34,11 +34,11 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         var buttons = [UIBarButtonItem]()
         buttons.append(addProject)
 
-        if #available(iOS 13.0, *) {
-            let external = Buttons.getAttach(target: self, selector: #selector(attachExternal))
-
-            buttons.append(external)
-        }
+//        if #available(iOS 13.0, *) {
+//            let external = Buttons.getAttach(target: self, selector: #selector(attachExternal))
+//
+//            buttons.append(external)
+//        }
 
         self.navigationItem.rightBarButtonItems = buttons
 

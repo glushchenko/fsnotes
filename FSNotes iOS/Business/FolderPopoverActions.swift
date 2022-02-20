@@ -23,7 +23,7 @@ enum FolderPopoverActions: Int {
     static let description =
         [
             NSLocalizedString("Import notes", comment: "Main view popover table"),
-            NSLocalizedString("Multiple Selection", comment: "Main view popover table"),
+            NSLocalizedString("Select", comment: "Main view popover table"),
             NSLocalizedString("View settings", comment: "Main view popover table"),
             NSLocalizedString("Create folder", comment: "Main view popover table"),
             NSLocalizedString("Remove folder", comment: "Main view popover table"),

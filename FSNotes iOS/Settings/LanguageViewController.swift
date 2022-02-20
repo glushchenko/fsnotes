@@ -23,7 +23,7 @@ class LanguageViewController: UITableViewController {
             }
         }
         
-        self.title = NSLocalizedString("Default Keyboard In Editor", comment: "Settings")
+        self.title = NSLocalizedString("Default keyboard in editor", comment: "Settings")
         super.viewDidLoad()
     }
     

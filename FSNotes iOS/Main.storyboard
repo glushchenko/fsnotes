@@ -345,30 +345,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uob-7M-pKX" userLabel="bottomNavigationBar">
                                 <rect key="frame" x="0.0" y="848" width="428" height="44"/>
                                 <items>
-                                    <navigationItem id="yAb-Kj-DPE">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="SaI-OC-eOW">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="VxT-QC-y3Z">
-                                                <rect key="frame" x="20" y="5" width="103" height="34.333333333333336"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
-                                                <connections>
-                                                    <action selector="closeController:" destination="87i-Hr-AGk" eventType="touchUpInside" id="SLe-6E-Igk"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" id="5wh-Tx-aAf">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="lyD-hF-Pt2">
-                                                <rect key="frame" x="298.66666666666669" y="5" width="109.33333333333331" height="34.333333333333336"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Save"/>
-                                                <connections>
-                                                    <action selector="saveDate:" destination="87i-Hr-AGk" eventType="touchUpInside" id="WNZ-4k-cL1"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <navigationItem id="yAb-Kj-DPE" userLabel="Nav item"/>
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WxN-Ou-qlq" userLabel="bottomSafeView">
@@ -395,10 +372,9 @@
                     </view>
                     <connections>
                         <outlet property="bottomSafeView" destination="WxN-Ou-qlq" id="EeJ-8P-hAA"/>
-                        <outlet property="cancelBarButton" destination="SaI-OC-eOW" id="Ymq-Vc-lXl"/>
                         <outlet property="datePicker" destination="B67-S8-Rt3" id="NSu-4a-7mZ"/>
+                        <outlet property="navItem" destination="yAb-Kj-DPE" id="wgf-X6-3Lx"/>
                         <outlet property="navigationBar" destination="uob-7M-pKX" id="JXt-ZZ-Qea"/>
-                        <outlet property="saveBarButton" destination="5wh-Tx-aAf" id="v3u-Y6-ENA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hlq-lK-G9X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

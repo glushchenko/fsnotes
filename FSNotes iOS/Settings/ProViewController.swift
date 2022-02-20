@@ -11,7 +11,7 @@ import NightNight
 
 class ProViewController: UITableViewController {
     private var sections = [
-        NSLocalizedString("General", comment: "Settings"),
+        NSLocalizedString("+", comment: "Settings"),
     ]
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -19,9 +19,9 @@ class ProViewController: UITableViewController {
     }
 
     private var rows: [String] = [
-        NSLocalizedString("Default Keyboard In Editor", comment: ""),
-        NSLocalizedString("Use Inline Tags", comment: ""),
-        NSLocalizedString("Auto Versioning", comment: "")
+        NSLocalizedString("Default keyboard in editor", comment: ""),
+        NSLocalizedString("Use inline tags", comment: ""),
+        NSLocalizedString("Auto versioning", comment: "")
     ]
 
     override func viewDidLoad() {
@@ -119,8 +119,8 @@ class ProViewController: UITableViewController {
     }
 
     private func autoVersioningPrompt() {
-        let title = NSLocalizedString("History removing", comment: "")
-        let message = NSLocalizedString("Do you want to remove history of all notes?", comment: "")
+        let title = NSLocalizedString("Сlearing history", comment: "")
+        let message = NSLocalizedString("Are you sure you want to delete the history of all notes?", comment: "")
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in

@@ -40,7 +40,7 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
         updateNavigationBarBackground()
 
-        let doneString = NSLocalizedString("Done", comment: "")
+        let doneString = NSLocalizedString("Cancel", comment: "")
 
         let moreButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         moreButton.setBackgroundImage(UIImage(named: "shareAction")!.imageWithColor(color1: .white), for: .normal)
@@ -151,7 +151,7 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
     }
 
     @IBAction func trashBin() {
-        let messageText = NSLocalizedString("Are you really want to remove this picture? This action can not be undone.", comment: "")
+        let messageText = NSLocalizedString("Are you sure you want to delete this image?", comment: "")
 
         let alertController = UIAlertController(title: NSLocalizedString("Picture removing", comment: ""), message: messageText, preferredStyle: .alert)
 

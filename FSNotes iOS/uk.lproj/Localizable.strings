@@ -1,11 +1,29 @@
+/* Settings */
+"Add External Folder" = "Зовнішня папка";
+
 /* Archive in sidebar */
 "Archive" = "Архів";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "Ви впевнені, що хочете видалити всі версії цієї нотатки?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "Ви впевнені, що хочете видалити історію всіх нотаток?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "Ви впевнені, що хочете видалити це зображення?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Автоматично за яскравістю екрана";
 
 /* Naming controller */
 "Auto rename by title" = "Автоматичне за заголовком";
+
+/* Settings */
+"Auto Rename By Title" = "Автоматичне перейменування";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "Автоматичне керування версіями";
 
 /* Settings */
 "Autocorrection" = "Автокорекція";
@@ -40,14 +58,14 @@
 /* No comment provided by engineer. */
 "Creation date" = "Датою створення";
 
+/* No comment provided by engineer. */
+"Date created" = "Дата створення";
+
 /* Settings */
 "Default Container" = "Контейнер за замовчуванням";
 
-/* Settings */
-"Default Extension" = "Розширення за замовчуванням";
-
-/* Settings */
-"Default Keyboard In Editor" = "Клавіатура за замовчуванням";
+/* No comment provided by engineer. */
+"Default keyboard in editor" = "Клавіатура за замовчуванням";
 
 /* Table row action */
 "Delete" = "Видалити";
@@ -59,13 +77,16 @@
 "Documents" = "Документи";
 
 /* No comment provided by engineer. */
-"Done" = "Гаразд";
+"Duplicate" = "Створити копію";
 
 /* Settings */
 "Dynamic Type" = "Динамічний шрифт";
 
 /* Settings */
 "Editor" = "Редактор";
+
+/* Main view popover table */
+"Empty Bin" = "Очистити кошик";
 
 /* No comment provided by engineer. */
 "Enabled" = "Включений";
@@ -83,7 +104,13 @@
 "Enter note name" = "Введіть назву нотатки";
 
 /* Settings */
-"Extension" = "Формат файла";
+"Extension" = "Розширення";
+
+/* Settings */
+"Family" = "Сімейство шрифтів";
+
+/* Settings */
+"File format" = "Формат файлу";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл з цим іменем вже існує";
@@ -110,10 +137,28 @@
 "Font size" = "Розмір шрифту";
 
 /* Settings */
+"Format: Untitled Note" = "Формат: Untitled Note";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "Формат: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "Формат: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
 "General" = "Загальні";
+
+/* No comment provided by engineer. */
+"History" = "Історія";
 
 /* Settings */
 "Homepage" = "Домашня сторінка";
+
+/* Settings */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Images source:" = "Джерело зображень:";
@@ -128,13 +173,16 @@
 "Invalid Password" = "Недійсний пароль";
 
 /* Settings */
+"Line Spacing" = "Міжрядковий інтервал";
+
+/* Settings */
 "Live images preview" = "Живий перегляд зображень";
 
 /* No comment provided by engineer. */
 "Lock" = "Заблокувати";
 
 /* No comment provided by engineer. */
-"Lock/unlock" = "Заблокувати/розблокувати";
+"Master password:" = "Головний пароль:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Датою модифікації";
@@ -157,11 +205,17 @@
 /* No comment provided by engineer. */
 "Notes list" = "Лист нотаток";
 
+/* Main view popover table */
+"Open in Files.app" = "Відкрийте в Files.app";
+
 /* Document opened */
 "Open note" = "Відкрита нотатка";
 
 /* No comment provided by engineer. */
 "Photos" = "Фотографії";
+
+/* No comment provided by engineer. */
+"Picture removing" = "Видалення зображення";
 
 /* Table row action */
 "Pin" = "Закріпити";
@@ -171,6 +225,9 @@
 
 /* No comment provided by engineer. */
 "Preview" = "Попередній перегляд";
+
+/* Settings */
+"Pro" = "Розширені";
 
 /* Settings */
 "Project" = "Проект";
@@ -215,10 +272,16 @@
 "Save clipboard" = "Зберегти буфер обміну";
 
 /* No comment provided by engineer. */
+"Saved versions" = "Збережені версії";
+
+/* No comment provided by engineer. */
 "Search" = "Пошук";
 
 /* No comment provided by engineer. */
 "Search or create" = "Знайти або створити";
+
+/* Main view popover table */
+"Select" = "Вибрати";
 
 /* Sidebar settings */
 "Settings" = "Налаштування";
@@ -262,9 +325,6 @@
 /* No comment provided by engineer. */
 "Type" = "Тип";
 
-/* Settings */
-"UI" = "Інтерфейс";
-
 /* No comment provided by engineer. */
 "Unlock" = "Розблокувати";
 
@@ -280,8 +340,14 @@
 /* Settings */
 "Version" = "Версія";
 
+/* No comment provided by engineer. */
+"View" = "Вид";
+
 /* Main view popover table */
 "View settings" = "Налаштування";
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимість";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "Очищення історії";

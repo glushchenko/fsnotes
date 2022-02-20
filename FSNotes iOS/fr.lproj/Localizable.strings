@@ -1,11 +1,29 @@
+/* Settings */
+"Add External Folder" = "Add External Folder";
+
 /* Archive in sidebar */
 "Archive" = "Archive";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "Are you sure you want to delete all versions of this note?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "Are you sure you want to delete the history of all notes?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "Are you sure you want to delete this image?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Auto en fonction de la luminosité";
 
 /* Naming controller */
 "Auto rename by title" = "Renommer automatiquement par titre";
+
+/* Settings */
+"Auto Rename By Title" = "Auto Rename By Title";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "Auto versioning";
 
 /* Settings */
 "Autocorrection" = "Auto-correction";
@@ -40,14 +58,14 @@
 /* No comment provided by engineer. */
 "Creation date" = "Date de création";
 
+/* No comment provided by engineer. */
+"Date created" = "Date created";
+
 /* Settings */
 "Default Container" = "Container par défaut";
 
-/* Settings */
-"Default Extension" = "Extension par défaut";
-
-/* Settings */
-"Default Keyboard In Editor" = "Clavier par défaut dans l'éditeur";
+/* No comment provided by engineer. */
+"Default keyboard in editor" = "Default keyboard in editor";
 
 /* Table row action */
 "Delete" = "Supprimer";
@@ -59,13 +77,16 @@
 "Documents" = "Des documents";
 
 /* No comment provided by engineer. */
-"Done" = "Terminé";
+"Duplicate" = "Duplicate";
 
 /* Settings */
 "Dynamic Type" = "Type dynamique";
 
 /* Settings */
 "Editor" = "Éditeur";
+
+/* Main view popover table */
+"Empty Bin" = "Empty Bin";
 
 /* No comment provided by engineer. */
 "Enabled" = "Activé";
@@ -84,6 +105,12 @@
 
 /* Settings */
 "Extension" = "Extension";
+
+/* Settings */
+"Family" = "Family";
+
+/* Settings */
+"File format" = "File format";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Un fichier avec ce nom existe déjà";
@@ -110,10 +137,28 @@
 "Font size" = "Taille de polive";
 
 /* Settings */
+"Format: Untitled Note" = "Format: Untitled Note";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "Format: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "Format: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
 "General" = "Général";
+
+/* No comment provided by engineer. */
+"History" = "History";
 
 /* Settings */
 "Homepage" = "Page d'accueil";
+
+/* Settings */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Images source:" = "Source des images:";
@@ -128,13 +173,16 @@
 "Invalid Password" = "Mot de passe incorrect";
 
 /* Settings */
+"Line Spacing" = "Line Spacing";
+
+/* Settings */
 "Live images preview" = "Aperçu des images";
 
 /* No comment provided by engineer. */
 "Lock" = "Verrouiller";
 
 /* No comment provided by engineer. */
-"Lock/unlock" = "Verrouiller/déverrouiller";
+"Master password:" = "Master password:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Date de modification";
@@ -157,11 +205,17 @@
 /* No comment provided by engineer. */
 "Notes list" = "Liste de notes";
 
+/* Main view popover table */
+"Open in Files.app" = "Open in Files.app";
+
 /* Document opened */
 "Open note" = "Ouvrir la note";
 
 /* No comment provided by engineer. */
 "Photos" = "Photos";
+
+/* No comment provided by engineer. */
+"Picture removing" = "Picture removing";
 
 /* Table row action */
 "Pin" = "Épingler";
@@ -171,6 +225,9 @@
 
 /* No comment provided by engineer. */
 "Preview" = "Aperçu";
+
+/* Settings */
+"Pro" = "Pro";
 
 /* Settings */
 "Project" = "Projet";
@@ -215,10 +272,16 @@
 "Save clipboard" = "Enregistrer le presse-papiers";
 
 /* No comment provided by engineer. */
+"Saved versions" = "Saved versions";
+
+/* No comment provided by engineer. */
 "Search" = "Chercher";
 
 /* No comment provided by engineer. */
 "Search or create" = "Trouver ou créer";
+
+/* Main view popover table */
+"Select" = "Select";
 
 /* Sidebar settings */
 "Settings" = "Paramètres";
@@ -262,9 +325,6 @@
 /* No comment provided by engineer. */
 "Type" = "Type";
 
-/* Settings */
-"UI" = "Interface";
-
 /* No comment provided by engineer. */
 "Unlock" = "Déverrouiller";
 
@@ -280,8 +340,14 @@
 /* Settings */
 "Version" = "Version";
 
+/* No comment provided by engineer. */
+"View" = "View";
+
 /* Main view popover table */
 "View settings" = "Paramètres d'affichage";
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilité";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "Сlearing history";

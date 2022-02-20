@@ -1,11 +1,29 @@
+/* Settings */
+"Add External Folder" = "Внешняя директория";
+
 /* Archive in sidebar */
 "Archive" = "Архив";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "Вы уверены, что хотите удалить все версии этой заметки?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "Вы уверены, что хотите удалить историю всех заметок?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "Вы уверены, что хотите удалить это изображение?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Автоматически от яркости экрана";
 
 /* Naming controller */
 "Auto rename by title" = "Автоматически по заголовку";
+
+/* Settings */
+"Auto Rename By Title" = "По заголовку";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "Автоверсионирование";
 
 /* Settings */
 "Autocorrection" = "Aвтоисправление";
@@ -40,14 +58,14 @@
 /* No comment provided by engineer. */
 "Creation date" = "Дате создания";
 
+/* No comment provided by engineer. */
+"Date created" = "Дата создания";
+
 /* Settings */
 "Default Container" = "Контейнер по умолчанию";
 
-/* Settings */
-"Default Extension" = "Формат заметок по умолчанию";
-
-/* Settings */
-"Default Keyboard In Editor" = "Клавиатура в редакторе";
+/* No comment provided by engineer. */
+"Default keyboard in editor" = "Клавиатура по умолчанию";
 
 /* Table row action */
 "Delete" = "Удалить";
@@ -59,13 +77,16 @@
 "Documents" = "Документы";
 
 /* No comment provided by engineer. */
-"Done" = "Готово";
+"Duplicate" = "Создать копию";
 
 /* Settings */
 "Dynamic Type" = "Динамический шрифт";
 
 /* Settings */
 "Editor" = "Редактор";
+
+/* Main view popover table */
+"Empty Bin" = "Очистить корзину";
 
 /* No comment provided by engineer. */
 "Enabled" = "Включен";
@@ -83,7 +104,13 @@
 "Enter note name" = "Введите название заметки";
 
 /* Settings */
-"Extension" = "Формат файла";
+"Extension" = "Расширение";
+
+/* Settings */
+"Family" = "Семейство шрифтов";
+
+/* Settings */
+"File format" = "Формат файла";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл с таким именем уже существует";
@@ -110,10 +137,28 @@
 "Font size" = "Размер шрифта";
 
 /* Settings */
-"General" = "Общие";
+"Format: Untitled Note" = "Формат: Untitled Note";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "Формат: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "Формат: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
+"General" = "Основные";
+
+/* No comment provided by engineer. */
+"History" = "История";
 
 /* Settings */
 "Homepage" = "Домашняя страница";
+
+/* Settings */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Images source:" = "Источник изображения:";
@@ -128,13 +173,16 @@
 "Invalid Password" = "Неверный пароль";
 
 /* Settings */
+"Line Spacing" = "Межстрочный интервал";
+
+/* Settings */
 "Live images preview" = "Показывать изображения";
 
 /* No comment provided by engineer. */
 "Lock" = "Заблокировать";
 
 /* No comment provided by engineer. */
-"Lock/unlock" = "Заблокировать/разблокировать";
+"Master password:" = "Мастер пароль:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Дате модификации";
@@ -157,11 +205,17 @@
 /* No comment provided by engineer. */
 "Notes list" = "Список заметок";
 
+/* Main view popover table */
+"Open in Files.app" = "Открыть в Files.app";
+
 /* Document opened */
 "Open note" = "Открытая заметка";
 
 /* No comment provided by engineer. */
 "Photos" = "Фото";
+
+/* No comment provided by engineer. */
+"Picture removing" = "Удаление изображения";
 
 /* Table row action */
 "Pin" = "Прикрепить";
@@ -171,6 +225,9 @@
 
 /* No comment provided by engineer. */
 "Preview" = "Предпросмотр";
+
+/* Settings */
+"Pro" = "Расширенные";
 
 /* Settings */
 "Project" = "Проект";
@@ -215,10 +272,16 @@
 "Save clipboard" = "Сохранить буфер обмена";
 
 /* No comment provided by engineer. */
+"Saved versions" = "Сохраненные версии";
+
+/* No comment provided by engineer. */
 "Search" = "Поиск";
 
 /* No comment provided by engineer. */
 "Search or create" = "Найти или создать";
+
+/* Main view popover table */
+"Select" = "Выбрать";
 
 /* Sidebar settings */
 "Settings" = "Наcтройки";
@@ -262,9 +325,6 @@
 /* No comment provided by engineer. */
 "Type" = "Тип";
 
-/* Settings */
-"UI" = "Интерфейс";
-
 /* No comment provided by engineer. */
 "Unlock" = "Разблокировать";
 
@@ -275,13 +335,19 @@
 "Use first line as title" = "Первая строка как заголовок";
 
 /* Settings */
-"Use inline tags" = "Использовать встроенные теги";
+"Use inline tags" = "Встроенные теги";
 
 /* Settings */
 "Version" = "Версия";
 
+/* No comment provided by engineer. */
+"View" = "Вид";
+
 /* Main view popover table */
-"View settings" = "Настройки";
+"View settings" = "Настройки вида";
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимость";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "Очистка истории";

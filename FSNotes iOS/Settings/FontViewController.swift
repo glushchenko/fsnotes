@@ -15,7 +15,9 @@ class FontViewController: UITableViewController {
         "Avenir Next",
         "Georgia",
         "Helvetica Neue",
-        "Menlo"
+        "Menlo",
+        "Courier",
+        "Palatino"
     ]
     
     override func viewDidLoad() {

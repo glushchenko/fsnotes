@@ -57,8 +57,8 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     @IBAction func dropRevisions() {
-        let title = NSLocalizedString("Versions removing", comment: "")
-        let message = NSLocalizedString("Are you sure you want to remove all versions of this note?", comment: "")
+        let title = NSLocalizedString("Сlearing history", comment: "")
+        let message = NSLocalizedString("Are you sure you want to delete all versions of this note?", comment: "")
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
@@ -67,7 +67,7 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
         })
 
         let cancel = NSLocalizedString("Cancel", comment: "")
-        alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { (action: UIAlertAction!) in
+            alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { (action: UIAlertAction!) in
         }))
 
         self.present(alert, animated: true, completion: nil)
@@ -125,7 +125,7 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return NSLocalizedString("Note versions", comment: "")
+        return NSLocalizedString("Saved versions", comment: "")
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

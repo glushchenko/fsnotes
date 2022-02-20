@@ -12,11 +12,10 @@ import NightNight
 
 class DatePickerViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var saveBarButton: UIBarButtonItem!
-    @IBOutlet weak var cancelBarButton: UIBarButtonItem!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var bottomSafeView: UIView!
-    
+    @IBOutlet weak var navItem: UINavigationItem!
+
     public var notes: [Note]?
 
     override func viewDidLoad() {
@@ -39,6 +38,8 @@ class DatePickerViewController: UIViewController {
         if let date = notes?.first?.creationDate {
             datePicker.date = date
         }
+
+        initButtons()
     }
 
     @IBAction func saveDate(_ sender: Any) {
@@ -75,5 +76,15 @@ class DatePickerViewController: UIViewController {
             navigationBar.standardAppearance = appearance
             navigationBar.scrollEdgeAppearance = appearance
         }
+    }
+
+    private func initButtons() {
+        let leftString = NSLocalizedString("Cancel", comment: "")
+        navItem.leftBarButtonItem = UIBarButtonItem(title: leftString, style: .plain, target: self, action: #selector(closeController))
+
+        let saveImage = UIImage(named: "saveButton")?.resize(maxWidthHeight: 32)
+        let saveBarButton = UIBarButtonItem(image: saveImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(saveDate))
+
+        navItem.rightBarButtonItem = saveBarButton
     }
 }

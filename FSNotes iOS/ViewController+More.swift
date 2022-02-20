@@ -79,7 +79,7 @@ extension ViewController: UIDocumentPickerDelegate {
             }
             actionSheet.addAction(alertAction)
         }
-        
+
         if actions.contains(.emptyBin) {
             let title = NSLocalizedString("Empty Bin", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
@@ -119,7 +119,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.multipleSelection) {
-            let title = NSLocalizedString("Multiple Selection", comment: "Main view popover table")
+            let title = NSLocalizedString("Select", comment: "Main view popover table")
             let multipleSelection = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.bulkEditing()
             })
