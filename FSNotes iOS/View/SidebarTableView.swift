@@ -782,4 +782,9 @@ class SidebarTableView: UITableView,
 
         selectCurrentProject()
     }
+
+    public func reloadSidebar() {
+        sidebar = Sidebar()
+        reloadData()
+    }
 }

@@ -77,6 +77,7 @@ public class UserDefaultsManagement {
         static let HideSidebar = "hideSidebar"
         static let HidePreviewKey = "hidePreview"
         static let HidePreviewImages = "hidePreviewImages"
+        static let iCloudDrive = "iCloudDrive"
         static let ImagesWidthKey = "imagesWidthKey"
         static let IndentedCodeBlockHighlighting = "IndentedCodeBlockHighlighting"
         static let IndentUsing = "indentUsing"
@@ -1423,6 +1424,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.AutoVersioning)
+        }
+    }
+
+    static var iCloudDrive: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.iCloudDrive) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.iCloudDrive)
         }
     }
 }

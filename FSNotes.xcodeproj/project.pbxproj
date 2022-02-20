@@ -540,6 +540,9 @@
 		D792DD9927A6D71C006ADC01 /* String+Punycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792DD9527A6D71C006ADC01 /* String+Punycode.swift */; };
 		D794558E27C05743000C283F /* ProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D794558D27C05743000C283F /* ProViewController.swift */; };
 		D794559027C05F81000C283F /* settings-icons-pro.png in Resources */ = {isa = PBXBuildFile; fileRef = D794558F27C05F81000C283F /* settings-icons-pro.png */; };
+		D794559427C1A402000C283F /* settings-icons-cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = D794559327C1A401000C283F /* settings-icons-cloud.png */; };
+		D794559627C1A5F4000C283F /* settings-icons-external.png in Resources */ = {isa = PBXBuildFile; fileRef = D794559527C1A5F4000C283F /* settings-icons-external.png */; };
+		D794559A27C1B3F9000C283F /* ExternalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D794559927C1B3F9000C283F /* ExternalViewController.swift */; };
 		D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */; };
 		D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */; };
 		D7958A3C22EDA35700EDBDDC /* attach.png in Resources */ = {isa = PBXBuildFile; fileRef = D7958A3B22EDA35700EDBDDC /* attach.png */; };
@@ -1400,6 +1403,9 @@
 		D792DD9527A6D71C006ADC01 /* String+Punycode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Punycode.swift"; sourceTree = "<group>"; };
 		D794558D27C05743000C283F /* ProViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProViewController.swift; sourceTree = "<group>"; };
 		D794558F27C05F81000C283F /* settings-icons-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-pro.png"; sourceTree = "<group>"; };
+		D794559327C1A401000C283F /* settings-icons-cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-cloud.png"; sourceTree = "<group>"; };
+		D794559527C1A5F4000C283F /* settings-icons-external.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-external.png"; sourceTree = "<group>"; };
+		D794559927C1B3F9000C283F /* ExternalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalViewController.swift; sourceTree = "<group>"; };
 		D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandboxBookmark.swift; sourceTree = "<group>"; };
 		D7958A3B22EDA35700EDBDDC /* attach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach.png; sourceTree = "<group>"; };
 		D79651B02517741400333AD4 /* ProgressState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressState.swift; sourceTree = "<group>"; };
@@ -1898,6 +1904,8 @@
 			isa = PBXGroup;
 			children = (
 				D71C79BC253F3BF5003BD724 /* close-window.png */,
+				D794559527C1A5F4000C283F /* settings-icons-external.png */,
+				D794559327C1A401000C283F /* settings-icons-cloud.png */,
 				D7D79B0624DE738C003C61AF /* settings-icons-container.png */,
 				D794558F27C05F81000C283F /* settings-icons-pro.png */,
 				D7D79B0A24DE738D003C61AF /* settings-icons-format.png */,
@@ -2372,6 +2380,7 @@
 				D73A1FFC249941A200CFC376 /* NamingViewController.swift */,
 				D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */,
 				D794558D27C05743000C283F /* ProViewController.swift */,
+				D794559927C1B3F9000C283F /* ExternalViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2917,6 +2926,7 @@
 				D7BAC633249E05B2008D29AA /* close.png in Resources */,
 				D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */,
 				D7D06533247AFA0600214326 /* pin_row_action.png in Resources */,
+				D794559627C1A5F4000C283F /* settings-icons-external.png in Resources */,
 				D7B1F6B1246A686700593001 /* ordered_list.png in Resources */,
 				D78115652153C035004FA1CA /* add.png in Resources */,
 				D7D79B0E24DE738E003C61AF /* settings-icons-keyboard.png in Resources */,
@@ -2949,6 +2959,7 @@
 				D70BA87820599D1300875E9C /* header@3x.png in Resources */,
 				D7D79B0C24DE738E003C61AF /* settings-icons-twitter.png in Resources */,
 				D76025BF204F078A000B9F59 /* bold@3x.png in Resources */,
+				D794559427C1A402000C283F /* settings-icons-cloud.png in Resources */,
 				D73995602051D1AB009017EE /* italic.png in Resources */,
 				D7BDFE6D201F6E8F00897A58 /* Initial in Resources */,
 				D7CBAFFB214D4A08002ECD5A /* settings_white.png in Resources */,
@@ -3783,6 +3794,7 @@
 				D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */,
 				D79651B42517741400333AD4 /* ProgressState.swift in Sources */,
 				D792DD8527A6C980006ADC01 /* FSParser.swift in Sources */,
+				D794559A27C1B3F9000C283F /* ExternalViewController.swift in Sources */,
 				8F7136F023490CBF004DFA6E /* Markdown.swift in Sources */,
 				D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D73A1FFD249941A200CFC376 /* NamingViewController.swift in Sources */,

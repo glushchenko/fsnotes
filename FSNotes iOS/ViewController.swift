@@ -112,6 +112,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func startCloudDriveSyncEngine(completion: (() -> ())? = nil) {
+        guard UserDefaultsManagement.iCloudDrive else { return }
+
         cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
         cloudDriveManager?.metadataQuery.disableUpdates()
 
@@ -134,6 +136,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             self.cloudDriveManager?.metadataQuery.start()
         }
+    }
+
+    public func stopCloudDriveSyncEngine() {
+        self.cloudDriveManager?.metadataQuery.stop()
     }
 
     public func configureUI() {

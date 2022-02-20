@@ -16,7 +16,7 @@ import UIKit
 #endif
 
 class Storage {
-    static var instance: Storage? = nil
+    public static var instance: Storage? = nil
     
     public var noteList = [Note]()
     private var projects = [Project]()
@@ -164,6 +164,10 @@ class Storage {
 
         let ubiquityContainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
 
+        if !UserDefaultsManagement.iCloudDrive {
+            return getLocalDocuments()
+        }
+        
         guard let iCloudDocumentsURL = ubiquityContainer?
             .appendingPathComponent("Documents")
             .standardized

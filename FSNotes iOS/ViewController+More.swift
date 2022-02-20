@@ -68,6 +68,18 @@ extension ViewController: UIDocumentPickerDelegate {
         let mainTitle = type != .Tag ? projectLabel : sidebarItem?.getName()
         let actionSheet = UIAlertController(title: mainTitle, message: nil, preferredStyle: .actionSheet)
 
+        if actions.contains(.removeFolder) {
+            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
+                self.removeFolder()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarRemoveFolder")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+        
         if actions.contains(.emptyBin) {
             let title = NSLocalizedString("Empty Bin", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
@@ -125,18 +137,6 @@ extension ViewController: UIDocumentPickerDelegate {
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(named: "sidebarCreateFolder")?.resize(maxWidthHeight: 23) {
-                alertAction.setValue(image, forKey: "image")
-            }
-            actionSheet.addAction(alertAction)
-        }
-
-        if actions.contains(.removeFolder) {
-            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
-            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
-                self.removeFolder()
-            })
-            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarRemoveFolder")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)

@@ -9,6 +9,7 @@
 import UIKit
 import NightNight
 import StoreKit
+import CoreServices
 
 class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
@@ -25,6 +26,8 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             NSLocalizedString("Night Mode", comment: "Settings"),
             NSLocalizedString("Pro", comment: "Settings"),
         ], [
+            NSLocalizedString("iCloud Drive", comment: "Settings"),
+            NSLocalizedString("Add External Folder", comment: "Settings"),
             NSLocalizedString("Projects", comment: "Settings"),
             NSLocalizedString("Import notes", comment: "Settings")
         ], [
@@ -42,6 +45,8 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             "settings-icons-night",
             "settings-icons-pro",
         ], [
+            "settings-icons-cloud",
+            "settings-icons-external",
             "settings-icons-projects",
             "settings-icons-import"
         ], [
@@ -52,7 +57,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [4, 2, 4]
+    var rowsInSection = [4, 4, 4]
 
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -124,8 +129,17 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                cell.accessoryType = .disclosureIndicator
+                let uiSwitch = UISwitch()
+                uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
+                uiSwitch.isOn = UserDefaultsManagement.iCloudDrive
+
+                cell.textLabel?.text = "iCloud Drive"
+                cell.accessoryView = uiSwitch
             case 1:
+                cell.accessoryType = .none
+            case 2:
+                cell.accessoryType = .disclosureIndicator
+            case 3:
                 cell.detailTextLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
                 cell.detailTextLabel?.numberOfLines = 0
                 cell.detailTextLabel?.lineBreakMode = .byWordWrapping
@@ -167,9 +181,16 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                lvc = ProjectsViewController()
                 break
             case 1:
+                let viewController = ExternalViewController(documentTypes: [kUTTypeFolder as String], in: .open)
+                viewController.delegate = viewController
+                present(viewController, animated: true, completion: nil)
+                break
+            case 2:
+                lvc = ProjectsViewController()
+                break
+            case 3:
                 let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
                 if #available(iOS 11.0, *) {
                     picker.allowsMultipleSelection = true
@@ -269,5 +290,23 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     @objc func done() {
         navigationController?.popViewController(animated: true)
+    }
+
+    @objc public func switchValueDidChange(_ sender: UISwitch) {
+        guard let cell = sender.superview as? UITableViewCell else { return }
+        guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+
+        UserDefaultsManagement.iCloudDrive = uiSwitch.isOn
+
+        let vc = UIApplication.getVC()
+        Storage.instance = nil
+
+        vc.storage = Storage.shared()
+        vc.sidebarTableView.reloadSidebar()
+        vc.viewDidLoad()
+
+        if !uiSwitch.isOn {
+            vc.stopCloudDriveSyncEngine()
+        }
     }
 }
