@@ -97,7 +97,7 @@ class Sidebar {
                 name: NSLocalizedString("Trash", comment: ""),
                 project: Storage.shared().getDefaultTrash(),
                 type: .Trash,
-                icon: getImage(named: "trash_white")
+                icon: getImage(named: "sidebar_trash")
             )
         )
 

@@ -612,7 +612,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if UserDefaultsManagement.naming == .autoRename {
             let title = note.title.withoutSpecialCharacters.trunc(length: 64)
 
-            if note.fileName != title && title.count > 0 {
+            if note.fileName != title && title.count > 0 && !note.isEncrypted() {
                 UIApplication.getVC().notesTable.rename(note: note, to: title, presentController: self)
             }
         }

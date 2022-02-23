@@ -1,49 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "arc.png",
+      "filename" : "archive-76.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "arc_white.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "arc-1.png",
+      "filename" : "archive-76@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "arc_white-1.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "arc-2.png",
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
+      "filename" : "archive-83.5@2x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
