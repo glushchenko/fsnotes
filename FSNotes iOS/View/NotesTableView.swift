@@ -186,7 +186,10 @@ class NotesTableView: UITableView,
             cell.configure(note: note)
 
             let filter = vc.navigationItem.searchController?.searchBar.text ?? ""
-            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter)
+
+            let project = self.viewDelegate?.sidebarTableView.getSidebarProjects()?.first
+            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter, project: project)
+            
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
             let newIndexPath = IndexPath(row: newIndex, section: 0)
