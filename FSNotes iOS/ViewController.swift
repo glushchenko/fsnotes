@@ -694,14 +694,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if #available(iOS 13.0, *) {
-            let content = searchBar.searchTextField.text
-            searchBar.searchTextField.text = ""
-            self.createNote(content: content, pasteboard: nil)
-            unloadSearchController()
-        } else {
-            // Fallback on earlier versions
-        }
+        let content = searchBar.text
+        searchBar.text = ""
+        self.createNote(content: content, pasteboard: nil)
+        unloadSearchController()
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {

@@ -688,10 +688,11 @@ public class TextFormatter {
             let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
             let selectRange = NSRange(location: range.location, length: 0)
             insertText("\n", replacementRange: range, selectRange: selectRange)
-            return
+        } else {
+            insertText("\n" + found)
         }
 
-        insertText("\n" + found)
+        updateCurrentParagraph()
     }
 
     private func matchDigits(string: NSAttributedString, match: NSTextCheckingResult) {
@@ -708,13 +709,22 @@ public class TextFormatter {
             let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
             let selectRange = NSRange(location: range.location, length: 0)
             insertText("\n", replacementRange: range, selectRange: selectRange)
-            return
-        }
-
-        if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
+        } else if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
             let newDigit = found.replacingOccurrences(of: String(position), with: String(position + 1))
             insertText("\n" + newDigit)
         }
+
+        updateCurrentParagraph()
+    }
+
+    private func updateCurrentParagraph() {
+        let parRange = getParagraphRange(for: textView.selectedRange.location)
+
+        #if os(iOS)
+            textView.textStorage.updateParagraphStyle(range: parRange)
+        #else
+            textView.textStorage?.updateParagraphStyle(range: parRange)
+        #endif
     }
 
     public func newLine() {
