@@ -290,6 +290,9 @@
 		D75627D226D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627D326D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627D426D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
+		D75629B127D4DB7E00F55588 /* CodeFontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */; };
+		D75629B327D4DE9F00F55588 /* CodeThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */; };
+		D75629B527D5036D00F55588 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75629B427D5036D00F55588 /* SortByViewController.swift */; };
 		D759D1FA2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
 		D759D1FB2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
 		D759D1FC2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
@@ -1313,6 +1316,9 @@
 		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
 		D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attachments.swift"; sourceTree = "<group>"; };
 		D75627CD26D1165A000AF6EA /* ImageFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFormat.swift; sourceTree = "<group>"; };
+		D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeFontViewController.swift; sourceTree = "<group>"; };
+		D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeThemeViewController.swift; sourceTree = "<group>"; };
+		D75629B427D5036D00F55588 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
 		D7573D3A24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7573D3B24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7573D3C24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2380,6 +2386,9 @@
 				D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */,
 				D794558D27C05743000C283F /* ProViewController.swift */,
 				D794559927C1B3F9000C283F /* ExternalViewController.swift */,
+				D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */,
+				D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */,
+				D75629B427D5036D00F55588 /* SortByViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3820,6 +3829,7 @@
 				D730BD37222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D7122F3D2790EBB400B238A4 /* SmallButton.swift in Sources */,
+				D75629B327D4DE9F00F55588 /* CodeThemeViewController.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
 				D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */,
 				D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */,
@@ -3845,6 +3855,8 @@
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
 				D785805827A1FA0F000C1BAF /* UITableViewController+.swift in Sources */,
 				D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */,
+				D75629B527D5036D00F55588 /* SortByViewController.swift in Sources */,
+				D75629B127D4DB7E00F55588 /* CodeFontViewController.swift in Sources */,
 				D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */,
 				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,
 				D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */,

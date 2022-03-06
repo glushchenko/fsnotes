@@ -2221,10 +2221,12 @@ class ViewController: NSViewController,
                         }
                     }
 
-                    if let notes = changedNotes.removed {
-                        for note in notes {
-                            if let i = notesTableView.getIndex(note) {
-                                notesTableView.reloadData(forRowIndexes: [i], columnIndexes: [0])
+                    DispatchQueue.main.async {
+                        if let notes = changedNotes.removed {
+                            for note in notes {
+                                if let i = self.notesTableView.getIndex(note) {
+                                    self.notesTableView.reloadData(forRowIndexes: [i], columnIndexes: [0])
+                                }
                             }
                         }
                     }

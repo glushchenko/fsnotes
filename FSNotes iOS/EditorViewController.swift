@@ -195,8 +195,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         EditTextView.note = note
 
-        UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "github"
-
         setTitle(text: note.getShortTitle())
 
         if UserDefaultsManagement.previewMode {
@@ -817,6 +815,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scrollFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height)
         let scroll = UIScrollView(frame: scrollFrame)
+        scroll.mixedBackgroundColor = MixedColor(normal: .white, night: .black)
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)

@@ -12,16 +12,21 @@ import NightNight
 class ProViewController: UITableViewController {
     private var sections = [
         NSLocalizedString("+", comment: "Settings"),
+        NSLocalizedString("View", comment: "Settings"),
     ]
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
 
-    private var rows: [String] = [
-        NSLocalizedString("Default keyboard in editor", comment: ""),
-        NSLocalizedString("Use inline tags", comment: ""),
-        NSLocalizedString("Auto versioning", comment: "")
+    private var rows = [
+        [
+            NSLocalizedString("Default keyboard in editor", comment: ""),
+            NSLocalizedString("Use inline tags", comment: ""),
+            NSLocalizedString("Auto versioning", comment: "")
+        ], [
+            NSLocalizedString("Sort by", comment: "")
+        ]
     ]
 
     override func viewDidLoad() {
@@ -38,7 +43,11 @@ class ProViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
+        if indexPath.section == 1, indexPath.row == 0 {
+            self.navigationController?.pushViewController(SortByViewController(), animated: true)
+        }
+
+        if indexPath.section == 0, indexPath.row == 0 {
             self.navigationController?.pushViewController(LanguageViewController(), animated: true)
         }
 
@@ -50,30 +59,41 @@ class ProViewController: UITableViewController {
         uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
 
         let cell = UITableViewCell()
-        cell.textLabel?.text = rows[indexPath.row]
+        cell.textLabel?.text = rows[indexPath.section][indexPath.row]
 
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
 
-        switch indexPath.row {
-        case 1:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.inlineTags
-            break
-        case 2:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.autoVersioning
-            break
-        default:
-            break
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 1:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.inlineTags
+                break
+            case 2:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.autoVersioning
+                break
+            default:
+                break
+            }
         }
+
+        if indexPath.section == 1 {
+            cell.accessoryType = .disclosureIndicator
+        }
+
         
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return rows.count
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rows[section].count
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

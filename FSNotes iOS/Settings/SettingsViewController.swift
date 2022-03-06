@@ -63,6 +63,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         title = NSLocalizedString("Settings", comment: "Sidebar settings")
         navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
+        navigationItem.rightBarButtonItem = Buttons.getRateUs(target: self, selector: #selector(rateUs))
 
         super.viewDidLoad()
 
@@ -288,6 +289,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         for url in urls {
             try? FileManager.default.copyItem(at: url, to: storageUrl.appendingPathComponent(url.lastPathComponent))
         }
+    }
+
+    @objc func rateUs() {
+        SKStoreReviewController.requestReview()
     }
 
     @objc func done() {

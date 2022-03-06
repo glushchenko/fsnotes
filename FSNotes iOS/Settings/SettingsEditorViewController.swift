@@ -16,10 +16,11 @@ class SettingsEditorViewController: UITableViewController {
         NSLocalizedString("Settings", comment: ""),
         NSLocalizedString("View", comment: ""),
         NSLocalizedString("Line Spacing", comment: "Settings"),
-        NSLocalizedString("Font", comment: "")
+        NSLocalizedString("Font", comment: ""),
+        NSLocalizedString("Code", comment: "")
     ]
 
-    private var rowsInSection = [2, 2, 1, 3]
+    private var rowsInSection = [2, 2, 1, 3, 2]
 
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
@@ -37,6 +38,10 @@ class SettingsEditorViewController: UITableViewController {
             NSLocalizedString("Family", comment: "Settings"),
             NSLocalizedString("Dynamic Type", comment: "Settings"),
             NSLocalizedString("Font size", comment: "Settings")
+        ],
+        [
+            NSLocalizedString("Font", comment: "Settings"),
+            NSLocalizedString("Theme", comment: "Settings"),
         ]
     ]
 
@@ -78,6 +83,16 @@ class SettingsEditorViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 3 && indexPath.row == 0 {
             let controller = FontViewController()
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+
+        if indexPath.section == 4 && indexPath.row == 0 {
+            let controller = CodeFontViewController()
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+
+        if indexPath.section == 4 && indexPath.row == 1 {
+            let controller = CodeThemeViewController()
             self.navigationController?.pushViewController(controller, animated: true)
         }
 
@@ -173,6 +188,19 @@ class SettingsEditorViewController: UITableViewController {
                 cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[name(stepper)]-10-|", options: [], metrics: nil, views: views))
             default:
                 return cell
+            }
+        }
+
+        if indexPath.section == 4 {
+            switch indexPath.row {
+            case 0:
+                cell.accessoryType = .disclosureIndicator
+                break
+            case 1:
+                cell.accessoryType = .disclosureIndicator
+                break
+            default:
+                break
             }
         }
 

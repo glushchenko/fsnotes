@@ -133,13 +133,9 @@ class NotesTableView: UITableView,
 
     private func fill(note: Note, indexPath: IndexPath) {
         UIApplication.getVC().openEditorViewController()
-        
         UIApplication.getEVC().fill(note: note, clearPreview: true) {
-
-
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
-
             }
         }
     }

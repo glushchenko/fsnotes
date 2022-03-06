@@ -477,6 +477,10 @@ public class NotesTextProcessor {
         attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: lastParRange)
         attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: lastParRange)
 
+        // Colorize center
+        let centerRange = NSRange(openRangeBackground.location..<lastParRange.upperBound)
+        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: centerRange)
+
         // Colorize language name
         if let langLength = NotesTextProcessor.getLanguage(code)?.count {
             let  color = Color.init(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.00)

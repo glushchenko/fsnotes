@@ -12,13 +12,36 @@ class Buttons {
     public static func getBack(target: Any, selector: Selector) -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named: "back"), for: .normal)
+
+        var button = UIImage(named: "back")
+        if #available(iOS 13.0, *) {
+            button = UIImage(named: "backButton")!.withTintColor(.white)
+        }
+
+        menuBtn.setImage(button, for: .normal)
         menuBtn.addTarget(target, action: selector, for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
         let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
         currWidth?.isActive = true
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        currHeight?.isActive = true
+
+        return menuBarItem
+    }
+
+    public static func getRateUs(target: Any, selector: Selector) -> UIBarButtonItem {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 25, height: 25)
+
+        let button = UIImage(named: "rateUs")
+        menuBtn.setImage(button, for: .normal)
+        menuBtn.addTarget(target, action: selector, for: UIControl.Event.touchUpInside)
+
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 28)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 28)
         currHeight?.isActive = true
 
         return menuBarItem

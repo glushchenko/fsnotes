@@ -182,6 +182,7 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
 
         note.invalidateCache()
+        EditTextView.shouldForceRescan = true
 
         for item in UIPasteboard.general.items {
             if let rtfd = item["es.fsnot.attributed.text"] as? Data {
@@ -191,6 +192,7 @@ class EditTextView: UITextView, UITextViewDelegate {
                     attributedString.loadCheckboxes()
                     
                     let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
+                    attributedString.removeAttribute(.backgroundColor, range: newRange)
 
                     if let selTextRange = selectedTextRange, let undoManager = undoManager {
                         undoManager.beginUndoGrouping()

@@ -90,9 +90,8 @@ class MainNavigationController: UINavigationController {
         let evc = UIApplication.getEVC()
 
         MPreviewView.template = nil
-
-        UserDefaultsManagement.codeTheme = "monokai-sublime"
         NotesTextProcessor.hl = nil
+
         evc.refill()
 
         if evc.editArea != nil {
@@ -121,9 +120,8 @@ class MainNavigationController: UINavigationController {
         let evc = UIApplication.getEVC()
 
         MPreviewView.template = nil
-
-        UserDefaultsManagement.codeTheme = "github"
         NotesTextProcessor.hl = nil
+        
         evc.refill()
 
         if evc.editArea != nil {

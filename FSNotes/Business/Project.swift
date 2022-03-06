@@ -36,12 +36,11 @@ public class Project: Equatable {
 
     #if os(iOS)
     public var firstLineAsTitle: Bool = true
-    public var sortBy: SortBy = .modificationDate
     #else
     public var firstLineAsTitle: Bool = false
-    public var sortBy: SortBy = .none
     #endif
 
+    public var sortBy: SortBy = .none
     public var metaCache = [NoteMeta]()
     
     // all notes loaded with cache diff comparsion

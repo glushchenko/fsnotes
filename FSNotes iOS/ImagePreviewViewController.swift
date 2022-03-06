@@ -51,7 +51,7 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
         let cropButton = UIBarButtonItem.menuButton(self, action: #selector(crop), imageName: "cropButton", size: CGSize(width: 30, height: 30), tintColor: nil)
 
-        let dropButton = UIBarButtonItem.menuButton(self, action: #selector(trashBin), imageName: "trashButton", size: CGSize(width: 30, height: 30), tintColor: nil)
+        let dropButton = UIBarButtonItem.menuButton(self, action: #selector(trashBin), imageName: "trashButton", size: CGSize(width: 26, height: 26), tintColor: nil)
 
         let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         space.width = 20
