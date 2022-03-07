@@ -1,0 +1,278 @@
+/* No comment provided by engineer. */
+"Add" = "追加";
+
+/* No comment provided by engineer. */
+"Add External Folder..." = "外部フォルダを追加...";
+
+/* Sidebar label */
+"Archive" = "アーカイブ";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "本当にこれら%d個のタグを削除しますか？一度削除したら元に戻すことはできません";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "これら%d件のノートを本当に削除してもいいですか?(もとに戻せません)";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "プロジェクト \"%@\" と中に入っているすべてのノートを本当に削除してもいいですか？";
+
+/* No comment provided by engineer. */
+"Back up storage" = "バックアップストレージ";
+
+/* Delete menu */
+"Cancel" = "キャンセル";
+
+/* Menu */
+"Change creation date" = "作成日を変更";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "文法チェック";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "入力中にスペルをチェックする";
+
+/* No comment provided by engineer. */
+"Clear" = "クリア";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "HTMLをコピー";
+
+/* No comment provided by engineer. */
+"Copy Link" = "リンクをコピー";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "プレインテキストとしてコピー";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "スペルを自動的に修正";
+/* Menu */
+"Creation date:" = "作成日:";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "現在のパスワードはKeychainに保存されたものと一致しません";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "データ検出";
+
+/* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "デフォルトストレージパスはGitパスとは異なる必要があります";
+
+/* No comment provided by engineer. */
+"Delete" = "削除";
+
+/* No comment provided by engineer. */
+"Delete Folder" = "フォルダを削除";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "タグを削除";
+
+/* No comment provided by engineer. */
+"Detach storage" = "ストレージを切り離す";
+
+/* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "既存のノートを新しい場所に移動しますか？";
+
+/* No comment provided by engineer. */
+"Documents" = "ドキュメント";
+
+/* No comment provided by engineer. */
+"Edit Link…" = "リンクを修正...";
+
+/* No comment provided by engineer. */
+"Empty password" = "パスワードが空です";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "マスターパスワードを入力する";
+
+/* No comment provided by engineer. */
+"External Folders" = "外部フォルダ";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "'%@'という名前のフォルダはすでに存在しています";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [編集]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [プレビュー]";
+
+/* No comment provided by engineer. */
+"History" = "履歴";
+
+/* No comment provided by engineer. */
+"iCloud Drive" = "iCloud Drive";
+
+/* No comment provided by engineer. */
+"Inbox" = "未整理";
+
+/* No comment provided by engineer. */
+"Link" = "リンク";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "ロックされたノートをすべて閉じる";
+
+/* No comment provided by engineer. */
+"Master password:" = "マスターパスワード:";
+
+/* Menu */
+"Move" = "移動";
+
+/* No comment provided by engineer. */
+"New" = "新規";
+
+/* No comment provided by engineer. */
+"New folder" = "新規フォルダ";
+
+/* No comment provided by engineer. */
+"New project" = "新規プロジェクト";
+
+/* No comment provided by engineer. */
+"New RTF" = "新規リッチテキスト書類";
+
+/* No comment provided by engineer. */
+"No" = "いいえ";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "ノート \"%@\" は指定したフォルダにすでに存在しています";
+
+/* Sidebar label */
+"Notes" = "すべて";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* Document opened */
+"Open note" = "開かれたノート";
+
+/* No comment provided by engineer. */
+"Otherwise, the database of your notes will be available at: " = "あるいは、データベースは次の場所で利用できます: ";
+
+/* No comment provided by engineer. */
+"Path not available" = "無効なパスです";
+
+/* Edit area */
+"Please enter image title:" = "イメージタイトルを入力:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "現在開いているノートのためのパスワードを入力";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "プロジェクト名を入力:";
+
+/* No comment provided by engineer. */
+"Please enter tag name:" = "タグ名を入力:";
+
+/* Menu */
+"Please enter tags (comma separated):" = "タグを入力(コンマ区切り):";
+
+/* No comment provided by engineer. */
+"Please try again" = "もう一度試してください";
+
+/* No comment provided by engineer. */
+"Preferences" = "設定";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "FSNotesを終了";
+
+/* No comment provided by engineer. */
+"Recents" = "最近";
+
+/* No comment provided by engineer. */
+"Recents Search" = "最近の検索";
+
+/* Delete menu */
+"Remove" = "削除";
+
+/* No comment provided by engineer. */
+"Remove Link" = "リンクを削除";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "ノートを削除";
+
+/* No comment provided by engineer. */
+"Remove Tags" = "タグを削除";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "フォルダの名称変更";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "タグの名称変更";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "複数タグの名称変更";
+
+/* No comment provided by engineer. */
+"Search and create" = "検索または新規作成";
+
+/* No comment provided by engineer. */
+"Show in Finder" = "Finderに表示";
+
+/* No comment provided by engineer. */
+"Show view options" = "表示オプションを表示";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "スマートコピ/ペースト";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "スマートダッシュ";
+
+/* No comment provided by engineer. */
+"Smart Links" = "スマートリンク";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "スマート引用符";
+
+/* View menu */
+"Sort by" = "表示順序";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "スペルと文法";
+
+/* No comment provided by engineer. */
+"Substitutions" = "自動置換";
+
+/* Menu
+   Sidebar label */
+"Tags" = "タグ";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Замена текста";
+
+/* Delete menu */
+"This action cannot be undone." = "このアクションは取り消しできません。";
+
+/* No comment provided by engineer. */
+"Todo" = "タスク";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "プレビューを表示/非表示";
+
+/* Sidebar label */
+"Trash" = "ゴミ箱";
+
+/* No comment provided by engineer. */
+"Underline" = "アンダーライン";
+
+/* No comment provided by engineer. */
+"Untagged" = "タグ無し";
+
+/* Untitled Note */
+"Untitled Note" = "名称未設定のノート";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "クリップボードにURLがコピーされました";
+
+/* Menu */
+"View" = "表示";
+
+/* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "FSNotesをMac App Storeからインストールし、iCloud Driveにデフォルトで保存していることがわかりますが、iCloud Driveにある古いデータベースを移動しますか？";
+
+/* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "移動先に同名のアイテムがすでに存在しているため、\\\"{DST_PATH}\\\"を移動できませんでした";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "再入力されたパスワードが一致していません";
+
+/* No comment provided by engineer. */
+"Yes" = "はい";
