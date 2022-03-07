@@ -1,5 +1,5 @@
 //
-//  FSNTextAttahcmentCell.swift
+//  FSNTextAttachmentCell.swift
 //  FSNotes
 //
 //  Created by Олександр Глущенко on 25.11.2020.
@@ -16,7 +16,8 @@ class FSNTextAttachmentCell: NSTextAttachmentCell {
         super.init(imageCell: image)
     }
 
-    required init(coder: NSCoder) {
+    @available(*, unavailable)
+    required init(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

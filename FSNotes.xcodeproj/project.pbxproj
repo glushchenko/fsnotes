@@ -262,10 +262,10 @@
 		D74B56CB230C0A8700A07AF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D74B56C9230C0A8700A07AF5 /* Localizable.strings */; };
 		D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */; };
-		D74D479F256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */; };
-		D74D47A0256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */; };
-		D74D47A1256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */; };
-		D74D47A4256DFA4500D97647 /* FSNTextAttahcmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */; };
+		D74D479F256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */; };
+		D74D47A0256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */; };
+		D74D47A1256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */; };
+		D74D47A4256DFA4500D97647 /* FSNTextAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */; };
 		D74D47A5256DFACD00D97647 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189352102099B00FE3AF2 /* NSTextStorage+.swift */; };
 		D74D47A6256DFACE00D97647 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189352102099B00FE3AF2 /* NSTextStorage+.swift */; };
 		D74D47A7256DFACE00D97647 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189352102099B00FE3AF2 /* NSTextStorage+.swift */; };
@@ -1317,7 +1317,7 @@
 		D74B56CF230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/Main.strings"; sourceTree = "<group>"; };
 		D74B7B642137D3A1007F5331 /* AttributedBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedBox.swift; sourceTree = "<group>"; };
 		D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
-		D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNTextAttahcmentCell.swift; sourceTree = "<group>"; };
+		D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNTextAttachmentCell.swift; sourceTree = "<group>"; };
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
 		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
@@ -1730,6 +1730,7 @@
 				D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */,
 				D792DD8127A6C980006ADC01 /* FSParser.swift */,
 				D736DDAC27BAC7940012ED70 /* Note+History.swift */,
+				D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -3570,7 +3571,7 @@
 				D75627D326D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				6F13BB6A20FEE0450005E120 /* DateFormatter+.swift in Sources */,
 				D7CD5CCB21820A380009D63B /* UserDefaultsManagement+.swift in Sources */,
-				D74D47A4256DFA4500D97647 /* FSNTextAttahcmentCell.swift in Sources */,
+				D74D47A4256DFA4500D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				D79651B62517741400333AD4 /* ProgressState.swift in Sources */,
 				D7B4AC632471253100F3888A /* NoteMeta.swift in Sources */,
 				D7B2B6E8245EEA5F0084B78D /* LanguageType.swift in Sources */,
@@ -3717,7 +3718,7 @@
 				D75E33B122462442006AD1C1 /* EditorView.swift in Sources */,
 				D75E33B222462442006AD1C1 /* NoteAttribute.swift in Sources */,
 				D7153DFF2285A93300A2C20F /* AboutWindowController.swift in Sources */,
-				D74D47A1256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
+				D74D47A1256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				D7CA7FCC2326519E00E9717A /* Git.swift in Sources */,
 				D75E33B322462442006AD1C1 /* EditorScrollView.swift in Sources */,
 				8F7136EF23490CBF004DFA6E /* Markdown.swift in Sources */,
@@ -4003,7 +4004,7 @@
 				D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */,
 				D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */,
 				D7153DFD2285A93300A2C20F /* AboutWindowController.swift in Sources */,
-				D74D479F256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
+				D74D479F256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				D7CA7FC72326519600E9717A /* Git.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
 				8F7136EE23490CBF004DFA6E /* Markdown.swift in Sources */,
@@ -4123,7 +4124,7 @@
 				D7315ED0215ECF3000AB49D4 /* EditorView.swift in Sources */,
 				D7E81C3A1F925B5F00416A91 /* NotesTableView.swift in Sources */,
 				D7153DFE2285A93300A2C20F /* AboutWindowController.swift in Sources */,
-				D74D47A0256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
+				D74D47A0256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				D7CA7FCB2326519D00E9717A /* Git.swift in Sources */,
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D7767C7F234E47B9006A0716 /* Markdown.swift in Sources */,
