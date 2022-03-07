@@ -1,4 +1,7 @@
 /* Settings */
+"+" = "+";
+
+/* Settings */
 "Add External Folder" = "Зовнішня папка";
 
 /* Archive in sidebar */
@@ -37,8 +40,14 @@
 /* No comment provided by engineer. */
 "Cancel" = "Скасувати";
 
+/* No comment provided by engineer. */
+"Code" = "Code";
+
 /* Settings */
 "Code block live highlighting" = "Живе підсвічування блоку коду";
+
+/* Settings */
+"Code Theme" = "Code Theme";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Сумісний з DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
@@ -199,6 +208,9 @@
 /* Settings */
 "Night Mode" = "Нічний режим";
 
+/* No comment provided by engineer. */
+"None" = "None";
+
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Нотатки";
 
@@ -237,9 +249,6 @@
 
 /* Settings */
 "Projects" = "Проекти";
-
-/* Settings */
-"Rate FSNotes" = "Оцінити FSNotes";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Зняти шифрування";
@@ -309,6 +318,12 @@
 
 /* No comment provided by engineer. */
 "System" = "Система";
+
+/* Settings */
+"Thanks to" = "Thanks to";
+
+/* Settings */
+"Theme" = "Theme";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовком";

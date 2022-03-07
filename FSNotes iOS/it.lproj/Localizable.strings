@@ -1,4 +1,7 @@
 /* Settings */
+"+" = "+";
+
+/* Settings */
 "Add External Folder" = "Cartella esterna";
 
 /* Archive in sidebar */
@@ -37,8 +40,14 @@
 /* No comment provided by engineer. */
 "Cancel" = "Annulla";
 
+/* No comment provided by engineer. */
+"Code" = "Code";
+
 /* Settings */
 "Code block live highlighting" = "Evidenzia il blocco di codice attivo";
+
+/* Settings */
+"Code Theme" = "Code Theme";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibile con DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
@@ -199,6 +208,9 @@
 /* Settings */
 "Night Mode" = "Modalità notte";
 
+/* No comment provided by engineer. */
+"None" = "None";
+
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Note";
 
@@ -237,9 +249,6 @@
 
 /* Settings */
 "Projects" = "Progetti";
-
-/* Settings */
-"Rate FSNotes" = "Vota FSNotes";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Rimuovi la crittografia";
@@ -309,6 +318,12 @@
 
 /* No comment provided by engineer. */
 "System" = "Di Sistema";
+
+/* Settings */
+"Thanks to" = "Thanks to";
+
+/* Settings */
+"Theme" = "Theme";
 
 /* No comment provided by engineer. */
 "Title" = "Titolo";
