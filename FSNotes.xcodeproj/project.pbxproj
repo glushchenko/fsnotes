@@ -293,6 +293,7 @@
 		D75629B127D4DB7E00F55588 /* CodeFontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */; };
 		D75629B327D4DE9F00F55588 /* CodeThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */; };
 		D75629B527D5036D00F55588 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75629B427D5036D00F55588 /* SortByViewController.swift */; };
+		D75629B727D53EB100F55588 /* ThanksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75629B627D53EB100F55588 /* ThanksViewController.swift */; };
 		D759D1FA2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
 		D759D1FB2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
 		D759D1FC2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
@@ -1324,6 +1325,7 @@
 		D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeFontViewController.swift; sourceTree = "<group>"; };
 		D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeThemeViewController.swift; sourceTree = "<group>"; };
 		D75629B427D5036D00F55588 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
+		D75629B627D53EB100F55588 /* ThanksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksViewController.swift; sourceTree = "<group>"; };
 		D7573D3A24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7573D3B24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7573D3C24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2394,6 +2396,7 @@
 				D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */,
 				D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */,
 				D75629B427D5036D00F55588 /* SortByViewController.swift */,
+				D75629B627D53EB100F55588 /* ThanksViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3893,6 +3896,7 @@
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
 				D781156B2153E05A004FA1CA /* ProjectSettingsViewController.swift in Sources */,
 				D7BAC62F249D11F8008D29AA /* SettingsFilesNaming.swift in Sources */,
+				D75629B727D53EB100F55588 /* ThanksViewController.swift in Sources */,
 				D77E0538246312B400AD7772 /* StorageType.swift in Sources */,
 				D7B34F9A25195D7E0007877E /* PreviewState.swift in Sources */,
 				D7EFAF6B278B310300175A2F /* HighlighterTheme.swift in Sources */,
@@ -4596,7 +4600,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 234;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -4621,7 +4625,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 234;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -4650,7 +4654,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 234;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -4680,7 +4684,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 234;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";

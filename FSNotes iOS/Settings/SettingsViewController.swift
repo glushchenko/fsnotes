@@ -34,7 +34,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             NSLocalizedString("Support", comment: "Settings"),
             NSLocalizedString("Homepage", comment: "Settings"),
             NSLocalizedString("Twitter", comment: "Settings"),
-            NSLocalizedString("Rate FSNotes", comment: "Settings")
+            NSLocalizedString("Thanks to", comment: "Settings")
         ]
     ]
 
@@ -150,6 +150,11 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             }
         }
 
+        if indexPath.section == 0x02 && indexPath.row == 0x03 {
+            cell.accessoryType = .disclosureIndicator
+            return cell
+        }
+
         return cell
     }
 
@@ -220,7 +225,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 url = URL(string: "https://twitter.com/fsnotesapp")
                 break
             case 0x03:
-                SKStoreReviewController.requestReview()
+                lvc = ThanksViewController()
                 break
             default: break
             }

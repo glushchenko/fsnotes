@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "delete-76.png",
+      "filename" : "Trash-76.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "delete-76@2x.png",
+      "filename" : "Trash-76@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "delete-83.5@2x.png",
+      "filename" : "Trash-83.5@2x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

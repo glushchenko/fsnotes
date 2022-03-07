@@ -118,8 +118,7 @@
 /* No comment provided by engineer. */
 "Images source:" = "画像ソース:";
 
-/* Main view popover table
-   Settings */
+/* Main view popover table Settings */
 "Import notes" = "ノートのインポート";
 
 /* Inbox in sidebar */
@@ -144,7 +143,7 @@
 "More" = "他";
 
 /* Move view */
-"Move" = "移動"
+"Move" = "移動";
 
 /* No comment provided by engineer. */
 "New document" = "新規ドキュメント";
@@ -252,8 +251,7 @@
 /* No comment provided by engineer. */
 "Title" = "タイトル";
 
-/* Sidebar items
-   Todo in sidebar */
+/* Sidebar items Todo in sidebar */
 "Todo" = "タスク";
 
 /* Trash in sidebar */
