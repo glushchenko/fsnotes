@@ -878,6 +878,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             || searchQuery.type == .Inbox
                 && note.project.isRoot
                 && note.project.isDefault
+            || searchQuery.type == .Untagged && note.tags.count == 0
         else {
             return false
         }

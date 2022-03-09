@@ -47,7 +47,7 @@
 "Code block live highlighting" = "Codeblok live markering";
 
 /* Settings */
-"Code Theme" = "Code Theme";
+"Code Theme" = "Code thema";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibel met DayOne JSON (zip), Bear en Ulysses (textbundle), markdown, txt, rtf.";
@@ -209,7 +209,7 @@
 "Night Mode" = "Nachtstand";
 
 /* No comment provided by engineer. */
-"None" = "None";
+"None" = "Standaard";
 
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Notities";
@@ -290,7 +290,7 @@
 "Search or create" = "Zoek en creëer";
 
 /* Main view popover table */
-"Select" = "Select";
+"Select" = "Selecteer";
 
 /* Sidebar settings */
 "Settings" = "Instellingen";
@@ -303,6 +303,9 @@
 
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Toon notities in \"Notes\" en \"Todo\" lijsten";
+
+/* Settings */
+"Sidebar" = "Zijbalk";
 
 /* No comment provided by engineer. */
 "Sort by" = "Sorteer op";
@@ -320,10 +323,10 @@
 "System" = "Systeem";
 
 /* Settings */
-"Thanks to" = "Thanks to";
+"Thanks to" = "Dankzij";
 
 /* Settings */
-"Theme" = "Theme";
+"Theme" = "Thema";
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
@@ -345,6 +348,9 @@
 
 /* Table row action */
 "UnPin" = "VerwijderPin";
+
+/* No comment provided by engineer. */
+"Untagged" = "Niet getagd";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Gebruik eerste regel als titel";

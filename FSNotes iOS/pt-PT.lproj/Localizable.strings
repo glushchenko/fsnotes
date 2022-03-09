@@ -41,13 +41,13 @@
 "Cancel" = "Cancelar";
 
 /* No comment provided by engineer. */
-"Code" = "Code";
+"Code" = "Código";
 
 /* Settings */
 "Code block live highlighting" = "Realçar bloco de código";
 
 /* Settings */
-"Code Theme" = "Code Theme";
+"Code Theme" = "Tema do código";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatível com DayOne JSON (zip), Bear e Ulysses (textbundle), markdown, txt, rtf.";
@@ -209,7 +209,7 @@
 "Night Mode" = "Modo Noturno";
 
 /* No comment provided by engineer. */
-"None" = "None";
+"None" = "Por padrão";
 
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Notas";
@@ -304,6 +304,9 @@
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Mostrar notas nas listas \"Notas\" e \"Tarefas\"";
 
+/* Settings */
+"Sidebar" = "Barra lateral";
+
 /* No comment provided by engineer. */
 "Sort by" = "Ordenar por";
 
@@ -320,10 +323,10 @@
 "System" = "Sistema";
 
 /* Settings */
-"Thanks to" = "Thanks to";
+"Thanks to" = "Graças a";
 
 /* Settings */
-"Theme" = "Theme";
+"Theme" = "Tema";
 
 /* No comment provided by engineer. */
 "Title" = "Título";
@@ -345,6 +348,9 @@
 
 /* Table row action */
 "UnPin" = "Soltar";
+
+/* No comment provided by engineer. */
+"Untagged" = "Sem etiqueta";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Utilizar a primeira linha como título";

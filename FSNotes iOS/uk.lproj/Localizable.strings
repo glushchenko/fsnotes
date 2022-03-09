@@ -41,13 +41,13 @@
 "Cancel" = "Скасувати";
 
 /* No comment provided by engineer. */
-"Code" = "Code";
+"Code" = "Код";
 
 /* Settings */
 "Code block live highlighting" = "Живе підсвічування блоку коду";
 
 /* Settings */
-"Code Theme" = "Code Theme";
+"Code Theme" = "Тема коду";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Сумісний з DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
@@ -209,7 +209,7 @@
 "Night Mode" = "Нічний режим";
 
 /* No comment provided by engineer. */
-"None" = "None";
+"None" = "За замовчуванням";
 
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Нотатки";
@@ -304,6 +304,9 @@
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Включити у \"Нотатки/завдання\"";
 
+/* Settings */
+"Sidebar" = "Бічна панель";
+
 /* No comment provided by engineer. */
 "Sort by" = "Сортувати за";
 
@@ -320,10 +323,10 @@
 "System" = "Система";
 
 /* Settings */
-"Thanks to" = "Thanks to";
+"Thanks to" = "Дякую";
 
 /* Settings */
-"Theme" = "Theme";
+"Theme" = "Тема";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовком";
@@ -345,6 +348,9 @@
 
 /* Table row action */
 "UnPin" = "Відкріпити";
+
+/* No comment provided by engineer. */
+"Untagged" = "Без тегів";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Перший рядок як заголовок";

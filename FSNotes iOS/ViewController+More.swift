@@ -62,10 +62,17 @@ extension ViewController: UIDocumentPickerDelegate {
             actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles]
         case .Tag:
             actions = [.removeTag, .renameTag, .multipleSelection]
+        case .Untagged:
+            actions = [.multipleSelection]
         default: break
         }
 
-        let mainTitle = type != .Tag ? projectLabel : sidebarItem?.getName()
+        var mainTitle = type != .Tag && type == .Project ? projectLabel : sidebarItem?.getName()
+
+        if type == .Untagged {
+            mainTitle = NSLocalizedString("Untagged", comment: "")
+        }
+
         let actionSheet = UIAlertController(title: mainTitle, message: nil, preferredStyle: .actionSheet)
 
         if actions.contains(.removeFolder) {

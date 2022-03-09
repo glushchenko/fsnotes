@@ -41,13 +41,13 @@
 "Cancel" = "Annulla";
 
 /* No comment provided by engineer. */
-"Code" = "Code";
+"Code" = "Codice";
 
 /* Settings */
 "Code block live highlighting" = "Evidenzia il blocco di codice attivo";
 
 /* Settings */
-"Code Theme" = "Code Theme";
+"Code Theme" = "Tema del codice";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibile con DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
@@ -209,7 +209,7 @@
 "Night Mode" = "Modalità notte";
 
 /* No comment provided by engineer. */
-"None" = "None";
+"None" = "Predefinita";
 
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Note";
@@ -304,6 +304,9 @@
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Visualizza le note negli elenchi \"Note\" e \"Da Fare\"";
 
+/* Settings */
+"Sidebar" = "Barra laterale";
+
 /* No comment provided by engineer. */
 "Sort by" = "Ordina per";
 
@@ -320,10 +323,10 @@
 "System" = "Di Sistema";
 
 /* Settings */
-"Thanks to" = "Thanks to";
+"Thanks to" = "Grazie a";
 
 /* Settings */
-"Theme" = "Theme";
+"Theme" = "Tema";
 
 /* No comment provided by engineer. */
 "Title" = "Titolo";
@@ -347,6 +350,9 @@
 "UnPin" = "Sblocca";
 
 /* No comment provided by engineer. */
+"Untagged" = "Senza tag";
+
+/* No comment provided by engineer. */
 "Use first line as title" = "Usa la prima riga come titolo";
 
 /* Settings */
@@ -356,7 +362,7 @@
 "Version" = "Versione";
 
 /* No comment provided by engineer. */
-"View" = "View";
+"View" = "Visualizzazione";
 
 /* Main view popover table */
 "View settings" = "Impostazioni vista";

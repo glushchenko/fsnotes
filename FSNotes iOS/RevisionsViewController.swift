@@ -47,7 +47,7 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
         let leftString = NSLocalizedString("Cancel", comment: "")
         navItem.leftBarButtonItem = UIBarButtonItem(title: leftString, style: .plain, target: self, action: #selector(closeController))
 
-        let dropImage = UIImage(named: "trashButton")?.resize(maxWidthHeight: 32)
+        let dropImage = UIImage(named: "trashButton")?.resize(maxWidthHeight: 28)
         let dropBarButton = UIBarButtonItem(image: dropImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(dropRevisions))
 
         let saveImage = UIImage(named: "saveButton")?.resize(maxWidthHeight: 32)

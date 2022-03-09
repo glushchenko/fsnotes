@@ -306,6 +306,9 @@
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Show notes in \"Notes\" and \"Todo\" lists";
 
+/* Settings */
+"Sidebar" = "Sidebar";
+
 /* No comment provided by engineer. */
 "Sort by" = "Sort by";
 
@@ -348,6 +351,9 @@
 
 /* Table row action */
 "UnPin" = "UnPin";
+
+/* No comment provided by engineer. */
+"Untagged" = "Untagged";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Use first line as title";

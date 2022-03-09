@@ -40,47 +40,63 @@ class Sidebar {
         }
 
         // Notes
-        let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
-        let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
-        let fakeNotesProject =
-            Project(
-                storage: Storage.shared(),
-                url: notesUrl,
-                label: notesLabel,
-                isVirtual: true
-            )
+        if UserDefaultsManagement.sidebarVisibilityNotes {
+            let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
+            let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
+            let fakeNotesProject =
+                Project(
+                    storage: Storage.shared(),
+                    url: notesUrl,
+                    label: notesLabel,
+                    isVirtual: true
+                )
 
-        system.append(
-            SidebarItem(
-                name: NSLocalizedString("Notes", comment: ""),
-                project: fakeNotesProject,
-                type: .All,
-                icon: getImage(named: "sidebar_home")
+            system.append(
+                SidebarItem(
+                    name: NSLocalizedString("Notes", comment: ""),
+                    project: fakeNotesProject,
+                    type: .All,
+                    icon: getImage(named: "sidebar_home")
+                )
             )
-        )
+        }
 
         // Todo
-        let todoUrl = defaultURL.appendingPathComponent("Fake Virtual Todo Dir")
-        let todoLabel = NSLocalizedString("Todo", comment: "Sidebar items")
-        let fakeTodoProject =
-            Project(
-                storage: Storage.shared(),
-                url: todoUrl,
-                label: todoLabel,
-                isVirtual: true
-            )
+        if UserDefaultsManagement.sidebarVisibilityTodo {
+            let todoUrl = defaultURL.appendingPathComponent("Fake Virtual Todo Dir")
+            let todoLabel = NSLocalizedString("Todo", comment: "Sidebar items")
+            let fakeTodoProject =
+                Project(
+                    storage: Storage.shared(),
+                    url: todoUrl,
+                    label: todoLabel,
+                    isVirtual: true
+                )
 
-        system.append(
-            SidebarItem(
-                name: NSLocalizedString("Todo", comment: ""),
-                project: fakeTodoProject,
-                type: .Todo,
-                icon: getImage(named: "sidebar_todo")
+            system.append(
+                SidebarItem(
+                    name: NSLocalizedString("Todo", comment: ""),
+                    project: fakeTodoProject,
+                    type: .Todo,
+                    icon: getImage(named: "sidebar_todo")
+                )
             )
-        )
+        }
+
+        // Untagged
+        if UserDefaultsManagement.sidebarVisibilityUntagged {
+            let untagged =
+                SidebarItem(
+                    name: NSLocalizedString("Untagged", comment: ""),
+                    type: .Untagged,
+                    icon: getImage(named: "sidebar_untagged")
+                )
+
+            system.append(untagged)
+        }
 
         // Archive
-        if let archiveProject = storage.getArchive() {
+        if UserDefaultsManagement.sidebarVisibilityArchive, let archiveProject = storage.getArchive() {
             system.append(
                 SidebarItem(
                     name: NSLocalizedString("Archive", comment: ""),
@@ -92,14 +108,16 @@ class Sidebar {
         }
 
         // Trash
-        system.append(
-            SidebarItem(
-                name: NSLocalizedString("Trash", comment: ""),
-                project: Storage.shared().getDefaultTrash(),
-                type: .Trash,
-                icon: getImage(named: "sidebar_trash")
+        if UserDefaultsManagement.sidebarVisibilityTrash {
+            system.append(
+                SidebarItem(
+                    name: NSLocalizedString("Trash", comment: ""),
+                    project: Storage.shared().getDefaultTrash(),
+                    type: .Trash,
+                    icon: getImage(named: "sidebar_trash")
+                )
             )
-        )
+        }
 
         // System - section 0
         items.append(system)

@@ -261,6 +261,8 @@ public class NotesTextProcessor {
                         } else {
                             attributedString.addAttribute(key, value: codeFont, range: fixedRange)
                         }
+
+                        attributedString.fixAttributes(in: fixedRange)
                     } else {
                         attributedString.addAttribute(key, value: value, range: fixedRange)
                     }

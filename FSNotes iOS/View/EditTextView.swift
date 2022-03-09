@@ -192,7 +192,7 @@ class EditTextView: UITextView, UITextViewDelegate {
                     attributedString.loadCheckboxes()
                     
                     let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
-                    attributedString.removeAttribute(.backgroundColor, range: newRange)
+                    attributedString.removeAttribute(.backgroundColor, range: NSRange(0..<attributedString.length))
 
                     if let selTextRange = selectedTextRange, let undoManager = undoManager {
                         undoManager.beginUndoGrouping()
@@ -202,8 +202,6 @@ class EditTextView: UITextView, UITextViewDelegate {
                     }
 
                     self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: 0, length: self.textStorage.length))
-
-                    NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: newRange, note: note)
 
                     note.save(attributed: attributedText)
 

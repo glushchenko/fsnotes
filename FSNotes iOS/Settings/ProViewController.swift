@@ -25,7 +25,8 @@ class ProViewController: UITableViewController {
             NSLocalizedString("Use inline tags", comment: ""),
             NSLocalizedString("Auto versioning", comment: "")
         ], [
-            NSLocalizedString("Sort by", comment: "")
+            NSLocalizedString("Sort by", comment: ""),
+            NSLocalizedString("Sidebar", comment: "")
         ]
     ]
 
@@ -43,8 +44,12 @@ class ProViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1, indexPath.row == 0 {
-            self.navigationController?.pushViewController(SortByViewController(), animated: true)
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                self.navigationController?.pushViewController(SortByViewController(), animated: true)
+            } else {
+                self.navigationController?.pushViewController(SidebarViewController(), animated: true)
+            }
         }
 
         if indexPath.section == 0, indexPath.row == 0 {
@@ -83,7 +88,6 @@ class ProViewController: UITableViewController {
         if indexPath.section == 1 {
             cell.accessoryType = .disclosureIndicator
         }
-
         
         return cell
     }

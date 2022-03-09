@@ -305,6 +305,9 @@
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "\"すべて\" と \"タスク\" にノートを表示";
 
+/* Settings */
+"Sidebar" = "サイドバー";
+
 /* No comment provided by engineer. */
 "Sort by" = "表示順序";
 
@@ -346,6 +349,9 @@
 
 /* Table row action */
 "UnPin" = "ピン固定の解除";
+
+/* No comment provided by engineer. */
+"Untagged" = "タグなし";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Use first line as title";

@@ -47,7 +47,7 @@
 "Code block live highlighting" = "Code hervorheben";
 
 /* Settings */
-"Code Theme" = "Code Theme";
+"Code Theme" = "Code-Design";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Совместимо с DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
@@ -164,7 +164,7 @@
 "History" = "Geschichte";
 
 /* Settings */
-"Homepage" = "Homepage";
+"Homepage" = "Startseite";
 
 /* Settings */
 "iCloud Drive" = "iCloud Drive";
@@ -209,7 +209,7 @@
 "Night Mode" = "Nachtmodus";
 
 /* No comment provided by engineer. */
-"None" = "None";
+"None" = "Default";
 
 /* Notes in sidebar */
 "Notes" = "Notizen";
@@ -239,7 +239,7 @@
 "Preview" = "Vorschau";
 
 /* Settings */
-"Pro" = "Pro";
+"Pro" = "Profi";
 
 /* Settings */
 "Project" = "Projekt";
@@ -304,6 +304,9 @@
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Notizen in \"Notizen\" und \"Todo\" anzeigen";
 
+/* Settings */
+"Sidebar" = "Seitenleiste";
+
 /* No comment provided by engineer. */
 "Sort by" = "Sortieren nach";
 
@@ -320,10 +323,10 @@
 "System" = "System";
 
 /* Settings */
-"Thanks to" = "Thanks to";
+"Thanks to" = "Dank an";
 
 /* Settings */
-"Theme" = "Theme";
+"Theme" = "Thema";
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
@@ -345,6 +348,9 @@
 
 /* Table row action */
 "UnPin" = "Loslösen";
+
+/* No comment provided by engineer. */
+"Untagged" = "Ungetaggt";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Erste Zeile als Titel";

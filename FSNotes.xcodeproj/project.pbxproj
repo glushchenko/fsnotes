@@ -300,6 +300,7 @@
 		D759D1FE2276D4C300961E90 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1FD2276D4C200961E90 /* icon.png */; };
 		D759D1FF2276D4C300961E90 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1FD2276D4C200961E90 /* icon.png */; };
 		D759D2002276D4C300961E90 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1FD2276D4C200961E90 /* icon.png */; };
+		D75A34E527D7CD440085438F /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75A34E427D7CD440085438F /* SidebarViewController.swift */; };
 		D75DF64121319994003C3059 /* todo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63E21319993003C3059 /* todo@2x.png */; };
 		D75DF64221319994003C3059 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63F21319993003C3059 /* todo.png */; };
 		D75DF64321319994003C3059 /* todo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF64021319993003C3059 /* todo@3x.png */; };
@@ -1331,6 +1332,7 @@
 		D7573D3C24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D759D1F92276D25C00961E90 /* icon_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alt.png; sourceTree = "<group>"; };
 		D759D1FD2276D4C200961E90 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		D75A34E427D7CD440085438F /* SidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
 		D75DF63E21319993003C3059 /* todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@2x.png"; sourceTree = "<group>"; };
 		D75DF63F21319993003C3059 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D75DF64021319993003C3059 /* todo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@3x.png"; sourceTree = "<group>"; };
@@ -2397,6 +2399,7 @@
 				D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */,
 				D75629B427D5036D00F55588 /* SortByViewController.swift */,
 				D75629B627D53EB100F55588 /* ThanksViewController.swift */,
+				D75A34E427D7CD440085438F /* SidebarViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3850,6 +3853,7 @@
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
 				D7C9029523547A1E00A89BD8 /* Tag.swift in Sources */,
 				D768D75A245E86690028F344 /* NSAttributedString+.swift in Sources */,
+				D75A34E527D7CD440085438F /* SidebarViewController.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+.swift in Sources */,
 				D712FED2206F67C500370BA4 /* NightMode.swift in Sources */,
 				D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */,
@@ -4214,7 +4218,6 @@
 				D7163D3924E82C2F00B1FC05 /* it */,
 				D7163D4B24E92E7B00B1FC05 /* en */,
 				D7A5B5B224F3D281007AE746 /* de */,
-				49B03F0D26F25D5600850658 /* he */,
 				99EAC03A2784372E0047A11C /* ja */,
 			);
 			name = Localizable.strings;
