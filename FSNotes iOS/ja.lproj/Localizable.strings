@@ -2,19 +2,19 @@
 "+" = "+";
 
 /* Settings */
-"Add External Folder" = "Add External Folder";
+"Add External Folder" = "外部フォルダを追加";
 
 /* Archive in sidebar */
 "Archive" = "アーカイブ";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete all versions of this note?" = "Are you sure you want to delete all versions of this note?";
+"Are you sure you want to delete all versions of this note?" = "このノートの全バージョンを削除しますか？";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete the history of all notes?" = "Are you sure you want to delete the history of all notes?";
+"Are you sure you want to delete the history of all notes?" = "すべてのノートの履歴を削除しますか？";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete this image?" = "Are you sure you want to delete this image?";
+"Are you sure you want to delete this image?" = "この画像を削除しますか？";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "スクリーンの明るさから自動選択";
@@ -23,10 +23,10 @@
 "Auto rename by title" = "タイトルをファイル名に自動反映";
 
 /* Settings */
-"Auto Rename By Title" = "Auto Rename By Title";
+"Auto Rename By Title" = "タイトルをファイル名に自動反映";
 
 /* No comment provided by engineer. */
-"Auto versioning" = "Auto versioning";
+"Auto versioning" = "自動バージョニング";
 
 /* Settings */
 "Autocorrection" = "自動訂正";
@@ -41,13 +41,13 @@
 "Cancel" = "キャンセル";
 
 /* No comment provided by engineer. */
-"Code" = "Code";
+"Code" = "コード";
 
 /* Settings */
 "Code block live highlighting" = "コードブロックの色付け";
 
 /* Settings */
-"Code Theme" = "Code Theme";
+"Code Theme" = "コードテーマ";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtfと互換性があります";
@@ -68,13 +68,13 @@
 "Creation date" = "作成日";
 
 /* No comment provided by engineer. */
-"Date created" = "Date created";
+"Date created" = "作成日";
 
 /* Settings */
 "Default Container" = "デフォルトコンテナ";
 
 /* Settings */
-"Default keyboard in editor" = "Default keyboard in editor";
+"Default keyboard in editor" = "エディタで使用するデフォルトキーボード";
 
 /* Table row action */
 "Delete" = "削除";
@@ -86,7 +86,7 @@
 "Documents" = "ドキュメント";
 
 /* No comment provided by engineer. */
-"Duplicate" = "Duplicate";
+"Duplicate" = "複製";
 
 /* Settings */
 "Dynamic Type" = "Dynamic Type";
@@ -95,7 +95,7 @@
 "Editor" = "エディタ";
 
 /* Main view popover table */
-"Empty Bin" = "Empty Bin";
+"Empty Bin" = "ゴミ箱を空にする";
 
 /* No comment provided by engineer. */
 "Enabled" = "有効";
@@ -116,10 +116,10 @@
 "Extension" = "拡張子";
 
 /* Settings */
-"Family" = "Family";
+"Family" = "ファミリー";
 
 /* Settings */
-"File format" = "File format";
+"File format" = "ファイル形式";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "同名のファイルがすでに存在しています";
@@ -146,13 +146,13 @@
 "Font size" = "フォントサイズ";
 
 /* Settings */
-"Format: Untitled Note" = "Format: Untitled Note";
+"Format: Untitled Note" = "フォーマット: 無題のノート";
 
 /* Settings */
-"Format: yyyy-MM-dd hh.mm.ss a" = "Format: yyyy-MM-dd hh.mm.ss a";
+"Format: yyyy-MM-dd hh.mm.ss a" = "フォーマット: yyyy-MM-dd hh.mm.ss a";
 
 /* Settings */
-"Format: yyyyMMddHHmmss" = "Format: yyyyMMddHHmmss";
+"Format: yyyyMMddHHmmss" = "フォーマット: yyyyMMddHHmmss";
 
 /* Settings */
 "FSNotes" = "FSNotes";
@@ -161,7 +161,7 @@
 "General" = "一般";
 
 /* No comment provided by engineer. */
-"History" = "History";
+"History" = "履歴";
 
 /* Settings */
 "Homepage" = "ホームページ";
@@ -182,7 +182,7 @@
 "Invalid Password" = "無効なパスワードです";
 
 /* Settings */
-"Line Spacing" = "Line Spacing";
+"Line Spacing" = "行間隔";
 
 /* Settings */
 "Live images preview" = "ライブ画像プレビュー";
@@ -191,7 +191,7 @@
 "Lock" = "ロック";
 
 /* No comment provided by engineer. */
-"Master password:" = "Master password:";
+"Master password:" = "マスターパスワード:";
 
 /* No comment provided by engineer. */
 "Modification date" = "変更日";
@@ -209,7 +209,7 @@
 "Night Mode" = "ナイトモード";
 
 /* No comment provided by engineer. */
-"None" = "None";
+"None" = "なし";
 
 /* Notes in sidebar
    Sidebar items */
@@ -219,7 +219,7 @@
 "Notes list" = "ノートリスト";
 
 /* Main view popover table */
-"Open in Files.app" = "Open in Files.app";
+"Open in Files.app" = "ファイルで開く";
 
 /* Document opened */
 "Open note" = "ノートを開く";
@@ -228,7 +228,7 @@
 "Photos" = "画像";
 
 /* No comment provided by engineer. */
-"Picture removing" = "Picture removing";
+"Picture removing" = "削除する画像";
 
 /* Table row action */
 "Pin" = "メモをピンで固定";
@@ -240,13 +240,13 @@
 "Preview" = "プレビュー";
 
 /* Settings */
-"Pro" = "Pro";
+"Pro" = "プロ";
 
 /* Settings */
 "Project" = "プロジェクト";
 
 /* No comment provided by engineer. */
-"Project removing ❌" = "プロジェクトの削除 ❌";
+"Project removing ❌" = "削除するプロジェクト ❌";
 
 /* Settings */
 "Projects" = "プロジェクト";
@@ -282,7 +282,7 @@
 "Save clipboard" = "クリップボードの内容を保存";
 
 /* No comment provided by engineer. */
-"Saved versions" = "Saved versions";
+"Saved versions" = "保存されたバージョン";
 
 /* No comment provided by engineer. */
 "Search" = "検索";
@@ -291,7 +291,7 @@
 "Search or create" = "検索または新規作成";
 
 /* Main view popover table */
-"Select" = "Select";
+"Select" = "選択";
 
 /* Sidebar settings */
 "Settings" = "設定";
@@ -324,10 +324,10 @@
 "System" = "システム";
 
 /* Settings */
-"Thanks to" = "Thanks to";
+"Thanks to" = "次に感謝:";
 
 /* Settings */
-"Theme" = "Theme";
+"Theme" = "テーマ";
 
 /* No comment provided by engineer. */
 "Title" = "タイトル";
@@ -363,7 +363,7 @@
 "Version" = "バージョン";
 
 /* Settings */
-"View" = "View";
+"View" = "表示";
 
 /* Main view popover table */
 "View settings" = "設定を開く";
@@ -372,4 +372,4 @@
 "Visibility" = "可視性";
 
 /* No comment provided by engineer. */
-"Сlearing history" = "Сlearing history";
+"Сlearing history" = "履歴の削除";
