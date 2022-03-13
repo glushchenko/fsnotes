@@ -49,7 +49,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         isOpaque = false
         backgroundColor = UIColor.clear
         scrollView.backgroundColor = UIColor.clear
-        scrollView.bounces = false
+        scrollView.bounces = true
 #endif
 
         load(note: note, force: force)
@@ -126,20 +126,12 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
 
 #if os(iOS)
-            guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
-
             if url.absoluteString.starts(with: "fsnotes://find?id=") {
                 UIApplication.getEVC().openWikiLink(query: url.absoluteString)
-
-                if let nav = bvc.containerController.selectedController as? UINavigationController, nil !=
-                    nav.viewControllers.first as? PreviewViewController {
-
-                    bvc.containerController.selectController(atIndex: 2, animated: true)
-                    return
-                }
+                return
             }
 
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
 #elseif os(OSX)
             NSWorkspace.shared.open(url)
 #endif
@@ -230,8 +222,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var css = css
 
         #if os(OSX)
-        let tagColor = NSColor.tagColor.hexString
-        css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+            let tagColor = NSColor.tagColor.hexString
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+        #else
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: #6692cb; }"
         #endif
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -242,7 +236,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         guard var template = try? NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue) else { return nil }
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
 
+        var platform = String()
+
 #if os(iOS)
+        platform = "ios"
+
         if NightNight.theme == .night {
             template =
                 template
@@ -250,10 +248,14 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                     .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
         }
 #else
+        platform = "macos"
+
         if UserDataService.instance.isDark {
             template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
         }
 #endif
+
+        template = template.replacingOccurrences(of: "T_PLATFORM", with: platform) as NSString
 
         return template as String
     }
@@ -420,8 +422,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var css = css
 
         #if os(OSX)
-        let tagColor = NSColor.tagColor.hexString
-        css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+            let tagColor = NSColor.tagColor.hexString
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+        #else
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: #6692cb; }"
         #endif
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -432,19 +436,26 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
 
+        var platform = String()
+
 #if os(iOS)
+        platform = "ios"
+
         if NightNight.theme == .night {
             template = template
                 .replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode")
                 .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
         }
 #else
+        platform = "macos"
+
         if UserDataService.instance.isDark {
             template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
         }
 #endif
-
-        template = template.replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS()) as NSString
+        template = template
+            .replacingOccurrences(of: "T_PLATFORM", with: platform)
+            .replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS()) as NSString
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
@@ -468,8 +479,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
 
-        let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? ""
-        var familyName = UserDefaultsManagement.noteFont.familyName ?? ""
+        #if os(iOS)
+            let codeFamilyName = UserDefaultsManagement.codeFont.familyName
+            var familyName = UserDefaultsManagement.noteFont.familyName
+        #else
+            let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? ""
+            var familyName = UserDefaultsManagement.noteFont.familyName ?? ""
+        #endif
 
         if familyName.starts(with: ".") {
             familyName = "Helvetica Neue";
@@ -485,12 +501,18 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             width = 0
         }
 
-        // Line height compute
         let tagAttributes = [NSAttributedString.Key.font: UserDefaultsManagement.codeFont]
         let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes as [NSAttributedString.Key : Any])
-        let lineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
+        let codeLineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
 
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(lineHeight)px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
+        // Line height compute
+        let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
+
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight)px; } img {display: block; margin: 0 auto;} p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)"
+    }
+
+    public func clean() {
+        try? loadHTMLView("", css: "")
     }
 }
 

@@ -5,3 +5,6 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
 
 line_length:
   warning: 220
+
+disabled_rules: 
+  - implicit_getter

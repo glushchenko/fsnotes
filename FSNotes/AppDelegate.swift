@@ -46,6 +46,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let storage = Storage.sharedInstance()
         storage.loadProjects()
         storage.loadDocuments()
+
+        // Cache
+        DispatchQueue.global(qos: .background).async {
+            for note in storage.noteList {
+                if note.type == .Markdown {
+                    note.cache(backgroundThread: true)
+                }
+            }
+            print("Notes attributes cache: \(storage.noteList.count)")
+        }
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {

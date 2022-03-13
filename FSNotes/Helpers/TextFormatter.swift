@@ -273,11 +273,11 @@ public class TextFormatter {
                         attributedString.removeAttribute(.underlineStyle, range: range)
                     } else {
                         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                        attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+                        attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
                     }
                 } else {
                     attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
                 }
 
                 #if os(iOS)
@@ -298,7 +298,7 @@ public class TextFormatter {
                     attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: selectedRange)
 
 
-                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: selectedRange)
+                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: selectedRange)
 
                     
                     textView.typingAttributes[.underlineStyle] = 1
@@ -453,8 +453,6 @@ public class TextFormatter {
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
-
-        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func unTab() {
@@ -546,8 +544,6 @@ public class TextFormatter {
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
-        
-        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func header(_ string: String) {
@@ -692,10 +688,11 @@ public class TextFormatter {
             let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
             let selectRange = NSRange(location: range.location, length: 0)
             insertText("\n", replacementRange: range, selectRange: selectRange)
-            return
+        } else {
+            insertText("\n" + found)
         }
 
-        insertText("\n" + found)
+        updateCurrentParagraph()
     }
 
     private func matchDigits(string: NSAttributedString, match: NSTextCheckingResult) {
@@ -712,13 +709,22 @@ public class TextFormatter {
             let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
             let selectRange = NSRange(location: range.location, length: 0)
             insertText("\n", replacementRange: range, selectRange: selectRange)
-            return
-        }
-
-        if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
+        } else if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
             let newDigit = found.replacingOccurrences(of: String(position), with: String(position + 1))
             insertText("\n" + newDigit)
         }
+
+        updateCurrentParagraph()
+    }
+
+    private func updateCurrentParagraph() {
+        let parRange = getParagraphRange(for: textView.selectedRange.location)
+
+        #if os(iOS)
+            textView.textStorage.updateParagraphStyle(range: parRange)
+        #else
+            textView.textStorage?.updateParagraphStyle(range: parRange)
+        #endif
     }
 
     public func newLine() {
@@ -842,7 +848,20 @@ public class TextFormatter {
         let mutable = NSMutableAttributedString(attributedString: attributedString).unLoadCheckboxes()
 
         if !attributedString.hasTodoAttribute() && selectedRange.length == 0 {
-            insertText(AttributedBox.getUnChecked()!)
+            var offset = 0
+            let symbols = ["\t", " "]
+            for char in mutable.string {
+                if symbols.contains(String(char)) {
+                    offset += 1
+                } else {
+                    break
+                }
+            }
+
+            let insertRange = NSRange(location: pRange.location + offset, length: 0)
+            let selectRange = NSRange(location: range.location + 2, length: range.length)
+            insertText(AttributedBox.getUnChecked()!, replacementRange: insertRange, selectRange: selectRange)
+            storage.updateParagraphStyle(range: getParagraphRange())
             return
         }
 
@@ -931,6 +950,7 @@ public class TextFormatter {
             : NSRange(location: pRange.location, length: mutableResult.length)
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
+        storage.updateParagraphStyle(range: getParagraphRange())
     }
 
     public func toggleTodo(_ location: Int? = nil) {
@@ -943,7 +963,6 @@ public class TextFormatter {
             self.textView.undoManager?.endUndoGrouping()
 
             guard let paragraph = getParagraphRange(for: location) else { return }
-            self.storage.updateParagraphStyle(range: paragraph)
             
             if todoAttr == 0 {
                 self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
@@ -959,6 +978,8 @@ public class TextFormatter {
                     textView.typingAttributes[.strikethroughStyle] = strike
                 #endif
             }
+
+            storage.updateParagraphStyle(range: paragraph)
             
             return
         }
@@ -1293,16 +1314,6 @@ public class TextFormatter {
         #endif
     }
     
-    public static func getCodeParagraphStyle() -> NSMutableParagraphStyle {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        #if os(OSX)
-        paragraphStyle.textBlocks = [CodeBlock()]
-        #endif
-
-        return paragraphStyle
-    }
-
     private func insertText(_ string: Any, replacementRange: NSRange? = nil, selectRange: NSRange? = nil) {
         let range = replacementRange ?? self.textView.selectedRange
         

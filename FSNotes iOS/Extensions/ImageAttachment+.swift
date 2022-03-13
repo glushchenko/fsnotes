@@ -23,16 +23,12 @@ extension NoteAttachment {
     }
 
     private func getEditorView() -> EditTextView? {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController else { return nil }
-
-        return evc.editArea
+        return UIApplication.getEVC().editArea
     }
 
     private func getImageSize(imageSize: CGSize) -> CGSize? {
         let controller = UIApplication.getVC()
-        let maxWidth = controller.view.frame.width - 15
+        let maxWidth = controller.view.frame.width - 35
 
         guard imageSize.width > maxWidth else {
             return imageSize

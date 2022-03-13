@@ -21,6 +21,9 @@ extension UserDefaultsManagement {
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
+        static let ProjectsKey = "projects"
+        static let FontColorKey = "fontColorKeyed"
+        static let BgColorKey = "bgColorKeyed"
     }
 
     static var appearanceType: AppearanceType {
@@ -164,6 +167,52 @@ extension UserDefaultsManagement {
         set {
             self.codeFontName = newValue.familyName ?? "Source Code Pro"
             self.codeFontSize = Int(newValue.pointSize)
+        }
+    }
+
+    static var fontColor: Color {
+        get {
+            if let returnFontColor = shared?.object(forKey: Constants.FontColorKey) as? Data, let color = NSKeyedUnarchiver.unarchiveObject(with: returnFontColor) as? Color {
+                return color
+            } else {
+                return self.DefaultFontColor
+            }
+        }
+        set {
+            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
+            shared?.set(data, forKey: Constants.FontColorKey)
+        }
+    }
+
+    static var bgColor: Color {
+        get {
+            if let returnBgColor = shared?.object(forKey: Constants.BgColorKey) as? Data, let color = NSKeyedUnarchiver.unarchiveObject(with: returnBgColor) as? Color {
+                return color
+            } else {
+                return self.DefaultBgColor
+            }
+        }
+        set {
+            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
+            shared?.set(data, forKey: Constants.BgColorKey)
+        }
+    }
+
+    static var projects: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
+
+            if let result = defaults.object(forKey: Constants.ProjectsKey) as? Data, let urls = NSKeyedUnarchiver.unarchiveObject(with: result) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
+
+            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
+            defaults.set(data, forKey: Constants.ProjectsKey)
         }
     }
 }

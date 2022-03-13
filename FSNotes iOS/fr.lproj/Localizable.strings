@@ -1,11 +1,32 @@
+/* Settings */
+"+" = "+";
+
+/* Settings */
+"Add External Folder" = "Dossier externe";
+
 /* Archive in sidebar */
-"Archive" = "Archive";
+"Archive" = "Archiver";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "Voulez-vous vraiment supprimer toutes les versions de cette note ?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "Voulez-vous vraiment supprimer l'historique de toutes les notes ?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "Êtes-vous sûr de vouloir supprimer cette image?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Auto en fonction de la luminosité";
 
 /* Naming controller */
 "Auto rename by title" = "Renommer automatiquement par titre";
+
+/* Settings */
+"Auto Rename By Title" = "Renommer automatiquement par titre";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "Gestion automatique des versions";
 
 /* Settings */
 "Autocorrection" = "Auto-correction";
@@ -19,8 +40,14 @@
 /* No comment provided by engineer. */
 "Cancel" = "Annuler";
 
+/* No comment provided by engineer. */
+"Code" = "Code";
+
 /* Settings */
 "Code block live highlighting" = "Bloc de code avec surbrillance";
+
+/* Settings */
+"Code Theme" = "Thème de codes";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatible avec DayOne JSON (zip), Bear et Ulysses (textbundle), markdown, txt, rtf.";
@@ -40,14 +67,14 @@
 /* No comment provided by engineer. */
 "Creation date" = "Date de création";
 
+/* No comment provided by engineer. */
+"Date created" = "Date créée";
+
 /* Settings */
 "Default Container" = "Container par défaut";
 
-/* Settings */
-"Default Extension" = "Extension par défaut";
-
-/* Settings */
-"Default Keyboard In Editor" = "Clavier par défaut dans l'éditeur";
+/* No comment provided by engineer. */
+"Default keyboard in editor" = "Clavier par défaut";
 
 /* Table row action */
 "Delete" = "Supprimer";
@@ -59,13 +86,16 @@
 "Documents" = "Des documents";
 
 /* No comment provided by engineer. */
-"Done" = "Terminé";
+"Duplicate" = "Dupliquer";
 
 /* Settings */
 "Dynamic Type" = "Type dynamique";
 
 /* Settings */
 "Editor" = "Éditeur";
+
+/* Main view popover table */
+"Empty Bin" = "Vider le bac";
 
 /* No comment provided by engineer. */
 "Enabled" = "Activé";
@@ -84,6 +114,12 @@
 
 /* Settings */
 "Extension" = "Extension";
+
+/* Settings */
+"Family" = "Famille de polices";
+
+/* Settings */
+"File format" = "Format de fichier";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Un fichier avec ce nom existe déjà";
@@ -110,10 +146,28 @@
 "Font size" = "Taille de polive";
 
 /* Settings */
+"Format: Untitled Note" = "Format: Untitled Note";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "Format: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "Format: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
 "General" = "Général";
+
+/* No comment provided by engineer. */
+"History" = "Histoire";
 
 /* Settings */
 "Homepage" = "Page d'accueil";
+
+/* Settings */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Images source:" = "Source des images:";
@@ -128,13 +182,16 @@
 "Invalid Password" = "Mot de passe incorrect";
 
 /* Settings */
+"Line Spacing" = "Interligne";
+
+/* Settings */
 "Live images preview" = "Aperçu des images";
 
 /* No comment provided by engineer. */
 "Lock" = "Verrouiller";
 
 /* No comment provided by engineer. */
-"Lock/unlock" = "Verrouiller/déverrouiller";
+"Master password:" = "Mot de passe maître:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Date de modification";
@@ -151,17 +208,26 @@
 /* Settings */
 "Night Mode" = "Mode nuit";
 
+/* No comment provided by engineer. */
+"None" = "Par défaut";
+
 /* Notes in sidebar - Sidebar items - Sidebar label */
 "Notes" = "Notes";
 
 /* No comment provided by engineer. */
 "Notes list" = "Liste de notes";
 
+/* Main view popover table */
+"Open in Files.app" = "Ouvrir dans Files.app";
+
 /* Document opened */
 "Open note" = "Ouvrir la note";
 
 /* No comment provided by engineer. */
 "Photos" = "Photos";
+
+/* No comment provided by engineer. */
+"Picture removing" = "Picture removing";
 
 /* Table row action */
 "Pin" = "Épingler";
@@ -173,6 +239,9 @@
 "Preview" = "Aperçu";
 
 /* Settings */
+"Pro" = "Profi";
+
+/* Settings */
 "Project" = "Projet";
 
 /* No comment provided by engineer. */
@@ -180,9 +249,6 @@
 
 /* Settings */
 "Projects" = "Projets";
-
-/* Settings */
-"Rate FSNotes" = "Noter FSNotes";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Supprimer le cryptage";
@@ -215,10 +281,16 @@
 "Save clipboard" = "Enregistrer le presse-papiers";
 
 /* No comment provided by engineer. */
+"Saved versions" = "Versions enregistrées";
+
+/* No comment provided by engineer. */
 "Search" = "Chercher";
 
 /* No comment provided by engineer. */
 "Search or create" = "Trouver ou créer";
+
+/* Main view popover table */
+"Select" = "Sélectionner";
 
 /* Sidebar settings */
 "Settings" = "Paramètres";
@@ -231,6 +303,9 @@
 
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Afficher les notes dans \"Notes\" et \"À faire\"";
+
+/* Settings */
+"Sidebar" = "Barre latérale";
 
 /* No comment provided by engineer. */
 "Sort by" = "Trier par";
@@ -247,6 +322,12 @@
 /* No comment provided by engineer. */
 "System" = "Système";
 
+/* Settings */
+"Thanks to" = "Grâce à";
+
+/* Settings */
+"Theme" = "Thème";
+
 /* No comment provided by engineer. */
 "Title" = "Titre";
 
@@ -262,14 +343,14 @@
 /* No comment provided by engineer. */
 "Type" = "Type";
 
-/* Settings */
-"UI" = "Interface";
-
 /* No comment provided by engineer. */
 "Unlock" = "Déverrouiller";
 
 /* Table row action */
 "UnPin" = "Désépingler";
+
+/* No comment provided by engineer. */
+"Untagged" = "Non étiqueté";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Utiliser la première ligne comme titre";
@@ -280,8 +361,14 @@
 /* Settings */
 "Version" = "Version";
 
+/* No comment provided by engineer. */
+"View" = "Voir";
+
 /* Main view popover table */
 "View settings" = "Paramètres d'affichage";
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilité";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "Effacement de l'historique";

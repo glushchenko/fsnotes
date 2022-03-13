@@ -121,7 +121,7 @@ class PreferencesEditorViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
 
-        vc.editArea.applyLeftParagraphStyle()
+        vc.editArea.textStorage?.updateParagraphStyle()
     }
 
     @IBAction func imagesWidth(_ sender: NSSlider) {

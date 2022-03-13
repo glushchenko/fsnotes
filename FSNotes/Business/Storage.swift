@@ -16,7 +16,7 @@ import UIKit
 #endif
 
 class Storage {
-    static var instance: Storage? = nil
+    public static var instance: Storage? = nil
     
     public var noteList = [Note]()
     private var projects = [Project]()
@@ -41,7 +41,7 @@ class Storage {
     private var trashURL = URL(string: String())
     private var archiveURL = URL(string: String())
 
-    private let lastNewsDate = "2020-06-20"
+    private let lastNewsDate = "2022-02-20"
     public var isFinishedTagsLoading = false
     public var isCrashedLastTime = false
 
@@ -134,6 +134,11 @@ class Storage {
 
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
+
+        let revHistory = getRevisionsHistory()
+        if !FileManager.default.directoryExists(atUrl: revHistory) {
+            try? FileManager.default.createDirectory(at: revHistory, withIntermediateDirectories: true, attributes: nil)
+        }
     }
 
     public static func shared() -> Storage {
@@ -159,6 +164,10 @@ class Storage {
 
         let ubiquityContainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
 
+        if !UserDefaultsManagement.iCloudDrive {
+            return getLocalDocuments()
+        }
+        
         guard let iCloudDocumentsURL = ubiquityContainer?
             .appendingPathComponent("Documents")
             .standardized
@@ -296,6 +305,7 @@ class Storage {
             url.lastPathComponent != "i",
             url.lastPathComponent != "files",
             !url.path.contains(".git"),
+            !url.path.contains(".revisions"),
             !url.path.contains(".Trash"),
             !url.path.contains(".cache"),
             !url.path.contains("Trash"),
@@ -395,7 +405,7 @@ class Storage {
     public func loadAllTags() {
         for note in noteList {
             note.load()
-            note.loadTags()
+            _ = note.loadTags()
         }
 
         isFinishedTagsLoading = true
@@ -403,7 +413,7 @@ class Storage {
 
     public func loadAllTagsOnly() {
         for note in noteList {
-            note.loadTags()
+            _ = note.loadTags()
         }
 
         isFinishedTagsLoading = true
@@ -506,25 +516,11 @@ class Storage {
         print("Loaded \(noteList.count) notes for \(startingPoint.timeIntervalSinceNow * -1) seconds")
 
         noteList = sortNotes(noteList: noteList, filter: "")
-
-        cacheAttributes()
     }
 
     public func resetCacheAttributes() {
         for note in self.noteList {
             note.cacheHash = nil
-        }
-    }
-
-    public func cacheAttributes() {
-        DispatchQueue.global(qos: .background).async {
-            for note in self.noteList {
-                if note.type == .Markdown {
-                    note.cache(backgroundThread: true)
-                }
-            }
-
-            print("Notes attributes cache: \(self.noteList.count)")
         }
     }
 
@@ -681,17 +677,20 @@ class Storage {
     }
 
     func loadLabel(_ item: Project, loadContent: Bool = false) {
+        var currentUrl: URL?
+
+        #if NOT_EXTENSION || os(OSX)
+            currentUrl = EditTextView.note?.url
+        #endif
+
         let documents = readDirectory(item.url)
 
         let pins = UserDefaultsManagement.pinList
 
         for document in documents {
-            #if os(OSX)
-            if let url = EditTextView.note?.url,
-                url == document.0 {
+            if currentUrl == document.0 {
                 continue
             }
-            #endif
 
             let note = Note(url: document.0, with: item)
             if document.0.pathComponents.isEmpty {
@@ -832,8 +831,17 @@ class Storage {
         return noteList.count
     }
     
-    func getBy(url: URL) -> Note? {
+    func getBy(url: URL, caseSensitive: Bool = false) -> Note? {
         let standardized = url.standardized
+
+        if caseSensitive {
+            return
+                noteList.first(where: {
+                    return (
+                        $0.url.path == standardized.path
+                    )
+                })
+        }
 
         return
             noteList.first(where: {
@@ -1050,6 +1058,7 @@ class Storage {
                 && !$0.path.contains("/.Trash")
                 && !$0.path.contains("/Trash")
                 && !$0.path.contains(".textbundle")
+                && !$0.path.contains(".revisions")
             })
 
         var fin = [URL]()
@@ -1353,7 +1362,7 @@ class Storage {
     }
 
     public func getNews() -> URL? {
-        let file = "FSNotes 4.0 Change Log.textbundle"
+        let file = "FSNotes 5.0 Change Log.textbundle"
 
         guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(file)") else { return nil }
 
@@ -1476,6 +1485,7 @@ class Storage {
         return nil
     }
 
+    #if os(OSX)
     public func saveProjectsExpandState() {
         var urls = [URL]()
         for project in projects {
@@ -1502,6 +1512,14 @@ class Storage {
                 project.isExpanded = true
             }
         }
+    }
+    #endif
+
+    public func getRevisionsHistory() -> URL {
+        let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
+        let revisionsUrl = documentDir.appendingPathComponent(".revisions")
+
+        return revisionsUrl
     }
 }
 

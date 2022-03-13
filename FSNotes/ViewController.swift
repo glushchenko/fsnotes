@@ -1298,18 +1298,9 @@ class ViewController: NSViewController,
         vc.alert?.addButton(withTitle: "OK")
         vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                let date = field.stringValue
-                let userDate = formatter.date(from: date)
-                let attributes = [FileAttributeKey.creationDate: userDate]
-
                 for note in notes {
-                    do {
-                        try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: note.url.path)
-
-                        note.creationDate = userDate
+                    if note.setCreationDate(string: field.stringValue) {
                         self.notesTableView.reloadRow(note: note)
-                    } catch {
-                        print(error)
                     }
                 }
             }
@@ -1949,15 +1940,17 @@ class ViewController: NSViewController,
     }
     
     func moveNoteToTop(note index: Int) {
-        let isPinned = notesTableView.noteList[index].isPinned
-        let position = isPinned ? 0 : notesTableView.countVisiblePinned()
-        let note = notesTableView.noteList.remove(at: index)
+        DispatchQueue.main.async {
+            let isPinned = self.notesTableView.noteList[index].isPinned
+            let position = isPinned ? 0 : self.notesTableView.countVisiblePinned()
+            let note = self.notesTableView.noteList.remove(at: index)
 
-        notesTableView.noteList.insert(note, at: position)
+            self.notesTableView.noteList.insert(note, at: position)
 
-        notesTableView.reloadRow(note: note)
-        notesTableView.moveRow(at: index, to: position)
-        notesTableView.scrollRowToVisible(0)
+            self.notesTableView.reloadRow(note: note)
+            self.notesTableView.moveRow(at: index, to: position)
+            self.notesTableView.scrollRowToVisible(0)
+        }
     }
     
     func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil, load: Bool = false) {
@@ -2228,10 +2221,12 @@ class ViewController: NSViewController,
                         }
                     }
 
-                    if let notes = changedNotes.removed {
-                        for note in notes {
-                            if let i = notesTableView.getIndex(note) {
-                                notesTableView.reloadData(forRowIndexes: [i], columnIndexes: [0])
+                    DispatchQueue.main.async {
+                        if let notes = changedNotes.removed {
+                            for note in notes {
+                                if let i = self.notesTableView.getIndex(note) {
+                                    self.notesTableView.reloadData(forRowIndexes: [i], columnIndexes: [0])
+                                }
                             }
                         }
                     }

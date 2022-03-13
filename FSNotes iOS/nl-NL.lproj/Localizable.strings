@@ -1,11 +1,32 @@
+/* Settings */
+"+" = "+";
+
+/* Settings */
+"Add External Folder" = "Externe map";
+
 /* Archive in sidebar */
 "Archive" = "Archief";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "Weet u zeker dat u alle versies van deze notitie wilt verwijderen?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "Weet u zeker dat u de geschiedenis van alle notities wilt verwijderen?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "Weet je zeker dat je deze afbeelding wilt verwijderen?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Automatisch op schermhelderheid";
 
 /* Naming controller */
 "Auto rename by title" = "Automatisch hernoemen op titel";
+
+/* Settings */
+"Auto Rename By Title" = "Naam wijzigen op titel";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "Automatische versiebeheer";
 
 /* Settings */
 "Autocorrection" = "Autocorrectie";
@@ -19,8 +40,14 @@
 /* No comment provided by engineer. */
 "Cancel" = "Annuleer";
 
+/* No comment provided by engineer. */
+"Code" = "Code";
+
 /* Settings */
 "Code block live highlighting" = "Codeblok live markering";
+
+/* Settings */
+"Code Theme" = "Code thema";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibel met DayOne JSON (zip), Bear en Ulysses (textbundle), markdown, txt, rtf.";
@@ -40,14 +67,14 @@
 /* No comment provided by engineer. */
 "Creation date" = "Aanmaakdatum";
 
+/* No comment provided by engineer. */
+"Date created" = "Datum gecreeërd";
+
 /* Settings */
 "Default Container" = "Standaard Container";
 
-/* Settings */
-"Default Extension" = "Standaard Extensie";
-
-/* Settings */
-"Default Keyboard In Editor" = "Standaard Toetsenbord bij Editen";
+/* No comment provided by engineer. */
+"Default keyboard in editor" = "Standaard toetsenbord";
 
 /* Table row action */
 "Delete" = "Verwijderen";
@@ -59,13 +86,16 @@
 "Documents" = "Documenten";
 
 /* No comment provided by engineer. */
-"Done" = "Gedaan";
+"Duplicate" = "Duplicaat";
 
 /* Settings */
 "Dynamic Type" = "Dynamisch Type";
 
 /* Settings */
 "Editor" = "Editor";
+
+/* Main view popover table */
+"Empty Bin" = "Lege bak";
 
 /* No comment provided by engineer. */
 "Enabled" = "Ingeschakeld";
@@ -84,6 +114,12 @@
 
 /* Settings */
 "Extension" = "Uitbreiding";
+
+/* Settings */
+"Family" = "Lettertype familie";
+
+/* Settings */
+"File format" = "Bestandsformaat";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Bestand met deze naam bestaat al";
@@ -110,10 +146,28 @@
 "Font size" = "Lettertypegrootte";
 
 /* Settings */
+"Format: Untitled Note" = "Formaat: Untitled Note";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "Formaat: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "Formaat: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
 "General" = "Algemeen";
+
+/* No comment provided by engineer. */
+"History" = "Geschiedenis";
 
 /* Settings */
 "Homepage" = "Startpagina";
+
+/* Settings */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Images source:" = "Afbeeldingen bron:";
@@ -128,13 +182,16 @@
 "Invalid Password" = "Ongeldig wachtwoord";
 
 /* Settings */
+"Line Spacing" = "Regelafstand";
+
+/* Settings */
 "Live images preview" = "Toon afbeeldingen in de editor";
 
 /* No comment provided by engineer. */
 "Lock" = "Vergrendel";
 
 /* No comment provided by engineer. */
-"Lock/unlock" = "Vergrendel/ontgrendel";
+"Master password:" = "Master wachtwoord:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Wijzigingsdatum";
@@ -151,17 +208,26 @@
 /* Settings */
 "Night Mode" = "Nachtstand";
 
+/* No comment provided by engineer. */
+"None" = "Standaard";
+
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Notities";
 
 /* No comment provided by engineer. */
 "Notes list" = "Notitielijst";
 
+/* Main view popover table */
+"Open in Files.app" = "Openen in Files.app";
+
 /* Document opened */
 "Open note" = "Open notitie";
 
 /* No comment provided by engineer. */
 "Photos" = "Foto's";
+
+/* No comment provided by engineer. */
+"Picture removing" = "Foto verwijderen";
 
 /* Table row action */
 "Pin" = "Pin";
@@ -173,6 +239,9 @@
 "Preview" = "Voorvertoning";
 
 /* Settings */
+"Pro" = "Verlengd";
+
+/* Settings */
 "Project" = "Project";
 
 /* No comment provided by engineer. */
@@ -180,9 +249,6 @@
 
 /* Settings */
 "Projects" = "Projecten";
-
-/* Settings */
-"Rate FSNotes" = "Beoordeel FSNotes";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Verwijder versleuteling";
@@ -215,10 +281,16 @@
 "Save clipboard" = "Bewaar klembord";
 
 /* No comment provided by engineer. */
+"Saved versions" = "Opgeslagen versies";
+
+/* No comment provided by engineer. */
 "Search" = "Zoeken";
 
 /* No comment provided by engineer. */
 "Search or create" = "Zoek en creëer";
+
+/* Main view popover table */
+"Select" = "Selecteer";
 
 /* Sidebar settings */
 "Settings" = "Instellingen";
@@ -231,6 +303,9 @@
 
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Toon notities in \"Notes\" en \"Todo\" lijsten";
+
+/* Settings */
+"Sidebar" = "Zijbalk";
 
 /* No comment provided by engineer. */
 "Sort by" = "Sorteer op";
@@ -247,6 +322,12 @@
 /* No comment provided by engineer. */
 "System" = "Systeem";
 
+/* Settings */
+"Thanks to" = "Dankzij";
+
+/* Settings */
+"Theme" = "Thema";
+
 /* No comment provided by engineer. */
 "Title" = "Titel";
 
@@ -262,14 +343,14 @@
 /* No comment provided by engineer. */
 "Type" = "Type";
 
-/* Settings */
-"UI" = "UI";
-
 /* No comment provided by engineer. */
 "Unlock" = "Ontgrendel";
 
 /* Table row action */
 "UnPin" = "VerwijderPin";
+
+/* No comment provided by engineer. */
+"Untagged" = "Niet getagd";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Gebruik eerste regel als titel";
@@ -280,8 +361,14 @@
 /* Settings */
 "Version" = "Versie";
 
+/* No comment provided by engineer. */
+"View" = "Visie";
+
 /* Main view popover table */
 "View settings" = "Bekijk instellingen";
 
 /* No comment provided by engineer. */
 "Visibility" = "Zichtbaarheid";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "Geschiedenis leren";

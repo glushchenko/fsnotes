@@ -159,10 +159,47 @@ public class Note: NSObject  {
         }
     }
 
-    public func forceLoad() {
+    public func forceLoad(skipCreateDate: Bool = false) {
         invalidateCache()
         load()
-        loadFileAttributes()
+
+        if !skipCreateDate {
+            loadCreationDate()
+        }
+        
+        loadModifiedLocalAt()
+    }
+
+    public func setCreationDate(string: String) -> Bool {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        let userDate = formatter.date(from: string)
+        let attributes = [FileAttributeKey.creationDate: userDate]
+
+        do {
+            try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
+
+            creationDate = userDate
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+
+    public func setCreationDate(date: Date) -> Bool {
+        let attributes = [FileAttributeKey.creationDate: date]
+
+        do {
+            try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
+
+            creationDate = date
+            return true
+        } catch {
+            print(error)
+            return false
+        }
     }
 
     func fastLoad() {
@@ -322,9 +359,15 @@ public class Note: NSObject  {
 
     public func remove() {
         if !isTrash() && !isEmpty() {
+            let src = url
             if let trashURLs = removeFile() {
-                self.url = trashURLs[0]
+                let dst = trashURLs[0]
+                self.url = dst
                 parseURL()
+
+                #if os(iOS)
+                    moveHistory(src: src, dst: dst)
+                #endif
             }
         } else {
             _ = removeFile()
@@ -332,6 +375,10 @@ public class Note: NSObject  {
             if self.isPinned {
                 removePin()
             }
+
+            #if os(iOS)
+                dropRevisions()
+            #endif
         }
     }
 
@@ -446,8 +493,16 @@ public class Note: NSObject  {
     }
     #endif
 
+    public func getAttachPrefix(url: URL? = nil) -> String {
+        if let url = url, !url.isImage {
+            return "files/"
+        }
+
+        return "i/"
+    }
+
     public func move(from imageURL: URL, imagePath: String, to project: Project, copy: Bool = false) {
-        let dstPrefix = NotesTextProcessor.getAttachPrefix(url: imageURL)
+        let dstPrefix = getAttachPrefix(url: imageURL)
         let dest = project.url.appendingPathComponent(dstPrefix)
 
         if !FileManager.default.fileExists(atPath: dest.path) {
@@ -606,6 +661,26 @@ public class Note: NSObject  {
         
         return nil
     }
+
+    func getAltContent(url: URL) -> NSAttributedString? {
+        guard container != .encryptedTextPack else { return nil }
+
+        do {
+            let options = getDocOptions()
+
+            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
+        } catch {
+
+            if let data = try? Data(contentsOf: url) {
+            let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
+
+                let options = getDocOptions(with: String.Encoding.init(rawValue: encoding))
+                return try? NSAttributedString(url: url, options: options, documentAttributes: nil)
+            }
+        }
+
+        return nil
+    }
         
     func isRTF() -> Bool {
         return type == .RichText
@@ -709,8 +784,9 @@ public class Note: NSObject  {
         #if NOT_EXTENSION || os(OSX)
             let mutable = NotesTextProcessor.convertAppTags(in: self.content)
             let content = NotesTextProcessor.convertAppLinks(in: mutable)
+            let result = content.string.replacingOccurrences(of: "\n---\n", with: "<hr>")
 
-            return cleanMetaData(content: content.string)
+            return cleanMetaData(content: result)
         #else
             return cleanMetaData(content: self.content.string)
         #endif
@@ -784,6 +860,14 @@ public class Note: NSObject  {
                 usleep(100000)
             }
         }
+    }
+
+    public func saveSync(copy: NSAttributedString) {
+        let mutableCopy = NSMutableAttributedString(attributedString: copy)
+        let unloadedCopy = mutableCopy.unLoad()
+
+        self.content = unloadedCopy
+        self.save(content: unloadedCopy)
     }
 
     public func save(content: NSMutableAttributedString) {
@@ -1090,7 +1174,7 @@ public class Note: NSObject  {
     }
 #else
     public func loadTags() -> Bool {
-        let sharedStorage = Storage.sharedInstance()
+        _ = Storage.sharedInstance()
 
         if UserDefaultsManagement.inlineTags {
             let changes = scanContentTags()
@@ -1119,7 +1203,7 @@ public class Note: NSObject  {
 
         do {
             let range = NSRange(location: 0, length: content.length)
-            let re = try NSRegularExpression(pattern: NotesTextProcessor.tagsPattern, options: options)
+            let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
 
             re.enumerateMatches(
                 in: content.string,
@@ -1132,8 +1216,8 @@ public class Note: NSObject  {
 
                     range = NSRange(location: range.location - 1, length: range.length + 1)
 
-                    let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
-                    let spanBlock = NotesTextProcessor.getSpanCodeBlockRange(content: content, range: range)
+                    let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: range, string: content)
+                    let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: range)
 
                     if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
 
@@ -1216,7 +1300,7 @@ public class Note: NSObject  {
         let content = content ?? self.content
         var res = [(url: URL, path: String)]()
 
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
+        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
             {(result, flags, stop) -> Void in
 
             guard let range = result?.range(at: 3), content.length >= range.location else { return }
@@ -1229,6 +1313,29 @@ public class Note: NSObject  {
         })
 
         return res
+    }
+
+    public func dropImagesCache() {
+        let urls = getAllImages()
+
+        for url in urls {
+            var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+            temporary.appendPathComponent("ThumbnailsBigInline")
+
+            let cacheUrl = temporary.appendingPathComponent(url.0.absoluteString.md5 + "." + url.0.pathExtension)
+            try? FileManager.default.removeItem(at: cacheUrl)
+        }
+    }
+
+    public func countCheckSum() -> String {
+        let urls = getAllImages()
+        var size = UInt64(0)
+
+        for url in urls {
+            size += url.0.fileSize
+        }
+
+        return content.string.md5 + String(size)
     }
 
     #if os(OSX)
@@ -1259,6 +1366,8 @@ public class Note: NSObject  {
     #endif
 
     public func loadPreviewInfo(text: String? = nil) {
+        let content = text ?? self.content.string
+
         if self.isParsed {
             return
         }
@@ -1267,9 +1376,7 @@ public class Note: NSObject  {
         var urls: [URL] = []
         var mdImages: [String] = []
 
-        let content = text ?? self.content.string
-
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
+        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
         {(result, flags, stop) -> Void in
 
             let nsContent = content as NSString
@@ -1981,29 +2088,6 @@ public class Note: NSObject  {
 
         content.append(NSAttributedString(string: prefix + "#" + name))
         save()
-    }
-
-    public func cache(backgroundThread: Bool = false) {
-        if cachingInProgress {
-            return
-        }
-
-        let hash = content.string.md5
-        cachingInProgress = true
-
-        if let copy = content.mutableCopy() as? NSMutableAttributedString {
-            copy.removeAttribute(.backgroundColor, range: NSRange(0..<copy.length))
-        
-            NotesTextProcessor.highlightMarkdown(attributedString: copy, paragraphRange: NSRange(location: 0, length: copy.length), note: self)
-            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: copy, backgroundThread: backgroundThread)
-
-            if content.string.md5 == copy.string.md5 {
-                content = copy
-                cacheHash = hash
-            }
-        }
-
-        cachingInProgress = false
     }
 
     public func resetAttributesCache() {

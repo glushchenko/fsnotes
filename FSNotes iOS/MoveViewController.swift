@@ -27,13 +27,11 @@ class MoveViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-
+        initNavigationBackground()
+        
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
         self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(newAlert))
 
         self.projects = Storage.sharedInstance().getProjects()
@@ -64,6 +62,8 @@ class MoveViewController: UITableViewController {
                         note.moveImages(to: note.project)
                         return
                     }
+
+                    note.moveHistory(src: note.url, dst: dstURL)
 
                     note.url = dstURL
                     note.parseURL()

@@ -13,26 +13,17 @@ import WebKit
 import AudioToolbox
 import CoreSpotlight
 
-class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate, UISearchControllerDelegate {
 
-    @IBOutlet weak var preHeaderView: UIView!
-    @IBOutlet weak var currentFolder: UILabel!
-    @IBOutlet weak var folderCapacity: UILabel!
-    @IBOutlet weak var settingsButton: UIButton!
-    @IBOutlet weak var searchButton: UIButton!
-    @IBOutlet weak var search: UISearchBar!
-    @IBOutlet weak var bulkButton: UIButton!
-    @IBOutlet weak var searchCancel: UIButton!
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var sidebarTableBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var notesTableBottomContraint: NSLayoutConstraint!
+    @IBOutlet weak var notesTableLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sidebarTableLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sidebarTableWidth: NSLayoutConstraint!
     @IBOutlet weak var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
-
     @IBOutlet weak var leftPreSafeArea: UIView!
     @IBOutlet weak var rightPreSafeArea: UIView!
-
-    @IBOutlet weak var leftPreHeader: UIView!
-    @IBOutlet weak var rightPreHeader: UIView!
 
     private var newsPopup: MPreviewView?
     private var newsOverlay: UIView?
@@ -54,7 +45,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var queryDidFinishGatheringObserver : Any?
     private var isBackground: Bool = false
 
-    public var shouldReturnToControllerIndex: Int = 0
+    public var shouldReturnToControllerIndex = false
 
     // Swipe animation from handleSidebarSwipe
     private var sidebarWidth: CGFloat = 0
@@ -64,12 +55,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var searchQuery: SearchQuery = SearchQuery(type: .Inbox)
     public var restoreActivity: URL?
 
-    override func viewWillAppear(_ animated: Bool) {
-        loadSidebarState()
-        loadPreSafeArea()
-        
-        super.viewWillAppear(animated)
-    }
+    public var folderCapacity: String?
+    public var currentFolder: String?
+
+    lazy var searchBar = UISearchBar(frame: CGRect.zero)
+    private var searchController: UISearchController?
 
     override func viewDidAppear(_ animated: Bool) {
         if nil == Storage.shared().getRoot() {
@@ -80,7 +70,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.present(alert, animated: true, completion: nil)
         }
 
-        bulkButton.imageView?.image = UIImage(named: "navigationBulk")?.imageWithColor(color1: .white)
+        // Clean preview after previous loading
+        UIApplication.getEVC().getPreviewView()?.clean()
+
+        // If return from editor
+        UIApplication.getEVC().userActivity?.invalidate()
+
+        loadPreSafeArea()
+        loadPlusButton()
 
         super.viewDidAppear(animated)
     }
@@ -93,6 +90,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureUI()
         configureNotifications()
         configureGestures()
+        configureSearchController()
 
         loadNotesTable()
         loadSidebar()
@@ -102,6 +100,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         preLoadProjectsData()
         loadNews()
+        restoreLastController()
 
         super.viewDidLoad()
     }
@@ -113,6 +112,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func startCloudDriveSyncEngine(completion: (() -> ())? = nil) {
+        guard UserDefaultsManagement.iCloudDrive else { return }
+
         cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
         cloudDriveManager?.metadataQuery.disableUpdates()
 
@@ -137,6 +138,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
+    public func stopCloudDriveSyncEngine() {
+        self.cloudDriveManager?.metadataQuery.stop()
+    }
+
     public func configureUI() {
         UINavigationBar.appearance().isTranslucent = false
 
@@ -144,8 +149,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             UserDefaultsManagement.fontName = "Avenir Next"
             UserDefaultsManagement.isFirstLaunch = false
         }
-
-        loadNotesFrame()
 
         self.metadataQueue.qualityOfService = .userInteractive
 
@@ -161,50 +164,34 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
 
-        bulkButton.imageView?.image = UIImage(named: "navigationBulk")?.imageWithColor(color1: .white)
-        self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
+        let navSettingsImage = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 34)?.imageWithColor(color1: .white)
+        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(openSidebarSettings))
+        navSettings.tintColor = .white
 
-        let settingsIcon = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 34)?.imageWithColor(color1: .white)
-        self.settingsButton.setImage(settingsIcon, for: .normal)
+        let appSettingsImage = UIImage(named: "hideSide")?.resize(maxWidthHeight: 30)?.imageWithColor(color1: .white)
+        let appSettings = UIBarButtonItem(image: appSettingsImage, style: .plain, target: self, action: #selector(toggleSidebar))
+        appSettings.tintColor = .white
 
-        self.headerView.mixedBackgroundColor = Colors.Header
+        let searchButtonImage = UIImage(named: "searchButton")?.resize(maxWidthHeight: 25)?.imageWithColor(color1: .white)
+        let searchButton = UIBarButtonItem(image: searchButtonImage, style: .plain, target: self, action: #selector(openSearchController))
+        searchButton.tintColor = .white
+        searchButton.imageInsets = UIEdgeInsets(top: 0.0, left: 20, bottom: 0, right: 0)
 
-        self.headerView.addBottomBorderWithColor(color: UIColor(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.00), width: 1)
-        self.searchView.mixedBackgroundColor = Colors.Header
+        let generalSettingsImage = UIImage(named: "navigationSettings")?.resize(maxWidthHeight: 23)?.imageWithColor(color1: .white)
+        let generalSettings = UIBarButtonItem(image: generalSettingsImage, style: .plain, target: self, action: #selector(openSettings))
+        generalSettings.tintColor = .white
 
-        self.search.mixedBackgroundColor = Colors.Header
-        self.search.mixedBarTintColor = Colors.Header
-        self.search.returnKeyType = .go
-         if let textFieldInsideSearchBar = self.search.value(forKey: "searchField") as? UITextField,
-               let glassIconView = textFieldInsideSearchBar.leftView as? UIImageView {
-                   glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
-                   glassIconView.tintColor = .white
-           }
+        navigationItem.leftBarButtonItems = [appSettings, generalSettings]
+        navigationItem.rightBarButtonItems = [navSettings, searchButton]
 
-        self.currentFolder.text = NSLocalizedString("Inbox", comment: "")
-        self.searchCancel.titleLabel?.text = NSLocalizedString("Cancel", comment: "")
-        self.search.placeholder = NSLocalizedString("Search or create", comment: "")
-        self.folderCapacity.mixedTextColor = Colors.titleText
-        self.currentFolder.mixedTextColor = Colors.titleText
-        self.currentFolder.isUserInteractionEnabled = true
-        self.currentFolder.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.openSidebarSettings)))
-
-        self.searchCancel.mixedTintColor = Colors.buttonText
-        search.keyboardAppearance = NightNight.theme == .night ? .dark : .default
+        setNavTitle(folder: NSLocalizedString("Inbox", comment: ""))
 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
-        let searchBarTextField = search.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.mixedTextColor = MixedColor(normal: 0xfafafa, night: 0xfafafa)
-
         loadPlusButton()
 
-        search.delegate = self
-        search.autocapitalizationType = .none
-
         notesTable.viewDelegate = self
-
         notesTable.dragInteractionEnabled = true
         notesTable.dragDelegate = notesTable
         sidebarTableView.dropDelegate = sidebarTableView
@@ -216,13 +203,39 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.estimatedRowHeight = 160
 
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(togglseSearch), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(toggleSearch), for: .valueChanged)
 
         notesTable.refreshControl = refreshControl
+    }
 
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            bvc.disableSwipe()
+    public func setNavTitle(folder: String? = nil, qty: String? = nil) {
+        if let folder = folder {
+            currentFolder = folder
         }
+
+        if let qty = qty {
+            folderCapacity = qty
+        }
+
+        let folder = currentFolder ?? ""
+        let qty = folderCapacity ?? "∞"
+
+        let titleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        let subtitleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white, .font: UIFont(name: "Source Code Pro", size: 10)]
+        let title: NSMutableAttributedString = NSMutableAttributedString(string: folder, attributes: titleParameters)
+        let subtitle: NSAttributedString = NSAttributedString(string: qty, attributes: subtitleParameters as [NSAttributedString.Key : Any])
+
+        title.append(NSAttributedString(string: "\n"))
+        title.append(subtitle)
+
+        let size = title.size()
+
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        titleLabel.attributedText = title
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
+
+        navigationItem.titleView = titleLabel
     }
 
     public func configureNotifications() {
@@ -254,6 +267,66 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let longTapOnSidebar = UILongPressGestureRecognizer(target: self, action: #selector(sidebarLongPress))
         longTapOnSidebar.minimumPressDuration = 0.5
         view.addGestureRecognizer(longTapOnSidebar)
+
+        let longTapOnNotes = UILongPressGestureRecognizer(target: self, action: #selector(notesLongPress))
+        longTapOnNotes.minimumPressDuration = 0.5
+        notesTable.addGestureRecognizer(longTapOnNotes)
+        notesTable.dragInteractionEnabled = UserDefaultsManagement.sidebarIsOpened
+    }
+
+    public func configureSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")
+        searchController.searchBar.mixedBackgroundColor = Colors.Header
+        searchController.searchBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0xffffff)
+        searchController.searchBar.returnKeyType = .go
+        searchController.searchBar.showsCancelButton = true
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.searchBar.keyboardAppearance = NightNight.theme == .night ? .dark : .default
+
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+
+        if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField,
+           let glassIconView = textFieldInsideSearchBar.leftView as? UIImageView {
+            glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
+            glassIconView.tintColor = .white
+
+            textFieldInsideSearchBar.keyboardAppearance = NightNight.theme == .night ? .dark : .default
+        }
+
+        self.searchController = searchController
+
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }
+
+    @IBAction public func openSearchController() {
+        loadSearchController()
+    }
+
+    @IBAction public func toggleSidebar() {
+        if UserDefaultsManagement.sidebarIsOpened {
+            hideSidebar()
+        } else {
+            showSidebar()
+        }
+    }
+
+    @IBAction public func notesLongPress(gesture: UILongPressGestureRecognizer) {
+        guard !UserDefaultsManagement.sidebarIsOpened else { return }
+
+        let p = gesture.location(in: self.notesTable)
+
+        if let indexPath = notesTable.indexPathForRow(at: p) {
+            let note = notesTable.notes[indexPath.row]
+
+            if gesture.state == .began {
+                notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
+            }
+        }
+
+        gesture.state = .ended
     }
 
     @IBAction public func sidebarLongPress(gesture: UILongPressGestureRecognizer) {
@@ -283,6 +356,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         sidebarTableView.delegate = self.sidebarTableView
         sidebarTableView.viewController = self
         maxSidebarWidth = self.calculateLabelMaxWidth()
+
+        initSidebar()
 
         if UserDefaultsManagement.sidebarIsOpened {
             resizeSidebar()
@@ -482,66 +557,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return left
     }
 
-    public func loadSidebarState() {
-        if UserDefaultsManagement.sidebarIsOpened {
-            notesTable.frame.origin.x = getLeftInset() + maxSidebarWidth
-        } else {
-            notesTable.frame.origin.x = getLeftInset()
-        }
-    }
-
-    public func loadNotesFrame(keyboardHeight: CGFloat? = nil) {
-        let screenWidth = UIScreen.main.bounds.width
-        let screenHeight = UIScreen.main.bounds.height
-
-        let top = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
-        let right = UIApplication.shared.windows.first?.safeAreaInsets.right ?? 0
-        let left = UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0
-        let navHeight: CGFloat = 45
-
-        let topInset = top + navHeight
-        let leftInset = left
-        let keyboardHeight = keyboardHeight ?? 0
-
-        notesTable.translatesAutoresizingMaskIntoConstraints = true
-        sidebarTableView.translatesAutoresizingMaskIntoConstraints = true
-
-        notesTable.frame.origin.x = leftInset
-        notesTable.frame.origin.y = topInset
-        notesTable.frame.size.width = screenWidth - left - right - navHeight
-        notesTable.frame.size.height = screenHeight - topInset - keyboardHeight
-
-        sidebarTableView.frame.origin.x = leftInset
-        sidebarTableView.frame.origin.y = topInset
-        sidebarTableView.frame.size.width = screenWidth - left - right
-        sidebarTableView.frame.size.height = screenHeight - topInset - keyboardHeight
-
-        loadPreSafeArea()
-        loadSidebarState()
-    }
-
     public func loadNotches() {
         rightPreSafeArea.mixedBackgroundColor =
             MixedColor(
                 normal: UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00),
-                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            )
-
-        preHeaderView.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            )
-
-        leftPreHeader.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            )
-
-        rightPreHeader.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
                 night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
             )
     }
@@ -560,8 +579,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     normal: .white,
                     night: .black
                 )
-
-            notesTable.frame.size.width = self.view.frame.width - self.getLeftInset() - maxSidebarWidth
         } else {
             leftPreSafeArea.mixedBackgroundColor =
                 MixedColor(
@@ -574,54 +591,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     normal: .white,
                     night: .black
                 )
-
-            notesTable.frame.size.width = self.view.frame.width - self.getLeftInset()
-        }
-    }
-
-
-    @IBAction func openSearchView(_ sender: Any) {
-        self.toggleSearchView()
-    }
-
-    @IBAction func hideSearchView(_ sender: Any) {
-        self.toggleSearchView()
-    }
-
-    @IBAction func bulkEditing(_ sender: Any) {
-        if notesTable.isEditing {
-            let navImage = UIImage(named: "navigationBulk")?.imageWithColor(color1: .white)
-            self.bulkButton.setImage(navImage, for: .normal)
-
-            if let selectedRows = notesTable.selectedIndexPaths {
-                var notes = [Note]()
-                for indexPath in selectedRows {
-                    if notesTable.notes.indices.contains(indexPath.row) {
-                        let note = notesTable.notes[indexPath.row]
-                        notes.append(note)
-                    }
-                }
-
-                self.notesTable.selectedIndexPaths = nil
-                self.notesTable.actionsSheet(notes: notes, presentController: self)
-            } else {
-                self.notesTable.allowsMultipleSelectionDuringEditing = false
-                self.notesTable.setEditing(false, animated: true)
-            }
-        } else {
-            notesTable.allowsMultipleSelectionDuringEditing = true
-            notesTable.setEditing(true, animated: true)
-            self.bulkButton.setImage(UIImage(named: "done_white.png"), for: .normal)
         }
     }
 
     @objc public func openSettings() {
-        let sourceSelectorTableViewController = SettingsViewController()
-        let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
-        navigationController.modalPresentationStyle = .fullScreen
-
-        self.present(navigationController, animated: true, completion: nil)
+        navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
 
     @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
@@ -644,30 +620,63 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    @objc func togglseSearch(refreshControl: UIRefreshControl) {
+    @objc func toggleSearch(refreshControl: UIRefreshControl) {
         self.toggleSearchView()
         refreshControl.endRefreshing()
     }
 
-    private func toggleSearchView() {
-        if self.searchView.isHidden {
-            searchView.isHidden = false
-            search.becomeFirstResponder()
-            sidebarTableView.deselectAll()
-            reloadNotesTable(with: SearchQuery())
-        } else {
-            turnOffSearch()
-            sidebarTableView.restoreSelection(for: searchQuery)
-            reloadNotesTable(with: searchQuery)
+    public func loadSearchController(query: String? = nil) {
+        navigationItem.searchController = searchController
 
-            if shouldReturnToControllerIndex != 0 {
-                guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
-                bvc.containerController.selectController(atIndex: shouldReturnToControllerIndex, animated: true)
+        if let query = query {
+            navigationItem.searchController?.searchBar.text = query
+        }
 
-                shouldReturnToControllerIndex = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.navigationItem.searchController?.searchBar.becomeFirstResponder()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.loadPlusButton()
+            }
+        }
+
+    }
+
+    public func unloadSearchController() {
+        navigationItem.searchController = nil
+
+        sidebarTableView.restoreSelection(for: searchQuery)
+        reloadNotesTable(with: searchQuery)
+
+        // iOS 12 compatibility
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.loadPlusButton()
+        }
+    }
+
+    public func callbackSearchController() {
+        if shouldReturnToControllerIndex {
+            shouldReturnToControllerIndex = false
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.openEditorViewController()
+
                 UIApplication.getEVC().refill()
             }
         }
+    }
+
+    private func toggleSearchView() {
+
+        if navigationItem.searchController != nil {
+            unloadSearchController()
+            return
+        }
+
+        loadSearchController()
+
+        sidebarTableView.deselectAll()
+        reloadNotesTable(with: SearchQuery())
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -679,18 +688,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         reloadNotesTable(with: SearchQuery(filter: searchText))
     }
 
-    public func turnOffSearch() {
-        searchView.isHidden = true
-        search.endEditing(true)
-        search.text = nil
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        unloadSearchController()
+        callbackSearchController()
     }
 
-    private func getEVC() -> EditorViewController? {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController else { return nil }
-
-        return evc
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let content = searchBar.text
+        searchBar.text = ""
+        self.createNote(content: content, pasteboard: nil)
+        unloadSearchController()
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
@@ -739,7 +746,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         isActiveTableUpdating = true
         searchQueue.cancelAllOperations()
-        folderCapacity.text = String("∞")
+        setNavTitle(qty: "∞")
         searchQueue.cancelAllOperations()
 
         let operation = BlockOperation()
@@ -764,10 +771,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
 
-            if notes.isEmpty {
-                self.notesTable.notes.removeAll()
-            } else {
-                self.notesTable.notes =
+            var modifiedNotesList = [Note]()
+
+            if !notes.isEmpty {
+                modifiedNotesList =
                     self.storage.sortNotes(
                         noteList: notes,
                         filter: query.getFilter(),
@@ -781,13 +788,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
 
             DispatchQueue.main.async {
-                self.folderCapacity.text = String(notes.count)
+                self.setNavTitle(qty: String(notes.count))
 
                 if DispatchTime.now() < self.accessTime {
                     completion?()
                     return
                 }
 
+                self.notesTable.notes = modifiedNotesList
                 self.notesTable.reloadData()
 
                 if let note = self.delayedInsert {
@@ -807,12 +815,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func updateNotesCounter() {
         DispatchQueue.main.async {
-            self.folderCapacity.text = String(self.notesTable.notes.count)
+            self.setNavTitle(qty: String(self.notesTable.notes.count))
         }
     }
 
     public func isNoteInsertionAllowed() -> Bool {
-        return !search.isFirstResponder
+        if let searchBar = navigationItem.searchController?.searchBar {
+            return !searchBar.isFirstResponder
+        }
+
+        return true
     }
 
     public func isFitInCurrentSearchQuery(note: Note) -> Bool {
@@ -866,6 +878,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             || searchQuery.type == .Inbox
                 && note.project.isRoot
                 && note.project.isDefault
+            || searchQuery.type == .Untagged && note.tags.count == 0
         else {
             return false
         }
@@ -886,27 +899,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return true
     }
 
-    public func loadSettingsButton() {
-        let height = view.frame.height
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: 0, y: height - 150), size: CGSize(width: 200, height: 60)))
-        let image = UIImage(named: "settings.png")
-        button.setImage(image, for: UIControl.State.normal)
-        button.setTitle(NSLocalizedString("Settings", comment: "Sidebar settings"), for: .normal)
-        button.tag = 1
-        button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
-        button.addTarget(self, action: #selector(self.openSettings), for: .touchDown)
-        button.layer.zPosition = 101
-
-        //sidebarTableView.contentOffset = .init(x: 0, y: -100)
-        sidebarTableView.contentInset = .init(top: 0, left: 0, bottom: 100, right: 0)
-        settingsButton = button
-        
-        self.view.addSubview(settingsButton)
-
-    }
-
     func loadPlusButton() {
-        if let button = getButton() {
+        if let button = getButton(tag: 1) {
             let width = self.view.frame.width
             let height = self.view.frame.height
 
@@ -924,10 +918,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.view.addSubview(button)
     }
 
-    private func getButton() -> UIButton? {
+    private func getButton(tag: Int) -> UIButton? {
         for sub in self.view.subviews {
 
-            if sub.tag == 1 {
+            if sub.tag == tag {
                 return sub as? UIButton
             }
         }
@@ -976,14 +970,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let storage = Storage.sharedInstance()
         storage.add(note)
 
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-           let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-           let evc = nav.viewControllers.first as? EditorViewController else { return }
-
-        pc.containerController.selectController(atIndex: 1, animated: true)
-
+        let evc = UIApplication.getEVC()
         evc.note = note
         evc.fill(note: note)
+
+        openEditorViewController()
 
         if self.isActiveTableUpdating {
             self.delayedInsert = note
@@ -992,9 +983,32 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             notesTable.scrollTo(note: note)
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            let evc = UIApplication.getEVC()
+            if UserDefaultsManagement.previewMode {
+                evc.togglePreview()
+            }
             evc.editArea.becomeFirstResponder()
         }
+    }
+
+    public func openEditorViewController() {
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+
+        if let controllers = navigationController?.viewControllers {
+            for controller in controllers {
+                if let _ = controller as? EditorViewController {
+                    return
+                }
+            }
+        }
+
+        let evc = UIApplication.getEVC()
+        navigationController?.pushViewController(evc, animated: true)
+    }
+
+    public func popViewController() {
+        navigationController?.popViewController(animated: true)
     }
 
     public func savePasteboard(note: Note) {
@@ -1047,12 +1061,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
             isLandscape = isLand
 
-            loadPlusButton()
-            loadNews()
-
             DispatchQueue.main.async {
-                self.loadNotesFrame()
-                self.loadSidebarState()
+                self.loadPlusButton()
+                self.loadNews()
             }
         }
     }
@@ -1069,106 +1080,22 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let brightness = Float(UIScreen.screens[0].brightness)
 
         if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness && NightNight.theme == .night) {
-            disableNightMode()
+            UIApplication.getNC()?.disableNightMode()
             return
         }
 
         if (UserDefaultsManagement.maxNightModeBrightnessLevel > brightness && NightNight.theme == .normal) {
-            enableNightMode()
+            UIApplication.getNC()?.enableNightMode()
         }
-    }
-
-    public func enableNightMode() {
-        print("Dark mode enabled")
-
-        NightNight.theme = .night
-
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController else { return }
-
-        guard let pvc = UIApplication.getPVC() else { return }
-        pvc.removeMPreviewView()
-        MPreviewView.template = nil
-
-        UserDefaultsManagement.codeTheme = "monokai-sublime"
-        NotesTextProcessor.hl = nil
-        evc.refill()
-
-        if evc.editArea != nil {
-            evc.editArea.keyboardAppearance = .dark
-            evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
-        }
-
-        vc.search.keyboardAppearance = .dark
-        vc.sidebarTableView.backgroundColor = UIColor(red:0.19, green:0.21, blue:0.21, alpha:1.0)
-        vc.sidebarTableView.updateColors()
-
-        vc.sidebarTableView.layoutSubviews()
-        vc.notesTable.layoutSubviews()
-    }
-
-    public func disableNightMode()
-    {
-        print("Dark mode disabled")
-
-        NightNight.theme = .normal
-
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController else { return }
-
-        guard let pvc = UIApplication.getPVC() else { return }
-        pvc.removeMPreviewView()
-        MPreviewView.template = nil
-        
-        UserDefaultsManagement.codeTheme = "github"
-        NotesTextProcessor.hl = nil
-        evc.refill()
-
-        if evc.editArea != nil {
-            evc.editArea.keyboardAppearance = .default
-            evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
-        }
-
-        vc.search.keyboardAppearance = .default
-
-        vc.sidebarTableView.layoutSubviews()
-        vc.notesTable.layoutSubviews()
     }
 
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
-
-        // check unfinished controllers animation
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController, !bvc.containerController.isMoveFinished {
-            return
-        }
-
         let notchWidth = getLeftInset()
-
         let translation = swipe.translation(in: notesTable)
-        let halfSidebar = -(self.maxSidebarWidth / 2)
 
         if swipe.state == .began {
-            self.sidebarTableView.isUserInteractionEnabled = true
-
-            if UserDefaultsManagement.sidebarIsOpened {
-                self.notesTable.frame.size.width = self.view.frame.width - notchWidth
-                self.sidebarTableView.frame.origin.x = 0 + notchWidth
-            } else
-            {
-
-                // blue/blck pre safe area
-                leftPreSafeArea.mixedBackgroundColor =
-                    MixedColor(
-                        normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
-                        night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
-                    )
-
-                self.sidebarTableView.frame.origin.x = halfSidebar + notchWidth
-            }
+            sidebarTableView.isUserInteractionEnabled = true
+            initSidebar()
             return
         }
 
@@ -1178,75 +1105,103 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 || !UserDefaultsManagement.sidebarIsOpened && translation.x + notchWidth > 0 && translation.x + notchWidth < maxSidebarWidth
             else { return }
 
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: .beginFromCurrentState, animations: {
-                self.notesTable.frame.origin.x =
-                    (translation.x + notchWidth > 0 ? -self.sidebarWidth : self.maxSidebarWidth)
-                    + translation.x + notchWidth
-
+            UIView.animate(withDuration: 0.075, delay: 0.0, options: .beginFromCurrentState, animations: {
                 if translation.x + notchWidth > 0 {
-                    self.sidebarTableView.frame.origin.x = halfSidebar + (translation.x + notchWidth) / 2 + notchWidth
+                    self.notesTableLeadingConstraint.constant = translation.x
+                    self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth/2 + translation.x/2
                 } else {
-                    self.sidebarTableView.frame.origin.x = translation.x / 2 + notchWidth
+                    self.notesTableLeadingConstraint.constant = self.maxSidebarWidth + translation.x
+                    self.sidebarTableLeadingConstraint.constant = translation.x/2
                 }
+                self.view.layoutIfNeeded()
             })
             return
         }
 
         if swipe.state == .ended {
             if translation.x > 0 {
-                UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
-                    self.notesTable.frame.origin.x = self.maxSidebarWidth
-                    self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
-                    self.sidebarTableView.frame.origin.x = 0 + notchWidth
-                }) { _ in
-                    UserDefaultsManagement.sidebarIsOpened = true
-                    self.sidebarTableView.isUserInteractionEnabled = true
-                }
+                showSidebar()
             }
 
             if translation.x < 0 {
-                UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
-                    self.notesTable.frame.origin.x = 0 + notchWidth
-                    self.notesTable.frame.size.width = self.view.frame.width - notchWidth
-                    self.sidebarTableView.frame.origin.x = halfSidebar + notchWidth
-                }) { _ in
-                    UserDefaultsManagement.sidebarIsOpened = false
-                    self.sidebarTableView.isUserInteractionEnabled = false
-
-                    // white pre safe area
-                    self.leftPreSafeArea.mixedBackgroundColor =
-                        MixedColor(
-                            normal: .white,
-                            night: .black
-                    )
-                }
+                hideSidebar()
             }
+        }
+    }
+
+    private func initSidebar() {
+        if UserDefaultsManagement.sidebarIsOpened {
+            self.sidebarTableLeadingConstraint.constant = 0
+            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+        } else {
+            self.notesTableLeadingConstraint.constant = 0
+            self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
+
+            // blue/blck pre safe area
+            leftPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
+                )
+        }
+    }
+
+    private func showSidebar() {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
+            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+            self.sidebarTableLeadingConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }) { _ in
+            UserDefaultsManagement.sidebarIsOpened = true
+
+            self.notesTable.dragInteractionEnabled = true
+            self.sidebarTableView.isUserInteractionEnabled = true
+
+            self.leftPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
+                )
+        }
+    }
+
+    private func hideSidebar() {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
+            self.notesTableLeadingConstraint.constant = 0
+            self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
+            self.view.layoutIfNeeded()
+        }) { _ in
+            UserDefaultsManagement.sidebarIsOpened = false
+
+            self.notesTable.dragInteractionEnabled = false
+            self.sidebarTableView.isUserInteractionEnabled = false
+
+            // white pre safe area
+            self.leftPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: .white,
+                    night: .black
+            )
         }
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.size.height = UIScreen.main.bounds.height
-            self.view.frame.size.height -= keyboardSize.height
-
+            notesTableBottomContraint.constant = keyboardSize.height
+            sidebarTableBottomConstraint.constant = keyboardSize.height
             loadPlusButton()
-            loadNotesFrame(keyboardHeight: keyboardSize.height)
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        self.view.frame.size.height = UIScreen.main.bounds.height
+        notesTableBottomContraint.constant = 0
+        sidebarTableBottomConstraint.constant = 0
         loadPlusButton()
-        loadNotesFrame()
     }
 
     public func refreshTextStorage(note: Note) {
         DispatchQueue.main.async {
-            guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-                let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-                let evc = nav.viewControllers.first as? EditorViewController else { return }
-
-            evc.fill(note: note)
+            UIApplication.getEVC().fill(note: note)
         }
     }
 
@@ -1290,6 +1245,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for note in notes {
                 var success: [Note]? = nil
                 if note.unLock(password: password) {
+                    self.savePassword(password)
                     note.password = password
                     
                     success?.append(note)
@@ -1306,7 +1262,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func toggleNotesLock(notes: [Note]) {
         var notes = notes
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
 
         notes = lockUnlocked(notes: notes)
         guard notes.count > 0 else { return }
@@ -1320,11 +1275,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         DispatchQueue.main.async {
                             self.notesTable.reloadRowForce(note: note)
                             UIApplication.getEVC().fill(note: note)
-                            bvc.containerController.selectController(atIndex: 1, animated: true)
+                            UIApplication.getVC().openEditorViewController()
                         }
+
+                        self.savePassword(password)
                     }
                 } else {
                     if note.encrypt(password: password) {
+                        self.savePassword(password)
                         note.password = nil
 
                         DispatchQueue.main.async {
@@ -1355,7 +1313,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return notes
     }
 
-    public func getMasterPassword(completion: @escaping (String) -> ()) {
+    public func getMasterPassword(isUnlock: Bool = false, completion: @escaping (String) -> ()) {
         let context = LAContext()
         context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
 
@@ -1387,7 +1345,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     private func masterPasswordPrompt(completion: @escaping (String) -> ()) {
         DispatchQueue.main.async {
-            let alertController = UIAlertController(title: "Master password:", message: nil, preferredStyle: .alert)
+            let title = NSLocalizedString("Master password:", comment: "")
+            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
 
             alertController.addTextField(configurationHandler: {
                 [] (textField: UITextField) in
@@ -1398,11 +1357,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 guard let password = alertController.textFields?[0].text, password.count > 0 else {
                     return
                 }
-
-                let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-                do {
-                    try item.savePassword(password)
-                } catch {}
 
                 completion(password)
             }
@@ -1418,30 +1372,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        guard UserDefaultsManagement.nightModeType == .system else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.checkDarkMode()
-        }
-    }
-
-    public func checkDarkMode() {
-        if #available(iOS 12.0, *) {
-            if traitCollection.userInterfaceStyle == .dark {
-                if NightNight.theme != .night {
-                    enableNightMode()
-                }
-            } else {
-                if NightNight.theme == .night {
-                    disableNightMode()
-                }
-            }
-        }
+    public func savePassword(_ value: String) {
+        let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+        do {
+           try item.savePassword(value)
+        } catch {}
     }
 
     public func resizeSidebar(withAnimation: Bool = false) {
-        let currentSidebarWidth = self.notesTable.frame.origin.x
+        let currentSidebarWidth = self.sidebarTableWidth.constant
         let width = calculateLabelMaxWidth()
         maxSidebarWidth = width
 
@@ -1455,24 +1394,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             maxSidebarWidth = view.frame.size.width / 2
         }
 
-        let notchWidth = getLeftInset()
-
         if (withAnimation) {
             UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
-
-                self.notesTable.frame.origin.x = self.maxSidebarWidth
-                self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
-                self.sidebarTableView.frame.origin.x = 0 + notchWidth
-
+                let width = self.maxSidebarWidth
+                self.notesTableLeadingConstraint.constant = width
+                self.sidebarTableLeadingConstraint.constant = 0
+                self.sidebarTableWidth.constant = width
             }) { _ in
 
             }
         } else {
-            notesTable.frame.origin.x = maxSidebarWidth
-            notesTable.frame.size.width = view.frame.width - notchWidth - maxSidebarWidth
-            sidebarTableView.frame.origin.x = 0 + notchWidth
+            notesTableLeadingConstraint.constant = maxSidebarWidth
+            sidebarTableWidth.constant = notesTableLeadingConstraint.constant
         }
-
     }
 
     public func checkProjectsCacheDiff() {
@@ -1514,6 +1448,49 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.notesTable.reloadRows(notes: results.2)
         }
     }
+
+    public func restoreLastController() {
+        guard !Storage.shared().isCrashedLastTime else { return }
+
+        DispatchQueue.main.async {
+            if let noteURL = UserDefaultsManagement.currentNote {
+                if FileManager.default.fileExists(atPath: noteURL.path),
+                   let project = Storage.shared().getProjectByNote(url: noteURL)
+                {
+                    var note = Storage.shared().getBy(url: noteURL)
+
+                    if note == nil {
+                        note = Note(url: noteURL, with: project)
+                        if let unwrapped = note {
+                            Storage.shared().add(unwrapped)
+                        }
+                    }
+
+                    guard let note = note, !note.isEncrypted()  else { return }
+
+                    UIApplication.getVC().openEditorViewController()
+
+                    let evc = UIApplication.getEVC()
+                    evc.fill(note: note)
+
+                    if UserDefaultsManagement.currentEditorState == true,
+                       let selectedRange = UserDefaultsManagement.currentRange,
+                       !UserDefaultsManagement.previewMode
+                    {
+                        if selectedRange.upperBound <= note.content.length {
+                            evc.editArea.selectedRange = selectedRange
+                        }
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            evc.editArea.becomeFirstResponder()
+                        }
+                    }
+
+                    UserDefaultsManagement.currentNote = nil
+                }
+            }
+        }
+    }
 }
 
 extension ViewController : UIPopoverPresentationControllerDelegate {
@@ -1535,48 +1512,5 @@ extension UIApplication {
             closure()
         }
         self.endBackgroundTask(taskID)
-    }
-}
-
-class SearchQuery {
-    var type: SidebarItemType? = nil
-    var project: Project? = nil
-    var tag: String? = nil
-    var terms: [Substring]? = nil
-
-    init() {}
-
-    init(type: SidebarItemType) {
-        if type == .Todo {
-            terms = ["- [ ] "]
-        }
-
-        self.type = type
-    }
-
-    init(filter: String) {
-        terms = filter.split(separator: " ")
-    }
-
-    init(type: SidebarItemType, project: Project?, tag: String?) {
-        if type == .Todo {
-            terms = ["- [ ] "]
-        }
-
-        self.type = type
-        self.project = project
-        self.tag = tag
-    }
-
-    public func setType(_ type: SidebarItemType) {
-        if type == .Todo {
-            terms = ["- [ ] "]
-        }
-
-        self.type = type
-    }
-
-    public func getFilter() -> String? {
-        return terms?.joined(separator: " ")
     }
 }

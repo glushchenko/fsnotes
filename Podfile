@@ -1,7 +1,7 @@
 use_frameworks!
 
-MAC_TARGET_VERSION = '10.11'
-IOS_TARGET_VERSION = '10'
+MAC_TARGET_VERSION = '10.12'
+IOS_TARGET_VERSION = '12'
 
 def mac_pods
     pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
@@ -13,6 +13,7 @@ def ios_pods
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'DropDown', '2.3.13'
     pod 'SwipeCellKit', :git => 'https://github.com/glushchenko/SwipeCellKit.git', :branch => 'develop'
+    pod 'CropViewController'
 end
 
 def common_pods
@@ -20,6 +21,7 @@ def common_pods
     pod 'libcmark_gfm', :git => 'https://github.com/KristopherGBaker/libcmark_gfm.git', :branch => 'master' 
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
+    pod 'Punycode'
 end
 
 def framework_pods

@@ -24,6 +24,8 @@ class NoteCellView: SwipeTableViewCell {
     public var contentLength: Int = 0
     public var timestamp: Int64?
 
+    public var imageKeys = [String]()
+
     public var tableView: NotesTableView? {
         get {
             return self.superview as? NotesTableView
@@ -168,35 +170,14 @@ class NoteCellView: SwipeTableViewCell {
     }
 
     public func fixTopConstraint(position: Int?, note: Note) {
-        guard let tableView = tableView else { return }
-
         for constraint in self.contentView.constraints {
             if ["firstImageTop", "secondImageTop", "thirdImageTop"].contains(constraint.identifier) {
                 let ident = constraint.identifier
-
-                var height = CGFloat(0)
-                if let position = position, let heightUnwrapped = tableView.cellHeights[IndexPath(row: position, section: 0)] {
-                    height = heightUnwrapped
-                } else {
-                    height = self.frame.height
-                }
-
                 self.contentView.removeConstraint(constraint)
-                var con = CGFloat(0)
-
-                if note.getTitle() != nil {
-                    con += self.title.frame.height
-                }
 
                 let isPreviewExist = note.preview.trim().count > 0
-                if isPreviewExist {
-                    con += 5 + self.preview.frame.height
-                }
-
-                var diff = (height - con - 70) / 2
-                diff += con
-
                 var imageLink: UIImageView?
+
                 switch constraint.identifier {
                 case "firstImageTop":
                     imageLink = self.imagePreview
@@ -210,10 +191,8 @@ class NoteCellView: SwipeTableViewCell {
 
                 guard let firstItem = imageLink else { continue }
 
-                let secondItem = isPreviewExist ? self.preview : self.contentView
-                let secondAttribute: NSLayoutConstraint.Attribute = isPreviewExist ? .bottom : .top
-                let constant = isPreviewExist ? 12 : diff
-                let constr = NSLayoutConstraint(item: firstItem, attribute: .top, relatedBy: .equal, toItem: secondItem, attribute: secondAttribute, multiplier: 1, constant: constant)
+                let secondItem = isPreviewExist ? self.preview : self.title
+                let constr = NSLayoutConstraint(item: firstItem, attribute: .top, relatedBy: .equal, toItem: secondItem, attribute: .bottom, multiplier: 1, constant: 12)
 
                 constr.identifier = ident
                 self.contentView.addConstraint(constr)
