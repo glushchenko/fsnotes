@@ -34,7 +34,7 @@ class Sidebar {
                     name: NSLocalizedString("Inbox", comment: ""),
                     project: project,
                     type: .Inbox,
-                    icon: getImage(named: "inbox_white")
+                    icon: getImage(named: "sidebar_inbox")
                 )
             )
         }
