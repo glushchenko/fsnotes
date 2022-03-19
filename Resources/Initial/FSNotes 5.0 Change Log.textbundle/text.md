@@ -31,8 +31,9 @@ New ImagePicker!
 - Setting up line spacing
 - New fonts
 - Large indents from the edges of the screen
-- A little faster editor
+- Improved editor performance
 - Keyboard and controller close swipes now work from the center of the editor.
+- Configurable themes and fonts for code blocks
 
 ## A diary
 
@@ -46,17 +47,18 @@ Just click the three dots above the editor and select "Created Date"
 
 - Inconsistency of the selected note being selected in the list
 - Twitching images in note list
-- Crash while typing
+- Crashes while typing
 
 ## All sorts of useful little things
 
 - Create duplicate notes in two taps.
 - Added the ability to share an encrypted note.
-- Thanks to the new menu, folders can now be opened in Files.app.
+- Folders can now be opened in Files.app.
 - Share menu now packs notes into a .zip archive.
 - You can easily disable iCloud Drive in settings (not recommended).
 - Three minuses in the editor to add the hr tag to the preview
 - Added empty cart menu.
 - Added the ability to select the naming format for new notes (as in the macOS version of the program).
+- Configurable sidebar items
 
-And also much more.
+And also much more :-)
