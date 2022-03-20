@@ -1465,10 +1465,10 @@ public class Note: NSObject  {
                     tripleMinus += 1
                 }
 
-                let res = string.matchingStrings(regex: "(?:title: [\"\'”“])([^\\n]*)(?:[\"\'”“])")
+                let res = string.matchingStrings(regex: "^title: ([\"\'”“]?)([^\n]+)\\1$")
 
                 if res.count > 0 {
-                    title = res[0][1].trim()
+                    title = res[0][2].trim()
                     firstLineAsTitle = true
                 }
 
