@@ -110,7 +110,6 @@ extension NSTextStorage: NSTextStorageDelegate {
 
                 textStorage.removeAttribute(.backgroundColor, range: NSRange(location: fencedRange.upperBound, length: 1))
             }
-
         } else if UserDefaultsManagement.indentedCodeBlockHighlighting,
             let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
             let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {

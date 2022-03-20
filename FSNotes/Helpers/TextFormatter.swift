@@ -1196,11 +1196,7 @@ public class TextFormatter {
         if note.isMarkdown() {
             setTypingAttributes(font: UserDefaultsManagement.noteFont)
         }
-        
-        if self.shouldScanMarkdown, let paragraphRange = getParagraphRange() {
-            NotesTextProcessor.highlightMarkdown(attributedString: storage, paragraphRange: paragraphRange, note: note)
-        }
-        
+
         if note.isMarkdown() || note.type == .RichText {
             var text: NSAttributedString?
             
@@ -1564,6 +1560,8 @@ public class TextFormatter {
                     continue
                 } else if char == "-" {
                     return !numbers
+                } else {
+                    return false
                 }
             }
         }
