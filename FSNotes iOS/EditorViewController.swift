@@ -355,12 +355,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             formatter.newLine()
 
             return false
-        } else {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.alignment = .left
-            paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-            editArea.typingAttributes[.paragraphStyle] = paragraphStyle
-            editArea.typingAttributes.removeValue(forKey: .link)
         }
 
         // Tab
@@ -796,6 +790,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let keyboardHeight = keyboardFrame.height
 
         DispatchQueue.main.asyncAfter(deadline: .now()) {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .left
+            paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+            self.editArea.typingAttributes[.paragraphStyle] = paragraphStyle
+            self.editArea.typingAttributes.removeValue(forKey: .link)
+
             let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight - 25, right: 0.0)
             self.editArea.contentInset = contentInsets
             self.editArea.scrollIndicatorInsets = contentInsets

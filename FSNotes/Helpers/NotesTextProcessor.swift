@@ -1048,6 +1048,8 @@ public class NotesTextProcessor {
             }
 
             styleApplier.addAttribute(.font, value: codeFont, range: range)
+            styleApplier.fixAttributes(in: range)
+
             styleApplier.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: range)
 
             NotesTextProcessor.codeSpanOpeningRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in

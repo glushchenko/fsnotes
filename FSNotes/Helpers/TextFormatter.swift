@@ -450,6 +450,11 @@ public class TextFormatter {
             textView.textStorage?.removeAttribute(.todo, range: pRange)
         #else
             textView.textStorage.removeAttribute(.todo, range: pRange)
+
+            // Fixes font size issue #1271
+            let parFont = NotesTextProcessor.font
+            let parRange = NSRange(location: 0, length:   mutableResult.length)
+            mutableResult.addAttribute(.font, value: parFont, range: parRange)
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
@@ -1324,16 +1329,19 @@ public class TextFormatter {
         if let attributedString = string as? NSAttributedString {
             replaceString = attributedString.string
         }
-    
+
         if let plainString = string as? String {
             replaceString = plainString
         }
-    
+
         self.textView.undoManager?.beginUndoGrouping()
         self.textView.replace(selectedRange, withText: replaceString)
 
         if let string = string as? NSAttributedString {
-            storage.replaceCharacters(in: NSRange(location: range.location, length: replaceString.count), with: string)
+            let editedRange = NSRange(location: range.location, length: replaceString.count)
+            storage.replaceCharacters(in: editedRange, with: string)
+
+            storage.textStorage(storage, didProcessEditing: .editedCharacters, range: editedRange, changeInLength: 1)
         }
 
         let parRange = NSRange(location: range.location, length: replaceString.count)
