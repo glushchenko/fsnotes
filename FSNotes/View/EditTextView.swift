@@ -627,6 +627,35 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
     }
 
+    override func readSelection(from pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
+        guard let note = EditTextView.note else { return false }
+
+        if var data = pboard.data(forType: type) {
+            var ext = "pdf"
+
+            if !data.isPDF {
+                ext = "jpg"
+                let image = NSImage(data: data)
+                if let imageData = image?.jpgData {
+                    data = imageData
+                }
+            }
+
+            EditTextView.shouldForceRescan = true
+            saveClipboard(data: data, note: note, ext: ext)
+            saveTextStorageContent(to: note)
+            note.save()
+
+            if let container = textContainer {
+                textStorage?.sizeAttachmentImages(container: container)
+            }
+
+            return true
+        }
+
+        return false
+    }
+
     override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
 
         guard let storage = textStorage else { return false }
