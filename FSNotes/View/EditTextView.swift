@@ -780,7 +780,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
         }
 
-        NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL)
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
             let attributed = NSMutableAttributedString(string: clipboard)
             attributed.loadCheckboxes()
@@ -802,6 +801,48 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         super.paste(sender)
+    }
+
+    override func pasteAsPlainText(_ sender: Any?) {
+        guard let note = EditTextView.note else { return }
+
+        guard note.isMarkdown() else {
+            super.pasteAsPlainText(sender)
+            return
+        }
+
+        let currentRange = selectedRange()
+        var plainText: String?
+
+        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.attributedTextType) {
+            let options = [
+                NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
+            ] as [NSAttributedString.DocumentReadingOptionKey : Any]
+
+            let attributedString = try? NSMutableAttributedString(data: rtfd, options: options, documentAttributes: nil)
+            attributedString?.loadCheckboxes()
+
+            if let attributedString = attributedString {
+                plainText = attributedString.unLoad().string
+            }
+        } else if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
+            plainText = clipboard
+        } else if let url = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) {
+            plainText = url
+        }
+
+        if let plainText = plainText {
+            EditTextView.shouldForceRescan = true
+
+            self.breakUndoCoalescing()
+            self.insertText(plainText, replacementRange: currentRange)
+            self.breakUndoCoalescing()
+
+            saveTextStorageContent(to: note)
+            return
+        }
+
+        return paste(sender)
     }
 
     override func cut(_ sender: Any?) {
