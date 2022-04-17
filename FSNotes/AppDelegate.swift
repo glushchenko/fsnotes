@@ -237,8 +237,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc func clickStatusBarItem(sender: NSStatusItem) {
         let event = NSApp.currentEvent!
 
-        if event.type == NSEvent.EventType.leftMouseUp{
+        if event.type == NSEvent.EventType.leftMouseUp {
             NSApp.activate(ignoringOtherApps: true)
+            return
         }
 
         attachMenu()
