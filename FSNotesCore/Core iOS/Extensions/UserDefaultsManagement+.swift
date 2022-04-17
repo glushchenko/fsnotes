@@ -106,7 +106,7 @@ extension UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.editorSuggestions) as? Bool {
                 return result
             }
-            return false
+            return true
         }
         set {
             shared?.set(newValue, forKey: Constants.editorSuggestions)

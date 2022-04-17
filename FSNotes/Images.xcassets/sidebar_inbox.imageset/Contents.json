@@ -1,55 +1,56 @@
 {
   "images" : [
     {
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-76.png",
       "idiom" : "universal",
-      "filename" : "inbox.png",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
-      "filename" : "inbox_white.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
           "value" : "dark"
         }
       ],
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-77.png",
+      "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-76@2x.png",
       "idiom" : "universal",
-      "filename" : "inbox-1.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "universal",
-      "filename" : "inbox_white-1.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
           "value" : "dark"
         }
       ],
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-76@2x-1.png",
+      "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-83.5@2x.png",
       "idiom" : "universal",
-      "filename" : "inbox-2.png",
       "scale" : "3x"
     },
     {
-      "idiom" : "universal",
-      "scale" : "3x",
       "appearances" : [
         {
           "appearance" : "luminosity",
           "value" : "dark"
         }
-      ]
+      ],
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-83.5@2x-1.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "price-tag-32.png",
+      "filename" : "1172268_tag_tags_icon-76.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "price-tag-33.png",
+      "filename" : "1172268_tag_tags_icon-77.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "price-tag-64.png",
+      "filename" : "1172268_tag_tags_icon-76@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "price-tag-65.png",
+      "filename" : "1172268_tag_tags_icon-76@2x-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "price-tag-128.png",
+      "filename" : "1172268_tag_tags_icon-83.5@2x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "price-tag-129.png",
+      "filename" : "1172268_tag_tags_icon-83.5@2x-1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

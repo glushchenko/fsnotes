@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "todo.png",
+      "filename" : "t2-76.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "todo-1.png",
+      "filename" : "t2-76@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "todo-2.png",
+      "filename" : "t2-83.5@2x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
