@@ -239,6 +239,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         if event.type == NSEvent.EventType.leftMouseUp {
             NSApp.activate(ignoringOtherApps: true)
+            
+            mainWindowController?.window?.makeKeyAndOrderFront(nil)
+            mainWindowController?.window?.resignKey()
+        
+            ViewController.shared()?.search.becomeFirstResponder()
+            
             return
         }
 

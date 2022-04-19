@@ -1209,7 +1209,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: "sidebarVisibilityInbox") as? Bool {
                 return result
             }
-            return false
+            return true
         }
         set {
             shared?.set(newValue, forKey: "sidebarVisibilityInbox")
