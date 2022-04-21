@@ -601,4 +601,21 @@ public class Project: Equatable {
 
         return url.appendingPathComponent(getMd5CheckSum())
     }
+    
+    public func getNotes() -> [Note] {
+        return storage.noteList.filter({ $0.project == self })
+    }
+    
+    public func countNotes(contains image: URL) -> Int {
+        let notes = getNotes()
+        var qty = 0
+        for note in notes {
+            if let images = note.imageUrl {
+                if images.contains(where: { $0.path == image.path }) {
+                    qty += 1
+                }
+            }
+        }
+        return qty
+    }
 }

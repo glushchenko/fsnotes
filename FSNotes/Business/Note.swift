@@ -554,7 +554,9 @@ public class Note: NSObject  {
                 let imagePath = project.url.appendingPathComponent(imageMeta.path).path
                 project.storage.hideImages(directory: imagePath, srcPath: imagePath)
 
-                move(from: imageMeta.url, imagePath: imageMeta.path, to: project)
+                // Copy if image used more then one time on project
+                let copy = self.project.countNotes(contains: imageMeta.url) > 0
+                move(from: imageMeta.url, imagePath: imageMeta.path, to: project, copy: copy)
             }
 
             if imagesMeta.count > 0 {
