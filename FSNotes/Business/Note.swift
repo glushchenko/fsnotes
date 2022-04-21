@@ -503,7 +503,7 @@ public class Note: NSObject  {
 
     public func move(from imageURL: URL, imagePath: String, to project: Project, copy: Bool = false) {
         let dstPrefix = getAttachPrefix(url: imageURL)
-        let dest = project.url.appendingPathComponent(dstPrefix)
+        let dest = project.url.appendingPathComponent(dstPrefix, isDirectory: true)
 
         if !FileManager.default.fileExists(atPath: dest.path) {
             try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
@@ -521,7 +521,6 @@ public class Note: NSObject  {
             }
         } catch {
             if let fileName = ImagesProcessor.getFileName(from: imageURL, to: dest, ext: imageURL.pathExtension) {
-
                 let dest = dest.appendingPathComponent(fileName)
 
                 if copy {
@@ -532,6 +531,8 @@ public class Note: NSObject  {
 
                 let prefix = "]("
                 let postfix = ")"
+                
+                let imagePath = imagePath.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? imagePath
 
                 let find = prefix + imagePath + postfix
                 let replace = prefix + dstPrefix + fileName + postfix
