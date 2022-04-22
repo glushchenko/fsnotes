@@ -1358,7 +1358,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        EditTextView.note?.resetAttributesCache()
+        guard let note = EditTextView.note else {
+            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+        }
+        
+        note.resetAttributesCache()
         
         if let par = getParagraphRange(),
             let text = textStorage?.mutableString.substring(with: par), text.contains("[["), text.contains("]]") {
@@ -1416,20 +1420,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                     }
                 }
             }
-
-            if let note = EditTextView.note,
-               let vc = ViewController.shared(),
-               !vc.tagsScannerQueue.contains(note) {
-                vc.tagsScannerQueue.append(note)
-            }
-
-            tagsTimer?.invalidate()
-            tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
+        }
+        
+        if let vc = ViewController.shared(),
+           !vc.tagsScannerQueue.contains(note) {
+            vc.tagsScannerQueue.append(note)
         }
 
-        guard let note = EditTextView.note else {
-            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
-        }
+        tagsTimer?.invalidate()
+        tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
 
         if replacementString == "", let storage = textStorage {
             let lastChar = storage.attributedSubstring(from: affectedCharRange).string
