@@ -2005,7 +2005,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         // Scroll to [TestJump](#TestJump) link
         if let link = link as? String, link.startsWith(string: "#") {
-            let title = String(link.dropFirst())
+            let title = String(link.dropFirst()).replacingOccurrences(of: "-", with: " ")
 
             if let index = textStorage?.string.range(of: "# " + title) {
                 if let range = textStorage?.string.nsRange(from: index) {

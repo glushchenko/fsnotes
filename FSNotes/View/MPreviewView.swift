@@ -276,6 +276,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                     self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
                 }
             }
+            
+            let textQuery = anchor.replacingOccurrences(of: "-", with: " ")
+            evaluateJavaScript("getElementsByTextContent('\(textQuery)').offsetTop") { [weak self] (result, error) in
+                if let offset = result as? CGFloat {
+                    self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
+                }
+            }
 
             return true
         }

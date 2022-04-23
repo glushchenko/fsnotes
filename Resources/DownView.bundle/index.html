@@ -71,6 +71,16 @@
                 darkModeStyleElement.parentElement.removeChild(darkModeStyleElement);
             }
         }
+        
+        function getElementsByTextContent(elText) {
+            var allSpans = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+            for (var i = 0; i < allSpans.length; i++) {
+                var spanText = allSpans[i].innerHTML;
+                if(spanText == elText ){
+                    return allSpans[i];
+                }
+            }
+        }
 
         if ('CUSTOM_CSS' == 'darkmode') {
             let background = '#2a2b2e';
