@@ -794,6 +794,7 @@ public class NotesTextProcessor {
             _range.length = _range.length - 4
             
             let appLink = attributedString.mutableString.substring(with: _range)
+            guard !appLink.startsWith(string: "`") else { return }
 
             if let link = appLink.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
 
@@ -1368,7 +1369,7 @@ public class NotesTextProcessor {
     
     // MARK: App url
     
-    fileprivate static let appUrlPattern = "(\\[\\[)(.+?[\\[\\]]*)(\\]\\])"
+    fileprivate static let appUrlPattern = "([^`]\\[\\[)(.+?[\\[\\]]*)(\\]\\])"
 
     public static let appUrlRegex = MarklightRegex(pattern: appUrlPattern, options: [.anchorsMatchLines])
     
