@@ -117,7 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         guard let mainWC = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController else {
-            fatalError("Error getting main window controller")
+            return
         }
 
         if let x = mainWC.window?.frame.origin.x, let y = mainWC.window?.frame.origin.y {
