@@ -1,8 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "new_note_4.png",
-      "idiom" : "universal",
+      "filename" : "new_note-76.png",
+      "idiom" : "mac",
       "scale" : "1x"
     },
     {
@@ -12,13 +12,13 @@
           "value" : "dark"
         }
       ],
-      "filename" : "new_note_4-3.png",
-      "idiom" : "universal",
+      "filename" : "new_note-77.png",
+      "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "new_note_4-1.png",
-      "idiom" : "universal",
+      "filename" : "new_note-76@2x.png",
+      "idiom" : "mac",
       "scale" : "2x"
     },
     {
@@ -28,25 +28,9 @@
           "value" : "dark"
         }
       ],
-      "filename" : "new_note_4-4.png",
-      "idiom" : "universal",
+      "filename" : "new_note-76@2x-1.png",
+      "idiom" : "mac",
       "scale" : "2x"
-    },
-    {
-      "filename" : "new_note_4-2.png",
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "new_note_4-5.png",
-      "idiom" : "universal",
-      "scale" : "3x"
     }
   ],
   "info" : {

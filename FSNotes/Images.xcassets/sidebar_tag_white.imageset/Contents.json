@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "tag_white-32.png",
+      "filename" : "tag-76.png",
       "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "tag_white-64.png",
+      "filename" : "tag-76@2x.png",
       "idiom" : "mac",
       "scale" : "2x"
     }

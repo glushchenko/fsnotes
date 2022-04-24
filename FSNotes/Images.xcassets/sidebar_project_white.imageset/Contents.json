@@ -1,19 +1,14 @@
 {
   "images" : [
     {
-      "filename" : "project-32.png",
-      "idiom" : "universal",
+      "filename" : "folder-76.png",
+      "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "project-64.png",
-      "idiom" : "universal",
+      "filename" : "folder-76@2x.png",
+      "idiom" : "mac",
       "scale" : "2x"
-    },
-    {
-      "filename" : "project-128.png",
-      "idiom" : "universal",
-      "scale" : "3x"
     }
   ],
   "info" : {
