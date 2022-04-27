@@ -1369,7 +1369,7 @@ public class NotesTextProcessor {
     
     // MARK: App url
     
-    fileprivate static let appUrlPattern = "([^`]\\[\\[)(.+?[\\[\\]]*)(\\]\\])"
+    fileprivate static let appUrlPattern = "(\\[\\[)(.+?[\\[\\]]*)(\\]\\])"
 
     public static let appUrlRegex = MarklightRegex(pattern: appUrlPattern, options: [.anchorsMatchLines])
     
