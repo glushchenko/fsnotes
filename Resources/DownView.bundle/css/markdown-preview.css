@@ -625,6 +625,10 @@ ul li p {
     text-decoration: line-through;
 }
 
+.cb li {
+    margin: 5px 0 5px 3px;
+}
+
 canvas {
     display: block;
     margin: 0 auto;
