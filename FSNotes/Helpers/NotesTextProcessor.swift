@@ -616,7 +616,10 @@ public class NotesTextProcessor {
                 range = NSRange(location: range.location, length: range.length - 1)
                 substring = String(substring.dropLast())
             }
-
+            
+            if substring.startsWith(string: "(") && substring.last == ")" {
+                range = NSRange(location: range.location + 1, length: range.length - 2)
+            }
 
             substring = String(substring).idnaEncodeURL()
             
