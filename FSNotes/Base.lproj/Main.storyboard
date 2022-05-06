@@ -1884,7 +1884,7 @@ CA
                                                         <rect key="frame" x="0.0" y="562" width="462" height="38"/>
                                                         <subviews>
                                                             <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
-                                                                <rect key="frame" x="85" y="11" width="292" height="16"/>
+                                                                <rect key="frame" x="214" y="11" width="35" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                                     <font key="font" metaFont="system"/>
                                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -1968,10 +1968,11 @@ CA
                                                             </customView>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" secondItem="xSU-Mk-2F1" secondAttribute="leading" constant="85" id="1I0-Qm-T21"/>
+                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xSU-Mk-2F1" secondAttribute="leading" constant="85" id="1I0-Qm-T21"/>
                                                             <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerY" secondItem="xSU-Mk-2F1" secondAttribute="centerY" id="3lf-bf-dJA"/>
+                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerX" secondItem="xSU-Mk-2F1" secondAttribute="centerX" id="L0y-rf-Cem"/>
                                                             <constraint firstAttribute="trailing" secondItem="Ua8-RE-q01" secondAttribute="trailing" id="Uos-hm-kn6"/>
-                                                            <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" constant="85" id="ZjM-uT-4wC"/>
+                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rZx-hk-GcJ" secondAttribute="trailing" constant="85" id="ZjM-uT-4wC"/>
                                                             <constraint firstItem="Ua8-RE-q01" firstAttribute="top" secondItem="xSU-Mk-2F1" secondAttribute="top" id="esv-qQ-apf"/>
                                                             <constraint firstAttribute="bottom" secondItem="Ua8-RE-q01" secondAttribute="bottom" id="nac-xp-D3Y"/>
                                                             <constraint firstAttribute="height" constant="38" id="uht-o4-cfz"/>
