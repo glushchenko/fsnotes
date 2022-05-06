@@ -301,6 +301,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString)
 
         if let i = indexURL {
+            if getppid() != 1 {
+                print("Web view loaded from: \(i)")
+            }
+            
             let accessURL = i.deletingLastPathComponent()
             loadFileURL(i, allowingReadAccessTo: accessURL)
         }
@@ -515,7 +519,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         // Line height compute
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
 
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight)px; } img {display: block; margin: 0 auto;} p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)"
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; } img {display: block; margin: 0 auto;} p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)"
     }
 
     public func clean() {
