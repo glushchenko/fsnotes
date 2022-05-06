@@ -99,7 +99,7 @@ extension NSMutableAttributedString {
     public func loadUnderlines() {
         self.enumerateAttribute(.underlineStyle, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
             if value != nil {
-                self.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+                self.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
             }
         }
     }

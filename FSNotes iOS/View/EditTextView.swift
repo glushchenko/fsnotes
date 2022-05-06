@@ -11,22 +11,18 @@ import MobileCoreServices
 
 class EditTextView: UITextView, UITextViewDelegate {
 
-    public var isAllowedScrollRect = true
-    public var lastContentOffset: CGPoint?
-
+    public var isAllowedScrollRect: Bool?
     private var undoIcon = UIImage(named: "undo.png")
     private var redoIcon = UIImage(named: "redo.png")
-
     public var typingFont: UIFont?
-
     public static var note: Note?
     public static var isBusyProcessing: Bool = false
     public static var shouldForceRescan: Bool = false
     public static var lastRemoved: String?
-
     public var lasTouchPoint: CGPoint?
-
     public static var imagesLoaderQueue = OperationQueue.init()
+    public var keyboardIsOpened = true
+    public var callCounter = 0
 
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
@@ -48,22 +44,84 @@ class EditTextView: UITextView, UITextViewDelegate {
         spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
     }
 
-    override func caretRect(for position: UITextPosition) -> CGRect {
-        var superRect = super.caretRect(for: position)
-        guard let font = self.font else { return superRect }
+    override func selectionRects(for range: UITextRange) -> [UITextSelectionRect] {
+        let selectionRects = super.selectionRects(for: range)
 
-        // "descender" is expressed as a negative value,
-        // so to add its height you must subtract its value
-        superRect.size.height = font.pointSize - font.descender
-        return superRect
+        let fontHeight = UserDefaultsManagement.noteFont.lineHeight
+        let lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        let endCharacterIndex = offset(from: beginningOfDocument, to: range.end)
+        let endParRange = textStorage.mutableString.paragraphRange(for: NSRange(location: endCharacterIndex, length: 0))
+
+        var lastWideRect: UITextSelectionRect?
+        if selectionRects.count > 2 {
+            lastWideRect = selectionRects[selectionRects.count - 3]
+        }
+
+        var result = [UITextSelectionRect]()
+        for selectionRect in selectionRects {
+            if selectionRect.rect.width == 0 {
+                let customRect = CGRect(x: selectionRect.rect.origin.x, y: selectionRect.rect.origin.y - lineSpacing / 2, width: 0, height: fontHeight + lineSpacing)
+                let sel = EditorSelectionRect(originalRect: selectionRect, rect: customRect)
+                result.append(sel)
+            } else {
+                var heightOffset = CGFloat(0)
+
+                if endParRange.upperBound == textStorage.length && lastWideRect == selectionRect {
+                    heightOffset += lineSpacing
+                }
+
+                let customRect = CGRect(x: selectionRect.rect.origin.x, y: selectionRect.rect.origin.y - lineSpacing / 2, width: selectionRect.rect.width, height: selectionRect.rect.height + heightOffset)
+
+                let selectionRect = EditorSelectionRect(originalRect: selectionRect, rect: customRect)
+                result.append(selectionRect)
+            }
+        }
+
+        return result
+    }
+
+    override func caretRect(for position: UITextPosition) -> CGRect {
+        let characterIndex = offset(from: beginningOfDocument, to: position)
+
+        guard layoutManager.isValidGlyphIndex(characterIndex) else {
+            return super.caretRect(for: position)
+        }
+
+        let glyphIndex = layoutManager.glyphIndexForCharacter(at: characterIndex)
+        let usedLineFragment = layoutManager.lineFragmentUsedRect(forGlyphAt: glyphIndex, effectiveRange: nil)
+
+        guard !usedLineFragment.isEmpty else {
+            return super.caretRect(for: position)
+        }
+
+        var caretRect = super.caretRect(for: position)
+        caretRect.origin.y = usedLineFragment.origin.y + textContainerInset.top
+        caretRect.size.height = usedLineFragment.size.height - CGFloat(UserDefaultsManagement.editorLineSpacing) / 2
+
+        return caretRect
     }
 
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
-        if self.isAllowedScrollRect {
+        guard isAllowedScrollRect == true else { return }
+
+        callCounter += 1
+
+        if keyboardIsOpened {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.8, delay: 0, options: .beginFromCurrentState, animations: {
+                    super.scrollRectToVisible(rect, animated: false)
+                })
+            }
+
+            if callCounter > 2 {
+                keyboardIsOpened = false
+                callCounter = 0
+            }
+        } else {
             super.scrollRectToVisible(rect, animated: animated)
         }
     }
-    
+
     override func cut(_ sender: Any?) {
         guard let note = EditTextView.note else {
             super.cut(sender)
@@ -124,6 +182,7 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
 
         note.invalidateCache()
+        EditTextView.shouldForceRescan = true
 
         for item in UIPasteboard.general.items {
             if let rtfd = item["es.fsnot.attributed.text"] as? Data {
@@ -133,6 +192,7 @@ class EditTextView: UITextView, UITextViewDelegate {
                     attributedString.loadCheckboxes()
                     
                     let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
+                    attributedString.removeAttribute(.backgroundColor, range: NSRange(0..<attributedString.length))
 
                     if let selTextRange = selectedTextRange, let undoManager = undoManager {
                         undoManager.beginUndoGrouping()
@@ -142,8 +202,6 @@ class EditTextView: UITextView, UITextViewDelegate {
                     }
 
                     self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: 0, length: self.textStorage.length))
-
-                    NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: newRange, note: note)
 
                     note.save(attributed: attributedText)
 
@@ -223,13 +281,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
     
     public func initUndoRedoButons() {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController,
-            let ea = evc.editArea,
-            let um = ea.undoManager else {
-                return
-        }
+        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
         
         let img = um.canUndo ? undoIcon : undoIcon?.alpha(0.5)
         let redoImg = um.canRedo ? redoIcon : redoIcon?.alpha(0.5)
@@ -266,7 +318,6 @@ class EditTextView: UITextView, UITextViewDelegate {
                     undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
 
                     initUndoRedoButons()
-                    applyLeftParagraphStyle()
                     return
                 }
             }

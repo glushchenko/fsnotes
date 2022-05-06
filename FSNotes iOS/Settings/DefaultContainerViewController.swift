@@ -13,10 +13,6 @@ class DefaultContainerViewController: UITableViewController {
     private var containers = ["none", "textbundle"]
 
     override func viewDidLoad() {
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         super.viewDidLoad()

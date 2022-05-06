@@ -6,6 +6,18 @@
     <meta name="viewport" content="initial-scale=1.0" />
     <link charset="utf-8" href="css/markdown-preview.css" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('SourceCodePro-Regular.ttf')
+            format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Source Code Pro';
+            src: url('SourceCodePro-Bold.ttf');
+            font-weight: bold;
+        }
+
         DOWN_CSS
     </style>
     <style>
@@ -15,7 +27,7 @@
     </style>
 </head>
 
-<body>
+<body class="CUSTOM_CSS T_PLATFORM">
 
     DOWN_HTML
 
@@ -48,7 +60,7 @@
         function switchToDarkMode(background) {
             var darkModeStyleElement = document.getElementById(darkModeStylesNodeID);
             if (darkModeStyleElement == null) {
-                var darkModeStyles = "* { color: white; } body { background: " + background + "; } code { background: #454545; } .hljs { background: #454545 } a { color: #98e7a7 } table { border-color: red } table td, table th { background: #908D8D; border-color: black; } table td, table th, table td *, table th * { color: black } input[type='checkbox'] { border: 1px solid white; }";
+                var darkModeStyles = "* { color: white; } body { background: " + background + "; } code { background: #454545; } .hljs { background: #454545 } a { color: #98e7a7 } table { border-color: red } table td, table th { background: #908D8D; border-color: black; } table td, table th, table td *, table th * { color: black }";
                 addStyleString(darkModeStyles, darkModeStylesNodeID);
             }
         }
@@ -57,6 +69,16 @@
             var darkModeStyleElement = document.getElementById(darkModeStylesNodeID);
             if (darkModeStyleElement != null) {
                 darkModeStyleElement.parentElement.removeChild(darkModeStyleElement);
+            }
+        }
+        
+        function getElementsByTextContent(elText) {
+            var allSpans = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+            for (var i = 0; i < allSpans.length; i++) {
+                var spanText = allSpans[i].innerHTML;
+                if(spanText == elText ){
+                    return allSpans[i];
+                }
             }
         }
 

@@ -17,7 +17,7 @@ class ProjectSettingsViewController: UITableViewController {
         NSLocalizedString("Visibility", comment: ""),
         NSLocalizedString("Notes list", comment: "")
     ]
-    private var rowsInSections = [3, 2, 1]
+    private var rowsInSections = [4, 2, 1]
 
     init(project: Project, dismiss: Bool = false) {
         self.project = project
@@ -31,10 +31,9 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
+        initNavigationBackground()
 
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
 
         if dismiss {
             self.navigationItem.rightBarButtonItem = Buttons.getDone(target: self, selector: #selector(close))
@@ -44,16 +43,7 @@ class ProjectSettingsViewController: UITableViewController {
 
         self.title = NSLocalizedString("Project", comment: "Settings") + " \"\(project.getFullLabel())\""
 
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            navigationController?.navigationBar.standardAppearance = appearance
 
-            updateNavigationBarBackground()
-        }
-
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
-        
         super.viewDidLoad()
     }
 
@@ -113,13 +103,20 @@ class ProjectSettingsViewController: UITableViewController {
         if indexPath.section == 0x00 {
             switch indexPath.row {
             case 0:
+                cell = UITableViewCell(style: .default, reuseIdentifier: "none")
+                cell.textLabel?.text = NSLocalizedString("None", comment: "")
+                if project.sortBy.rawValue == "none" {
+                    cell.accessoryType = .checkmark
+                }
+                break
+            case 1:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "modificationDate")
                 cell.textLabel?.text = NSLocalizedString("Modification date", comment: "")
                 if project.sortBy.rawValue == "modificationDate" {
                     cell.accessoryType = .checkmark
                 }
                 break
-            case 1:
+            case 2:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "creationDate")
                 cell.textLabel?.text = NSLocalizedString("Creation date", comment: "")
 
@@ -127,7 +124,7 @@ class ProjectSettingsViewController: UITableViewController {
                     cell.accessoryType = .checkmark
                 }
                 break
-            case 2:
+            case 3:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "title")
                 cell.textLabel?.text = NSLocalizedString("Title", comment: "")
 

@@ -22,7 +22,7 @@ extension ViewController {
         var css = try! String(contentsOf: cssURL)
         let markdownString = note.getPrettifiedContent()
 
-        css += MPreviewView.getPreviewStyle(theme: "atom-one-light", fullScreen: true, useFixedImageHeight: false) + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
+        css += MPreviewView.getPreviewStyle(theme: "github", fullScreen: true, useFixedImageHeight: false) + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
 
         var template = try! NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
@@ -81,7 +81,7 @@ extension ViewController {
     public func assignBase64Images(note: Note, html: String) -> String {
         var html = html
 
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: note.content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<note.content.length), using:
+        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: note.content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<note.content.length), using:
                 {(result, flags, stop) -> Void in
 
             guard let range = result?.range(at: 3), note.content.length >= range.location else { return }

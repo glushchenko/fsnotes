@@ -1,19 +1,14 @@
 {
   "images" : [
     {
-      "filename" : "price-tag-32.png",
-      "idiom" : "universal",
+      "filename" : "Untagged-76.png",
+      "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "price-tag-64.png",
-      "idiom" : "universal",
+      "filename" : "Untagged-76@2x.png",
+      "idiom" : "mac",
       "scale" : "2x"
-    },
-    {
-      "filename" : "price-tag-128.png",
-      "idiom" : "universal",
-      "scale" : "3x"
     }
   ],
   "info" : {

@@ -15,7 +15,9 @@ class FontViewController: UITableViewController {
         "Avenir Next",
         "Georgia",
         "Helvetica Neue",
-        "Menlo"
+        "Menlo",
+        "Courier",
+        "Palatino"
     ]
     
     override func viewDidLoad() {
@@ -24,10 +26,6 @@ class FontViewController: UITableViewController {
         navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         
         title = NSLocalizedString("Font Family", comment: "Settings")
-        
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         
         super.viewDidLoad()
     }
@@ -54,7 +52,7 @@ class FontViewController: UITableViewController {
             let fontSize = UserDefaultsManagement.fontSize
 
             if indexPath.row == 0 {
-                UserDefaultsManagement.noteFont = nil
+                UserDefaultsManagement.fontName = nil
             } else if let customFont = UIFont(name: fontFamily, size: CGFloat(fontSize)) {
                 UserDefaultsManagement.noteFont = customFont
             }

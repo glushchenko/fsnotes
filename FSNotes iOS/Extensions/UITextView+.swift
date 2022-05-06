@@ -27,15 +27,6 @@ extension UITextView {
         return text.distance(from: text.startIndex, to: cursorIndex)
     }
     
-    public func applyLeftParagraphStyle() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        paragraphStyle.alignment = .left
-
-        self.typingAttributes[.paragraphStyle] = paragraphStyle
-        self.textStorage.updateParagraphStyle()
-    }
-
     public func getTextRange() -> UITextRange? {
         if let start = position(from: self.beginningOfDocument, offset: self.selectedRange.location),
         let end = position(from: start, offset: self.selectedRange.length),

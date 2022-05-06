@@ -25,9 +25,6 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     override func viewDidLoad() {
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
@@ -37,11 +34,11 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         var buttons = [UIBarButtonItem]()
         buttons.append(addProject)
 
-        if #available(iOS 13.0, *) {
-            let external = Buttons.getAttach(target: self, selector: #selector(attachExternal))
-
-            buttons.append(external)
-        }
+//        if #available(iOS 13.0, *) {
+//            let external = Buttons.getAttach(target: self, selector: #selector(attachExternal))
+//
+//            buttons.append(external)
+//        }
 
         self.navigationItem.rightBarButtonItems = buttons
 
@@ -157,9 +154,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             storage.assignTree(for: project)
             self.tableView.reloadData()
 
-            if let mvc = self.getMainVC() {
-                mvc.sidebarTableView.insertRows(projects: [project])
-            }
+            UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
@@ -178,14 +173,6 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         documentPicker.delegate = self
         present(documentPicker, animated: true, completion: nil)
-    }
-
-    public func getMainVC() -> ViewController? {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return nil }
-
-        return vc
     }
 
     private func delete(project: Project) {
@@ -221,10 +208,9 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         self.tableView.reloadData()
         Storage.sharedInstance().removeBy(project: project)
 
-        if let vc = self.getMainVC() {
-            vc.reloadNotesTable() {
-                vc.sidebarTableView.removeRows(projects: [project])
-            }
+        let vc = UIApplication.getVC()
+        vc.reloadNotesTable() {
+            vc.sidebarTableView.removeRows(projects: [project])
         }
     }
 

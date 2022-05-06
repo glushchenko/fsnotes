@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "archive_white-32.png",
+      "filename" : "Archive-76.png",
       "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "archive_white-64.png",
+      "filename" : "Archive-76@2x.png",
       "idiom" : "mac",
       "scale" : "2x"
     }

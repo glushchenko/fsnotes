@@ -36,12 +36,11 @@ public class Project: Equatable {
 
     #if os(iOS)
     public var firstLineAsTitle: Bool = true
-    public var sortBy: SortBy = .modificationDate
     #else
     public var firstLineAsTitle: Bool = false
-    public var sortBy: SortBy = .none
     #endif
 
+    public var sortBy: SortBy = .none
     public var metaCache = [NoteMeta]()
     
     // all notes loaded with cache diff comparsion
@@ -266,7 +265,17 @@ public class Project: Equatable {
     
     func fileExist(fileName: String, ext: String) -> Bool {        
         let fileURL = url.appendingPathComponent(fileName + "." + ext)
-        
+
+        return FileManager.default.fileExists(atPath: fileURL.path)
+    }
+
+    func fileExistCaseInsensitive(fileName: String, ext: String) -> Bool {
+        let fileURL = url.appendingPathComponent(fileName + "." + ext)
+
+        if let note = storage.getBy(url: fileURL) {
+            return FileManager.default.fileExists(atPath: note.url.path)
+        }
+
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
 
@@ -454,6 +463,10 @@ public class Project: Equatable {
         return nil
     }
 
+    public func getMd5CheckSum() -> String {
+        return url.path.md5
+    }
+
     public func getGitPath() -> String? {
         if isArchive || parent == nil {
             return nil
@@ -581,5 +594,28 @@ public class Project: Equatable {
         }
 
         return projects
+    }
+
+    public func getHistoryURL() -> URL? {
+        let url = storage.getRevisionsHistory()
+
+        return url.appendingPathComponent(getMd5CheckSum())
+    }
+    
+    public func getNotes() -> [Note] {
+        return storage.noteList.filter({ $0.project == self })
+    }
+    
+    public func countNotes(contains image: URL) -> Int {
+        let notes = getNotes()
+        var qty = 0
+        for note in notes {
+            if let images = note.imageUrl {
+                if images.contains(where: { $0.path == image.path }) {
+                    qty += 1
+                }
+            }
+        }
+        return qty
     }
 }

@@ -1,8 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "price-tag-32.png",
-      "idiom" : "universal",
+      "filename" : "Untagged-76.png",
+      "idiom" : "mac",
       "scale" : "1x"
     },
     {
@@ -12,13 +12,13 @@
           "value" : "dark"
         }
       ],
-      "filename" : "price-tag-33.png",
-      "idiom" : "universal",
+      "filename" : "Untagged-77.png",
+      "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "price-tag-64.png",
-      "idiom" : "universal",
+      "filename" : "Untagged-76@2x.png",
+      "idiom" : "mac",
       "scale" : "2x"
     },
     {
@@ -28,25 +28,9 @@
           "value" : "dark"
         }
       ],
-      "filename" : "price-tag-65.png",
-      "idiom" : "universal",
+      "filename" : "Untagged-76@2x-1.png",
+      "idiom" : "mac",
       "scale" : "2x"
-    },
-    {
-      "filename" : "price-tag-128.png",
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "price-tag-129.png",
-      "idiom" : "universal",
-      "scale" : "3x"
     }
   ],
   "info" : {

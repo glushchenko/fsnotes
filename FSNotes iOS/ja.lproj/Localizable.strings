@@ -1,0 +1,375 @@
+/* Settings */
+"+" = "+";
+
+/* Settings */
+"Add External Folder" = "外部フォルダを追加";
+
+/* Archive in sidebar */
+"Archive" = "アーカイブ";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "このノートの全バージョンを削除しますか？";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "すべてのノートの履歴を削除しますか？";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "この画像を削除しますか？";
+
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "スクリーンの明るさから自動選択";
+
+/* Naming controller */
+"Auto rename by title" = "タイトルをファイル名に自動反映";
+
+/* Settings */
+"Auto Rename By Title" = "タイトルをファイル名に自動反映";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "自動バージョニング";
+
+/* Settings */
+"Autocorrection" = "自動訂正";
+
+/* No comment provided by engineer. */
+"Brightness level" = "明度";
+
+/* Settings */
+"build" = "ビルド";
+
+/* No comment provided by engineer. */
+"Cancel" = "キャンセル";
+
+/* No comment provided by engineer. */
+"Code" = "コード";
+
+/* Settings */
+"Code block live highlighting" = "コードブロックの色付け";
+
+/* Settings */
+"Code Theme" = "コードテーマ";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtfと互換性があります";
+
+/* Settings */
+"Container" = "コンテナ";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "プレインテキストとしてコピー";
+
+/* Main view popover table */
+"Create folder" = "新規フォルダ";
+
+/* No comment provided by engineer. */
+"Create folder:" = "新規フォルダ:";
+
+/* No comment provided by engineer. */
+"Creation date" = "作成日";
+
+/* No comment provided by engineer. */
+"Date created" = "作成日";
+
+/* Settings */
+"Default Container" = "デフォルトコンテナ";
+
+/* Settings */
+"Default keyboard in editor" = "エディタで使用するデフォルトキーボード";
+
+/* Table row action */
+"Delete" = "削除";
+
+/* No comment provided by engineer. */
+"Disabled" = "無効";
+
+/* No comment provided by engineer. */
+"Documents" = "ドキュメント";
+
+/* No comment provided by engineer. */
+"Duplicate" = "複製";
+
+/* Settings */
+"Dynamic Type" = "Dynamic Type";
+
+/* Settings */
+"Editor" = "エディタ";
+
+/* Main view popover table */
+"Empty Bin" = "ゴミ箱を空にする";
+
+/* No comment provided by engineer. */
+"Enabled" = "有効";
+
+/* No comment provided by engineer. */
+"Enter folder name" = "フォルダ名を入力";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "マスターパスワードを入力";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "新規タグ名を入力";
+
+/* No comment provided by engineer. */
+"Enter note name" = "ノート名を入力";
+
+/* Settings */
+"Extension" = "拡張子";
+
+/* Settings */
+"Family" = "ファミリー";
+
+/* Settings */
+"File format" = "ファイル形式";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "同名のファイルがすでに存在しています";
+
+/* Settings */
+"Files Naming" = "ファイル命名";
+
+/* No comment provided by engineer. */
+"Focus in search field" = "検索フィールドにフォーカス";
+
+/* No comment provided by engineer. */
+"Folder name:" = "フォルダ名:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "同名のフォルダがすでに存在しています";
+
+/* Settings */
+"Font" = "フォント";
+
+/* Settings */
+"Font Family" = "フォントファミリー";
+
+/* Settings */
+"Font size" = "フォントサイズ";
+
+/* Settings */
+"Format: Untitled Note" = "フォーマット: 無題のノート";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "フォーマット: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "フォーマット: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
+"General" = "一般";
+
+/* No comment provided by engineer. */
+"History" = "履歴";
+
+/* Settings */
+"Homepage" = "ホームページ";
+
+/* Settings */
+"iCloud Drive" = "iCloud Drive";
+
+/* No comment provided by engineer. */
+"Images source:" = "画像ソース:";
+
+/* Main view popover table Settings */
+"Import notes" = "ノートのインポート";
+
+/* Inbox in sidebar */
+"Inbox" = "未整理";
+
+/* No comment provided by engineer. */
+"Invalid Password" = "無効なパスワードです";
+
+/* Settings */
+"Line Spacing" = "行間隔";
+
+/* Settings */
+"Live images preview" = "ライブ画像プレビュー";
+
+/* No comment provided by engineer. */
+"Lock" = "ロック";
+
+/* No comment provided by engineer. */
+"Master password:" = "マスターパスワード:";
+
+/* No comment provided by engineer. */
+"Modification date" = "変更日";
+
+/* Table row action */
+"More" = "他";
+
+/* Move view */
+"Move" = "移動";
+
+/* No comment provided by engineer. */
+"New document" = "新規ドキュメント";
+
+/* Settings */
+"Night Mode" = "ナイトモード";
+
+/* No comment provided by engineer. */
+"None" = "なし";
+
+/* Notes in sidebar
+   Sidebar items */
+"Notes" = "すべて";
+
+/* No comment provided by engineer. */
+"Notes list" = "ノートリスト";
+
+/* Main view popover table */
+"Open in Files.app" = "ファイルで開く";
+
+/* Document opened */
+"Open note" = "ノートを開く";
+
+/* No comment provided by engineer. */
+"Photos" = "画像";
+
+/* No comment provided by engineer. */
+"Picture removing" = "削除する画像";
+
+/* Table row action */
+"Pin" = "メモをピンで固定";
+
+/* No comment provided by engineer. */
+"Please enter valid password" = "有効なパスワードを入力してください";
+
+/* No comment provided by engineer. */
+"Preview" = "プレビュー";
+
+/* Settings */
+"Pro" = "プロ";
+
+/* Settings */
+"Project" = "プロジェクト";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "削除するプロジェクト ❌";
+
+/* Settings */
+"Projects" = "プロジェクト";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "ロックを削除";
+
+/* Main view popover table */
+"Remove folder" = "フォルダの削除";
+
+/* Main view popover table */
+"Remove tag" = "削除されたタグ";
+
+/* No comment provided by engineer. */
+"Rename" = "名称変更";
+
+/* Main view popover table */
+"Rename folder" = "フォルダの名称変更";
+
+/* Popover table */
+"Rename folder:" = "フォルダの名称変更:";
+
+/* No comment provided by engineer. */
+"Rename note:" = "ノートの名称変更:";
+
+/* Main view popover table */
+"Rename tag" = "タグの名称変更";
+
+/* Popover table */
+"Rename tag:" = "タグの名称変更:";
+
+/* No comment provided by engineer. */
+"Save clipboard" = "クリップボードの内容を保存";
+
+/* No comment provided by engineer. */
+"Saved versions" = "保存されたバージョン";
+
+/* No comment provided by engineer. */
+"Search" = "検索";
+
+/* No comment provided by engineer. */
+"Search or create" = "検索または新規作成";
+
+/* Main view popover table */
+"Select" = "選択";
+
+/* Sidebar settings */
+"Settings" = "設定";
+
+/* No comment provided by engineer. */
+"Share" = "共有";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "サイドバーにフォルダを表示";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "\"すべて\" と \"タスク\" にノートを表示";
+
+/* Settings */
+"Sidebar" = "サイドバー";
+
+/* No comment provided by engineer. */
+"Sort by" = "表示順序";
+
+/* Settings */
+"Spell Checking" = "スペルチェック";
+
+/* Settings */
+"Storage" = "ストレージ";
+
+/* Settings */
+"Support" = "サポート";
+
+/* No comment provided by engineer. */
+"System" = "システム";
+
+/* Settings */
+"Thanks to" = "次に感謝:";
+
+/* Settings */
+"Theme" = "テーマ";
+
+/* No comment provided by engineer. */
+"Title" = "タイトル";
+
+/* Sidebar items Todo in sidebar */
+"Todo" = "タスク";
+
+/* Trash in sidebar */
+"Trash" = "ゴミ箱";
+
+/* Settings */
+"Twitter" = "Twitter";
+
+/* No comment provided by engineer. */
+"Type" = "タイプ";
+
+/* No comment provided by engineer. */
+"Unlock" = "アンロック";
+
+/* Table row action */
+"UnPin" = "ピン固定の解除";
+
+/* No comment provided by engineer. */
+"Untagged" = "タグなし";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "Use first line as title";
+
+/* Settings */
+"Use inline tags" = "インラインタグを使用する";
+
+/* Settings */
+"Version" = "バージョン";
+
+/* Settings */
+"View" = "表示";
+
+/* Main view popover table */
+"View settings" = "設定を開く";
+
+/* No comment provided by engineer. */
+"Visibility" = "可視性";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "履歴の削除";

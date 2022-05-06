@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "inbox_white.png",
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-77.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "inbox_white-1.png",
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-83.5@2x-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "inbox_white-2.png",
+      "filename" : "1172241_inbox_letter_mail_mailbox_icon-76@2x-1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

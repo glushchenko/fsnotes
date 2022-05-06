@@ -54,6 +54,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
+        guard UserDefaultsManagement.inlineTags else { return }
+        
         if #available(OSX 10.16, *) {
             let range = NSRange(location: 0, length: textStorage!.length)
             attributedString().enumerateAttributes(in: range, options: .reverse) {
@@ -61,6 +63,17 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
                 let tag = attributedString().attributedSubstring(from: range).string
                 guard attributes.index(forKey: .tag) != nil, let font = attributes[.font] as? NSFont else { return }
+                let parStyle = attributes[.paragraphStyle] as? NSMutableParagraphStyle
+
+                var lineSpacing = CGFloat(0)
+                if let line = parStyle?.lineSpacing {
+                    lineSpacing = line
+                }
+
+                let parRange = textStorage?.mutableString.paragraphRange(for: range)
+                if textStorage?.length == parRange?.upperBound && textStorage?.string.last != "\n" {
+                    lineSpacing = 0
+                }
 
                 guard let container = self.textContainer else { return }
                 guard let activeRange = self.layoutManager?.glyphRange(forCharacterRange: range, actualCharacterRange: nil) else { return }
@@ -72,43 +85,41 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 tagRect = self.convertToLayer(tagRect)
 
                 let tagAttributes = attributedString().attributes(at: range.location, effectiveRange: nil)
-                let oneCharSize = ("a" as NSString).size(withAttributes: tagAttributes)
+                let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes)
 
-                let height = oneCharSize.height > tagRect.size.height ? tagRect.size.height : oneCharSize.height
-                let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.1, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.3, height: height))
+                let height = tagRect.size.height - lineSpacing
+                let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width + oneCharSize.width*0.25, height: height))
 
                 NSGraphicsContext.saveGraphicsState()
 
                 let path = NSBezierPath(roundedRect: tagBorderRect, xRadius: 3, yRadius: 3)
 
                 let fillColor = NSColor.tagColor
-                let strokeColor = NSColor.gray
                 let textColor = NSColor.white
 
                 path.addClip()
                 fillColor.setFill()
-                strokeColor.setStroke()
-                tagBorderRect.fill(using: .sourceOver)
+                tagBorderRect.fill(using: .sourceIn)
 
-    //            let transform = NSAffineTransform()
-    //            transform.translateX(by: 0.5, yBy: 0.5)
-    //            path.transform(using: transform as AffineTransform)
-    //            path.stroke()
-    //            transform.translateX(by: -1.5, yBy: -1.5)
-    //            path.transform(using: transform as AffineTransform)
-    //            path.stroke()
+//                let transform = NSAffineTransform()
+//                transform.translateX(by: 0.5, yBy: 0.5)
+//                path.transform(using: transform as AffineTransform)
+//                path.stroke()
+//                transform.translateX(by: -1.5, yBy: -1.5)
+//                path.transform(using: transform as AffineTransform)
+//                path.stroke()
 
-                let resFont = NSFontManager.shared.convert(font, toSize: font.pointSize)
                 let dict = NSMutableDictionary(dictionary: tagAttributes)
-
                 dict.addEntries(from: [
-                    NSAttributedString.Key.font: resFont,
-                    NSAttributedString.Key.foregroundColor: textColor
+                    NSAttributedString.Key.font: font,
+                    NSAttributedString.Key.foregroundColor: textColor,
+                    NSAttributedString.Key.baselineOffset: -(font.pointSize - 1)
                 ])
+
                 dict.removeObject(forKey: NSAttributedString.Key.link)
 
-                let newRect = tagRect.offsetBy(dx: 0, dy: -1)
-                (tag as NSString).draw(in: newRect, withAttributes: (dict as! [NSAttributedString.Key : Any]))
+                let newRect = tagBorderRect.offsetBy(dx: 1, dy: 0)
+                (tag as NSString).draw(with: newRect, options: .init(), attributes: (dict as! [NSAttributedString.Key : Any]))
 
                 NSGraphicsContext.restoreGraphicsState()
             }
@@ -616,6 +627,35 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
     }
 
+    override func readSelection(from pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
+        guard let note = EditTextView.note else { return false }
+
+        if var data = pboard.data(forType: type) {
+            var ext = "pdf"
+
+            if !data.isPDF {
+                ext = "jpg"
+                let image = NSImage(data: data)
+                if let imageData = image?.jpgData {
+                    data = imageData
+                }
+            }
+
+            EditTextView.shouldForceRescan = true
+            saveClipboard(data: data, note: note, ext: ext)
+            saveTextStorageContent(to: note)
+            note.save()
+
+            if let container = textContainer {
+                textStorage?.sizeAttachmentImages(container: container)
+            }
+
+            return true
+        }
+
+        return false
+    }
+
     override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
 
         guard let storage = textStorage else { return false }
@@ -740,7 +780,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
         }
 
-        if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
+        if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
             let attributed = NSMutableAttributedString(string: clipboard)
             attributed.loadCheckboxes()
 
@@ -761,6 +801,48 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         super.paste(sender)
+    }
+
+    override func pasteAsPlainText(_ sender: Any?) {
+        guard let note = EditTextView.note else { return }
+
+        guard note.isMarkdown() else {
+            super.pasteAsPlainText(sender)
+            return
+        }
+
+        let currentRange = selectedRange()
+        var plainText: String?
+
+        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.attributedTextType) {
+            let options = [
+                NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
+            ] as [NSAttributedString.DocumentReadingOptionKey : Any]
+
+            let attributedString = try? NSMutableAttributedString(data: rtfd, options: options, documentAttributes: nil)
+            attributedString?.loadCheckboxes()
+
+            if let attributedString = attributedString {
+                plainText = attributedString.unLoad().string
+            }
+        } else if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
+            plainText = clipboard
+        } else if let url = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) {
+            plainText = url
+        }
+
+        if let plainText = plainText {
+            EditTextView.shouldForceRescan = true
+
+            self.breakUndoCoalescing()
+            self.insertText(plainText, replacementRange: currentRange)
+            self.breakUndoCoalescing()
+
+            saveTextStorageContent(to: note)
+            return
+        }
+
+        return paste(sender)
     }
 
     override func cut(_ sender: Any?) {
@@ -919,7 +1001,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         restoreCursorPosition()
-        applyLeftParagraphStyle()
 
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
             backgroundColor = UserDefaultsManagement.bgColor
@@ -1277,7 +1358,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        EditTextView.note?.resetAttributesCache()
+        guard let note = EditTextView.note else {
+            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+        }
+        
+        note.resetAttributesCache()
         
         if let par = getParagraphRange(),
             let text = textStorage?.mutableString.substring(with: par), text.contains("[["), text.contains("]]") {
@@ -1335,20 +1420,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                     }
                 }
             }
-
-            if let note = EditTextView.note,
-               let vc = ViewController.shared(),
-               !vc.tagsScannerQueue.contains(note) {
-                vc.tagsScannerQueue.append(note)
-            }
-
-            tagsTimer?.invalidate()
-            tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
+        }
+        
+        if let vc = ViewController.shared(),
+           !vc.tagsScannerQueue.contains(note) {
+            vc.tagsScannerQueue.append(note)
         }
 
-        guard let note = EditTextView.note else {
-            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
-        }
+        tagsTimer?.invalidate()
+        tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
 
         if replacementString == "", let storage = textStorage {
             let lastChar = storage.attributedSubstring(from: affectedCharRange).string
@@ -1916,15 +1996,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         return .copy
     }
-    
-    public func applyLeftParagraphStyle() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        typingAttributes[.paragraphStyle] = paragraphStyle
-        defaultParagraphStyle = paragraphStyle
-        textStorage?.updateParagraphStyle()
-    }
-    
+
     override func clicked(onLink link: Any, at charIndex: Int) {
         if let link = link as? String, link.isValidEmail(), let mail = URL(string: "mailto:\(link)") {
             NSWorkspace.shared.open(mail)
@@ -1933,7 +2005,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         // Scroll to [TestJump](#TestJump) link
         if let link = link as? String, link.startsWith(string: "#") {
-            let title = String(link.dropFirst())
+            let title = String(link.dropFirst()).replacingOccurrences(of: "-", with: " ")
 
             if let index = textStorage?.string.range(of: "# " + title) {
                 if let range = textStorage?.string.nsRange(from: index) {
@@ -2133,7 +2205,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
                     self.breakUndoCoalescing()
                     self.insertText(newLineImage, replacementRange: selectedRange())
-                    self.insertNewline(nil)
                     self.breakUndoCoalescing()
                     return
                 }

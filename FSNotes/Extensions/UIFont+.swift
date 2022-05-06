@@ -45,24 +45,13 @@ extension UIFont {
         return self.buildFont(symTraits: symTraits)
     }
     
-    public static func bodySize() -> UIFont {
-        if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-            let fontMetrics = UIFontMetrics(forTextStyle: .body)
-            let font = fontMetrics.scaledFont(for: UserDefaultsManagement.noteFont)
-            
-            return font
-        }
-        
-        return UserDefaultsManagement.noteFont
-    }
-
     private func buildFont(symTraits: UIFontDescriptor.SymbolicTraits?) -> UIFont {
         var font: UIFont
 
         if let traits = symTraits, let descriptor = fontDescriptor.withSymbolicTraits(traits) {
             font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
         } else {
-            font = UserDefaultsManagement.noteFont!
+            font = UserDefaultsManagement.noteFont
             font.withSize(fontDescriptor.pointSize)
 
             return font
@@ -77,6 +66,16 @@ extension UIFont {
 
     static func addBold(font: UIFont) -> UIFont {
         return font.bold()
+    }
+
+    func codeBold() -> UIFont {
+        let descriptor = UIFontDescriptor(name: familyName, size: pointSize)
+
+        if let boldDescriptor = descriptor.withSymbolicTraits(.traitBold) {
+            return UIFont(descriptor: boldDescriptor, size: pointSize)
+        }
+
+        return self
     }
 
 }

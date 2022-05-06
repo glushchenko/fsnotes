@@ -12,7 +12,6 @@ import UIKit
 import NightNight
 import AudioToolbox
 
-@IBDesignable
 class SidebarTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource,
@@ -71,7 +70,7 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
+        return 0
     }
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -119,15 +118,24 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let vc = self.viewController else { return }
+
         let selectedSection = SidebarSection(rawValue: indexPath.section)
+
+        guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else { return }
+
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
+
+        if let project = vc.searchQuery.project, getIndexPathBy(project: project) == indexPath, vc.notesTable.isEditing {
+            vc.notesTable.toggleSelectAll()
+            return
+        }
 
         guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else {
             return
         }
 
-        guard let vc = self.viewController else { return }
-        vc.turnOffSearch()
+        vc.unloadSearchController()
         vc.notesTable.turnOffEditing()
 
         if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
@@ -166,7 +174,7 @@ class SidebarTableView: UITableView,
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
-                vc.currentFolder.text = name
+                vc.setNavTitle(folder: name)
 
                 guard vc.notesTable.notes.count > 0 else {
                     self.unloadAllTags()
@@ -207,7 +215,7 @@ class SidebarTableView: UITableView,
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
-                vc.currentFolder.text = name
+                vc.setNavTitle(folder: name)
             }
         }
     }
@@ -359,6 +367,8 @@ class SidebarTableView: UITableView,
                 return
             }
 
+            note.moveHistory(src: note.url, dst: dstURL)
+
             note.url = dstURL
             note.parseURL()
             note.project = project
@@ -451,7 +461,7 @@ class SidebarTableView: UITableView,
             return
         }
 
-        guard tags.count > 0 else { return }
+        guard tags.count > 0, self.sidebar.items.indices.contains(2) else { return }
 
         var indexPaths = [IndexPath]()
         for tag in tags {
@@ -465,7 +475,7 @@ class SidebarTableView: UITableView,
     }
 
     public func unloadAllTags() {
-        guard sidebar.items[2].count > 0 else { return }
+        guard sidebar.items.indices.contains(2), sidebar.items[2].count > 0 else { return }
 
         let rows = numberOfRows(inSection: 2)
 
@@ -747,11 +757,6 @@ class SidebarTableView: UITableView,
     public func select(tag: String) {
         guard let indexPath = getIndexPathBy(tag: tag) else { return }
         tableView(self, didSelectRowAt: indexPath)
-
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-            return
-        }
-        bvc.containerController.selectController(atIndex: 0, animated: true)
     }
 
     public func restoreSelection(for search: SearchQuery) {
@@ -778,5 +783,10 @@ class SidebarTableView: UITableView,
         deleteRows(at: [indexPath], with: .automatic)
 
         selectCurrentProject()
+    }
+
+    public func reloadSidebar() {
+        sidebar = Sidebar()
+        reloadData()
     }
 }

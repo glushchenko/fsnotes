@@ -1,11 +1,32 @@
+/* Settings */
+"+" = "+";
+
+/* Settings */
+"Add External Folder" = "Pasta Externa";
+
 /* Archive in sidebar */
 "Archive" = "Arquivo";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "Tem certeza de que deseja excluir todas as versões desta nota?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "Tem certeza de que deseja excluir o histórico de todas as notas?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "Tem certeza de que deseja apagar esta imagem?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Automático pelo brilho do ecrã";
 
 /* Naming controller */
-"Auto rename by title" = "Auto rename by title";
+"Auto rename by title" = "Renomeação automática por título";
+
+/* Settings */
+"Auto Rename By Title" = "Renomeação automática por título";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "Versão automática";
 
 /* Settings */
 "Autocorrection" = "Auto correção";
@@ -19,8 +40,14 @@
 /* No comment provided by engineer. */
 "Cancel" = "Cancelar";
 
+/* No comment provided by engineer. */
+"Code" = "Código";
+
 /* Settings */
 "Code block live highlighting" = "Realçar bloco de código";
+
+/* Settings */
+"Code Theme" = "Tema do código";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatível com DayOne JSON (zip), Bear e Ulysses (textbundle), markdown, txt, rtf.";
@@ -32,22 +59,22 @@
 "Copy plain text" = "Copiar texto simples";
 
 /* Main view popover table */
-"Create folder" = "Create folder";
+"Create folder" = "Criar pasta";
 
 /* No comment provided by engineer. */
-"Create folder:" = "Create folder:";
+"Create folder:" = "Criar pasta:";
 
 /* No comment provided by engineer. */
 "Creation date" = "Data de criação";
 
+/* No comment provided by engineer. */
+"Date created" = "Data Criada";
+
 /* Settings */
 "Default Container" = "Recipiente por defeito";
 
-/* Settings */
-"Default Extension" = "Extensão por defeito";
-
-/* Settings */
-"Default Keyboard In Editor" = "Teclado por defeito no Editor";
+/* No comment provided by engineer. */
+"Default keyboard in editor" = "Teclado padrão";
 
 /* Table row action */
 "Delete" = "Eliminar";
@@ -59,13 +86,16 @@
 "Documents" = "Documentos";
 
 /* No comment provided by engineer. */
-"Done" = "Feito";
+"Duplicate" = "Duplicada";
 
 /* Settings */
 "Dynamic Type" = "Tipo dinâmico";
 
 /* Settings */
 "Editor" = "Editor";
+
+/* Main view popover table */
+"Empty Bin" = "Caixa vazia";
 
 /* No comment provided by engineer. */
 "Enabled" = "Activo";
@@ -84,6 +114,12 @@
 
 /* Settings */
 "Extension" = "Extensão";
+
+/* Settings */
+"Family" = "Família de fontes";
+
+/* Settings */
+"File format" = "Formato de arquivo";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Já existe um ficheiro com este nome";
@@ -110,10 +146,28 @@
 "Font size" = "Tamanho da letra";
 
 /* Settings */
+"Format: Untitled Note" = "Formato: Untitled Note";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "Formato: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "Formato: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
 "General" = "Geral";
+
+/* No comment provided by engineer. */
+"History" = "História";
 
 /* Settings */
 "Homepage" = "Página inicial";
+
+/* Settings */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Images source:" = "Fonte das imagens:";
@@ -128,13 +182,16 @@
 "Invalid Password" = "Palavra-passe inválida";
 
 /* Settings */
+"Line Spacing" = "Espaçamento entre linhas";
+
+/* Settings */
 "Live images preview" = "Pré-visualização de imagens";
 
 /* No comment provided by engineer. */
 "Lock" = "Trancar";
 
 /* No comment provided by engineer. */
-"Lock/unlock" = "Trancar/destrancar";
+"Master password:" = "Senha mestra:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Data de modificação";
@@ -151,17 +208,26 @@
 /* Settings */
 "Night Mode" = "Modo Noturno";
 
+/* No comment provided by engineer. */
+"None" = "Por padrão";
+
 /* Notes in sidebar - Sidebar items */
 "Notes" = "Notas";
 
 /* No comment provided by engineer. */
 "Notes list" = "Lista de notas";
 
+/* Main view popover table */
+"Open in Files.app" = "Abra em Files.app";
+
 /* Document opened */
 "Open note" = "Abrir nota";
 
 /* No comment provided by engineer. */
 "Photos" = "Fotos";
+
+/* No comment provided by engineer. */
+"Picture removing" = "Remoção de imagem";
 
 /* Table row action */
 "Pin" = "Fixar";
@@ -173,6 +239,9 @@
 "Preview" = "Pré-visualizar";
 
 /* Settings */
+"Pro" = "Estendido";
+
+/* Settings */
 "Project" = "Projeto";
 
 /* No comment provided by engineer. */
@@ -180,9 +249,6 @@
 
 /* Settings */
 "Projects" = "Projetos";
-
-/* Settings */
-"Rate FSNotes" = "Avaliar FSNotes";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Remover criptografia";
@@ -215,10 +281,16 @@
 "Save clipboard" = "Salvar área de transferência";
 
 /* No comment provided by engineer. */
+"Saved versions" = "Versões salvas";
+
+/* No comment provided by engineer. */
 "Search" = "Procurar";
 
 /* No comment provided by engineer. */
 "Search or create" = "Pesquisar e criar";
+
+/* Main view popover table */
+"Select" = "Selecionar";
 
 /* Sidebar settings */
 "Settings" = "Definições";
@@ -231,6 +303,9 @@
 
 /* No comment provided by engineer. */
 "Show notes in \"Notes\" and \"Todo\" lists" = "Mostrar notas nas listas \"Notas\" e \"Tarefas\"";
+
+/* Settings */
+"Sidebar" = "Barra lateral";
 
 /* No comment provided by engineer. */
 "Sort by" = "Ordenar por";
@@ -247,6 +322,12 @@
 /* No comment provided by engineer. */
 "System" = "Sistema";
 
+/* Settings */
+"Thanks to" = "Graças a";
+
+/* Settings */
+"Theme" = "Tema";
+
 /* No comment provided by engineer. */
 "Title" = "Título";
 
@@ -262,14 +343,14 @@
 /* No comment provided by engineer. */
 "Type" = "Tipo";
 
-/* Settings */
-"UI" = "Interface";
-
 /* No comment provided by engineer. */
 "Unlock" = "Destrancar";
 
 /* Table row action */
 "UnPin" = "Soltar";
+
+/* No comment provided by engineer. */
+"Untagged" = "Sem etiqueta";
 
 /* No comment provided by engineer. */
 "Use first line as title" = "Utilizar a primeira linha como título";
@@ -280,8 +361,14 @@
 /* Settings */
 "Version" = "Versão";
 
+/* No comment provided by engineer. */
+"View" = "Visualizar";
+
 /* Main view popover table */
 "View settings" = "Definições de visualização";
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilidade";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "Aprendendo a história";

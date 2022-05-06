@@ -117,6 +117,7 @@ class CloudDriveManager {
             let index = metadataQuery.index(ofResult: item)
             let itemUrl = item.value(forAttribute: NSMetadataItemURLKey) as? URL
             let contentChangeDate = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date
+            let creationDate = item.value(forAttribute: NSMetadataItemFSCreationDateKey) as? Date
 
             if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
                 completed += 1
@@ -151,7 +152,7 @@ class CloudDriveManager {
             guard storage.isValidNote(url: url) else { continue }
 
             // Note already exist and update completed
-            if let note = storage.getBy(url: url) {
+            if let note = storage.getBy(url: url, caseSensitive: true) {
                 if note.isTextBundle() && !note.isFullLoadedTextBundle() {
                     continue
                 }
@@ -173,6 +174,10 @@ class CloudDriveManager {
                 }
 
                 print("File changed: \(url)")
+
+                // Not updates in FS attributes, must be loaded from Cloud Drive Meta
+                note.creationDate = creationDate
+
                 notesModificationQueue.append(note)
                 resolveConflict(url: url)
 
@@ -197,8 +202,11 @@ class CloudDriveManager {
                 print("File moved to new url: \(url)")
 
                 notesDeletionQueue.append(note)
+
+                let srcUrl = note.url
                 note.url = url
                 note.parseURL()
+                note.moveHistory(src: srcUrl, dst: url)
 
                 resultsDict[index] = url
                 notesInsertionQueue.append(note)
@@ -391,7 +399,7 @@ class CloudDriveManager {
         }
 
         for note in change {
-            note.forceLoad()
+            note.forceLoad(skipCreateDate: true)
         }
 
         DispatchQueue.main.async {

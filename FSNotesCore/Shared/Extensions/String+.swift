@@ -171,6 +171,11 @@ public extension String {
         }
         return prefix
     }
+
+    func substring(with nsRange: NSRange) -> Substring? {
+        guard let range = Range(nsRange, in: self) else { return nil }
+        return self[range]
+    }
 }
 
 extension StringProtocol where Index == String.Index {

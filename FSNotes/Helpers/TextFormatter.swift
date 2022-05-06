@@ -273,11 +273,11 @@ public class TextFormatter {
                         attributedString.removeAttribute(.underlineStyle, range: range)
                     } else {
                         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                        attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+                        attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
                     }
                 } else {
                     attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
                 }
 
                 #if os(iOS)
@@ -298,7 +298,7 @@ public class TextFormatter {
                     attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: selectedRange)
 
 
-                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: selectedRange)
+                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: selectedRange)
 
                     
                     textView.typingAttributes[.underlineStyle] = 1
@@ -450,11 +450,14 @@ public class TextFormatter {
             textView.textStorage?.removeAttribute(.todo, range: pRange)
         #else
             textView.textStorage.removeAttribute(.todo, range: pRange)
+
+            // Fixes font size issue #1271
+            let parFont = NotesTextProcessor.font
+            let parRange = NSRange(location: 0, length:   mutableResult.length)
+            mutableResult.addAttribute(.font, value: parFont, range: parRange)
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
-
-        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func unTab() {
@@ -538,11 +541,14 @@ public class TextFormatter {
             textView.textStorage?.removeAttribute(.todo, range: pRange)
         #else
             textView.textStorage.removeAttribute(.todo, range: pRange)
+
+            // Fixes font size issue #1271
+            let parFont = NotesTextProcessor.font
+            let parRange = NSRange(location: 0, length:   mutableResult.length)
+            mutableResult.addAttribute(.font, value: parFont, range: parRange)
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
-        
-        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func header(_ string: String) {
@@ -687,10 +693,11 @@ public class TextFormatter {
             let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
             let selectRange = NSRange(location: range.location, length: 0)
             insertText("\n", replacementRange: range, selectRange: selectRange)
-            return
+        } else {
+            insertText("\n" + found)
         }
 
-        insertText("\n" + found)
+        updateCurrentParagraph()
     }
 
     private func matchDigits(string: NSAttributedString, match: NSTextCheckingResult) {
@@ -707,13 +714,22 @@ public class TextFormatter {
             let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
             let selectRange = NSRange(location: range.location, length: 0)
             insertText("\n", replacementRange: range, selectRange: selectRange)
-            return
-        }
-
-        if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
+        } else if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
             let newDigit = found.replacingOccurrences(of: String(position), with: String(position + 1))
             insertText("\n" + newDigit)
         }
+
+        updateCurrentParagraph()
+    }
+
+    private func updateCurrentParagraph() {
+        let parRange = getParagraphRange(for: textView.selectedRange.location)
+
+        #if os(iOS)
+            textView.textStorage.updateParagraphStyle(range: parRange)
+        #else
+            textView.textStorage?.updateParagraphStyle(range: parRange)
+        #endif
     }
 
     public func newLine() {
@@ -837,7 +853,20 @@ public class TextFormatter {
         let mutable = NSMutableAttributedString(attributedString: attributedString).unLoadCheckboxes()
 
         if !attributedString.hasTodoAttribute() && selectedRange.length == 0 {
-            insertText(AttributedBox.getUnChecked()!)
+            var offset = 0
+            let symbols = ["\t", " "]
+            for char in mutable.string {
+                if symbols.contains(String(char)) {
+                    offset += 1
+                } else {
+                    break
+                }
+            }
+
+            let insertRange = NSRange(location: pRange.location + offset, length: 0)
+            let selectRange = NSRange(location: range.location + 2, length: range.length)
+            insertText(AttributedBox.getUnChecked()!, replacementRange: insertRange, selectRange: selectRange)
+            storage.updateParagraphStyle(range: getParagraphRange())
             return
         }
 
@@ -926,6 +955,7 @@ public class TextFormatter {
             : NSRange(location: pRange.location, length: mutableResult.length)
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
+        storage.updateParagraphStyle(range: getParagraphRange())
     }
 
     public func toggleTodo(_ location: Int? = nil) {
@@ -938,7 +968,6 @@ public class TextFormatter {
             self.textView.undoManager?.endUndoGrouping()
 
             guard let paragraph = getParagraphRange(for: location) else { return }
-            self.storage.updateParagraphStyle(range: paragraph)
             
             if todoAttr == 0 {
                 self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
@@ -954,6 +983,8 @@ public class TextFormatter {
                     textView.typingAttributes[.strikethroughStyle] = strike
                 #endif
             }
+
+            storage.updateParagraphStyle(range: paragraph)
             
             return
         }
@@ -1028,15 +1059,14 @@ public class TextFormatter {
         if selectedRange.length > 0 {
             let text = storage.attributedSubstring(from: selectedRange).string
             let string = "`\(text)`"
+            let codeFont = UserDefaultsManagement.codeFont
 
-            if let codeFont = UserDefaultsManagement.codeFont {
-                let mutableString = NSMutableAttributedString(string: string)
-                mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
+            let mutableString = NSMutableAttributedString(string: string)
+            mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
 
-                EditTextView.shouldForceRescan = true
-                insertText(mutableString, replacementRange: selectedRange)
-                return
-            }
+            EditTextView.shouldForceRescan = true
+            insertText(mutableString, replacementRange: selectedRange)
+            return
         }
 
         insertText("``")
@@ -1169,22 +1199,9 @@ public class TextFormatter {
         #endif
         
         if note.isMarkdown() {
-            if var font = UserDefaultsManagement.noteFont {
-                #if os(iOS)
-                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    font = fontMetrics.scaledFont(for: font)
-                }
-                #endif
-                
-                setTypingAttributes(font: font)
-            }
+            setTypingAttributes(font: UserDefaultsManagement.noteFont)
         }
-        
-        if self.shouldScanMarkdown, let paragraphRange = getParagraphRange() {
-            NotesTextProcessor.highlightMarkdown(attributedString: storage, paragraphRange: paragraphRange, note: note)
-        }
-        
+
         if note.isMarkdown() || note.type == .RichText {
             var text: NSAttributedString?
             
@@ -1247,7 +1264,7 @@ public class TextFormatter {
                 return typingFont
             }
 
-            guard textView.textStorage.length > 0, textView.selectedRange.location > 0 else { return self.getDefaultFont() }
+            guard textView.textStorage.length > 0, textView.selectedRange.location > 0 else { return UserDefaultsManagement.noteFont }
 
             let i = textView.selectedRange.location - 1
             let upper = textView.selectedRange.upperBound
@@ -1257,22 +1274,9 @@ public class TextFormatter {
                 return prevFont
             }
 
-            return self.getDefaultFont()
+            return UserDefaultsManagement.noteFont
         #endif
     }
-
-    #if os(iOS)
-    private func getDefaultFont() -> UIFont {
-        var font = UserDefaultsManagement.noteFont!
-
-        if UserDefaultsManagement.dynamicTypeFont {
-            let fontMetrics = UIFontMetrics(forTextStyle: .body)
-            font = fontMetrics.scaledFont(for: font)
-        }
-
-        return font
-    }
-    #endif
 
     #if os(OSX)
     private func getDefaultColor() -> NSColor {
@@ -1311,16 +1315,6 @@ public class TextFormatter {
         #endif
     }
     
-    public static func getCodeParagraphStyle() -> NSMutableParagraphStyle {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        #if os(OSX)
-        paragraphStyle.textBlocks = [CodeBlock()]
-        #endif
-
-        return paragraphStyle
-    }
-
     private func insertText(_ string: Any, replacementRange: NSRange? = nil, selectRange: NSRange? = nil) {
         let range = replacementRange ?? self.textView.selectedRange
         
@@ -1335,16 +1329,19 @@ public class TextFormatter {
         if let attributedString = string as? NSAttributedString {
             replaceString = attributedString.string
         }
-    
+
         if let plainString = string as? String {
             replaceString = plainString
         }
-    
+
         self.textView.undoManager?.beginUndoGrouping()
         self.textView.replace(selectedRange, withText: replaceString)
 
         if let string = string as? NSAttributedString {
-            storage.replaceCharacters(in: NSRange(location: range.location, length: replaceString.count), with: string)
+            let editedRange = NSRange(location: range.location, length: replaceString.count)
+            storage.replaceCharacters(in: editedRange, with: string)
+
+            storage.textStorage(storage, didProcessEditing: .editedCharacters, range: editedRange, changeInLength: 1)
         }
 
         let parRange = NSRange(location: range.location, length: replaceString.count)
@@ -1571,6 +1568,8 @@ public class TextFormatter {
                     continue
                 } else if char == "-" {
                     return !numbers
+                } else {
+                    return false
                 }
             }
         }

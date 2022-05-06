@@ -118,10 +118,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
     @IBAction func setFont(_ sender: NSButton) {
         let fontManager = NSFontManager.shared
-        if UserDefaultsManagement.noteFont != nil {
-            fontManager.setSelectedFont(UserDefaultsManagement.noteFont!, isMultiple: false)
-        }
-
+        fontManager.setSelectedFont(UserDefaultsManagement.noteFont, isMultiple: false)
         fontManager.orderFrontFontPanel(self)
         fontManager.target = self
     }
@@ -210,7 +207,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
 
         let fontManager = NSFontManager.shared
-        let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
+        let newFont = fontManager.convert(UserDefaultsManagement.noteFont)
         UserDefaultsManagement.noteFont = newFont
 
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")

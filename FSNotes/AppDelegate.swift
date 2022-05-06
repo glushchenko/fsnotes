@@ -46,6 +46,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let storage = Storage.sharedInstance()
         storage.loadProjects()
         storage.loadDocuments()
+
+        // Cache
+        DispatchQueue.global(qos: .background).async {
+            for note in storage.noteList {
+                if note.type == .Markdown {
+                    note.cache(backgroundThread: true)
+                }
+            }
+            print("Notes attributes cache: \(storage.noteList.count)")
+        }
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -107,7 +117,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         guard let mainWC = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController else {
-            fatalError("Error getting main window controller")
+            return
         }
 
         if let x = mainWC.window?.frame.origin.x, let y = mainWC.window?.frame.origin.y {
@@ -227,8 +237,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc func clickStatusBarItem(sender: NSStatusItem) {
         let event = NSApp.currentEvent!
 
-        if event.type == NSEvent.EventType.leftMouseUp{
+        if event.type == NSEvent.EventType.leftMouseUp {
             NSApp.activate(ignoringOtherApps: true)
+            
+            mainWindowController?.window?.makeKeyAndOrderFront(nil)
+            mainWindowController?.window?.resignKey()
+        
+            ViewController.shared()?.search.becomeFirstResponder()
+            
+            return
         }
 
         attachMenu()

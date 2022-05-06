@@ -1249,6 +1249,18 @@ class SidebarOutlineView: NSOutlineView,
 
         return items
     }
+
+    private func getSelectedProjectsIndexes() -> [Int]? {
+        var items = [Int]()
+
+        for i in selectedRowIndexes {
+            if item(atRow: i) as? Project != nil {
+                items.append(i)
+            }
+        }
+
+        return items
+    }
     
     @objc public func reloadSidebar(reloadManager: Bool = false) {
         guard let vc = ViewController.shared() else { return }
@@ -1294,7 +1306,9 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func select(note: Note) {
-        let index = row(forItem: note.project)
+        let sidebarItem = sidebarItems?.first(where: {($0 as? SidebarItem)?.project == note.project || $0 as? Project == note.project })
+
+        let index = row(forItem: sidebarItem)
 
         if index > -1 {
             selectNote = note
@@ -1451,6 +1465,7 @@ class SidebarOutlineView: NSOutlineView,
         let fullTags = tag.split(separator: "/").map(String.init);
         var items = sidebarItems;
         var tagDepth: Int = 0
+        var selectedIndexes = getSelectedProjectsIndexes() ?? [tagDepth]
 
         let currentNote = EditTextView.note
         selectNote = currentNote
@@ -1472,7 +1487,11 @@ class SidebarOutlineView: NSOutlineView,
             items = tag.child
         }
 
-        super.selectRowIndexes([tagDepth], byExtendingSelection: false)
+        if !selectedIndexes.contains(tagDepth) {
+            selectedIndexes.append(tagDepth)
+        }
+
+        super.selectRowIndexes(IndexSet(selectedIndexes), byExtendingSelection: false)
     }
         
     // select and open rowIndexes

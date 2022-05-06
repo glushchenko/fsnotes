@@ -9,48 +9,44 @@
 import UIKit
 import NightNight
 import StoreKit
+import CoreServices
 
-class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate, UIDocumentPickerDelegate {
+class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var sections = [
         NSLocalizedString("General", comment: "Settings"),
-        NSLocalizedString("UI", comment: "Settings"),
         NSLocalizedString("Storage", comment: "Settings"),
-        "FSNotes"
+        NSLocalizedString("FSNotes", comment: "Settings")
     ]
 
     var rows = [
         [
-            NSLocalizedString("Extension", comment: "Settings"),
-            NSLocalizedString("Container", comment: "Settings"),
-            NSLocalizedString("Default Keyboard In Editor", comment: "Settings"),
-            NSLocalizedString("Files Naming", comment: "Settings"),
-            NSLocalizedString("Editor", comment: "Settings")
+            NSLocalizedString("File format", comment: "Settings"),
+            NSLocalizedString("Editor", comment: "Settings"),
+            NSLocalizedString("Night Mode", comment: "Settings"),
+            NSLocalizedString("Pro", comment: "Settings"),
         ], [
-            NSLocalizedString("Font", comment: "Settings"),
-            NSLocalizedString("Night Mode", comment: "Settings")
-        ], [
+            NSLocalizedString("iCloud Drive", comment: "Settings"),
+            NSLocalizedString("Add External Folder", comment: "Settings"),
             NSLocalizedString("Projects", comment: "Settings"),
             NSLocalizedString("Import notes", comment: "Settings")
         ], [
             NSLocalizedString("Support", comment: "Settings"),
             NSLocalizedString("Homepage", comment: "Settings"),
             NSLocalizedString("Twitter", comment: "Settings"),
-            NSLocalizedString("Rate FSNotes", comment: "Settings")
+            NSLocalizedString("Thanks to", comment: "Settings")
         ]
     ]
 
     var icons = [
         [
             "settings-icons-format",
-            "settings-icons-container",
-            "settings-icons-keyboard",
-            "settings-icons-naming",
-            "settings-icons-editor"
+            "settings-icons-editor",
+            "settings-icons-night",
+            "settings-icons-pro",
         ], [
-            "settings-icons-font",
-            "settings-icons-night"
-        ], [
+            "settings-icons-cloud",
+            "settings-icons-external",
             "settings-icons-projects",
             "settings-icons-import"
         ], [
@@ -61,21 +57,15 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         ]
     ]
 
-    var rowsInSection = [5, 2, 2, 4]
-    private var prevCount = 0
-        
+    var rowsInSection = [4, 4, 4]
+
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
-        
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        title = NSLocalizedString("Settings", comment: "Sidebar settings")
+        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
+        navigationItem.rightBarButtonItem = Buttons.getRateUs(target: self, selector: #selector(rateUs))
 
         super.viewDidLoad()
-        
-        self.title = NSLocalizedString("Settings", comment: "Sidebar settings")
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
 
         let version = UILabel(frame: CGRect(x: 8, y: 30, width: tableView.frame.width, height: 60))
         version.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -94,20 +84,11 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         version.textAlignment = .center
 
         tableView.tableFooterView = version
-
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            navigationController?.navigationBar.standardAppearance = appearance
-
-            updateNavigationBarBackground()
-        }
-
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
     }
 
+
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -142,38 +123,24 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         cell.imageView?.image = image(UIImage(named: iconName)!, withSize: CGSize(width: 40, height: 40))
 
         if indexPath.section == 0x00 {
-            switch indexPath.row {
-            case 0:
-                cell.accessoryType = .disclosureIndicator
-            case 1:
-                cell.accessoryType = .disclosureIndicator
-            case 2:
-                cell.accessoryType = .disclosureIndicator
-            case 3:
-                cell.accessoryType = .disclosureIndicator
-            case 4:
-                cell.accessoryType = .disclosureIndicator
-            default:
-                return cell
-            }
+            cell.accessoryType = .disclosureIndicator
+            return cell
         }
-                
+
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                cell.accessoryType = .disclosureIndicator
-            case 1:
-                cell.accessoryType = .disclosureIndicator
-            default:
-                return cell
-            }
-        }
+                let uiSwitch = UISwitch()
+                uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
+                uiSwitch.isOn = UserDefaultsManagement.iCloudDrive
 
-        if indexPath.section == 0x02 {
-            switch indexPath.row {
-            case 0:
-                cell.accessoryType = .disclosureIndicator
+                cell.textLabel?.text = "iCloud Drive"
+                cell.accessoryView = uiSwitch
             case 1:
+                cell.accessoryType = .none
+            case 2:
+                cell.accessoryType = .disclosureIndicator
+            case 3:
                 cell.detailTextLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
                 cell.detailTextLabel?.numberOfLines = 0
                 cell.detailTextLabel?.lineBreakMode = .byWordWrapping
@@ -181,6 +148,11 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             default:
                 return cell
             }
+        }
+
+        if indexPath.section == 0x02 && indexPath.row == 0x03 {
+            cell.accessoryType = .disclosureIndicator
+            return cell
         }
 
         return cell
@@ -202,35 +174,31 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             case 0:
                 lvc = DefaultExtensionViewController()
             case 1:
-                lvc = DefaultContainerViewController()
-            case 2:
-                lvc = LanguageViewController()
-            case 3:
-                lvc = NamingViewController()
-            case 4:
                 lvc = SettingsEditorViewController()
+            case 2:
+                lvc = NightModeViewController(style: .grouped)
+            case 3:
+                lvc = ProViewController()
             default:
                 return
             }
         }
-        
+
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                lvc = FontViewController()
-            case 1:
-                lvc = NightModeViewController(style: .grouped)
-            default: break
-                
-            }
-        }
-
-        if indexPath.section == 0x02 {
-            switch indexPath.row {
-            case 0:
-                lvc = ProjectsViewController()
                 break
             case 1:
+                if #available(iOS 13.0, *) {
+                    let viewController = ExternalViewController(documentTypes: [kUTTypeFolder as String], in: .open)
+                    viewController.delegate = viewController
+                    present(viewController, animated: true, completion: nil)
+                }
+                break
+            case 2:
+                lvc = ProjectsViewController()
+                break
+            case 3:
                 let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
                 if #available(iOS 11.0, *) {
                     picker.allowsMultipleSelection = true
@@ -243,7 +211,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             }
         }
 
-        if indexPath.section == 0x03 {
+        if indexPath.section == 0x02 {
             var url: URL?
 
             switch indexPath.row {
@@ -257,7 +225,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 url = URL(string: "https://twitter.com/fsnotesapp")
                 break
             case 0x03:
-                SKStoreReviewController.requestReview()
+                lvc = ThanksViewController()
                 break
             default: break
             }
@@ -291,22 +259,6 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         headerView.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         return headerView
     }
-
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let nc = navigationController?.viewControllers {
-            self.prevCount = nc.count
-            if nc.count == 1 {
-                self.dismiss(animated: true)
-            }
-        }
-
-        if gestureRecognizer.isEqual(navigationController?.interactivePopGestureRecognizer) {
-            navigationController?.popViewController(animated: true)
-        }
-
-        return false
-    }
-
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let storageUrl = UserDefaultsManagement.storageUrl else { return }
@@ -344,31 +296,29 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         }
     }
 
+    @objc func rateUs() {
+        SKStoreReviewController.requestReview()
+    }
+
     @objc func done() {
-        self.dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        guard UserDefaultsManagement.nightModeType == .system else { return }
+    @objc public func switchValueDidChange(_ sender: UISwitch) {
+        guard let cell = sender.superview as? UITableViewCell else { return }
+        guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.checkDarkMode()
+        UserDefaultsManagement.iCloudDrive = uiSwitch.isOn
+
+        let vc = UIApplication.getVC()
+        Storage.instance = nil
+
+        vc.storage = Storage.shared()
+        vc.sidebarTableView.reloadSidebar()
+        vc.viewDidLoad()
+
+        if !uiSwitch.isOn {
+            vc.stopCloudDriveSyncEngine()
         }
-    }
-
-    public func checkDarkMode() {
-        if #available(iOS 12.0, *) {
-            if traitCollection.userInterfaceStyle == .dark {
-                if NightNight.theme != .night {
-                    UIApplication.getVC().enableNightMode()
-                }
-            } else {
-                if NightNight.theme == .night {
-                    UIApplication.getVC().disableNightMode()
-                }
-            }
-        }
-
-        updateNavigationBarBackground()
     }
 }

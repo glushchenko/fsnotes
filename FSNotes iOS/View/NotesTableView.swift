@@ -21,7 +21,6 @@ class NotesTableView: UITableView,
 
     var notes = [Note]()
     var viewDelegate: ViewController? = nil
-    var cellHeights = [IndexPath:CGFloat]()
     public var selectedIndexPaths: [IndexPath]?
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,11 +44,11 @@ class NotesTableView: UITableView,
                     if note.getTitle() != nil {
 
                         // Title + image
-                        return 130
+                        return 132
                     }
 
                     // Images only
-                    return 110
+                    return 120
                 }
 
                 // Title + Prevew + Images
@@ -63,6 +62,7 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
 
+        cell.imageKeys = []
         cell.delegate = self
 
         guard self.notes.indices.contains(indexPath.row) else { return cell }
@@ -104,8 +104,6 @@ class NotesTableView: UITableView,
             u.removeAllActions()
         }
 
-        let index = UserDefaultsManagement.previewMode ? 2 : 1
-
         if note.container == .encryptedTextPack {
             viewDelegate?.unLock(notes: [note], completion: { notes in
                 DispatchQueue.main.async {
@@ -114,34 +112,30 @@ class NotesTableView: UITableView,
                         return
                     }
 
-                    self.reloadRow(note: note)
+                    self.reloadRows(notes: [note])
                     NotesTextProcessor.highlight(note: note)
 
-                    self.fill(note: note, indexPath: indexPath, index: index)
+                    self.fill(note: note, indexPath: indexPath)
                 }
             })
             
             return
         }
 
-        fill(note: note, indexPath: indexPath, index: index)
+        fill(note: note, indexPath: indexPath)
+
+        if UserDefaultsManagement.autoVersioning {
+            DispatchQueue.global().async {
+                note.saveRevision()
+            }
+        }
     }
 
-    private func fill(note: Note, indexPath: IndexPath, index: Int) {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-            return
-        }
-
-        let evc = UIApplication.getEVC()
-        bvc.containerController.isEnabledInteractive = false
-
-        evc.fill(note: note, clearPreview: true) {
-            bvc.containerController.selectController(atIndex: index, animated: true)
-
+    private func fill(note: Note, indexPath: IndexPath) {
+        UIApplication.getVC().openEditorViewController()
+        UIApplication.getEVC().fill(note: note, clearPreview: true) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
-                bvc.containerController.isEnabledInteractive = true
-
             }
         }
     }
@@ -187,8 +181,11 @@ class NotesTableView: UITableView,
             note.togglePin()
             cell.configure(note: note)
 
-            let filter = self.viewDelegate?.search.text ?? ""
-            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter)
+            let filter = vc.navigationItem.searchController?.searchBar.text ?? ""
+
+            let project = self.viewDelegate?.sidebarTableView.getSidebarProjects()?.first
+            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter, project: project)
+            
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
             let newIndexPath = IndexPath(row: newIndex, section: 0)
@@ -214,15 +211,10 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
-        let frame = tableView.rectForRow(at: indexPath)
-        self.cellHeights[indexPath] = frame.size.height
     }
 
     public func turnOffEditing() {
         if self.isEditing {
-            self.toggleSelectAll()
-
             self.allowsMultipleSelectionDuringEditing = false
             self.setEditing(false, animated: true)
         }
@@ -236,17 +228,44 @@ class NotesTableView: UITableView,
             self.turnOffEditing()
             self.removeAction(notes: notes, presentController: presentController)
 
-            if presentController.isKind(of: EditorViewController.self) || presentController.isKind(of: PreviewViewController.self) || back {
+            if presentController.isKind(of: EditorViewController.self) || back {
                 UIApplication.getEVC().cancel()
             }
         })
         remove.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-
         if let image = UIImage(named: "removeAction")?.resize(maxWidthHeight: 22) {
             remove.setValue(image, forKey: "image")
         }
-
         actionSheet.addAction(remove)
+
+        if showAll && UserDefaultsManagement.autoVersioning && !note.isEncrypted() {
+            let history = UIAlertAction(title: NSLocalizedString("History", comment: ""), style: .default, handler: { _ in
+                self.historyAction(note: notes.first!, presentController: presentController)
+            })
+            history.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "historyAction")?.resize(maxWidthHeight: 25) {
+                history.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(history)
+        }
+
+        let creationDate = UIAlertAction(title: NSLocalizedString("Date created", comment: ""), style: .default, handler: { _ in
+            self.dateAction(notes: notes, presentController: presentController)
+        })
+        creationDate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        if let image = UIImage(named: "dateAction")?.resize(maxWidthHeight: 25) {
+            creationDate.setValue(image, forKey: "image")
+        }
+        actionSheet.addAction(creationDate)
+
+        let duplicate = UIAlertAction(title: NSLocalizedString("Duplicate", comment: ""), style: .default, handler: { _ in
+            self.duplicateAction(notes: notes, presentController: presentController)
+        })
+        duplicate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        if let image = UIImage(named: "duplicateAction")?.resize(maxWidthHeight: 22) {
+            duplicate.setValue(image, forKey: "image")
+        }
+        actionSheet.addAction(duplicate)
 
         if showAll {
             let rename = UIAlertAction(title: NSLocalizedString("Rename", comment: ""), style: .default, handler: { _ in
@@ -294,14 +313,14 @@ class NotesTableView: UITableView,
 
         if showAll {
             let alertTitle =
-                !note.isUnlocked() || (note.isUnlocked() && note.isEncrypted())
+                (note.isUnlocked() && note.isEncrypted()) || !note.isEncrypted()
                     ? NSLocalizedString("Lock", comment: "")
                     : NSLocalizedString("Unlock", comment: "")
 
             let encryption = UIAlertAction(title: alertTitle, style: .default, handler: { _ in
                 self.viewDelegate?.toggleNotesLock(notes: [note])
 
-                if !note.isUnlocked(), presentController.isKind(of: EditorViewController.self) || presentController.isKind(of: PreviewViewController.self) || back {
+                if !note.isUnlocked(), presentController.isKind(of: EditorViewController.self) || back {
                     UIApplication.getEVC().cancel()
                 }
             })
@@ -413,40 +432,31 @@ class NotesTableView: UITableView,
 
         vc.storage.loadPins(notes: notes)
         self.notes = sorted
-        
+
         insertRows(at: indexPaths, with: .fade)
+        reloadRows(notes: notes, resetKeys: true)
     }
 
-    public func reloadRows(notes: [Note]) {
-        var indexPaths = [IndexPath]()
+    public func reloadRows(notes: [Note], resetKeys: Bool = false) {
+        beginUpdates()
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
                 let indexPath = IndexPath(row: i, section: 0)
-                indexPaths.append(indexPath)
-                
                 if let cell = cellForRow(at: indexPath) as? NoteCellView {
+                    if resetKeys {
+                        cell.imageKeys = []
+                    }
+
                     cell.configure(note: note)
                     cell.updateView()
                 }
             }
         }
+        endUpdates()
 
         viewDelegate?.updateSpotlightIndex(notes: notes)
     }
     
-    public func reloadRow(note: Note) {
-        DispatchQueue.main.async {
-            if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexPath = IndexPath(row: i, section: 0)
-
-                if let cell = self.cellForRow(at: indexPath) as? NoteCellView {
-                    cell.configure(note: note)
-                    cell.updateView()
-                }
-            }
-        }
-    }
-
     public func reloadRowForce(note: Note) {
         note.invalidateCache()
         note.loadPreviewInfo()
@@ -491,7 +501,14 @@ class NotesTableView: UITableView,
         var name = name
         var i = 1
 
-        while note.project.fileExist(fileName: name, ext: note.url.pathExtension) {
+        
+        while note.project.fileExistCaseInsensitive(fileName: name, ext: note.url.pathExtension) {
+
+            // disables renaming loop
+            if note.fileName.startsWith(string: name) {
+                return
+            }
+            
             let items = name.split(separator: " ")
 
             if let last = items.last, let position = Int(last) {
@@ -509,6 +526,7 @@ class NotesTableView: UITableView,
 
         let isPinned = note.isPinned
         let dst = note.getNewURL(name: name)
+        let src = note.url
 
         note.removePin()
 
@@ -519,13 +537,17 @@ class NotesTableView: UITableView,
         if note.move(to: dst) {
             note.url = dst
             note.parseURL()
+            
+            note.moveHistory(src: src, dst: dst)
         }
 
         if isPinned {
             note.addPin()
         }
 
-        self.reloadRow(note: note)
+        DispatchQueue.main.async {
+            self.reloadRows(notes: [note])
+        }
 
         if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
             evc.setTitle(text: note.getShortTitle())
@@ -551,6 +573,24 @@ class NotesTableView: UITableView,
         presentController.present(controller, animated: true, completion: nil)
     }
 
+    private func dateAction(notes: [Note], presentController: UIViewController) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let datePickerViewController = storyBoard.instantiateViewController(withIdentifier: "datePickerViewController") as! DatePickerViewController
+        datePickerViewController.notes = notes
+
+        let nvc = UIApplication.getNC()
+        nvc?.present(datePickerViewController, animated: true )
+    }
+
+    private func historyAction(note: Note, presentController: UIViewController) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let datePickerViewController = storyBoard.instantiateViewController(withIdentifier: "revisionsViewController") as! RevisionsViewController
+        datePickerViewController.note = note
+
+        let nvc = UIApplication.getNC()
+        nvc?.present(datePickerViewController, animated: true )
+    }
+
     private func copyAction(note: Note, presentController: UIViewController) {
         let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
 
@@ -560,21 +600,15 @@ class NotesTableView: UITableView,
     public func shareAction(note: Note, presentController: UIViewController, isHTML: Bool = false) {
         AudioServicesPlaySystemSound(1519)
 
-        var string = note.content.string
-        if isHTML {
-            string = renderMarkdownHTML(markdown:  note.content.unLoadImages().string)!
-        }
-
         var tempURL = note.url
         if note.isTextBundle() {
             tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(note.getName()).zip")
             SSZipArchive.createZipFile(atPath: tempURL.path, withContentsOfDirectory: note.url.path, keepParentDirectory: true)
         }
 
-        let objectsToShare = [string, tempURL] as [Any]
+        let objectsToShare = [tempURL] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-        activityVC.excludedActivityTypes = [ UIActivity.ActivityType.addToReadingList
-        ]
+        activityVC.excludedActivityTypes = [ UIActivity.ActivityType.addToReadingList ]
 
         presentController.present(activityVC, animated: true, completion: nil)
 
@@ -595,18 +629,64 @@ class NotesTableView: UITableView,
         }
     }
 
+    public func duplicateAction(notes: [Note], presentController: UIViewController) {
+        var dupes = [Note]()
+        for note in notes {
+            let src = note.url
+            let dst = NameHelper.generateCopy(file: note.url)
+
+            if note.isTextBundle() || note.isEncrypted() {
+                try? FileManager.default.copyItem(at: src, to: dst)
+
+                let noteDupe = Note(url: dst, with: note.project)
+                noteDupe.load()
+
+                viewDelegate?.storage.add(noteDupe)
+                dupes.append(noteDupe)
+                continue
+            }
+
+            let name = dst.deletingPathExtension().lastPathComponent
+            let noteDupe = Note(name: name, project: note.project, type: note.type, cont: note.container)
+            noteDupe.content = NSMutableAttributedString(string: note.content.string)
+
+            // Clone images
+            if note.type == .Markdown && note.container == .none {
+                let images = note.getAllImages()
+                for image in images {
+                    noteDupe.move(from: image.url, imagePath: image.path, to: note.project, copy: true)
+                }
+            }
+
+            noteDupe.save()
+
+            viewDelegate?.storage.add(noteDupe)
+            dupes.append(noteDupe)
+        }
+
+        insertRows(notes: dupes)
+
+        if let scrollTo = dupes.first {
+            viewDelegate?.notesTable.scrollTo(note: scrollTo)
+        }
+    }
+
     private func decryptUnlocked(notes: [Note]) -> [Note] {
         var notes = notes
+        var toReload = [Note]()
 
         for note in notes {
             if note.isUnlocked() {
                 if note.unEncryptUnlocked() {
                     notes.removeAll { $0 === note }
-
+                    toReload.append(note)
                     note.invalidateCache()
-                    reloadRow(note: note)
                 }
             }
+        }
+
+        DispatchQueue.main.async {
+            self.reloadRows(notes: toReload, resetKeys: true)
         }
 
         return notes
@@ -626,13 +706,18 @@ class NotesTableView: UITableView,
                     note.password = nil
 
                     if success && isFirst {
+                        vc.savePassword(password)
+
                         DispatchQueue.main.async {
                             UIApplication.getEVC().refill()
                         }
                     }
                 }
-                self.reloadRow(note: note)
                 isFirst = false
+            }
+
+            DispatchQueue.main.async {
+                self.reloadRows(notes: notes, resetKeys: true)
             }
         }
     }
@@ -666,7 +751,9 @@ class NotesTableView: UITableView,
             moveRow(at: atIndexPath, to: toIndexPath)
         }
 
-        reloadRows(at: [atIndexPath, toIndexPath], with: .automatic)
+        if atIndexPath != toIndexPath {
+            reloadRows(at: [atIndexPath, toIndexPath], with: .automatic)
+        }
 
         // scroll to hack
         // https://stackoverflow.com/questions/26244293/scrolltorowatindexpath-with-uitableview-does-not-work
@@ -680,16 +767,7 @@ class NotesTableView: UITableView,
     }
 
     @objc public func toggleSelectAll() {
-        guard let vc = viewDelegate else { return }
-        guard self.isEditing else {
-            var indexPath: IndexPath?
-            if let tag = vc.searchQuery.tag {
-                indexPath = vc.sidebarTableView.getIndexPathBy(tag: tag)
-            }
-
-            openPopover(indexPath: indexPath)
-            return
-        }
+        guard self.isEditing else { return }
 
         if let selected = self.indexPathsForSelectedRows, (selected.count - 1) == self.notes.count {
             for indexPath in selected {
@@ -706,69 +784,13 @@ class NotesTableView: UITableView,
         }
     }
 
-    public func openPopover(indexPath: IndexPath? = nil) {
-        guard let vc = viewDelegate else { return }
-        var type = vc.sidebarTableView.getSidebarItem()?.type
-
-        if let path = indexPath, path.section == SidebarSection.Tags.rawValue {
-            type = .Tag
-        }
-
-        guard type != .Label else { return }
-
-        let folderVC = FolderPopoverViewControler()
-        var actions = [FolderPopoverActions]()
-
-        switch type {
-        case .Inbox:
-            actions = [.importNote, .settingsFolder, .createFolder]
-        case .All, .Todo:
-            actions = [.settingsFolder]
-        case .Archive:
-            actions = [.importNote, .settingsFolder]
-        case .Trash:
-            actions = [.settingsFolder]
-        case .Category:
-            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder]
-        case .Tag:
-            actions = [.removeTag, .renameTag]
-        default: break
-        }
-
-        folderVC.setActions(actions)
-
-        let height = Int(folderVC.tableView.rowHeight) * folderVC.actions.count
-
-        folderVC.preferredContentSize = CGSize(width: 200, height: height)
-        folderVC.modalPresentationStyle = .popover
-        if let pres = folderVC.presentationController {
-            pres.delegate = viewDelegate
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            vc.present(folderVC, animated: true)
-            if let pop = folderVC.popoverPresentationController {
-                pop.sourceView = (vc.currentFolder!)
-
-                var cgRect = (vc.currentFolder).bounds
-                cgRect.origin.y = cgRect.origin.y + 20
-                pop.sourceRect = cgRect
-            }
-
-            AudioServicesPlaySystemSound(1519)
-        }
-    }
-
     private func invalidPasswordAlert() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController
-        else { return }
-
         let invalid = NSLocalizedString("Invalid Password", comment: "")
         let message = NSLocalizedString("Please enter valid password", comment: "")
         let alert = UIAlertController(title: invalid, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
-        bvc.present(alert, animated: true, completion: nil)
+        UIApplication.getVC().present(alert, animated: true, completion: nil)
     }
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

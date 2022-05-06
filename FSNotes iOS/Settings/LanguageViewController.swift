@@ -13,10 +13,6 @@ class LanguageViewController: UITableViewController {
     private var languages: [String]? = []
     
     override func viewDidLoad() {
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-        
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
@@ -27,7 +23,7 @@ class LanguageViewController: UITableViewController {
             }
         }
         
-        self.title = NSLocalizedString("Default Keyboard In Editor", comment: "Settings")
+        self.title = NSLocalizedString("Default keyboard in editor", comment: "Settings")
         super.viewDidLoad()
     }
     

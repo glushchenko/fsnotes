@@ -11,8 +11,23 @@ import UIKit
 
 extension ViewController: UIDocumentPickerDelegate {
     @IBAction public func openSidebarSettings() {
+        let mvc = UIApplication.getVC()
         if notesTable.isEditing {
-            notesTable.toggleSelectAll()
+            if let selectedRows = mvc.notesTable.selectedIndexPaths {
+                var notes = [Note]()
+                for indexPath in selectedRows {
+                    if mvc.notesTable.notes.indices.contains(indexPath.row) {
+                        let note = mvc.notesTable.notes[indexPath.row]
+                        notes.append(note)
+                    }
+                }
+
+                mvc.notesTable.selectedIndexPaths = nil
+                mvc.notesTable.actionsSheet(notes: notes, presentController: self)
+            } else {
+                mvc.notesTable.allowsMultipleSelectionDuringEditing = false
+                mvc.notesTable.setEditing(false, animated: true)
+            }
             return
         }
 
@@ -36,23 +51,54 @@ extension ViewController: UIDocumentPickerDelegate {
 
         switch type {
         case .Inbox:
-            actions = [.importNote, .settingsFolder, .createFolder]
+            actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles]
         case .All, .Todo:
-            actions = [.settingsFolder]
+            actions = [.settingsFolder, .multipleSelection]
         case .Archive:
-            actions = [.importNote, .settingsFolder]
+            actions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
-            actions = [.settingsFolder]
+            actions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Category:
-            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder]
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles]
         case .Tag:
-            actions = [.removeTag, .renameTag]
+            actions = [.removeTag, .renameTag, .multipleSelection]
+        case .Untagged:
+            actions = [.multipleSelection]
         default: break
         }
 
-        let mainTitle = type != .Tag ? projectLabel : sidebarItem?.getName()
+        var mainTitle = type != .Tag && type == .Project ? projectLabel : sidebarItem?.getName()
+
+        if type == .Untagged {
+            mainTitle = NSLocalizedString("Untagged", comment: "")
+        }
+
         let actionSheet = UIAlertController(title: mainTitle, message: nil, preferredStyle: .actionSheet)
 
+        if actions.contains(.removeFolder) {
+            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
+                self.removeFolder()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarRemoveFolder")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.emptyBin) {
+            let title = NSLocalizedString("Empty Bin", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
+                self.emptyBin()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "emptyBin")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+        
         if actions.contains(.importNote) {
             let title = NSLocalizedString("Import notes", comment: "Main view popover table")
             let importNote = UIAlertAction(title:title, style: .default, handler: { _ in
@@ -79,6 +125,18 @@ extension ViewController: UIDocumentPickerDelegate {
             actionSheet.addAction(settings)
         }
 
+        if actions.contains(.multipleSelection) {
+            let title = NSLocalizedString("Select", comment: "Main view popover table")
+            let multipleSelection = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.bulkEditing()
+            })
+            multipleSelection.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "navigationBulk")?.resize(maxWidthHeight: 23) {
+                multipleSelection.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(multipleSelection)
+        }
+
         if actions.contains(.createFolder) {
             let title = NSLocalizedString("Create folder", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
@@ -86,18 +144,6 @@ extension ViewController: UIDocumentPickerDelegate {
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(named: "sidebarCreateFolder")?.resize(maxWidthHeight: 23) {
-                alertAction.setValue(image, forKey: "image")
-            }
-            actionSheet.addAction(alertAction)
-        }
-
-        if actions.contains(.removeFolder) {
-            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
-            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
-                self.removeFolder()
-            })
-            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarRemoveFolder")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -139,6 +185,18 @@ extension ViewController: UIDocumentPickerDelegate {
             actionSheet.addAction(alertAction)
         }
 
+        if actions.contains(.openInFiles) {
+            let title = NSLocalizedString("Open in Files.app", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.openInFiles()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "openInFiles")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
         let dismiss = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
         actionSheet.addAction(dismiss)
 
@@ -151,7 +209,8 @@ extension ViewController: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard var projectURL = Storage.sharedInstance().getCurrentProject()?.url else { return }
 
-        if let mvc = getVC(), let pURL = mvc.sidebarTableView.getSidebarItem()?.project?.url {
+        let mvc = UIApplication.getVC()
+        if let pURL = mvc.sidebarTableView.getSidebarItem()?.project?.url {
             projectURL = pURL
         }
 
@@ -161,14 +220,6 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         self.dismiss(animated: true, completion: nil)
-    }
-
-    private func getVC() -> ViewController? {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return nil }
-
-        return vc
     }
 
     private func importNote() {
@@ -181,8 +232,8 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     @objc public func openProjectSettings() {
-        guard let vc = getVC(),
-            let sidebarItem = vc.sidebarTableView.getSidebarItem()
+        let vc = UIApplication.getVC()
+        guard let sidebarItem = vc.sidebarTableView.getSidebarItem()
         else { return }
 
         let storage = Storage.shared()
@@ -209,9 +260,18 @@ extension ViewController: UIDocumentPickerDelegate {
         vc.present(controller, animated: true, completion: nil)
     }
 
+    @objc func bulkEditing() {
+        let mvc = UIApplication.getVC()
+
+        if !mvc.notesTable.isEditing {
+            mvc.notesTable.allowsMultipleSelectionDuringEditing = true
+            mvc.notesTable.setEditing(true, animated: true)
+        }
+    }
+
     private func createFolder() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project
+        let mvc = UIApplication.getVC()
+        guard let selectedProject = mvc.searchQuery.project
         else { return }
 
         let alertController = UIAlertController(title: NSLocalizedString("Create folder:", comment: ""), message: nil, preferredStyle: .alert)
@@ -264,8 +324,9 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func removeFolder() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project
         else { return }
 
         let alert = UIAlertController(
@@ -288,13 +349,20 @@ extension ViewController: UIDocumentPickerDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
         }))
 
-        self.dismiss(animated: true, completion: nil)
-        mvc.present(alert, animated: true, completion: nil)
+        if selectedProject.isExternal {
+            let bookmark = SandboxBookmark.sharedInstance()
+            bookmark.remove(url: selectedProject.url)
+
+            mvc.sidebarTableView.removeRows(projects: [selectedProject])
+        } else {
+            mvc.present(alert, animated: true, completion: nil)
+        }
     }
 
     private func renameFolder() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project
         else { return }
 
         let title = NSLocalizedString("Rename folder:", comment: "Popover table")
@@ -346,8 +414,9 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func removeTag() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project,
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project,
             let tag = mvc.searchQuery.tag
         else { return }
 
@@ -366,8 +435,9 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func renameTag() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project,
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project,
             let tag = mvc.searchQuery.tag
         else { return }
 
@@ -415,6 +485,25 @@ extension ViewController: UIDocumentPickerDelegate {
         self.dismiss(animated: true, completion: nil)
         mvc.present(alertController, animated: true) {
             alertController.textFields![0].selectAll(nil)
+        }
+    }
+
+    private func openInFiles() {
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project else { return }
+        guard let path = selectedProject.url.path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) else { return }
+
+        if let projectUrl = URL(string: "shareddocuments://" + path) {
+            UIApplication.shared.open(projectUrl, options: [:])
+        }
+    }
+
+    private func emptyBin() {
+        let notes = storage.getAllTrash()
+
+        storage.removeNotes(notes: notes, fsRemove: true, completely: true) { [self]_ in
+            self.notesTable.removeRows(notes: notes)
         }
     }
 }

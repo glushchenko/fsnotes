@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
     public var launchedShortcutItem: UIApplicationShortcutItem?
+    public var listController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "listViewController") as! ViewController
+    public var editorController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "editorViewController") as! EditorViewController
+
+    public var mainController: MainNavigationController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
@@ -54,16 +58,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
 
         application.shortcutItems = [shortcutNew, shortcutNewClipboard, shortcutSearch]
+
+        let nav = MainNavigationController(rootViewController: listController)
+        nav.setNavigationBarHidden(false, animated: false)
+
+        mainController = nav
         
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = nav
+        window?.makeKeyAndVisible()
+
+        // Controller outlets loading
+        editorController.loadViewIfNeeded()
+
         return shouldPerformAdditionalDelegateHandling
     }
-    
+
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-
-
-        UIApplication.getEVC().saveContentOffset()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -107,16 +120,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        UIApplication.shared.statusBarStyle = .lightContent
-        
-        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
-
-            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
-                do {
-                    try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
-                } catch {
-                    print("Home directory creation: \(error)")
-                }
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized,
+           !FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil) {
+            
+            do {
+                try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("Home directory creation: \(error)")
             }
         }
                 
@@ -136,10 +146,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
         guard let shortCutType = shortcutItem.type as String? else { return false }
 
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return false }
-        
+        let vc = UIApplication.getVC()
+
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
             vc.createNote()
@@ -152,9 +160,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             handled = true
             break
         case ShortcutIdentifier.search.type:
-            pc.containerController.selectController(atIndex: 0, animated: true)
-            vc.searchView.isHidden = false
-            vc.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
+            vc.loadViewIfNeeded()
+            vc.popViewController()
+            vc.loadSearchController()
             handled = true
             break
         default:
@@ -172,6 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if url.host == "open" {
             if let tag = url["tag"]?.removingPercentEncoding {
                 vc.sidebarTableView.select(tag: tag)
+                mainController?.popToRootViewController(animated: true)
                 return true
             }
         }
@@ -206,10 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let note = note {
             UIApplication.getEVC().fill(note: note)
-
-            if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-                bvc.containerController.selectController(atIndex: 1, animated: true)
-            }
+            UIApplication.getVC().openEditorViewController()
 
             print("File imported: \(note.url)")
         }
@@ -229,27 +235,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func saveEditorState() {
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            let evc = UIApplication.getEVC()
-            let index = bvc.containerController.selectedIndex
+        let evc = UIApplication.getEVC()
+        guard evc.navigationController?.topViewController === evc else {return }
 
-            UserDefaultsManagement.currentController = index
+        if let url = evc.note?.url {
+            UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
 
-            if let url = evc.note?.url {
-                if index == 1 {
-                    UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
-                    
-                    if evc.editArea.isFirstResponder {
-                        UserDefaultsManagement.currentRange = evc.editArea.selectedRange
-                    } else {
-                        UserDefaultsManagement.currentRange = nil
-                    }
-                }
-
-                if index != 0 {
-                    UserDefaultsManagement.currentNote = url
-                }
+            if UserDefaultsManagement.previewMode {
+                UserDefaultsManagement.currentRange = nil
+            } else {
+                UserDefaultsManagement.currentRange = evc.editArea.selectedRange
             }
+
+            UserDefaultsManagement.currentNote = url
         }
     }
 }

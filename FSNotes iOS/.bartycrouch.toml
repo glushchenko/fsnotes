@@ -4,14 +4,14 @@ tasks = ["interfaces", "code", "transform", "normalize"]
 [update.interfaces]
 paths = ["."]
 defaultToBase = true
-ignoreEmptyStrings = true
+ignoreEmptyStrings = false
 unstripped = false
 
 [update.code]
 codePaths = ["."]
 localizablePaths = ["."]
 defaultToKeys = true
-additive = true
+additive = false
 unstripped = false
 plistArguments = true
 
@@ -31,5 +31,5 @@ sortByKeys = true
 
 [lint]
 paths = ["."]
-duplicateKeys = true
+duplicateKeys = false
 emptyValues = true

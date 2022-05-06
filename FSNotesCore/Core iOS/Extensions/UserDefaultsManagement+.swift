@@ -12,7 +12,6 @@ import NightNight
 extension UserDefaultsManagement {
     private struct Constants {
         static let codeTheme = "codeTheme"
-        static let currentController = "currentController"
         static let currentNote = "currentNote"
         static let currentLocation = "currentLocation"
         static let currentLength = "currentLength"
@@ -21,6 +20,8 @@ extension UserDefaultsManagement {
         static let editorState = "editorState"
         static let editorSuggestions = "editorSuggestions"
         static let IsFirstLaunch = "isFirstLaunch"
+        static let ImportURLsKey = "ImportURLs"
+        static let ProjectsKeyNew = "ProjectsKeyNew"
     }
 
     static var codeTheme: String {
@@ -33,7 +34,7 @@ extension UserDefaultsManagement {
                 return "monokai-sublime"
             }
 
-            return "atom-one-light"
+            return "github"
         }
         set {
             shared?.set(newValue, forKey: Constants.codeTheme)
@@ -105,7 +106,7 @@ extension UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.editorSuggestions) as? Bool {
                 return result
             }
-            return false
+            return true
         }
         set {
             shared?.set(newValue, forKey: Constants.editorSuggestions)
@@ -121,18 +122,6 @@ extension UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.currentNote)
-        }
-    }
-
-    static var currentController: Int? {
-        get {
-            if let controller = shared?.integer(forKey: Constants.currentController) {
-                return controller
-            }
-            return nil
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.currentController)
         }
     }
 
@@ -165,5 +154,131 @@ extension UserDefaultsManagement {
         set {
             shared?.set(newValue, forKey: Constants.editorState)
         }
+    }
+
+    static var noteFont: UIFont {
+        get {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
+                var font = UIFont.systemFont(ofSize: CGFloat(DefaultFontSize))
+
+                if let fontName = UserDefaultsManagement.fontName,
+                    let currentFont = UIFont(name: fontName, size: CGFloat(DefaultFontSize)) {
+                    font = currentFont
+                }
+
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                return fontMetrics.scaledFont(for: font)
+            }
+
+            if let name = self.fontName, name.starts(with: ".") {
+                return UIFont.systemFont(ofSize: CGFloat(self.fontSize))
+            }
+
+            if let fontName = self.fontName, let font = UIFont(name: fontName, size: CGFloat(self.fontSize)) {
+                return font
+            }
+
+            return UIFont.systemFont(ofSize: CGFloat(self.fontSize))
+        }
+        set {
+            self.fontName = newValue.fontName
+            self.fontSize = Int(newValue.pointSize)
+        }
+    }
+
+    static var codeFont: UIFont {
+        get {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
+                var font = Font.systemFont(ofSize: CGFloat(self.codeFontSize))
+
+                if let currentFont = Font(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {
+                    font = currentFont
+                }
+
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                return fontMetrics.scaledFont(for: font)
+            }
+
+            if let font = UIFont(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {
+                return font
+            }
+
+            return UIFont.systemFont(ofSize: CGFloat(self.codeFontSize))
+        }
+        set {
+            self.codeFontName = newValue.familyName
+            self.codeFontSize = Int(newValue.pointSize)
+        }
+    }
+
+    @available(iOS 11.0, *)
+    static var importURLs: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
+
+            if let result = defaults.object(forKey: Constants.ImportURLsKey) as? Data,
+                let urls = NSArray.unsecureUnarchived(from: result) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
+
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+                defaults.set(data, forKey: Constants.ImportURLsKey)
+            }
+        }
+    }
+
+    static var fontColor: Color {
+        get {
+            return self.DefaultFontColor
+        }
+    }
+
+    static var bgColor: Color {
+        get {
+            return self.DefaultBgColor
+        }
+    }
+
+    @available(iOS 11.0, *)
+    static var projects: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
+
+            if let data = defaults.data(forKey: Constants.ProjectsKeyNew), let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
+
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+                defaults.set(data, forKey: Constants.ProjectsKeyNew)
+            }
+        }
+    }
+}
+
+extension NSCoding where Self: NSObject {
+    @available(iOS 11.0, *)
+    static func unsecureUnarchived(from data: Data) -> Self? {
+        do {
+            let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
+            unarchiver.requiresSecureCoding = false
+            let obj = unarchiver.decodeObject(of: self, forKey: NSKeyedArchiveRootObjectKey)
+            if let error = unarchiver.error {
+                print("Error:\(error)")
+            }
+            return obj
+        } catch {
+            print("Error:\(error)")
+        }
+        return nil
     }
 }
