@@ -100,13 +100,13 @@ CA
                                                 <action selector="fileMenuNewRTF:" target="L4m-js-agn" id="7O9-Gp-1o1"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
+                                        <menuItem title="Save Revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
                                             <connections>
                                                 <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
-                                        <menuItem title="Search and create" keyEquivalent="l" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
+                                        <menuItem title="Search and Create" keyEquivalent="l" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
                                             <connections>
                                                 <action selector="searchAndCreate:" target="L4m-js-agn" id="ChM-Mj-Rdf"/>
                                             </connections>
@@ -139,23 +139,23 @@ CA
                                                 <action selector="deleteNote:" target="L4m-js-agn" id="NiM-WS-564"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Pin/unpin" keyEquivalent="8" identifier="fileMenu.togglePin" id="You-zo-rbl">
+                                        <menuItem title="Pin/Unpin" keyEquivalent="8" identifier="fileMenu.togglePin" id="You-zo-rbl">
                                             <connections>
                                                 <action selector="pinMenu:" target="Ady-hI-5gd" id="5kK-KD-hhk"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Remove encryption" keyEquivalent="7" identifier="fileMenu.removeEncryption" id="fkH-Wf-n87">
+                                        <menuItem title="Remove Encryption" keyEquivalent="7" identifier="fileMenu.removeEncryption" id="fkH-Wf-n87">
                                             <connections>
                                                 <action selector="removeNoteEncryption:" target="Ady-hI-5gd" id="nZq-wN-Jep"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Lock/unlock" keyEquivalent="l" id="RSs-wb-GNg">
+                                        <menuItem title="Lock/Unlock" keyEquivalent="l" id="RSs-wb-GNg">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleNotesLock:" target="Ady-hI-5gd" id="VTr-hR-bSV"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Open external" keyEquivalent="e" id="7MT-fy-lXN">
+                                        <menuItem title="Open External" keyEquivalent="e" id="7MT-fy-lXN">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="editorMenu:" target="Ady-hI-5gd" id="bT1-dL-ioY"/>
@@ -166,7 +166,7 @@ CA
                                                 <action selector="finderMenu:" target="Ady-hI-5gd" id="Ift-tc-85m"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Change creation date" keyEquivalent="d" identifier="fileMenu.changeCreationDate" id="49W-tO-6Vu">
+                                        <menuItem title="Change Creation Date" keyEquivalent="d" identifier="fileMenu.changeCreationDate" id="49W-tO-6Vu">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <attributedString key="userComments">
                                                 <fragment content="#bc-ignore!"/>
@@ -182,7 +182,7 @@ CA
                                                 <action selector="copyURL:" target="Ady-hI-5gd" id="aX7-ly-HOE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Copy title" keyEquivalent="c" identifier="note.copyTitle" id="5LV-Vi-n79">
+                                        <menuItem title="Copy Title" keyEquivalent="c" identifier="note.copyTitle" id="5LV-Vi-n79">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
@@ -554,7 +554,7 @@ CA
                                                 <action selector="linkMenu:" target="Ady-hI-5gd" id="V6q-no-eC3"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Image or file" keyEquivalent="I" identifier="format.image" id="yx6-SW-3vn">
+                                        <menuItem title="Image or File" keyEquivalent="I" identifier="format.image" id="yx6-SW-3vn">
                                             <connections>
                                                 <action selector="insertFileOrImage:" target="Ady-hI-5gd" id="2EE-rd-dsJ"/>
                                             </connections>
@@ -604,7 +604,7 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" identifier="viewMenu" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Toggle preview" keyEquivalent="`" id="PdU-Em-Ugm">
+                                        <menuItem title="Toggle Preview" keyEquivalent="`" id="PdU-Em-Ugm">
                                             <connections>
                                                 <action selector="togglePreview:" target="Ady-hI-5gd" id="62m-Nl-zcS"/>
                                             </connections>
@@ -616,12 +616,12 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="sLG-sQ-Yi1"/>
-                                        <menuItem title="Hide/show note list" keyEquivalent="B" id="WHt-T4-l9c">
+                                        <menuItem title="Hide/Show Note List" keyEquivalent="B" id="WHt-T4-l9c">
                                             <connections>
                                                 <action selector="toggleNoteList:" target="L4m-js-agn" id="G22-P2-hks"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Hide/show sidebar" keyEquivalent="B" id="DCh-5P-PZe">
+                                        <menuItem title="Hide/Show Sidebar" keyEquivalent="B" id="DCh-5P-PZe">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleSidebar:" target="L4m-js-agn" id="MRM-fh-zTo"/>
@@ -641,39 +641,39 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="iip-ri-cBa"/>
-                                        <menuItem title="Move Down In The Notes List" keyEquivalent="j" id="BtV-Z4-7Vq">
+                                        <menuItem title="Move Down in the Notes List" keyEquivalent="j" id="BtV-Z4-7Vq">
                                             <connections>
                                                 <action selector="noteDown:" target="Ady-hI-5gd" id="WHy-qc-OvH"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Move Up In The Notes List" keyEquivalent="k" id="Hqu-Sx-xgo">
+                                        <menuItem title="Move Up in the Notes List" keyEquivalent="k" id="Hqu-Sx-xgo">
                                             <connections>
                                                 <action selector="noteUp:" target="Ady-hI-5gd" id="gfc-6f-Jom"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
-                                        <menuItem title="Move Down In The Sidebar" keyEquivalent="J" identifier="folderMenu.down" id="vrs-XL-lyE">
+                                        <menuItem title="Move Down in the Sidebar" keyEquivalent="J" identifier="folderMenu.down" id="vrs-XL-lyE">
                                             <connections>
                                                 <action selector="sidebarDown:" target="Ady-hI-5gd" id="87t-Yf-dii"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Move Up In The Sidebar" keyEquivalent="K" identifier="folderMenu.up" id="sdE-ZM-6cq">
+                                        <menuItem title="Move Up in the Sidebar" keyEquivalent="K" identifier="folderMenu.up" id="sdE-ZM-6cq">
                                             <connections>
                                                 <action selector="sidebarUp:" target="Ady-hI-5gd" id="8dT-Az-Nv2"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="Ljl-jP-3qX"/>
-                                        <menuItem title="Sort by" id="rHB-xF-GgG">
+                                        <menuItem title="Sort By" id="rHB-xF-GgG">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Sort by" id="05n-RU-nOV">
+                                            <menu key="submenu" title="Sort By" id="05n-RU-nOV">
                                                 <items>
-                                                    <menuItem title="Modification date" identifier="SB.modificationDate" id="dCc-l5-XB2">
+                                                    <menuItem title="Modification Date" identifier="SB.modificationDate" id="dCc-l5-XB2">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="UCf-WH-qOL"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Creation date" identifier="SB.creationDate" id="eTL-dh-GvM">
+                                                    <menuItem title="Creation Date" identifier="SB.creationDate" id="eTL-dh-GvM">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="2Jk-Qh-1MD"/>
@@ -688,9 +688,9 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Show in sidebar" id="O9f-Lf-HF6">
+                                        <menuItem title="Show in Sidebar" id="O9f-Lf-HF6">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Show in sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
+                                            <menu key="submenu" title="Show in Sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
                                                 <items>
                                                     <menuItem title="Inbox" state="on" tag="1" id="IHG-4U-pF1">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
@@ -787,7 +787,7 @@ CA
                                                 <action selector="openReportsAndRequests:" target="Ady-hI-5gd" id="V1D-1X-awT"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Official site" id="cfe-sv-2gm">
+                                        <menuItem title="Official Site" id="cfe-sv-2gm">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openSite:" target="Voe-Tx-rLC" id="A75-hX-lIa"/>
@@ -2048,7 +2048,7 @@ CA
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="Save revision" tag="100" keyEquivalent="s" identifier="note.saveRevision" id="Nhf-c1-VJ6">
+                        <menuItem title="Save Revision" tag="100" keyEquivalent="s" identifier="note.saveRevision" id="Nhf-c1-VJ6">
                             <connections>
                                 <action selector="saveRevision:" target="rPt-NT-nkU" id="3q1-my-06E"/>
                             </connections>
@@ -2080,17 +2080,17 @@ CA
                                 <action selector="deleteNote:" target="rPt-NT-nkU" id="utQ-Hf-HAy"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Pin/unpin" keyEquivalent="8" id="jFN-Dp-LON">
+                        <menuItem title="Pin/Unpin" keyEquivalent="8" id="jFN-Dp-LON">
                             <connections>
                                 <action selector="pinMenu:" target="rPt-NT-nkU" id="EyW-HI-rr9"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Remove encryption" keyEquivalent="7" identifier="fileMenu.removeEncryption" id="5gL-j7-Zq8">
+                        <menuItem title="Remove Encryption" keyEquivalent="7" identifier="fileMenu.removeEncryption" id="5gL-j7-Zq8">
                             <connections>
                                 <action selector="removeNoteEncryption:" target="rPt-NT-nkU" id="5ga-uK-aSH"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Lock/unlock" keyEquivalent="l" id="kg2-3u-V99">
+                        <menuItem title="Lock/Unlock" keyEquivalent="l" id="kg2-3u-V99">
                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
                                 <action selector="toggleNotesLock:" target="rPt-NT-nkU" id="tK5-CH-cx8"/>
@@ -2108,7 +2108,7 @@ CA
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Fj3-MU-qJ9"/>
-                        <menuItem title="Change creation date" keyEquivalent="d" id="QdU-og-lQH">
+                        <menuItem title="Change Creation Date" keyEquivalent="d" id="QdU-og-lQH">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <attributedString key="userComments">
                                 <fragment content="#bc-ignore!"/>
@@ -2124,7 +2124,7 @@ CA
                                 <action selector="copyURL:" target="rPt-NT-nkU" id="zCA-0T-c96"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Copy title" keyEquivalent="c" identifier="note.copyTitle" id="3kn-9C-fsB">
+                        <menuItem title="Copy Title" keyEquivalent="c" identifier="note.copyTitle" id="3kn-9C-fsB">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <connections>
                                 <action selector="copyTitle:" target="rPt-NT-nkU" id="Fwy-yp-nPd"/>

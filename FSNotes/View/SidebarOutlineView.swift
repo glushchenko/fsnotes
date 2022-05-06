@@ -1322,7 +1322,6 @@ class SidebarOutlineView: NSOutlineView,
                 expandItem(item)
             }
             
-    
             index = row(forItem: note.project)
         }
 
