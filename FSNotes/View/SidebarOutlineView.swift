@@ -1310,9 +1310,18 @@ class SidebarOutlineView: NSOutlineView,
 
         var index = row(forItem: sidebarItem)
         if (index == -1) {
-            if let parent = note.project.parent, isExpandable(parent) {
-                expandItem(note.project.parent)
+            var expandQueue = [Project]()
+            var project = note.project
+            
+            while let parent = project.parent, isExpandable(parent) {
+                project = parent
+                expandQueue.append(project)
             }
+            
+            for item in expandQueue.reversed() {
+                expandItem(item)
+            }
+            
     
             index = row(forItem: note.project)
         }
