@@ -155,7 +155,7 @@
 "ASf-hd-2fT.title" = "Repositories:";
 
 /* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
-"auW-wa-jbc.title" = "Die geschichte";
+"auW-wa-jbc.title" = "Versionsverlauf";
 
 /* Class = "NSMenuItem"; title = "Format: yyyyMMddHHmmss"; ObjectID = "aVa-yH-IpC"; */
 "aVa-yH-IpC.title" = "Format: yyyyMMddHHmmss";
