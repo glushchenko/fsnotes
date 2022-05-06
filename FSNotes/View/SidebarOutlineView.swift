@@ -1308,13 +1308,20 @@ class SidebarOutlineView: NSOutlineView,
     public func select(note: Note) {
         let sidebarItem = sidebarItems?.first(where: {($0 as? SidebarItem)?.project == note.project || $0 as? Project == note.project })
 
-        let index = row(forItem: sidebarItem)
+        var index = row(forItem: sidebarItem)
+        if (index == -1) {
+            if let parent = note.project.parent, isExpandable(parent) {
+                expandItem(note.project.parent)
+            }
+    
+            index = row(forItem: note.project)
+        }
 
         if index > -1 {
             selectNote = note
-
             scrollRowToVisible(index)
             selectRowIndexes([index], byExtendingSelection: false)
+            return
         }
     }
     
