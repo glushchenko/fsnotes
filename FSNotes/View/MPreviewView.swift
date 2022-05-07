@@ -202,11 +202,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             return String()
         }
 
-    #if os(OSX)
         let inline = "['$', '$'], ['$$', '$$'], ['\\((', '\\))']"
-    #else
-        let inline = "['$$', '$$'], ['\\((', '\\))']"
-    #endif
 
         return """
             <script src="js/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>

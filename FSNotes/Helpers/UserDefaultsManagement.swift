@@ -1193,11 +1193,7 @@ public class UserDefaultsManagement {
                 return result
             }
 
-            #if os(iOS)
-            return true
-            #else
             return false
-            #endif
         }
         set {
             shared?.set(newValue, forKey: Constants.MathJaxPreview)
