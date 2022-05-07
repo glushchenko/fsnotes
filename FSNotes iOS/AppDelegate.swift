@@ -176,6 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         let vc = UIApplication.getVC()
         let storage = Storage.shared()
+        var note = storage.getBy(url: url)
 
         if url.host == "open" {
             if let tag = url["tag"]?.removingPercentEncoding {
@@ -184,8 +185,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
             }
         }
+        
+        if url.host == "find" {
+            if let id = url["id"]?.removingPercentEncoding {
+                note = storage.getBy(title: id)
+                if !vc.isLoadedDB, note == nil {
+                    vc.restoreFindID = id
+                }
+            }
+        }
 
-        var note = storage.getBy(url: url)
         if note == nil, let inbox = storage.getDefault() {
             guard url.startAccessingSecurityScopedResource() else {
                 return false

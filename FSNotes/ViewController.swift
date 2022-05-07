@@ -253,7 +253,7 @@ class ViewController: NSViewController,
                 }
 
                 if menuItem.identifier?.rawValue ==  "fileMenu.changeCreationDate" {
-                    menuItem.title = NSLocalizedString("Change creation date", comment: "Menu")
+                    menuItem.title = NSLocalizedString("Change Creation Date", comment: "Menu")
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.tags" {
@@ -1292,7 +1292,7 @@ class ViewController: NSViewController,
         field.stringValue = date
         field.placeholderString = "2020-08-28 21:59:07"
 
-        vc.alert?.messageText = NSLocalizedString("Change creation date", comment: "Menu") + ":"
+        vc.alert?.messageText = NSLocalizedString("Change Creation Date", comment: "Menu") + ":"
         vc.alert?.accessoryView = field
         vc.alert?.alertStyle = .informational
         vc.alert?.addButton(withTitle: "OK")
@@ -2120,7 +2120,7 @@ class ViewController: NSViewController,
     }
 
     private func configureTranslation() {
-        let creationDate = NSLocalizedString("Change creation date", comment: "Menu")
+        let creationDate = NSLocalizedString("Change Creation Date", comment: "Menu")
 
         menuChangeCreationDate.title = creationDate
     }

@@ -54,6 +54,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     // Last selected project abd tag in sidebar
     public var searchQuery: SearchQuery = SearchQuery(type: .Inbox)
     public var restoreActivity: URL?
+    public var restoreFindID: String?
+    public var isLoadedDB: Bool = false
 
     public var folderCapacity: String?
     public var currentFolder: String?
@@ -417,10 +419,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     }
                 }
             }
+            
+            if let restore = self.restoreFindID {
+                self.restoreFindID = nil
+                if let note = Storage.shared().getBy(title: restore) {
+                    DispatchQueue.main.async {
+                        UIApplication.getEVC().load(note: note)
+                    }
+                }
+            }
 
             let spotlightPoint = Date()
             self.reIndexSpotlight()
             print("4. Spotlight indexation finished in \(spotlightPoint.timeIntervalSinceNow * -1) seconds")
+            
+            self.isLoadedDB = true
         }
     }
 
