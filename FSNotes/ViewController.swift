@@ -1726,12 +1726,12 @@ class ViewController: NSViewController,
                 return
             }
 
-            self.notesTableView.noteList = orderedNotesList
-
             if operation.isCancelled {
                 completion()
                 return
             }
+            
+            self.notesTableView.noteList = orderedNotesList
             
             guard self.notesTableView.noteList.count > 0 else {
                 DispatchQueue.main.async {
