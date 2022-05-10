@@ -2634,7 +2634,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "Oleksandr Glushchenko";
+				ORGANIZATIONNAME = "Oleksandr Hlushchenko";
 				TargetAttributes = {
 					6F13BB0320FEDDF40005E120 = {
 						CreatedOnToolsVersion = 10.0;

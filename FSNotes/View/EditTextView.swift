@@ -616,6 +616,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
+            if let note = EditTextView.note, note.type == .RichText {
+                return super.writablePasteboardTypes
+            }
+            
             return
                 [NSPasteboard.PasteboardType.rtfd, NSPasteboard.PasteboardType.string, NSPasteboard.attributedTextType]
         }
@@ -623,12 +627,20 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override var readablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
+            if let note = EditTextView.note, note.type == .RichText {
+                return super.readablePasteboardTypes
+            }
+            
             return super.readablePasteboardTypes + [NSPasteboard.attributedTextType]
         }
     }
 
     override func readSelection(from pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
         guard let note = EditTextView.note else { return false }
+        
+        if note.type == .RichText {
+            return super.readSelection(from: pboard, type: type)
+        }
 
         if var data = pboard.data(forType: type) {
             var ext = "pdf"
@@ -657,6 +669,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
+        
+        if let note = EditTextView.note, note.type == .RichText {
+            return super.writeSelection(to: pboard, type: type)
+        }
 
         guard let storage = textStorage else { return false }
 
