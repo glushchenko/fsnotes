@@ -31,27 +31,35 @@ enum SidebarItemType: Int {
     public func getIcon(white: Bool = false) -> NSImage? {
         let postfix = white ? "_white" : String()
 
+        var image: NSImage? = nil
+        
         switch rawValue {
         case 0x01:
-            return NSImage(named: "sidebar_notes" + postfix)
+            image = NSImage(named: "sidebar_notes" + postfix)
         case 0x02:
-            return NSImage(named: "sidebar_trash" + postfix)
+            image = NSImage(named: "sidebar_trash" + postfix)
         case 0x05:
-            return NSImage(named: "sidebar_archive" + postfix)
+            image = NSImage(named: "sidebar_archive" + postfix)
         case 0x06:
-            return NSImage(named: "sidebar_todo" + postfix)
+            image = NSImage(named: "sidebar_todo" + postfix)
         case 0x07:
-            return NSImage(named: "sidebar_inbox" + postfix)
+            image = NSImage(named: "sidebar_inbox" + postfix)
         case 0x08:
-            return NSImage(named: "sidebar_tag" + postfix)
+            image = NSImage(named: "sidebar_tag" + postfix)
         case 0x09:
-            return NSImage(named: "sidebar_project" + postfix)
+            image = NSImage(named: "sidebar_project" + postfix)
         case 0x10:
-            return NSImage(named: "sidebar_icloud_drive");
+            image = NSImage(named: "sidebar_icloud_drive")
         case 0x11:
-            return NSImage(named: "sidebar_untagged" + postfix);
+            image = NSImage(named: "sidebar_untagged" + postfix);
         default:
             return nil
+        }
+        
+        if #available(macOS 10.14, *), UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
+            return image?.tint(color: NSColor.controlAccentColor)
+        } else {
+            return image
         }
     }
     #endif

@@ -423,6 +423,13 @@ class ViewController: NSViewController,
             name: NSNotification.Name(rawValue: "com.apple.screenIsLocked"),
             object: nil
         )
+        
+        DistributedNotificationCenter.default().addObserver(
+            self,
+            selector: #selector(onAccentColorChanged(note:)),
+            name: NSNotification.Name(rawValue: "AppleColorPreferencesChangedNotification"),
+            object: nil
+        )
     }
 
     private func configureSidebarAndNotesList() {
@@ -2634,6 +2641,12 @@ class ViewController: NSViewController,
     @objc func onScreenLocked(note: NSNotification) {
         if UserDefaultsManagement.lockOnScreenActivated{
             lockAll(self)
+        }
+    }
+    
+    @objc func onAccentColorChanged(note: NSNotification) {
+        if #available(macOS 10.14, *) {
+            sidebarOutlineView.reloadSidebar()
         }
     }
 

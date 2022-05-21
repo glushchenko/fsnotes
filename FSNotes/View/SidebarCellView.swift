@@ -85,7 +85,12 @@ class SidebarCellView: NSTableCellView {
     }
 
     public func applySelectedFirstResponder() {
-        label.textColor = .white
+        if #available(macOS 10.14, *), UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
+            label.textColor = NSColor(named: "color_not_selected")
+        } else {
+            label.textColor = .white
+        }
+        
         icon.image = type?.getIcon(white: true)
 
         guard let rowView = self.superview as? SidebarTableRowView else { return }
