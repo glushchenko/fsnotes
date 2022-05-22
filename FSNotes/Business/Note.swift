@@ -787,7 +787,7 @@ public class Note: NSObject  {
         #if NOT_EXTENSION || os(OSX)
             let mutable = NotesTextProcessor.convertAppTags(in: self.content)
             let content = NotesTextProcessor.convertAppLinks(in: mutable)
-            let result = content.string.replacingOccurrences(of: "\n---\n", with: "<hr>")
+            let result = content.string.replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
 
             return cleanMetaData(content: result)
         #else
