@@ -122,6 +122,12 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
 
         vc.editArea.textStorage?.updateParagraphStyle()
+        
+        MPreviewView.template = nil
+        NotesTextProcessor.hl = nil
+
+        vc.editArea.clear()
+        vc.refillEditArea()
     }
 
     @IBAction func imagesWidth(_ sender: NSSlider) {
