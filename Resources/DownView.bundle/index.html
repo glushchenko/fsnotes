@@ -229,6 +229,20 @@
         }
 
     </script>
+    
+    <script>
+        var liList = document.getElementsByTagName("li"),
+            length = liList.length,
+            i = 0;
+
+        for (i; i < length; i++) {
+            if (liList[i].parentNode.tagName == "UL" && liList[i].parentNode.classList.contains('cb')) {
+                if (liList[i].querySelectorAll('input').length == 0) {
+                    liList[i].style.listStyleType = "disc"
+                }
+            }
+        }
+    </script>
 
     MATH_JAX_JS
 </body>
