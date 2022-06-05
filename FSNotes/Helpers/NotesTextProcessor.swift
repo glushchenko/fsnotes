@@ -608,17 +608,17 @@ public class NotesTextProcessor {
 
             guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
 
-            if substring.startsWith(string: "(") && substring.last == ")" {
-                range = NSRange(location: range.location + 1, length: range.length - 2)
-            }
-
             if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
                 range = NSRange(location: range.location, length: range.length - 1)
                 substring = String(substring.dropLast())
             }
             
-            if substring.startsWith(string: "(") && substring.last == ")" {
-                range = NSRange(location: range.location + 1, length: range.length - 2)
+            if substring.first == "(" {
+                range = NSRange(location: range.location + 1, length: range.length - 1)
+            }
+            
+            if substring.last == ")" {
+                range = NSRange(location: range.location, length: range.length - 1)
             }
 
             substring = String(substring).idnaEncodeURL()
