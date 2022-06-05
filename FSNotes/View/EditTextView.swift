@@ -1430,8 +1430,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                                 DispatchQueue.main.async {
                                     self.complete(nil)
                                 }
+                                
+                                return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
                             }
-                            break
                         }
                     }
                 }
