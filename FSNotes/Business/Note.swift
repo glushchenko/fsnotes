@@ -318,7 +318,7 @@ public class Note: NSObject  {
             if FileManager.default.fileExists(atPath: to.path) && !forceRewrite {
                 guard let project = project ?? sharedStorage.getProjectByNote(url: to) else { return false }
 
-                let ext = getExtensionForContainer()
+                let ext = url.pathExtension
                 destination = NameHelper.getUniqueFileName(name: title, project: project, ext: ext)
             }
 
