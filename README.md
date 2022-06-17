@@ -40,7 +40,7 @@ FSNotes is modern notes manager for macOS and iOS.
 	<img src="https://fsnot.es/img/badge-download-on-the-app-store.svg" alt="">
 </a>
 
-<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/ios-screen.png"> <img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/ios-screen-2.png">
+<img width="300" alt="FSNotes for iOS" src="https://raw.githubusercontent.com/glushchenko/fsnotes-site/main/static/img/front/iOS-screen-1.webp"> <img width="300" alt="FSNotes for iOS" src="https://raw.githubusercontent.com/glushchenko/fsnotes-site/main/static/img/front/iOS-screen-2.webp">
 
 ### Key features
 
