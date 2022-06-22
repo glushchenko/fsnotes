@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 import NightNight
-import FSNotesCore_iOS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

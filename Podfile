@@ -28,12 +28,6 @@ def framework_pods
     pod 'SwiftLint', '~> 0.30.0'
 end
 
-target 'FSNotesCore iOS' do
-    platform :ios, IOS_TARGET_VERSION
-    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
-    framework_pods
-end
-
 target 'FSNotesCore macOS' do
     platform :osx, MAC_TARGET_VERSION
     pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
