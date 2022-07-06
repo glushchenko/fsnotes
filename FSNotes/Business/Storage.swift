@@ -678,13 +678,12 @@ class Storage {
 
     func loadLabel(_ item: Project, loadContent: Bool = false) {
         var currentUrl: URL?
-
-        #if NOT_EXTENSION || os(OSX)
+                
+        #if NOT_EXTENSION
             currentUrl = EditTextView.note?.url
         #endif
-
+        
         let documents = readDirectory(item.url)
-
         let pins = UserDefaultsManagement.pinList
 
         for document in documents {

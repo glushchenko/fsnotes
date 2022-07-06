@@ -27,7 +27,8 @@ class TitleTextField: NSTextField {
     }
 
     override func becomeFirstResponder() -> Bool {
-        if let note = EditTextView.note {
+        if let vc = ViewController.shared(),
+            let note = vc.editor.note {
             stringValue = note.getFileName()
         }
 
@@ -37,7 +38,7 @@ class TitleTextField: NSTextField {
     override func textDidEndEditing(_ notification: Notification) {
         guard stringValue.count > 0,
             let vc = ViewController.shared(),
-            let note = EditTextView.note
+            let note = vc.editor.note
         else { return }
 
         let currentTitle = stringValue
@@ -114,13 +115,13 @@ class TitleTextField: NSTextField {
         self.isEditable = false
 
         guard let vc = ViewController.shared(),
-              let note = EditTextView.note else { return }
+              let note = vc.editor.note else { return }
 
         vc.updateTitle(note: note)
     }
     
     public func updateNotesTableView() {
-        guard let vc = ViewController.shared(), let note = EditTextView.note else { return }
+        guard let vc = ViewController.shared(), let note = vc.editor.note else { return }
 
         if (note.container == .encryptedTextPack && !note.isUnlocked()) || !note.project.firstLineAsTitle {
             vc.notesTableView.reloadRow(note: note)

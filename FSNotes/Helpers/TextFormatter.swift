@@ -648,15 +648,15 @@ public class TextFormatter {
         
         // First & Last
         if (sRange.location == 0 || sRange.location == self.storage.length) && paragraph.count == 0 && self.note.isMarkdown() {
-            #if os(OSX)
+        #if os(OSX)
             if textView.textStorage?.length == 0 {
-                EditTextView.shouldForceRescan = true
+                textView.textStorageProcessor?.shouldForceRescan = true
             }
-            #else
+        #else
             if textView.textStorage.length == 0 {
-                EditTextView.shouldForceRescan = true
+                textView.textStorageProcessor?.shouldForceRescan = true
             }
-            #endif
+        #endif
             
             self.insertText("\t\n", replacementRange: sRange)
             self.setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
@@ -1064,7 +1064,7 @@ public class TextFormatter {
             let mutableString = NSMutableAttributedString(string: string)
             mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
 
-            EditTextView.shouldForceRescan = true
+            textView.textStorageProcessor?.shouldForceRescan = true
             insertText(mutableString, replacementRange: selectedRange)
             return
         }
@@ -1074,7 +1074,7 @@ public class TextFormatter {
     }
 
     public func codeBlock() {
-        EditTextView.shouldForceRescan = true
+        textView.textStorageProcessor?.shouldForceRescan = true
 
         let currentRange = textView.selectedRange
         if currentRange.length > 0 {
@@ -1098,7 +1098,7 @@ public class TextFormatter {
     }
 
     public func quote() {
-        EditTextView.shouldForceRescan = true
+        textView.textStorageProcessor?.shouldForceRescan = true
 
         guard let pRange = getParagraphRange() else { return }
         let paragraph = storage.mutableString.substring(with: pRange)

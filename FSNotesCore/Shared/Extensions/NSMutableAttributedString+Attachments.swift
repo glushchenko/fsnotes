@@ -9,7 +9,7 @@
 import Foundation
 
 extension NSMutableAttributedString {
-    func loadImages(note: Note) {
+    func loadImages(editor: EditTextView, note: Note) {
         let paragraphRange = NSRange(0..<length)
         var offset = 0
 
@@ -34,7 +34,7 @@ extension NSMutableAttributedString {
                   let imageURL = note.getImageUrl(imageName: cleanPath)
             else { return }
 
-            let imageAttachment = NoteAttachment(title: title, path: cleanPath, url: imageURL, note: note)
+            let imageAttachment = NoteAttachment(editor: editor, title: title, path: cleanPath, url: imageURL, note: note)
 
             if let attributedStringWithImage = imageAttachment.getAttributedString() {
                 offset += mdLink.count - 1

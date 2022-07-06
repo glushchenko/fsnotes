@@ -174,8 +174,10 @@ class PreferencesAdvancedViewController: NSViewController {
 
                 try? FileManager.default.removeItem(at: webkitPreview)
 
-                guard let vc = ViewController.shared() else { return }
-                vc.refillEditArea()
+                let editors = AppDelegate.getEditTextViews()
+                for editor in editors {
+                    editor.editorViewController?.refillEditArea()
+                }
             }
         }
     }

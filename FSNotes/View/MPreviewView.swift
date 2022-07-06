@@ -21,6 +21,7 @@ public typealias MPreviewViewClosure = () -> ()
 
 class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
+    private var editorVC: EditorViewController?
     private weak var note: Note?
     private var closure: MPreviewViewClosure?
     public static var template: String?
@@ -29,7 +30,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         self.closure = closure
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
-        userContentController.add(HandlerCheckbox(), name: "checkbox")
+        
+        let handlerCheckbox = HandlerCheckbox(note: note)
+        userContentController.add(handlerCheckbox, name: "checkbox")
         userContentController.add(HandlerMouse(), name: "mouse")
         userContentController.add(HandlerClipboard(), name: "clipboard")
 
@@ -58,28 +61,39 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public func setEditorVC(evc: EditorViewController? = nil) {
+        self.editorVC = evc
+    }
 
 #if os(OSX)
     override func mouseDown(with event: NSEvent) {
-        if let note = EditTextView.note, let vc = ViewController.shared() {
+        guard let evc = editorVC else {
+            super.mouseDown(with: event)
+            return
+        }
+        
+        if let note = evc.vcEditor?.note {
             if note.container == .encryptedTextPack && !note.isUnlocked() {
-                vc.unLock(notes: [note])
+                evc.unLock(notes: [note])
             } else if note.content.length == 0 {
-                vc.currentPreviewState = .off
-                vc.refillEditArea()
-                vc.focusEditArea()
+                evc.currentPreviewState = .off
+                evc.refillEditArea()
+                evc.focusEditArea()
             }
         }
+        
         super.mouseDown(with: event)
     }
 
     override func keyDown(with event: NSEvent) {
         if event.keyCode == kVK_Return {
             DispatchQueue.main.async {
-                guard let vc = ViewController.shared() else { return }
-                vc.currentPreviewState = .off
-                vc.refillEditArea()
-                vc.focusEditArea()
+                if let evc = self.editorVC {
+                    evc.currentPreviewState = .off
+                    evc.refillEditArea()
+                    evc.focusEditArea()
+                }
             }
             return
         }
@@ -501,7 +515,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         #if os(iOS)
             var width = 10
         #else
-            var width = ViewController.shared()!.editArea.getWidth()
+            var width = ViewController.shared()!.editor.getWidth()
         #endif
 
         if fullScreen {
@@ -535,11 +549,17 @@ class HandlerSelection: NSObject, WKScriptMessageHandler {
 }
 
 class HandlerCheckbox: NSObject, WKScriptMessageHandler {
+    private var note: Note?
+    
+    init(note: Note) {
+        self.note = note
+    }
+    
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
 
         guard let position = message.body as? String else { return }
-        guard let note = EditTextView.note else { return }
+        guard let note = self.note else { return }
 
         let content = note.content.unLoadCheckboxes().unLoadImages()
         let string = content.string

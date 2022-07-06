@@ -44,11 +44,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if EditTextView.note != nil,
+        if vc.editor.note != nil,
            event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)
         {
             if vc.currentPreviewState == .on {
-                NSApp.mainWindow?.makeFirstResponder(vc.editArea.markdownView)
+                NSApp.mainWindow?.makeFirstResponder(vc.editor.markdownView)
             } else {
                 vc.focusEditArea()
             }
@@ -149,7 +149,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if vc.editAreaScroll.isFindBarVisible {
             let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
             menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
-            vc.editArea.performTextFinderAction(menu)
+            vc.editor.performTextFinderAction(menu)
         }
 
         if UserDataService.instance.isNotesTableEscape {
@@ -159,7 +159,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             
             vc.sidebarOutlineView.deselectAll(nil)
             vc.sidebarOutlineView.reloadTags()
-            vc.editArea.clear()
+            vc.editor.clear()
             return
         }
 
@@ -168,11 +168,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             let note = noteList[selectedRow]
 
             guard selectedRowIndexes.count == 0x01 else {
-                vc.editArea.clear()
+                vc.editor.clear()
                 return
             }
 
-            vc.editArea.fill(note: note, highlight: true)
+            vc.editor.fill(note: note, highlight: true)
 
             if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
                 vc.focusEditArea()
@@ -182,7 +182,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
 
         // Clean
-        vc.editArea.clear()
+        vc.editor.clear()
 
         if !UserDefaultsManagement.inlineTags {
             vc.sidebarOutlineView.deselectAllTags()
@@ -328,7 +328,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
 
             if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
-                if let note = EditTextView.note, note.isEncrypted() {
+                if let note = vc.editor.note, note.isEncrypted() {
                     menuItem.isEnabled = true
                     menuItem.isHidden = false
                 } else {

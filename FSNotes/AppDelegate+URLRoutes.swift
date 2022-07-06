@@ -128,7 +128,7 @@ extension AppDelegate {
             if let note = Storage.sharedInstance().getBy(title: wikiURL) {
                 vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
-                    NSApp.mainWindow?.makeFirstResponder(vc.editArea)
+                    NSApp.mainWindow?.makeFirstResponder(vc.editor)
                     vc.notesTableView.saveNavigationHistory(note: note)
                 })
                 return
@@ -152,7 +152,7 @@ extension AppDelegate {
                     if note.title.lowercased() == query.lowercased() {
                         controller.notesTableView.saveNavigationHistory(note: note)
                         controller.notesTableView.setSelected(note: note)
-                        controller.view.window?.makeFirstResponder(controller.editArea)
+                        controller.view.window?.makeFirstResponder(controller.editor)
                     } else {
                         controller.search.suggestAutocomplete(note, filter: query)
                     }

@@ -296,7 +296,7 @@ class SidebarOutlineView: NSOutlineView,
                         _ = note.scanContentTags()
                         viewDelegate?.notesTableView.reloadRow(note: note)
 
-                        if EditTextView.note == note {
+                        if viewDelegate?.editor.note == note {
                             viewDelegate?.refillEditArea(force: true)
                         }
                     }
@@ -328,7 +328,7 @@ class SidebarOutlineView: NSOutlineView,
             }
 
             if project.isTrash {
-                vc.editArea.clear()
+                vc.editor.clear()
                 vc.storage.removeNotes(notes: notes) { _ in
                     DispatchQueue.main.async {
                         vc.notesTableView.removeByNotes(notes: notes)
@@ -554,7 +554,7 @@ class SidebarOutlineView: NSOutlineView,
         let hasChangedTagsState = isChangedTagsState()
 
         if hasChangedTagsState || hasChangedProjectsState || hasChangedSidebarItemsState {
-            vd.editArea.clear()
+            vd.editor.clear()
         }
 
         let i = view.selectedRow
@@ -1482,7 +1482,7 @@ class SidebarOutlineView: NSOutlineView,
         var tagDepth: Int = 0
         var selectedIndexes = getSelectedProjectsIndexes() ?? [tagDepth]
 
-        let currentNote = EditTextView.note
+        let currentNote = viewDelegate?.editor.note
         selectNote = currentNote
 
         for tagIndex in 0..<fullTags.count{
@@ -1645,7 +1645,7 @@ class SidebarOutlineView: NSOutlineView,
         }
         endUpdates()
 
-        viewDelegate?.editArea.clear()
+        viewDelegate?.editor.clear()
     }
 
     public func rename(tags: [Tag], name: String) {

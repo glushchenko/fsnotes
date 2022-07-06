@@ -12,7 +12,7 @@ extension ViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
         guard !isGitProcessLocked else { return }
-        guard let note = EditTextView.note else { return }
+        guard let note = editor.note else { return }
 
         let project = note.project.getParent()
         isGitProcessLocked = true
@@ -28,7 +28,7 @@ extension ViewController {
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
         guard let commit = sender.representedObject as? Commit else { return }
-        guard let note = EditTextView.note else { return }
+        guard let note = editor.note else { return }
         let git = Git.sharedInstance()
 
         UserDataService.instance.fsUpdatesDisabled = true
@@ -47,7 +47,7 @@ extension ViewController {
         refillEditArea(force: true)
         notesTableView.reloadRow(note: note)
 
-        editArea.scanTagsAndAutoRename()
+        editor.scanTagsAndAutoRename()
 
         UserDataService.instance.fsUpdatesDisabled = false
     }

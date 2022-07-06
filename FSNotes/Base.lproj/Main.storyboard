@@ -105,6 +105,11 @@ CA
                                                 <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Open…" keyEquivalent="o" id="HmK-lp-ASv">
+                                            <connections>
+                                                <action selector="openWindow:" target="Ady-hI-5gd" id="HOV-Ja-fKS"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
                                         <menuItem title="Search and Create" keyEquivalent="l" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
                                             <connections>
@@ -820,7 +825,7 @@ CA
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="rlq-iU-PD6"/>
             </objects>
-            <point key="canvasLocation" x="91" y="6"/>
+            <point key="canvasLocation" x="-640" y="-791"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="mVP-iC-cBD">
@@ -1167,7 +1172,7 @@ CA
                 <customObject id="o4P-dg-Cec" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="gPl-hR-49I"/>
             </objects>
-            <point key="canvasLocation" x="620" y="620.5"/>
+            <point key="canvasLocation" x="711" y="613"/>
         </scene>
         <!--Layout-->
         <scene sceneID="vmk-ef-Yif">
@@ -1849,18 +1854,18 @@ CA
                                                 <rect key="frame" x="238" y="0.0" width="568" height="600"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
-                                                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL" customClass="EditorScrollView" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="462" height="562"/>
+                                                    <scrollView misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL" customClass="EditorScrollView" customModule="FSNotes" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
                                                         <clipView key="contentView" focusRingType="none" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
-                                                            <rect key="frame" x="0.0" y="0.0" width="462" height="562"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsDocumentBackgroundColorChange="YES" allowsUndo="YES" allowsImageEditing="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" linkDetection="YES" dataDetection="YES" dashSubstitution="YES" textReplacement="YES" smartInsertDelete="YES" id="cmZ-KL-T9k" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="462" height="562"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="mainBackground"/>
-                                                                    <size key="minSize" width="462" height="562"/>
+                                                                    <size key="minSize" width="568" height="562"/>
                                                                     <size key="maxSize" width="636" height="10000000"/>
                                                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 </textView>
@@ -1880,8 +1885,8 @@ CA
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
-                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="xSU-Mk-2F1" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="562" width="462" height="38"/>
+                                                    <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xSU-Mk-2F1" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="562" width="568" height="38"/>
                                                         <subviews>
                                                             <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
                                                                 <rect key="frame" x="214" y="11" width="35" height="16"/>
@@ -1894,8 +1899,8 @@ CA
                                                                     <outlet property="delegate" destination="XfG-lQ-9wD" id="ikK-Ty-iHC"/>
                                                                 </connections>
                                                             </textField>
-                                                            <customView horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
-                                                                <rect key="frame" x="372" y="0.0" width="90" height="38"/>
+                                                            <customView horizontalHuggingPriority="249" verticalHuggingPriority="249" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
+                                                                <rect key="frame" x="470" y="0.0" width="98" height="38"/>
                                                                 <subviews>
                                                                     <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="9" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shI-kr-3o8">
                                                                         <rect key="frame" x="12" y="11" width="66" height="16"/>
@@ -1911,7 +1916,7 @@ CA
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
                                                                                 <connections>
-                                                                                    <action selector="toggleNotesLock:" target="XfG-lQ-9wD" id="wku-AS-7EO"/>
+                                                                                    <action selector="toggleNotesLock:" target="rPt-NT-nkU" id="3gl-Ik-HTx"/>
                                                                                 </connections>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bn7-FD-jzc">
@@ -2020,8 +2025,8 @@ CA
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="editArea" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>
                         <outlet property="editAreaScroll" destination="qJO-7f-vkL" id="X69-yq-N67"/>
+                        <outlet property="editor" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>
                         <outlet property="emptyEditAreaImage" destination="Gz4-4G-Fts" id="Bih-Xr-Cl8"/>
                         <outlet property="lockUnlock" destination="Ote-7U-BZm" id="DXV-am-jEC"/>
                         <outlet property="menuChangeCreationDate" destination="QdU-og-lQH" id="3h3-dh-83s"/>
@@ -3361,6 +3366,174 @@ Will Pazner (github.com/pazner)</string>
                 <customObject id="bsT-UP-VdO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1783" y="624"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="ixM-Cu-fRC">
+            <objects>
+                <windowController storyboardIdentifier="noteWindowController" id="vFg-r7-8j4" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" restorable="NO" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="eUy-cc-RjG">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="425" y="462" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+                        <view key="contentView" id="bjh-fs-xot">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="vFg-r7-8j4" id="pvV-kc-yHm"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="wwb-tg-gGi" kind="relationship" relationship="window.shadowedContentViewController" id="0UL-3Z-RHZ"/>
+                    </connections>
+                </windowController>
+                <customObject id="gkY-n9-0so" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1350" y="1263"/>
+        </scene>
+        <!--Note View Controller-->
+        <scene sceneID="VaQ-cR-NWf">
+            <objects>
+                <viewController id="wwb-tg-gGi" customClass="NoteViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="EeP-be-X0G">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="376"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Iip-lX-188" userLabel="TitleBarView" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="338" width="480" height="38"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rYa-4l-z3U" userLabel="Title Label" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
+                                        <rect key="frame" x="222" y="11" width="37" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="UdE-8N-Qit">
+                                            <font key="font" usesAppearanceFont="YES"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="mainBackground"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="Uul-l1-jKT" userLabel="Title Bar Additional View">
+                                        <rect key="frame" x="390" y="0.0" width="90" height="38"/>
+                                        <subviews>
+                                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OFt-xi-XVU">
+                                                <rect key="frame" x="12" y="15" width="66" height="9"/>
+                                                <subviews>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PiC-RU-ugX">
+                                                        <rect key="frame" x="0.0" y="-2.5" width="14" height="15"/>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="VTh-q6-3p6">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="toggleNotesLock:" target="eUr-Sd-Bfg" id="l5o-VP-vpe"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="grq-z8-mu5">
+                                                        <rect key="frame" x="22" y="-2" width="21.5" height="13"/>
+                                                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Hg1-rI-n1u">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="togglePreview:" target="eUr-Sd-Bfg" id="OKA-wt-hHI"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jV1-b8-PLn">
+                                                        <rect key="frame" x="51" y="-3" width="15.5" height="17"/>
+                                                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Uwd-ec-6d5">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="shareSheet:" target="eUr-Sd-Bfg" id="L0f-7h-ISg"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <visibilityPriorities>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                    <integer value="1000"/>
+                                                </visibilityPriorities>
+                                                <customSpacing>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                    <real value="3.4028234663852886e+38"/>
+                                                </customSpacing>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="OFt-xi-XVU" secondAttribute="trailing" constant="12" id="5F8-QZ-CXh"/>
+                                            <constraint firstItem="OFt-xi-XVU" firstAttribute="leading" secondItem="Uul-l1-jKT" secondAttribute="leading" constant="12" id="bjE-Jm-VmN"/>
+                                            <constraint firstItem="OFt-xi-XVU" firstAttribute="centerY" secondItem="Uul-l1-jKT" secondAttribute="centerY" id="ggK-vn-ui9"/>
+                                        </constraints>
+                                    </customView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="K47-qo-b19"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rYa-4l-z3U" secondAttribute="trailing" constant="85" id="iOV-Fl-S9P"/>
+                                    <constraint firstAttribute="trailing" secondItem="Uul-l1-jKT" secondAttribute="trailing" id="jvV-kO-rSK"/>
+                                    <constraint firstItem="Uul-l1-jKT" firstAttribute="top" secondItem="Iip-lX-188" secondAttribute="top" id="lDS-ye-xqR"/>
+                                    <constraint firstAttribute="bottom" secondItem="Uul-l1-jKT" secondAttribute="bottom" id="mf1-h1-ODO"/>
+                                    <constraint firstItem="rYa-4l-z3U" firstAttribute="centerY" secondItem="Iip-lX-188" secondAttribute="centerY" id="ryn-J3-Yd7"/>
+                                    <constraint firstItem="rYa-4l-z3U" firstAttribute="centerX" secondItem="Iip-lX-188" secondAttribute="centerX" id="sl3-9t-2kG"/>
+                                    <constraint firstItem="rYa-4l-z3U" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Iip-lX-188" secondAttribute="leading" constant="85" id="t5e-dR-FCH"/>
+                                </constraints>
+                            </customView>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7WR-qL-UhC" customClass="EditorScrollView" customModule="FSNotes" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
+                                <clipView key="contentView" drawsBackground="NO" id="3Ao-pL-uMJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="16L-Vf-Qjb" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="480" height="338"/>
+                                            <size key="maxSize" width="480" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="4Ff-xV-qz4">
+                                    <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Nlj-zs-ZtW">
+                                    <rect key="frame" x="464" y="0.0" width="16" height="338"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ML3-K3-vlx">
+                                <rect key="frame" x="152" y="84" width="170" height="170"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logoInCircle" id="riY-9N-gUN"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="7WR-qL-UhC" secondAttribute="bottom" id="4fd-Cu-ugd"/>
+                            <constraint firstItem="7WR-qL-UhC" firstAttribute="leading" secondItem="EeP-be-X0G" secondAttribute="leading" id="Fas-VV-63U"/>
+                            <constraint firstItem="Iip-lX-188" firstAttribute="leading" secondItem="EeP-be-X0G" secondAttribute="leading" id="Ldw-pc-xAs"/>
+                            <constraint firstItem="7WR-qL-UhC" firstAttribute="top" secondItem="Iip-lX-188" secondAttribute="bottom" id="YmH-ZM-DBb"/>
+                            <constraint firstAttribute="trailing" secondItem="Iip-lX-188" secondAttribute="trailing" id="d2W-Pr-CAW"/>
+                            <constraint firstAttribute="trailing" secondItem="7WR-qL-UhC" secondAttribute="trailing" id="fbg-nU-IFD"/>
+                            <constraint firstItem="Iip-lX-188" firstAttribute="top" secondItem="EeP-be-X0G" secondAttribute="top" id="zxU-4H-c36"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="editor" destination="16L-Vf-Qjb" id="d3v-Di-4i1"/>
+                        <outlet property="editorScrollView" destination="7WR-qL-UhC" id="ivQ-Kf-OO8"/>
+                        <outlet property="emptyEditAreaImage" destination="ML3-K3-vlx" id="EPd-WQ-gLt"/>
+                        <outlet property="lockUnlockButton" destination="PiC-RU-ugX" id="TkZ-BU-gAW"/>
+                        <outlet property="previewButton" destination="grq-z8-mu5" id="vGw-jF-1Df"/>
+                        <outlet property="shareButton" destination="jV1-b8-PLn" id="WkC-CN-mgS"/>
+                        <outlet property="titleBarView" destination="Iip-lX-188" id="dHI-nm-3ue"/>
+                        <outlet property="titleLabel" destination="rYa-4l-z3U" id="E6B-Mr-QuY"/>
+                    </connections>
+                </viewController>
+                <customObject id="eUr-Sd-Bfg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1976" y="1263"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="GUW-JY-WNb">

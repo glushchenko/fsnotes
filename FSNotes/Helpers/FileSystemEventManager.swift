@@ -278,9 +278,12 @@ class FileSystemEventManager {
 
             self.delegate.notesTableView.reloadRow(note: note)
 
-            if EditTextView.note == note {
-                DispatchQueue.main.async {
-                    self.delegate.refillEditArea(force: true)
+            let editors = AppDelegate.getEditTextViews()
+            for editor in editors {
+                if editor.note == note {
+                    DispatchQueue.main.async {
+                        editor.editorViewController?.refillEditArea(force: true)
+                    }
                 }
             }
         }
@@ -338,15 +341,20 @@ class FileSystemEventManager {
                 }
 
                 // Reload current encrypted note
-                if let currentNote = EditTextView.note, currentNote.url == url {
-                    if let password = currentNote.password, ext == "etp" {
-                        _ = currentNote.unLock(password: password)
-                    }
+                let editors = AppDelegate.getEditTextViews()
+                for editor in editors {
+                    if let currentNote = editor.note, currentNote.url == url {
+                        if let password = currentNote.password, ext == "etp" {
+                            _ = currentNote.unLock(password: password)
+                        }
 
-                    DispatchQueue.main.async {
-                        self.delegate.refillEditArea(force: true)
+                        DispatchQueue.main.async {
+                            editor.editorViewController?.refillEditArea(force: true)
+                        }
                     }
                 }
+                
+ 
 
                 do {
                     try FileManager.default.copyItem(at: conflict.url, to: to)

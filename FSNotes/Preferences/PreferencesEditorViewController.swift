@@ -66,43 +66,56 @@ class PreferencesEditorViewController: NSViewController {
     let storage = Storage.sharedInstance()
 
     @IBAction func liveImagesPreview(_ sender: NSButton) {
-        guard let vc = ViewController.shared() else { return }
-
-        if UserDefaultsManagement.liveImagesPreview {
-            if let note = EditTextView.note, let storage = vc.editArea.textStorage, storage.length > 0 {
-                storage.setAttributedString(note.content)
+        let editors = AppDelegate.getEditTextViews()
+        
+        for editor in editors {
+            if UserDefaultsManagement.liveImagesPreview {
+                if let note = editor.note, let storage = editor.textStorage, storage.length > 0 {
+                    storage.setAttributedString(note.content)
+                }
             }
-        }
 
-        UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
+            UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
 
-        if let note = EditTextView.note, vc.currentPreviewState == .off {
-            NotesTextProcessor.highlight(note: note)
-            vc.refillEditArea()
+            if let note = editor.note, let evc = editor.editorViewController, evc.currentPreviewState == .off {
+                NotesTextProcessor.highlight(note: note)
+                evc.refillEditArea()
+            }
         }
     }
 
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
+        Storage.sharedInstance().resetCacheAttributes()
 
-        guard let vc = ViewController.shared() else { return }
-        vc.storage.resetCacheAttributes()
-
-        vc.refillEditArea()
+        let editors = AppDelegate.getEditTextViews()
+        
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                evc.refillEditArea(force: true)
+            }
+        }
     }
 
     @IBAction func markdownCodeThemeAction(_ sender: NSPopUpButton) {
-        guard let vc = ViewController.shared() else { return }
         guard let item = sender.selectedItem else {
             return
         }
 
-        vc.storage.resetCacheAttributes()
+        Storage.sharedInstance().resetCacheAttributes()
         UserDefaultsManagement.codeTheme = item.title
 
-        MPreviewView.template = nil
-        NotesTextProcessor.hl = nil
-        vc.refillEditArea(force: true)
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                editor.textStorage?.updateParagraphStyle()
+
+                MPreviewView.template = nil
+                NotesTextProcessor.hl = nil
+
+                evc.refillEditArea(force: true)
+            }
+        }
     }
 
     @IBAction func inEditorFocus(_ sender: NSButton) {
@@ -118,46 +131,51 @@ class PreferencesEditorViewController: NSViewController {
     }
 
     @IBAction func lineSpacing(_ sender: NSSlider) {
-        guard let vc = ViewController.shared() else { return }
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
 
-        vc.editArea.textStorage?.updateParagraphStyle()
-        
-        MPreviewView.template = nil
-        NotesTextProcessor.hl = nil
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                editor.textStorage?.updateParagraphStyle()
 
-        vc.editArea.clear()
-        vc.refillEditArea()
+                MPreviewView.template = nil
+                NotesTextProcessor.hl = nil
+
+                evc.refillEditArea(force: true)
+            }
+        }
     }
 
     @IBAction func imagesWidth(_ sender: NSSlider) {
-        guard let vc = ViewController.shared() else { return }
-
         UserDefaultsManagement.imagesWidth = sender.floatValue
 
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
         temporary.appendPathComponent("ThumbnailsBig")
         try? FileManager.default.removeItem(at: temporary)
 
-        if let note = EditTextView.note, vc.currentPreviewState == .off {
-            NotesTextProcessor.highlight(note: note)
-            vc.refillEditArea()
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let note = editor.note, let evc = editor.editorViewController, evc.currentPreviewState == .off {
+                NotesTextProcessor.highlight(note: note)
+                
+                evc.refillEditArea()
+            }
         }
     }
 
     @IBAction func lineWidth(_ sender: NSSlider) {
-        guard let vc = ViewController.shared() else { return }
-
         UserDefaultsManagement.lineWidth = sender.floatValue
 
-        if let _ = EditTextView.note {
-            vc.editArea.updateTextContainerInset()
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                editor.updateTextContainerInset()
 
-            MPreviewView.template = nil
-            NotesTextProcessor.hl = nil
+                MPreviewView.template = nil
+                NotesTextProcessor.hl = nil
 
-            vc.editArea.clear()
-            vc.refillEditArea(force: true)
+                evc.refillEditArea(force: true)
+            }
         }
     }
 
@@ -188,44 +206,39 @@ class PreferencesEditorViewController: NSViewController {
     }
 
     @IBAction func marginSize(_ sender: NSSlider) {
-        guard let vc = ViewController.shared() else { return }
-
         UserDefaultsManagement.marginSize = sender.floatValue
 
-        if let _ = EditTextView.note {
-            vc.editArea.updateTextContainerInset()
-
-            MPreviewView.template = nil
-            NotesTextProcessor.hl = nil
-
-            vc.editArea.clear()
-            vc.refillEditArea(force: true)
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                editor.updateTextContainerInset()
+    
+                MPreviewView.template = nil
+                NotesTextProcessor.hl = nil
+    
+                evc.refillEditArea(force: true)
+            }
         }
     }
 
     @IBAction func changeFont(_ sender: Any?) {
-        guard let vc = ViewController.shared() else { return }
-
         let fontManager = NSFontManager.shared
         let newFont = fontManager.convert(UserDefaultsManagement.codeFont)
         UserDefaultsManagement.codeFont = newFont
         NotesTextProcessor.codeFont = newFont
 
-        MPreviewView.template = nil
-        NotesTextProcessor.hl = nil
+        Storage.sharedInstance().resetCacheAttributes()
 
-        vc.storage.resetCacheAttributes()
-        vc.editArea.clear()
-        vc.refillEditArea(force: true)
-
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                MPreviewView.template = nil
+                NotesTextProcessor.hl = nil
+                evc.refillEditArea(force: true)
+            }
+        }
+        
         setCodeFont()
-    }
-
-    private func setCodeFont() {
-        let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
-
-        codeFont.font = NSFont(name: familyName, size: 13)
-        codeFont.stringValue = "\(familyName) \(UserDefaultsManagement.codeFont.pointSize)pt"
     }
 
     @IBAction func inlineTags(_ sender: NSButton) {
@@ -249,8 +262,20 @@ class PreferencesEditorViewController: NSViewController {
     @IBAction func highlightIndentedCodeBlocks(_ sender: NSButton) {
         UserDefaultsManagement.indentedCodeBlockHighlighting = (sender.state == NSControl.StateValue.on)
 
-        guard let vc = ViewController.shared() else { return }
-        vc.storage.resetCacheAttributes()
-        vc.refillEditArea()
+        Storage.sharedInstance().resetCacheAttributes()
+        
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                evc.refillEditArea()
+            }
+        }
+    }
+    
+    private func setCodeFont() {
+        let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
+
+        codeFont.font = NSFont(name: familyName, size: 13)
+        codeFont.stringValue = "\(familyName) \(UserDefaultsManagement.codeFont.pointSize)pt"
     }
 }

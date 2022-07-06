@@ -124,14 +124,16 @@ class PreferencesUserInterfaceViewController: NSViewController {
     }
 
     @IBAction func setFontColor(_ sender: NSColorWell) {
-        guard let vc = ViewController.shared() else { return }
-
-        vc.storage.resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
         
         UserDefaultsManagement.appearanceType = .Custom
         UserDefaultsManagement.fontColor = sender.color
-        vc.editArea.setEditorTextColor(sender.color)
-        vc.refillEditArea()
+        
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            editor.setEditorTextColor(sender.color)
+            editor.editorViewController?.refillEditArea()
+        }
     }
 
     @IBAction func setBgColor(_ sender: NSColorWell) {
@@ -140,7 +142,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
         UserDefaultsManagement.appearanceType = .Custom
         UserDefaultsManagement.bgColor = sender.color
 
-        vc.editArea.backgroundColor = sender.color
+        vc.editor.backgroundColor = sender.color
         vc.titleBarView?.layer?.backgroundColor = sender.color.cgColor
         vc.titleLabel.backgroundColor = sender.color
     }
@@ -204,8 +206,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
     }
 
     @IBAction func changeFont(_ sender: Any?) {
-        guard let vc = ViewController.shared() else { return }
-
         let fontManager = NSFontManager.shared
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont)
         UserDefaultsManagement.noteFont = newFont
@@ -213,13 +213,17 @@ class PreferencesUserInterfaceViewController: NSViewController {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
-        vc.storage.resetCacheAttributes()
+        Storage.sharedInstance().resetCacheAttributes()
 
-        MPreviewView.template = nil
-        NotesTextProcessor.hl = nil
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                MPreviewView.template = nil
+                NotesTextProcessor.hl = nil
 
-        vc.editArea.clear()
-        vc.refillEditArea(force: true)
+                evc.refillEditArea(force: true)
+            }
+        }
 
         setFontPreview()
     }

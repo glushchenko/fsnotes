@@ -11,8 +11,6 @@ import FSNotesCore_macOS
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
-
-    var mainWindowController: MainWindowController?
     var prefsWindowController: PrefsWindowController?
     var aboutWindowController: AboutWindowController?
     var statusItem: NSStatusItem?
@@ -22,7 +20,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     public var newName: String? = nil
     public var newContent: String? = nil
 
-    var appTitle: String {
+    public static var mainWindowController: MainWindowController?
+    public static var noteWindows = [NSWindowController]()
+    
+    public static var appTitle: String {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
     }
@@ -89,13 +90,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             fatalError("Error getting main window controller")
         }
         
-        self.mainWindowController = mainWC
+        AppDelegate.mainWindowController = mainWC
         mainWC.window?.makeKeyAndOrderFront(nil)
     }
         
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
-            mainWindowController?.makeNew()
+            AppDelegate.mainWindowController?.makeNew()
         }
                 
         return true
@@ -240,8 +241,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if event.type == NSEvent.EventType.leftMouseUp {
             NSApp.activate(ignoringOtherApps: true)
             
-            mainWindowController?.window?.makeKeyAndOrderFront(nil)
-            mainWindowController?.window?.resignKey()
+            AppDelegate.mainWindowController?.window?.makeKeyAndOrderFront(nil)
+            AppDelegate.mainWindowController?.window?.resignKey()
         
             ViewController.shared()?.search.becomeFirstResponder()
             
@@ -262,7 +263,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     // MARK: IBActions
     
     @IBAction func openMainWindow(_ sender: Any) {
-        mainWindowController?.makeNew()
+        AppDelegate.mainWindowController?.makeNew()
     }
     
     @IBAction func openHelp(_ sender: Any) {
@@ -293,19 +294,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @IBAction func new(_ sender: Any?) {
-        mainWindowController?.makeNew()
+        AppDelegate.mainWindowController?.makeNew()
         NSApp.activate(ignoringOtherApps: true)
         ViewController.shared()?.fileMenuNewNote(self)
     }
     
     @IBAction func newRTF(_ sender: Any?) {
-        mainWindowController?.makeNew()
+        AppDelegate.mainWindowController?.makeNew()
         NSApp.activate(ignoringOtherApps: true)
         ViewController.shared()?.fileMenuNewRTF(self)
     }
     
     @IBAction func searchAndCreate(_ sender: Any?) {
-        mainWindowController?.makeNew()
+        AppDelegate.mainWindowController?.makeNew()
         NSApp.activate(ignoringOtherApps: true)
         
         guard let vc = ViewController.shared() else { return }
@@ -460,5 +461,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func application(_ application: NSApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
 
         return true
+    }
+    
+    public static func getEditTextViews() -> [EditTextView] {
+        var views = [EditTextView]()
+        
+        for window in noteWindows {
+            if let controller = window.contentViewController as? NoteViewController {
+                views.append(controller.editor)
+            }
+        }
+        
+        if let controller = mainWindowController?.contentViewController as? ViewController {
+            views.append(controller.editor)
+        }
+        
+        return views
     }
 }
