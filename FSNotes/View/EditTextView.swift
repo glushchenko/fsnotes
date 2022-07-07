@@ -39,7 +39,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         validateSubmenu(menu)
     }
     
-    override func becomeFirstResponder() -> Bool {
+    override func becomeFirstResponder() -> Bool {        
         if let note = self.note {
             if note.container == .encryptedTextPack {
                 return false
@@ -956,7 +956,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return false
         }
         
-        if viewDelegate?.currentPreviewState == .on && !note.isRTF() {
+        if editorViewController?.currentPreviewState == .on && !note.isRTF() {
             return false
         }
         
@@ -1084,6 +1084,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             /// Load note if needed
             markdownView?.load(note: note, force: force)
         }
+        
+        window?.makeFirstResponder(markdownView )
     }
 
     private func fillPlainAndRTFStyle(note: Note, saveTyping: Bool) {
@@ -2449,7 +2451,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let position =
             window?.firstResponder == self ? selectedRange().location : -1
-        let state = viewDelegate?.currentPreviewState == .on ? "preview" : "editor"
+        let state = editorViewController?.currentPreviewState == .on ? "preview" : "editor"
         let data =
             [
                 "note-file-name": note.name,

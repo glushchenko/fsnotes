@@ -62,7 +62,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                         if notes.count == 0x01 {
                             note.password = password
                             DispatchQueue.main.async {
-                                self.refillEditArea(force: true)
+                                self.reloadAllOpenedWindows(note: note)
                             }
                         }
 
@@ -77,12 +77,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                         note.password = nil
 
                         DispatchQueue.main.async {
-                            //self.editor?.clear()
-                            //self.focusTable()
-
-                            if notes.count == 1 {
-                                self.refillEditArea()
-                            }
+                            self.reloadAllOpenedWindows(note: note)
+                            
+                            ViewController.shared()?.focusTable()
                         }
                     }
                 }
@@ -221,7 +218,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                         note.password = password
 
                         DispatchQueue.main.async {
-                            self.refillEditArea(force: true)
+                            self.reloadAllOpenedWindows(note: note)
                         }
 
                         if isTypedByUser {
@@ -232,6 +229,16 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
 
                 self.vcNotesTableView?.reloadRow(note: note)
                 i = i + 1
+            }
+        }
+    }
+    
+    public func reloadAllOpenedWindows(note: Note) {
+        let editors = AppDelegate.getEditTextViews()
+        
+        for editor in editors {
+            if editor.note == note {
+                editor.editorViewController?.refillEditArea(force: true)
             }
         }
     }
@@ -323,7 +330,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
         for note in notes {
             if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
-                    self.refillEditArea(force: true)
+                    self.reloadAllOpenedWindows(note: note)
                     NSApp.mainWindow?.makeFirstResponder(self.vcNotesTableView)
                 }
 
