@@ -15,8 +15,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
     public var alert: NSAlert?
     public var noteLoading: ProgressState = .none
     
-    public var vcSidebarOutlineView: SidebarOutlineView?
-    public var vcNotesTableView: NotesTableView?
     public var vcEditor: EditTextView?
     public var vcTitleLabel: TitleTextField?
     public var vcEmptyEditAreaImage: NSImageView?
@@ -43,7 +41,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
         
         if let _ = sender as? NSButton, let note = vcEditor?.note {
             notes = [note]
-        } else if let selected = vcNotesTableView?.getSelectedNotes() {
+        } else if let selected = ViewController.shared()?.notesTableView?.getSelectedNotes() {
             notes = selected
         }
 
@@ -68,7 +66,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
 
                         let insertTags = note.scanContentTags().0
                         DispatchQueue.main.async {
-                            self.vcSidebarOutlineView?.addTags(insertTags)
+                            ViewController.shared()?.sidebarOutlineView?.addTags(insertTags)
                         }
                     }
                 } else {
@@ -88,7 +86,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                     self.save(password: password)
                 }
 
-                self.vcNotesTableView?.reloadRow(note: note)
+                ViewController.shared()?.notesTableView.reloadRow(note: note)
             }
         }
     }
@@ -104,6 +102,10 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
             cancelTextSearch()
             currentPreviewState = .on
             refillEditArea()
+            
+            if let mdView = vcEditor?.editorViewController?.vcEditor?.markdownView {
+                view.window?.makeFirstResponder(mdView)
+            }
         }
 
         if let responder = firstResp, (
@@ -114,7 +116,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
             view.window?.makeFirstResponder(firstResp)
         } else {
             let responder = currentPreviewState == .on
-                ? vcNotesTableView
+                ? vcEditor?.markdownView
                 : vcEditor
             
             view.window?.makeFirstResponder(responder)
@@ -211,7 +213,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
 
                     let insertTags = note.scanContentTags().0
                     DispatchQueue.main.async {
-                        self.vcSidebarOutlineView?.addTags(insertTags)
+                        ViewController.shared()?.sidebarOutlineView?.addTags(insertTags)
                     }
 
                     if i == 0 {
@@ -227,7 +229,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                     }
                 }
 
-                self.vcNotesTableView?.reloadRow(note: note)
+                ViewController.shared()?.notesTableView.reloadRow(note: note)
                 i = i + 1
             }
         }
@@ -331,7 +333,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
             if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
                     self.reloadAllOpenedWindows(note: note)
-                    NSApp.mainWindow?.makeFirstResponder(self.vcNotesTableView)
                 }
 
                 removeTags(note: note)
@@ -339,7 +340,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
             }
 
             isFirst = false
-            self.vcNotesTableView?.reloadRow(note: note)
+            ViewController.shared()?.notesTableView.reloadRow(note: note)
+        }
+        
+        // Focus notes list if active main window
+        if let vc = view.window?.contentViewController as? ViewController, let mainWindow = view.window {
+            mainWindow.makeFirstResponder(vc.notesTableView)
         }
 
         return notes
@@ -352,7 +358,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
             if note.isUnlocked() {
                 if note.unEncryptUnlocked() {
                     notes.removeAll { $0 === note }
-                    vcNotesTableView?.reloadRow(note: note)
+                    ViewController.shared()?.notesTableView.reloadRow(note: note)
                 }
             }
         }
@@ -363,7 +369,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
     public func removeTags(note: Note) {
         let tags = note.tags
         note.tags = []
-        vcSidebarOutlineView?.removeTags(tags)
+        ViewController.shared()?.sidebarOutlineView?.removeTags(tags)
     }
     
     public func dropTitle() {
@@ -381,7 +387,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
 
         editor.window?.makeFirstResponder(editor)
 
-        if let ntv = vcNotesTableView, ntv.selectedRow > -1 {
+        if let ntv = ViewController.shared()?.notesTableView, ntv.selectedRow > -1 {
             vcEditor?.isEditable = true
             vcEmptyEditAreaImage?.isHidden = true
         }

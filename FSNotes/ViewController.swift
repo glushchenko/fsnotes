@@ -492,8 +492,6 @@ class ViewController: EditorViewController,
         
         vcEditor = editor
         vcTitleLabel = titleLabel
-        vcNotesTableView = notesTableView
-        vcSidebarOutlineView = sidebarOutlineView
         vcEmptyEditAreaImage = emptyEditAreaImage
         vcEditorScrollView = editAreaScroll
         

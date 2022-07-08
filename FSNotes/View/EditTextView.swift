@@ -946,9 +946,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     func getSelectedNote() -> Note? {
-        guard let vc = editorViewController else { return nil }
-
-        return vc.vcNotesTableView?.getSelectedNote()
+        return ViewController.shared()?.notesTableView?.getSelectedNote()
     }
     
     public func isEditable(note: Note) -> Bool {
@@ -1084,8 +1082,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             /// Load note if needed
             markdownView?.load(note: note, force: force)
         }
-        
-        window?.makeFirstResponder(markdownView )
     }
 
     private func fillPlainAndRTFStyle(note: Note, saveTyping: Bool) {

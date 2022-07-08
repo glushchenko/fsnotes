@@ -609,13 +609,13 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" identifier="viewMenu" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Toggle Preview" keyEquivalent="`" id="PdU-Em-Ugm">
+                                        <menuItem title="Toggle Preview" keyEquivalent="/" id="PdU-Em-Ugm">
                                             <connections>
                                                 <action selector="togglePreview:" target="Ady-hI-5gd" id="62m-Nl-zcS"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Preview MathJax" keyEquivalent="`" identifier="previewMathJax" id="KIz-OO-IQT">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                        <menuItem title="Preview MathJax" keyEquivalent="/" identifier="previewMathJax" id="KIz-OO-IQT">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleMathJax:" target="N0L-g4-qwj" id="M4h-TJ-TiH"/>
                                             </connections>
@@ -3505,7 +3505,7 @@ Will Pazner (github.com/pazner)</string>
                                 </scroller>
                             </scrollView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ML3-K3-vlx">
-                                <rect key="frame" x="152" y="84" width="170" height="170"/>
+                                <rect key="frame" x="151" y="84" width="170" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logoInCircle" id="riY-9N-gUN"/>
                             </imageView>
