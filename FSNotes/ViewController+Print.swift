@@ -8,10 +8,10 @@
 
 import WebKit
 
-extension ViewController {
+extension EditorViewController {
 
     public func printMarkdownPreview() {
-        guard let note = editor.note else { return }
+        guard let note = vcEditor?.note else { return }
 
         let classBundle = Bundle(for: MPreviewView.self)
         let url = classBundle.url(forResource: "DownView", withExtension: "bundle")!

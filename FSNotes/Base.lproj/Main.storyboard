@@ -95,17 +95,12 @@ CA
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New RTF" keyEquivalent="N" identifier="fileMenu.newRtf" id="Tys-UY-xaW">
-                                            <connections>
-                                                <action selector="fileMenuNewRTF:" target="L4m-js-agn" id="7O9-Gp-1o1"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Save Revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
                                             <connections>
                                                 <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Open…" keyEquivalent="o" id="HmK-lp-ASv">
+                                        <menuItem title="Open In New Window" keyEquivalent="o" id="HmK-lp-ASv">
                                             <connections>
                                                 <action selector="openWindow:" target="Ady-hI-5gd" id="HOV-Ja-fKS"/>
                                             </connections>
@@ -122,7 +117,7 @@ CA
                                                 <action selector="duplicate:" target="Ady-hI-5gd" id="9eI-Pe-IRx"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename" keyEquivalent="r" identifier="note.rename" id="jLq-8F-n0X">
+                                        <menuItem title="Rename" keyEquivalent="r" identifier="fileMenu.rename" id="jLq-8F-n0X">
                                             <connections>
                                                 <action selector="renameMenu:" target="L4m-js-agn" id="H0Y-Fe-qfr"/>
                                             </connections>
@@ -194,7 +189,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wQ9-qT-qnU"/>
-                                        <menuItem title="Move" keyEquivalent="T" id="CvG-Kp-kdK">
+                                        <menuItem title="Move" keyEquivalent="T" identifier="fileMenu.move" id="CvG-Kp-kdK">
                                             <connections>
                                                 <action selector="moveMenu:" target="L4m-js-agn" id="CDY-Sr-IPD"/>
                                             </connections>
@@ -205,7 +200,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zV0-3n-jVp"/>
-                                        <menuItem title="Print" keyEquivalent="p" identifier="note.print" id="OV0-om-POJ">
+                                        <menuItem title="Print" keyEquivalent="p" identifier="fileMenu.print" id="OV0-om-POJ">
                                             <connections>
                                                 <action selector="printNotes:" target="Ady-hI-5gd" id="aq9-E9-nEe"/>
                                             </connections>
@@ -2056,6 +2051,11 @@ CA
                         <menuItem title="Save Revision" tag="100" keyEquivalent="s" identifier="note.saveRevision" id="Nhf-c1-VJ6">
                             <connections>
                                 <action selector="saveRevision:" target="rPt-NT-nkU" id="3q1-my-06E"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Open In New Window" keyEquivalent="o" id="u88-5C-vTe">
+                            <connections>
+                                <action selector="openWindow:" target="rPt-NT-nkU" id="OwA-Zj-vgW"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Duplicate" keyEquivalent="d" id="E6I-n5-dsi">

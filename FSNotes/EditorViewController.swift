@@ -9,8 +9,9 @@
 import Foundation
 import AppKit
 import LocalAuthentication
+import WebKit
 
-class EditorViewController: NSViewController, NSTextViewDelegate {
+class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDelegate {
     
     public var alert: NSAlert?
     public var noteLoading: ProgressState = .none
@@ -31,20 +32,34 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
     public var editorUndoManager = UndoManager()
     
     public var breakUndoTimer = Timer()
+    public var printWebView = WebView()
     
     public func initView() {
         vcEditor?.delegate = self
     }
     
-    @IBAction func toggleNotesLock(_ sender: Any) {
+    public func getSelectedNotes() -> [Note]? {
         var notes = [Note]()
         
-        if let _ = sender as? NSButton, let note = vcEditor?.note {
-            notes = [note]
-        } else if let selected = ViewController.shared()?.notesTableView?.getSelectedNotes() {
-            notes = selected
+        // Active main window
+        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+            cvc.isKind(of: ViewController.self),
+            let vc = ViewController.shared(),
+            let selected = vc.notesTableView.getSelectedNotes() {
+            return selected
         }
-
+        
+        // Active note window
+        if let note = vcEditor?.note {
+            return [note]
+        }
+        
+        return nil
+    }
+    
+    @IBAction func toggleNotesLock(_ sender: Any) {
+        guard var notes = getSelectedNotes() else { return }
+        
         notes = lockUnlocked(notes: notes)
         guard notes.count > 0 else { return }
 
@@ -86,7 +101,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                     self.save(password: password)
                 }
 
-                ViewController.shared()?.notesTableView.reloadRow(note: note)
+                DispatchQueue.main.async {
+                    ViewController.shared()?.notesTableView.reloadRow(note: note)
+                }
             }
         }
     }
@@ -135,6 +152,49 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
             sharingPicker.delegate = self
             sharingPicker.show(relativeTo: NSZeroRect, of: sender, preferredEdge: .minY)
         }
+    }
+    
+    @IBAction func printNotes(_ sender: NSMenuItem) {
+        guard let notes = getSelectedNotes(), let note = notes.first else { return }
+        
+        if note.isMarkdown() {
+            printMarkdownPreview()
+            return
+        }
+        
+        let pv = NSTextView(frame: NSMakeRect(0, 0, 528, 688))
+        pv.textStorage?.append(note.content)
+        
+        let printInfo = NSPrintInfo.shared
+        printInfo.isHorizontallyCentered = false
+        printInfo.isVerticallyCentered = false
+        printInfo.scalingFactor = 1
+        printInfo.topMargin = 40
+        printInfo.leftMargin = 40
+        printInfo.rightMargin = 40
+        printInfo.bottomMargin = 40
+        
+        let operation: NSPrintOperation = NSPrintOperation(view: pv, printInfo: printInfo)
+        operation.printPanel.options.insert(NSPrintPanel.Options.showsPaperSize)
+        operation.printPanel.options.insert(NSPrintPanel.Options.showsOrientation)
+        operation.run()
+    }
+    
+    @IBAction func finderMenu(_ sender: NSMenuItem) {
+        guard let notes = getSelectedNotes() else { return }
+        
+        var urls = [URL]()
+        for note in notes {
+            urls.append(note.url)
+        }
+        
+        NSWorkspace.shared.activateFileViewerSelecting(urls)
+    }
+    
+    @IBAction func pinMenu(_ sender: Any) {
+        guard let notes = getSelectedNotes() else { return }
+        
+        ViewController.shared()?.pin(selectedNotes: notes)
     }
     
     func cancelTextSearch() {
@@ -214,6 +274,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                     let insertTags = note.scanContentTags().0
                     DispatchQueue.main.async {
                         ViewController.shared()?.sidebarOutlineView?.addTags(insertTags)
+                        ViewController.shared()?.notesTableView.reloadRow(note: note)
                     }
 
                     if i == 0 {
@@ -228,8 +289,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
                         }
                     }
                 }
-
-                ViewController.shared()?.notesTableView.reloadRow(note: note)
+                
                 i = i + 1
             }
         }
@@ -332,7 +392,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate {
         for note in notes {
             if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
-                    self.reloadAllOpenedWindows(note: note)
+                    reloadAllOpenedWindows(note: note)
                 }
 
                 removeTags(note: note)

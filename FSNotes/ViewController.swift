@@ -9,14 +9,12 @@
 import Cocoa
 import MASShortcut
 import FSNotesCore_macOS
-import WebKit
 import Foundation
 
 class ViewController: EditorViewController,
     NSSplitViewDelegate,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource,
-    WebFrameLoadDelegate,
     NSMenuItemValidation,
     NSTextFieldDelegate {
     
@@ -29,7 +27,6 @@ class ViewController: EditorViewController,
     var sidebarTimer = Timer()
     
     let searchQueue = OperationQueue()
-    var printWebView = WebView()
     var tagsScannerQueue = [Note]()
 
     /* Git */
@@ -233,8 +230,22 @@ class ViewController: EditorViewController,
                         return false
                     }
                 }
-
-                if menuItem.identifier?.rawValue == "fileMenu.delete" {
+                        
+                if menuItem.identifier?.rawValue == "fileMenu.print" {
+                    return true
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.rename", let cvc = NSApplication.shared.keyWindow?.contentViewController {
+                    if cvc.isKind(of: NoteViewController.self) {
+                        return false
+                    }
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.delete", let cvc = NSApplication.shared.keyWindow?.contentViewController {
+                    if cvc.isKind(of: NoteViewController.self) {
+                        return false
+                    }
+                    
                     guard vc.view.window?.firstResponder == vc.notesTableView else { return false }
 
                     menuItem.keyEquivalentModifierMask =
@@ -264,6 +275,10 @@ class ViewController: EditorViewController,
                     if editor.note != nil {
                         return true
                     }
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.move", let vc = NSApplication.shared.keyWindow?.contentViewController {
+                    return vc.isKind(of: ViewController.self)
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.togglePin" {
@@ -536,6 +551,8 @@ class ViewController: EditorViewController,
     }
 
     @IBAction func searchAndCreate(_ sender: Any) {
+        AppDelegate.mainWindowController?.window?.makeKeyAndOrderFront(nil)
+        
         guard let vc = ViewController.shared() else { return }
 
         if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview {
@@ -966,6 +983,8 @@ class ViewController: EditorViewController,
     }
     
     @IBAction func fileMenuNewNote(_ sender: Any) {
+        AppDelegate.mainWindowController?.window?.makeKeyAndOrderFront(nil)
+        
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
@@ -1107,17 +1126,7 @@ class ViewController: EditorViewController,
             external(selectedRow: index)
         }
     }
-    
-    @IBAction func finderMenu(_ sender: NSMenuItem) {
-        if let notes = notesTableView.getSelectedNotes() {
-            var urls = [URL]()
-            for note in notes {
-                urls.append(note.url)
-            }
-            NSWorkspace.shared.activateFileViewerSelecting(urls)
-        }
-    }
-    
+        
     @IBAction func makeMenu(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         
@@ -1127,12 +1136,7 @@ class ViewController: EditorViewController,
         
         vc.createNote()
     }
-    
-    @IBAction func pinMenu(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        vc.pin(vc.notesTableView.selectedRowIndexes)
-    }
-    
+        
     @IBAction func renameMenu(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         vc.titleLabel.restoreResponder = vc.view.window?.firstResponder
@@ -1331,31 +1335,7 @@ class ViewController: EditorViewController,
         
         NSSound(named: "Pop")?.play()
     }
-    
-    @IBAction func printNotes(_ sender: NSMenuItem) {
-        if let note = editor.note, note.isMarkdown() {
-            printMarkdownPreview()
-            return
-        }
-
-        let pv = NSTextView(frame: NSMakeRect(0, 0, 528, 688))
-        pv.textStorage?.append(editor.attributedString())
         
-        let printInfo = NSPrintInfo.shared
-        printInfo.isHorizontallyCentered = false
-        printInfo.isVerticallyCentered = false
-        printInfo.scalingFactor = 1
-        printInfo.topMargin = 40
-        printInfo.leftMargin = 40
-        printInfo.rightMargin = 40
-        printInfo.bottomMargin = 40
-        
-        let operation: NSPrintOperation = NSPrintOperation(view: pv, printInfo: printInfo)
-        operation.printPanel.options.insert(NSPrintPanel.Options.showsPaperSize)
-        operation.printPanel.options.insert(NSPrintPanel.Options.showsOrientation)
-        operation.run()
-    }
-    
     @IBAction func removeNoteEncryption(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         guard var notes = vc.notesTableView.getSelectedNotes() else { return }
@@ -1396,6 +1376,11 @@ class ViewController: EditorViewController,
     
     @IBAction func openWindow(_ sender: Any) {
         guard let currentNote = notesTableView.getSelectedNote() else { return }
+     
+        openInNewWindow(note: currentNote)
+    }
+    
+    public func openInNewWindow(note: Note) {
         guard let windowController = NSStoryboard(name: "Main", bundle: nil)
             .instantiateController(withIdentifier: "noteWindowController") as? NSWindowController else { return }
         
@@ -1404,7 +1389,11 @@ class ViewController: EditorViewController,
         
         let viewController = windowController.contentViewController as! NoteViewController
         viewController.initWindow()
-        viewController.editor.fill(note: currentNote)
+        viewController.editor.fill(note: note)
+        
+        if note.isEncryptedAndLocked() {
+            viewController.toggleNotesLock(self)
+        }
         
         AppDelegate.noteWindows.insert(windowController, at: 0)
     }
@@ -1895,19 +1884,21 @@ class ViewController: EditorViewController,
         }
     }
     
-    func pin(_ selectedRows: IndexSet) {
-        guard !selectedRows.isEmpty else { return }
+    func pin(selectedNotes: [Note]) {
+        if selectedNotes.count == 0 {
+            return
+        }
 
         var state = notesTableView.noteList
         var updatedNotes = [(Int, Note)]()
-        for row in selectedRows {
-            guard let rowView = notesTableView.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView,
-                let cell = rowView.view(atColumn: 0) as? NoteCellView,
-                let note = cell.objectValue as? Note
-            else { continue }
-
-            updatedNotes.append((row, note))
-            note.togglePin()
+        
+        for selectedNote in selectedNotes {
+            guard let atRow = notesTableView.getIndex(selectedNote),
+                  let rowView = notesTableView.rowView(atRow: atRow, makeIfNecessary: false) as? NoteRowView,
+                  let cell = rowView.view(atColumn: 0) as? NoteCellView else { continue }
+            
+            updatedNotes.append((atRow, selectedNote))
+            selectedNote.togglePin()
             cell.renderPin()
         }
 
@@ -2321,7 +2312,8 @@ class ViewController: EditorViewController,
         }
 
         if (notesTableView.noteList.indices.contains(selected)) {
-            external(selectedRow: selected)
+            let currentNote = notesTableView.noteList[selected]
+            openInNewWindow(note: currentNote)
         }
     }
 
