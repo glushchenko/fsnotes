@@ -55,4 +55,15 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
         
         return nil
     }
+    
+    @IBAction func moveMenu(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        vc.loadMoveMenu()
+
+        let moveTitle = NSLocalizedString("Move", comment: "Menu")
+        let moveMenu = vc.noteMenu.item(withTitle: moveTitle)
+        let general = moveMenu?.submenu?.item(at: 0)
+
+        moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
+    }
 }

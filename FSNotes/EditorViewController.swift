@@ -297,6 +297,123 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         field.becomeFirstResponder()
     }
     
+    // MARK: Move menu
+    
+    @IBAction func deleteNote(_ sender: Any) {
+        var forceRemove = false
+
+        if let menuItem = sender as? NSMenuItem,
+            menuItem.identifier?.rawValue == "fileMenu.forceRemove" ||
+            menuItem.identifier?.rawValue == "context.fileMenu.forceRemove" {
+            forceRemove = true
+        }
+
+        guard let vc = ViewController.shared() else { return }
+        guard let notes = getSelectedNotes() else { return }
+
+        let si = vc.getSidebarItem()
+        if si?.isTrash() == true || forceRemove {
+            vc.removeForever()
+            
+            // Call from window, close it!
+            if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+               cvc.isKind(of: NoteViewController.self) {
+                DispatchQueue.main.async {
+                    self.view.window?.close()
+                }
+            }
+            
+            return
+        }
+        
+        let selectedRow = vc.notesTableView.selectedRowIndexes.min()
+
+        UserDataService.instance.searchTrigger = true
+
+        vc.notesTableView.removeByNotes(notes: notes)
+
+        // Delete tags
+        for note in notes {
+            let tags = note.tags
+            note.tags.removeAll()
+            vc.sidebarOutlineView.removeTags(tags)
+        }
+
+        vc.storage.removeNotes(notes: notes) { urls in
+            if let md = AppDelegate.mainWindowController {
+                let undoManager = md.notesListUndoManager
+
+                if let ntv = vc.notesTableView {
+                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
+                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
+                }
+
+                if let i = selectedRow, i > -1 {
+                    if vc.notesTableView.noteList.count > i {
+                        vc.notesTableView.selectRow(i)
+                    } else {
+                        vc.notesTableView.selectRow(vc.notesTableView.noteList.count - 1)
+                    }
+                }
+
+                UserDataService.instance.searchTrigger = false
+            }
+
+            vc.editor.clear()
+        }
+        
+        // Call from window, close it!
+        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+           cvc.isKind(of: NoteViewController.self) {
+            DispatchQueue.main.async {
+                self.view.window?.close()
+            }
+            return
+        }
+
+        // If is main window – focus to notes list
+        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+           cvc.isKind(of: ViewController.self) {
+            NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
+        }
+    }
+    
+    @IBAction func archiveNote(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        guard let notes = getSelectedNotes() else { return }
+        
+        if let project = Storage.shared().getArchive() {
+            vc.move(notes: notes, project: project)
+            
+            if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+                cvc.isKind(of: NoteViewController.self) {
+                updateTitle(note: notes.first!)
+            }
+        }
+    }
+    
+    @IBAction func createInNewWindow(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
+        
+        if let note = createNote(content: inlineTags, openInNewWindow: true) {
+            vc.openInNewWindow(note: note)
+        }
+    }
+    
+    @objc func moveNote(_ sender: NSMenuItem) {
+        let project = sender.representedObject as! Project
+        
+        guard let notes = getSelectedNotes() else { return }
+        
+        ViewController.shared()?.move(notes: notes, project: project)
+        
+        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+            cvc.isKind(of: NoteViewController.self) {
+            updateTitle(note: notes.first!)
+        }
+    }
+    
     // MARK: Dep methods
     
     func cancelTextSearch() {
@@ -589,5 +706,61 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         ) {
             editor.breakUndoCoalescing()
         }
+    }
+    
+    public func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil, load: Bool = false, openInNewWindow: Bool = false) -> Note? {
+        
+        guard let vc = ViewController.shared() else { return nil }
+
+        let selectedProjects = vc.sidebarOutlineView.getSidebarProjects()
+        var sidebarProject = project ?? selectedProjects?.first
+        var text = content
+        
+        if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {
+            text = "- [ ] "
+        }
+        
+        if sidebarProject == nil {
+            sidebarProject = Storage.sharedInstance().getRootProject()
+        }
+        
+        guard let project = sidebarProject else { return nil }
+
+        let note = Note(name: name, project: project, type: type)
+        note.content = NSMutableAttributedString(string: text)
+        note.save()
+
+        _ = note.scanContentTags()
+
+        if let selectedProjects = selectedProjects, !selectedProjects.contains(project) {
+            return note
+        }
+
+        disablePreview()
+        
+        if !openInNewWindow {
+            vc.notesTableView.deselectNotes()
+            vc.editor.string = text
+            vc.editor.note = note
+            vc.search.stringValue.removeAll()
+        }
+        
+        vc.updateTable() {
+            if openInNewWindow {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                vc.notesTableView.saveNavigationHistory(note: note)
+                if let index = vc.notesTableView.getIndex(note) {
+                    vc.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+                    vc.notesTableView.scrollRowToVisible(index)
+                }
+            
+                vc.focusEditArea()
+            }
+        }
+
+        return note
     }
 }

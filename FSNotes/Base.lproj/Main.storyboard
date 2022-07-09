@@ -95,6 +95,11 @@ CA
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="New In New Window" keyEquivalent="N" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
+                                            <connections>
+                                                <action selector="createInNewWindow:" target="Ady-hI-5gd" id="fVv-cz-Kms"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Save Revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
                                             <connections>
                                                 <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
@@ -191,7 +196,7 @@ CA
                                         <menuItem isSeparatorItem="YES" id="wQ9-qT-qnU"/>
                                         <menuItem title="Move" keyEquivalent="T" identifier="fileMenu.move" id="CvG-Kp-kdK">
                                             <connections>
-                                                <action selector="moveMenu:" target="L4m-js-agn" id="CDY-Sr-IPD"/>
+                                                <action selector="moveMenu:" target="Ady-hI-5gd" id="gIh-8j-qKG"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="History" keyEquivalent="H" identifier="note.history" id="Snd-dJ-uj5">

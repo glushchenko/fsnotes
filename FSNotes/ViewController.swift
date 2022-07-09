@@ -232,6 +232,10 @@ class ViewController: EditorViewController,
                     return true
                 }
                 
+                if menuItem.identifier?.rawValue == "fileMenu.newInNewWindow" {
+                    return true
+                }
+                
                 if menuItem.identifier?.rawValue == "fileMenu.rename", let cvc = NSApplication.shared.keyWindow?.contentViewController {
                     if cvc.isKind(of: NoteViewController.self) {
                         return false
@@ -607,17 +611,7 @@ class ViewController: EditorViewController,
             controller.updateTable(searchText: controller.search.stringValue, sidebarItem: sidebarItem, projects: projects, tags: tags)
         }
     }
-    
-    @objc func moveNote(_ sender: NSMenuItem) {
-        let project = sender.representedObject as! Project
         
-        guard let notes = notesTableView.getSelectedNotes() else {
-            return
-        }
-        
-        move(notes: notes, project: project)
-    }
-    
     public func move(notes: [Note], project: Project) {
         let selectedRow = notesTableView.selectedRowIndexes.min()
 
@@ -1154,75 +1148,6 @@ class ViewController: EditorViewController,
         }
     }
 
-    @IBAction func deleteNote(_ sender: Any) {
-        var forceRemove = false
-
-        if let menuItem = sender as? NSMenuItem,
-            menuItem.identifier?.rawValue == "fileMenu.forceRemove" ||
-            menuItem.identifier?.rawValue == "context.fileMenu.forceRemove" {
-            forceRemove = true
-        }
-
-        guard let vc = ViewController.shared() else { return }
-        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
-
-        let si = vc.getSidebarItem()
-        if si?.isTrash() == true || forceRemove {
-            removeForever()
-            return
-        }
-        
-        let selectedRow = vc.notesTableView.selectedRowIndexes.min()
-
-        UserDataService.instance.searchTrigger = true
-
-        vc.notesTableView.removeByNotes(notes: notes)
-
-        // Delete tags
-        for note in notes {
-            let tags = note.tags
-            note.tags.removeAll()
-            vc.sidebarOutlineView.removeTags(tags)
-        }
-
-        vc.storage.removeNotes(notes: notes) { urls in
-            if let md = AppDelegate.mainWindowController {
-                let undoManager = md.notesListUndoManager
-
-                if let ntv = vc.notesTableView {
-                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
-                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
-                }
-
-                if let i = selectedRow, i > -1 {
-                    if vc.notesTableView.noteList.count > i {
-                        vc.notesTableView.selectRow(i)
-                    } else {
-                        vc.notesTableView.selectRow(vc.notesTableView.noteList.count - 1)
-                    }
-                }
-
-                UserDataService.instance.searchTrigger = false
-            }
-
-            vc.editor.clear()
-        }
-
-        NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
-    }
-    
-    @IBAction func archiveNote(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        
-        guard let notes = vc.notesTableView.getSelectedNotes() else {
-            return
-        }
-        
-        if let project = storage.getArchive() {
-            move(notes: notes, project: project)
-        }
-    }
-
     @IBAction func toggleNoteList(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
 
@@ -1359,7 +1284,7 @@ class ViewController: EditorViewController,
         return editor.note
     }
 
-    private func removeForever() {
+    public func removeForever() {
         guard let vc = ViewController.shared() else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else { return }
         guard let window = MainWindowController.shared() else { return }
@@ -1749,53 +1674,6 @@ class ViewController: EditorViewController,
         }
     }
     
-    func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil, load: Bool = false) {
-        guard let vc = ViewController.shared() else { return }
-
-        let selectedProjects = vc.sidebarOutlineView.getSidebarProjects()
-        var sidebarProject = project ?? selectedProjects?.first
-        var text = content
-        
-        if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {
-            text = "- [ ] "
-        }
-        
-        if sidebarProject == nil {
-            sidebarProject = Storage.sharedInstance().getRootProject()
-        }
-        
-        guard let project = sidebarProject else { return }
-
-        let note = Note(name: name, project: project, type: type)
-        note.content = NSMutableAttributedString(string: text)
-        note.save()
-
-        _ = note.scanContentTags()
-
-        if let selectedProjects = selectedProjects, !selectedProjects.contains(project) {
-            return
-        }
-
-        disablePreview()
-        notesTableView.deselectNotes()
-        editor.string = text
-        editor.note = note
-
-        search.stringValue.removeAll()
-
-        updateTable() {
-            DispatchQueue.main.async {
-                self.notesTableView.saveNavigationHistory(note: note)
-                if let index = self.notesTableView.getIndex(note) {
-                    self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-                    self.notesTableView.scrollRowToVisible(index)
-                }
-            
-                self.focusEditArea()
-            }
-        }
-    }
-
     public func sortAndMove(note: Note, project: Project? = nil) {
         guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
         let notes = notesTableView.noteList
