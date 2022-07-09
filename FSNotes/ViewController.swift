@@ -30,9 +30,6 @@ class ViewController: EditorViewController,
     var tagsScannerQueue = [Note]()
 
     /* Git */
-    public var snapshotsTimer = Timer()
-    public var lastSnapshot: Int = 0
-    public var isGitProcessLocked = false
     private var updateViews = [Note]()
     
     override var representedObject: Any? {
@@ -1120,13 +1117,7 @@ class ViewController: EditorViewController,
             note.overwrite(url: url)
         }
     }
-    
-    @IBAction func editorMenu(_ sender: Any) {
-        for index in notesTableView.selectedRowIndexes {
-            external(selectedRow: index)
-        }
-    }
-        
+            
     @IBAction func makeMenu(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         
@@ -1232,47 +1223,6 @@ class ViewController: EditorViewController,
         }
     }
 
-    @IBAction func changeCreationDate(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
-        guard let note = notes.first else { return }
-        guard let creationDate = note.getFileCreationDate() else { return }
-        guard let window = MainWindowController.shared() else { return }
-
-        vc.alert = NSAlert()
-        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let date = formatter.string(from: creationDate)
-
-        field.stringValue = date
-        field.placeholderString = "2020-08-28 21:59:07"
-
-        vc.alert?.messageText = NSLocalizedString("Change Creation Date", comment: "Menu") + ":"
-        vc.alert?.accessoryView = field
-        vc.alert?.alertStyle = .informational
-        vc.alert?.addButton(withTitle: "OK")
-        vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                for note in notes {
-                    if note.setCreationDate(string: field.stringValue) {
-                        self.notesTableView.reloadRow(note: note)
-                    }
-                }
-            }
-
-            vc.alert = nil
-        }
-
-        field.becomeFirstResponder()
-    }
-
-    @IBAction func openInExternalEditor(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        vc.external(selectedRow: vc.notesTableView.selectedRow)
-    }
-
     @IBAction func toggleNoteList(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
 
@@ -1336,31 +1286,6 @@ class ViewController: EditorViewController,
         NSSound(named: "Pop")?.play()
     }
         
-    @IBAction func removeNoteEncryption(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        guard var notes = vc.notesTableView.getSelectedNotes() else { return }
-
-        notes = decryptUnlocked(notes: notes)
-        guard notes.count > 0 else { return }
-
-        UserDataService.instance.fsUpdatesDisabled = true
-        getMasterPassword() { password, isTypedByUser in
-            for note in notes {
-                if note.container == .encryptedTextPack {
-                    let success = note.unEncrypt(password: password)
-                    if success && notes.count == 0x01 {
-                        note.password = nil
-                        DispatchQueue.main.async {
-                            self.refillEditArea(force: true)
-                        }
-                    }
-                }
-                self.notesTableView.reloadRow(note: note)
-            }
-            UserDataService.instance.fsUpdatesDisabled = false
-        }
-    }
-
     @IBAction func lockAll(_ sender: Any) {
         let notes = storage.noteList.filter({ $0.isUnlocked() })
         for note in notes {
@@ -1934,10 +1859,12 @@ class ViewController: EditorViewController,
         notesTableView.endUpdates()
     }
 
-    func external(selectedRow: Int) {
-        if (notesTableView.noteList.indices.contains(selectedRow)) {
-            let note = notesTableView.noteList[selectedRow]
-
+    func external(selectedNotes: [Note]) {
+        if selectedNotes.count == 0 {
+            return
+        }
+        
+        for note in selectedNotes {
             var path = note.url.path
             if note.isTextBundle() && !note.isUnlocked(), let url = note.getContentFileURL() {
                 path = url.path
@@ -2007,6 +1934,46 @@ class ViewController: EditorViewController,
 
         noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
         loadHistory()
+    }
+    
+    public func loadHistory() {
+        guard let vc = ViewController.shared(),
+            let notes = vc.notesTableView.getSelectedNotes(),
+            let note = notes.first
+        else { return }
+
+        let title = NSLocalizedString("History", comment: "")
+        let historyMenu = noteMenu.item(withTitle: title)
+        historyMenu?.submenu?.removeAllItems()
+        historyMenu?.isEnabled = false
+
+        guard notes.count == 0x01 else { return }
+
+        DispatchQueue.global().async {
+            let git = Git.sharedInstance()
+            let repository = git.getRepository(by: note.project.getParent())
+            let commits = repository.getCommits(by: note.getGitPath())
+
+            DispatchQueue.main.async {
+                guard commits.count > 0 else {
+                    historyMenu?.isEnabled = false
+                    return
+                }
+
+                for commit in commits {
+                    let menuItem = NSMenuItem()
+                    if let date = commit.getDate() {
+                        menuItem.title = date
+                    }
+
+                    menuItem.representedObject = commit
+                    menuItem.action = #selector(vc.checkoutRevision(_:))
+                    historyMenu?.submenu?.addItem(menuItem)
+                }
+
+                historyMenu?.isEnabled = true
+            }
+        }
     }
 
     func loadSortBySetting() {
@@ -2117,30 +2084,6 @@ class ViewController: EditorViewController,
         }
     }
         
-    @IBAction func copyURL(_ sender: Any) {
-        if let note = notesTableView.getSelectedNote(), let title = note.title.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
-
-            let name = "fsnotes://find?id=\(title)"
-            let pasteboard = NSPasteboard.general
-            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-            pasteboard.setString(name, forType: NSPasteboard.PasteboardType.string)
-            
-            let notification = NSUserNotification()
-            notification.title = "FSNotes"
-            notification.informativeText = NSLocalizedString("URL has been copied to clipboard", comment: "") 
-            notification.soundName = NSUserNotificationDefaultSoundName
-            NSUserNotificationCenter.default.deliver(notification)
-        }
-    }
-    
-    @IBAction func copyTitle(_ sender: Any) {
-        if let note = notesTableView.getSelectedNote() {
-            let pasteboard = NSPasteboard.general
-            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-            pasteboard.setString(note.title, forType: NSPasteboard.PasteboardType.string)
-        }
-    }
-
     @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {
         sender.state = sender.state == .on ? .off : .on
         let isChecked = sender.state == .on

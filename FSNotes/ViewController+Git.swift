@@ -8,11 +8,11 @@
 
 import Cocoa
 
-extension ViewController {
+extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
         guard !isGitProcessLocked else { return }
-        guard let note = editor.note else { return }
+        guard let note = vcEditor?.note else { return }
 
         let project = note.project.getParent()
         isGitProcessLocked = true
@@ -28,7 +28,7 @@ extension ViewController {
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
         guard let commit = sender.representedObject as? Commit else { return }
-        guard let note = editor.note else { return }
+        guard let note = vcEditor?.note else { return }
         let git = Git.sharedInstance()
 
         UserDataService.instance.fsUpdatesDisabled = true
@@ -45,51 +45,12 @@ extension ViewController {
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)
         refillEditArea(force: true)
-        notesTableView.reloadRow(note: note)
+        
+        ViewController.shared()?.notesTableView.reloadRow(note: note)
 
-        editor.scanTagsAndAutoRename()
+        vcEditor?.scanTagsAndAutoRename()
 
         UserDataService.instance.fsUpdatesDisabled = false
-    }
-
-    public func loadHistory() {
-        guard let vc = ViewController.shared(),
-            let notes = vc.notesTableView.getSelectedNotes(),
-            let note = notes.first
-        else { return }
-
-        let title = NSLocalizedString("History", comment: "")
-        let historyMenu = noteMenu.item(withTitle: title)
-        historyMenu?.submenu?.removeAllItems()
-        historyMenu?.isEnabled = false
-
-        guard notes.count == 0x01 else { return }
-
-        DispatchQueue.global().async {
-            let git = Git.sharedInstance()
-            let repository = git.getRepository(by: note.project.getParent())
-            let commits = repository.getCommits(by: note.getGitPath())
-
-            DispatchQueue.main.async {
-                guard commits.count > 0 else {
-                    historyMenu?.isEnabled = false
-                    return
-                }
-
-                for commit in commits {
-                    let menuItem = NSMenuItem()
-                    if let date = commit.getDate() {
-                        menuItem.title = date
-                    }
-
-                    menuItem.representedObject = commit
-                    menuItem.action = #selector(vc.checkoutRevision(_:))
-                    historyMenu?.submenu?.addItem(menuItem)
-                }
-
-                historyMenu?.isEnabled = true
-            }
-        }
     }
 
     @IBAction private func makeFullSnapshot(_ sender: Any) {

@@ -34,12 +34,16 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     public var breakUndoTimer = Timer()
     public var printWebView = WebView()
     
+    // git
+    public var isGitProcessLocked = false
+    public var snapshotsTimer = Timer()
+    public var lastSnapshot: Int = 0
+    
     public func initView() {
         vcEditor?.delegate = self
     }
     
     public func getSelectedNotes() -> [Note]? {
-        var notes = [Note]()
         
         // Active main window
         if let cvc = NSApplication.shared.keyWindow?.contentViewController,
@@ -56,6 +60,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         return nil
     }
+    
+    // MARK: Window bar actions
     
     @IBAction func toggleNotesLock(_ sender: Any) {
         guard var notes = getSelectedNotes() else { return }
@@ -154,6 +160,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
     }
     
+    // MARK: File menu
+    
     @IBAction func printNotes(_ sender: NSMenuItem) {
         guard let notes = getSelectedNotes(), let note = notes.first else { return }
         
@@ -196,6 +204,100 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         ViewController.shared()?.pin(selectedNotes: notes)
     }
+    
+    @IBAction func editorMenu(_ sender: Any) {
+        guard let notes = getSelectedNotes() else { return }
+        
+        ViewController.shared()?.external(selectedNotes: notes)
+    }
+    
+    @IBAction func copyURL(_ sender: Any) {
+        guard let note = getSelectedNotes()?.first else { return }
+        
+        if let title = note.title.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            let name = "fsnotes://find?id=\(title)"
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(name, forType: NSPasteboard.PasteboardType.string)
+            
+            let notification = NSUserNotification()
+            notification.title = "FSNotes"
+            notification.informativeText = NSLocalizedString("URL has been copied to clipboard", comment: "")
+            notification.soundName = NSUserNotificationDefaultSoundName
+            NSUserNotificationCenter.default.deliver(notification)
+        }
+    }
+    
+    @IBAction func copyTitle(_ sender: Any) {
+        guard let note = getSelectedNotes()?.first else { return }
+        
+        let pasteboard = NSPasteboard.general
+        pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+        pasteboard.setString(note.title, forType: NSPasteboard.PasteboardType.string)
+    }
+    
+    @IBAction func removeNoteEncryption(_ sender: Any) {
+        guard var notes = getSelectedNotes() else { return }
+
+        notes = decryptUnlocked(notes: notes)
+        guard notes.count > 0 else { return }
+
+        UserDataService.instance.fsUpdatesDisabled = true
+        getMasterPassword() { password, isTypedByUser in
+            for note in notes {
+                if note.container == .encryptedTextPack {
+                    let success = note.unEncrypt(password: password)
+                    if success && notes.count == 0x01 {
+                        note.password = nil
+                        DispatchQueue.main.async {
+                            self.reloadAllOpenedWindows(note: note)
+                        }
+                    }
+                }
+                
+                ViewController.shared()?.notesTableView.reloadRow(note: note)
+            }
+            UserDataService.instance.fsUpdatesDisabled = false
+        }
+    }
+    
+    @IBAction func changeCreationDate(_ sender: Any) {
+        guard let notes = getSelectedNotes() else { return }
+        guard let note = notes.first else { return }
+        guard let creationDate = note.getFileCreationDate() else { return }
+        guard let window = view.window else { return }
+
+        alert = NSAlert()
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = formatter.string(from: creationDate)
+
+        field.stringValue = date
+        field.placeholderString = "2020-08-28 21:59:07"
+
+        alert?.messageText = NSLocalizedString("Change Creation Date", comment: "Menu") + ":"
+        alert?.accessoryView = field
+        alert?.alertStyle = .informational
+        alert?.addButton(withTitle: "OK")
+        alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                for note in notes {
+                    if note.setCreationDate(string: field.stringValue) {
+                        ViewController.shared()?.notesTableView.reloadRow(note: note)
+                    }
+                }
+            }
+
+            self.alert = nil
+        }
+
+        field.becomeFirstResponder()
+    }
+    
+    // MARK: Dep methods
     
     func cancelTextSearch() {
         let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
