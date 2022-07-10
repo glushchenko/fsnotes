@@ -27,6 +27,7 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
         view.window?.titlebarAppearsTransparent = true
         view.window?.backgroundColor = .white
         view.window?.delegate = self
+        view.window?.setFrameOriginToPositionWindowInCenterOfScreen()
         
         editor.initTextStorage()
         editor.editorViewController = self
@@ -36,6 +37,8 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
         vcTitleLabel = titleLabel
         vcEmptyEditAreaImage = emptyEditAreaImage
         vcEditorScrollView = editorScrollView
+        
+        editor.updateTextContainerInset()
         
         super.initView()
     }

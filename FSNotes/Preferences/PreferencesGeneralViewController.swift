@@ -20,6 +20,7 @@ class PreferencesGeneralViewController: NSViewController {
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet var newNoteshortcutView: MASShortcutView!
     @IBOutlet var searchNotesShortcut: MASShortcutView!
+    @IBOutlet weak var quickNote: MASShortcutView!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
     @IBOutlet weak var showDockIcon: NSButton!
     @IBOutlet weak var searchFocusOnESC: NSButton!
@@ -175,9 +176,11 @@ class PreferencesGeneralViewController: NSViewController {
         
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
         searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
+        quickNote.shortcutValue = UserDefaultsManagement.quickNoteShortcut
 
         newNoteshortcutView.shortcutValidator.allowAnyShortcutWithOptionModifier = true
         searchNotesShortcut.shortcutValidator.allowAnyShortcutWithOptionModifier = true
+        quickNote.shortcutValidator.allowAnyShortcutWithOptionModifier = true
 
         newNoteshortcutView.shortcutValueChange = { (sender) in
             if ((self.newNoteshortcutView.shortcutValue) != nil) {
@@ -214,6 +217,26 @@ class PreferencesGeneralViewController: NSViewController {
                 mas?.unregisterShortcut(UserDefaultsManagement.searchNoteShortcut)
 
                 UserDefaultsManagement.searchNoteShortcut = nil
+            }
+        }
+        
+        quickNote.shortcutValueChange = { (sender) in
+            if ((self.quickNote.shortcutValue) != nil) {
+                mas?.unregisterShortcut(UserDefaultsManagement.quickNoteShortcut)
+
+                let keyCode = self.quickNote.shortcutValue.keyCode
+                let modifierFlags = self.quickNote.shortcutValue.modifierFlags
+
+                UserDefaultsManagement.quickNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+
+                MASShortcutMonitor.shared().register(self.quickNote.shortcutValue, withAction: {
+                    
+                    vc.createInNewWindow(self)
+                })
+            } else {
+                mas?.unregisterShortcut(UserDefaultsManagement.quickNoteShortcut)
+
+                UserDefaultsManagement.quickNoteShortcut = nil
             }
         }
     }

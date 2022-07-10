@@ -24,6 +24,8 @@ extension UserDefaultsManagement {
         static let ProjectsKey = "projects"
         static let FontColorKey = "fontColorKeyed"
         static let BgColorKey = "bgColorKeyed"
+        static let QuickNoteKey = "quickNoteKey"
+        static let QuickNoteKeyModifier = "quickNoteKeyModifier"
     }
 
     static var appearanceType: AppearanceType {
@@ -65,6 +67,31 @@ extension UserDefaultsManagement {
 
             UserDefaults.standard.set(code, forKey: Constants.NewNoteKeyCode)
             UserDefaults.standard.set(modifier, forKey: Constants.NewNoteKeyModifier)
+        }
+    }
+
+    static var quickNoteShortcut: MASShortcut? {
+        get {
+            let code = UserDefaults.standard.object(forKey: Constants.QuickNoteKey)
+            let modifier = UserDefaults.standard.object(forKey: Constants.QuickNoteKeyModifier)
+
+            if code != nil && modifier != nil, let keyCode = code as? UInt, let modifierFlags = modifier as? UInt {
+
+                if (code as? Int) == 0 && (modifier as? Int) == 0 {
+                    return nil
+                }
+
+                return MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+            }
+
+            return MASShortcut(keyCode: 31, modifierFlags: 917504)
+        }
+        set {
+            let code = newValue?.keyCode ?? 0
+            let modifier = newValue?.modifierFlags ?? 0
+
+            UserDefaults.standard.set(code, forKey: Constants.QuickNoteKey)
+            UserDefaults.standard.set(modifier, forKey: Constants.QuickNoteKeyModifier)
         }
     }
 

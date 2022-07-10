@@ -393,11 +393,26 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     }
     
     @IBAction func createInNewWindow(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
+        var content = String()
         
-        if let note = createNote(content: inlineTags, openInNewWindow: true) {
-            vc.openInNewWindow(note: note)
+        if let inlineTags = ViewController.shared()?.sidebarOutlineView.getSelectedInlineTags() {
+            content = inlineTags
+        }
+        
+        if let note = createNote(content: content, openInNewWindow: true) {
+            openInNewWindow(note: note)
+        }
+    }
+    
+    @IBAction func quickNote(_ sender: Any) {
+        if let note = createNote(content: "", openInNewWindow: true) {
+            NSApp.activate(ignoringOtherApps: true)
+            
+            openInNewWindow(note: note)
+            
+            if !NSApp.isActive {
+                AppDelegate.mainWindowController?.window?.miniaturize(nil)
+            }
         }
     }
     
@@ -415,6 +430,24 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     }
     
     // MARK: Dep methods
+    
+    public func openInNewWindow(note: Note) {
+        guard let windowController = NSStoryboard(name: "Main", bundle: nil)
+            .instantiateController(withIdentifier: "noteWindowController") as? NSWindowController else { return }
+        
+        windowController.showWindow(nil)
+        windowController.window?.makeKeyAndOrderFront(windowController)
+        
+        let viewController = windowController.contentViewController as! NoteViewController
+        viewController.initWindow()
+        viewController.editor.fill(note: note)
+        
+        if note.isEncryptedAndLocked() {
+            viewController.toggleNotesLock(self)
+        }
+        
+        AppDelegate.noteWindows.insert(windowController, at: 0)
+    }
     
     func cancelTextSearch() {
         let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")

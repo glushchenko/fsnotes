@@ -523,6 +523,10 @@ class ViewController: EditorViewController,
             self.searchShortcut()
         })
         
+        MASShortcutMonitor.shared().register(UserDefaultsManagement.quickNoteShortcut, withAction: {
+            self.quickNote(self)
+        })
+        
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.flagsChanged) {
             return $0
         }
@@ -1230,24 +1234,6 @@ class ViewController: EditorViewController,
         openInNewWindow(note: currentNote)
     }
     
-    public func openInNewWindow(note: Note) {
-        guard let windowController = NSStoryboard(name: "Main", bundle: nil)
-            .instantiateController(withIdentifier: "noteWindowController") as? NSWindowController else { return }
-        
-        windowController.showWindow(nil)
-        windowController.window?.makeKeyAndOrderFront(windowController)
-        
-        let viewController = windowController.contentViewController as! NoteViewController
-        viewController.initWindow()
-        viewController.editor.fill(note: note)
-        
-        if note.isEncryptedAndLocked() {
-            viewController.toggleNotesLock(self)
-        }
-        
-        AppDelegate.noteWindows.insert(windowController, at: 0)
-    }
-
     func controlTextDidEndEditing(_ obj: Notification) {
         guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
         
