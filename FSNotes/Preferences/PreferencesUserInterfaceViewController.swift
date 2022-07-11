@@ -124,7 +124,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
     }
 
     @IBAction func setFontColor(_ sender: NSColorWell) {
-        Storage.shared().resetCacheAttributes()
+        Storage.sharedInstance().resetCacheAttributes()
         
         UserDefaultsManagement.appearanceType = .Custom
         UserDefaultsManagement.fontColor = sender.color

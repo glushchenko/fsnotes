@@ -382,7 +382,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         guard let vc = ViewController.shared() else { return }
         guard let notes = getSelectedNotes() else { return }
         
-        if let project = Storage.shared().getArchive() {
+        if let project = Storage.sharedInstance().getArchive() {
             vc.move(notes: notes, project: project)
             
             if let cvc = NSApplication.shared.keyWindow?.contentViewController,
@@ -412,6 +412,102 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             
             if !NSApp.isActive {
                 AppDelegate.mainWindowController?.window?.miniaturize(nil)
+            }
+        }
+    }
+    
+    @IBAction func historyMenu(_ sender: Any) {
+        guard let cvc = NSApplication.shared.keyWindow?.contentViewController,
+              let vc = ViewController.shared(),
+              let note = getSelectedNotes()?.first else { return }
+
+        let moveMenu = NSMenu()
+
+        let git = Git.sharedInstance()
+        let repository = git.getRepository(by: note.project.getParent())
+        let commits = repository.getCommits(by: note.getGitPath())
+
+        if commits.count == 0 {
+            return
+        }
+
+        for commit in commits {
+            let menuItem = NSMenuItem()
+            if let date = commit.getDate() {
+                menuItem.title = date
+            }
+
+            menuItem.representedObject = commit
+            menuItem.action = #selector(vc.checkoutRevision(_:))
+            moveMenu.addItem(menuItem)
+        }
+        
+        let general = moveMenu.item(at: 0)
+        
+        // Main window
+        if cvc.isKind(of: ViewController.self),
+           vc.notesTableView.selectedRow >= 0 {
+            let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
+            let x = vc.splitView.subviews[0].frame.width + 5
+            moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
+            return
+        }
+        
+        // Opened in new window
+        if cvc.isKind(of: NoteViewController.self) {
+            moveMenu.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
+        }
+    }
+    
+    
+    @IBAction func duplicate(_ sender: Any) {
+        guard let notes = getSelectedNotes() else { return }
+        
+        for note in notes {
+            let src = note.url
+            let dst = NameHelper.generateCopy(file: note.url)
+
+            if note.isTextBundle() || note.isEncrypted() {
+                try? FileManager.default.copyItem(at: src, to: dst)
+                
+                continue
+            }
+
+            let name = dst.deletingPathExtension().lastPathComponent
+            let noteDupe = Note(name: name, project: note.project, type: note.type, cont: note.container)
+            noteDupe.content = NSMutableAttributedString(string: note.content.string)
+
+            // Clone images
+            if note.type == .Markdown && note.container == .none {
+                let images = note.getAllImages()
+                for image in images {
+                    noteDupe.move(from: image.url, imagePath: image.path, to: note.project, copy: true)
+                }
+            }
+
+            noteDupe.save()
+
+            Storage.shared().add(noteDupe)
+            ViewController.shared()?.notesTableView.insertNew(note: noteDupe)
+        }
+    }
+    
+    @IBAction func importNote(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared() else { return }
+        
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = true
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+        panel.canCreateDirectories = false
+        panel.begin { (result) -> Void in
+            if result == NSApplication.ModalResponse.OK {
+                let urls = panel.urls
+                let project = vc.getSidebarProject() ?? Storage.sharedInstance().getMainProject()
+
+                for url in urls {
+                    _ = vc.copy(project: project, url: url)
+                }
             }
         }
     }

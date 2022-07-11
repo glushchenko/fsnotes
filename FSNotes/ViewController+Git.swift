@@ -12,7 +12,7 @@ extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
         guard !isGitProcessLocked else { return }
-        guard let note = vcEditor?.note else { return }
+        guard let note = getSelectedNotes()?.first else { return }
 
         let project = note.project.getParent()
         isGitProcessLocked = true
@@ -44,7 +44,7 @@ extension EditorViewController {
 
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)
-        refillEditArea(force: true)
+        reloadAllOpenedWindows(note: note)
         
         ViewController.shared()?.notesTableView.reloadRow(note: note)
 

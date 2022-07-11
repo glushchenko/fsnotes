@@ -991,24 +991,6 @@ class ViewController: EditorViewController,
         vc.createNote(content: inlineTags)
     }
 
-    @IBAction func importNote(_ sender: NSMenuItem) {
-        let panel = NSOpenPanel()
-        panel.allowsMultipleSelection = true
-        panel.canChooseDirectories = false
-        panel.canChooseFiles = true
-        panel.canCreateDirectories = false
-        panel.begin { (result) -> Void in
-            if result == NSApplication.ModalResponse.OK {
-                let urls = panel.urls
-                let project = self.getSidebarProject() ?? self.storage.getMainProject()
-
-                for url in urls {
-                    _ = self.copy(project: project, url: url)
-                }
-            }
-        }
-    }
-
     @IBAction func fileMenuNewRTF(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         
@@ -1032,39 +1014,6 @@ class ViewController: EditorViewController,
             let general = moveMenu?.submenu?.item(at: 0)
 
             moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
-        }
-    }
-
-    @IBAction func historyMenu(_ sender: Any) {
-        guard let vc = ViewController.shared(), let note = vc.notesTableView.getSelectedNote() else { return }
-
-        if vc.notesTableView.selectedRow >= 0 {
-            let moveMenu = NSMenu()
-
-            let git = Git.sharedInstance()
-            let repository = git.getRepository(by: note.project.getParent())
-            let commits = repository.getCommits(by: note.getGitPath())
-
-            if commits.count == 0 {
-                return
-            }
-
-            for commit in commits {
-                let menuItem = NSMenuItem()
-                if let date = commit.getDate() {
-                    menuItem.title = date
-                }
-
-                menuItem.representedObject = commit
-                menuItem.action = #selector(vc.checkoutRevision(_:))
-                moveMenu.addItem(menuItem)
-            }
-
-            let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
-            let x = vc.splitView.subviews[0].frame.width + 5
-            let general = moveMenu.item(at: 0)
-
-            moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
         }
     }
     
@@ -1914,38 +1863,6 @@ class ViewController: EditorViewController,
         
         searchTopConstraint.constant = 8
         newNoteTopConstraint.constant = 2
-    }
-
-    @IBAction func duplicate(_ sender: Any) {
-        if let notes = notesTableView.getSelectedNotes() {
-            for note in notes {
-                let src = note.url
-                let dst = NameHelper.generateCopy(file: note.url)
-
-                if note.isTextBundle() || note.isEncrypted() {
-                    try? FileManager.default.copyItem(at: src, to: dst)
-                    
-                    continue
-                }
-
-                let name = dst.deletingPathExtension().lastPathComponent
-                let noteDupe = Note(name: name, project: note.project, type: note.type, cont: note.container)
-                noteDupe.content = NSMutableAttributedString(string: note.content.string)
-
-                // Clone images
-                if note.type == .Markdown && note.container == .none {
-                    let images = note.getAllImages()
-                    for image in images {
-                        noteDupe.move(from: image.url, imagePath: image.path, to: note.project, copy: true)
-                    }
-                }
-
-                noteDupe.save()
-
-                storage.add(noteDupe)
-                notesTableView.insertNew(note: noteDupe)
-            }
-        }
     }
         
     @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {

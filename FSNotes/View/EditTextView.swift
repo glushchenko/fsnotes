@@ -1690,7 +1690,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if let archivedData = board.data(forType: NSPasteboard.noteType),
            let urls = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL],
            let url = urls.first,
-           let draggableNote = Storage.shared().getBy(url: url) {
+           let draggableNote = Storage.sharedInstance().getBy(url: url) {
 
             let replacementRange = NSRange(location: caretLocation, length: 0)
             let title = "[[" + draggableNote.title + "]]"
