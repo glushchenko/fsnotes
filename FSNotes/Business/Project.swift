@@ -40,6 +40,7 @@ public class Project: Equatable {
     public var firstLineAsTitle: Bool = false
     #endif
 
+    public var priority: Int = 0
     public var sortBy: SortBy = .none
     public var metaCache = [NoteMeta]()
     
@@ -354,7 +355,8 @@ public class Project: Equatable {
             "showInCommon": showInCommon,
             "showInSidebar": showInSidebar,
             "firstLineAsTitle": firstLineAsTitle,
-            "showNestedFoldersContent": showNestedFoldersContent
+            "showNestedFoldersContent": showNestedFoldersContent,
+            "priority": priority,
         ] as [String : Any]
 
         #if os(OSX)
@@ -409,6 +411,10 @@ public class Project: Equatable {
                     self.firstLineAsTitle = firstLineAsTitle
                 } else {
                     self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+                }
+                
+                if let priority = settings["priority"] as? Int {
+                    self.priority = priority
                 }
             }
             return
@@ -569,10 +575,6 @@ public class Project: Equatable {
 
         isReadyForCacheSaving = true
         return (foundRemoved, foundAdded, foundChanged)
-    }
-
-    public func addChild(project: Project) {
-        child.append(project)
     }
 
     public func isExpandable() -> Bool {

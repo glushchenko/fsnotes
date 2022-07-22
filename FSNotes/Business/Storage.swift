@@ -323,6 +323,10 @@ class Storage {
 
         projects.append(project)
         parent?.child.append(project)
+        
+        if let sorted = parent?.child.sorted(by: { $0.priority < $1.priority }) {
+            parent?.child = sorted
+        }
 
         return project
     }

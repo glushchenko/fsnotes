@@ -56,7 +56,8 @@ class SidebarOutlineView: NSOutlineView,
         dataSource = self
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String),
-            NSPasteboard.noteType
+            NSPasteboard.noteType,
+            NSPasteboard.projectType
         ])
         super.draw(dirtyRect)
     }
@@ -279,6 +280,63 @@ class SidebarOutlineView: NSOutlineView,
 
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
         guard let vc = ViewController.shared() else { return false }
+        guard let sidebarItems = self.sidebarItems else { return false }
+        
+        // Drag and drop project (reorder)
+        if let data = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
+            let url = URL(fileURLWithPath: data)
+            
+            guard let project = Storage.sharedInstance().getProjectBy(url: url) else { return false }
+            
+            // Get src index for child and root folders
+            var srcIndex: Int?
+            let dstProject = item as? Project
+            
+            if dstProject != nil, let srcParent = project.parent, !srcParent.isRoot {
+                srcIndex = srcParent.child.firstIndex(where: { $0 === project })
+            } else {
+                srcIndex = sidebarItems.firstIndex(where: { $0 as? Project === project })
+            }
+            
+            guard let srcIndex = srcIndex else { return false }
+
+            var diff = 0
+            if srcIndex > index {
+                diff = 0
+            } else {
+                diff = -1
+            }
+            
+            outlineView.moveItem(at: srcIndex, inParent: item, to: index + diff, inParent: item)
+            
+            if item == nil {
+                self.sidebarItems?.remove(at: srcIndex)
+                self.sidebarItems?.insert(project, at: index + diff)
+                
+                // Save order
+                if let si = self.sidebarItems {
+                    var toSave = [Project]()
+                    for sidebarItem in si {
+                        if let siProject = sidebarItem as? Project, project.parent === siProject.parent {
+                            toSave.append(siProject)
+                        }
+                    }
+                    saveOrderFor(projects: toSave)
+                }
+            } else {
+                project.parent?.child.remove(at: srcIndex)
+                project.parent?.child.insert(project, at: index + diff)
+                
+                // Save order
+                if let projects = project.parent?.child {
+                    saveOrderFor(projects: projects)
+                }
+            }
+            
+            return true
+        }
+
+        // Drag and drop Note
         let board = info.draggingPasteboard
 
         var urls = [URL]()
@@ -368,7 +426,33 @@ class SidebarOutlineView: NSOutlineView,
         return true
     }
     
+    func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
+        guard let project = item as? Project, getSidebarTags() == nil else { return nil }
+
+        let item = NSPasteboardItem()
+        item.setString(project.url.path, forType: NSPasteboard.projectType)
+
+        return item
+    }
+    
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
+
+        if let archivedData = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
+            let url = URL(fileURLWithPath: archivedData)
+            
+            guard let project = Storage.sharedInstance().getProjectBy(url: url) else {
+                return NSDragOperation()
+            }
+            
+            let dstProject = item as? Project
+
+            if isAllowedDropIndex(srcProject: project, dstProject: dstProject, dstIndex: index) {
+                return .move
+            }
+
+            return NSDragOperation()
+        }
+        
         let board = info.draggingPasteboard
         var isLocalNote = false
         var urls = [URL]()
@@ -871,6 +955,59 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     // MARK: Functions
+    
+    private func isAllowedDropIndex(srcProject: Project, dstProject: Project?,  dstIndex: Int) -> Bool {
+        guard let sidebarItems = self.sidebarItems else { return false }
+        
+        var srcIndex: Int?
+        
+        if dstProject != nil, let srcParent = srcProject.parent, !srcParent.isRoot {
+            srcIndex = srcParent.child.firstIndex(where: { $0 === srcProject })
+        } else {
+            srcIndex = sidebarItems.firstIndex(where: { $0 as? Project === srcProject })
+        }
+        
+        guard let srcIndex = srcIndex else { return false }
+        
+        if srcIndex == dstIndex || srcIndex + 1 == dstIndex {
+            return false
+        }
+        
+        // Allow child reordering if parent equal to dst
+        if let dstProject = dstProject, dstProject === srcProject.parent {
+            return true
+        }
+        
+        if sidebarItems.indices.contains(dstIndex - 1),
+            let proposedProject = sidebarItems[dstIndex - 1] as? Project,
+            srcProject.parent === proposedProject.parent,
+            srcProject.isExternal == proposedProject.isExternal {
+            return true
+        }
+        
+        if sidebarItems.indices.contains(dstIndex), sidebarItems[dstIndex] as? Project == nil {
+            return false
+        }
+        
+        if sidebarItems.indices.contains(dstIndex + 1),
+            let proposedProject = sidebarItems[dstIndex + 1] as? Project,
+            srcProject.parent === proposedProject.parent,
+            srcProject.isExternal == proposedProject.isExternal {
+            return true
+        }
+
+        return false
+    }
+    
+    private func saveOrderFor(projects: [Project]) {
+        var i = 0
+        for project in projects {
+            project.priority = i
+            i += 1
+            
+            project.saveSettings()
+        }
+    }
 
     public func removeTags(notes: [Note]) {
         guard let vc = ViewController.shared() else { return }

@@ -60,13 +60,13 @@ class Sidebar {
             let icon = NSImage(named: "sidebar_icloud_drive")
             list.append(SidebarItem(name: name, project: defaultProject, type: .Header, icon: icon))
 
-            let subDefault = defaultProject.child.sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+            let subDefault = defaultProject.child.sorted(by: { $0.priority < $1.priority })
             for project in subDefault {
                 list.append(project)
             }
         }
 
-        let externalProjects = storage.getExternalProjects()
+        let externalProjects = storage.getExternalProjects().sorted(by: { $0.priority < $1.priority })
         if externalProjects.count > 0 {
             let icon = NSImage(named: "sidebar_external")
             let name = NSLocalizedString("External Folders", comment: "")
