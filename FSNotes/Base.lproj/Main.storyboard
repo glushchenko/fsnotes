@@ -249,6 +249,18 @@ CA
                                                 <action selector="deleteMenu:" target="yxb-XH-bXh" id="9eH-nN-saE"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Encrypt" keyEquivalent="1" identifier="folderMenubar.toggleEncryption" id="epi-YA-nEi">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleFolderEncryption:" target="Ady-hI-5gd" id="kHU-F6-oGg"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Lock" keyEquivalent="2" identifier="folderMenubar.toggleLock" id="6UT-Yu-j7X">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleFolderLock:" target="Ady-hI-5gd" id="iZf-TT-TNN"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="F5A-zs-zwP">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
@@ -2199,6 +2211,18 @@ CA
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
                             <connections>
                                 <action selector="deleteMenu:" target="rPt-NT-nkU" id="U7D-ZD-89h"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Encrypt Folder" keyEquivalent="1" identifier="folderMenu.toggleEncryption" id="dqy-22-ETG">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="toggleFolderEncryption:" target="rPt-NT-nkU" id="aKB-yt-u8e"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Lock Folder" keyEquivalent="2" identifier="folderMenu.toggleLock" id="w7R-OL-Nfh">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="toggleFolderLock:" target="rPt-NT-nkU" id="5Qc-24-2Hz"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="goN-LO-L7l">

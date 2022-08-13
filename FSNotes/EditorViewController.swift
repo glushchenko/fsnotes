@@ -889,6 +889,13 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                 vc.focusEditArea()
             }
         }
+        
+        // Project encrypted and unlocked – encrypt by default
+        if let password = project.password {
+            if note.encrypt(password: password) {
+                _ = note.unLock(password: password)
+            }
+        }
 
         return note
     }

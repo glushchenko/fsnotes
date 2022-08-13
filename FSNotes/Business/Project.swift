@@ -52,6 +52,9 @@ public class Project: Equatable {
 
     public var child = [Project]()
     public var isExpanded = false
+    
+    public var useEncryption = false
+    public var password: String?
 
     init(storage: Storage,
          url: URL,
@@ -105,6 +108,8 @@ public class Project: Equatable {
         if let name = localizedName as? String, name.count > 0 {
             self.label = name
         }
+        
+        useEncryption = isEncrypted()
     }
 
     public func getCacheURL() -> URL? {
@@ -619,5 +624,57 @@ public class Project: Equatable {
             }
         }
         return qty
+    }
+    
+    public func getEncryptionStatusFilePath() -> URL {
+        return url.appendingPathComponent(".encrypt", isDirectory: false)
+    }
+    
+    public func isEncrypted() -> Bool {
+        let encFolder = getEncryptionStatusFilePath()
+        if FileManager.default.fileExists(atPath: encFolder.path) {
+            return true
+        }
+        return false
+    }
+    
+    public func isLocked() -> Bool {
+        return password == nil
+    }
+    
+    public func encrypt(password: String) -> [Note] {
+        let encFolder = getEncryptionStatusFilePath()
+        FileManager.default.createFile(atPath: encFolder.path, contents: nil)
+        
+        useEncryption = true
+        
+        let notes = storage.getNotesBy(project: self)
+        var encrypted = [Note]()
+        
+        for note in notes {
+            if note.encrypt(password: password) {
+                encrypted.append(note)
+            }
+        }
+        
+        return encrypted
+    }
+    
+    public func decrypt(password: String) -> [Note] {
+        let encFolder = getEncryptionStatusFilePath()
+        try? FileManager.default.removeItem(at: encFolder)
+        
+        useEncryption = false
+        
+        let notes = storage.getNotesBy(project: self)
+        var decrypted = [Note]()
+        
+        for note in notes {
+            if note.unEncrypt(password: password) {
+                decrypted.append(note)
+            }
+        }
+        
+        return decrypted
     }
 }

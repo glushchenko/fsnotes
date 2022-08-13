@@ -243,6 +243,28 @@ class SidebarOutlineView: NSOutlineView,
             menuItem.isHidden = false
             return true
         }
+        
+        if id == "folderMenu.toggleEncryption" || id == "folderMenubar.toggleEncryption" {
+            if let project = project {
+                menuItem.title = project.useEncryption
+                    ? NSLocalizedString("Decrypt", comment: "")
+                    : NSLocalizedString("Encrypt", comment: "")
+                
+                menuItem.isHidden = false
+                return true
+            }
+        }
+        
+        if id == "folderMenu.toggleLock" || id == "folderMenubar.toggleLock" {
+            if let project = project, project.useEncryption {
+                menuItem.title = project.isLocked()
+                    ? NSLocalizedString("Unlock", comment: "")
+                    : NSLocalizedString("Lock", comment: "")
+                
+                menuItem.isHidden = false
+                return true
+            }
+        }
 
         if id == "folderMenu.options" {
             if tags != nil || project == nil {
@@ -574,8 +596,19 @@ class SidebarOutlineView: NSOutlineView,
 
         } else if let project = item as? Project {
 
-            cell.type = .Project
-            cell.icon.image = NSImage(named: "sidebar_project")
+            if project.useEncryption {
+                if project.isLocked() {
+                    cell.type = .ProjectEncryptedLocked
+                    cell.icon.image = NSImage(named: "sidebar_project_encrypted_locked")
+                } else {
+                    cell.type = .ProjectEncryptedUnlocked
+                    cell.icon.image = NSImage(named: "sidebar_project_encrypted_unlocked")
+                }
+            } else {
+                cell.type = .Project
+                cell.icon.image = NSImage(named: "sidebar_project")
+            }
+            
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
             cell.textField?.stringValue = project.label
@@ -951,6 +984,148 @@ class SidebarOutlineView: NSOutlineView,
             repository.initialize(from: project.getParent())
             repository.commitAll()
             vc.isGitProcessLocked = false
+        }
+    }
+    
+    @IBAction func toggleFolderEncryption(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared(),
+            let projects = vc.sidebarOutlineView.getSelectedProjects() else { return }
+        
+        guard let firstProject = projects.first  else { return }
+        
+        // Decrypt
+        if firstProject.useEncryption {
+            vc.getMasterPassword() { password, _ in
+                for project in projects {
+                    let decrypted = project.decrypt(password: password)
+                    self.showTags(notes: decrypted)
+                }
+                
+                DispatchQueue.main.async {
+                    vc.notesTableView.reloadData()
+                    self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
+                }
+            }
+            
+        // Encrypt
+        } else {
+            vc.getMasterPassword() { password, _ in
+                for project in projects {
+                    let encrypted = project.encrypt(password: password)
+                    self.hideTags(notes: encrypted)
+                }
+                
+                DispatchQueue.main.async {
+                    vc.notesTableView.reloadData()
+                    self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
+                    
+                    // Lock all editors
+                    let editors = AppDelegate.getEditTextViews()
+                    for editor in editors {
+                        if let evc = editor.editorViewController {
+                            evc.refillEditArea()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    @IBAction func toggleFolderLock(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared(),
+            let projects = vc.sidebarOutlineView.getSelectedProjects() else { return }
+        
+        guard let firstProject = projects.first  else { return }
+        
+        // Lock
+        if firstProject.password != nil {
+            var locked = [Note]()
+            
+            for project in projects {
+                let notes = storage.getNotesBy(project: project)
+                for note in notes {
+                    if note.lock() {
+                        locked.append(note)
+                    }
+                }
+                
+                if locked.count > 0 {
+                    project.password = nil
+                }
+            }
+            
+            hideTags(notes: locked)
+            
+            vc.notesTableView.reloadData()
+            vc.editor.clear()
+            reloadData(forRowIndexes: selectedRowIndexes, columnIndexes: [0])
+            
+            // Lock all editors
+            let editors = AppDelegate.getEditTextViews()
+            for editor in editors {
+                if let evc = editor.editorViewController {
+                    evc.refillEditArea()
+                }
+            }
+            
+        // Unlock
+        } else {
+            vc.getMasterPassword() { password, _ in
+                var unlocked = [Note]()
+                
+                for project in projects {
+                    project.password = password
+                    let notes = self.storage.getNotesBy(project: project)
+                    for note in notes {
+                        if note.unLock(password: password) {
+                            unlocked.append(note)
+                        }
+                    }
+                }
+                
+                self.showTags(notes: unlocked)
+                
+                DispatchQueue.main.async {
+                    vc.notesTableView.reloadData()
+                    self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
+                }
+            }
+        }
+    }
+    
+    private func hideTags(notes: [Note]) {
+        var notesTags = [String]()
+        for note in notes {
+            let tags = note.tags
+            note.tags.removeAll()
+            for tag in tags {
+                if !notesTags.contains(tag) {
+                    notesTags.append(tag)
+                }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.removeTags(notesTags)
+        }
+    }
+    
+    private func showTags(notes: [Note]) {
+        var notesTags = [String]()
+        for note in notes {
+            if note.tags.count == 0 {
+                _ = note.scanContentTags().0
+            }
+            
+            for insertTag in note.tags {
+                if !notesTags.contains(insertTag) {
+                    notesTags.append(insertTag)
+                }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.addTags(notesTags)
         }
     }
 

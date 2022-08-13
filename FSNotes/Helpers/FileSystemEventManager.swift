@@ -354,8 +354,6 @@ class FileSystemEventManager {
                     }
                 }
                 
- 
-
                 do {
                     try FileManager.default.copyItem(at: conflict.url, to: to)
                     var attributes = [FileAttributeKey : Any]()

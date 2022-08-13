@@ -982,6 +982,11 @@ class ViewController: EditorViewController,
         
         guard let vc = ViewController.shared() else { return }
         
+        // Dusable notes creation if folder encrypted
+        if let project = vc.getSidebarProject(), project.useEncryption, project.isLocked() {
+            return
+        }
+        
         if let type = vc.getSidebarType(), type == .Trash {
             vc.sidebarOutlineView.deselectAll(nil)
         }

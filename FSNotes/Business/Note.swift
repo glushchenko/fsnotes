@@ -1820,6 +1820,7 @@ public class Note: NSObject  {
             convertTextBundleToFlat(name: name)
             self.decryptedTemporarySrc = nil
 
+            invalidateCache()
             load()
             parseURL()
 
@@ -1863,6 +1864,10 @@ public class Note: NSObject  {
     }
 
     public func encrypt(password: String) -> Bool {
+        if container == .encryptedTextPack {
+            return false
+        }
+        
         var temporaryFlatSrc: URL?
         let isContainer = isTextBundle()
 
@@ -1897,6 +1902,7 @@ public class Note: NSObject  {
 
             cleanOut()
             removeTempContainer()
+            invalidateCache()
 
             return true
         } catch {
@@ -1907,6 +1913,7 @@ public class Note: NSObject  {
     }
 
     public func cleanOut() {
+        isParsed = false
         imageUrl = nil
         cacheHash = nil
         content = NSMutableAttributedString(string: String())

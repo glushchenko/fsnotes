@@ -26,6 +26,8 @@ enum SidebarItemType: Int {
     case Project = 0x09
     case Header = 0x10
     case Untagged = 0x11
+    case ProjectEncryptedLocked = 12
+    case ProjectEncryptedUnlocked = 13
 
     #if os(OSX)
     public func getIcon(white: Bool = false) -> NSImage? {
@@ -49,7 +51,11 @@ enum SidebarItemType: Int {
         case 0x10:
             image = NSImage(named: "sidebar_icloud_drive")
         case 0x11:
-            image = NSImage(named: "sidebar_untagged");
+            image = NSImage(named: "sidebar_untagged")
+        case 12:
+            image = NSImage(named: "sidebar_project_encrypted_locked")
+        case 13:
+            image = NSImage(named: "sidebar_project_encrypted_unlocked")
         default:
             return nil
         }
