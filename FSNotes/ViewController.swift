@@ -52,6 +52,7 @@ class ViewController: EditorViewController,
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var newNoteTopConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var lockedFolder: NSImageView!
     @IBOutlet weak var newNoteButton: NSButton!
     @IBOutlet weak var titleLabel: TitleTextField! {
         didSet {
@@ -983,7 +984,10 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         // Dusable notes creation if folder encrypted
-        if let project = vc.getSidebarProject(), project.useEncryption, project.isLocked() {
+        if let project = vc.getSidebarProject(), project.isEncrypted, project.isLocked() {
+            let menuItem = NSMenuItem()
+            menuItem.identifier = NSUserInterfaceItemIdentifier("menu.newNote")
+            vc.sidebarOutlineView.toggleFolderLock(menuItem)
             return
         }
         
@@ -1170,6 +1174,9 @@ class ViewController: EditorViewController,
     }
         
     @IBAction func lockAll(_ sender: Any) {
+        let projects = storage.getProjects().filter({ $0.isEncrypted && !$0.isLocked() })
+        sidebarOutlineView.lock(projects: projects)
+        
         let notes = storage.noteList.filter({ $0.isUnlocked() })
         for note in notes {
             if note.lock() {
@@ -1497,6 +1504,9 @@ class ViewController: EditorViewController,
             ) && (
                 tags == nil
                 || UserDefaultsManagement.inlineTags && tags != nil && note.tags.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
+            ) && !(
+                note.project.isEncrypted &&
+                note.project.isLocked()
             )
     }
 

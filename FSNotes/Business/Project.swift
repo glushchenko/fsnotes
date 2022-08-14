@@ -53,7 +53,7 @@ public class Project: Equatable {
     public var child = [Project]()
     public var isExpanded = false
     
-    public var useEncryption = false
+    public var isEncrypted = false
     public var password: String?
 
     init(storage: Storage,
@@ -109,7 +109,7 @@ public class Project: Equatable {
             self.label = name
         }
         
-        useEncryption = isEncrypted()
+        isEncrypted = getEncryptionStatus()
     }
 
     public func getCacheURL() -> URL? {
@@ -630,7 +630,7 @@ public class Project: Equatable {
         return url.appendingPathComponent(".encrypt", isDirectory: false)
     }
     
-    public func isEncrypted() -> Bool {
+    public func getEncryptionStatus() -> Bool {
         let encFolder = getEncryptionStatusFilePath()
         if FileManager.default.fileExists(atPath: encFolder.path) {
             return true
@@ -639,14 +639,14 @@ public class Project: Equatable {
     }
     
     public func isLocked() -> Bool {
-        return password == nil
+        return password == nil && isEncrypted
     }
     
     public func encrypt(password: String) -> [Note] {
         let encFolder = getEncryptionStatusFilePath()
         FileManager.default.createFile(atPath: encFolder.path, contents: nil)
         
-        useEncryption = true
+        isEncrypted = true
         
         let notes = storage.getNotesBy(project: self)
         var encrypted = [Note]()
@@ -664,7 +664,7 @@ public class Project: Equatable {
         let encFolder = getEncryptionStatusFilePath()
         try? FileManager.default.removeItem(at: encFolder)
         
-        useEncryption = false
+        isEncrypted = false
         
         let notes = storage.getNotesBy(project: self)
         var decrypted = [Note]()

@@ -64,6 +64,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     override func mouseDown(with event: NSEvent) {
+        guard let vc = self.window?.contentViewController as? ViewController else { return }
+        
+        if let selectedProject = vc.getSidebarProject(),
+            selectedProject.isLocked()
+        {
+            vc.sidebarOutlineView.toggleFolderLock(NSMenuItem())
+            return
+        }
+        
         UserDataService.instance.searchTrigger = false
 
         ViewController.shared()?.restoreCurrentPreviewState()
@@ -518,5 +527,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         history.append(note.url)
         historyPosition = history.count - 1
+    }
+    
+    public func enableLockedProject() {
+        ViewController.shared()?.lockedFolder.isHidden = false
+        usesAlternatingRowBackgroundColors = false
+    }
+    
+    public func disableLockedProject() {
+        ViewController.shared()?.lockedFolder.isHidden = true
+        usesAlternatingRowBackgroundColors = true
     }
 }

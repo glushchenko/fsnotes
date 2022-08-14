@@ -246,7 +246,7 @@ class SidebarOutlineView: NSOutlineView,
         
         if id == "folderMenu.toggleEncryption" || id == "folderMenubar.toggleEncryption" {
             if let project = project {
-                menuItem.title = project.useEncryption
+                menuItem.title = project.isEncrypted
                     ? NSLocalizedString("Decrypt", comment: "")
                     : NSLocalizedString("Encrypt", comment: "")
                 
@@ -256,7 +256,7 @@ class SidebarOutlineView: NSOutlineView,
         }
         
         if id == "folderMenu.toggleLock" || id == "folderMenubar.toggleLock" {
-            if let project = project, project.useEncryption {
+            if let project = project, project.isEncrypted {
                 menuItem.title = project.isLocked()
                     ? NSLocalizedString("Unlock", comment: "")
                     : NSLocalizedString("Lock", comment: "")
@@ -596,7 +596,7 @@ class SidebarOutlineView: NSOutlineView,
 
         } else if let project = item as? Project {
 
-            if project.useEncryption {
+            if project.isEncrypted {
                 if project.isLocked() {
                     cell.type = .ProjectEncryptedLocked
                     cell.icon.image = NSImage(named: "sidebar_project_encrypted_locked")
@@ -662,6 +662,8 @@ class SidebarOutlineView: NSOutlineView,
         guard let vd = viewDelegate else { return }
         guard let view = notification.object as? NSOutlineView else { return }
 
+        viewDelegate?.notesTableView.disableLockedProject()
+        
         if UserDataService.instance.isNotesTableEscape {
             UserDataService.instance.isNotesTableEscape = false
         }
@@ -701,6 +703,10 @@ class SidebarOutlineView: NSOutlineView,
 
             UserDefaultsManagement.lastProjectURL = selectedProject.url
             UserDefaultsManagement.lastSidebarItem = nil
+            
+            if selectedProject.isEncrypted && selectedProject.isLocked() {
+                viewDelegate?.notesTableView.enableLockedProject()
+            }
         }
 
         if !isFirstLaunch {
@@ -994,7 +1000,7 @@ class SidebarOutlineView: NSOutlineView,
         guard let firstProject = projects.first  else { return }
         
         // Decrypt
-        if firstProject.useEncryption {
+        if firstProject.isEncrypted {
             vc.getMasterPassword() { password, _ in
                 for project in projects {
                     let decrypted = project.decrypt(password: password)
@@ -1002,7 +1008,9 @@ class SidebarOutlineView: NSOutlineView,
                 }
                 
                 DispatchQueue.main.async {
-                    vc.notesTableView.reloadData()
+                    vc.notesTableView.disableLockedProject()
+                    vc.updateTable()
+                    
                     self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
                 }
             }
@@ -1016,7 +1024,9 @@ class SidebarOutlineView: NSOutlineView,
                 }
                 
                 DispatchQueue.main.async {
-                    vc.notesTableView.reloadData()
+                    vc.notesTableView.enableLockedProject()
+                    vc.updateTable()
+                    
                     self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
                     
                     // Lock all editors
@@ -1039,34 +1049,7 @@ class SidebarOutlineView: NSOutlineView,
         
         // Lock
         if firstProject.password != nil {
-            var locked = [Note]()
-            
-            for project in projects {
-                let notes = storage.getNotesBy(project: project)
-                for note in notes {
-                    if note.lock() {
-                        locked.append(note)
-                    }
-                }
-                
-                if locked.count > 0 {
-                    project.password = nil
-                }
-            }
-            
-            hideTags(notes: locked)
-            
-            vc.notesTableView.reloadData()
-            vc.editor.clear()
-            reloadData(forRowIndexes: selectedRowIndexes, columnIndexes: [0])
-            
-            // Lock all editors
-            let editors = AppDelegate.getEditTextViews()
-            for editor in editors {
-                if let evc = editor.editorViewController {
-                    evc.refillEditArea()
-                }
-            }
+            lock(projects: projects)
             
         // Unlock
         } else {
@@ -1086,9 +1069,53 @@ class SidebarOutlineView: NSOutlineView,
                 self.showTags(notes: unlocked)
                 
                 DispatchQueue.main.async {
-                    vc.notesTableView.reloadData()
+                    vc.notesTableView.disableLockedProject()
+                    vc.updateTable() {
+                        
+                        if sender.identifier?.rawValue == "menu.newNote" {
+                            _ = vc.createNote()
+                        }
+                    }
+                    
                     self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
                 }
+            }
+        }
+    }
+    
+    public func lock(projects: [Project]) {
+        guard let vc = ViewController.shared() else { return }
+        
+        
+        var locked = [Note]()
+        for project in projects {
+            let notes = storage.getNotesBy(project: project)
+            for note in notes {
+                if note.lock() {
+                    locked.append(note)
+                }
+            }
+            
+            if locked.count > 0 {
+                project.password = nil
+            }
+        }
+        
+        hideTags(notes: locked)
+        
+        if let selectedProject = getSelectedProject(), projects.contains(selectedProject) {
+            vc.notesTableView.enableLockedProject()
+            vc.updateTable()
+            vc.editor.clear()
+        }
+        
+        reloadData(forRowIndexes: selectedRowIndexes, columnIndexes: [0])
+        
+        // Lock all editors
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                evc.refillEditArea()
             }
         }
     }

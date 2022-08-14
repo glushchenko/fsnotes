@@ -1868,12 +1868,22 @@ CA
                                                             <action selector="fileMenuNewNote:" target="XfG-lQ-9wD" id="4o2-hM-kTQ"/>
                                                         </connections>
                                                     </button>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JTJ-Ja-LIg" userLabel="lockedFolder">
+                                                        <rect key="frame" x="87" y="268" width="64" height="64"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="64" id="QP6-94-KNQ"/>
+                                                            <constraint firstAttribute="height" constant="64" id="XxX-Hw-cJS"/>
+                                                        </constraints>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="lock-closed" id="dP6-5A-v6b"/>
+                                                    </imageView>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="TiA-aF-Uev" firstAttribute="leading" secondItem="bd7-O3-GQF" secondAttribute="trailing" constant="15" id="0kI-rM-bW0"/>
                                                     <constraint firstAttribute="trailing" secondItem="bd7-O3-GQF" secondAttribute="trailing" constant="40" id="22G-me-b0r"/>
+                                                    <constraint firstItem="JTJ-Ja-LIg" firstAttribute="centerY" secondItem="8ej-mX-KM6" secondAttribute="centerY" id="4a6-WP-Oc8"/>
                                                     <constraint firstAttribute="trailing" secondItem="TiA-aF-Uev" secondAttribute="trailing" constant="4" id="Bwk-QM-Hza"/>
                                                     <constraint firstItem="TiA-aF-Uev" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="25" id="WNt-DJ-R3r"/>
+                                                    <constraint firstItem="JTJ-Ja-LIg" firstAttribute="centerX" secondItem="8ej-mX-KM6" secondAttribute="centerX" id="cQa-gs-t44"/>
                                                     <constraint firstItem="bd7-O3-GQF" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" priority="2" constant="8" id="fJK-am-Cfu"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="lGx-ze-4gU"/>
                                                     <constraint firstItem="bd7-O3-GQF" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="28" id="nXO-Fh-8nv"/>
@@ -2062,6 +2072,7 @@ CA
                         <outlet property="editor" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>
                         <outlet property="emptyEditAreaImage" destination="Gz4-4G-Fts" id="Bih-Xr-Cl8"/>
                         <outlet property="lockUnlock" destination="Ote-7U-BZm" id="DXV-am-jEC"/>
+                        <outlet property="lockedFolder" destination="JTJ-Ja-LIg" id="lYY-zF-PHH"/>
                         <outlet property="menuChangeCreationDate" destination="QdU-og-lQH" id="3h3-dh-83s"/>
                         <outlet property="newNoteButton" destination="TiA-aF-Uev" id="RLL-yl-PiF"/>
                         <outlet property="newNoteTopConstraint" destination="WNt-DJ-R3r" id="jhb-vo-lvp"/>
@@ -3555,7 +3566,7 @@ Will Pazner (github.com/pazner)</string>
                                 </scroller>
                             </scrollView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ML3-K3-vlx">
-                                <rect key="frame" x="150" y="84" width="170" height="170"/>
+                                <rect key="frame" x="150" y="84" width="169" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logoInCircle" id="riY-9N-gUN"/>
                             </imageView>
@@ -3999,6 +4010,7 @@ Will Pazner (github.com/pazner)</string>
         <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
         <image name="icon" width="1024" height="1024"/>
+        <image name="lock-closed" width="128" height="128"/>
         <image name="logoInCircle" width="250" height="250"/>
         <image name="new_note_button" width="76" height="76"/>
         <image name="pin" width="128" height="128"/>
