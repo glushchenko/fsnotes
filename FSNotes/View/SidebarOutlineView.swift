@@ -83,6 +83,10 @@ class SidebarOutlineView: NSOutlineView,
                     return
                 }
 
+                if let project = item(atRow: selectedRow) as? Project, project.isLocked() {
+                    return
+                }
+                
                 vc.notesTableView.selectCurrent()
                 NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
                 return
@@ -704,7 +708,7 @@ class SidebarOutlineView: NSOutlineView,
             UserDefaultsManagement.lastProjectURL = selectedProject.url
             UserDefaultsManagement.lastSidebarItem = nil
             
-            if selectedProject.isEncrypted && selectedProject.isLocked() {
+            if selectedProject.isLocked() {
                 viewDelegate?.notesTableView.enableLockedProject()
             }
         }

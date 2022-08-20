@@ -112,6 +112,12 @@ public class UserDefaultsManagement {
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let SaveInKeychain = "saveInKeychain"
         static let SearchHighlight = "searchHighlighting"
+        static let SftpHost = "sftpHost"
+        static let SftpPort = "sftpPort"
+        static let SftpPath = "sftpPath"
+        static let SftpWeb = "sftpWeb"
+        static let SftpUsername = "sftpUsername"
+        static let SftpPassword = "sftpPassword"
         static let SharedContainerKey = "sharedContainer"
         static let ShowDockIcon = "showDockIcon"
         static let shouldFocusSearchOnESCKeyDown = "shouldFocusSearchOnESCKeyDown"
@@ -1432,6 +1438,84 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.iCloudDrive)
+        }
+    }
+    
+    static var sftpHost: String {
+        get {
+            if let result = shared?.object(forKey: Constants.SftpHost) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpHost)
+        }
+    }
+    
+    static var sftpPort: String {
+        get {
+            if let result = shared?.object(forKey: Constants.SftpPort) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpPort)
+        }
+    }
+    
+    static var sftpUsername: String {
+        get {
+            if let result = shared?.object(forKey: Constants.SftpUsername) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpUsername)
+        }
+    }
+    
+    static var sftpPassword: String {
+        get {
+            if let result = shared?.object(forKey: Constants.SftpPassword) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpPassword)
+        }
+    }
+    
+    static var sftpPath: String {
+        get {
+            if let result = shared?.object(forKey: Constants.SftpPath) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpPath)
+        }
+    }
+    
+    static var sftpWeb: String {
+        get {
+            if let result = shared?.object(forKey: Constants.SftpWeb) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpWeb)
         }
     }
 }

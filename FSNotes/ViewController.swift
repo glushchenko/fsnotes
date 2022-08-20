@@ -10,6 +10,7 @@ import Cocoa
 import MASShortcut
 import FSNotesCore_macOS
 import Foundation
+import Shout
 
 class ViewController: EditorViewController,
     NSSplitViewDelegate,
@@ -1187,6 +1188,10 @@ class ViewController: EditorViewController,
 
         editor.clear()
         NSApp.mainWindow?.makeFirstResponder(notesTableView)
+    }
+        
+    @IBAction func uploadNote(_ sender: NSMenuItem) {
+    
     }
     
     @IBAction func openWindow(_ sender: Any) {

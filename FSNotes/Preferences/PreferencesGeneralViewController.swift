@@ -14,7 +14,7 @@ import FSNotesCore_macOS
 class PreferencesGeneralViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 476, height: 481)
+        preferredContentSize = NSSize(width: 550, height: 481)
     }
 
     @IBOutlet var externalEditorApp: NSTextField!

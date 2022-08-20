@@ -19,7 +19,7 @@ class PreferencesGitViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 476, height: 352)
+        preferredContentSize = NSSize(width: 550, height: 352)
 
         DispatchQueue.global().async {
             if let version = Git.sharedInstance().getVersion() {
