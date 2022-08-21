@@ -115,9 +115,11 @@ public class UserDefaultsManagement {
         static let SftpHost = "sftpHost"
         static let SftpPort = "sftpPort"
         static let SftpPath = "sftpPath"
+        static let SftpPasspharse = "sftpPassphrase"
         static let SftpWeb = "sftpWeb"
         static let SftpUsername = "sftpUsername"
         static let SftpPassword = "sftpPassword"
+        static let SftpKeysAccessData = "sftpKeysAccessData"
         static let SharedContainerKey = "sharedContainer"
         static let ShowDockIcon = "showDockIcon"
         static let shouldFocusSearchOnESCKeyDown = "shouldFocusSearchOnESCKeyDown"
@@ -1454,13 +1456,13 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var sftpPort: String {
+    static var sftpPort: Int32 {
         get {
-            if let result = shared?.object(forKey: Constants.SftpPort) as? String {
+            if let result = shared?.object(forKey: Constants.SftpPort) as? Int32 {
                 return result
             }
 
-            return ""
+            return 22
         }
         set {
             shared?.set(newValue, forKey: Constants.SftpPort)
@@ -1506,6 +1508,19 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var sftpPassphrase: String {
+        get {
+            if let result = shared?.object(forKey: Constants.SftpPasspharse) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpPasspharse)
+        }
+    }
+    
     static var sftpWeb: String {
         get {
             if let result = shared?.object(forKey: Constants.SftpWeb) as? String {
@@ -1516,6 +1531,15 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.SftpWeb)
+        }
+    }
+    
+    static var sftpAccessData: Data? {
+        get {
+            return shared?.data(forKey: Constants.SftpKeysAccessData)
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpKeysAccessData)
         }
     }
 }

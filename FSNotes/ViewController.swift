@@ -11,13 +11,15 @@ import MASShortcut
 import FSNotesCore_macOS
 import Foundation
 import Shout
+import UserNotifications
 
 class ViewController: EditorViewController,
     NSSplitViewDelegate,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource,
     NSMenuItemValidation,
-    NSTextFieldDelegate {
+    NSTextFieldDelegate,
+    UNUserNotificationCenterDelegate {
     
     // MARK: - Properties
     public var fsManager: FileSystemEventManager?
@@ -153,6 +155,7 @@ class ViewController: EditorViewController,
         fsManager?.start()
 
         configureTranslation()
+        configureSFTP()
         loadMoveMenu()
         loadSortBySetting()
         checkSidebarConstraint()
@@ -297,7 +300,8 @@ class ViewController: EditorViewController,
                 if ["fileMenu.new",
                     "fileMenu.newRtf",
                     "fileMenu.searchAndCreate",
-                    "fileMenu.import"
+                    "fileMenu.import",
+                    "fileMenu.uploadOverSSH"
                    ].contains(menuItem.identifier?.rawValue)
                 {
                     return true
@@ -547,6 +551,10 @@ class ViewController: EditorViewController,
         self.search.delegate = self.search
         self.sidebarSplitView.delegate = self
         self.sidebarOutlineView.viewDelegate = self
+        
+        if #available(macOS 10.14, *) {
+            UNUserNotificationCenter.current().delegate = self
+        }
     }
     
     // MARK: - Actions
@@ -1191,7 +1199,112 @@ class ViewController: EditorViewController,
     }
         
     @IBAction func uploadNote(_ sender: NSMenuItem) {
+        guard let note = getCurrentNote() else { return }
+        
+        
+        let dst = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Upload")
+        try? FileManager.default.removeItem(at: dst)
+        
+        MPreviewView.buildPageAt(note: note, dst: dst)
+        
+        var publicKeyURL: URL?
+        var privateKeyURL: URL?
+        
+        if let accessData = UserDefaultsManagement.sftpAccessData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+            for bookmark in bookmarks {
+                if bookmark.key.path.hasSuffix(".pub") {
+                    publicKeyURL = bookmark.key
+                } else {
+                    privateKeyURL = bookmark.key
+                }
+            }
+        }
+        
+        let host = UserDefaultsManagement.sftpHost
+        let username = UserDefaultsManagement.sftpUsername
+        let passphrase = UserDefaultsManagement.sftpPassphrase
+        
+        let latinName  = note.getLatinName()
+        let remoteDir = "\(UserDefaultsManagement.sftpPath)/\(latinName)/"
+        
+        let web = UserDefaultsManagement.sftpWeb + latinName + "/"
+        
+        
+//        let notification = NSUserNotification()
+//        notification.title = "SSH"
+//        notification.informativeText = "Shared URL successfully saved in clipboard"
+//        NSUserNotificationCenter.default.deliver(notification)
+          
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(web, forType: .string)
+        
+        guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return }
+        guard let ssh = try? SSH(host: host) else { return }
+        //guard let localURL = note.getContentFileURL() else { return }
+
+        DispatchQueue.global().async {
+            do {
+                try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+                
+                if let paths = try? FileManager.default.contentsOfDirectory(atPath: dst.path) {
+                    for file in paths {
+                        if file == "SourceCodePro-Regular.ttf" || file == "SourceCodePro-Bold.ttf" {
+                            continue
+                        }
+                        let sendUrl = dst.appendingPathComponent(file)
+                        print(sendUrl)
+                        
+                        _ = try? ssh.execute("mkdir -p \(remoteDir)")
+                        _ = try? ssh.sendFile(localURL: sendUrl, remotePath: remoteDir + file)
+                    }
+                }
+                
+                let assets = dst.appendingPathComponent("assets", isDirectory: true)
+                if let paths = try? FileManager.default.contentsOfDirectory(atPath: assets.path) {
+                    for file in paths {
+                        let sendUrl = assets.appendingPathComponent(file)
+                        print(sendUrl)
+                        
+                        _ = try? ssh.execute("mkdir -p \(remoteDir)assets/")
+                        _ = try? ssh.sendFile(localURL: sendUrl, remotePath: "\(remoteDir)assets/" + file)
+                    }
+                }
+                
+                if #available(macOS 10.14, *) {
+                    DispatchQueue.main.async {
+                        self.sendNotification()
+                    }
+                }
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+    }
     
+    @available(macOS 10.14, *)
+    public func sendNotification() {        
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        center.requestAuthorization(options: [.badge,.sound,.alert]) { granted, error in
+            if error == nil {
+                print("User permission is granted : \(granted)")
+            }
+        }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Upload over SSH done"
+        content.sound = .default
+   
+        let date = Date().addingTimeInterval(1)
+        let dateComponent = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+    
+    
+        let uuid = UUID().uuidString
+        let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
+    
+        center.add(request) { error in }
     }
     
     @IBAction func openWindow(_ sender: Any) {
@@ -1715,6 +1828,28 @@ class ViewController: EditorViewController,
         let creationDate = NSLocalizedString("Change Creation Date", comment: "Menu")
 
         menuChangeCreationDate.title = creationDate
+    }
+    
+    private func configureSFTP() {
+        if let accessData = UserDefaultsManagement.sftpAccessData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+            
+            for bookmark in bookmarks {
+                var isStale = false
+                
+                do {
+                    let url = try URL.init(resolvingBookmarkData: bookmark.value, options: NSURL.BookmarkResolutionOptions.withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
+                    
+                    if !url.startAccessingSecurityScopedResource() {
+                        print("RSA key not available: \(url.path)")
+                    } else {
+                        print("Access for RSA key is successfull restored \(url)")
+                    }
+                } catch {
+                    print("Error restoring sftp bookmark: \(error)")
+                }
+            }
+        }
     }
     
     func loadMoveMenu() {

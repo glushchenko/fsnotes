@@ -2103,4 +2103,12 @@ public class Note: NSObject  {
     public func resetAttributesCache() {
         cacheHash = nil
     }
+    
+    public func getLatinName() -> String {
+        let name = (self.fileName as NSString)
+            .applyingTransform(.toLatin, reverse: false)?
+            .applyingTransform(.stripDiacritics, reverse: false) ?? self.fileName
+        
+        return name.replacingOccurrences(of: " ", with: "_")
+    }
 }
