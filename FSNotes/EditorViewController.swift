@@ -408,7 +408,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         if let note = createNote(content: "", openInNewWindow: true) {
             NSApp.activate(ignoringOtherApps: true)
             
-            openInNewWindow(note: note)
+            openInNewWindow(note: note, previewState: true)
             
             if !NSApp.isActive {
                 AppDelegate.mainWindowController?.window?.miniaturize(nil)
@@ -527,7 +527,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     // MARK: Dep methods
     
-    public func openInNewWindow(note: Note) {
+    public func openInNewWindow(note: Note, previewState: Bool? = nil) {
         guard let windowController = NSStoryboard(name: "Main", bundle: nil)
             .instantiateController(withIdentifier: "noteWindowController") as? NSWindowController else { return }
         
@@ -536,6 +536,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         let viewController = windowController.contentViewController as! NoteViewController
         viewController.initWindow()
+        
+        // Disable preview for quick note
+        if let state = previewState, state {
+            viewController.currentPreviewState = .off
+        }
+        
         viewController.editor.fill(note: note)
         
         if note.isEncryptedAndLocked() {

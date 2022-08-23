@@ -148,19 +148,23 @@ class PreferencesWebViewController: NSViewController {
         
         do {
             try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+            
             _ = try? ssh.execute("mkdir -p \(remoteJsDir)")
+            _ = try? ssh.execute("mkdir -p \(remoteCssDir)")
+            
+            let sftp = try ssh.openSftp()
             
             for file in files {
                 let localURL = jsDir.appendingPathComponent(file)
-                _ = try? ssh.sendFile(localURL: localURL, remotePath: remoteJsDir + file)
+                try? sftp.upload(localURL: localURL, remotePath: remoteJsDir + file)
             }
             
-            _ = try? ssh.execute("mkdir -p \(remoteCssDir)")
-            _ = try? ssh.sendFile(localURL: localCssFile, remotePath: remoteCssDir + "markdown-preview.css")
+            try? sftp.upload(localURL: localCssFile, remotePath: remoteCssDir + "markdown-preview.css")
             
             
             alert.alertStyle = .informational
-            alert.messageText = NSLocalizedString("Connection established successful 🤟", comment: "")
+            alert.messageText = NSLocalizedString("Connection established successfully 🤟", comment: "")
+
             
         } catch {
             alert.alertStyle = .critical
@@ -168,6 +172,6 @@ class PreferencesWebViewController: NSViewController {
             alert.messageText = error.localizedDescription
         }
         
-        alert.runModal()
+        alert.beginSheetModal(for: self.view.window!)
     }
 }

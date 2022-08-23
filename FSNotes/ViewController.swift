@@ -1090,7 +1090,7 @@ class ViewController: EditorViewController,
             vc.sidebarOutlineView.deselectAll(nil)
         }
         
-        vc.createNote()
+        _ = vc.createNote()
     }
         
     @IBAction func renameMenu(_ sender: Any) {
@@ -1229,12 +1229,7 @@ class ViewController: EditorViewController,
         let remoteDir = "\(UserDefaultsManagement.sftpPath)/\(latinName)/"
         
         let web = UserDefaultsManagement.sftpWeb + latinName + "/"
-        
-        
-//        let notification = NSUserNotification()
-//        notification.title = "SSH"
-//        notification.informativeText = "Shared URL successfully saved in clipboard"
-//        NSUserNotificationCenter.default.deliver(notification)
+
           
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(web, forType: .string)
@@ -1246,28 +1241,31 @@ class ViewController: EditorViewController,
         DispatchQueue.global().async {
             do {
                 try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+                _ = try? ssh.execute("mkdir -p \(remoteDir)")
                 
                 if let paths = try? FileManager.default.contentsOfDirectory(atPath: dst.path) {
                     for file in paths {
-                        if file == "SourceCodePro-Regular.ttf" || file == "SourceCodePro-Bold.ttf" {
-                            continue
+                        if file == "index.html" {
+                            let sendUrl = dst.appendingPathComponent(file)
+                            print(sendUrl)
+                            print(sendUrl.fileSize)
+                            print(remoteDir + file)
+                            
+                            
+                            _ = try? ssh.sendFile(localURL: sendUrl, remotePath: remoteDir + file)
                         }
-                        let sendUrl = dst.appendingPathComponent(file)
-                        print(sendUrl)
-                        
-                        _ = try? ssh.execute("mkdir -p \(remoteDir)")
-                        _ = try? ssh.sendFile(localURL: sendUrl, remotePath: remoteDir + file)
                     }
                 }
                 
+                _ = try? ssh.execute("mkdir -p \(remoteDir)/assets")
+                
+                let sftp = try ssh.openSftp()
                 let assets = dst.appendingPathComponent("assets", isDirectory: true)
+                
                 if let paths = try? FileManager.default.contentsOfDirectory(atPath: assets.path) {
                     for file in paths {
                         let sendUrl = assets.appendingPathComponent(file)
-                        print(sendUrl)
-                        
-                        _ = try? ssh.execute("mkdir -p \(remoteDir)assets/")
-                        _ = try? ssh.sendFile(localURL: sendUrl, remotePath: "\(remoteDir)assets/" + file)
+                        try? sftp.upload(localURL:sendUrl, remotePath: "\(remoteDir)assets/" + file)
                     }
                 }
                 
@@ -1283,7 +1281,7 @@ class ViewController: EditorViewController,
     }
     
     @available(macOS 10.14, *)
-    public func sendNotification() {        
+    public func sendNotification() {
         let center = UNUserNotificationCenter.current()
         center.delegate = self
         center.requestAuthorization(options: [.badge,.sound,.alert]) { granted, error in
