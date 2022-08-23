@@ -24,13 +24,15 @@ extension EditorViewController {
 
         css += MPreviewView.getPreviewStyle(theme: "github", fullScreen: true, useFixedImageHeight: false) + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
 
-        var template = try! NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
-        template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
-
+        let template = try! NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
+    
         let html = renderMarkdownHTML(markdown: markdownString)!
-        var htmlString = template.replacingOccurrences(of: "DOWN_HTML", with: html)
-
-        htmlString = htmlString.replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS())
+        var htmlString = template
+            .replacingOccurrences(of: "{INLINE_CSS}", with: css)
+            .replacingOccurrences(of: "{NOTE_BODY}", with: html)
+            .replacingOccurrences(of: "{MATH_JAX_JS}", with: MPreviewView.getMathJaxJS())
+            .replacingOccurrences(of: "{WEB_PATH}", with: String())
+            
 
         let printDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Print")
         try? FileManager.default.removeItem(at: printDir)

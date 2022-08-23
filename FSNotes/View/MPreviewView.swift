@@ -189,17 +189,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
     public func fastLoading(note: Note, markdown: String) {
         let css = MPreviewView.getPreviewStyle()
-        
-        if MPreviewView.template == nil {
-            MPreviewView.template = getTemplate(css: css)
-        }
-
-        let template = MPreviewView.template
         let htmlString = renderMarkdownHTML(markdown: markdown)!
-
-        guard var pageHTMLString = template?
-            .replacingOccurrences(of: "DOWN_HTML", with: htmlString)
-            .replacingOccurrences(of: "{WEB_PATH}", with: "") else { return }
+        guard let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString, css: css) else { return }
 
         var baseURL: URL?
         if let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle") {
@@ -209,8 +200,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
 
-        pageHTMLString = pageHTMLString.replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS())
-
         loadHTMLString(pageHTMLString, baseURL: baseURL)
     }
 
@@ -219,15 +208,17 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             return String()
         }
 
-        let inline = "['$', '$'], ['$$', '$$'], ['\\((', '\\))']"
+        let inline = "['$', '$'], ['\\(', '\\)']"
 
         return """
-            <script src="js/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
-            <script type="text/x-mathjax-config">
-                MathJax.Hub.Config({ showMathMenu: false, tex2jax: {
-                    inlineMath: [ \(inline) ],
-                }, messageStyle: "none", showProcessingMessages: true });
+            <script>
+            MathJax = {
+              tex: {
+                inlineMath: [\(inline)]
+              }
+            };
             </script>
+            <script id="MathJax-script" async src="{WEB_PATH}js/tex-mml-chtml.js"></script>
         """
     }
 
@@ -247,29 +238,29 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let baseURL = bundle!.url(forResource: "index", withExtension: "html")!
 
         guard var template = try? NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue) else { return nil }
-        template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
+        template = template.replacingOccurrences(of: "{INLINE_CSS}", with: css) as NSString
 
         var platform = String()
+        var appearance = String()
 
 #if os(iOS)
         platform = "ios"
-
         if NightNight.theme == .night {
-            template =
-                template
-                    .replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode")
-                    .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
+            appearance = "darkmode"
         }
 #else
         platform = "macos"
-
         if UserDataService.instance.isDark {
-            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+            appearance = "darkmode"
         }
 #endif
 
-        template = template.replacingOccurrences(of: "T_PLATFORM", with: platform) as NSString
-
+        template = template
+            .replacingOccurrences(of: "{MATH_JAX_JS}", with: MPreviewView.getMathJaxJS())
+            .replacingOccurrences(of: "{WEB_PATH}", with: "")
+            .replacingOccurrences(of: "{FSNOTES_APPEARANCE}", with: appearance)
+            .replacingOccurrences(of: "{FSNOTES_PLATFORM}", with: platform) as NSString
+            
         return template as String
     }
 
@@ -478,31 +469,30 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let baseURL = bundle!.url(forResource: "index", withExtension: "html")!
 
         var template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
-        template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
-
         var platform = String()
+        var appearance = String()
 
 #if os(iOS)
         platform = "ios"
-
         if NightNight.theme == .night {
-            template = template
-                .replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode")
-                .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
+            appearance = "darkmode"
         }
 #else
         platform = "macos"
-
         if UserDataService.instance.isDark {
-            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+            appearance = "darkmode"
         }
 #endif
+        
         template = template
-            .replacingOccurrences(of: "T_PLATFORM", with: platform)
-            .replacingOccurrences(of: "{WEB_PATH}", with: webPath)
-            .replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS()) as NSString
+            .replacingOccurrences(of: "{INLINE_CSS}", with: css)
+            .replacingOccurrences(of: "{MATH_JAX_JS}", with: MPreviewView.getMathJaxJS())
+            .replacingOccurrences(of: "{FSNOTES_APPEARANCE}", with: appearance)
+            .replacingOccurrences(of: "{FSNOTES_PLATFORM}", with: platform)
+            .replacingOccurrences(of: "{NOTE_BODY}", with: htmlString)
+            .replacingOccurrences(of: "{WEB_PATH}", with: webPath) as NSString
 
-        return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
+        return template as String
     }
 
     public static func getPreviewStyle(theme: String? = nil, fullScreen: Bool = false, useFixedImageHeight: Bool = true) -> String {

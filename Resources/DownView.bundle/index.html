@@ -18,17 +18,19 @@
             font-weight: bold;
         }
 
-        DOWN_CSS
+        {INLINE_CSS}
     </style>
     <style>
         #MathJax_Message+* {
             margin-top: 0 !important;
         }
     </style>
+    
+    {MATH_JAX_JS}
 </head>
 
-<body class="CUSTOM_CSS T_PLATFORM" id="preview">
-    DOWN_HTML
+<body class="{FSNOTES_APPEARANCE} {FSNOTES_PLATFORM}" id="preview">
+    {NOTE_BODY}
     
     <script charset="utf-8" src="{WEB_PATH}js/highlight.min.js" type="text/javascript"></script>
     <script>hljs.initHighlightingOnLoad();</script>
@@ -81,10 +83,10 @@
             }
         }
 
-        if ('CUSTOM_CSS' == 'darkmode') {
+        if ('{FSNOTES_APPEARANCE}' == 'darkmode') {
             let background = '#2a2b2e';
 
-            if ('IS_IOS' == 'true') {
+            if ('{FSNOTES_PLATFORM}' == 'ios') {
                 background = '#000000';
             }
 
@@ -277,11 +279,12 @@
                 toc += (new Array(level + 1)).join("</ul>");
             }
 
-            document.getElementById("toc").innerHTML += toc;
+            var tocEl = document.getElementById("toc")
+            if (tocEl != null) {
+                document.getElementById("toc").innerHTML += toc;
+            }
         };
     </script>
-
-    MATH_JAX_JS
 </body>
 
 </html>

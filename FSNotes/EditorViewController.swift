@@ -871,9 +871,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             return note
         }
 
-        disablePreview()
-        
         if !openInNewWindow {
+            disablePreview()
             vc.notesTableView.deselectNotes()
             vc.editor.string = text
             vc.editor.note = note
