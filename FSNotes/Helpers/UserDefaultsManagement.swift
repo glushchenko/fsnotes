@@ -1495,13 +1495,18 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var sftpPath: String {
+    static var sftpPath: String? {
         get {
             if let result = shared?.object(forKey: Constants.SftpPath) as? String {
-                return result
+                if result.count == 0 {
+                    return nil
+                }
+                
+                let suffix = result.hasSuffix("/") ? "" : "/"
+                return result + suffix
             }
 
-            return ""
+            return nil
         }
         set {
             shared?.set(newValue, forKey: Constants.SftpPath)

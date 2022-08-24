@@ -18,7 +18,7 @@ extension EditorViewController {
         let bundle = Bundle(url: url)!
         let baseURL = bundle.url(forResource: "index", withExtension: "html")!
 
-        let cssURL = bundle.url(forResource: "css/markdown-preview", withExtension: "css")!
+        let cssURL = bundle.url(forResource: "main", withExtension: "css")!
         var css = try! String(contentsOf: cssURL)
         let markdownString = note.getPrettifiedContent()
 

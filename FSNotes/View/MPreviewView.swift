@@ -378,11 +378,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
 
         if let customCSS = customCSS {
-            let cssDst = webkitPreview.appendingPathComponent("css")
-            let styleDst = cssDst.appendingPathComponent("markdown-preview.css", isDirectory: false)
+            let styleDst = webkitPreview.appendingPathComponent("main.css", isDirectory: false)
 
             do {
-                try FileManager.default.createDirectory(at: cssDst, withIntermediateDirectories: false, attributes: nil)
                 _ = try FileManager.default.copyItem(at: customCSS, to: styleDst)
             } catch {
                 print(error)

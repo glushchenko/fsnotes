@@ -1201,7 +1201,6 @@ class ViewController: EditorViewController,
     @IBAction func uploadNote(_ sender: NSMenuItem) {
         guard let note = getCurrentNote() else { return }
         
-        
         let dst = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Upload")
         try? FileManager.default.removeItem(at: dst)
         
@@ -1225,50 +1224,42 @@ class ViewController: EditorViewController,
         let username = UserDefaultsManagement.sftpUsername
         let passphrase = UserDefaultsManagement.sftpPassphrase
         
+        guard let sftpPath = UserDefaultsManagement.sftpPath else { return }
         let latinName  = note.getLatinName()
-        let remoteDir = "\(UserDefaultsManagement.sftpPath)/\(latinName)/"
         
+        let remoteDir = "\(sftpPath)\(latinName)/"
         let web = UserDefaultsManagement.sftpWeb + latinName + "/"
 
-          
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(web, forType: .string)
         
         guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return }
         guard let ssh = try? SSH(host: host) else { return }
-        //guard let localURL = note.getContentFileURL() else { return }
+
+        let images = note.getAllImages()
 
         DispatchQueue.global().async {
             do {
                 try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
-                _ = try? ssh.execute("mkdir -p \(remoteDir)")
-                
-                if let paths = try? FileManager.default.contentsOfDirectory(atPath: dst.path) {
-                    for file in paths {
-                        if file == "index.html" {
-                            let sendUrl = dst.appendingPathComponent(file)
-                            print(sendUrl)
-                            print(sendUrl.fileSize)
-                            print(remoteDir + file)
-                            
-                            
-                            _ = try? ssh.sendFile(localURL: sendUrl, remotePath: remoteDir + file)
-                        }
-                    }
-                }
-                
-                _ = try? ssh.execute("mkdir -p \(remoteDir)/assets")
+                try ssh.execute("mkdir -p \(remoteDir)")
+                try ssh.sendFile(localURL: dst.appendingPathComponent("index.html"), remotePath: remoteDir + "index.html")
                 
                 let sftp = try ssh.openSftp()
-                let assets = dst.appendingPathComponent("assets", isDirectory: true)
-                
-                if let paths = try? FileManager.default.contentsOfDirectory(atPath: assets.path) {
-                    for file in paths {
-                        let sendUrl = assets.appendingPathComponent(file)
-                        try? sftp.upload(localURL:sendUrl, remotePath: "\(remoteDir)assets/" + file)
+                var imageDirCreationDone = false
+                for image in images {
+                    if image.path.startsWith(string: "http://") || image.path.startsWith(string: "https://") {
+                        continue
                     }
+                    if !imageDirCreationDone {
+                        let imageDirName = image.path.split(separator: "/")[0]
+                    
+                        try ssh.execute("mkdir -p \(remoteDir)/\(imageDirName)")
+                        imageDirCreationDone = true
+                    }
+                    
+                    try? sftp.upload(localURL: image.url, remotePath: remoteDir + image.path)
                 }
-                
+
                 if #available(macOS 10.14, *) {
                     DispatchQueue.main.async {
                         self.sendNotification()
@@ -1285,8 +1276,8 @@ class ViewController: EditorViewController,
         let center = UNUserNotificationCenter.current()
         center.delegate = self
         center.requestAuthorization(options: [.badge,.sound,.alert]) { granted, error in
-            if error == nil {
-                print("User permission is granted : \(granted)")
+            if error != nil {
+                print("User permission is not granted : \(granted)")
             }
         }
 

@@ -16,7 +16,7 @@ class PreferencesWebViewController: NSViewController {
         
         host.stringValue = UserDefaultsManagement.sftpHost
         port.stringValue = String(UserDefaultsManagement.sftpPort)
-        path.stringValue = UserDefaultsManagement.sftpPath
+        path.stringValue = UserDefaultsManagement.sftpPath ?? ""
         web.stringValue = UserDefaultsManagement.sftpWeb
         username.stringValue = UserDefaultsManagement.sftpUsername
         password.stringValue = UserDefaultsManagement.sftpPassword
@@ -134,44 +134,52 @@ class PreferencesWebViewController: NSViewController {
         guard let bundleResourceURL = bundle?.resourceURL
             else { return }
         
-        let jsDir = bundleResourceURL.appendingPathComponent("js", isDirectory: true)
-        let localCssFile = bundleResourceURL.appendingPathComponent("css/markdown-preview.css")
-        
-        let remoteDir = UserDefaultsManagement.sftpPath + "/"
-        
-        let remoteJsDir = "\(remoteDir)js/"
-        let remoteCssDir = "\(remoteDir)css/"
-        
-        guard let files = try? FileManager.default.contentsOfDirectory(atPath: jsDir.path) else { return }
+        let localJsDir = bundleResourceURL.appendingPathComponent("js", isDirectory: true)
+        let localFontsDir = bundleResourceURL.appendingPathComponent("fonts", isDirectory: true)
+        let localCssFile = bundleResourceURL.appendingPathComponent("main.css")
         
         let alert = NSAlert()
-        
+
         do {
+            guard let remoteDir = UserDefaultsManagement.sftpPath else { throw "Please enter remote path" }
+            
+            let remoteJsDir = "\(remoteDir)js/"
+            let remoteFontsDir = "\(remoteDir)fonts/"
+            
+            guard let files = try? FileManager.default.contentsOfDirectory(atPath: localJsDir.path) else { return }
+            guard let fontFiles = try? FileManager.default.contentsOfDirectory(atPath: localFontsDir.path) else { return }
+            
             try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
             
             _ = try? ssh.execute("mkdir -p \(remoteJsDir)")
-            _ = try? ssh.execute("mkdir -p \(remoteCssDir)")
+            _ = try? ssh.execute("mkdir -p \(remoteFontsDir)")
             
             let sftp = try ssh.openSftp()
             
             for file in files {
-                let localURL = jsDir.appendingPathComponent(file)
+                let localURL = localJsDir.appendingPathComponent(file)
                 try? sftp.upload(localURL: localURL, remotePath: remoteJsDir + file)
             }
             
-            try? sftp.upload(localURL: localCssFile, remotePath: remoteCssDir + "markdown-preview.css")
+            for file in fontFiles {
+                let localURL = localFontsDir.appendingPathComponent(file)
+                try? sftp.upload(localURL: localURL, remotePath: remoteFontsDir + file)
+            }
             
+            try? sftp.upload(localURL: localCssFile, remotePath: remoteDir + "main.css")
             
             alert.alertStyle = .informational
             alert.messageText = NSLocalizedString("Connection established successfully 🤟", comment: "")
-
-            
         } catch {
             alert.alertStyle = .critical
-            alert.informativeText = NSLocalizedString("Error", comment: "")
-            alert.messageText = error.localizedDescription
+            alert.informativeText = error.localizedDescription
+            alert.messageText = NSLocalizedString("SSH error", comment: "")
         }
         
         alert.beginSheetModal(for: self.view.window!)
     }
+}
+
+extension String: LocalizedError { // Adds error.localizedDescription to Error instances
+    public var errorDescription: String? { return self }
 }
