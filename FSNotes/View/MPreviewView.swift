@@ -251,11 +251,16 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return false
     }
     
-    public static func buildPage(for note: Note, at dst: URL, webPath: String? = nil) -> URL? {
-        let markdownString = note.getPrettifiedContent()
+    public static func buildPage(for note: Note, at dst: URL, webPath: String? = nil, print: Bool = false) -> URL? {
+        var markdownString = note.getPrettifiedContent()
+        
+        // Hack for WebView compatibility
+        if print {
+            markdownString = MPreviewView.assignBase64Images(note: note, html: markdownString)
+        }
+        
         var htmlString = renderMarkdownHTML(markdown: markdownString)!
         
-
         var imagesStorage = note.project.url
         if note.isTextBundle() {
             imagesStorage = note.getURL()
@@ -268,11 +273,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             webPathPrefix = webPath + note.getLatinName() + "/"
         }
         
-        if let urls = note.imageUrl, urls.count > 0 {
+        if let urls = note.imageUrl, urls.count > 0, !print {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, webPath: webPathPrefix)
         }
         
-        if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath) {
+        if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath, print: print) {
             let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString, at: dst)
             
             return indexURL
@@ -395,8 +400,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return htmlString
     }
 
-    public static func htmlFromTemplate(_ htmlString: String, webPath: String? = nil) throws -> String {
-        var css = MPreviewView.getPreviewStyle()
+    public static func htmlFromTemplate(_ htmlString: String, webPath: String? = nil, print: Bool = false) throws -> String {
+        var css = MPreviewView.getPreviewStyle(print: print)
         let webPath = webPath ?? ""
 
         #if os(OSX)
@@ -438,7 +443,17 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return template as String
     }
 
-    public static func getPreviewStyle(theme: String? = nil, fullScreen: Bool = false, useFixedImageHeight: Bool = true) -> String {
+    public static func getPreviewStyle(print: Bool = false) -> String {
+        var theme: String? = nil
+        var fullScreen = false
+        var useFixedImageHeight = true
+        
+        if print {
+            theme = "github"
+            fullScreen = true
+            useFixedImageHeight = false
+        }
+        
         var css =
             useFixedImageHeight
                 ? String("img { max-width: 100%; max-height: 90vh; }")
@@ -450,10 +465,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
 
-        let theme = theme ?? UserDefaultsManagement.codeTheme
+        theme = theme ?? UserDefaultsManagement.codeTheme
 
         var codeStyle = String()
-        if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme + ".min", ofType: "css") {
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme! + ".min", ofType: "css") {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
 
@@ -486,7 +501,50 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         // Line height compute
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
 
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; } img {display: block; margin: 0 auto;} p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)"
+        var result = """
+            body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; }
+            code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; }
+            img {display: block; margin: 0 auto;}
+            p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)
+        """
+        
+        if print {
+            result += """
+                body { -webkit-text-size-adjust: none; font-size: 1.0em;}
+                pre, code { border: 1px solid #c0c4ce; border-radius: 3px; }
+                pre, pre code { word-wrap: break-word; }
+            """
+        }
+        
+        return result
+    }
+    
+    public static func assignBase64Images(note: Note, html: String) -> String {
+        var html = html
+
+        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: note.content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<note.content.length), using:
+                {(result, flags, stop) -> Void in
+
+            guard let range = result?.range(at: 3), note.content.length >= range.location else { return }
+
+            let path = note.content.attributedSubstring(from: range).string
+            guard let imagePath = path.removingPercentEncoding else { return }
+
+            if let url = note.getImageUrl(imageName: imagePath) {
+                if url.isRemote() {
+                    return
+                }
+
+                if FileManager.default.fileExists(atPath: url.path), url.isImage {
+                    if let image = try? Data(contentsOf: url) {
+                        let base64 = image.base64EncodedString()
+                        html = html.replacingOccurrences(of: path, with: "data:image;base64," + base64)
+                    }
+                }
+            }
+        })
+
+        return html
     }
 
     public func clean() {
