@@ -30,20 +30,7 @@
     
     <script charset="utf-8" src="{WEB_PATH}js/highlight.min.js" type="text/javascript"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="{WEB_PATH}js/mermaid.min.js"></script>
-    <script>
-        var config = {
-            startOnLoad: true,
-            theme: 'forest',
-            flowchart: {
-                useMaxWidth: false,
-                htmlLabels: true
-            }
-        };
-
-        mermaid.initialize(config);
-        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
-    </script>
+    <script async src="{WEB_PATH}js/mermaid.min.js"></script>
     
     <script>
         function getElementsByText(str, tag = 'h1') {
@@ -282,6 +269,20 @@
             }
         }
         
+        let loadMemaid = () => {
+            var config = {
+                startOnLoad: true,
+                theme: 'forest',
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }
+            };
+
+            mermaid.initialize(config);
+            window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+        };
+        
         window.onload = function () {
             loadTOC()
             loadCheckboxStyle()
@@ -289,6 +290,7 @@
             loadListStyle()
             loadAHover()
             loadCodeActions()
+            loadMemaid()
         };
     </script>
 </head>

@@ -1204,7 +1204,8 @@ class ViewController: EditorViewController,
         let dst = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Upload")
         try? FileManager.default.removeItem(at: dst)
         
-        MPreviewView.buildPageAt(note: note, dst: dst)
+        guard let webPath = UserDefaultsManagement.sftpWeb,
+              let localURL = MPreviewView.buildPage(for: note, at: dst, webPath: webPath) else { return }
         
         var publicKeyURL: URL?
         var privateKeyURL: URL?
@@ -1224,14 +1225,14 @@ class ViewController: EditorViewController,
         let username = UserDefaultsManagement.sftpUsername
         let passphrase = UserDefaultsManagement.sftpPassphrase
         
-        guard let sftpPath = UserDefaultsManagement.sftpPath else { return }
-        let latinName  = note.getLatinName()
+        guard let sftpPath = UserDefaultsManagement.sftpPath,
+              let web = UserDefaultsManagement.sftpWeb else { return }
         
+        let latinName  = note.getLatinName()
         let remoteDir = "\(sftpPath)\(latinName)/"
-        let web = UserDefaultsManagement.sftpWeb + latinName + "/"
-
+        
         NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(web, forType: .string)
+        NSPasteboard.general.setString(web + latinName + "/", forType: .string)
         
         guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return }
         guard let ssh = try? SSH(host: host) else { return }
@@ -1242,7 +1243,7 @@ class ViewController: EditorViewController,
             do {
                 try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
                 try ssh.execute("mkdir -p \(remoteDir)")
-                try ssh.sendFile(localURL: dst.appendingPathComponent("index.html"), remotePath: remoteDir + "index.html")
+                try ssh.sendFile(localURL: localURL, remotePath: remoteDir + "index.html")
                 
                 let sftp = try ssh.openSftp()
                 var imageDirCreationDone = false
@@ -1265,6 +1266,8 @@ class ViewController: EditorViewController,
                         self.sendNotification()
                     }
                 }
+                
+                print("Upload was successfull for note: \(note.title)")
             } catch {
                 print(error, error.localizedDescription)
             }

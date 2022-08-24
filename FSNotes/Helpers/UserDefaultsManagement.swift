@@ -1526,13 +1526,17 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var sftpWeb: String {
+    static var sftpWeb: String? {
         get {
             if let result = shared?.object(forKey: Constants.SftpWeb) as? String {
+                if result.count == 0 {
+                    return nil
+                }
+                
                 return result
             }
 
-            return ""
+            return nil
         }
         set {
             shared?.set(newValue, forKey: Constants.SftpWeb)

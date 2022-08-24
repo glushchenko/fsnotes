@@ -14,7 +14,7 @@ extension EditorViewController {
         guard let note = vcEditor?.note else { return }
 
         let classBundle = Bundle(for: MPreviewView.self)
-        let url = classBundle.url(forResource: "DownView", withExtension: "bundle")!
+        let url = classBundle.url(forResource: "MPreview", withExtension: "bundle")!
         let bundle = Bundle(url: url)!
         let baseURL = bundle.url(forResource: "index", withExtension: "html")!
 
@@ -49,7 +49,7 @@ extension EditorViewController {
     }
 
     public func copyInitialFiles(printDir: URL) {
-        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+        let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
 
@@ -64,19 +64,15 @@ extension EditorViewController {
             }
         }
 
-        let downJS = printDir.appendingPathComponent("js/down.js")
+        do {
+            let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
 
-        if !FileManager.default.fileExists(atPath: downJS.path) {
-            do {
-                let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
-
-                for file in fileList {
-                    let tmpURL = printDir.appendingPathComponent(file)
-                    try? FileManager.default.copyItem(atPath: bundleResourceURL.appendingPathComponent(file).path, toPath: tmpURL.path)
-                }
-            } catch {
-                print(error)
+            for file in fileList {
+                let tmpURL = printDir.appendingPathComponent(file)
+                try? FileManager.default.copyItem(atPath: bundleResourceURL.appendingPathComponent(file).path, toPath: tmpURL.path)
             }
+        } catch {
+            print(error)
         }
     }
 

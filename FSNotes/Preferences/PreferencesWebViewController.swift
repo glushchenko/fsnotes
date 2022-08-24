@@ -17,7 +17,7 @@ class PreferencesWebViewController: NSViewController {
         host.stringValue = UserDefaultsManagement.sftpHost
         port.stringValue = String(UserDefaultsManagement.sftpPort)
         path.stringValue = UserDefaultsManagement.sftpPath ?? ""
-        web.stringValue = UserDefaultsManagement.sftpWeb
+        web.stringValue = UserDefaultsManagement.sftpWeb ?? ""
         username.stringValue = UserDefaultsManagement.sftpUsername
         password.stringValue = UserDefaultsManagement.sftpPassword
         passphrase.stringValue = UserDefaultsManagement.sftpPassphrase
@@ -127,7 +127,7 @@ class PreferencesWebViewController: NSViewController {
         guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return }
         guard let ssh = try? SSH(host: host, port: port) else { return }
         
-        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+        let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
 

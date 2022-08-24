@@ -157,24 +157,39 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     public func load(note: Note, force: Bool = false) {
         /// Do not re-load already loaded view
         guard self.note != note || force else { return }
+        self.note = note
         
         let markdownString = note.getPrettifiedContent()
 
-        var imagesStorage = note.project.url
-        if note.isTextBundle() {
-            imagesStorage = note.getURL()
-        }
-
         if let urls = note.imageUrl, urls.count > 0 {
             cleanCache()
-            try? loadHTMLView(markdownString, imagesStorage: imagesStorage)
+            
+            let dst = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+            
+            if let i = MPreviewView.buildPage(for: note, at: dst) {
+                if getppid() != 1 {
+                    print("Web view loaded from: \(i)")
+                }
+                
+                let accessURL = i.deletingLastPathComponent()
+                loadFileURL(i, allowingReadAccessTo: accessURL)
+            }
         } else {
-            fastLoading(note: note, markdown: markdownString)
-        }
-        
-        self.note = note
-    }
+            let htmlString = renderMarkdownHTML(markdown: markdownString)!
+            guard let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString) else { return }
 
+            var baseURL: URL?
+            if let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle") {
+                let url = NSURL.fileURL(withPath: path)
+                if let bundle = Bundle(url: url) {
+                    baseURL = bundle.url(forResource: "index", withExtension: "html")
+                }
+            }
+
+            loadHTMLString(pageHTMLString, baseURL: baseURL)
+        }
+    }
+    
     public func cleanCache() {
         URLCache.shared.removeAllCachedResponses()
 
@@ -185,22 +200,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
             }
         }
-    }
-
-    public func fastLoading(note: Note, markdown: String) {
-        let css = MPreviewView.getPreviewStyle()
-        let htmlString = renderMarkdownHTML(markdown: markdown)!
-        guard let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString, css: css) else { return }
-
-        var baseURL: URL?
-        if let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle") {
-            let url = NSURL.fileURL(withPath: path)
-            if let bundle = Bundle(url: url) {
-                baseURL = bundle.url(forResource: "index", withExtension: "html")
-            }
-        }
-
-        loadHTMLString(pageHTMLString, baseURL: baseURL)
     }
 
     public static func getMathJaxJS() -> String {
@@ -220,48 +219,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             </script>
             <script id="MathJax-script" async src="{WEB_PATH}js/tex-mml-chtml.js"></script>
         """
-    }
-
-    private func getTemplate(css: String) -> String? {
-        var css = css
-
-        #if os(OSX)
-            let tagColor = NSColor.tagColor.hexString
-            css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
-        #else
-            css += " a[href^=\"fsnotes://open/?tag=\"] { background: #6692cb; }"
-        #endif
-
-        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
-        let url = NSURL.fileURL(withPath: path!)
-        let bundle = Bundle(url: url)
-        let baseURL = bundle!.url(forResource: "index", withExtension: "html")!
-
-        guard var template = try? NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue) else { return nil }
-        template = template.replacingOccurrences(of: "{INLINE_CSS}", with: css) as NSString
-
-        var platform = String()
-        var appearance = String()
-
-#if os(iOS)
-        platform = "ios"
-        if NightNight.theme == .night {
-            appearance = "darkmode"
-        }
-#else
-        platform = "macos"
-        if UserDataService.instance.isDark {
-            appearance = "darkmode"
-        }
-#endif
-
-        template = template
-            .replacingOccurrences(of: "{MATH_JAX_JS}", with: MPreviewView.getMathJaxJS())
-            .replacingOccurrences(of: "{WEB_PATH}", with: "")
-            .replacingOccurrences(of: "{FSNOTES_APPEARANCE}", with: appearance)
-            .replacingOccurrences(of: "{FSNOTES_PLATFORM}", with: platform) as NSString
-            
-        return template as String
     }
 
     private func isFootNotes(url: URL) -> Bool {
@@ -293,50 +250,39 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         return false
     }
-
-    func loadHTMLView(_ markdownString: String, imagesStorage: URL? = nil) throws {
-        let css = MPreviewView.getPreviewStyle()
-        let dst = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-        
-        var htmlString = renderMarkdownHTML(markdown: markdownString)!
-
-        if let imagesStorage = imagesStorage {
-            htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst)
-        }
-
-        let pageHTMLString = try MPreviewView.htmlFromTemplate(htmlString, css: css)
-        let indexURL = MPreviewView.createTemporaryBundle(pageHTMLString: pageHTMLString, at: dst)
-
-        if let i = indexURL {
-            if getppid() != 1 {
-                print("Web view loaded from: \(i)")
-            }
-            
-            let accessURL = i.deletingLastPathComponent()
-            loadFileURL(i, allowingReadAccessTo: accessURL)
-        }
-    }
     
-    public static func buildPageAt(note: Note, dst: URL) {
-        let css = MPreviewView.getPreviewStyle()
+    public static func buildPage(for note: Note, at dst: URL, webPath: String? = nil) -> URL? {
         let markdownString = note.getPrettifiedContent()
         var htmlString = renderMarkdownHTML(markdown: markdownString)!
-        let webPath = UserDefaultsManagement.sftpWeb
+        
 
         var imagesStorage = note.project.url
         if note.isTextBundle() {
             imagesStorage = note.getURL()
         }
         
-        htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, webPath: webPath + note.getLatinName() + "/")
+        var webPathPrefix: String?
         
-        if let pageHTMLString = try? htmlFromTemplate(htmlString, css: css, webPath: webPath) {
-            let _ = createTemporaryBundle(pageHTMLString: pageHTMLString, at: dst)
+        // For uploaded content
+        if let webPath = webPath {
+            webPathPrefix = webPath + note.getLatinName() + "/"
         }
+        
+        if let urls = note.imageUrl, urls.count > 0 {
+            htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, webPath: webPathPrefix)
+        }
+        
+        if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath) {
+            let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString, at: dst)
+            
+            return indexURL
+        }
+        
+        return nil
     }
 
     public static func createTemporaryBundle(pageHTMLString: String, at: URL) -> URL? {
-        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+        let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
 
@@ -349,12 +295,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         try? FileManager.default.createDirectory(at: webkitPreview, withIntermediateDirectories: true, attributes: nil)
 
         let indexURL = webkitPreview.appendingPathComponent("index.html")
-        let downJS = webkitPreview.appendingPathComponent("js/down.js")
 
         // If updating markdown contents, no need to re-copy bundle.
-        if !FileManager.default.fileExists(atPath: indexURL.path)
-            || !FileManager.default.fileExists(atPath: downJS.path)
-        {
+        if !FileManager.default.fileExists(atPath: indexURL.path) {
             // Copy bundle resources to temporary location.
             do {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
@@ -393,8 +336,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return indexURL
     }
 
-    public static func loadImages(imagesStorage: URL, html: String, at: URL, webPath: String = "") -> String {
+    public static func loadImages(imagesStorage: URL, html: String, at: URL, webPath: String? = nil) -> String {
         var htmlString = html
+        let webPath = webPath ?? ""
 
         do {
             let regex = try NSRegularExpression(pattern: "<img.*?src=\"([^\"]*)\"")
@@ -451,8 +395,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return htmlString
     }
 
-    public static func htmlFromTemplate(_ htmlString: String, css: String, webPath: String = "") throws -> String {
-        var css = css
+    public static func htmlFromTemplate(_ htmlString: String, webPath: String? = nil) throws -> String {
+        var css = MPreviewView.getPreviewStyle()
+        let webPath = webPath ?? ""
 
         #if os(OSX)
             let tagColor = NSColor.tagColor.hexString
@@ -461,7 +406,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             css += " a[href^=\"fsnotes://open/?tag=\"] { background: #6692cb; }"
         #endif
 
-        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+        let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
         let baseURL = bundle!.url(forResource: "index", withExtension: "html")!
@@ -545,7 +490,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     public func clean() {
-        try? loadHTMLView("")
+        loadHTMLString("", baseURL: nil)
     }
 }
 
