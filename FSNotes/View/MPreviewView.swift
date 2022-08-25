@@ -8,6 +8,7 @@
 
 import WebKit
 import Highlightr
+import SSZipArchive
 
 #if os(iOS)
 import NightNight
@@ -267,17 +268,30 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
         
         var webPathPrefix: String?
+        var zipName: String?
         
         // For uploaded content
         if let webPath = webPath {
             webPathPrefix = webPath + note.getLatinName() + "/"
+            
+            // Generate zip
+            zipName = "\(webPathPrefix!)\(note.getName()).zip"
+            
+            let zipURL = dst.appendingPathComponent(note.getName()).appendingPathExtension("zip")
+            try? FileManager.default.createDirectory(at: dst, withIntermediateDirectories: true, attributes: nil)
+            
+            if note.container == .none {
+                SSZipArchive.createZipFile(atPath: zipURL.path, withFilesAtPaths: [note.url.path])
+            } else {
+                SSZipArchive.createZipFile(atPath: zipURL.path, withContentsOfDirectory: note.url.path, keepParentDirectory: true)
+            }
         }
         
         if let urls = note.imageUrl, urls.count > 0, !print {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, webPath: webPathPrefix)
         }
         
-        if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath, print: print) {
+        if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath, print: print, archivePath: zipName) {
             let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString, at: dst)
             
             return indexURL
@@ -400,25 +414,19 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return htmlString
     }
 
-    public static func htmlFromTemplate(_ htmlString: String, webPath: String? = nil, print: Bool = false) throws -> String {
-        var css = MPreviewView.getPreviewStyle(print: print)
+    public static func htmlFromTemplate(_ htmlString: String, webPath: String? = nil, print: Bool = false, archivePath: String? = nil) throws -> String {
         let webPath = webPath ?? ""
 
-        #if os(OSX)
-            let tagColor = NSColor.tagColor.hexString
-            css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
-        #else
-            css += " a[href^=\"fsnotes://open/?tag=\"] { background: #6692cb; }"
-        #endif
-
+        var htmlString = htmlString
         let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
         let baseURL = bundle!.url(forResource: "index", withExtension: "html")!
 
-        var template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
+        var template = try String(contentsOf: baseURL, encoding: .utf8)
         var platform = String()
         var appearance = String()
+        let preview = String(webPath.count == 0)
 
 #if os(iOS)
         platform = "ios"
@@ -432,21 +440,67 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
 #endif
         
+        if webPath.count > 0 {
+             htmlString = """
+                <style>
+                    body{ height:100vh; }
+
+                    footer{ min-height:50px; background: white; }
+
+                    body{
+                      display:flex;
+                      flex-direction:column;
+                    }
+
+                    footer{
+                      margin-top:auto;
+                    }
+            
+                    img.logo {
+                        display: inline-block;
+                        height: 32px;
+                        width: 32px;
+                    }
+            
+                    .footer__span {
+                        line-height: 32px;
+                    }
+                        .footer__span__archive {
+                            float: right;
+                        }
+                </style>
+                <article>\(htmlString)</article>
+                
+                <footer>
+                    <span class="footer__span">Powered by <a href="https://fsnot.es">FSNotes App</a> <img class="logo" src="https://fsnot.es/img/icon.webp" style="margin: 0 0 -10px 0;"></span>
+                
+                    <span class="footer__span footer__span__archive">
+                    <a href="\(archivePath!)">
+                        Download
+                        <img style="display: inline-block; margin: 0 0 -10px 0; height: 30px" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDEwMjQgMTAyNDsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBhdGggZD0iTTc4MCw4MEgxMzQuM0MxMDQuMyw4MCw4MCwxMDQuMyw4MCwxMzQuM3Y3NTUuNmMwLDI5LjgsMjQuMyw1NC4xLDU0LjEsNTQuMWg3NTUuNyAgYzI5LjksMCw1NC4xLTI0LjMsNTQuMS01NC4xVjI0OUw3ODAsODB6IE0zNDcsMTIwaDMzMHYyMzcuNWMwLDcuNC02LjEsMTMuNS0xMy41LDEzLjVoLTMwM2MtNy40LDAtMTMuNS02LjEtMTMuNS0xMy41VjEyMHogICBNNTExLjksODM1LjFjLTk1LjIsMC0xNzIuNy03Ny41LTE3Mi43LTE3Mi43czc3LjUtMTcyLjcsMTcyLjctMTcyLjdzMTcyLjcsNzcuNSwxNzIuNywxNzIuN1M2MDcuMiw4MzUuMSw1MTEuOSw4MzUuMXoiIGlkPSJYTUxJRF8xMjFfIi8+PGcgaWQ9IlhNTElEXzFfIi8+PGcgaWQ9IlhNTElEXzJfIi8+PGcgaWQ9IlhNTElEXzNfIi8+PGcgaWQ9IlhNTElEXzRfIi8+PGcgaWQ9IlhNTElEXzVfIi8+PC9zdmc+"/>
+                    </a>
+                    </span>
+                </footer>
+            """
+        }
+        
         template = template
-            .replacingOccurrences(of: "{INLINE_CSS}", with: css)
+            .replacingOccurrences(of: "{INLINE_CSS}", with: MPreviewView.getPreviewStyle(print: print))
             .replacingOccurrences(of: "{MATH_JAX_JS}", with: MPreviewView.getMathJaxJS())
             .replacingOccurrences(of: "{FSNOTES_APPEARANCE}", with: appearance)
             .replacingOccurrences(of: "{FSNOTES_PLATFORM}", with: platform)
+            .replacingOccurrences(of: "{FSNOTES_PREVIEW}", with: preview)
             .replacingOccurrences(of: "{NOTE_BODY}", with: htmlString)
-            .replacingOccurrences(of: "{WEB_PATH}", with: webPath) as NSString
-
-        return template as String
+            .replacingOccurrences(of: "{WEB_PATH}", with: webPath)
+        
+        return template
     }
 
     public static func getPreviewStyle(print: Bool = false) -> String {
         var theme: String? = nil
         var fullScreen = false
         var useFixedImageHeight = true
+        var css = "<style>"
         
         if print {
             theme = "github"
@@ -454,16 +508,16 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             useFixedImageHeight = false
         }
         
-        var css =
+        if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
+            if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {
+                css += content
+            }
+        }
+        
+        css +=
             useFixedImageHeight
                 ? String("img { max-width: 100%; max-height: 90vh; }")
                 : String()
-
-        if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
-            if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {
-                css = content
-            }
-        }
 
         theme = theme ?? UserDefaultsManagement.codeTheme
 
@@ -475,9 +529,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         #if os(iOS)
             let codeFamilyName = UserDefaultsManagement.codeFont.familyName
             var familyName = UserDefaultsManagement.noteFont.familyName
+            let tagColor = "#6692cb"
         #else
             let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? ""
             var familyName = UserDefaultsManagement.noteFont.familyName ?? ""
+            let tagColor = NSColor.tagColor.hexString
         #endif
 
         if familyName.starts(with: ".") {
@@ -502,12 +558,29 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
 
         var result = """
+            @font-face {
+                font-family: 'Source Code Pro';
+                src: url('{WEB_PATH}fonts/SourceCodePro-Regular.ttf')
+                format('truetype');
+            }
+
+            @font-face {
+                font-family: 'Source Code Pro';
+                src: url('{WEB_PATH}fonts/SourceCodePro-Bold.ttf');
+                font-weight: bold;
+            }
+        
             body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; }
             code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; }
             img {display: block; margin: 0 auto;}
+            a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
             p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)
-        """
         
+            #MathJax_Message+* {
+                margin-top: 0 !important;
+            }
+        """
+                
         if print {
             result += """
                 body { -webkit-text-size-adjust: none; font-size: 1.0em;}
@@ -516,7 +589,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             """
         }
         
-        return result
+        css += result
+        css += "</style>"
+        
+        return css
     }
     
     public static func assignBase64Images(note: Note, html: String) -> String {

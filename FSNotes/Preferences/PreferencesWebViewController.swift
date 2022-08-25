@@ -154,19 +154,22 @@ class PreferencesWebViewController: NSViewController {
             _ = try? ssh.execute("mkdir -p \(remoteJsDir)")
             _ = try? ssh.execute("mkdir -p \(remoteFontsDir)")
             
+            let permissions = Permissions(arrayLiteral: .write, .read, .execute)
+            let filePerm = FilePermissions(owner: permissions, group: permissions, others: permissions)
+            
             let sftp = try ssh.openSftp()
             
             for file in files {
                 let localURL = localJsDir.appendingPathComponent(file)
-                try? sftp.upload(localURL: localURL, remotePath: remoteJsDir + file)
+                try? sftp.upload(localURL: localURL, remotePath: remoteJsDir + file, permissions: filePerm)
             }
             
             for file in fontFiles {
                 let localURL = localFontsDir.appendingPathComponent(file)
-                try? sftp.upload(localURL: localURL, remotePath: remoteFontsDir + file)
+                try? sftp.upload(localURL: localURL, remotePath: remoteFontsDir + file, permissions: filePerm)
             }
             
-            try? sftp.upload(localURL: localCssFile, remotePath: remoteDir + "main.css")
+            try sftp.upload(localURL: localCssFile, remotePath: remoteDir + "main.css", permissions: filePerm)
             
             alert.alertStyle = .informational
             alert.messageText = NSLocalizedString("Connection established successfully 🤟", comment: "")

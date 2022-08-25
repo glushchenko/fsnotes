@@ -248,7 +248,7 @@ strong {
 h1 {
     margin: .67em 0
 }
-img {
+img:not(footer img) {
     background: none;
     border-radius: 3px;
     border-style: none;
@@ -258,6 +258,13 @@ img {
     height: auto !important;
     max-height: 900px;
 }
+
+@media only screen and (max-width: 600px) {
+    img:not(footer img) {
+        max-width: 100%;
+    }
+}
+
 canvas {
     border-radius: 3px;
     max-width: 100%;

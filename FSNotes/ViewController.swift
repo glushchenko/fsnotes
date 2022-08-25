@@ -1243,9 +1243,25 @@ class ViewController: EditorViewController,
             do {
                 try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
                 try ssh.execute("mkdir -p \(remoteDir)")
-                try ssh.sendFile(localURL: localURL, remotePath: remoteDir + "index.html")
                 
+                let zipURL = localURL
+                    .deletingLastPathComponent()
+                    .appendingPathComponent(note.getFileName())
+                    .appendingPathExtension("zip")
+
                 let sftp = try ssh.openSftp()
+                
+                // Upload index.html
+                
+                let remoteIndex = remoteDir + "index.html"
+                
+                _ = try ssh.execute("rm -r \(remoteIndex)")
+                try sftp.upload(localURL: localURL, remotePath: remoteIndex)
+                
+                // Upload archive
+                try? sftp.upload(localURL: zipURL, remotePath: remoteDir + note.getFileName() + ".zip")
+                
+                // Upload images
                 var imageDirCreationDone = false
                 for image in images {
                     if image.path.startsWith(string: "http://") || image.path.startsWith(string: "https://") {

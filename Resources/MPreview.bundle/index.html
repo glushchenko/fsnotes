@@ -4,28 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0" />
-    <link charset="utf-8" href="{WEB_PATH}main.css" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'Source Code Pro';
-            src: url('{WEB_PATH}fonts/SourceCodePro-Regular.ttf')
-            format('truetype');
-        }
-
-        @font-face {
-            font-family: 'Source Code Pro';
-            src: url('{WEB_PATH}fonts/SourceCodePro-Bold.ttf');
-            font-weight: bold;
-        }
-
-        {INLINE_CSS}
-    </style>
-    <style>
-        #MathJax_Message+* {
-            margin-top: 0 !important;
-        }
-    </style>
+    <link charset="utf-8" href="{WEB_PATH}main.css?v=1.0.7" rel="stylesheet">
     
+    {INLINE_CSS}
     {MATH_JAX_JS}
     
     <script charset="utf-8" src="{WEB_PATH}js/highlight.min.js" type="text/javascript"></script>
@@ -39,13 +20,11 @@
 
         function getSelectionAndSendMessage() {
             var txt = document.getSelection().toString();
-            window.webkit.messageHandlers.newSelectionDetected.postMessage(txt);
+            if ({FSNOTES_PREVIEW}) {
+                window.webkit.messageHandlers.newSelectionDetected.postMessage(txt);
+            }
         }
         
-        document.onmouseup = getSelectionAndSendMessage;
-        document.onkeyup = getSelectionAndSendMessage;
-        document.oncontextmenu = getSelectionAndSendMessage;
-
         var darkModeStylesNodeID = "darkModeStyles";
 
         function addStyleString(str, nodeID) {
@@ -90,6 +69,10 @@
 
             switchToDarkMode(background);
         }
+        
+        document.onmouseup = getSelectionAndSendMessage;
+        document.onkeyup = getSelectionAndSendMessage;
+        document.oncontextmenu = getSelectionAndSendMessage;
     </script>
     
     <script>
@@ -104,11 +87,15 @@
                 }
 
                 preList[i].addEventListener("mouseenter", function(event) {
-                    window.webkit.messageHandlers.mouse.postMessage('enter')
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('enter')
+                    }
                 });
 
                 preList[i].addEventListener("mouseleave", function(event) {
-                    window.webkit.messageHandlers.mouse.postMessage('leave')
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('leave')
+                    }
                 });
 
                 preList[i].addEventListener("click", function(event) {
@@ -117,7 +104,11 @@
                         target = target.parentElement
                     }
 
-                    window.webkit.messageHandlers.clipboard.postMessage(target.innerText);
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.clipboard.postMessage(target.innerText);
+                    } else {
+                        navigator.clipboard.writeText(target.innerText);
+                    }
 
                     target.style.background = "#9c9c9c"
                     setTimeout(function() {
@@ -138,11 +129,15 @@
 
             for (j; j < aLength; j++) {
                 aList[j].addEventListener("mouseenter", function(event) {
-                    window.webkit.messageHandlers.mouse.postMessage('enter')
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('enter')
+                    }
                 });
 
                 aList[j].addEventListener("mouseleave", function(event) {
-                    window.webkit.messageHandlers.mouse.postMessage('leave')
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('leave')
+                    }
                 });
             }
         }
@@ -188,7 +183,10 @@
             }
 
             let id = element.dataset.checkbox;
-            window.webkit.messageHandlers.checkbox.postMessage(id);
+            
+            if ({FSNOTES_PREVIEW}) {
+                window.webkit.messageHandlers.checkbox.postMessage(id);
+            }
 
             let input = document.createElement("input");
             input.type = "checkbox";
@@ -220,9 +218,7 @@
                 }
 
                 inputs[i].disabled = false
-                inputs[i].dataset.checkbox = i;
-
-                console.log(inputs[i]);
+                inputs[i].dataset.checkbox = i
                 inputs[i].addEventListener("click", function(event) {
                     let element = event.target;
                     addCheckboxEvent(element);

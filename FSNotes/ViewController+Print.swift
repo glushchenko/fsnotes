@@ -21,10 +21,6 @@ extension EditorViewController {
     
         self.printWebView.frameLoadDelegate = self
         self.printWebView.mainFrame.loadHTMLString(content, baseURL: printDir)
-
-        if UserDataService.instance.isDark {
-            self.printWebView.stringByEvaluatingJavaScript(from: "switchToDarkMode();")
-        }
     }
 
     func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
