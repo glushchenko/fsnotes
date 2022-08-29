@@ -1194,8 +1194,10 @@ class ViewController: EditorViewController,
             }
         }
 
-        editor.clear()
-        NSApp.mainWindow?.makeFirstResponder(notesTableView)
+        if let note = editor.note, note.isUnlocked() {
+            editor.clear()
+            NSApp.mainWindow?.makeFirstResponder(notesTableView)
+        }
     }
         
     @IBAction func uploadNote(_ sender: NSMenuItem) {
