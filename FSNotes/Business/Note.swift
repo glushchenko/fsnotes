@@ -57,6 +57,8 @@ public class Note: NSObject  {
 
     public var cachingInProgress: Bool = false
     public var cacheHash: String?
+    
+    public var uploadPath: String?
 
     // Load exist
     

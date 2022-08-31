@@ -144,7 +144,9 @@ class ViewController: EditorViewController,
 
         //newNoteButton.setButtonType(.momentaryLight)
 
+        restoreUploadPaths()
         scheduleSnapshots()
+        
         configureShortcuts()
         configureDelegates()
         configureLayout()
@@ -305,6 +307,16 @@ class ViewController: EditorViewController,
                    ].contains(menuItem.identifier?.rawValue)
                 {
                     return true
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.removeOverSSH" {
+                   if let note = editor.note, note.uploadPath != nil {
+                       menuItem.isHidden = false
+                       return true
+                   } else {
+                       menuItem.isHidden = true
+                       return false
+                   }
                 }
                 
                 if vc.notesTableView.selectedRow == -1 {
@@ -1200,6 +1212,24 @@ class ViewController: EditorViewController,
         }
     }
         
+    @IBAction func removeUploadedOverSSH(_ sender: NSMenuItem) {
+        guard let note = getCurrentNote(), let remotePath = note.uploadPath else { return }
+        
+        DispatchQueue.global().async {
+            do {
+                guard let ssh = self.getSSHResource() else { return }
+                
+                try ssh.execute("rm -r \(remotePath)")
+                
+                note.uploadPath = nil
+                
+                self.saveUploadPaths()
+            } catch {
+                print(error, error.localizedDescription)
+            }
+        }
+    }
+        
     @IBAction func uploadNote(_ sender: NSMenuItem) {
         guard let note = getCurrentNote() else { return }
         
@@ -1207,27 +1237,8 @@ class ViewController: EditorViewController,
         try? FileManager.default.removeItem(at: dst)
         
         guard let webPath = UserDefaultsManagement.sftpWeb,
-              let localURL = MPreviewView.buildPage(for: note, at: dst, webPath: webPath) else { return }
-        
-        var publicKeyURL: URL?
-        var privateKeyURL: URL?
-        
-        if let accessData = UserDefaultsManagement.sftpAccessData,
-            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
-            for bookmark in bookmarks {
-                if bookmark.key.path.hasSuffix(".pub") {
-                    publicKeyURL = bookmark.key
-                } else {
-                    privateKeyURL = bookmark.key
-                }
-            }
-        }
-        
-        let host = UserDefaultsManagement.sftpHost
-        let username = UserDefaultsManagement.sftpUsername
-        let passphrase = UserDefaultsManagement.sftpPassphrase
-        
-        guard let sftpPath = UserDefaultsManagement.sftpPath,
+              let localURL = MPreviewView.buildPage(for: note, at: dst, webPath: webPath),
+              let sftpPath = UserDefaultsManagement.sftpPath,
               let web = UserDefaultsManagement.sftpWeb else { return }
         
         let latinName  = note.getLatinName()
@@ -1236,14 +1247,12 @@ class ViewController: EditorViewController,
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(web + latinName + "/", forType: .string)
         
-        guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return }
-        guard let ssh = try? SSH(host: host) else { return }
-
         let images = note.getAllImages()
 
         DispatchQueue.global().async {
             do {
-                try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+                guard let ssh = self.getSSHResource() else { return }
+                
                 try ssh.execute("mkdir -p \(remoteDir)")
                 
                 let zipURL = localURL
@@ -1286,8 +1295,37 @@ class ViewController: EditorViewController,
                 }
                 
                 print("Upload was successfull for note: \(note.title)")
+                
+                note.uploadPath = remoteDir
+                
+                self.saveUploadPaths()
             } catch {
                 print(error, error.localizedDescription)
+            }
+        }
+    }
+    
+    public func saveUploadPaths() {
+        let notes = Storage.sharedInstance().noteList.filter({ $0.uploadPath != nil })
+        
+        var bookmarks = [URL: String]()
+        for note in notes {
+            if let path = note.uploadPath, path.count > 1 {
+                bookmarks[note.url] = path
+            }
+        }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
+        UserDefaultsManagement.sftpUploadBookmarksData = data
+    }
+    
+    public func restoreUploadPaths() {
+        guard let data = UserDefaultsManagement.sftpUploadBookmarksData,
+              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
+        
+        for bookmark in uploadBookmarks {
+            if let note = storage.getBy(url: bookmark.key) {
+                note.uploadPath = bookmark.value
             }
         }
     }
@@ -2206,4 +2244,36 @@ class ViewController: EditorViewController,
         }
     }
 
+    private func getSSHResource() -> SSH? {
+        let host = UserDefaultsManagement.sftpHost
+        let username = UserDefaultsManagement.sftpUsername
+        let passphrase = UserDefaultsManagement.sftpPassphrase
+        
+        var publicKeyURL: URL?
+        var privateKeyURL: URL?
+        
+        if let accessData = UserDefaultsManagement.sftpAccessData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+            for bookmark in bookmarks {
+                if bookmark.key.path.hasSuffix(".pub") {
+                    publicKeyURL = bookmark.key
+                } else {
+                    privateKeyURL = bookmark.key
+                }
+            }
+        }
+        
+        guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return nil }
+        guard let ssh = try? SSH(host: host) else { return nil }
+        
+        do {
+            try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+        } catch {
+            print(error, error.localizedDescription)
+            
+            return nil
+        }
+        
+        return ssh
+    }
 }

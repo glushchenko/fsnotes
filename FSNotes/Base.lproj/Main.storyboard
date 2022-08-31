@@ -193,9 +193,16 @@ CA
                                                 <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Upload over SSH" keyEquivalent="u" identifier="fileMenu.uploadOverSSH" id="vZO-Tx-X1j">
+                                        <menuItem title="Upload Over SSH" keyEquivalent="u" identifier="fileMenu.uploadOverSSH" id="vZO-Tx-X1j">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="uploadNote:" target="Ady-hI-5gd" id="Qs1-GX-5pr"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Remove Over SSH" tag="100" keyEquivalent="u" identifier="fileMenu.removeOverSSH" id="PzH-8q-38O">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="removeUploadedOverSSH:" target="Ady-hI-5gd" id="cXG-EI-fgl"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wQ9-qT-qnU"/>
@@ -2191,9 +2198,16 @@ CA
                                 <action selector="copyTitle:" target="rPt-NT-nkU" id="Fwy-yp-nPd"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Upload over SSH" keyEquivalent="u" identifier="noteMenu.uploadOverSSH" id="oL6-fG-vHv">
+                        <menuItem title="Upload Over SSH" keyEquivalent="u" identifier="noteMenu.uploadOverSSH" id="oL6-fG-vHv">
+                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
                                 <action selector="uploadNote:" target="rPt-NT-nkU" id="n4V-ZH-AN2"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Remove Over SSH" tag="100" keyEquivalent="u" identifier="noteMenu.removeOverSSH" id="K4N-le-FPU">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="removeUploadedOverSSH:" target="rPt-NT-nkU" id="Q3L-gL-lU6"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="fYh-FK-PdD"/>
@@ -3578,7 +3592,7 @@ Will Pazner (github.com/pazner)</string>
                                 </scroller>
                             </scrollView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ML3-K3-vlx">
-                                <rect key="frame" x="150" y="84" width="167" height="170"/>
+                                <rect key="frame" x="150" y="84" width="165" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logoInCircle" id="riY-9N-gUN"/>
                             </imageView>
@@ -4023,8 +4037,8 @@ Will Pazner (github.com/pazner)</string>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sQu-2C-39G">
-                                <rect key="frame" x="33" y="494" width="187" height="15"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Upload to SFTP configuration:" id="E1U-fG-XBw">
+                                <rect key="frame" x="33" y="494" width="195" height="15"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Upload over SSH configuration:" id="E1U-fG-XBw">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
