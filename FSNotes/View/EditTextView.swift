@@ -211,10 +211,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if menuItem.menu?.identifier?.rawValue == "formatMenu", !hasFocus() {
             return false
         }
-
-        if menuItem.menu?.identifier?.rawValue == "viewMenu" && menuItem.identifier?.rawValue == "previewMathJax" {
-            menuItem.state = UserDefaultsManagement.mathJaxPreview ? .on : .off
-        }
         
         if note.isRTF() {
             let disableRTF = [
@@ -935,14 +931,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 storage.addAttribute(filePathKey, value: path, range: range)
             }
         }
-    }
-
-    @IBAction func toggleMathJax(_ sender: NSMenuItem) {
-        sender.state = sender.state == .on ? .off : .on
-
-        UserDefaultsManagement.mathJaxPreview = sender.state == .on
-
-        editorViewController?.refillEditArea(force: true)
     }
 
     func getSelectedNote() -> Note? {

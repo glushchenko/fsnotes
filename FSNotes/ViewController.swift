@@ -360,10 +360,14 @@ class ViewController: EditorViewController,
                     break
                 }
             case "viewMenu":
+                if menuItem.identifier?.rawValue == "previewMathJax" {
+                    menuItem.state = UserDefaultsManagement.mathJaxPreview ? .on : .off
+                }
+                
                 if (menuItem.identifier?.rawValue == "viewMenu.historyBack" &&  vc.notesTableView.historyPosition == 0) {
                     return false
                 }
-
+                
                 if (menuItem.identifier?.rawValue == "viewMenu.historyForward" && vc.notesTableView.historyPosition == vc.notesTableView.history.count - 1) {
                     return false
                 }
@@ -993,9 +997,9 @@ class ViewController: EditorViewController,
                 content.append(inlineTags)
             }
 
-            createNote(name: value, content: content)
+            _ = createNote(name: value, content: content)
         } else {
-            createNote(content: inlineTags)
+            _ = createNote(content: inlineTags)
         }
     }
     
@@ -1018,7 +1022,7 @@ class ViewController: EditorViewController,
 
         let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
 
-        vc.createNote(content: inlineTags)
+        _ = vc.createNote(content: inlineTags)
     }
 
     @IBAction func fileMenuNewRTF(_ sender: Any) {
@@ -1028,7 +1032,7 @@ class ViewController: EditorViewController,
             vc.sidebarOutlineView.deselectAll(nil)
         }
         
-        vc.createNote(type: .RichText)
+        _ = vc.createNote(type: .RichText)
     }
     
     @IBAction func moveMenu(_ sender: Any) {
@@ -1742,7 +1746,7 @@ class ViewController: EditorViewController,
         let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string)
         if (clipboard != nil) {
             let project = Storage.sharedInstance().getMainProject()
-            createNote(content: clipboard!, project: project)
+            _ = createNote(content: clipboard!, project: project)
             
             let notification = NSUserNotification()
             notification.title = "FSNotes"

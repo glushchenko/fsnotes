@@ -195,7 +195,7 @@ extension AppDelegate {
     func create(name: String, content: String) {
         guard let controller = ViewController.shared() else { return }
 
-        controller.createNote(name: name, content: content)
+        _ = controller.createNote(name: name, content: content)
     }
     
     
@@ -263,6 +263,6 @@ extension AppDelegate {
         
         guard let controller = ViewController.shared() else { return }
         
-        controller.createNote(name: title, content: body)
+        _ = controller.createNote(name: title, content: body)
     }
 }

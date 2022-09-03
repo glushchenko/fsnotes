@@ -641,7 +641,7 @@ CA
                                         <menuItem title="Preview MathJax" keyEquivalent="/" identifier="previewMathJax" id="KIz-OO-IQT">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="toggleMathJax:" target="N0L-g4-qwj" id="M4h-TJ-TiH"/>
+                                                <action selector="toggleMathJax:" target="Ady-hI-5gd" id="KrN-I7-17C"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="sLG-sQ-Yi1"/>
@@ -833,11 +833,7 @@ CA
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
-                <customObject id="N0L-g4-qwj" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
-                    <connections>
-                        <outlet property="previewMathJax" destination="KIz-OO-IQT" id="uaZ-ad-ayL"/>
-                    </connections>
-                </customObject>
+                <customObject id="N0L-g4-qwj" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="L4m-js-agn" customClass="ViewController" customModule="FSNotes" customModuleProvider="target">
                     <connections>
                         <outlet property="showInSidebar" destination="O9f-Lf-HF6" id="kDJ-q5-nnU"/>

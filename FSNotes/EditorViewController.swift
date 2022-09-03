@@ -149,6 +149,14 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         vcEditor?.userActivity?.needsSave = true
     }
     
+    @IBAction func toggleMathJax(_ sender: NSMenuItem) {
+        sender.state = sender.state == .on ? .off : .on
+
+        UserDefaultsManagement.mathJaxPreview = sender.state == .on
+
+        refillEditArea(force: true)
+    }
+    
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = vcEditor?.note {
             let sharingPicker = NSSharingServicePicker(items: [
