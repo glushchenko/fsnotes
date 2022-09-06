@@ -431,7 +431,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         let moveMenu = NSMenu()
 
-        let git = Git.sharedInstance()
+        let git = FSGit.sharedInstance()
         let repository = git.getRepository(by: note.project.getParent())
         let commits = repository.getCommits(by: note.getGitPath())
 
@@ -821,7 +821,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
               let note = editor.note,
               let vc = ViewController.shared() else { return }
 
-        Git.sharedInstance().cleanCheckoutHistory()
+        FSGit.sharedInstance().cleanCheckoutHistory()
 
         vc.blockFSUpdates()
 

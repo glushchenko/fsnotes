@@ -73,7 +73,7 @@ class SidebarOutlineView: NSOutlineView,
         if event.keyCode == kVK_RightArrow {
             if let fr = NSApp.mainWindow?.firstResponder, let vc = self.viewDelegate, fr.isKind(of: SidebarOutlineView.self) {
 
-                if let tag = item(atRow: selectedRow) as? Tag, tag.isExpandable(), !isItemExpanded(tag) {
+                if let tag = item(atRow: selectedRow) as? FSTag, tag.isExpandable(), !isItemExpanded(tag) {
                     super.keyDown(with: event)
                     return
                 }
@@ -121,9 +121,9 @@ class SidebarOutlineView: NSOutlineView,
 
         var extend = extend
 
-        if (item(atRow: index) as? Tag) != nil {
+        if (item(atRow: index) as? FSTag) != nil {
             for i in selectedRowIndexes {
-                if nil != item(atRow: i) as? Tag {
+                if nil != item(atRow: i) as? FSTag {
                     deselectRow(i)
                 }
             }
@@ -372,7 +372,7 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         // tags
-        if let tag = item as? Tag {
+        if let tag = item as? FSTag {
             if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
                 for url in urls {
                     if let note = Storage.sharedInstance().getBy(url: url) {
@@ -496,7 +496,7 @@ class SidebarOutlineView: NSOutlineView,
             return isLocalNote ? .move : .copy
         }
 
-        if item as? Tag != nil {
+        if item as? FSTag != nil {
             return .copy
         }
 
@@ -526,7 +526,7 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        if let tag = item as? Tag {
+        if let tag = item as? FSTag {
             return tag.child.count
         }
 
@@ -556,7 +556,7 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        if let tag = item as? Tag {
+        if let tag = item as? FSTag {
             return tag.isExpandable()
         }
 
@@ -568,7 +568,7 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        if let tag = item as? Tag {
+        if let tag = item as? FSTag {
             return tag.child[index]
         }
 
@@ -591,7 +591,7 @@ class SidebarOutlineView: NSOutlineView,
 
         let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! SidebarCellView
 
-        if let tag = item as? Tag {
+        if let tag = item as? FSTag {
             cell.type = .Tag
             cell.icon.image = NSImage(named: "sidebar_tag")
             cell.icon.isHidden = false
@@ -643,7 +643,7 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
-        if nil != item as? Tag {
+        if nil != item as? FSTag {
             return true
         }
 
@@ -683,7 +683,7 @@ class SidebarOutlineView: NSOutlineView,
         let i = view.selectedRow
 
         if UserDefaultsManagement.inlineTags,
-            view.item(atRow: i) as? Tag == nil,
+            view.item(atRow: i) as? FSTag == nil,
             storage.isFinishedTagsLoading,
             hasChangedProjectsState || hasChangedSidebarItemsState {
 
@@ -818,7 +818,7 @@ class SidebarOutlineView: NSOutlineView,
                 let notes = vc.notesTableView.noteList
                 var plainTags = [String]()
                 for index in vc.sidebarOutlineView.selectedRowIndexes {
-                    if let tag = vc.sidebarOutlineView.item(atRow: index) as? Tag {
+                    if let tag = vc.sidebarOutlineView.item(atRow: index) as? FSTag {
                         plainTags.append(contentsOf: tag.getAllChild())
                     }
                 }
@@ -990,7 +990,7 @@ class SidebarOutlineView: NSOutlineView,
 
         vc.isGitProcessLocked = true
         DispatchQueue.global(qos: .background).async {
-            let repository = Git.sharedInstance().getRepository(by: project.getParent())
+            let repository = FSGit.sharedInstance().getRepository(by: project.getParent())
             repository.initialize(from: project.getParent())
             repository.commitAll()
             vc.isGitProcessLocked = false
@@ -1253,7 +1253,7 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         var sTags: Set<String> = []
-        if let allSidebarTags = sidebarItems?.filter({ ($0 as? Tag) != nil }).map({ ($0 as? Tag)!.getFullName() }) {
+        if let allSidebarTags = sidebarItems?.filter({ ($0 as? FSTag) != nil }).map({ ($0 as? FSTag)!.getFullName() }) {
             sTags = Set(allSidebarTags)
         }
 
@@ -1484,7 +1484,7 @@ class SidebarOutlineView: NSOutlineView,
 
         var tags = [String]()
         for i in v.selectedRowIndexes {
-            if let tag = (item(atRow: i) as? Tag)?.getFullName() {
+            if let tag = (item(atRow: i) as? FSTag)?.getFullName() {
                 tags.append(tag)
             }
         }
@@ -1496,12 +1496,12 @@ class SidebarOutlineView: NSOutlineView,
         return nil
     }
 
-    public func getRawSidebarTags() -> [Tag]? {
+    public func getRawSidebarTags() -> [FSTag]? {
         guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return nil }
 
-        var tags = [Tag]()
+        var tags = [FSTag]()
         for i in v.selectedRowIndexes {
-            if let tag = (item(atRow: i) as? Tag) {
+            if let tag = (item(atRow: i) as? FSTag) {
                 tags.append(tag)
             }
         }
@@ -1625,7 +1625,7 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     public func deselectAllTags() {
-        guard let items = self.sidebarItems?.filter({($0 as? Tag) != nil}) else { return }
+        guard let items = self.sidebarItems?.filter({($0 as? FSTag) != nil}) else { return }
         for item in items {
             let i = self.row(forItem: item)
             guard i > -1 else { continue }
@@ -1676,8 +1676,8 @@ class SidebarOutlineView: NSOutlineView,
         }
     }
     
-    public func remove(tag: Tag) {
-        if let i = sidebarItems?.firstIndex(where: { ($0 as? Tag) === tag }) {
+    public func remove(tag: FSTag) {
+        if let i = sidebarItems?.firstIndex(where: { ($0 as? FSTag) === tag }) {
             self.removeItems(at: [i], inParent: nil, withAnimation: [])
             sidebarItems?.remove(at: i)
         }
@@ -1687,13 +1687,13 @@ class SidebarOutlineView: NSOutlineView,
         let tags = tagName.components(separatedBy: "/")
         guard let parent = tags.first else { return }
 
-        if let tag = sidebarItems?.first(where: {($0 as? Tag)?.getName() == parent }) as? Tag {
+        if let tag = sidebarItems?.first(where: {($0 as? FSTag)?.getName() == parent }) as? FSTag {
             if tags.count == 1 {
                 let allTags = ViewController.shared()?.sidebarOutlineView.getAllTags()
                 let count = allTags?.filter({ $0.starts(with: parent + "/") || $0 == parent }).count ?? 0
 
                 if count == 0 {
-                    if let index = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.getName() == parent }) {
+                    if let index = sidebarItems?.firstIndex(where: { ($0 as? FSTag)?.getName() == parent }) {
                         removeItems(at: [index], inParent: nil, withAnimation: [])
                         sidebarItems?.remove(at: index)
                     }
@@ -1708,7 +1708,7 @@ class SidebarOutlineView: NSOutlineView,
                     if
                         parent.getParent() == nil
                         && parent.child.count == 0,
-                        let i = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.getName() == parent.getName() })
+                        let i = sidebarItems?.firstIndex(where: { ($0 as? FSTag)?.getName() == parent.getName() })
                     {
                         if isAllowTagRemoving(parent.getName()) {
                             removeItems(at: [i], inParent: nil, withAnimation: [])
@@ -1779,8 +1779,8 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func unloadAllTags() {
-        if let tags = sidebarItems?.filter({ ($0 as? Tag) != nil && ($0 as? Tag)?.getParent()
-             == nil }) as? [Tag] {
+        if let tags = sidebarItems?.filter({ ($0 as? FSTag) != nil && ($0 as? FSTag)?.getParent()
+             == nil }) as? [FSTag] {
             beginUpdates()
             for tag in tags {
                 remove(tag: tag)
@@ -1829,11 +1829,11 @@ class SidebarOutlineView: NSOutlineView,
         selectNote = currentNote
 
         for tagIndex in 0..<fullTags.count{
-            guard let tag = items?.first(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) as? Tag else { break }
+            guard let tag = items?.first(where: {($0 as? FSTag)?.getName() == fullTags[tagIndex]}) as? FSTag else { break }
             var index = row(forItem: tag)
 
             if index < 0 {
-                index = items?.firstIndex(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) ?? 0
+                index = items?.firstIndex(where: {($0 as? FSTag)?.getName() == fullTags[tagIndex]}) ?? 0
                 tagDepth += index + 1
             } else {
                 tagDepth = index
@@ -1858,9 +1858,9 @@ class SidebarOutlineView: NSOutlineView,
 
         var extend = extend
 
-        if (item(atRow: index) as? Tag) != nil {
+        if (item(atRow: index) as? FSTag) != nil {
             for i in selectedRowIndexes {
-                if nil != item(atRow: i) as? Tag {
+                if nil != item(atRow: i) as? FSTag {
                     deselectRow(i)
                 }
             }
@@ -1878,7 +1878,7 @@ class SidebarOutlineView: NSOutlineView,
         var subtags = tag.components(separatedBy: "/")
         let firstLevelName = subtags.first
 
-        if var tag = sidebarItems?.first(where: { ($0 as? Tag)?.name == firstLevelName }) as? Tag {
+        if var tag = sidebarItems?.first(where: { ($0 as? FSTag)?.name == firstLevelName }) as? FSTag {
             guard subtags.count > 1 else { return }
 
             while subtags.count > 0 {
@@ -1898,18 +1898,18 @@ class SidebarOutlineView: NSOutlineView,
             return
         }
 
-        let rootTag = Tag(name: tag)
+        let rootTag = FSTag(name: tag)
         let position = getRootTagPosition(for: rootTag)
         sidebarItems?.insert(rootTag, at: position)
         self.insertItems(at: [position], inParent: nil, withAnimation: [])
     }
 
-    public func getRootTagPosition(for tag: Tag) -> Int {
-        guard let offset = sidebarItems?.firstIndex(where: { ($0 as? Tag) != nil }) else {
+    public func getRootTagPosition(for tag: FSTag) -> Int {
+        guard let offset = sidebarItems?.firstIndex(where: { ($0 as? FSTag) != nil }) else {
             return sidebarItems?.count ?? 0
         }
 
-        guard var tags = sidebarItems?.filter({ $0 as? Tag != nil }) as? [Tag] else {
+        guard var tags = sidebarItems?.filter({ $0 as? FSTag != nil }) as? [FSTag] else {
             return sidebarItems?.count ?? 0
         }
 
@@ -1951,7 +1951,7 @@ class SidebarOutlineView: NSOutlineView,
     public func deleteRoot(tag: String) {
         let subtags = tag.components(separatedBy: "/")
 
-        if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.name == subtags.first }) {
+        if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? FSTag)?.name == subtags.first }) {
             sidebarItems?.remove(at: sidebarIndex)
             removeItems(at: [sidebarIndex], inParent: nil, withAnimation: [])
         }
@@ -1974,13 +1974,13 @@ class SidebarOutlineView: NSOutlineView,
 
         beginUpdates()
         for index in selectedRowIndexes.reversed() {
-            if let tag = item(atRow: index) as? Tag {
+            if let tag = item(atRow: index) as? FSTag {
                 if let parentTag = tag.getParent() {
                     if let childIndex = tag.getParent()?.child.firstIndex(where: { $0 === tag }) {
                         tag.parent?.removeChild(tag: tag)
                         removeItems(at: [childIndex], inParent: parentTag, withAnimation: [])
                     }
-                } else if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? Tag) === tag }) {
+                } else if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? FSTag) === tag }) {
                     sidebarItems?.remove(at: sidebarIndex)
                     removeItems(at: [sidebarIndex], inParent: nil, withAnimation: [])
                 }
@@ -1991,7 +1991,7 @@ class SidebarOutlineView: NSOutlineView,
         viewDelegate?.editor.clear()
     }
 
-    public func rename(tags: [Tag], name: String) {
+    public func rename(tags: [FSTag], name: String) {
         guard let notesTableView = viewDelegate?.notesTableView else { return }
         let notes = notesTableView.noteList
 
@@ -2070,7 +2070,7 @@ class SidebarOutlineView: NSOutlineView,
 
         // select inserted
         if let tag = insertTags.first?.components(separatedBy: "/").first {
-            if let tag = sidebarItems?.first(where: { ($0 as? Tag)?.name == tag }) {
+            if let tag = sidebarItems?.first(where: { ($0 as? FSTag)?.name == tag }) {
                 let index = row(forItem: tag)
 
                 scrollRowToVisible(index)

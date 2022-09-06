@@ -17,9 +17,9 @@ class SidebarItem {
     var project: Project?
     var type: SidebarItemType
     public var icon: Image?
-    public var tag: Tag?
+    public var tag: FSTag?
     
-    init(name: String, project: Project? = nil, type: SidebarItemType, icon: Image? = nil, tag: Tag? = nil) {
+    init(name: String, project: Project? = nil, type: SidebarItemType, icon: Image? = nil, tag: FSTag? = nil) {
         self.name = name
         self.project = project
         self.type = type

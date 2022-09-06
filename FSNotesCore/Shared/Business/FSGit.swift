@@ -8,18 +8,18 @@
 
 import Foundation
 
-class Git {
+class FSGit {
 
-    static var instance: Git?
+    static var instance: FSGit?
 
     private var home: URL
     private var repositories: URL
     private var debug: Bool = true
-    public var prevCommit: Commit?
+    public var prevCommit: FSCommit?
 
-    public static func sharedInstance() -> Git {
+    public static func sharedInstance() -> FSGit {
         guard let git = self.instance else {
-            self.instance = Git(storage: UserDefaultsManagement.gitStorage)
+            self.instance = FSGit(storage: UserDefaultsManagement.gitStorage)
             return self.instance!
         }
         return git
@@ -124,8 +124,8 @@ class Git {
         return nil
     }
 
-    public func getRepository(by project: Project) -> Repository {
-        let repository = Repository(git: self, debug: debug, project: project, workTree: project.url)
+    public func getRepository(by project: Project) -> FSRepository {
+        let repository = FSRepository(git: self, debug: debug, project: project, workTree: project.url)
         repository.initialize(from: project)
 
         return repository

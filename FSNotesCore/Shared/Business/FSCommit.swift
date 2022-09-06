@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Commit {
+class FSCommit {
     private var date: String?
     private var hash: String
 

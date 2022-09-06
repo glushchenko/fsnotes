@@ -208,7 +208,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             return String()
         }
 
-        let inline = "['$', '$'], ['\\(', '\\)']"
+        let inline = "['$', '$'], ['\\(', '\\)'], ['$$', '$$'], ['\\((', '\\))']"
 
         return """
             <script>

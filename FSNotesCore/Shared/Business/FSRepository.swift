@@ -8,13 +8,13 @@
 
 import Foundation
 
-class Repository {
-    private var git: Git
+class FSRepository {
+    private var git: FSGit
     private var name: String
     private var workTree: URL
     private var debug: Bool
 
-    init(git: Git, debug: Bool, project: Project, workTree: URL) {
+    init(git: FSGit, debug: Bool, project: Project, workTree: URL) {
         self.git = git
         self.debug = debug
         self.workTree = workTree
@@ -63,14 +63,14 @@ class Repository {
         }
     }
 
-    public func getCommits(by fileName: String) -> [Commit] {
-        var commits = [Commit]()
+    public func getCommits(by fileName: String) -> [FSCommit] {
+        var commits = [FSCommit]()
         if let log = exec(args: ["log", "--follow", "--", "\(fileName)"]) {
             let commitsList = log.matchingStrings(regex: "(?:commit) ([0-9a-z]{32})")
 
             for commit in commitsList {
                 if let hash = commit.last {
-                    commits.append(Commit(hash: hash))
+                    commits.append(FSCommit(hash: hash))
                 }
             }
 
@@ -87,7 +87,7 @@ class Repository {
         return commits
     }
 
-    public func checkout(commit: Commit, fileName: String) {
+    public func checkout(commit: FSCommit, fileName: String) {
         let output = exec(args: ["checkout", commit.getHash(), "\(fileName)"])
 
         if debug {

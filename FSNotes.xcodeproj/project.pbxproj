@@ -56,7 +56,6 @@
 		D70BA87920599D1300875E9C /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87620599D1300875E9C /* header@2x.png */; };
 		D70D6CDF225D16D800A07A01 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D70E460528C35D90001A74B1 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D70E460428C35D90001A74B1 /* Shout */; };
-		D70E460728C35DCB001A74B1 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D70E460628C35DCB001A74B1 /* Shout */; };
 		D70E460928C35E03001A74B1 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D70E460828C35E03001A74B1 /* Shout */; };
 		D70E8D6923705C6200E64D62 /* tag2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6623705C6200E64D62 /* tag2@2x.png */; };
 		D70E8D6A23705C6200E64D62 /* tag2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6723705C6200E64D62 /* tag2@3x.png */; };
@@ -616,6 +615,7 @@
 		D7B4AC612471253100F3888A /* NoteMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B4AC5D2471253100F3888A /* NoteMeta.swift */; };
 		D7B4AC622471253100F3888A /* NoteMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B4AC5D2471253100F3888A /* NoteMeta.swift */; };
 		D7B4AC632471253100F3888A /* NoteMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B4AC5D2471253100F3888A /* NoteMeta.swift */; };
+		D7B4CC5628C7B8860046A25F /* Git in Frameworks */ = {isa = PBXBuildFile; productRef = D7B4CC5528C7B8860046A25F /* Git */; };
 		D7B6E59A207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59B207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59D20794B8C00FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
@@ -656,6 +656,32 @@
 		D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C221F31E5F0041627F /* ImageAttachment+.swift */; };
 		D7C302C521F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
 		D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
+		D7C52B7828C7A3D2001B2065 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D7C52B7728C7A3D2001B2065 /* Shout */; };
+		D7C52BB228C7A90E001B2065 /* Remotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA628C7A90B001B2065 /* Remotes.swift */; };
+		D7C52BB328C7A90E001B2065 /* Remotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA628C7A90B001B2065 /* Remotes.swift */; };
+		D7C52BB428C7A90E001B2065 /* Diffs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA728C7A90C001B2065 /* Diffs.swift */; };
+		D7C52BB528C7A90E001B2065 /* Diffs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA728C7A90C001B2065 /* Diffs.swift */; };
+		D7C52BB628C7A90E001B2065 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA828C7A90C001B2065 /* Credentials.swift */; };
+		D7C52BB728C7A90E001B2065 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA828C7A90C001B2065 /* Credentials.swift */; };
+		D7C52BB828C7A90E001B2065 /* CommitIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA928C7A90C001B2065 /* CommitIterator.swift */; };
+		D7C52BB928C7A90E001B2065 /* CommitIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BA928C7A90C001B2065 /* CommitIterator.swift */; };
+		D7C52BBA28C7A90E001B2065 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAA28C7A90C001B2065 /* Errors.swift */; };
+		D7C52BBB28C7A90E001B2065 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAA28C7A90C001B2065 /* Errors.swift */; };
+		D7C52BBC28C7A90E001B2065 /* CheckoutStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAB28C7A90C001B2065 /* CheckoutStrategy.swift */; };
+		D7C52BBD28C7A90E001B2065 /* CheckoutStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAB28C7A90C001B2065 /* CheckoutStrategy.swift */; };
+		D7C52BBE28C7A90E001B2065 /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAC28C7A90C001B2065 /* Objects.swift */; };
+		D7C52BBF28C7A90E001B2065 /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAC28C7A90C001B2065 /* Objects.swift */; };
+		D7C52BC028C7A90E001B2065 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAD28C7A90D001B2065 /* StringExtensions.swift */; };
+		D7C52BC128C7A90E001B2065 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAD28C7A90D001B2065 /* StringExtensions.swift */; };
+		D7C52BC228C7A90E001B2065 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAE28C7A90D001B2065 /* Repository.swift */; };
+		D7C52BC328C7A90E001B2065 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAE28C7A90D001B2065 /* Repository.swift */; };
+		D7C52BC428C7A90E001B2065 /* Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAF28C7A90D001B2065 /* Pointers.swift */; };
+		D7C52BC528C7A90E001B2065 /* Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BAF28C7A90D001B2065 /* Pointers.swift */; };
+		D7C52BC628C7A90E001B2065 /* Libgit2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BB028C7A90D001B2065 /* Libgit2.swift */; };
+		D7C52BC728C7A90E001B2065 /* Libgit2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BB028C7A90D001B2065 /* Libgit2.swift */; };
+		D7C52BC828C7A90E001B2065 /* References.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BB128C7A90D001B2065 /* References.swift */; };
+		D7C52BC928C7A90E001B2065 /* References.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52BB128C7A90D001B2065 /* References.swift */; };
+		D7C52BCA28C7AA67001B2065 /* OID.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C52B8128C7A8D6001B2065 /* OID.swift */; };
 		D7C690AB22AA4AE500BFBBD1 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BE204F078A000B9F59 /* bold.png */; };
 		D7C690AC22AA4AE500BFBBD1 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BD204F078A000B9F59 /* bold@2x.png */; };
 		D7C690AD22AA4AE500BFBBD1 /* bold@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BC204F078A000B9F59 /* bold@3x.png */; };
@@ -712,20 +738,20 @@
 		D7C690E222AB076000BFBBD1 /* italic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955B2051D1AA009017EE /* italic@3x.png */; };
 		D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */; };
 		D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */; };
-		D7C9029223547A1E00A89BD8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* Tag.swift */; };
-		D7C9029323547A1E00A89BD8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* Tag.swift */; };
-		D7C9029423547A1E00A89BD8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* Tag.swift */; };
-		D7C9029523547A1E00A89BD8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* Tag.swift */; };
+		D7C9029223547A1E00A89BD8 /* FSTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* FSTag.swift */; };
+		D7C9029323547A1E00A89BD8 /* FSTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* FSTag.swift */; };
+		D7C9029423547A1E00A89BD8 /* FSTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* FSTag.swift */; };
+		D7C9029523547A1E00A89BD8 /* FSTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* FSTag.swift */; };
 		D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */; };
-		D7CA7FC62326519600E9717A /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC32326519500E9717A /* Commit.swift */; };
-		D7CA7FC72326519600E9717A /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC42326519600E9717A /* Git.swift */; };
-		D7CA7FC82326519600E9717A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* Repository.swift */; };
-		D7CA7FC92326519A00E9717A /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC32326519500E9717A /* Commit.swift */; };
-		D7CA7FCA2326519B00E9717A /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC32326519500E9717A /* Commit.swift */; };
-		D7CA7FCB2326519D00E9717A /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC42326519600E9717A /* Git.swift */; };
-		D7CA7FCC2326519E00E9717A /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC42326519600E9717A /* Git.swift */; };
-		D7CA7FCD232651A000E9717A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* Repository.swift */; };
-		D7CA7FCE232651A100E9717A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* Repository.swift */; };
+		D7CA7FC62326519600E9717A /* FSCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC32326519500E9717A /* FSCommit.swift */; };
+		D7CA7FC72326519600E9717A /* FSGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC42326519600E9717A /* FSGit.swift */; };
+		D7CA7FC82326519600E9717A /* FSRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* FSRepository.swift */; };
+		D7CA7FC92326519A00E9717A /* FSCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC32326519500E9717A /* FSCommit.swift */; };
+		D7CA7FCA2326519B00E9717A /* FSCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC32326519500E9717A /* FSCommit.swift */; };
+		D7CA7FCB2326519D00E9717A /* FSGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC42326519600E9717A /* FSGit.swift */; };
+		D7CA7FCC2326519E00E9717A /* FSGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC42326519600E9717A /* FSGit.swift */; };
+		D7CA7FCD232651A000E9717A /* FSRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* FSRepository.swift */; };
+		D7CA7FCE232651A100E9717A /* FSRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* FSRepository.swift */; };
 		D7CA7FD4232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
 		D7CA7FD5232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
 		D7CA7FD6232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
@@ -1443,15 +1469,28 @@
 		D7C2AB0621E116CE00B1AC0E /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		D7C302C221F31E5F0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
 		D7C302C421F320FD0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
+		D7C52B8128C7A8D6001B2065 /* OID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OID.swift; sourceTree = "<group>"; };
+		D7C52BA628C7A90B001B2065 /* Remotes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Remotes.swift; sourceTree = "<group>"; };
+		D7C52BA728C7A90C001B2065 /* Diffs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diffs.swift; sourceTree = "<group>"; };
+		D7C52BA828C7A90C001B2065 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		D7C52BA928C7A90C001B2065 /* CommitIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitIterator.swift; sourceTree = "<group>"; };
+		D7C52BAA28C7A90C001B2065 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		D7C52BAB28C7A90C001B2065 /* CheckoutStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutStrategy.swift; sourceTree = "<group>"; };
+		D7C52BAC28C7A90C001B2065 /* Objects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Objects.swift; sourceTree = "<group>"; };
+		D7C52BAD28C7A90D001B2065 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		D7C52BAE28C7A90D001B2065 /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		D7C52BAF28C7A90D001B2065 /* Pointers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pointers.swift; sourceTree = "<group>"; };
+		D7C52BB028C7A90D001B2065 /* Libgit2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Libgit2.swift; sourceTree = "<group>"; };
+		D7C52BB128C7A90D001B2065 /* References.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = References.swift; sourceTree = "<group>"; };
 		D7C690CF22AB025700BFBBD1 /* codeblock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = codeblock.png; sourceTree = "<group>"; };
 		D7C690D322AB033A00BFBBD1 /* tb_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_link.png; sourceTree = "<group>"; };
 		D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+More.swift"; sourceTree = "<group>"; };
 		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
-		D7C9029123547A1E00A89BD8 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		D7C9029123547A1E00A89BD8 /* FSTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSTag.swift; sourceTree = "<group>"; };
 		D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Font.swift"; sourceTree = "<group>"; };
-		D7CA7FC32326519500E9717A /* Commit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commit.swift; sourceTree = "<group>"; };
-		D7CA7FC42326519600E9717A /* Git.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Git.swift; sourceTree = "<group>"; };
-		D7CA7FC52326519600E9717A /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		D7CA7FC32326519500E9717A /* FSCommit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCommit.swift; sourceTree = "<group>"; };
+		D7CA7FC42326519600E9717A /* FSGit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSGit.swift; sourceTree = "<group>"; };
+		D7CA7FC52326519600E9717A /* FSRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSRepository.swift; sourceTree = "<group>"; };
 		D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesGitViewController.swift; sourceTree = "<group>"; };
 		D7CAD6A920DD509800FF4674 /* tag_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_red.png; sourceTree = "<group>"; };
 		D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextProcessor.swift; sourceTree = "<group>"; };
@@ -1591,9 +1630,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D70E460728C35DCB001A74B1 /* Shout in Frameworks */,
+				D7C52B7828C7A3D2001B2065 /* Shout in Frameworks */,
 				D75E33C622462442006AD1C1 /* FSNotesCore_macOS.framework in Frameworks */,
 				1F71DF18B03F507DAC3877F5 /* Pods_FSNotes__Notarized_.framework in Frameworks */,
+				D7B4CC5628C7B8860046A25F /* Git in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1841,10 +1881,10 @@
 				D730BD59223BFEB200E69C93 /* RuntimeError.swift */,
 				D7679375201F0BFD000F7BBF /* SortBy.swift */,
 				D7104A63230BD8C500B6D8EE /* SortDirection.swift */,
-				D7CA7FC32326519500E9717A /* Commit.swift */,
-				D7CA7FC42326519600E9717A /* Git.swift */,
-				D7CA7FC52326519600E9717A /* Repository.swift */,
-				D7C9029123547A1E00A89BD8 /* Tag.swift */,
+				D7CA7FC32326519500E9717A /* FSCommit.swift */,
+				D7CA7FC42326519600E9717A /* FSGit.swift */,
+				D7CA7FC52326519600E9717A /* FSRepository.swift */,
+				D7C9029123547A1E00A89BD8 /* FSTag.swift */,
 				D77E05282463124300AD7772 /* StorageType.swift */,
 				D7B34F9625195D7E0007877E /* PreviewState.swift */,
 				D79651B02517741400333AD4 /* ProgressState.swift */,
@@ -2054,6 +2094,7 @@
 		D7793C711F211C6000CA39B7 /* FSNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D7C52B8028C7A8C2001B2065 /* Git */,
 				D7D7CD48232783940016AC15 /* bin */,
 				D75C903C223EF727002A9CAD /* Preferences */,
 				D7CD5F6A1F51184A006AA35D /* Extensions */,
@@ -2104,6 +2145,26 @@
 				8F7136ED23490CBF004DFA6E /* Markdown.swift */,
 			);
 			path = Business;
+			sourceTree = "<group>";
+		};
+		D7C52B8028C7A8C2001B2065 /* Git */ = {
+			isa = PBXGroup;
+			children = (
+				D7C52B8128C7A8D6001B2065 /* OID.swift */,
+				D7C52BAB28C7A90C001B2065 /* CheckoutStrategy.swift */,
+				D7C52BA928C7A90C001B2065 /* CommitIterator.swift */,
+				D7C52BA828C7A90C001B2065 /* Credentials.swift */,
+				D7C52BA728C7A90C001B2065 /* Diffs.swift */,
+				D7C52BAA28C7A90C001B2065 /* Errors.swift */,
+				D7C52BB028C7A90D001B2065 /* Libgit2.swift */,
+				D7C52BAC28C7A90C001B2065 /* Objects.swift */,
+				D7C52BAF28C7A90D001B2065 /* Pointers.swift */,
+				D7C52BB128C7A90D001B2065 /* References.swift */,
+				D7C52BA628C7A90B001B2065 /* Remotes.swift */,
+				D7C52BAE28C7A90D001B2065 /* Repository.swift */,
+				D7C52BAD28C7A90D001B2065 /* StringExtensions.swift */,
+			);
+			path = Git;
 			sourceTree = "<group>";
 		};
 		D7CD5F6A1F51184A006AA35D /* Extensions */ = {
@@ -2412,7 +2473,8 @@
 			);
 			name = "FSNotes (Notarized)";
 			packageProductDependencies = (
-				D70E460628C35DCB001A74B1 /* Shout */,
+				D7C52B7728C7A3D2001B2065 /* Shout */,
+				D7B4CC5528C7B8860046A25F /* Git */,
 			);
 			productName = FSNotes;
 			productReference = D75E341022462442006AD1C1 /* FSNotes.app */;
@@ -2631,6 +2693,7 @@
 			mainGroup = D7793C661F211C6000CA39B7;
 			packageReferences = (
 				D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */,
+				D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */,
 			);
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
 			projectDirPath = "";
@@ -3448,6 +3511,7 @@
 				D752D81123463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D75E338122462442006AD1C1 /* ImagesProcessor.swift in Sources */,
 				D75E338222462442006AD1C1 /* NoteType.swift in Sources */,
+				D7C52BC528C7A90E001B2065 /* Pointers.swift in Sources */,
 				D75E338322462442006AD1C1 /* PrefsViewController.swift in Sources */,
 				D75E338422462442006AD1C1 /* ProjectSettingsViewController.swift in Sources */,
 				D75E338522462442006AD1C1 /* NSAppearance+.swift in Sources */,
@@ -3462,21 +3526,29 @@
 				D75E338D22462442006AD1C1 /* EditTextView.swift in Sources */,
 				D77E0535246312B100AD7772 /* StorageType.swift in Sources */,
 				D75E338E22462442006AD1C1 /* NoteCellView+.swift in Sources */,
+				D7C52BC128C7A90E001B2065 /* StringExtensions.swift in Sources */,
 				D75E339022462442006AD1C1 /* LanguageType.swift in Sources */,
 				D75E339122462442006AD1C1 /* SidebarTableRowView.swift in Sources */,
 				D7B4AC602471253100F3888A /* NoteMeta.swift in Sources */,
 				D75E339222462442006AD1C1 /* KeychainConfiguration.swift in Sources */,
+				D7C52BC728C7A90E001B2065 /* Libgit2.swift in Sources */,
 				D75E339322462442006AD1C1 /* NSImage+.swift in Sources */,
+				D7C52BBF28C7A90E001B2065 /* Objects.swift in Sources */,
 				D75E339422462442006AD1C1 /* SidebarItem.swift in Sources */,
+				D7C52BC328C7A90E001B2065 /* Repository.swift in Sources */,
 				D75E339522462442006AD1C1 /* EditorSplitView.swift in Sources */,
 				D726DE8C287ACC1E00F8406C /* NSWindow+.swift in Sources */,
 				D75E339622462442006AD1C1 /* SidebarItemType.swift in Sources */,
+				D7C52BBB28C7A90E001B2065 /* Errors.swift in Sources */,
 				D75E339722462442006AD1C1 /* AppDelegate.swift in Sources */,
 				D75E339822462442006AD1C1 /* PreferencesSecurityViewController.swift in Sources */,
 				D7680FB425D02B2C00810DA8 /* FileManager+.swift in Sources */,
+				D7C52BC928C7A90E001B2065 /* References.swift in Sources */,
 				D79C26272872384C00CB70E6 /* EditorViewController+Sharing.swift in Sources */,
 				D75E339922462442006AD1C1 /* UTI.swift in Sources */,
+				D7C52BB928C7A90E001B2065 /* CommitIterator.swift in Sources */,
 				D75E339A22462442006AD1C1 /* Note+.swift in Sources */,
+				D7C52BB728C7A90E001B2065 /* Credentials.swift in Sources */,
 				D71B9D882868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
 				D730829423084340003185D1 /* MPreviewView.swift in Sources */,
 				D75E339B22462442006AD1C1 /* Sidebar.swift in Sources */,
@@ -3497,7 +3569,10 @@
 				D75E33A922462442006AD1C1 /* NSTextStorage++.swift in Sources */,
 				D75E33AB22462442006AD1C1 /* ViewController+Print.swift in Sources */,
 				D75E33AC22462442006AD1C1 /* FileWatcherEvent.swift in Sources */,
+				D7C52BB328C7A90E001B2065 /* Remotes.swift in Sources */,
+				D7C52BB528C7A90E001B2065 /* Diffs.swift in Sources */,
 				D75E33AD22462442006AD1C1 /* NSAttributedStringKey+.swift in Sources */,
+				D7C52BCA28C7AA67001B2065 /* OID.swift in Sources */,
 				D77AD7FE27F9D1C90077BD45 /* Data+.swift in Sources */,
 				D75E33AE22462442006AD1C1 /* PreviewTextField.swift in Sources */,
 				D75E33AF22462442006AD1C1 /* SortBy.swift in Sources */,
@@ -3509,7 +3584,7 @@
 				D75E33B222462442006AD1C1 /* NoteAttribute.swift in Sources */,
 				D7153DFF2285A93300A2C20F /* AboutWindowController.swift in Sources */,
 				D74D47A1256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
-				D7CA7FCC2326519E00E9717A /* Git.swift in Sources */,
+				D7CA7FCC2326519E00E9717A /* FSGit.swift in Sources */,
 				D75E33B322462442006AD1C1 /* EditorScrollView.swift in Sources */,
 				8F7136EF23490CBF004DFA6E /* Markdown.swift in Sources */,
 				D75E33B422462442006AD1C1 /* SandboxBookmark.swift in Sources */,
@@ -3517,8 +3592,8 @@
 				D75E33B722462442006AD1C1 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7153E072285C09C00A2C20F /* AboutViewController.swift in Sources */,
 				D768D75E245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
-				D7CA7FCE232651A100E9717A /* Repository.swift in Sources */,
-				D7CA7FCA2326519B00E9717A /* Commit.swift in Sources */,
+				D7CA7FCE232651A100E9717A /* FSRepository.swift in Sources */,
+				D7CA7FCA2326519B00E9717A /* FSCommit.swift in Sources */,
 				D75E33B822462442006AD1C1 /* NSFont+.swift in Sources */,
 				D75E33B922462442006AD1C1 /* SearchTextField.swift in Sources */,
 				D75E33BA22462442006AD1C1 /* PreferencesUserInterfaceViewController.swift in Sources */,
@@ -3533,9 +3608,10 @@
 				D7C1C99C235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
 				D7104A66230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627D026D1165A000AF6EA /* ImageFormat.swift in Sources */,
+				D7C52BBD28C7A90E001B2065 /* CheckoutStrategy.swift in Sources */,
 				D75E33BE22462442006AD1C1 /* NoteCellView.swift in Sources */,
 				D75E33BF22462442006AD1C1 /* UndoData.swift in Sources */,
-				D7C9029423547A1E00A89BD8 /* Tag.swift in Sources */,
+				D7C9029423547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D75E33C022462442006AD1C1 /* TagList.swift in Sources */,
 				D75E33C122462442006AD1C1 /* NoteContainer.swift in Sources */,
 				D75E33C222462442006AD1C1 /* TextBundleInfo.swift in Sources */,
@@ -3646,7 +3722,7 @@
 				D730BD30222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D76E10C3215A96080017F4A3 /* DayOneImportHelper.swift in Sources */,
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
-				D7C9029523547A1E00A89BD8 /* Tag.swift in Sources */,
+				D7C9029523547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D768D75A245E86690028F344 /* NSAttributedString+.swift in Sources */,
 				D75A34E527D7CD440085438F /* SidebarViewController.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+.swift in Sources */,
@@ -3746,6 +3822,7 @@
 				D752D80F23463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D777D7812009115C00D86B33 /* ImagesProcessor.swift in Sources */,
 				D708AC672000EF5800A1760F /* NoteType.swift in Sources */,
+				D7C52BC428C7A90E001B2065 /* Pointers.swift in Sources */,
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
 				D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */,
 				D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
@@ -3760,21 +3837,29 @@
 				D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */,
 				D77E0537246312B300AD7772 /* StorageType.swift in Sources */,
 				D7EDEDFB219203C9000B8C1A /* NoteCellView+.swift in Sources */,
+				D7C52BC028C7A90E001B2065 /* StringExtensions.swift in Sources */,
 				D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D7B4AC5E2471253100F3888A /* NoteMeta.swift in Sources */,
 				D730BD27222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
+				D7C52BC628C7A90E001B2065 /* Libgit2.swift in Sources */,
 				D7487FD821738A1900D09383 /* NSImage+.swift in Sources */,
+				D7C52BBE28C7A90E001B2065 /* Objects.swift in Sources */,
 				D75EE7F72078B22D0055F159 /* SidebarItem.swift in Sources */,
+				D7C52BC228C7A90E001B2065 /* Repository.swift in Sources */,
 				D783B505208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
 				D726DE8A287ACC1E00F8406C /* NSWindow+.swift in Sources */,
 				D75EE8002078E0C60055F159 /* SidebarItemType.swift in Sources */,
+				D7C52BBA28C7A90E001B2065 /* Errors.swift in Sources */,
 				D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */,
 				D7F5C0F8223ED57D0038F172 /* PreferencesSecurityViewController.swift in Sources */,
 				D7680FB225D02B2C00810DA8 /* FileManager+.swift in Sources */,
+				D7C52BC828C7A90E001B2065 /* References.swift in Sources */,
 				D79C26252872384C00CB70E6 /* EditorViewController+Sharing.swift in Sources */,
 				D7E51713220D814D00A9CAD9 /* UTI.swift in Sources */,
+				D7C52BB828C7A90E001B2065 /* CommitIterator.swift in Sources */,
 				D7DCFED32108E3210059B37B /* Note+.swift in Sources */,
+				D7C52BB628C7A90E001B2065 /* Credentials.swift in Sources */,
 				D71B9D862868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
 				D730829223084340003185D1 /* MPreviewView.swift in Sources */,
 				D75EE7FA2078B3C00055F159 /* Sidebar.swift in Sources */,
@@ -3795,6 +3880,8 @@
 				D7470D072170E890006B2A92 /* NSTextStorage++.swift in Sources */,
 				D772C8842217362C007E440B /* ViewController+Print.swift in Sources */,
 				D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */,
+				D7C52BB228C7A90E001B2065 /* Remotes.swift in Sources */,
+				D7C52BB428C7A90E001B2065 /* Diffs.swift in Sources */,
 				D7487FED2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D77AD7FC27F9D1C90077BD45 /* Data+.swift in Sources */,
 				D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */,
@@ -3807,7 +3894,7 @@
 				D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */,
 				D7153DFD2285A93300A2C20F /* AboutWindowController.swift in Sources */,
 				D74D479F256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
-				D7CA7FC72326519600E9717A /* Git.swift in Sources */,
+				D7CA7FC72326519600E9717A /* FSGit.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
 				8F7136EE23490CBF004DFA6E /* Markdown.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
@@ -3815,8 +3902,8 @@
 				D730BD3C222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7153E052285C09C00A2C20F /* AboutViewController.swift in Sources */,
 				D768D75C245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
-				D7CA7FC82326519600E9717A /* Repository.swift in Sources */,
-				D7CA7FC62326519600E9717A /* Commit.swift in Sources */,
+				D7CA7FC82326519600E9717A /* FSRepository.swift in Sources */,
+				D7CA7FC62326519600E9717A /* FSCommit.swift in Sources */,
 				D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */,
 				D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */,
@@ -3831,9 +3918,10 @@
 				D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
 				D7104A64230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627CE26D1165A000AF6EA /* ImageFormat.swift in Sources */,
+				D7C52BBC28C7A90E001B2065 /* CheckoutStrategy.swift in Sources */,
 				D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */,
 				D78678CB2093AE10001A6620 /* UndoData.swift in Sources */,
-				D7C9029223547A1E00A89BD8 /* Tag.swift in Sources */,
+				D7C9029223547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D7B3391520DE0FB100B36460 /* TagList.swift in Sources */,
 				D730BD2E222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD35222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
@@ -3932,7 +4020,7 @@
 				D7E81C3A1F925B5F00416A91 /* NotesTableView.swift in Sources */,
 				D7153DFE2285A93300A2C20F /* AboutWindowController.swift in Sources */,
 				D74D47A0256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
-				D7CA7FCB2326519D00E9717A /* Git.swift in Sources */,
+				D7CA7FCB2326519D00E9717A /* FSGit.swift in Sources */,
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D7767C7F234E47B9006A0716 /* Markdown.swift in Sources */,
 				D7E81C3D1F925B5F00416A91 /* SandboxBookmark.swift in Sources */,
@@ -3940,8 +4028,8 @@
 				D730BD3D222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7153E062285C09C00A2C20F /* AboutViewController.swift in Sources */,
 				D768D75D245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
-				D7CA7FCD232651A000E9717A /* Repository.swift in Sources */,
-				D7CA7FC92326519A00E9717A /* Commit.swift in Sources */,
+				D7CA7FCD232651A000E9717A /* FSRepository.swift in Sources */,
+				D7CA7FC92326519A00E9717A /* FSCommit.swift in Sources */,
 				D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7E81C3F1F925B5F00416A91 /* NSFont+.swift in Sources */,
 				D7E81C411F925B5F00416A91 /* SearchTextField.swift in Sources */,
@@ -3958,7 +4046,7 @@
 				D75627CF26D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */,
 				D78678CC2093AE10001A6620 /* UndoData.swift in Sources */,
-				D7C9029323547A1E00A89BD8 /* Tag.swift in Sources */,
+				D7C9029323547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D7B3391620DE0FB100B36460 /* TagList.swift in Sources */,
 				D730BD2F222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD36222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
@@ -4231,7 +4319,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 528;
+				CURRENT_PROJECT_VERSION = 534;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4247,7 +4335,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 5.4.4;
+				MARKETING_VERSION = 6.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4269,7 +4357,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 528;
+				CURRENT_PROJECT_VERSION = 534;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4286,7 +4374,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 5.4.4;
+				MARKETING_VERSION = 6.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4779,6 +4867,14 @@
 				kind = branch;
 			};
 		};
+		D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/glushchenko/swift-git";
+			requirement = {
+				kind = revision;
+				revision = 7b2f3af96c6947308b4f0b4ae02302fd47a5eff2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -4787,12 +4883,17 @@
 			package = D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */;
 			productName = Shout;
 		};
-		D70E460628C35DCB001A74B1 /* Shout */ = {
+		D70E460828C35E03001A74B1 /* Shout */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */;
 			productName = Shout;
 		};
-		D70E460828C35E03001A74B1 /* Shout */ = {
+		D7B4CC5528C7B8860046A25F /* Git */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */;
+			productName = Git;
+		};
+		D7C52B7728C7A3D2001B2065 /* Shout */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */;
 			productName = Shout;

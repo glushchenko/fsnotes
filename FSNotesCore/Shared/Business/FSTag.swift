@@ -8,13 +8,13 @@
 
 import Foundation
 
-class Tag {
+class FSTag {
     public var name: String
-    public var parent: Tag?
+    public var parent: FSTag?
 
-    public var child = [Tag]()
+    public var child = [FSTag]()
 
-    init(name: String, parent: Tag? = nil) {
+    init(name: String, parent: FSTag? = nil) {
         self.name = name
         self.parent = parent
 
@@ -41,13 +41,13 @@ class Tag {
         return child.count > 0
     }
 
-    public func addChild(name: String, completion: (_ tag: Tag, _ isExist: Bool, _ position: Int) -> Void) {
+    public func addChild(name: String, completion: (_ tag: FSTag, _ isExist: Bool, _ position: Int) -> Void) {
         let tags = name.components(separatedBy: "/")
 
         if let index = child.firstIndex(where: { $0.name == tags.first }) {
             completion(child[index], true, index)
         } else {
-            let newTag = Tag(name: name, parent: self)
+            let newTag = FSTag(name: name, parent: self)
 
             let index = getChildPosition(for: newTag)
             child.insert(newTag, at: index)
@@ -55,7 +55,7 @@ class Tag {
         }
     }
 
-    public func getChildPosition(for tag: Tag) -> Int {
+    public func getChildPosition(for tag: FSTag) -> Int {
         var tags = child
         tags.append(tag)
 
@@ -67,7 +67,7 @@ class Tag {
         return 0
     }
 
-    public func indexOf(child tag: Tag) -> Int? {
+    public func indexOf(child tag: FSTag) -> Int? {
         return child.firstIndex(where: { $0 === tag })
     }
 
@@ -75,7 +75,7 @@ class Tag {
         child.remove(at: index)
     }
 
-    public func removeChild(tag: Tag) {
+    public func removeChild(tag: FSTag) {
         child.removeAll(where: { $0 === tag })
     }
 
@@ -83,7 +83,7 @@ class Tag {
         parent = nil
     }
 
-    public func get(name: String) -> Tag? {
+    public func get(name: String) -> FSTag? {
         var name = name
         let tags = name.components(separatedBy: "/")
 
@@ -111,7 +111,7 @@ class Tag {
         return "\(name)"
     }
 
-    public func find(name: String) -> Tag? {
+    public func find(name: String) -> FSTag? {
         let tags = name.components(separatedBy: "/")
         let trimmed = tags.dropFirst().joined(separator: "/")
 
@@ -136,7 +136,7 @@ class Tag {
         return false
     }
 
-    public func getParent() -> Tag? {
+    public func getParent() -> FSTag? {
         return parent
     }
 
@@ -154,7 +154,7 @@ class Tag {
         var tags = [String]()
         tags.append(getFullName())
 
-        var queue = [Tag]()
+        var queue = [FSTag]()
         queue.append(contentsOf: child)
 
         while queue.count > 0 {

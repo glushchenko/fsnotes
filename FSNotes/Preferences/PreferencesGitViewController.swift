@@ -22,7 +22,7 @@ class PreferencesGitViewController: NSViewController {
         preferredContentSize = NSSize(width: 550, height: 352)
 
         DispatchQueue.global().async {
-            if let version = Git.sharedInstance().getVersion() {
+            if let version = FSGit.sharedInstance().getVersion() {
                 let allowedCharset = CharacterSet
                     .decimalDigits
                     .union(CharacterSet(charactersIn: "."))
@@ -72,7 +72,7 @@ class PreferencesGitViewController: NSViewController {
                 UserDefaultsManagement.gitStorage = url
                 self.repositoriesPath.url = url
 
-                Git.resetInstance()
+                FSGit.resetInstance()
             }
         }
     }

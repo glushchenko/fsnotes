@@ -1970,7 +1970,7 @@ class ViewController: EditorViewController,
         guard notes.count == 0x01 else { return }
 
         DispatchQueue.global().async {
-            let git = Git.sharedInstance()
+            let git = FSGit.sharedInstance()
             let repository = git.getRepository(by: note.project.getParent())
             let commits = repository.getCommits(by: note.getGitPath())
 
