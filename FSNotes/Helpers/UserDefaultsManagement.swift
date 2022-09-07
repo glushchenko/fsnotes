@@ -72,6 +72,9 @@ public class UserDefaultsManagement {
         static let NoteExtension = "noteExtension"
         static let GrammarChecking = "grammarChecking"
         static let GitStorage = "gitStorage"
+        static let GitUsername = "gitUsername"
+        static let GitPassword = "gitPassword"
+        static let GitOrigin = "gitOrigin"
         static let HideDate = "hideDate"
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HideSidebar = "hideSidebar"
@@ -1118,6 +1121,57 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.GitStorage)
+        }
+    }
+    
+    static var gitUsername: String? {
+        get {
+            if let result = shared?.object(forKey: Constants.GitUsername) as? String {
+                if result.count == 0 {
+                    return nil
+                }
+                
+                return result
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.GitUsername)
+        }
+    }
+    
+    static var gitPassword: String? {
+        get {
+            if let result = shared?.object(forKey: Constants.GitPassword) as? String {
+                if result.count == 0 {
+                    return nil
+                }
+                
+                return result
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.GitPassword)
+        }
+    }
+    
+    static var gitOrigin: String? {
+        get {
+            if let result = shared?.object(forKey: Constants.GitOrigin) as? String {
+                if result.count == 0 {
+                    return nil
+                }
+                
+                return result
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.GitOrigin)
         }
     }
 

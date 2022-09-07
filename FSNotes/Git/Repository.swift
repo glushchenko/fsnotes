@@ -868,7 +868,11 @@ public final class Repository {
 			var parentID = git_oid()
 			let nameToIDResult = git_reference_name_to_id(&parentID, self.pointer, "HEAD")
 			guard nameToIDResult == GIT_OK.rawValue else {
-				return .failure(NSError(gitError: nameToIDResult, pointOfFailure: "git_reference_name_to_id"))
+                if git_oid_iszero(&parentID) == 1 {
+                    return commit(tree: OID(treeOID), parents: [], message: message, signature: signature)
+                } else {
+                    return .failure(NSError(gitError: nameToIDResult, pointOfFailure: "git_reference_name_to_id"))
+                }
 			}
 			return commit(OID(parentID)).flatMap { parentCommit in
 				commit(tree: OID(treeOID), parents: [parentCommit], message: message, signature: signature)
@@ -1125,6 +1129,28 @@ public final class Repository {
 			return .failure(NSError(gitError: result, pointOfFailure: "git_repository_open_ext"))
 		}
 	}
+    
+    public func addRemoteOrigin(path: String) {
+        let result = git_remote_set_url(self.pointer, "origin", path)
+        
+        if result != GIT_OK.rawValue {
+            print("Remote origin error")
+        }
+    }
+    
+    public func setWorkTree(path: String) {
+        var configPointer: OpaquePointer? = nil
+        
+        var result = git_repository_config(&configPointer, self.pointer);
+        if result != GIT_OK.rawValue {
+            print("Config opening error")
+        }
+        
+        result = git_config_set_string(configPointer, "core.worktree", path);
+        if result != GIT_OK.rawValue {
+            print("Core config error")
+        }
+    }
 }
 
 private extension Array {

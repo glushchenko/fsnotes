@@ -2864,11 +2864,11 @@ Will Pazner (github.com/pazner)</string>
             <objects>
                 <viewController title="Git" id="2un-du-hJz" customClass="PreferencesGitViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ffx-Mm-mqT">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="319"/>
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="443"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <pathControl verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Su7-am-ZzF">
-                                <rect key="frame" x="35" y="238" width="285" height="22"/>
+                                <rect key="frame" x="35" y="362" width="285" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ZGQ-Mi-Kvl"/>
                                 </constraints>
@@ -2878,7 +2878,7 @@ Will Pazner (github.com/pazner)</string>
                                 </pathCell>
                             </pathControl>
                             <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nxs-E7-HiW">
-                                <rect key="frame" x="321" y="232" width="81" height="32"/>
+                                <rect key="frame" x="321" y="356" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7xA-9l-dja">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2888,7 +2888,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MJR-Nj-qpL">
-                                <rect key="frame" x="28" y="191" width="124" height="32"/>
+                                <rect key="frame" x="28" y="315" width="124" height="32"/>
                                 <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gra-E2-dYh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2898,7 +2898,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j6S-7D-dXz">
-                                <rect key="frame" x="150" y="191" width="137" height="32"/>
+                                <rect key="frame" x="150" y="315" width="137" height="32"/>
                                 <buttonCell key="cell" type="push" title="Show in Terminal" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="o6a-px-wp7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2908,10 +2908,10 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ey5-Rw-Svp">
-                                <rect key="frame" x="20" y="175" width="390" height="5"/>
+                                <rect key="frame" x="20" y="299" width="390" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jg2-oT-Bcf">
-                                <rect key="frame" x="33" y="141" width="137" height="16"/>
+                                <rect key="frame" x="33" y="265" width="137" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Automatic Snapshots:" id="P31-Ka-9HV">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2919,7 +2919,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xp9-26-JdA">
-                                <rect key="frame" x="175" y="92" width="48" height="21"/>
+                                <rect key="frame" x="175" y="217" width="48" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="nqr-NP-AFB"/>
                                 </constraints>
@@ -2936,15 +2936,15 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H46-qe-euU">
-                                <rect key="frame" x="229" y="95" width="47" height="16"/>
+                                <rect key="frame" x="229" y="219" width="47" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="hour at" id="2Iq-vN-V2w">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rYS-6l-toX">
-                                <rect key="frame" x="33" y="35" width="73" height="16"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rYS-6l-toX">
+                                <rect key="frame" x="33" y="20" width="73" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Git version:" id="qiO-vb-B9L">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2952,7 +2952,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8Z-se-hEF">
-                                <rect key="frame" x="33" y="268" width="364" height="16"/>
+                                <rect key="frame" x="33" y="392" width="364" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repositories:" id="ASf-hd-2fT">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2960,7 +2960,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <button identifier="manual" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dRB-iE-HKk">
-                                <rect key="frame" x="33" y="116" width="133" height="18"/>
+                                <rect key="frame" x="33" y="240" width="133" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Back up manually" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="Ze0-SZ-STw">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2970,7 +2970,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button identifier="schedule" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lK7-QU-fN2">
-                                <rect key="frame" x="33" y="94" width="112" height="18"/>
+                                <rect key="frame" x="33" y="218" width="112" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Back up every" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="sAn-Wm-FfY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2980,7 +2980,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e0E-YB-Oq8">
-                                <rect key="frame" x="282" y="92" width="47" height="21"/>
+                                <rect key="frame" x="282" y="217" width="47" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="47" id="2nb-Ab-ZEA"/>
                                 </constraints>
@@ -2997,15 +2997,15 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bqG-mw-WZF">
-                                <rect key="frame" x="335" y="95" width="77" height="16"/>
+                                <rect key="frame" x="335" y="219" width="77" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="minutes" id="Bri-cl-z86">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oSP-ff-KY3">
-                                <rect key="frame" x="110" y="35" width="302" height="16"/>
+                            <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oSP-ff-KY3">
+                                <rect key="frame" x="110" y="20" width="302" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="2.3.2" id="GxH-ZH-Hvr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3019,8 +3019,65 @@ Will Pazner (github.com/pazner)</string>
                                 </attributedString>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="RPl-LM-BO3">
-                                <rect key="frame" x="35" y="69" width="360" height="5"/>
+                                <rect key="frame" x="20" y="194" width="390" height="5"/>
                             </box>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w1K-65-6eZ">
+                                <rect key="frame" x="33" y="158" width="76" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Push origin:" id="L20-FT-VZz">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jo4-zQ-htF">
+                                <rect key="frame" x="224" y="155" width="171" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="https://github.com/glushchenko/fsnotes.git" drawsBackground="YES" id="4Sj-5v-Clo">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uMw-RH-Mnu">
+                                <rect key="frame" x="33" y="127" width="70" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Username:" id="ZEX-Eh-68T">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="32v-oF-7du">
+                                <rect key="frame" x="33" y="96" width="66" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Password:" id="kFX-as-1oC">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IcJ-Ga-eZF">
+                                <rect key="frame" x="224" y="96" width="171" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="AEC-HT-Gd6">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <allowedInputSourceLocales>
+                                        <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                    </allowedInputSourceLocales>
+                                </secureTextFieldCell>
+                            </secureTextField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G5r-Ye-OQb">
+                                <rect key="frame" x="224" y="124" width="171" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="fqf-qt-2y7">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Nxs-E7-HiW" firstAttribute="trailing" secondItem="N8Z-se-hEF" secondAttribute="trailing" id="1VT-hP-mVU"/>
@@ -3037,7 +3094,6 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="e0E-YB-Oq8" firstAttribute="leading" secondItem="H46-qe-euU" secondAttribute="trailing" constant="8" symbolic="YES" id="Hyj-9r-eIa"/>
                             <constraint firstItem="rYS-6l-toX" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="KRs-br-a7u"/>
                             <constraint firstItem="lK7-QU-fN2" firstAttribute="leading" secondItem="dRB-iE-HKk" secondAttribute="leading" id="L7L-JP-NZq"/>
-                            <constraint firstItem="rYS-6l-toX" firstAttribute="top" secondItem="RPl-LM-BO3" secondAttribute="bottom" constant="20" id="OJU-t2-ROx"/>
                             <constraint firstItem="bqG-mw-WZF" firstAttribute="leading" secondItem="e0E-YB-Oq8" secondAttribute="trailing" constant="8" symbolic="YES" id="PEq-E8-ryQ"/>
                             <constraint firstItem="e0E-YB-Oq8" firstAttribute="centerY" secondItem="H46-qe-euU" secondAttribute="centerY" id="PI0-Xz-JFx"/>
                             <constraint firstItem="MJR-Nj-qpL" firstAttribute="top" secondItem="Su7-am-ZzF" secondAttribute="bottom" constant="20" symbolic="YES" id="S0Z-jd-q4g"/>
@@ -3055,12 +3111,11 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="ey5-Rw-Svp" firstAttribute="top" secondItem="MJR-Nj-qpL" secondAttribute="bottom" constant="20" id="e7Q-0f-bPM"/>
                             <constraint firstAttribute="trailing" secondItem="oSP-ff-KY3" secondAttribute="trailing" constant="20" symbolic="YES" id="fOe-NM-C1t"/>
                             <constraint firstItem="Su7-am-ZzF" firstAttribute="top" secondItem="N8Z-se-hEF" secondAttribute="bottom" constant="8" symbolic="YES" id="fc7-DD-eo4"/>
-                            <constraint firstAttribute="bottom" secondItem="rYS-6l-toX" secondAttribute="bottom" constant="35" id="fqc-HZ-qFN"/>
                             <constraint firstItem="Nxs-E7-HiW" firstAttribute="centerY" secondItem="Su7-am-ZzF" secondAttribute="centerY" id="oXt-Oo-ACZ"/>
-                            <constraint firstItem="RPl-LM-BO3" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="pmI-Rt-8oK"/>
+                            <constraint firstItem="RPl-LM-BO3" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="20" symbolic="YES" id="pmI-Rt-8oK"/>
                             <constraint firstItem="Xp9-26-JdA" firstAttribute="leading" secondItem="lK7-QU-fN2" secondAttribute="trailing" constant="30" id="smq-zT-nAA"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dRB-iE-HKk" secondAttribute="trailing" constant="20" symbolic="YES" id="uvT-ZY-JAo"/>
-                            <constraint firstAttribute="trailing" secondItem="RPl-LM-BO3" secondAttribute="trailing" constant="35" id="vbn-za-5x0"/>
+                            <constraint firstAttribute="trailing" secondItem="RPl-LM-BO3" secondAttribute="trailing" constant="20" symbolic="YES" id="vbn-za-5x0"/>
                             <constraint firstItem="Su7-am-ZzF" firstAttribute="leading" secondItem="N8Z-se-hEF" secondAttribute="leading" id="wwm-dc-8iK"/>
                             <constraint firstItem="Nxs-E7-HiW" firstAttribute="leading" secondItem="Su7-am-ZzF" secondAttribute="trailing" constant="8" symbolic="YES" id="yne-1y-mnc"/>
                             <constraint firstItem="dRB-iE-HKk" firstAttribute="top" secondItem="jg2-oT-Bcf" secondAttribute="bottom" constant="8" symbolic="YES" id="zIh-mO-QLe"/>
@@ -3078,7 +3133,7 @@ Will Pazner (github.com/pazner)</string>
                 </viewController>
                 <customObject id="sHj-M9-56t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2292" y="502"/>
+            <point key="canvasLocation" x="2292" y="563.5"/>
         </scene>
         <!--Editor-->
         <scene sceneID="cwg-C1-p0s">

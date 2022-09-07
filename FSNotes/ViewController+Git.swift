@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Git
 
 extension EditorViewController {
 
@@ -18,18 +19,53 @@ extension EditorViewController {
         isGitProcessLocked = true
 
         DispatchQueue.global().async {
-            let repository = Git.sharedInstance().getRepository(by: project)
+            let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(project.getShortSign() + " - " + project.label + ".git")
+            var repository: Repository?
+            
+            if FileManager.default.directoryExists(atUrl: repoURL) {
+                let result = Repository.at(repoURL)
+                if case .success(let projectRepo) = result {
+                    repository = projectRepo
+                }
+            } else {
+                if case .success(let projectRepo) = Repository.create(at: repoURL) {
+                    repository = projectRepo
+                }
+            }
+            
+            guard let repository = repository else { return }
+            
+            repository.setWorkTree(path: project.url.path)
+            
             let gitPath = note.getGitPath()
-            repository.initialize(from: project)
-            repository.commit(fileName: gitPath)
+            if case .failure(let error) = repository.add(path: gitPath) {
+                print("Git add: \(error)")
+            }
+            
+            let sig = Signature(name: "FSNotes App", email: "support@fsnot.es", time: Date(), timeZone: TimeZone.current)
+            if case .failure(let error) = repository.commit(message: " - Updates note", signature: sig) {
+                print("Git commit: \(error)")
+            }
+
+            let username = UserDefaultsManagement.gitUsername
+            let password = UserDefaultsManagement.gitPassword
+
+            if let username = username,
+                let password = password,
+                let origin = UserDefaultsManagement.gitOrigin {
+                
+                repository.addRemoteOrigin(path: origin)
+                repository.push(repository, username, password)
+            }
+            
             self.isGitProcessLocked = false
         }
     }
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
-        guard let commit = sender.representedObject as? Commit else { return }
+        guard let commit = sender.representedObject as? FSCommit else { return }
         guard let note = vcEditor?.note else { return }
-        let git = Git.sharedInstance()
+        let git = FSGit.sharedInstance()
 
         UserDataService.instance.fsUpdatesDisabled = true
 
@@ -85,7 +121,7 @@ extension EditorViewController {
                 }
 
                 if project.isRoot || project.isArchive {
-                    let git = Git(storage: UserDefaultsManagement.gitStorage)
+                    let git = FSGit(storage: UserDefaultsManagement.gitStorage)
                     let repo = git.getRepository(by: project)
                     repo.commitAll()
                     self.isGitProcessLocked = false
