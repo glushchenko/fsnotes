@@ -75,6 +75,8 @@ public class UserDefaultsManagement {
         static let GitUsername = "gitUsername"
         static let GitPassword = "gitPassword"
         static let GitOrigin = "gitOrigin"
+        static let GitPrivateKeyData = "gitPrivateKeyData"
+        static let GitPasspharse = "gitPasspharse"
         static let HideDate = "hideDate"
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HideSidebar = "hideSidebar"
@@ -1613,6 +1615,28 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.SftpUploadBookmarksData)
+        }
+    }
+    
+    static var gitPrivateKeyData: Data? {
+        get {
+            return shared?.data(forKey: Constants.GitPrivateKeyData)
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.GitPrivateKeyData)
+        }
+    }
+    
+    static var gitPassphrase: String {
+        get {
+            if let result = shared?.object(forKey: Constants.GitPasspharse) as? String {
+                return result
+            }
+
+            return ""
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.GitPasspharse)
         }
     }
 }

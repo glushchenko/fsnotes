@@ -21,6 +21,7 @@ public enum Credentials {
 	case sshAgent
 	case plaintext(username: String, password: String)
 	case sshMemory(username: String, privateKey: String, passphrase: String)
+    case sshDisk(username: String, privateKey: String, passphrase: String)
 
 	private static var previouslyUsedPointer: String? = nil
     private static var previouslyUsedCredentials: Credentials? = nil
@@ -77,7 +78,10 @@ internal func credentialsCallback(
 		result = git_cred_userpass_plaintext_new(cred, username, password)
 	case .sshMemory(let username, let privateKey, let passphrase):
 		result = git_cred_ssh_key_memory_new(cred, username, nil, privateKey, passphrase)
-	}
+    case .sshDisk(let username, let privateKey, let passphrase):
+        result = git_cred_ssh_key_new(cred, username, nil, privateKey, passphrase)
+    }
+    
 
 	return (result != GIT_OK.rawValue) ? -1 : 0
 }

@@ -157,7 +157,10 @@ class ViewController: EditorViewController,
         fsManager?.start()
 
         configureTranslation()
-        configureSFTP()
+        
+        loadBookmarks(data: UserDefaultsManagement.sftpAccessData)
+        loadBookmarks(data: UserDefaultsManagement.gitPrivateKeyData)
+        
         loadMoveMenu()
         loadSortBySetting()
         checkSidebarConstraint()
@@ -1882,8 +1885,8 @@ class ViewController: EditorViewController,
         menuChangeCreationDate.title = creationDate
     }
     
-    private func configureSFTP() {
-        if let accessData = UserDefaultsManagement.sftpAccessData,
+    private func loadBookmarks(data: Data?) {
+        if let accessData = data,
             let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
             
             for bookmark in bookmarks {

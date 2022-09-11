@@ -8,6 +8,7 @@
 
 import Foundation
 import Cgit2
+import SystemPackage
 
 public typealias CheckoutProgressBlock = (String?, Int, Int) -> Void
 
@@ -194,25 +195,17 @@ public final class Repository {
         }
 	}
 	
-	public func push(_ repo: Repository, _ username: String, _ password: String, _ branch: String? = nil){
-		// todo get this properly
-		
-		let credentials: Credentials = Credentials.plaintext(username: username, password: password)
+	public func push(_ repo: Repository, _ branch: String? = nil) -> Int32 {
+		guard let credentials = getCredentials() else { return -1 }
+        
 		var options = pushOptions(credentials: credentials)
+        options.pb_parallelism = 8
 		
 		let repository: OpaquePointer = repo.pointer
 		var remote: OpaquePointer? = nil
 		let result_git_remote_lookup = git_remote_lookup(&remote, repository, "origin" )
 		print(result_git_remote_lookup)
 		
-		/*
-		public func localBranches() -> Result<[Branch], NSError> {
-			return references(withPrefix: "refs/heads/")
-				.map { (refs: [ReferenceType]) in
-					return refs.map { $0 as! Branch }
-				}
-		}
-*/
 		var master: String = ""
 		if(branch == nil){
 			if case .success = reference(named: "refs/heads/main") {
@@ -242,30 +235,63 @@ public final class Repository {
 			}
 		}
 		
-		if(master == ""){
+		if (master == ""){
 			master = "refs/heads/main" // Prevents a crash below
 		}
 		
-		
-		
-
 		let strings: UnsafeMutablePointer<UnsafeMutablePointer<CChar>?> = [master].withUnsafeBufferPointer {
 			let buffer = UnsafeMutablePointer<UnsafeMutablePointer<CChar>?>.allocate(capacity: $0.count + 1)
-			let val = $0.map
-			{ $0.withCString(strdup) }
+			let val = $0.map{ $0.withCString(strdup) }
+            
 			buffer.initialize(from: val, count: 1)
 			buffer[$0.count] = nil
-		return buffer
+            
+            return buffer
 		}
 		var gitstr = git_strarray()
 		gitstr.strings = strings
 		gitstr.count = 1
 		
-		
 		let push_result = git_remote_push(remote, &gitstr, &options)
 		print(push_result)
 		git_remote_free(remote)
+        
+        return push_result
 	}
+    
+    private func getCredentials() -> Credentials? {
+        
+        // Http plaintext
+        if let password = UserDefaultsManagement.gitPassword,
+            let username = UserDefaultsManagement.gitUsername {
+            
+            let credentials: Credentials = Credentials.plaintext(username: username, password: password)
+            return credentials
+        }
+        
+        guard let origin = UserDefaultsManagement.gitOrigin else { return nil }
+
+        let passphrase = UserDefaultsManagement.gitPassphrase
+        var rsa: URL?
+
+        if let accessData = UserDefaultsManagement.gitPrivateKeyData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data],
+            let url = bookmarks.first?.key {
+            rsa = url
+        }
+
+        let components = origin.components(separatedBy: "@")
+        var username = "git"
+        
+        if components.count > 1 {
+            username = components.first ?? "git"
+        }
+        
+        // Keys over SSH
+        let credentials: Credentials = Credentials.sshDisk(username: username, privateKey: rsa!.path, passphrase: passphrase)
+        
+        return credentials
+    }
 
 	
 	// MARK: - Creating Repositories
@@ -309,6 +335,28 @@ public final class Repository {
 		let repository = Repository(pointer!)
 		return Result.success(repository)
 	}
+    
+    public class func create(at url: URL, with workingDir: URL) -> Result<Repository, NSError> {
+        _ = Self.gitInit
+        
+        var pointer: OpaquePointer? = nil
+        
+        try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        
+        var initOptions = git_repository_init_options()
+        initOptions.workdir_path = workingDir.path.stringToCString()
+        initOptions.flags = GIT_REPOSITORY_INIT_NO_DOTGIT_DIR.rawValue
+        initOptions.version = 1
+
+        let code = git_repository_init_ext(&pointer, url.path, &initOptions)
+        
+        guard code == GIT_OK.rawValue else {
+            return Result.failure(NSError(gitError: code, pointOfFailure: "git_repository_init_ext"))
+        }
+
+        let repository = Repository(pointer!)
+        return Result.success(repository)
+    }
 
 	/// Clone the repository from a given URL.
 	///

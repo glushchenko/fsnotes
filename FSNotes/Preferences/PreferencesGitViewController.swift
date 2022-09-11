@@ -16,7 +16,12 @@ class PreferencesGitViewController: NSViewController {
     @IBOutlet weak var gitVersion: NSTextField!
     @IBOutlet weak var backupManually: NSButton!
     @IBOutlet weak var backupBySchedule: NSButton!
-
+    @IBOutlet weak var origin: NSTextField!
+    @IBOutlet weak var username: NSTextField!
+    @IBOutlet weak var password: NSSecureTextField!
+    @IBOutlet weak var rsaPath: NSPathControl!
+    @IBOutlet weak var passphrase: NSSecureTextField!
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 352)
@@ -41,6 +46,21 @@ class PreferencesGitViewController: NSViewController {
 
         backupManually.state = UserDefaultsManagement.backupManually ? .on : .off
         backupBySchedule.state = UserDefaultsManagement.backupManually ? .off : .on
+        
+        origin.stringValue = UserDefaultsManagement.gitOrigin ?? ""
+        username.stringValue = UserDefaultsManagement.gitUsername ?? ""
+        password.stringValue = UserDefaultsManagement.gitPassword ?? ""
+        
+        if let accessData = UserDefaultsManagement.gitPrivateKeyData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+            
+            for bookmark in bookmarks {
+                rsaPath.url = bookmark.key
+                break
+            }
+        }
+        
+        passphrase.stringValue = UserDefaultsManagement.gitPassphrase
     }
 
     @IBAction func changeGitStorage(_ sender: NSButton) {
@@ -113,5 +133,54 @@ class PreferencesGitViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
         vc.scheduleSnapshots()
     }
-
+    
+    @IBAction func origin(_ sender: NSTextField) {
+        UserDefaultsManagement.gitOrigin = sender.stringValue
+    }
+    
+    @IBAction func username(_ sender: NSTextField) {
+        UserDefaultsManagement.gitUsername = sender.stringValue
+    }
+    
+    @IBAction func password(_ sender: NSSecureTextField) {
+        UserDefaultsManagement.gitPassword = sender.stringValue
+    }
+    
+    @IBAction func rsaKey(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = true
+        openPanel.canChooseFiles = true
+        openPanel.begin { (result) -> Void in
+            if result == .OK {
+                if openPanel.urls.count != 1 {
+                    let alert = NSAlert()
+                    alert.alertStyle = .warning
+                    alert.informativeText = NSLocalizedString("Please select private key", comment: "")
+                    alert.runModal()
+                    return
+                }
+                
+                var bookmarks = [URL: Data]()
+                for url in openPanel.urls {
+                    do {
+                        let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
+                        
+                        bookmarks[url] = data
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
+                UserDefaultsManagement.gitPrivateKeyData = data
+                
+                self.rsaPath.url = openPanel.urls[0]
+            }
+        }
+    }
+    
+    @IBAction func passphrase(_ sender: NSSecureTextField) {
+        UserDefaultsManagement.gitPassphrase = sender.stringValue
+    }
+    
 }
