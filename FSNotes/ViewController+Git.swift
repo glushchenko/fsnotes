@@ -20,19 +20,7 @@ extension EditorViewController {
         isGitProcessLocked = true
 
         DispatchQueue.global().async {
-            let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(project.getShortSign() + " - " + project.label + ".git")
-            var repository: Repository?
-            
-            if case .success(let projectRepo) = Repository.at(repoURL) {
-                repository = projectRepo
-            } else {
-                let result = Repository.create(at: repoURL, with: project.url)
-                if case .success(let projectRepo) = result {
-                    repository = projectRepo
-                }
-            }
-            
-            guard let repository = repository else { return }
+            guard let repository = project.getRepository() else { return }
             
             let gitPath = note.getGitPath()
             if case .failure(let error) = repository.add(path: gitPath) {
@@ -44,21 +32,16 @@ extension EditorViewController {
                 print("Git commit: \(error)")
             }
 
-            if let origin = UserDefaultsManagement.gitOrigin {
-                repository.addRemoteOrigin(path: origin)
-                let code = repository.push(repository)
-
-                if code != GIT_OK.rawValue {
-                    DispatchQueue.main.async {
-                        let alert = NSAlert()
-                        alert.alertStyle = .critical
-                        alert.informativeText = NSLocalizedString("Libgit2 error: \(code)", comment: "")
-                        alert.messageText = NSLocalizedString("Git push error", comment: "")
-                        alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
-                    }
+            let code = project.push()
+            if code != GIT_OK.rawValue {
+                DispatchQueue.main.async {
+                    let alert = NSAlert()
+                    alert.alertStyle = .critical
+                    alert.informativeText = NSLocalizedString("Libgit2 error: \(code)", comment: "")
+                    alert.messageText = NSLocalizedString("Git push error", comment: "")
+                    alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
                 }
             }
-            
             self.isGitProcessLocked = false
         }
     }
@@ -121,10 +104,10 @@ extension EditorViewController {
                     continue
                 }
 
-                if project.isRoot || project.isArchive {
-                    let git = FSGit(storage: UserDefaultsManagement.gitStorage)
-                    let repo = git.getRepository(by: project)
-                    repo.commitAll()
+                if project.isRoot || project.isArchive {                    
+                    _ = project.commitAll()
+                    _ = project.push()
+                    
                     self.isGitProcessLocked = false
                 }
             }

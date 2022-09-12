@@ -41,6 +41,8 @@ public class Project: Equatable {
     #endif
 
     public var priority: Int = 0
+    public var gitOrigin: String?
+    
     public var sortBy: SortBy = .none
     public var metaCache = [NoteMeta]()
     
@@ -55,6 +57,7 @@ public class Project: Equatable {
     
     public var isEncrypted = false
     public var password: String?
+    public var settingsList: Data?
 
     init(storage: Storage,
          url: URL,
@@ -362,9 +365,10 @@ public class Project: Equatable {
             "firstLineAsTitle": firstLineAsTitle,
             "showNestedFoldersContent": showNestedFoldersContent,
             "priority": priority,
+            "gitOrigin": gitOrigin
         ] as [String : Any]
 
-        #if os(OSX)
+    #if os(OSX)
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
             let key = relativePath.count == 0 ? "root-directory" : relativePath
@@ -372,8 +376,12 @@ public class Project: Equatable {
             keyStore.set(data, forKey: key)
             keyStore.synchronize()
             return
+        } else {
+            settingsList = try? NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
+            
+            ProjectSettingsViewController.saveSettings()
         }
-        #endif
+    #endif
 
         UserDefaultsManagement.shared?.set(data, forKey: url.path.md5)
     }
@@ -384,47 +392,60 @@ public class Project: Equatable {
             sortDirection = .asc
         }
 
-        #if os(OSX)
+    #if os(OSX)
+        var settings: [String : Any]?
+        
         if let relativePath = getRelativePath() {
-            let keyStore = NSUbiquitousKeyValueStore()
             let key = relativePath.count == 0 ? "root-directory" : relativePath
 
-            if let settings = keyStore.dictionary(forKey: key) {
-                if let common = settings["showInCommon"] as? Bool {
-                    self.showInCommon = common
-                }
+            if let result = NSUbiquitousKeyValueStore().dictionary(forKey: key) {
+                settings = result
+            }
+        } else if let data = self.settingsList,
+            let result = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] {
+            settings = result
+        }
+        
+        guard let settings = settings else { return }
+        
+        if let common = settings["showInCommon"] as? Bool {
+            self.showInCommon = common
+        }
 
-                if let sidebar = settings["showInSidebar"] as? Bool {
-                    self.showInSidebar = sidebar
-                }
+        if let sidebar = settings["showInSidebar"] as? Bool {
+            self.showInSidebar = sidebar
+        }
 
-                if let sidebar = settings["showNestedFoldersContent"] as? Bool {
-                    self.showNestedFoldersContent = sidebar
-                }
+        if let sidebar = settings["showNestedFoldersContent"] as? Bool {
+            self.showNestedFoldersContent = sidebar
+        }
 
-                if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
-                    if sort != .none {
-                        sortBy = sort
+        if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
+            if sort != .none {
+                sortBy = sort
 
-                        if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
-                            sortDirection = direction
-                        }
-                    }
-                }
-
-                if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
-                    self.firstLineAsTitle = firstLineAsTitle
-                } else {
-                    self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-                }
-                
-                if let priority = settings["priority"] as? Int {
-                    self.priority = priority
+                if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
+                    sortDirection = direction
                 }
             }
-            return
         }
-        #endif
+
+        if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
+            self.firstLineAsTitle = firstLineAsTitle
+        } else {
+            self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+        }
+        
+        if let priority = settings["priority"] as? Int {
+            self.priority = priority
+        }
+        
+        if let origin = settings["gitOrigin"] as? String {
+            self.gitOrigin = origin
+        }
+        
+        return
+    #endif
 
         if let settings = UserDefaultsManagement.shared?.object(forKey: url.path.md5) as? NSObject {
             if let common = settings.value(forKey: "showInCommon") as? Bool {
@@ -676,5 +697,63 @@ public class Project: Equatable {
         }
         
         return decrypted
+    }
+    
+    public func getGitOrigin() -> String? {
+        let parentProject = getParent()
+        
+        if parentProject.isDefault, let origin = UserDefaultsManagement.gitOrigin, origin.count > 0  {
+            return UserDefaultsManagement.gitOrigin
+        }
+        
+        if let gitOrigin = parentProject.gitOrigin, gitOrigin.count > 0 {
+            return gitOrigin
+        }
+        
+        return nil
+    }
+    
+    public func getRepository() -> Repository? {
+        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git")
+        
+        if case .success(let projectRepo) = Repository.at(repoURL) {
+            return projectRepo
+        } else {
+            let result = Repository.create(at: repoURL, with: url)
+            if case .success(let projectRepo) = result {
+                return projectRepo
+            }
+        }
+        
+        return nil
+    }
+    
+    public func push() -> Int32 {
+        guard let repository = getRepository() else { return -1 }
+        
+        if let origin = getGitOrigin() {
+            repository.addRemoteOrigin(path: origin)
+            let code = repository.push()
+            return code
+        }
+        
+        return -1
+    }
+    
+    public func commitAll() -> Int32 {
+        guard let repository = getRepository() else { return -1 }
+        
+        if case .failure(let error) = repository.add(path: ".") {
+            print("Git add: \(error)")
+            return -1
+        }
+        
+        let sig = Signature(name: "FSNotes App", email: "support@fsnot.es", time: Date(), timeZone: TimeZone.current)
+        if case .failure(let error) = repository.commit(message: " - Updates project", signature: sig) {
+            print("Git commit: \(error)")
+            return -1
+        }
+        
+        return 0
     }
 }

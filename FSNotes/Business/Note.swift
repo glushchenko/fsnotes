@@ -1432,6 +1432,7 @@ public class Note: NSObject  {
                 .replacingOccurrences(of: "- [x]", with: "")
                 .replacingOccurrences(of: "[[", with: "")
                 .replacingOccurrences(of: "]]", with: "")
+                .replacingOccurrences(of: "{{TOC}}", with: "")
 
         let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
 

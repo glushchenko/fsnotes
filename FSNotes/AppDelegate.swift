@@ -47,6 +47,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let storage = Storage.sharedInstance()
         storage.loadProjects()
         storage.loadDocuments()
+        
+        // For notarized app
+        ProjectSettingsViewController.restoreSettings()
 
         // Cache
         DispatchQueue.global(qos: .background).async {

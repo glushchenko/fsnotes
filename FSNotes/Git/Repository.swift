@@ -195,13 +195,13 @@ public final class Repository {
         }
 	}
 	
-	public func push(_ repo: Repository, _ branch: String? = nil) -> Int32 {
+	public func push(_ branch: String? = nil) -> Int32 {
 		guard let credentials = getCredentials() else { return -1 }
         
 		var options = pushOptions(credentials: credentials)
         options.pb_parallelism = 8
 		
-		let repository: OpaquePointer = repo.pointer
+		let repository: OpaquePointer = pointer
 		var remote: OpaquePointer? = nil
 		let result_git_remote_lookup = git_remote_lookup(&remote, repository, "origin" )
 		print(result_git_remote_lookup)
@@ -211,7 +211,7 @@ public final class Repository {
 			if case .success = reference(named: "refs/heads/main") {
 				master = "refs/heads/main"
 			} else {
-				let branchResult = repo.localBranches()
+				let branchResult = localBranches()
 				switch branchResult {
 				case .success(let branches):
 					print("found repo to use: \(branches[0].longName)") //get the first one for now :)

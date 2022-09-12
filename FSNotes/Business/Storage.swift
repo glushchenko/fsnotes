@@ -478,6 +478,7 @@ class Storage {
         return bookmarks
     }
     
+    // macOS
     public static func sharedInstance() -> Storage {
         guard let storage = self.instance else {
             self.instance = Storage()

@@ -990,9 +990,11 @@ class SidebarOutlineView: NSOutlineView,
 
         vc.isGitProcessLocked = true
         DispatchQueue.global(qos: .background).async {
-            let repository = FSGit.sharedInstance().getRepository(by: project.getParent())
-            repository.initialize(from: project.getParent())
-            repository.commitAll()
+            let project = project.getParent()
+            
+            _ = project.commitAll()
+            _ = project.push()
+            
             vc.isGitProcessLocked = false
         }
     }

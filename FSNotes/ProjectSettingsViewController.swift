@@ -24,7 +24,9 @@ class ProjectSettingsViewController: NSViewController {
     @IBOutlet weak var showInAll: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
     @IBOutlet weak var nestedFoldersContent: NSButton!
-
+    
+    @IBOutlet weak var origin: NSTextField!
+    
     @IBAction func sortBy(_ sender: NSButton) {
         guard let project = project else { return }
 
@@ -84,6 +86,14 @@ class ProjectSettingsViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
         vc.updateTable()
     }
+    
+    @IBAction func origin(_ sender: NSTextField) {
+        guard let project = self.project else { return }
+
+        project.gitOrigin = sender.stringValue
+        project.saveSettings()
+    }
+    
 
     override func keyDown(with event: NSEvent) {
         if event.keyCode == kVK_Return || event.keyCode == kVK_Escape {
@@ -104,6 +114,45 @@ class ProjectSettingsViewController: NSViewController {
         directionASC.state = project.sortDirection == .asc ? .on : .off
         directionDESC.state = project.sortDirection == .desc ? .on : .off
 
+        origin.stringValue = project.gitOrigin ?? ""
+        
         self.project = project
+        
+        
+        project.loadSettings()
+    }
+    
+    public static func saveSettings() {
+        var result = [URL: Data]()
+        
+        let projects = Storage.sharedInstance().getProjects()
+        for project in projects {
+            if let data = project.settingsList {
+                result[project.url] = data
+            }
+        }
+        
+        if result.count > 0 {
+            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
+            if let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                try? projectsData?.write(to: documentDir.appendingPathComponent("projects.settings"))
+            }
+        }
+    }
+    
+    public static func restoreSettings() {
+        guard let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+ 
+        let projectsDataUrl = documentDir.appendingPathComponent("projects.settings")
+        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
+        
+        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: Data] else { return }
+        
+        for item in unarchivedData {
+            if let project = Storage.sharedInstance().getProjectBy(url: item.key) {
+                project.settingsList = item.value
+                project.loadSettings()
+            }
+        }
     }
 }
