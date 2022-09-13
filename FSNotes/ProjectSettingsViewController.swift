@@ -134,14 +134,14 @@ class ProjectSettingsViewController: NSViewController {
         
         if result.count > 0 {
             let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
-            if let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
                 try? projectsData?.write(to: documentDir.appendingPathComponent("projects.settings"))
             }
         }
     }
     
     public static func restoreSettings() {
-        guard let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
  
         let projectsDataUrl = documentDir.appendingPathComponent("projects.settings")
         guard let data = try? Data(contentsOf: projectsDataUrl) else { return }

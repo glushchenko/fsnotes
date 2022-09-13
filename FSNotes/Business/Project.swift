@@ -365,7 +365,7 @@ public class Project: Equatable {
             "firstLineAsTitle": firstLineAsTitle,
             "showNestedFoldersContent": showNestedFoldersContent,
             "priority": priority,
-            "gitOrigin": gitOrigin
+            "gitOrigin": gitOrigin ?? ""
         ] as [String : Any]
 
     #if os(OSX)
@@ -380,6 +380,7 @@ public class Project: Equatable {
             settingsList = try? NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
             
             ProjectSettingsViewController.saveSettings()
+            return
         }
     #endif
 

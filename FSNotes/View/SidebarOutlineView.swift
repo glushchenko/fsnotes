@@ -1175,6 +1175,11 @@ class SidebarOutlineView: NSOutlineView,
             srcIndex = sidebarItems.firstIndex(where: { $0 as? Project === srcProject })
         }
         
+        // Disallow move from root to external
+        if let dstProject = dstProject, dstProject.isExternal, !srcProject.isExternal {
+            return false
+        }
+        
         guard let srcIndex = srcIndex else { return false }
         
         if srcIndex == dstIndex || srcIndex + 1 == dstIndex {
@@ -1372,7 +1377,7 @@ class SidebarOutlineView: NSOutlineView,
 
         storage.noteList.append(contentsOf: notes)
 
-        if !parent.isRoot {
+        if !parent.isRoot || parent.isExternal {
             insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
         } else {
             let position = getRootProjectPosition(for: project)
