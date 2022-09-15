@@ -62,6 +62,7 @@ public class UserDefaultsManagement {
         static let codeTheme = "codeTheme"
         static let ContinuousSpellChecking = "continuousSpellChecking"
         static let CrashedLastTime = "crashedLastTime"
+        static let CustomWebServer = "customWebServer"
         static let DefaultLanguageKey = "defaultLanguage"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
@@ -138,6 +139,7 @@ public class UserDefaultsManagement {
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
         static let TextMatchAutoSelection = "textMatchAutoSelection"
+        static let UploadKey = "uploadKey"
         static let AutocloseBrackets = "autocloseBrackets"
         static let Welcome = "welcome"
     }
@@ -1500,6 +1502,18 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var customWebServer: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.CustomWebServer) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.CustomWebServer)
+        }
+    }
+    
     static var sftpHost: String {
         get {
             if let result = shared?.object(forKey: Constants.SftpHost) as? String {
@@ -1637,6 +1651,22 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.GitPasspharse)
+        }
+    }
+    
+    static var uploadKey: String {
+        get {
+            if let result = shared?.object(forKey: Constants.UploadKey) as? String, result.count > 0 {
+                return result
+            }
+
+            let key = String.random(length: 20)
+            shared?.set(key, forKey: Constants.UploadKey)
+            
+            return key
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.UploadKey)
         }
     }
 }

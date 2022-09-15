@@ -528,6 +528,9 @@
 		D77E0537246312B300AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
 		D77E0538246312B400AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
 		D77E0539246312B400AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
+		D77F89DF28D38B5D00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
+		D77F89E028D38B5E00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
+		D77F89E128D38B5E00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
 		D780207C231FA147007F14DC /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
 		D78115602153AE89004FA1CA /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155E2153AE85004FA1CA /* back.png */; };
 		D78115612153AE89004FA1CA /* preview.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155F2153AE86004FA1CA /* preview.png */; };
@@ -1399,6 +1402,7 @@
 		D77B9E9A20DE53E0003FAA27 /* archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archive.png; sourceTree = "<group>"; };
 		D77CC040216A608500582B97 /* EditorScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorScrollView.swift; sourceTree = "<group>"; };
 		D77E05282463124300AD7772 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
+		D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Web.swift"; sourceTree = "<group>"; };
 		D781155E2153AE85004FA1CA /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		D781155F2153AE86004FA1CA /* preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview.png; sourceTree = "<group>"; };
 		D78115622153B36C004FA1CA /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
@@ -2126,6 +2130,7 @@
 				D7793C741F211C6000CA39B7 /* ViewController.swift */,
 				D772C8832217362C007E440B /* ViewController+Print.swift */,
 				D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */,
+				D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */,
 				D792297421A845B4005F468F /* ProjectSettingsViewController.swift */,
 				D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */,
 				D7508FCD1F3438540047AB76 /* PrefsViewController.swift */,
@@ -3565,6 +3570,7 @@
 				D7680FB425D02B2C00810DA8 /* FileManager+.swift in Sources */,
 				D7C52BC928C7A90E001B2065 /* References.swift in Sources */,
 				D79C26272872384C00CB70E6 /* EditorViewController+Sharing.swift in Sources */,
+				D77F89E128D38B5E00BECC87 /* ViewController+Web.swift in Sources */,
 				D75E339922462442006AD1C1 /* UTI.swift in Sources */,
 				D7C52BB928C7A90E001B2065 /* CommitIterator.swift in Sources */,
 				D75E339A22462442006AD1C1 /* Note+.swift in Sources */,
@@ -3876,6 +3882,7 @@
 				D7680FB225D02B2C00810DA8 /* FileManager+.swift in Sources */,
 				D7C52BC828C7A90E001B2065 /* References.swift in Sources */,
 				D79C26252872384C00CB70E6 /* EditorViewController+Sharing.swift in Sources */,
+				D77F89DF28D38B5D00BECC87 /* ViewController+Web.swift in Sources */,
 				D7E51713220D814D00A9CAD9 /* UTI.swift in Sources */,
 				D7C52BB828C7A90E001B2065 /* CommitIterator.swift in Sources */,
 				D7DCFED32108E3210059B37B /* Note+.swift in Sources */,
@@ -4014,6 +4021,7 @@
 				D7F5C0F9223ED57D0038F172 /* PreferencesSecurityViewController.swift in Sources */,
 				D7680FB325D02B2C00810DA8 /* FileManager+.swift in Sources */,
 				D79C26262872384C00CB70E6 /* EditorViewController+Sharing.swift in Sources */,
+				D77F89E028D38B5E00BECC87 /* ViewController+Web.swift in Sources */,
 				D7E51714220D814D00A9CAD9 /* UTI.swift in Sources */,
 				D7DCFED42108E3210059B37B /* Note+.swift in Sources */,
 				D71B9D872868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
