@@ -16,6 +16,9 @@ import Foundation
 
 public class UserDefaultsManagement {
     
+    static var apiPath = "https://api.fsnot.es/"
+    static var webPath = "https://p.fsnot.es/"
+
 #if os(OSX)
     typealias Color = NSColor
     typealias Image = NSImage
@@ -41,6 +44,7 @@ public class UserDefaultsManagement {
     private struct Constants {
         static let AllowTouchID = "allowTouchID"
         static let AppearanceTypeKey = "appearanceType"
+        static let ApiBookmarksData = "apiBookmarksData"
         static let ArchiveDirectoryKey = "archiveDirectory"
         static let AutoInsertHeader = "autoInsertHeader"
         static let AutoVersioning = "autoVersioning"
@@ -1629,6 +1633,15 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.SftpUploadBookmarksData)
+        }
+    }
+    
+    static var apiBookmarksData: Data? {
+        get {
+            return shared?.data(forKey: Constants.ApiBookmarksData)
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.ApiBookmarksData)
         }
     }
     

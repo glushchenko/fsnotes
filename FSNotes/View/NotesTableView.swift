@@ -347,12 +347,22 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
             
             if menuItem.identifier?.rawValue == "noteMenu.removeOverSSH" {
-                if let note = vc.editor.note, note.uploadPath != nil {
-                    menuItem.isEnabled = true
-                    menuItem.isHidden = false
+                if UserDefaultsManagement.customWebServer {
+                    if let note = vc.editor.note, note.uploadPath != nil  {
+                        menuItem.isEnabled = true
+                        menuItem.isHidden = false
+                    } else {
+                        menuItem.isEnabled = false
+                        menuItem.isHidden = true
+                    }
                 } else {
-                    menuItem.isEnabled = false
-                    menuItem.isHidden = true
+                    if let note = vc.editor.note, note.apiId != nil  {
+                        menuItem.isEnabled = true
+                        menuItem.isHidden = false
+                    } else {
+                        menuItem.isEnabled = false
+                        menuItem.isHidden = true
+                    }
                 }
             }
         }

@@ -145,6 +145,8 @@ class ViewController: EditorViewController,
         //newNoteButton.setButtonType(.momentaryLight)
 
         restoreUploadPaths()
+        restoreAPIIds()
+        
         scheduleSnapshots()
         
         configureShortcuts()

@@ -59,6 +59,7 @@ public class Note: NSObject  {
     public var cacheHash: String?
     
     public var uploadPath: String?
+    public var apiId: String?
 
     // Load exist
     

@@ -193,16 +193,16 @@ CA
                                                 <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Upload Over SSH" keyEquivalent="u" identifier="fileMenu.uploadOverSSH" id="vZO-Tx-X1j">
+                                        <menuItem title="Create Web Page" keyEquivalent="u" identifier="fileMenu.uploadOverSSH" id="vZO-Tx-X1j">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="uploadNote:" target="Ady-hI-5gd" id="Qs1-GX-5pr"/>
+                                                <action selector="uploadWebNote:" target="Ady-hI-5gd" id="kGh-7X-iq3"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Remove Over SSH" tag="100" keyEquivalent="u" identifier="fileMenu.removeOverSSH" id="PzH-8q-38O">
+                                        <menuItem title="Delete Web Page" tag="100" keyEquivalent="u" identifier="fileMenu.removeOverSSH" id="PzH-8q-38O">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="removeUploadedOverSSH:" target="Ady-hI-5gd" id="cXG-EI-fgl"/>
+                                                <action selector="removeWebNote:" target="Ady-hI-5gd" id="nSU-Xz-O4T"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wQ9-qT-qnU"/>
@@ -2194,16 +2194,16 @@ CA
                                 <action selector="copyTitle:" target="rPt-NT-nkU" id="Fwy-yp-nPd"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Upload Over SSH" keyEquivalent="u" identifier="noteMenu.uploadOverSSH" id="oL6-fG-vHv">
+                        <menuItem title="Create Web Page" keyEquivalent="u" identifier="noteMenu.uploadOverSSH" id="oL6-fG-vHv">
                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
-                                <action selector="uploadNote:" target="rPt-NT-nkU" id="n4V-ZH-AN2"/>
+                                <action selector="uploadWebNote:" target="XfG-lQ-9wD" id="Ea2-MI-Eqh"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Remove Over SSH" tag="100" keyEquivalent="u" identifier="noteMenu.removeOverSSH" id="K4N-le-FPU">
+                        <menuItem title="Delete Web Page" tag="100" keyEquivalent="u" identifier="noteMenu.removeOverSSH" id="K4N-le-FPU">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <connections>
-                                <action selector="removeUploadedOverSSH:" target="rPt-NT-nkU" id="Q3L-gL-lU6"/>
+                                <action selector="removeWebNote:" target="XfG-lQ-9wD" id="nC3-xh-zYb"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="fYh-FK-PdD"/>
@@ -4573,7 +4573,6 @@ Will Pazner (github.com/pazner)</string>
                         <outlet property="publishCustom" destination="6Pu-ln-xgk" id="loA-RM-KPZ"/>
                         <outlet property="publishFSNotes" destination="KP8-dY-CEz" id="2jP-IW-sYB"/>
                         <outlet property="rsaPath" destination="sJC-70-IBX" id="8oY-RI-eD5"/>
-                        <outlet property="setKey" destination="DCf-Af-hOC" id="5hn-vu-rHL"/>
                         <outlet property="uploadAndTest" destination="Lfk-dJ-eYH" id="8rr-4V-tq2"/>
                         <outlet property="username" destination="M2V-5H-D91" id="aj9-mm-ahK"/>
                         <outlet property="web" destination="XxT-6E-AmS" id="gkP-K3-q83"/>

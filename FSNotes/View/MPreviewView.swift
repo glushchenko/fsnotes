@@ -252,7 +252,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return false
     }
     
-    public static func buildPage(for note: Note, at dst: URL, webPath: String? = nil, print: Bool = false) -> URL? {
+    public static func buildPage(for note: Note, at dst: URL, web: Bool = false, print: Bool = false) -> URL? {
         var markdownString = note.getPrettifiedContent()
         
         // Hack for WebView compatibility
@@ -267,17 +267,15 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             imagesStorage = note.getURL()
         }
         
-        var webPathPrefix: String?
+        var webPath: String?
         var zipName: String?
         
         // For uploaded content
-        if let webPath = webPath {
-            webPathPrefix = webPath + note.getLatinName() + "/"
-            
+        if web {
             // Generate zip
-            zipName = "\(webPathPrefix!)\(note.getName()).zip"
+            zipName = "\(note.getLatinName()).zip"
             
-            let zipURL = dst.appendingPathComponent(note.getName()).appendingPathExtension("zip")
+            let zipURL = dst.appendingPathComponent(note.getLatinName()).appendingPathExtension("zip")
             try? FileManager.default.createDirectory(at: dst, withIntermediateDirectories: true, attributes: nil)
             
             if note.container == .none {
@@ -285,10 +283,16 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             } else {
                 SSZipArchive.createZipFile(atPath: zipURL.path, withContentsOfDirectory: note.url.path, keepParentDirectory: true)
             }
+            
+            if UserDefaultsManagement.customWebServer {
+                webPath = UserDefaultsManagement.sftpWeb
+            } else {
+                webPath = UserDefaultsManagement.webPath
+            }
         }
         
         if let urls = note.imageUrl, urls.count > 0, !print {
-            htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, webPath: webPathPrefix)
+            htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, web: web)
         }
         
         if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath, print: print, archivePath: zipName) {
@@ -355,10 +359,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return indexURL
     }
 
-    public static func loadImages(imagesStorage: URL, html: String, at: URL, webPath: String? = nil) -> String {
+    public static func loadImages(imagesStorage: URL, html: String, at: URL, web: Bool = false) -> String {
         var htmlString = html
-        let webPath = webPath ?? ""
-
+        
         do {
             let regex = try NSRegularExpression(pattern: "<img.*?src=\"([^\"]*)\"")
             let results = regex.matches(in: html, range: NSRange(html.startIndex..., in: html))
@@ -402,8 +405,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 if localPath.first == "/" {
                     localPath.remove(at: localPath.startIndex)
                 }
+                
+                // Uploaded over API or SSH
+                if web {
+                    localPath = "i/\(imageURL.lastPathComponent)"
+                }
 
-                let imPath = "<img data-orientation=\"\(orientation)\" class=\"fsnotes-preview\" src=\"" + webPath + localPath + "\""
+                let imPath = "<img data-orientation=\"\(orientation)\" class=\"fsnotes-preview\" src=\"" + localPath + "\""
 
                 htmlString = htmlString.replacingOccurrences(of: image, with: imPath)
             }
