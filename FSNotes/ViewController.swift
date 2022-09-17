@@ -307,21 +307,38 @@ class ViewController: EditorViewController,
                 if ["fileMenu.new",
                     "fileMenu.newRtf",
                     "fileMenu.searchAndCreate",
-                    "fileMenu.import",
-                    "fileMenu.uploadOverSSH"
+                    "fileMenu.import"
                    ].contains(menuItem.identifier?.rawValue)
                 {
                     return true
                 }
                 
                 if menuItem.identifier?.rawValue == "fileMenu.removeOverSSH" {
-                   if let note = editor.note, note.uploadPath != nil {
+                    if let note = editor.note, !note.isEncrypted(), note.uploadPath != nil || note.apiId != nil {
                        menuItem.isHidden = false
                        return true
                    } else {
                        menuItem.isHidden = true
                        return false
                    }
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.uploadOverSSH" {
+                    if let note = vc.editor.note, !note.isEncrypted() {
+                        if note.uploadPath != nil || note.apiId != nil {
+                            menuItem.title = NSLocalizedString("Update Web Page", comment: "")
+                        } else {
+                            menuItem.title = NSLocalizedString("Create Web Page", comment: "")
+                        }
+                        
+                        menuItem.isHidden = false
+                        
+                        return true
+                    } else {
+                        menuItem.isHidden = true
+                        
+                        return false
+                    }
                 }
                 
                 if vc.notesTableView.selectedRow == -1 {

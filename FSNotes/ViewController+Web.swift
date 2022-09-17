@@ -14,7 +14,6 @@ extension ViewController {
     @IBAction func removeWebNote(_ sender: NSMenuItem) {
         if !UserDefaultsManagement.customWebServer {
             deleteAPI()
-            saveAPIIds()
             return
         }
         
@@ -42,7 +41,6 @@ extension ViewController {
     @IBAction func uploadWebNote(_ sender: NSMenuItem) {
         if !UserDefaultsManagement.customWebServer {
             createAPI()
-            saveAPIIds()
             return
         }
         
@@ -77,7 +75,6 @@ extension ViewController {
                 let sftp = try ssh.openSftp()
                 
                 // Upload index.html
-                
                 let remoteIndex = remoteDir + "index.html"
                 
                 _ = try ssh.execute("rm -r \(remoteIndex)")
@@ -145,7 +142,7 @@ extension ViewController {
     }
     
     public func saveAPIIds() {
-        let notes = Storage.sharedInstance().noteList.filter({ $0.uploadPath != nil })
+        let notes = storage.noteList.filter({ $0.apiId != nil })
         
         var bookmarks = [URL: String]()
         for note in notes {
@@ -203,23 +200,21 @@ extension ViewController {
     }
     
     private func deleteAPI() {
-        guard let note = getCurrentNote() else { return }
+        guard let note = getCurrentNote(),
+              let noteId = note.apiId else { return }
         
         let api = UserDefaultsManagement.apiPath
         let boundary = generateBoundaryString()
         let session = URLSession.shared
         let url = URL(string: "\(api)?method=delete")!
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        let privateKey = UserDefaultsManagement.uploadKey
-        
-        var parameters = ["key" : privateKey]
-        if let noteId = note.apiId {
-            parameters["note_id"] = noteId
-        }
-        
+        let key = UserDefaultsManagement.uploadKey
+        let parameters = ["key" : key, "note_id": noteId]
+
         do {
             request.httpBody = try createBody(with: parameters, filePathKey: "file", urls: [], boundary: boundary)
         } catch {
@@ -228,29 +223,27 @@ extension ViewController {
         }
         
         let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-              print("Post Request Error: \(error.localizedDescription)")
-              return
-            }
-            
             guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode)
+                  (200...299).contains(httpResponse.statusCode) && error == nil
             else {
-                print("Invalid Response received from the server")
-                
-                //if let data = data {
-                //  print(String(data: data, encoding: .utf8))
-                //}
-                
+                self.showAlert(message: "FSNotes server is down at this moment, please try later")
                 return
             }
             
-            guard let responseData = data else { return }
-            
-            //print(String(data: responseData, encoding: .utf8))
+            guard let responseData = data else {
+                self.showAlert(message: "Empty response")
+              return
+            }
 
-            note.apiId = nil
-            self.saveAPIIds()
+            let decoder = JSONDecoder()
+            if let api = try? decoder.decode(APIResponse.self, from: responseData) {
+                if let msg = api.error {
+                    self.showAlert(message: msg)
+                } else if let _ = api.id {
+                    note.apiId = nil
+                    self.saveAPIIds()
+                }
+            }
         }
           
         task.resume()
@@ -295,58 +288,41 @@ extension ViewController {
         urls.append(localURL)
         urls.append(zipUrl)
         
-        do {
-            request.httpBody = try createBody(with: parameters, filePathKey: "file", urls: urls, boundary: boundary)
-        } catch {
-            print("Request creation: \(error)")
-            return
-        }
+        guard let body = try? createBody(with: parameters, filePathKey: "file", urls: urls, boundary: boundary) else { return }
+        request.httpBody = body
         
         let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-              print("Post Request Error: \(error.localizedDescription)")
-              return
-            }
-            
             guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode)
+                  (200...299).contains(httpResponse.statusCode) && error == nil
             else {
-                print("Invalid Response received from the server")
-                
-//                if let data = data {
-//                    print(String(data: data, encoding: .utf8))
-//                }
-                
+                self.showAlert(message: "FSNotes server is down at this moment, please try later")
                 return
             }
             
             guard let responseData = data else {
-              print("nil Data received from the server")
+                self.showAlert(message: "Empty response")
               return
             }
-            
-            //print(String(data: responseData, encoding: .utf8))
 
-            do {
-                let decoder = JSONDecoder()
-                let api = try decoder.decode(APIResponse.self, from: responseData)
-                
-                if let noteId = api.id {
+            let decoder = JSONDecoder()
+            if let api = try? decoder.decode(APIResponse.self, from: responseData) {
+                if let msg = api.error {
+                    self.showAlert(message: msg)
+                } else if let noteId = api.id {
                     note.apiId = noteId
+                    self.saveAPIIds()
                     
                     let url = "\(web)\(noteId)/"
                     let pasteboard = NSPasteboard.general
                     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
                     pasteboard.setString(url, forType: NSPasteboard.PasteboardType.string)
                 }
-            } catch let error {
-                print(error)
             }
         }
           
         task.resume()
     }
-
+    
     private func createBody(with parameters: [String: String]? = nil, filePathKey: String, urls: [URL], boundary: String) throws -> Data {
         var body = Data()
         
@@ -376,6 +352,16 @@ extension ViewController {
 
     private func generateBoundaryString() -> String {
         return "Boundary-\(UUID().uuidString)"
+    }
+    
+    private func showAlert(message: String) {
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.informativeText = NSLocalizedString(message, comment: "")
+            alert.messageText = NSLocalizedString("Web publishing error", comment: "")
+            alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
+        }
     }
 }
 

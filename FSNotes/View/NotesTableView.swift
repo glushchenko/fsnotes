@@ -347,22 +347,24 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
             
             if menuItem.identifier?.rawValue == "noteMenu.removeOverSSH" {
-                if UserDefaultsManagement.customWebServer {
-                    if let note = vc.editor.note, note.uploadPath != nil  {
-                        menuItem.isEnabled = true
-                        menuItem.isHidden = false
-                    } else {
-                        menuItem.isEnabled = false
-                        menuItem.isHidden = true
-                    }
+                if let note = vc.editor.note, !note.isEncrypted(), note.uploadPath != nil || note.apiId != nil {
+                    menuItem.isHidden = false
                 } else {
-                    if let note = vc.editor.note, note.apiId != nil  {
-                        menuItem.isEnabled = true
-                        menuItem.isHidden = false
+                    menuItem.isHidden = true
+                }
+            }
+            
+            if menuItem.identifier?.rawValue == "noteMenu.uploadOverSSH" {
+                if let note = vc.editor.note, !note.isEncrypted() {
+                    if note.uploadPath != nil || note.apiId != nil {
+                        menuItem.title = NSLocalizedString("Update Web Page", comment: "")
                     } else {
-                        menuItem.isEnabled = false
-                        menuItem.isHidden = true
+                        menuItem.title = NSLocalizedString("Create Web Page", comment: "")
                     }
+                    
+                    menuItem.isHidden = false
+                } else {
+                    menuItem.isHidden = true
                 }
             }
         }
