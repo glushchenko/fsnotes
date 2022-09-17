@@ -242,6 +242,8 @@ extension ViewController {
                 } else if let _ = api.id {
                     note.apiId = nil
                     self.saveAPIIds()
+                    
+                    self.notesTableView.reloadRow(note: note)
                 }
             }
         }
@@ -316,6 +318,8 @@ extension ViewController {
                     let pasteboard = NSPasteboard.general
                     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
                     pasteboard.setString(url, forType: NSPasteboard.PasteboardType.string)
+                    
+                    self.notesTableView.reloadRow(note: note)
                 }
             }
         }

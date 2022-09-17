@@ -223,7 +223,11 @@ class NoteCellView: NSTableCellView {
     
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
-            if note.isEncrypted() {
+            if note.isPublished() {
+                pin.image = NSImage(named: "web")
+                pin.isHidden = false
+                pin.image?.size = NSSize(width: 14, height: 14)
+            } else if note.isEncrypted() {
                 let name = note.isUnlocked() ? "lock-open" : "lock-closed"
                 pin.image = NSImage(named: name)
                 pin.isHidden = false
@@ -284,7 +288,7 @@ class NoteCellView: NSTableCellView {
             if constraint.secondAttribute == .leading, let im = constraint.firstItem as? NSImageView {
                 if im.identifier?.rawValue == "pin" {
                     if let note = objectValue as? Note, !note.showIconInList() {
-                        constraint.constant = -17
+                        constraint.constant = -25
                     } else {
                         constraint.constant = 3
                     }

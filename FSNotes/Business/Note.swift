@@ -1965,7 +1965,7 @@ public class Note: NSObject  {
     }
 
     public func showIconInList() -> Bool {
-        return (isPinned || isEncrypted())
+        return (isPinned || isEncrypted() || isPublished())
     }
 
     public func getShortTitle() -> String {
@@ -2114,5 +2114,9 @@ public class Note: NSObject  {
             .applyingTransform(.stripDiacritics, reverse: false) ?? self.fileName
         
         return name.replacingOccurrences(of: " ", with: "_")
+    }
+    
+    public func isPublished() -> Bool {
+        return apiId != nil || uploadPath != nil
     }
 }
