@@ -47,7 +47,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if vc.editor.note != nil,
            event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)
         {
-            if vc.currentPreviewState == .on {
+            if vc.editor?.note?.previewState == true {
                 NSApp.mainWindow?.makeFirstResponder(vc.editor.markdownView)
             } else {
                 vc.focusEditArea()
@@ -74,8 +74,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         
         UserDataService.instance.searchTrigger = false
-
-        ViewController.shared()?.restoreCurrentPreviewState()
 
         super.mouseDown(with: event)
     }
@@ -276,12 +274,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if self.window?.firstResponder == self,
-           !event.modifierFlags.contains(.shift),
-           event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {
-            ViewController.shared()?.restoreCurrentPreviewState()
-        }
-
         if event.modifierFlags.contains(.control) && event.keyCode == kVK_Tab {
             return true
         }
@@ -383,8 +375,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         guard let vc = ViewController.shared() else { return }
         guard noteList.count > 0 else { return }
 
-        vc.restoreCurrentPreviewState()
-
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRowIndexes.count > 0 ? selectedRowIndexes : [0]
@@ -398,7 +388,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     public func selectNext() {
         guard let vc = ViewController.shared() else { return }
-        vc.restoreCurrentPreviewState()
 
         UserDataService.instance.searchTrigger = false
 
@@ -415,8 +404,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     public func selectPrev() {
         guard let vc = ViewController.shared() else { return }
-        vc.restoreCurrentPreviewState()
-
+        
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRow - 1

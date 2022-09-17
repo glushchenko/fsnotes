@@ -1526,6 +1526,36 @@ class Storage {
 
         return revisionsUrl
     }
+    
+    public func saveNotesSettings() {
+        var result = [URL: [String: Any]]()
+
+        for note in noteList {
+            result[note.url] = ["preview": note.previewState]
+        }
+        
+        if result.count > 0 {
+            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
+            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                try? projectsData?.write(to: documentDir.appendingPathComponent("notes.settings"))
+            }
+        }
+    }
+    
+    public func loadNotesSettings() {
+        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
+ 
+        let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
+        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
+        
+        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: [String: Any]] else { return }
+        
+        for note in noteList {
+            if let data = unarchivedData[note.url], let state = data["preview"] as? Bool {
+                note.previewState = state
+            }
+        }
+    }
 }
 
 extension String: Error {}

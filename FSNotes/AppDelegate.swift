@@ -46,6 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         let storage = Storage.sharedInstance()
         storage.loadProjects()
+        storage.loadNotesSettings()
         storage.loadDocuments()
         
         // For notarized app
@@ -106,6 +107,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        Storage.sharedInstance().saveNotesSettings()
+        
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 

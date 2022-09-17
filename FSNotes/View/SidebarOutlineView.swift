@@ -1061,13 +1061,16 @@ class SidebarOutlineView: NSOutlineView,
         } else {
             vc.getMasterPassword() { password, _ in
                 var unlocked = [Note]()
+                var unlockedQty = 0
                 
                 for project in projects {
-                    project.password = password
                     let notes = self.storage.getNotesBy(project: project)
                     for note in notes {
                         if note.unLock(password: password) {
+                            project.password = password
+                            
                             unlocked.append(note)
+                            unlockedQty += 1
                         }
                     }
                 }
@@ -1075,15 +1078,22 @@ class SidebarOutlineView: NSOutlineView,
                 self.showTags(notes: unlocked)
                 
                 DispatchQueue.main.async {
-                    vc.notesTableView.disableLockedProject()
-                    vc.updateTable() {
-                        
-                        if sender.identifier?.rawValue == "menu.newNote" {
-                            _ = vc.createNote()
+                    if unlockedQty > 0 {
+                        vc.notesTableView.disableLockedProject()
+                        vc.updateTable() {
+                            
+                            if sender.identifier?.rawValue == "menu.newNote" {
+                                _ = vc.createNote()
+                            }
                         }
+                        
+                        self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
+                    } else {
+                        let alert = NSAlert()
+                        alert.alertStyle = .critical
+                        alert.messageText = NSLocalizedString("Wrong password", comment: "")
+                        alert.beginSheetModal(for: self.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
                     }
-                    
-                    self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
                 }
             }
         }

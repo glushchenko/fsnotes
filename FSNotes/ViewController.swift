@@ -83,7 +83,7 @@ class ViewController: EditorViewController,
     }
     @IBOutlet weak var previewButton: NSButton! {
         didSet {
-            previewButton.state = currentPreviewState == .on ? .on : .off
+            previewButton.state = vcEditor?.note?.previewState == true ? .on : .off
         }
     }
     @IBOutlet weak var titleBarView: TitleBarView! {
@@ -765,7 +765,7 @@ class ViewController: EditorViewController,
                     
                     if let note = editor.note, fr.isKind(of: NotesTableView.self) {
                         if note.container != .encryptedTextPack {
-                            if currentPreviewState == .on {
+                            if note.previewState {
                                 disablePreview()
                             }
                             NSApp.mainWindow?.makeFirstResponder(editor)
@@ -827,8 +827,6 @@ class ViewController: EditorViewController,
                 titleLabel.window?.makeFirstResponder(notesTableView)
                 return false
             }
-
-            restoreCurrentPreviewState()
 
             UserDefaultsManagement.lastSidebarItem = nil
             UserDefaultsManagement.lastProjectURL = nil
@@ -903,7 +901,7 @@ class ViewController: EditorViewController,
 
         if event.keyCode == kVK_RightArrow {
             if let fr = mw.firstResponder, fr.isKind(of: NotesTableView.self) {
-                if currentPreviewState == .on {
+                if vcEditor?.note?.previewState == true {
                     NSApp.mainWindow?.makeFirstResponder(editor.markdownView)
                 } else {
                     focusEditArea()
@@ -1778,10 +1776,6 @@ class ViewController: EditorViewController,
         }
     }
     
-    public func restoreCurrentPreviewState() {
-        currentPreviewState = UserDefaultsManagement.preview ? .on : .off
-    }
-
     private func configureTranslation() {
         let creationDate = NSLocalizedString("Change Creation Date", comment: "Menu")
 
@@ -2007,7 +2001,7 @@ class ViewController: EditorViewController,
 
         if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
 
-            if vc.currentPreviewState == .on && vc.notesTableView.selectedRow > -1 {
+            if vcEditor?.note?.previewState == true && vc.notesTableView.selectedRow > -1 {
                 vc.disablePreview()
             }
 
@@ -2117,11 +2111,7 @@ class ViewController: EditorViewController,
             let note = Storage.sharedInstance().getBy(name: name)
         else { return }
 
-        if state == "preview" {
-            currentPreviewState = .on
-        } else {
-            currentPreviewState = .off
-        }
+        vcEditor?.note?.previewState = (state == "preview")
 
         if let position = Int(position),
             position > -1,

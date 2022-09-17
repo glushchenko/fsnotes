@@ -344,7 +344,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         super.mouseDown(with: event)
         saveCursorPosition()
         
-        if editorViewController?.currentPreviewState == .off {
+        if editorViewController?.vcEditor?.note?.previewState == false {
             self.isEditable = true
         }
     }
@@ -374,7 +374,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
         
-        if editorViewController?.currentPreviewState == .on {
+        if editorViewController?.vcEditor?.note?.previewState == true {
             return
         }
         
@@ -942,7 +942,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return false
         }
         
-        if editorViewController?.currentPreviewState == .on && !note.isRTF() {
+        if editorViewController?.vcEditor?.note?.previewState == true && !note.isRTF() {
             return false
         }
         
@@ -1001,7 +1001,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             typingAttributes[.font] = UserDefaultsManagement.noteFont
         }
 
-        if editorViewController?.currentPreviewState == .on && !note.isRTF() {
+        if note.previewState && !note.isRTF() {
             loadMarkdownWebView(note: note, force: force)
             return
         }
@@ -1135,7 +1135,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func boldMenu(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off || note.type == .RichText,
+              note.previewState == false || note.type == .RichText,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1145,7 +1145,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func italicMenu(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off || note.type == .RichText,
+              note.previewState == false || note.type == .RichText,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1155,7 +1155,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func linkMenu(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off || note.type == .RichText,
+              note.previewState == false || note.type == .RichText,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1165,7 +1165,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func underlineMenu(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off || note.type == .RichText,
+              note.previewState == false || note.type == .RichText,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1175,7 +1175,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func strikeMenu(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off || note.type == .RichText,
+              note.previewState == false || note.type == .RichText,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1185,7 +1185,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func headerMenu(_ sender: NSMenuItem) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off || note.type == .RichText,
+              note.previewState == false || note.type == .RichText,
               isEditable else { return }
 
         guard let id = sender.identifier?.rawValue else { return }
@@ -1800,7 +1800,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let f = self.getTextFormatter(),
               let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               note.type == .Markdown,
               isEditable else { return }
         
@@ -1810,7 +1810,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func wikiLinks(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               note.type == .Markdown,
               isEditable else { return }
 
@@ -1821,7 +1821,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func pressBold(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1831,7 +1831,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func pressItalic(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1918,7 +1918,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func insertList(_ sender: NSMenuItem) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1928,7 +1928,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func insertOrderedList(_ sender: NSMenuItem) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1938,7 +1938,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func insertQuote(_ sender: NSMenuItem) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -1948,7 +1948,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func insertLink(_ sender: Any) {
         guard let vc = editorViewController,
               let note = self.note,
-              vc.currentPreviewState == .off,
+              note.previewState == false,
               isEditable else { return }
 
         let formatter = TextFormatter(textView: self, note: note)
@@ -2435,7 +2435,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let position =
             window?.firstResponder == self ? selectedRange().location : -1
-        let state = editorViewController?.currentPreviewState == .on ? "preview" : "editor"
+        let state = editorViewController?.vcEditor?.note?.previewState == true ? "preview" : "editor"
         let data =
             [
                 "note-file-name": note.name,

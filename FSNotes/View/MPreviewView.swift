@@ -78,7 +78,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             if note.container == .encryptedTextPack && !note.isUnlocked() {
                 evc.unLock(notes: [note])
             } else if note.content.length == 0 {
-                evc.currentPreviewState = .off
+                evc.vcEditor?.note?.previewState = false
                 evc.refillEditArea()
                 evc.focusEditArea()
             }
@@ -91,7 +91,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         if event.keyCode == kVK_Return {
             DispatchQueue.main.async {
                 if let evc = self.editorVC {
-                    evc.currentPreviewState = .off
+                    evc.vcEditor?.note?.previewState = false
                     evc.refillEditArea()
                     evc.focusEditArea()
                 }
@@ -451,17 +451,25 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         if webPath.count > 0 {
              htmlString = """
                 <style>
-                    body{ height:100vh; }
-
-                    footer{ min-height:50px; background: white; }
-
-                    body{
-                      display:flex;
-                      flex-direction:column;
+                    
+                    article {
+                        max-width: 1280px;
+                        margin: 0 auto;
+                        margin-bottom: 70px;
                     }
-
-                    footer{
-                      margin-top:auto;
+            
+                    footer {
+                        max-width: 1280px;
+                        margin: 0 auto;
+                        background: white;
+                        position: fixed;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        height: 60px;
+                        width: 100%;
+                        padding: 10px 20px 20px 20px;
+                        border-top: 1px solid gray;
                     }
             
                     img.logo {
@@ -476,18 +484,80 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                         .footer__span__archive {
                             float: right;
                         }
+            
+                    .share-button {
+                      border: 1px solid #eee;
+                      border-radius: 4px;
+                      color: #999;
+                      cursor: pointer;
+                      display: inline-block;
+                      font-weight: 600;
+                      line-height: 1.7;
+                      padding: 6px 17px;
+                      text-decoration: none;
+                    }
+                    .share-button .label i {
+                      margin-right: 0.4em;
+                    }
+                    .share-button .sites {
+                      display: none;
+                      line-height: 1;
+                      vertical-align: middle;
+                    }
+                    .share-button .sites a {
+                      color: #777;
+                      font-size: 1.2em;
+                      margin-left: 0.3em;
+                    }
+                    .share-button .sites a:hover.facebook {
+                      color: #385797;
+                    }
+                    .share-button .sites a:hover.twitter {
+                      color: #03abea;
+                    }
+                    .share-button .sites a:hover.linkedin {
+                      color: #0078a8;
+                    }
+                    .share-button .sites a:hover.pinterest {
+                      color: #c91515;
+                    }
+                    .share-button:hover {
+                      border-color: #ddd;
+                      box-shadow: 0.1em 0.1em 0.3em rgba(0, 0, 0, 0.05);
+                      color: #777;
+                    }
+                    .share-button:hover .sites {
+                      display: inline-block;
+                    }
                 </style>
                 <article>\(htmlString)</article>
                 
                 <footer>
-                    <span class="footer__span">Powered by <a href="https://fsnot.es">FSNotes App</a> <img class="logo" src="https://fsnot.es/img/icon.webp" style="margin: 0 0 -10px 0;"></span>
-                
-                    <span class="footer__span footer__span__archive">
-                    <a href="\(archivePath!)">
-                        Download
-                        <img style="display: inline-block; margin: 0 0 -10px 0; height: 30px" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDEwMjQgMTAyNDsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBhdGggZD0iTTc4MCw4MEgxMzQuM0MxMDQuMyw4MCw4MCwxMDQuMyw4MCwxMzQuM3Y3NTUuNmMwLDI5LjgsMjQuMyw1NC4xLDU0LjEsNTQuMWg3NTUuNyAgYzI5LjksMCw1NC4xLTI0LjMsNTQuMS01NC4xVjI0OUw3ODAsODB6IE0zNDcsMTIwaDMzMHYyMzcuNWMwLDcuNC02LjEsMTMuNS0xMy41LDEzLjVoLTMwM2MtNy40LDAtMTMuNS02LjEtMTMuNS0xMy41VjEyMHogICBNNTExLjksODM1LjFjLTk1LjIsMC0xNzIuNy03Ny41LTE3Mi43LTE3Mi43czc3LjUtMTcyLjcsMTcyLjctMTcyLjdzMTcyLjcsNzcuNSwxNzIuNywxNzIuN1M2MDcuMiw4MzUuMSw1MTEuOSw4MzUuMXoiIGlkPSJYTUxJRF8xMjFfIi8+PGcgaWQ9IlhNTElEXzFfIi8+PGcgaWQ9IlhNTElEXzJfIi8+PGcgaWQ9IlhNTElEXzNfIi8+PGcgaWQ9IlhNTElEXzRfIi8+PGcgaWQ9IlhNTElEXzVfIi8+PC9zdmc+"/>
+                    <span class="footer__span">Powered by <a href="https://fsnot.es" target="_blank">FSNotes App</a> <img class="logo" src="https://fsnot.es/img/icon.webp" style="margin: 0 0 -10px 0;"></span>
+                    <a class="share-button" href="\(archivePath!)" style="float: right; text-decoration: none;">
+                        <span class="label" style="vertical-align: middle;">Download</span>
+                        <span style="display: inline-block; height: 17px; width: 17px; vertical-align: middle;">
+                            <svg viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M4 19h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7zM14 9h5l-7 7-7-7h5V3h4v6z"/></svg>
+                        </span>
                     </a>
-                    </span>
+            
+            <!--
+                    <div class="share-button" href="#" style="float: right; margin-right: 10px;">
+                        <span class="label">Share</span>
+                        <div class="sites">
+                          <a href="https://www.facebook.com/sharer/sharer.php?u=#url" class="facebook" style="display: inline-block; height: 8px; width: 8px;">
+                            <svg role="img" viewBox="0 0 118 228"><path d="M34.8 226.8V123.5H0V83.2h34.8V53.5C34.8 19 55.8.2 86.6.2c14.8 0 27.4 1 31 1.6v36h-21c-16.8 0-20 8-20 19.7v25.7h40l-5.4 40.3H76.5v103.3"></path></svg>
+                          </a>
+                          <a href="https://twitter.com/intent/tweet?text=" class="twitter" style="display: inline-block; height: 15px; width: 15px;">
+                            <svg role="img" viewBox="0 0 274 223"><path d="M273.4 26.4a110 110 0 0 1-32.2 8.8a56 56 0 0 0 24.6-31a107 107 0 0 1-35.6 13.6A56.1 56.1 0 0 0 134.6 69A159 159 0 0 1 19 10.4a56 56 0 0 0 17.4 74.9a60 60 0 0 1-25.4-7a56 56 0 0 0 45 55.6a60 60 0 0 1-25.4 1a56 56 0 0 0 52.4 39a112 112 0 0 1-83 23a159 159 0 0 0 245.4-141.5a108 108 0 0 0 28-29z"></path></svg>
+                          </a>
+                          <a href="https://www.linkedin.com/sharing/share-offsite/?url=" class="linkedin" style="display: inline-block; height: 15px; width: 15px;">
+                            <svg role="img" viewBox="0 0 129 129"><path d="M128.8 128.6H102V86.8c0-10 0-22.7-13.7-22.7-14 0-16 11-16 22v42.6H45.6v-86h25.6v11.8h.3c3.6-6.7 12.3-13.8 25.3-13.8 27 0 32 17.8 32 41v47zM15.5 31C7 31 0 24 0 15.5 0 7 7 0 15.5 0S31 7 31 15.5 24 31 15.5 31zM2 128.6H29v-86H2v86z"></path></svg>
+                          </a>
+                        </div>
+                      </div>
+            -->
+            
                 </footer>
             """
         }

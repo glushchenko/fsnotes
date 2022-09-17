@@ -135,9 +135,9 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
                 markCompleteonAsSuccess()
 
-                if vcDelegate.currentPreviewState == .on
+                if vcDelegate.vcEditor?.note?.previewState == true
                     && vcDelegate.editor.note?.container != .encryptedTextPack {
-                    vcDelegate.currentPreviewState = .off
+                    vcDelegate.vcEditor?.note?.previewState = false
                     DispatchQueue.main.async {
                         self.vcDelegate.refillEditArea()
                         NSApp.mainWindow?.makeFirstResponder(self.vcDelegate.editor)
@@ -157,7 +157,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         case "insertTab:":
             markCompleteonAsSuccess()
 
-            if vcDelegate.currentPreviewState == .on {
+            if vcDelegate.vcEditor?.note?.previewState == true {
                 NSApp.mainWindow?.makeFirstResponder(vcDelegate.editor.markdownView)
             } else {
                 vcDelegate.focusEditArea()
@@ -184,8 +184,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
 
     func controlTextDidChange(_ obj: Notification) {
-        vcDelegate.restoreCurrentPreviewState()
-        
         search()
 
         // Clean as lastSearchQuery used by highlighter
@@ -317,7 +315,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     @IBAction public func selectRecent(_ sender: NSMenuItem) {
         stringValue = sender.title
 
-        vcDelegate.restoreCurrentPreviewState()
         search()
     }
 

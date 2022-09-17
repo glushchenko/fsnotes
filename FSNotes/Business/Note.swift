@@ -60,6 +60,8 @@ public class Note: NSObject  {
     
     public var uploadPath: String?
     public var apiId: String?
+    
+    public var previewState: Bool = false
 
     // Load exist
     
