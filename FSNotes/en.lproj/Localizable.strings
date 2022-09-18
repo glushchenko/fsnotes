@@ -25,6 +25,9 @@
 /* Menu */
 "Change creation date" = "Change creation date";
 
+/* Menu */
+"Change Creation Date" = "Change Creation Date";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Проверить грамматику с орфографией";
 
@@ -33,6 +36,9 @@
 
 /* No comment provided by engineer. */
 "Clear" = "Clear";
+
+/* No comment provided by engineer. */
+"Connection established successfully 🤟" = "Connection established successfully 🤟";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Copy HTML";
@@ -46,6 +52,9 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Корректировать правописание";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "Create Web Page";
+
 /* Menu */
 "Creation date:" = "Creation date:";
 
@@ -54,6 +63,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "Определение данных";
+
+/* No comment provided by engineer. */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
@@ -83,6 +95,9 @@
 "Empty password" = "Empty password";
 
 /* No comment provided by engineer. */
+"Encrypt" = "Encrypt";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Enter Master Password";
 
 /* No comment provided by engineer. */
@@ -98,6 +113,9 @@
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push error";
+
+/* No comment provided by engineer. */
 "History" = "History";
 
 /* No comment provided by engineer. */
@@ -107,7 +125,13 @@
 "Inbox" = "Inbox";
 
 /* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 error: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "Link";
+
+/* No comment provided by engineer. */
+"Lock" = "Lock";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "Lock All Encrypted";
@@ -165,6 +189,12 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "Please select private and public key";
+
+/* No comment provided by engineer. */
+"Please select private key" = "Please select private key";
 
 /* No comment provided by engineer. */
 "Please try again" = "Please try again";
@@ -236,6 +266,9 @@
 "Spelling and Grammar" = "Орфография и грамматика";
 
 /* No comment provided by engineer. */
+"SSH error" = "SSH error";
+
+/* No comment provided by engineer. */
 "Substitutions" = "Замены";
 
 /* Menu
@@ -261,10 +294,16 @@
 "Underline" = "Underline";
 
 /* No comment provided by engineer. */
+"Unlock" = "Unlock";
+
+/* No comment provided by engineer. */
 "Untagged" = "Untagged";
 
 /* Untitled Note */
 "Untitled Note" = "Untitled Note";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "Update Web Page";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
@@ -277,6 +316,12 @@
 
 /* No comment provided by engineer. */
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+
+/* No comment provided by engineer. */
+"Web publishing error" = "Web publishing error";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Wrong password";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Wrong repeated password";

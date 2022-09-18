@@ -1,8 +1,14 @@
-/* Class = "NSMenu"; title = "Sort by"; ObjectID = "05n-RU-nOV"; */
+/* Class = "NSMenu"; title = "Sort By"; ObjectID = "05n-RU-nOV"; */
 "05n-RU-nOV.title" = "Сортувати за";
 
+/* Class = "NSTextFieldCell"; placeholderString = "example.com"; ObjectID = "0Qp-Is-dNs"; */
+"0Qp-Is-dNs.placeholderString" = "example.com";
+
+/* Class = "NSTextFieldCell"; title = "Push credentials:"; ObjectID = "0ZZ-AS-LlN"; */
+"0ZZ-AS-LlN.title" = "Ввести облікові дані:";
+
 /* Class = "NSTextFieldCell"; title = "Translators:"; ObjectID = "13t-eQ-kOr"; */
-"13t-eQ-kOr.title" = "Translators:";
+"13t-eQ-kOr.title" = "Перекладачі:";
 
 /* Class = "NSMenu"; title = "Find"; ObjectID = "1b7-l0-nxx"; */
 "1b7-l0-nxx.title" = "Знайти";
@@ -16,17 +22,20 @@
 /* Class = "NSMenuItem"; title = "List"; ObjectID = "1sM-9Q-KeG"; */
 "1sM-9Q-KeG.title" = "Список";
 
+/* Class = "NSMenuItem"; title = "xcode"; ObjectID = "1Tz-tN-qVO"; */
+"1Tz-tN-qVO.title" = "xcode";
+
 /* Class = "NSMenuItem"; title = "FSNotes"; ObjectID = "1Xt-HY-uBw"; */
 "1Xt-HY-uBw.title" = "FSNotes";
 
 /* Class = "NSTextFieldCell"; placeholderString = "TextEdit"; ObjectID = "1XY-bI-DX7"; */
-"1XY-bI-DX7.placeholderString" = "TextEdit";
+"1XY-bI-DX7.placeholderString" = "Текстовий редактор";
 
-/* Class = "NSTextFieldCell"; title = "Dock icon:"; ObjectID = "2CI-mu-aiB"; */
+/* Class = "NSTextFieldCell"; title = "Dock Icon:"; ObjectID = "2CI-mu-aiB"; */
 "2CI-mu-aiB.title" = "Док іконка:";
 
 /* Class = "NSMenuItem"; title = "New"; ObjectID = "2Ci-Yj-aWK"; */
-"2Ci-Yj-aWK.title" = "Новий";
+"2Ci-Yj-aWK.title" = "Нова нотатка";
 
 /* Class = "NSTextFieldCell"; title = "hour at"; ObjectID = "2Iq-vN-V2w"; */
 "2Iq-vN-V2w.title" = "годину";
@@ -37,13 +46,16 @@
 /* Class = "NSViewController"; title = "Git"; ObjectID = "2un-du-hJz"; */
 "2un-du-hJz.title" = "Git";
 
+/* Class = "NSMenuItem"; title = "New In New Window"; ObjectID = "2Vh-rt-1kc"; */
+"2Vh-rt-1kc.title" = "Нова нотатка в новому вікні";
+
 /* Class = "NSButtonCell"; title = "Restore cursor position"; ObjectID = "3iM-ZV-3Gf"; */
 "3iM-ZV-3Gf.title" = "Відновляти положення курсору";
 
 /* Class = "NSMenu"; title = "Spelling and Grammar"; ObjectID = "3IN-sU-3Bg"; */
 "3IN-sU-3Bg.title" = "Орфографія і граматика";
 
-/* Class = "NSMenuItem"; title = "Copy title"; ObjectID = "3kn-9C-fsB"; */
+/* Class = "NSMenuItem"; title = "Copy Title"; ObjectID = "3kn-9C-fsB"; */
 "3kn-9C-fsB.title" = "Скопіювати заголовок";
 
 /* Class = "NSButtonCell"; title = "Change Master Password"; ObjectID = "3RO-C7-NOO"; */
@@ -58,11 +70,17 @@
 /* Class = "NSMenuItem"; title = "Create Folder"; ObjectID = "3zv-SD-lSX"; */
 "3zv-SD-lSX.title" = "Нова директорія";
 
-/* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "4cz-zj-dkH"; */
+/* Class = "NSTextFieldCell"; title = "Passphrase:"; ObjectID = "44f-my-fi3"; */
+"44f-my-fi3.title" = "Кодова фраза:";
+
+/* Class = "NSTextFieldCell"; title = "Sort By:"; ObjectID = "4cz-zj-dkH"; */
 "4cz-zj-dkH.title" = "Сортувати за:";
 
 /* Class = "NSMenuItem"; title = "Find"; ObjectID = "4EN-yA-p0u"; */
 "4EN-yA-p0u.title" = "Знайти";
+
+/* Class = "NSTextFieldCell"; placeholderString = "hlushchenko"; ObjectID = "4gs-Bc-GHG"; */
+"4gs-Bc-GHG.placeholderString" = "hlushchenko";
 
 /* Class = "NSMenuItem"; title = "Enter Full Screen"; ObjectID = "4J7-dP-txa"; */
 "4J7-dP-txa.title" = "Повноекранний режим";
@@ -70,16 +88,19 @@
 /* Class = "NSMenuItem"; title = "Quit FSNotes"; ObjectID = "4sb-4s-VLi"; */
 "4sb-4s-VLi.title" = "Завершити роботу FSNotes";
 
-/* Class = "NSTextFieldCell"; title = "Note list location:"; ObjectID = "54i-GK-spQ"; */
+/* Class = "NSTextFieldCell"; placeholderString = "https://github.com/glushchenko/fsnotes.git"; ObjectID = "4Sj-5v-Clo"; */
+"4Sj-5v-Clo.placeholderString" = "https://github.com/glushchenko/fsnotes.git";
+
+/* Class = "NSTextFieldCell"; title = "Note List Location:"; ObjectID = "54i-GK-spQ"; */
 "54i-GK-spQ.title" = "Розташування списку:";
 
-/* Class = "NSMenuItem"; title = "Remove encryption"; ObjectID = "5gL-j7-Zq8"; */
+/* Class = "NSMenuItem"; title = "Remove Encryption"; ObjectID = "5gL-j7-Zq8"; */
 "5gL-j7-Zq8.title" = "Видалити шифрування";
 
 /* Class = "NSMenuItem"; title = "About FSNotes"; ObjectID = "5kV-Vb-QxS"; */
 "5kV-Vb-QxS.title" = "Про FSNotes";
 
-/* Class = "NSMenuItem"; title = "Copy title"; ObjectID = "5LV-Vi-n79"; */
+/* Class = "NSMenuItem"; title = "Copy Title"; ObjectID = "5LV-Vi-n79"; */
 "5LV-Vi-n79.title" = "Скопіювати заголовок";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "5QF-Oa-p0T"; */
@@ -97,8 +118,11 @@
 /* Class = "NSTextFieldCell"; title = "Code Theme:"; ObjectID = "6F0-Cb-DVX"; */
 "6F0-Cb-DVX.title" = "Тема коду:";
 
+/* Class = "NSMenuItem"; title = "Lock"; ObjectID = "6UT-Yu-j7X"; */
+"6UT-Yu-j7X.title" = "Блокувати";
+
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "70b-Zr-aVK"; */
-"70b-Zr-aVK.title" = "Force Delete";
+"70b-Zr-aVK.title" = "Примусово видалити";
 
 /* Class = "NSMenuItem"; title = "Correct Spelling Automatically"; ObjectID = "78Y-hA-62v"; */
 "78Y-hA-62v.title" = "Автоматично коригувати правописання";
@@ -109,10 +133,10 @@
 /* Class = "NSButtonCell"; title = "Close"; ObjectID = "7GB-y2-EMo"; */
 "7GB-y2-EMo.title" = "Закрити";
 
-/* Class = "NSTextFieldCell"; title = "Current password:"; ObjectID = "7me-g8-vOq"; */
+/* Class = "NSTextFieldCell"; title = "Current Password:"; ObjectID = "7me-g8-vOq"; */
 "7me-g8-vOq.title" = "Поточний пароль:";
 
-/* Class = "NSMenuItem"; title = "Open external"; ObjectID = "7MT-fy-lXN"; */
+/* Class = "NSMenuItem"; title = "Open External"; ObjectID = "7MT-fy-lXN"; */
 "7MT-fy-lXN.title" = "Відкрити зовні";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "7od-TM-cUB"; */
@@ -130,6 +154,9 @@
 /* Class = "NSButtonCell"; title = "Lock when user switched"; ObjectID = "8dk-Cf-bSg"; */
 "8dk-Cf-bSg.title" = "Заблокувати при перемиканні";
 
+/* Class = "NSTextFieldCell"; title = "Credentials:"; ObjectID = "8om-Y6-O8e"; */
+"8om-Y6-O8e.title" = "Облікові дані:";
+
 /* Class = "NSTextFieldCell"; title = "Note Color:"; ObjectID = "8oP-79-BAN"; */
 "8oP-79-BAN.title" = "Колір нотатки:";
 
@@ -138,6 +165,9 @@
 
 /* Class = "NSMenuItem"; title = "solarized-dark"; ObjectID = "9Nw-oE-QJe"; */
 "9Nw-oE-QJe.title" = "solarized-dark";
+
+/* Class = "NSTextFieldCell"; title = "Port:"; ObjectID = "9pM-sd-qhm"; */
+"9pM-sd-qhm.title" = "Порт:";
 
 /* Class = "NSMenuItem"; title = "Smart Copy/Paste"; ObjectID = "9yt-4B-nSM"; */
 "9yt-4B-nSM.title" = "Розумне копіювання/вставка";
@@ -148,17 +178,32 @@
 /* Class = "NSTextFieldCell"; title = "Search shortcut:"; ObjectID = "a6n-hz-V8D"; */
 "a6n-hz-V8D.title" = "Швидкий пошук:";
 
+/* Class = "NSTextFieldCell"; title = "Host:"; ObjectID = "a9t-hD-WYR"; */
+"a9t-hD-WYR.title" = "Хост:";
+
 /* Class = "NSMenuItem"; title = "monokai-sublime"; ObjectID = "AaQ-hp-VpR"; */
 "AaQ-hp-VpR.title" = "monokai-sublime";
 
+/* Class = "NSSecureTextFieldCell"; placeholderString = "ghp_if6C09slkds893klssd9032sdklCC"; ObjectID = "AEC-HT-Gd6"; */
+"AEC-HT-Gd6.placeholderString" = "ghp_if6C09slkds893klssd9032sdklCC";
+
+/* Class = "NSButtonCell"; title = "Upload and test initial data"; ObjectID = "aGv-BR-Oc8"; */
+"aGv-BR-Oc8.title" = "Завантаження та перевірка вихідних даних";
+
 /* Class = "NSTextFieldCell"; title = "Repositories:"; ObjectID = "ASf-hd-2fT"; */
 "ASf-hd-2fT.title" = "Репозиторії:";
+
+/* Class = "NSTextFieldCell"; title = "Git origin:"; ObjectID = "Atd-Fs-Chq"; */
+"Atd-Fs-Chq.title" = "Git origin:";
 
 /* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
 "auW-wa-jbc.title" = "Історія";
 
 /* Class = "NSMenuItem"; title = "Format: yyyyMMddHHmmss"; ObjectID = "aVa-yH-IpC"; */
-"aVa-yH-IpC.title" = "Format: yyyyMMddHHmmss";
+"aVa-yH-IpC.title" = "Формат: yyyyMMddHHmmss";
+
+/* Class = "NSButtonCell"; title = "Set"; ObjectID = "axA-pN-Zf2"; */
+"axA-pN-Zf2.title" = "Вибрати";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "Головне меню";
@@ -168,6 +213,9 @@
 
 /* Class = "NSMenuItem"; title = ".md"; ObjectID = "bCL-eg-DgP"; */
 "bCL-eg-DgP.title" = ".md";
+
+/* Class = "NSTextFieldCell"; placeholderString = "/var/www/example.com"; ObjectID = "bdD-JA-K8P"; */
+"bdD-JA-K8P.placeholderString" = "/var/www/example.com";
 
 /* Class = "NSTextFieldCell"; title = "Note Font:"; ObjectID = "bJC-he-nDV"; */
 "bJC-he-nDV.title" = "Шрифт:";
@@ -181,16 +229,19 @@
 /* Class = "NSTextFieldCell"; title = "minutes"; ObjectID = "Bri-cl-z86"; */
 "Bri-cl-z86.title" = "хвилин";
 
-/* Class = "NSMenuItem"; title = "Move Down In The Notes List"; ObjectID = "BtV-Z4-7Vq"; */
+/* Class = "NSMenuItem"; title = "Move Down in the Notes List"; ObjectID = "BtV-Z4-7Vq"; */
 "BtV-Z4-7Vq.title" = "Перейти вниз у списку нотаток";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Використати вибране для пошуку";
 
+/* Class = "NSTextFieldCell"; title = "Publish notes to:"; ObjectID = "bUL-WS-rIS"; */
+"bUL-WS-rIS.title" = "Публікувати нотатки на:";
+
 /* Class = "NSMenuItem"; title = "Untagged"; ObjectID = "BX0-nb-tVk"; */
 "BX0-nb-tVk.title" = "Без тегів";
 
-/* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
+/* Class = "NSTextFieldCell"; title = "Note List Spacing:"; ObjectID = "bXK-wP-sZc"; */
 "bXK-wP-sZc.title" = "Відстань між нотатками:";
 
 /* Class = "NSMenu"; title = "Sidebar"; ObjectID = "BYI-2F-BJo"; */
@@ -199,7 +250,7 @@
 /* Class = "NSMenu"; title = "Transformations"; ObjectID = "c8a-y6-VQd"; */
 "c8a-y6-VQd.title" = "Трансформація";
 
-/* Class = "NSMenuItem"; title = "Official site"; ObjectID = "cfe-sv-2gm"; */
+/* Class = "NSMenuItem"; title = "Official Site"; ObjectID = "cfe-sv-2gm"; */
 "cfe-sv-2gm.title" = "Офіційна сторінка";
 
 /* Class = "NSMenuItem"; title = "Format: UUID"; ObjectID = "cmH-fQ-bVK"; */
@@ -229,10 +280,10 @@
 /* Class = "NSMenuItem"; title = "Make Lower Case"; ObjectID = "d9M-CD-aMd"; */
 "d9M-CD-aMd.title" = "Нижній регістр";
 
-/* Class = "NSMenuItem"; title = "Modification date"; ObjectID = "dCc-l5-XB2"; */
+/* Class = "NSMenuItem"; title = "Modification Date"; ObjectID = "dCc-l5-XB2"; */
 "dCc-l5-XB2.title" = "Датою модифікації";
 
-/* Class = "NSMenuItem"; title = "Hide/show sidebar"; ObjectID = "DCh-5P-PZe"; */
+/* Class = "NSMenuItem"; title = "Hide/Show Sidebar"; ObjectID = "DCh-5P-PZe"; */
 "DCh-5P-PZe.title" = "Приховати/показати сайдбар";
 
 /* Class = "NSMenuItem"; title = "Medium"; ObjectID = "DcN-1g-hEi"; */
@@ -244,6 +295,12 @@
 /* Class = "NSMenuItem"; title = "Shift Left"; ObjectID = "DeU-hy-pvi"; */
 "DeU-hy-pvi.title" = "Зміщення вліво";
 
+/* Class = "NSButtonCell"; title = "Custom Server"; ObjectID = "Dp7-4n-ilt"; */
+"Dp7-4n-ilt.title" = "Користувацький сервер";
+
+/* Class = "NSMenuItem"; title = "Encrypt Folder"; ObjectID = "dqy-22-ETG"; */
+"dqy-22-ETG.title" = "Зашифрувати папку";
+
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
 "dRJ-4n-Yzg.title" = "Відмінити";
 
@@ -253,10 +310,13 @@
 /* Class = "NSMenuItem"; title = "Header 5"; ObjectID = "DWe-bx-jfM"; */
 "DWe-bx-jfM.title" = "Заголовок 5";
 
-/* Class = "NSTextFieldCell"; title = "Archive storage:"; ObjectID = "dys-2Q-lfZ"; */
+/* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "DXE-kd-1X3"; */
+"DXE-kd-1X3.title" = "Пароль:";
+
+/* Class = "NSTextFieldCell"; title = "Archive Storage:"; ObjectID = "dys-2Q-lfZ"; */
 "dys-2Q-lfZ.title" = "Архівне сховище:";
 
-/* Class = "NSTextFieldCell"; title = "Language (need app restart):"; ObjectID = "dZD-Db-KHs"; */
+/* Class = "NSTextFieldCell"; title = "Language:"; ObjectID = "dZD-Db-KHs"; */
 "dZD-Db-KHs.title" = "Мова (потрібен перезапуск):";
 
 /* Class = "NSMenuItem"; title = "Todo"; ObjectID = "e0G-y0-N0C"; */
@@ -265,8 +325,14 @@
 /* Class = "NSButtonCell"; title = "Hide date"; ObjectID = "e15-ps-th1"; */
 "e15-ps-th1.title" = "Сховати дату";
 
+/* Class = "NSTextFieldCell"; title = "SSH configuration:"; ObjectID = "E1U-fG-XBw"; */
+"E1U-fG-XBw.title" = "SSH конфігурація:";
+
 /* Class = "NSMenuItem"; title = "Duplicate"; ObjectID = "E6I-n5-dsi"; */
 "E6I-n5-dsi.title" = "Дублювати";
+
+/* Class = "NSTextFieldCell"; title = "Path:"; ObjectID = "egX-yM-Suq"; */
+"egX-yM-Suq.title" = "Шлях:";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "Ehk-CU-fbX"; */
 "Ehk-CU-fbX.title" = "Встановити";
@@ -280,8 +346,14 @@
 /* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "ELw-Y4-DV0"; */
 "ELw-Y4-DV0.title" = "Версія";
 
-/* Class = "NSMenuItem"; title = "Creation date"; ObjectID = "eTL-dh-GvM"; */
+/* Class = "NSMenuItem"; title = "Encrypt"; ObjectID = "epi-YA-nEi"; */
+"epi-YA-nEi.title" = "Зашифрувати";
+
+/* Class = "NSMenuItem"; title = "Creation Date"; ObjectID = "eTL-dh-GvM"; */
 "eTL-dh-GvM.title" = "Датою створення";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "eUy-cc-RjG"; */
+"eUy-cc-RjG.title" = "Вікно";
 
 /* Class = "NSButtonCell"; title = "Ascending"; ObjectID = "EYG-WM-BFN"; */
 "EYG-WM-BFN.title" = "Висхідний";
@@ -301,6 +373,9 @@
 /* Class = "NSMenuItem"; title = "Underline"; ObjectID = "fCZ-JX-nxF"; */
 "fCZ-JX-nxF.title" = "Підкреслений";
 
+/* Class = "NSMenuItem"; title = "zenburn"; ObjectID = "FCZ-jz-Xb0"; */
+"FCZ-jz-Xb0.title" = "zenburn";
+
 /* Class = "NSMenu"; title = "Substitutions"; ObjectID = "FeM-D8-WVr"; */
 "FeM-D8-WVr.title" = "Заміни";
 
@@ -311,13 +386,16 @@
 "FKE-Sm-Kum.title" = "Допомога FSNotes ";
 
 /* Class = "NSTextFieldCell"; title = "Icons design:"; ObjectID = "FKf-Ph-LiA"; */
-"FKf-Ph-LiA.title" = "Icons design:";
+"FKf-Ph-LiA.title" = "Дизайн іконок:";
 
-/* Class = "NSMenuItem"; title = "Remove encryption"; ObjectID = "fkH-Wf-n87"; */
+/* Class = "NSMenuItem"; title = "Remove Encryption"; ObjectID = "fkH-Wf-n87"; */
 "fkH-Wf-n87.title" = "Розшифрувати файл";
 
-/* Class = "NSTextFieldCell"; title = "Default storage:"; ObjectID = "fmS-eE-nne"; */
+/* Class = "NSTextFieldCell"; title = "Default Storage:"; ObjectID = "fmS-eE-nne"; */
 "fmS-eE-nne.title" = "Розташування за замовчуванням:";
+
+/* Class = "NSTextFieldCell"; placeholderString = "glushchenko"; ObjectID = "fqf-qt-2y7"; */
+"fqf-qt-2y7.placeholderString" = "glushchenko";
 
 /* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "FQV-5x-ffs"; */
 "FQV-5x-ffs.title" = "Наблизити";
@@ -325,7 +403,7 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "frt-CF-STi"; */
 "frt-CF-STi.title" = "Змінити";
 
-/* Class = "NSTextFieldCell"; title = "Files naming:"; ObjectID = "FS0-ZJ-WvJ"; */
+/* Class = "NSTextFieldCell"; title = "Files Naming:"; ObjectID = "FS0-ZJ-WvJ"; */
 "FS0-ZJ-WvJ.title" = "Іменування файлів:";
 
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
@@ -337,8 +415,11 @@
 /* Class = "NSMenuItem"; title = "Rename Folder"; ObjectID = "fzU-ZR-Ubv"; */
 "fzU-ZR-Ubv.title" = "Перейменувати директорію";
 
-/* Class = "NSTextFieldCell"; title = "Auto-lock for encrypted notes:"; ObjectID = "fzY-c6-DaK"; */
+/* Class = "NSTextFieldCell"; title = "Auto-lock for Encrypted Notes:"; ObjectID = "fzY-c6-DaK"; */
 "fzY-c6-DaK.title" = "Авто-блокування:";
+
+/* Class = "NSMenuItem"; title = "tomorrow"; ObjectID = "g18-hs-VcA"; */
+"g18-hs-VcA.title" = "завтра";
 
 /* Class = "NSButtonCell"; title = "Scan inline tags"; ObjectID = "g5W-YF-jAC"; */
 "g5W-YF-jAC.title" = "Cканувати вбудовані теги";
@@ -357,6 +438,12 @@
 
 /* Class = "NSMenu"; title = "Format"; ObjectID = "GEO-Iw-cKr"; */
 "GEO-Iw-cKr.title" = "Форматування";
+
+/* Class = "NSButtonCell"; title = "FSNotes Server"; ObjectID = "gFA-SA-v9T"; */
+"gFA-SA-v9T.title" = "FSNotes сервер";
+
+/* Class = "NSTextFieldCell"; title = "Web:"; ObjectID = "ghI-ln-bql"; */
+"ghI-ln-bql.title" = "Веб:";
 
 /* Class = "NSMenuItem"; title = "Header 4"; ObjectID = "GhL-6I-558"; */
 "GhL-6I-558.title" = "Заголовок 4";
@@ -397,7 +484,10 @@
 /* Class = "NSMenuItem"; title = ".markdown"; ObjectID = "HK7-Qq-ilB"; */
 "HK7-Qq-ilB.title" = ".markdown";
 
-/* Class = "NSMenuItem"; title = "Search and create"; ObjectID = "hPY-aY-QOE"; */
+/* Class = "NSMenuItem"; title = "Open In New Window"; ObjectID = "HmK-lp-ASv"; */
+"HmK-lp-ASv.title" = "Відкрити в новому вікні";
+
+/* Class = "NSMenuItem"; title = "Search and Create"; ObjectID = "hPY-aY-QOE"; */
 "hPY-aY-QOE.title" = "Знайти або створити";
 
 /* Class = "NSMenuItem"; title = "Smart Quotes"; ObjectID = "hQb-2v-fYv"; */
@@ -406,7 +496,7 @@
 /* Class = "NSMenuItem"; title = "WikiLinks"; ObjectID = "hqQ-4C-VJL"; */
 "hqQ-4C-VJL.title" = "Вікіпосилання";
 
-/* Class = "NSMenuItem"; title = "Move Up In The Notes List"; ObjectID = "Hqu-Sx-xgo"; */
+/* Class = "NSMenuItem"; title = "Move Up in the Notes List"; ObjectID = "Hqu-Sx-xgo"; */
 "Hqu-Sx-xgo.title" = "Перейти вгору у списку нотаток";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "HyV-fh-RgO"; */
@@ -430,7 +520,7 @@
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
 "IlF-tS-GFG.title" = "Блокувати при активації скрінсейвера";
 
-/* Class = "NSTextFieldCell"; title = "New password:"; ObjectID = "iNK-dg-n5E"; */
+/* Class = "NSTextFieldCell"; title = "New Password:"; ObjectID = "iNK-dg-n5E"; */
 "iNK-dg-n5E.title" = "Новий пароль:";
 
 /* Class = "NSTextFieldCell"; title = "Hint:"; ObjectID = "ioc-u5-XRA"; */
@@ -442,19 +532,22 @@
 /* Class = "NSWindow"; title = "FSNotes"; ObjectID = "IQv-IB-iLA"; */
 "IQv-IB-iLA.title" = "FSNotes";
 
-/* Class = "NSTextFieldCell"; title = "Line spacing:"; ObjectID = "iUm-Zm-zeg"; */
+/* Class = "NSTextFieldCell"; title = "Line Spacing:"; ObjectID = "iUm-Zm-zeg"; */
 "iUm-Zm-zeg.title" = "Міжрядковий інтервал:";
 
 /* Class = "NSMenuItem"; title = "Format: Untitled Note"; ObjectID = "IWL-lp-G1M"; */
-"IWL-lp-G1M.title" = "Format: Untitled Note";
+"IWL-lp-G1M.title" = "Формат: Нотатка без назви";
 
-/* Class = "NSTextFieldCell"; title = "Line width:"; ObjectID = "Izt-6v-pKO"; */
+/* Class = "NSTextFieldCell"; title = "Line Width:"; ObjectID = "Izt-6v-pKO"; */
 "Izt-6v-pKO.title" = "Ширина рядка:";
 
 /* Class = "NSMenuItem"; title = "Custom"; ObjectID = "j8S-CW-gCM"; */
 "j8S-CW-gCM.title" = "Кастомна";
 
-/* Class = "NSMenuItem"; title = "Pin/unpin"; ObjectID = "jFN-Dp-LON"; */
+/* Class = "NSPathCell"; placeholderString = "~/.ssh/id_rsa"; ObjectID = "jce-O1-mzi"; */
+"jce-O1-mzi.placeholderString" = "~/.ssh/id_rsa";
+
+/* Class = "NSMenuItem"; title = "Pin/Unpin"; ObjectID = "jFN-Dp-LON"; */
 "jFN-Dp-LON.title" = "Закріпити/відкріпити";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "jLq-8F-n0X"; */
@@ -466,6 +559,9 @@
 /* Class = "NSMenuItem"; title = "Header 1"; ObjectID = "jRm-BN-BNK"; */
 "jRm-BN-BNK.title" = "Заголовок 1";
 
+/* Class = "NSButtonCell"; title = "Set"; ObjectID = "juB-By-EsE"; */
+"juB-By-EsE.title" = "Вибрати";
+
 /* Class = "NSMenuItem"; title = "Format"; ObjectID = "jxT-CU-nIS"; */
 "jxT-CU-nIS.title" = "Форматування";
 
@@ -474,6 +570,9 @@
 
 /* Class = "NSMenuItem"; title = "Italic"; ObjectID = "k32-YP-yyI"; */
 "k32-YP-yyI.title" = "Курсив";
+
+/* Class = "NSMenuItem"; title = "Delete Web Page"; ObjectID = "K4N-le-FPU"; */
+"K4N-le-FPU.title" = "Видалити веб-сторінку";
 
 /* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "KaC-Mz-siK"; */
 "KaC-Mz-siK.title" = "Пароль:";
@@ -484,7 +583,10 @@
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "Показати все";
 
-/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "kg2-3u-V99"; */
+/* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "kFX-as-1oC"; */
+"kFX-as-1oC.title" = "Пароль:";
+
+/* Class = "NSMenuItem"; title = "Lock/Unlock"; ObjectID = "kg2-3u-V99"; */
 "kg2-3u-V99.title" = "Заблокувати/розблокувати";
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
@@ -496,6 +598,9 @@
 /* Class = "NSButtonCell"; title = "Allow Touch ID to unlock notes"; ObjectID = "KST-y3-KvM"; */
 "KST-y3-KvM.title" = "Використовувати Touch ID ";
 
+/* Class = "NSTextFieldCell"; title = "Origin for main project:"; ObjectID = "L20-FT-VZz"; */
+"L20-FT-VZz.title" = "Remote origin основного проекту:";
+
 /* Class = "NSWindow"; title = "Preferences"; ObjectID = "ldu-U8-PD1"; */
 "ldu-U8-PD1.title" = "Вікно";
 
@@ -505,7 +610,7 @@
 /* Class = "NSButtonCell"; title = "Title"; ObjectID = "LPT-uW-BtF"; */
 "LPT-uW-BtF.title" = "Заголовок";
 
-/* Class = "NSTextFieldCell"; title = "Images width:"; ObjectID = "ltm-qj-nke"; */
+/* Class = "NSTextFieldCell"; title = "Images Width:"; ObjectID = "ltm-qj-nke"; */
 "ltm-qj-nke.title" = "Ширина зображення:";
 
 /* Class = "NSMenuItem"; title = "Bold"; ObjectID = "LTw-w4-tEo"; */
@@ -529,6 +634,9 @@
 /* Class = "NSMenu"; title = "Window"; ObjectID = "MlK-p2-CxF"; */
 "MlK-p2-CxF.title" = "Вікно";
 
+/* Class = "NSTextFieldCell"; placeholderString = "https://example.com/"; ObjectID = "mr6-e8-9hL"; */
+"mr6-e8-9hL.placeholderString" = "https://example.com/";
+
 /* Class = "NSViewController"; title = "Advanced"; ObjectID = "mvt-gI-iG0"; */
 "mvt-gI-iG0.title" = "Розширені";
 
@@ -541,20 +649,26 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "nBn-aV-7mt"; */
 "nBn-aV-7mt.title" = "Змінити";
 
+/* Class = "NSTextFieldCell"; title = "Passpharse:"; ObjectID = "NcS-0N-6uU"; */
+"NcS-0N-6uU.title" = "Кодова фраза:";
+
 /* Class = "NSMenuItem"; title = "Tab"; ObjectID = "Ncv-c4-Dmg"; */
-"Ncv-c4-Dmg.title" = "Tab";
+"Ncv-c4-Dmg.title" = "Вкладка";
 
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "nCW-CZ-qC7"; */
 "nCW-CZ-qC7.title" = "Роздрукувати";
 
-/* Class = "NSMenuItem"; title = "Save revision"; ObjectID = "Nhf-c1-VJ6"; */
+/* Class = "NSTabViewItem"; label = "Web"; ObjectID = "Ng2-HH-bmY"; */
+"Ng2-HH-bmY.label" = "Веб";
+
+/* Class = "NSMenuItem"; title = "Save Revision"; ObjectID = "Nhf-c1-VJ6"; */
 "Nhf-c1-VJ6.title" = "Зберегти версію";
 
 /* Class = "NSViewController"; title = "General"; ObjectID = "NHv-lG-vxt"; */
 "NHv-lG-vxt.title" = "Головні";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "NiN-n8-Y4W"; */
-"NiN-n8-Y4W.title" = "Text Cell";
+"NiN-n8-Y4W.title" = "Текстове поле";
 
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
 "NMo-om-nkz.title" = "Сервіси";
@@ -565,13 +679,13 @@
 /* Class = "NSButtonCell"; title = "Show in Terminal"; ObjectID = "o6a-px-wp7"; */
 "o6a-px-wp7.title" = "Показати в терміналі";
 
-/* Class = "NSMenuItem"; title = "Save revision"; ObjectID = "o8V-Wi-IWO"; */
+/* Class = "NSMenuItem"; title = "Save Revision"; ObjectID = "o8V-Wi-IWO"; */
 "o8V-Wi-IWO.title" = "Зберегти версію";
 
 /* Class = "NSMenuItem"; title = "Import"; ObjectID = "O8Z-cg-XnH"; */
 "O8Z-cg-XnH.title" = "Імпортувати";
 
-/* Class = "NSMenuItem"; title = "Show in sidebar"; ObjectID = "O9f-Lf-HF6"; */
+/* Class = "NSMenuItem"; title = "Show in Sidebar"; ObjectID = "O9f-Lf-HF6"; */
 "O9f-Lf-HF6.title" = "Показувати на бічній панелі";
 
 /* Class = "NSTextFieldCell"; title = "Title"; ObjectID = "O9K-a1-3eu"; */
@@ -579,6 +693,9 @@
 
 /* Class = "NSButtonCell"; title = "None (Use global settings)"; ObjectID = "oer-ZB-VOx"; */
 "oer-ZB-VOx.title" = "Глобальні налаштування";
+
+/* Class = "NSMenuItem"; title = "Create Web Page"; ObjectID = "oL6-fG-vHv"; */
+"oL6-fG-vHv.title" = "Створити веб-сторінку";
 
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "Сховати FSNotes";
@@ -601,19 +718,22 @@
 /* Class = "NSViewController"; title = "Layout"; ObjectID = "P2a-yk-5Rx"; */
 "P2a-yk-5Rx.title" = "Інтерфейс";
 
-/* Class = "NSTextFieldCell"; title = "Automatic snapshots:"; ObjectID = "P31-Ka-9HV"; */
+/* Class = "NSTextFieldCell"; title = "Automatic Snapshots:"; ObjectID = "P31-Ka-9HV"; */
 "P31-Ka-9HV.title" = "Автоматичні резервні копії:";
 
-/* Class = "NSTextFieldCell"; title = "Indent using:"; ObjectID = "P4M-cL-lfo"; */
+/* Class = "NSTextFieldCell"; title = "Indent Using:"; ObjectID = "P4M-cL-lfo"; */
 "P4M-cL-lfo.title" = "Відступ за допомогою:";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
 "pa3-QI-u2k.title" = "Видалити";
 
-/* Class = "NSMenuItem"; title = "Toggle preview"; ObjectID = "PdU-Em-Ugm"; */
+/* Class = "NSMenuItem"; title = "Toggle Preview"; ObjectID = "PdU-Em-Ugm"; */
 "PdU-Em-Ugm.title" = "Переключити прев'ю";
 
-/* Class = "NSTextFieldCell"; title = "Repeat password:"; ObjectID = "PLH-LL-geH"; */
+/* Class = "NSTextFieldCell"; placeholderString = "git@github.com:glushchenko/example.git"; ObjectID = "PJ2-3m-IGm"; */
+"PJ2-3m-IGm.placeholderString" = "git@github.com:glushchenko/example.git";
+
+/* Class = "NSTextFieldCell"; title = "Repeat Password:"; ObjectID = "PLH-LL-geH"; */
 "PLH-LL-geH.title" = "Пароль ще раз:";
 
 /* Class = "NSMenuItem"; title = "Duplicate"; ObjectID = "pnm-dP-GKO"; */
@@ -631,6 +751,9 @@
 /* Class = "NSButtonCell"; title = "Creation date"; ObjectID = "PY8-lr-5qr"; */
 "PY8-lr-5qr.title" = "Датою створення";
 
+/* Class = "NSMenuItem"; title = "Delete Web Page"; ObjectID = "PzH-8q-38O"; */
+"PzH-8q-38O.title" = "Видалити веб-сторінку";
+
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "Знайти далі";
 
@@ -642,6 +765,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
 "qiO-vb-B9L.title" = "Версія Git:";
+
+/* Class = "NSTextFieldCell"; title = "Or use .ssh private key (Recommended):"; ObjectID = "Qkz-nR-Fh5"; */
+"Qkz-nR-Fh5.title" = "Або використовуйте .ssh приватний ключ (рекомендується):";
 
 /* Class = "NSMenuItem"; title = "Format: yyyy-MM-dd hh.mm.ss a"; ObjectID = "qn1-vy-8oB"; */
 "qn1-vy-8oB.title" = "Формат: yyyy-MM-dd hh.mm.ss a";
@@ -661,7 +787,7 @@
 /* Class = "NSButtonCell"; title = "Focus in editor when selecting note"; ObjectID = "r2R-xe-eCA"; */
 "r2R-xe-eCA.title" = "Фокус в редактор при виборі нотатки";
 
-/* Class = "NSTextFieldCell"; title = "Margin size:"; ObjectID = "r69-B6-vT3"; */
+/* Class = "NSTextFieldCell"; title = "Margin Size:"; ObjectID = "r69-B6-vT3"; */
 "r69-B6-vT3.title" = "Відступ абзацу:";
 
 /* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "rbD-Rh-wIN"; */
@@ -676,10 +802,13 @@
 /* Class = "NSMenuItem"; title = "Smart Dashes"; ObjectID = "rgM-f4-ycn"; */
 "rgM-f4-ycn.title" = "Розумні тире";
 
-/* Class = "NSMenuItem"; title = "Sort by"; ObjectID = "rHB-xF-GgG"; */
+/* Class = "NSMenuItem"; title = "Sort By"; ObjectID = "rHB-xF-GgG"; */
 "rHB-xF-GgG.title" = "Сортувати за";
 
-/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "RSs-wb-GNg"; */
+/* Class = "NSMenuItem"; title = "atom-one-dark"; ObjectID = "Rog-4H-qth"; */
+"Rog-4H-qth.title" = "atom-one-dark";
+
+/* Class = "NSMenuItem"; title = "Lock/Unlock"; ObjectID = "RSs-wb-GNg"; */
 "RSs-wb-GNg.title" = "Заблокувати/розблокувати";
 
 /* Class = "NSMenuItem"; title = "System"; ObjectID = "rSZ-Wo-Rtj"; */
@@ -709,10 +838,10 @@
 /* Class = "NSButtonCell"; title = "Back up every"; ObjectID = "sAn-Wm-FfY"; */
 "sAn-Wm-FfY.title" = "Резервна копія кожну";
 
-/* Class = "NSTextFieldCell"; title = "Notes list:"; ObjectID = "Scc-aD-CFQ"; */
+/* Class = "NSTextFieldCell"; title = "Notes List:"; ObjectID = "Scc-aD-CFQ"; */
 "Scc-aD-CFQ.title" = "Лист нотаток:";
 
-/* Class = "NSMenuItem"; title = "Move Up In The Sidebar"; ObjectID = "sdE-ZM-6cq"; */
+/* Class = "NSMenuItem"; title = "Move Up in the Sidebar"; ObjectID = "sdE-ZM-6cq"; */
 "sdE-ZM-6cq.title" = "Перейти вгору на бічній панелі";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "SdL-vK-KjH"; */
@@ -722,10 +851,10 @@
 "SeY-r8-n3w.title" = "Файл";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "SFY-jB-hva"; */
-"SFY-jB-hva.title" = "Text Cell";
+"SFY-jB-hva.title" = "Текстове поле";
 
 /* Class = "NSTextFieldCell"; title = "Code Font"; ObjectID = "Shc-VO-eTc"; */
-"Shc-VO-eTc.title" = "Code Font";
+"Shc-VO-eTc.title" = "Шрифт коду";
 
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "Snd-dJ-uj5"; */
 "Snd-dJ-uj5.title" = "Історія";
@@ -769,14 +898,20 @@
 /* Class = "NSMenuItem"; title = "Data Detectors"; ObjectID = "tRr-pd-1PS"; */
 "tRr-pd-1PS.title" = "Детектори даних";
 
-/* Class = "NSMenuItem"; title = "New RTF"; ObjectID = "Tys-UY-xaW"; */
-"Tys-UY-xaW.title" = "Новий RTF";
+/* Class = "NSMenuItem"; title = "Open In New Window"; ObjectID = "u88-5C-vTe"; */
+"u88-5C-vTe.title" = "Відкрити в новому вікні";
+
+/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "UdE-8N-Qit"; */
+"UdE-8N-Qit.title" = "Ярлик";
 
 /* Class = "NSMenuItem"; title = "Capitalize"; ObjectID = "UEZ-Bs-lqG"; */
 "UEZ-Bs-lqG.title" = "Усі прописні";
 
 /* Class = "NSMenuItem"; title = "Light"; ObjectID = "UFh-mf-ZKG"; */
 "UFh-mf-ZKG.title" = "Світла";
+
+/* Class = "NSTextFieldCell"; placeholderString = "22"; ObjectID = "uHf-35-KHR"; */
+"uHf-35-KHR.placeholderString" = "22";
 
 /* Class = "NSMenuItem"; title = "Code Span"; ObjectID = "Ukg-MO-eaB"; */
 "Ukg-MO-eaB.title" = "Проміжок коду";
@@ -802,17 +937,32 @@
 /* Class = "NSButtonCell"; title = "Lock on sleep"; ObjectID = "Ve2-qz-vtH"; */
 "Ve2-qz-vtH.title" = "Заблокувати при засипанні";
 
+/* Class = "NSTextFieldCell"; title = "Or use .ssh private key:"; ObjectID = "vfT-nF-vst"; */
+"vfT-nF-vst.title" = "Або використовуйте .ssh приватний ключ:";
+
 /* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "vmV-6d-7jI"; */
 "vmV-6d-7jI.title" = "Верхній регістр";
 
-/* Class = "NSMenuItem"; title = "Move Down In The Sidebar"; ObjectID = "vrs-XL-lyE"; */
+/* Class = "NSMenuItem"; title = "Move Down in the Sidebar"; ObjectID = "vrs-XL-lyE"; */
 "vrs-XL-lyE.title" = "Перейти вниз на бічній панелі";
 
-/* Class = "NSButtonCell"; title = "Focus on Search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
+/* Class = "NSButtonCell"; title = "Focus on search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
 "Vwq-Ek-K2v.title" = "Фокус на пошуку по ESC";
+
+/* Class = "NSMenuItem"; title = "Create Web Page"; ObjectID = "vZO-Tx-X1j"; */
+"vZO-Tx-X1j.title" = "Створити веб-сторінку";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "Редагування";
+
+/* Class = "NSMenuItem"; title = "Lock Folder"; ObjectID = "w7R-OL-Nfh"; */
+"w7R-OL-Nfh.title" = "Заблокувати папку";
+
+/* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "wa2-sX-NOx"; */
+"wa2-sX-NOx.placeholderString" = "необов'язково";
+
+/* Class = "NSPathCell"; placeholderString = "~/.ssh/id_rsa"; ObjectID = "wDP-Yg-13R"; */
+"wDP-Yg-13R.placeholderString" = "~/.ssh/id_rsa";
 
 /* Class = "NSMenuItem"; title = "Paste and Match Style"; ObjectID = "WeT-3V-zwk"; */
 "WeT-3V-zwk.title" = "Вставити з відповідним стилем";
@@ -820,7 +970,7 @@
 /* Class = "NSButtonCell"; title = "Live images preview"; ObjectID = "wG8-3A-BMJ"; */
 "wG8-3A-BMJ.title" = "Миттєвий перегляд зображень";
 
-/* Class = "NSMenuItem"; title = "Hide/show note list"; ObjectID = "WHt-T4-l9c"; */
+/* Class = "NSMenuItem"; title = "Hide/Show Note List"; ObjectID = "WHt-T4-l9c"; */
 "WHt-T4-l9c.title" = "Приховати/показати нотатки";
 
 /* Class = "NSButtonCell"; title = "Save Master Password in Keychain"; ObjectID = "wM5-nS-jjt"; */
@@ -841,20 +991,26 @@
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
 "x3v-GG-iWU.title" = "Скопіювати";
 
+/* Class = "NSViewController"; title = "Publish"; ObjectID = "X76-X8-PbG"; */
+"X76-X8-PbG.title" = "Опублікувати";
+
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "XBB-Sr-T1D"; */
 "XBB-Sr-T1D.title" = "Перейменувати";
 
 /* Class = "NSMenuItem"; title = "Link"; ObjectID = "xfW-7n-cIw"; */
 "xfW-7n-cIw.title" = "Посилання";
 
-/* Class = "NSMenu"; title = "Show in sidebar"; ObjectID = "xjf-5G-e5Q"; */
+/* Class = "NSMenu"; title = "Show in Sidebar"; ObjectID = "xjf-5G-e5Q"; */
 "xjf-5G-e5Q.title" = "Показувати на бічній панелі";
 
-/* Class = "NSTextFieldCell"; title = "Preview font size:"; ObjectID = "xJQ-ch-Xlp"; */
+/* Class = "NSTextFieldCell"; title = "Preview Font Size:"; ObjectID = "xJQ-ch-Xlp"; */
 "xJQ-ch-Xlp.title" = "Шрифт прев'ю:";
 
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "xPh-BC-Xxl"; */
 "xPh-BC-Xxl.title" = "Історія";
+
+/* Class = "NSMenuItem"; title = "agate"; ObjectID = "xpl-3U-eFW"; */
+"xpl-3U-eFW.title" = "agate";
 
 /* Class = "NSMenuItem"; title = "Notes"; ObjectID = "xPz-yo-VwM"; */
 "xPz-yo-VwM.title" = "Нотатки";
@@ -864,6 +1020,9 @@
 
 /* Class = "NSMenuItem"; title = "Reveal in Finder"; ObjectID = "xSO-lW-k8f"; */
 "xSO-lW-k8f.title" = "Показати в Finder";
+
+/* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "xWi-IK-gJS"; */
+"xWi-IK-gJS.placeholderString" = "необов'язково";
 
 /* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
 "xX0-9b-KDq.title" = "Миттєве підсвічування коду";
@@ -877,10 +1036,13 @@
 /* Class = "NSMenuItem"; title = "Find and Replace…"; ObjectID = "YEy-JH-Tfz"; */
 "YEy-JH-Tfz.title" = "Знайти та замінити...";
 
+/* Class = "NSTextFieldCell"; title = "Quick note:"; ObjectID = "yNE-Yn-AWj"; */
+"yNE-Yn-AWj.title" = "Швидка нотатка:";
+
 /* Class = "NSMenuItem"; title = "Start Speaking"; ObjectID = "Ynk-f8-cLZ"; */
 "Ynk-f8-cLZ.title" = "Почати диктування";
 
-/* Class = "NSMenuItem"; title = "Pin/unpin"; ObjectID = "You-zo-rbl"; */
+/* Class = "NSMenuItem"; title = "Pin/Unpin"; ObjectID = "You-zo-rbl"; */
 "You-zo-rbl.title" = "Закріпити/відкріпити";
 
 /* Class = "NSButtonCell"; title = "Automatically insert closing braces and close quotes"; ObjectID = "ypO-g0-1Xo"; */
@@ -889,20 +1051,26 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
 "Yum-W4-OUy.title" = "Змінити";
 
-/* Class = "NSMenuItem"; title = "Image or file"; ObjectID = "yx6-SW-3vn"; */
+/* Class = "NSTextFieldCell"; title = "Username:"; ObjectID = "yVt-tz-tMy"; */
+"yVt-tz-tMy.title" = "Ім'я користувача:";
+
+/* Class = "NSMenuItem"; title = "Image or File"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "Зображення або файл";
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */
 "z6F-FW-3nz.title" = "Показати заміни";
 
-/* Class = "NSTextFieldCell"; title = "Open in external editor:"; ObjectID = "zcY-e5-gKs"; */
+/* Class = "NSTextFieldCell"; title = "Open in External Editor:"; ObjectID = "zcY-e5-gKs"; */
 "zcY-e5-gKs.title" = "Відкрити в редакторі:";
 
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "zd2-Rs-DPm"; */
-"zd2-Rs-DPm.title" = "Force Delete";
+"zd2-Rs-DPm.title" = "Примусово видалити";
 
 /* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */
 "Ze0-SZ-STw.title" = "Вручну";
+
+/* Class = "NSTextFieldCell"; title = "Username:"; ObjectID = "ZEX-Eh-68T"; */
+"ZEX-Eh-68T.title" = "Ім'я користувача:";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
 "ZqK-gu-KdQ.title" = "Автовибір нотатки при збігу тексту";

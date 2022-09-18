@@ -35,6 +35,9 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
+"Connection established successfully 🤟" = "Connexion établie avec succès 🤟";
+
+/* No comment provided by engineer. */
 "Copy HTML" = "Copy HTML";
 
 /* No comment provided by engineer. */
@@ -46,6 +49,9 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Correct Spelling Automatically";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "Créer une page Web";
+
 /* Menu */
 "Creation date:" = "Creation date:";
 
@@ -54,6 +60,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "Data Detectors";
+
+/* No comment provided by engineer. */
+"Decrypt" = "Décrypter";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
@@ -83,6 +92,9 @@
 "Empty password" = "Empty password";
 
 /* No comment provided by engineer. */
+"Encrypt" = "Crypter";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Enter Master Password";
 
 /* No comment provided by engineer. */
@@ -98,6 +110,9 @@
 "FSNotes [preview]" = "FSNotes [preview]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push erreur";
+
+/* No comment provided by engineer. */
 "History" = "Historique";
 
 /* No comment provided by engineer. */
@@ -107,7 +122,13 @@
 "Inbox" = "Boîte de réception";
 
 /* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 erreur: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "Link";
+
+/* No comment provided by engineer. */
+"Lock" = "Bloquer";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "Lock All Encrypted";
@@ -165,6 +186,12 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "Please enter tags (comma separated):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "Veuillez sélectionner une clé privée et une clé publique";
+
+/* No comment provided by engineer. */
+"Please select private key" = "Veuillez sélectionner la clé privée";
 
 /* No comment provided by engineer. */
 "Please try again" = "Please try again";
@@ -230,6 +257,9 @@
 "Spelling and Grammar" = "Spelling and Grammar";
 
 /* No comment provided by engineer. */
+"SSH error" = "SSH erreur";
+
+/* No comment provided by engineer. */
 "Substitutions" = "Substitutions";
 
 /* Menu
@@ -255,10 +285,16 @@
 "Underline" = "Underline";
 
 /* No comment provided by engineer. */
+"Unlock" = "Ouvrir";
+
+/* No comment provided by engineer. */
 "Untagged" = "Untagged";
 
 /* Untitled Note */
 "Untitled Note" = "Untitled Note";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "Mettre à jour la page Web";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL has been copied to clipboard";
@@ -273,7 +309,16 @@
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
 
 /* No comment provided by engineer. */
+"Web publishing error" = "Erreur de publication Web";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Mauvais mot de passe";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "Wrong repeated password";
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
+
+/* Menu */
+"Change creation date" = "Modifier la date de création";
