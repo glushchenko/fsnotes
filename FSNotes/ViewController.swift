@@ -803,6 +803,9 @@ class ViewController: EditorViewController,
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
             && UserDefaultsManagement.shouldFocusSearchOnESCKeyDown
         ) {
+            self.view.window?.orderFront(nil)
+            self.view.window?.makeKey()
+            
             search.searchesMenu = nil
 
             if NSApplication.shared.mainWindow?.firstResponder === editor, editor.selectedRange().length > 0 {
