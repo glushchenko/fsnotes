@@ -55,6 +55,7 @@ extension ViewController {
         
         let latinName  = note.getLatinName()
         let remoteDir = "\(sftpPath)\(latinName)/"
+        let resultUrl = web + latinName + "/"
         
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(web + latinName + "/", forType: .string)
@@ -103,6 +104,8 @@ extension ViewController {
                     DispatchQueue.main.async {
                         self.sendNotification()
                         self.notesTableView.reloadRow(note: note)
+                        
+                        NSWorkspace.shared.open(URL(string: resultUrl)!)
                     }
                 }
                 
@@ -265,12 +268,14 @@ extension ViewController {
                     note.apiId = noteId
                     self.storage.saveAPIIds()
                     
-                    let url = "\(web)\(noteId)/"
+                    let resultUrl = "\(web)\(noteId)/"
                     let pasteboard = NSPasteboard.general
                     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-                    pasteboard.setString(url, forType: NSPasteboard.PasteboardType.string)
+                    pasteboard.setString(resultUrl, forType: NSPasteboard.PasteboardType.string)
                     
                     self.notesTableView.reloadRow(note: note)
+                    
+                    NSWorkspace.shared.open(URL(string: resultUrl)!)
                 }
             }
         }
