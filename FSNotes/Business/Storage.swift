@@ -1527,6 +1527,56 @@ class Storage {
         return revisionsUrl
     }
     
+    public func saveUploadPaths() {
+        let notes = noteList.filter({ $0.uploadPath != nil })
+        
+        var bookmarks = [URL: String]()
+        for note in notes {
+            if let path = note.uploadPath, path.count > 1 {
+                bookmarks[note.url] = path
+            }
+        }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
+        UserDefaultsManagement.sftpUploadBookmarksData = data
+    }
+    
+    public func restoreUploadPaths() {
+        guard let data = UserDefaultsManagement.sftpUploadBookmarksData,
+              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
+        
+        for bookmark in uploadBookmarks {
+            if let note = getBy(url: bookmark.key) {
+                note.uploadPath = bookmark.value
+            }
+        }
+    }
+    
+    public func saveAPIIds() {
+        let notes = noteList.filter({ $0.apiId != nil })
+        
+        var bookmarks = [URL: String]()
+        for note in notes {
+            if let path = note.apiId, path.count > 1 {
+                bookmarks[note.url] = path
+            }
+        }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
+        UserDefaultsManagement.apiBookmarksData = data
+    }
+    
+    public func restoreAPIIds() {
+        guard let data = UserDefaultsManagement.apiBookmarksData,
+              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
+        
+        for bookmark in uploadBookmarks {
+            if let note = getBy(url: bookmark.key) {
+                note.apiId = bookmark.value
+            }
+        }
+    }
+    
     public func saveNotesSettings() {
         var result = [URL: [String: Any]]()
 

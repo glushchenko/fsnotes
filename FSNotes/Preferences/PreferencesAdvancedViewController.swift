@@ -28,20 +28,6 @@ class PreferencesAdvancedViewController: NSViewController {
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
-
-            if type == .Dark {
-                UserDefaultsManagement.codeTheme = "monokai-sublime"
-            } else if type == .System {
-                if #available(OSX 10.14, *) {
-                    let mode = UserDefaults.standard.string(forKey: "AppleInterfaceStyle")
-
-                    if mode == "Dark" {
-                        UserDefaultsManagement.codeTheme = "monokai-sublime"
-                    }
-                }
-            } else {
-                UserDefaultsManagement.codeTheme = "github"
-            }
         }
 
         restart()

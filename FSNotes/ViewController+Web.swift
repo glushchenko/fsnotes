@@ -28,9 +28,9 @@ extension ViewController {
                 note.uploadPath = nil
                 
                 if UserDefaultsManagement.customWebServer {
-                    self.saveUploadPaths()
+                    self.storage.saveUploadPaths()
                 } else {
-                    self.saveAPIIds()
+                    self.storage.saveAPIIds()
                 }
             } catch {
                 print(error, error.localizedDescription)
@@ -109,63 +109,13 @@ extension ViewController {
                 
                 note.uploadPath = remoteDir
                 
-                self.saveUploadPaths()
+                self.storage.saveUploadPaths()
             } catch {
                 print(error, error.localizedDescription)
             }
         }
     }
-    
-    public func saveUploadPaths() {
-        let notes = Storage.sharedInstance().noteList.filter({ $0.uploadPath != nil })
         
-        var bookmarks = [URL: String]()
-        for note in notes {
-            if let path = note.uploadPath, path.count > 1 {
-                bookmarks[note.url] = path
-            }
-        }
-        
-        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
-        UserDefaultsManagement.sftpUploadBookmarksData = data
-    }
-    
-    public func restoreUploadPaths() {
-        guard let data = UserDefaultsManagement.sftpUploadBookmarksData,
-              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
-        
-        for bookmark in uploadBookmarks {
-            if let note = storage.getBy(url: bookmark.key) {
-                note.uploadPath = bookmark.value
-            }
-        }
-    }
-    
-    public func saveAPIIds() {
-        let notes = storage.noteList.filter({ $0.apiId != nil })
-        
-        var bookmarks = [URL: String]()
-        for note in notes {
-            if let path = note.apiId, path.count > 1 {
-                bookmarks[note.url] = path
-            }
-        }
-        
-        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
-        UserDefaultsManagement.apiBookmarksData = data
-    }
-    
-    public func restoreAPIIds() {
-        guard let data = UserDefaultsManagement.apiBookmarksData,
-              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
-        
-        for bookmark in uploadBookmarks {
-            if let note = storage.getBy(url: bookmark.key) {
-                note.apiId = bookmark.value
-            }
-        }
-    }
-    
     private func getSSHResource() -> SSH? {
         let host = UserDefaultsManagement.sftpHost
         let username = UserDefaultsManagement.sftpUsername
@@ -241,7 +191,7 @@ extension ViewController {
                     self.showAlert(message: msg)
                 } else if let _ = api.id {
                     note.apiId = nil
-                    self.saveAPIIds()
+                    self.storage.saveAPIIds()
                     
                     self.notesTableView.reloadRow(note: note)
                 }
@@ -312,7 +262,7 @@ extension ViewController {
                     self.showAlert(message: msg)
                 } else if let noteId = api.id {
                     note.apiId = noteId
-                    self.saveAPIIds()
+                    self.storage.saveAPIIds()
                     
                     let url = "\(web)\(noteId)/"
                     let pasteboard = NSPasteboard.general
