@@ -16,11 +16,14 @@ extension EditorViewController {
         guard !isGitProcessLocked else { return }
         guard let note = getSelectedNotes()?.first else { return }
 
-        let project = note.project.getParent()
+        let project = note.project.getGitProject()
         isGitProcessLocked = true
 
         DispatchQueue.global().async {
-            guard let repository = project.getRepository() else { return }
+            guard let repository = project.getRepository() else {
+                self.isGitProcessLocked = false
+                return
+            }
             
             let gitPath = note.getGitPath()
             if case .failure(let error) = repository.add(path: gitPath) {
@@ -53,7 +56,7 @@ extension EditorViewController {
 
         UserDataService.instance.fsUpdatesDisabled = true
 
-        let repository = git.getRepository(by: note.project.getParent())
+        let repository = git.getRepository(by: note.project.getGitProject())
 
         if git.prevCommit == nil {
             saveRevision(sender)
@@ -104,13 +107,13 @@ extension EditorViewController {
                     continue
                 }
 
-                if project.isRoot || project.isArchive {                    
+                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
                     _ = project.commitAll()
                     _ = project.push()
-                    
-                    self.isGitProcessLocked = false
                 }
             }
+            
+            self.isGitProcessLocked = false
         }
     }
 

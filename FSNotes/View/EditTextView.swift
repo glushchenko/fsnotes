@@ -2041,6 +2041,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 _ = try? NSWorkspace.shared.open(url, options: .withoutActivation, configuration: [:])
                 return
             }
+            
+            if NSEvent.modifierFlags.contains(.shift), let link = link as? String, URL(string: link) != nil {
+                setSelectedRange(NSRange(location: charIndex, length: 0))
+                return
+            }
 
             super.clicked(onLink: link, at: charIndex)
             return
@@ -2075,7 +2080,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
 
-        
         guard let vc = editorViewController, let window = vc.view.window else { return }
 
         vc.alert = NSAlert()

@@ -505,7 +505,7 @@ public class Project: Equatable {
             return nil
         }
 
-        let parentURL = getParent().url
+        let parentURL = getGitProject().url
         let relative = url.path.replacingOccurrences(of: parentURL.path, with: "")
         
         if relative.first == "/" {
@@ -756,5 +756,21 @@ public class Project: Equatable {
         }
         
         return 0
+    }
+    
+    public func getGitProject() -> Project {
+        if isGitOriginExist() {
+            return self
+        } else {
+            return getParent()
+        }
+    }
+    
+    public func isGitOriginExist() -> Bool {
+        if let origin = gitOrigin, origin.count > 0 {
+            return true
+        }
+        
+        return false
     }
 }

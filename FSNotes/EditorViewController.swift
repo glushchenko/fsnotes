@@ -434,7 +434,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         let moveMenu = NSMenu()
 
         let git = FSGit.sharedInstance()
-        let repository = git.getRepository(by: note.project.getParent())
+        let repository = git.getRepository(by: note.project.getGitProject())
         let commits = repository.getCommits(by: note.getGitPath())
 
         if commits.count == 0 {
