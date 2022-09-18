@@ -27,10 +27,10 @@ extension ViewController {
                 
                 note.uploadPath = nil
                 
-                if UserDefaultsManagement.customWebServer {
-                    self.storage.saveUploadPaths()
-                } else {
-                    self.storage.saveAPIIds()
+                self.storage.saveUploadPaths()
+                
+                DispatchQueue.main.async {
+                    self.notesTableView.reloadRow(note: note)
                 }
             } catch {
                 print(error, error.localizedDescription)
@@ -102,6 +102,7 @@ extension ViewController {
                 if #available(macOS 10.14, *) {
                     DispatchQueue.main.async {
                         self.sendNotification()
+                        self.notesTableView.reloadRow(note: note)
                     }
                 }
                 
