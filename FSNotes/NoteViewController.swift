@@ -49,6 +49,10 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
         super.viewDidResize()
     }
     
+    func windowWillClose(_ notification: Notification) {
+        AppDelegate.noteWindows.removeAll(where: { ($0.contentViewController as? NoteViewController)?.editor.note === editor.note  })
+    }
+    
     func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
         if let fr = window.firstResponder,
             fr.isKind(of: EditTextView.self),

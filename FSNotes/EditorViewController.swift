@@ -537,12 +537,18 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     // MARK: Dep methods
     
-    public func openInNewWindow(note: Note, previewState: Bool? = nil) {
+    public func openInNewWindow(note: Note, previewState: Bool? = nil, frame: NSRect? = nil) {
         guard let windowController = NSStoryboard(name: "Main", bundle: nil)
             .instantiateController(withIdentifier: "noteWindowController") as? NSWindowController else { return }
         
         windowController.showWindow(nil)
         windowController.window?.makeKeyAndOrderFront(windowController)
+        
+        if let frame = frame {
+            DispatchQueue.main.async {
+                windowController.window?.setFrame(frame, display: true)
+            }
+        }
         
         let viewController = windowController.contentViewController as! NoteViewController
         viewController.initWindow()

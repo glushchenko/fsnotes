@@ -982,7 +982,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
                 emptyEditAreaImage.isHidden = false
             } else {
-                emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "logoInCircle")
+                emptyEditAreaImage.image = NSImage(named: "logo_editor")
                 emptyEditAreaImage.isHidden = true
             }
         }
@@ -1124,7 +1124,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         window?.title = AppDelegate.appTitle
         
         if let emptyEditAreaImage = editorViewController?.vcEmptyEditAreaImage {
-            emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "logoInCircle")
+            emptyEditAreaImage.image = NSImage(named: "logo_editor")
             emptyEditAreaImage.isHidden = false
             editorViewController?.dropTitle()
         }

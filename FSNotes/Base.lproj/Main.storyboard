@@ -2037,9 +2037,9 @@ CA
                                                         </constraints>
                                                     </customView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="199" y="215" width="170" height="170"/>
+                                                        <rect key="frame" x="219" y="239" width="130" height="121"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logoInCircle" id="WpA-pT-SDs"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logo_editor" id="WpA-pT-SDs"/>
                                                         <color key="contentTintColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </imageView>
                                                 </subviews>
@@ -3798,9 +3798,9 @@ Will Pazner (github.com/pazner)</string>
                                 </scroller>
                             </scrollView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ML3-K3-vlx">
-                                <rect key="frame" x="150" y="84" width="165" height="170"/>
+                                <rect key="frame" x="185" y="111" width="109" height="115"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logoInCircle" id="riY-9N-gUN"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logo_editor" id="riY-9N-gUN"/>
                             </imageView>
                         </subviews>
                         <constraints>
@@ -4591,7 +4591,7 @@ Will Pazner (github.com/pazner)</string>
         <image name="dockIcon4" width="64" height="64"/>
         <image name="icon" width="1024" height="1024"/>
         <image name="lock-closed" width="128" height="128"/>
-        <image name="logoInCircle" width="250" height="250"/>
+        <image name="logo_editor" width="800" height="792"/>
         <image name="new_note_button" width="76" height="76"/>
         <image name="pin" width="128" height="128"/>
         <image name="prefsAdvanced" width="171" height="171"/>

@@ -610,6 +610,9 @@
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
+		D7B15A1C28D76A9400643FA5 /* logo_editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B15A1B28D76A9400643FA5 /* logo_editor.png */; };
+		D7B15A1D28D76A9400643FA5 /* logo_editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B15A1B28D76A9400643FA5 /* logo_editor.png */; };
+		D7B15A1E28D76A9400643FA5 /* logo_editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B15A1B28D76A9400643FA5 /* logo_editor.png */; };
 		D7B1F6AC246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
 		D7B1F6AD246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
 		D7B1F6AE246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
@@ -1458,6 +1461,7 @@
 		D7A7F7A1241E2E1A003AC0AD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
+		D7B15A1B28D76A9400643FA5 /* logo_editor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_editor.png; sourceTree = "<group>"; };
 		D7B1F6A32468718E00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		D7B1F6A42468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		D7B1F6A72468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -2214,6 +2218,7 @@
 				D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */,
 				D70A727323944846006AF320 /* checkbox1012.png */,
 				D70A7277239467C1006AF320 /* checkbox_empty1012.png */,
+				D7B15A1B28D76A9400643FA5 /* logo_editor.png */,
 				D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */,
 				D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */,
 				D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */,
@@ -2821,6 +2826,7 @@
 				D7D79C2A236798C300898A2D /* Welcome.bundle in Resources */,
 				D75E340122462442006AD1C1 /* AvenirNext-UltraLightIt.ttf in Resources */,
 				D75E340222462442006AD1C1 /* pin.png in Resources */,
+				D7B15A1E28D76A9400643FA5 /* logo_editor.png in Resources */,
 				D7C690C022AAE16200BFBBD1 /* unindent.png in Resources */,
 				D7D7CD5223278A2F0016AC15 /* Git.bundle in Resources */,
 				D7C690D922AB075F00BFBBD1 /* bold@3x.png in Resources */,
@@ -3033,6 +3039,7 @@
 				D759D1FA2276D25C00961E90 /* icon_alt.png in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
 				D7F2F19D21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
+				D7B15A1C28D76A9400643FA5 /* logo_editor.png in Resources */,
 				D7F2F1B821C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
 				D720241522A9412B000A7691 /* TextBundle.icns in Resources */,
@@ -3105,6 +3112,7 @@
 				D7D7CD5123278A2F0016AC15 /* Git.bundle in Resources */,
 				D7F2F1BC21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D7C690C522AAE16200BFBBD1 /* indent@3x.png in Resources */,
+				D7B15A1D28D76A9400643FA5 /* logo_editor.png in Resources */,
 				D7C690D522AB033B00BFBBD1 /* tb_link.png in Resources */,
 				D7C690B222AA4B2900BFBBD1 /* todo@2x.png in Resources */,
 				D7C690AE22AA4B1E00BFBBD1 /* italic.png in Resources */,
@@ -4361,7 +4369,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 535;
+				CURRENT_PROJECT_VERSION = 538;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4399,7 +4407,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 535;
+				CURRENT_PROJECT_VERSION = 538;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;

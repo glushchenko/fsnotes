@@ -208,6 +208,8 @@ class ViewController: EditorViewController,
                 appDelegate.create(name: name, content: content)
             }
         }
+        
+        restoreOpenedWindows()
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -2145,6 +2147,22 @@ class ViewController: EditorViewController,
         if (notesTableView.noteList.indices.contains(selected)) {
             let currentNote = notesTableView.noteList[selected]
             openInNewWindow(note: currentNote)
+        }
+    }
+    
+    private func restoreOpenedWindows() {
+        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
+ 
+        let projectsDataUrl = documentDir.appendingPathComponent("windows.settings")
+        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
+        
+        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: Data] else { return }
+        
+        for item in unarchivedData.reversed() {
+            guard let note = storage.getBy(url: item.key) else { continue }
+            guard let frame = NSKeyedUnarchiver.unarchiveObject(with: item.value) as? NSRect else { continue }
+            
+            openInNewWindow(note: note, frame: frame)
         }
     }
 }

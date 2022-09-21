@@ -107,6 +107,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        AppDelegate.saveWindowsState()
+        
         Storage.sharedInstance().saveNotesSettings()
         Storage.sharedInstance().saveAPIIds()
         Storage.sharedInstance().saveUploadPaths()
@@ -132,6 +134,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if let x = mainWC.window?.frame.origin.x, let y = mainWC.window?.frame.origin.y {
             UserDefaultsManagement.lastScreenX = Int(x)
             UserDefaultsManagement.lastScreenY = Int(y)
+        }
+    }
+    
+    private static func saveWindowsState() {
+        var result = [URL: Data]()
+                
+        let noteWindows = self.noteWindows.sorted(by: { $0.window!.orderedIndex > $1.window!.orderedIndex })
+        for windowController in noteWindows{
+            if let frame = windowController.window?.frame {
+                let data = NSKeyedArchiver.archivedData(withRootObject: frame)
+                
+                if let controller = windowController.contentViewController as? NoteViewController,
+                    let note = controller.editor.note {
+                    result[note.url] = data
+                }
+            }
+        }
+
+        let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
+        if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+            try? projectsData?.write(to: documentDir.appendingPathComponent("windows.settings"))
         }
     }
     
