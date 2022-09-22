@@ -35,6 +35,9 @@
 "Clear" = "נקה";
 
 /* No comment provided by engineer. */
+"Connection established successfully 🤟" = "החיבור נוצר בהצלחה 🤟";
+
+/* No comment provided by engineer. */
 "Copy HTML" = "העתק HTML";
 
 /* No comment provided by engineer. */
@@ -46,6 +49,9 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "תקן איות באופן אוטומטי";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "צור דף אינטרנט";
+
 /* Menu */
 "Creation date:" = "תאריך יצירה:";
 
@@ -54,6 +60,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "גלאי נתונים";
+
+/* No comment provided by engineer. */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "נתיב האחסון צריך לא להיות שווה לנתיב Git.";
@@ -83,6 +92,9 @@
 "Empty password" = "הסיסמה ריקה";
 
 /* No comment provided by engineer. */
+"Encrypt" = "הצפין";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "הכנס סיסמה ראשית";
 
 /* No comment provided by engineer. */
@@ -98,6 +110,9 @@
 "FSNotes [preview]" = "FSNotes [תצוגה]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push שְׁגִיאָה";
+
+/* No comment provided by engineer. */
 "History" = "היסטוריה";
 
 /* No comment provided by engineer. */
@@ -107,7 +122,13 @@
 "Inbox" = "תיבת דואר נכנס";
 
 /* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 שְׁגִיאָה: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "קישור";
+
+/* No comment provided by engineer. */
+"Lock" = "Lock";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "נעל פתקים מוצפנים";
@@ -165,6 +186,12 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "נא הכנס תגים (מופרדים בפסיק):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "אנא בחר מפתח פרטי וציבורי";
+
+/* No comment provided by engineer. */
+"Please select private key" = "אנא בחר מפתח פרטי";
 
 /* No comment provided by engineer. */
 "Please try again" = "נסה שוב";
@@ -230,6 +257,9 @@
 "Spelling and Grammar" = "איות ודקדוק";
 
 /* No comment provided by engineer. */
+"SSH error" = "SSH שְׁגִיאָה";
+
+/* No comment provided by engineer. */
 "Substitutions" = "החלפות";
 
 /* Menu
@@ -255,10 +285,16 @@
 "Underline" = "קו תחתון";
 
 /* No comment provided by engineer. */
+"Unlock" = "Unlock";
+
+/* No comment provided by engineer. */
 "Untagged" = "ללא תגים";
 
 /* Untitled Note */
 "Untitled Note" = "פתק ללא שם";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "עדכן את דף האינטרנט";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "הכתובת הועתקה";
@@ -273,7 +309,16 @@
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "לא ניתן להעביר \\\"{DST_PATH}\\\" מפני שקובץ באותו שם כבר קיים ביעד הנבחר.";
 
 /* No comment provided by engineer. */
+"Web publishing error" = "שגיאת פרסום באינטרנט";
+
+/* No comment provided by engineer. */
+"Wrong password" = "סיסמה שגויה";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "הסיסמאות לא תואמות";
 
 /* No comment provided by engineer. */
 "Yes" = "כן";
+
+/* Menu */
+"Change creation date" = "שנה את תאריך היצירה";
