@@ -650,7 +650,7 @@
 "nBn-aV-7mt.title" = "Змінити";
 
 /* Class = "NSTextFieldCell"; title = "Passpharse:"; ObjectID = "NcS-0N-6uU"; */
-"NcS-0N-6uU.title" = "Кодова фраза:";
+"NcS-0N-6uU.title" = "Парольна фраза:";
 
 /* Class = "NSMenuItem"; title = "Tab"; ObjectID = "Ncv-c4-Dmg"; */
 "Ncv-c4-Dmg.title" = "Вкладка";

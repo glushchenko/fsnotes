@@ -5,7 +5,7 @@
 "0Qp-Is-dNs.placeholderString" = "example.com";
 
 /* Class = "NSTextFieldCell"; title = "Push credentials:"; ObjectID = "0ZZ-AS-LlN"; */
-"0ZZ-AS-LlN.title" = "Push credentials:";
+"0ZZ-AS-LlN.title" = "Push 資格:";
 
 /* Class = "NSTextFieldCell"; title = "Translators:"; ObjectID = "13t-eQ-kOr"; */
 "13t-eQ-kOr.title" = "翻訳者:";
@@ -47,7 +47,7 @@
 "2un-du-hJz.title" = "Git";
 
 /* Class = "NSMenuItem"; title = "New In New Window"; ObjectID = "2Vh-rt-1kc"; */
-"2Vh-rt-1kc.title" = "New In New Window";
+"2Vh-rt-1kc.title" = "新しいウィンドウで新しいメモ";
 
 /* Class = "NSButtonCell"; title = "Restore cursor position"; ObjectID = "3iM-ZV-3Gf"; */
 "3iM-ZV-3Gf.title" = "カーソル位置を復元する";
@@ -155,7 +155,7 @@
 "8dk-Cf-bSg.title" = "ユーザー切り替え時";
 
 /* Class = "NSTextFieldCell"; title = "Credentials:"; ObjectID = "8om-Y6-O8e"; */
-"8om-Y6-O8e.title" = "Credentials:";
+"8om-Y6-O8e.title" = "資格:";
 
 /* Class = "NSTextFieldCell"; title = "Note Color:"; ObjectID = "8oP-79-BAN"; */
 "8oP-79-BAN.title" = "文字色:";
@@ -188,7 +188,7 @@
 "AEC-HT-Gd6.placeholderString" = "ghp_if6C09slkds893klssd9032sdklCC";
 
 /* Class = "NSButtonCell"; title = "Upload and test initial data"; ObjectID = "aGv-BR-Oc8"; */
-"aGv-BR-Oc8.title" = "Upload and test initial data";
+"aGv-BR-Oc8.title" = "初期データのアップロードとテスト";
 
 /* Class = "NSTextFieldCell"; title = "Repositories:"; ObjectID = "ASf-hd-2fT"; */
 "ASf-hd-2fT.title" = "リポジトリ:";
@@ -236,7 +236,7 @@
 "buJ-ug-pKt.title" = "選択部分を検索に使用";
 
 /* Class = "NSTextFieldCell"; title = "Publish notes to:"; ObjectID = "bUL-WS-rIS"; */
-"bUL-WS-rIS.title" = "Publish notes to:";
+"bUL-WS-rIS.title" = "以下に関するメモを公開します。";
 
 /* Class = "NSMenuItem"; title = "Untagged"; ObjectID = "BX0-nb-tVk"; */
 "BX0-nb-tVk.title" = "タグ無し";
@@ -296,10 +296,10 @@
 "DeU-hy-pvi.title" = "左にシフト";
 
 /* Class = "NSButtonCell"; title = "Custom Server"; ObjectID = "Dp7-4n-ilt"; */
-"Dp7-4n-ilt.title" = "Custom Server";
+"Dp7-4n-ilt.title" = "カスタムサーバー";
 
 /* Class = "NSMenuItem"; title = "Encrypt Folder"; ObjectID = "dqy-22-ETG"; */
-"dqy-22-ETG.title" = "Encrypt Folder";
+"dqy-22-ETG.title" = "フォルダの暗号化";
 
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
 "dRJ-4n-Yzg.title" = "取り消す";
@@ -311,7 +311,7 @@
 "DWe-bx-jfM.title" = "ヘッダー 5";
 
 /* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "DXE-kd-1X3"; */
-"DXE-kd-1X3.title" = "Password:";
+"DXE-kd-1X3.title" = "パスワード:";
 
 /* Class = "NSTextFieldCell"; title = "Archive Storage:"; ObjectID = "dys-2Q-lfZ"; */
 "dys-2Q-lfZ.title" = "アーカイブストレージ:";
@@ -326,7 +326,7 @@
 "e15-ps-th1.title" = "日付を非表示";
 
 /* Class = "NSTextFieldCell"; title = "SSH configuration:"; ObjectID = "E1U-fG-XBw"; */
-"E1U-fG-XBw.title" = "SSH configuration:";
+"E1U-fG-XBw.title" = "SSH 構成:";
 
 /* Class = "NSMenuItem"; title = "Duplicate"; ObjectID = "E6I-n5-dsi"; */
 "E6I-n5-dsi.title" = "複製";
@@ -347,13 +347,13 @@
 "ELw-Y4-DV0.title" = "バージョン";
 
 /* Class = "NSMenuItem"; title = "Encrypt"; ObjectID = "epi-YA-nEi"; */
-"epi-YA-nEi.title" = "Encrypt";
+"epi-YA-nEi.title" = "暗号化する";
 
 /* Class = "NSMenuItem"; title = "Creation Date"; ObjectID = "eTL-dh-GvM"; */
 "eTL-dh-GvM.title" = "作成日";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "eUy-cc-RjG"; */
-"eUy-cc-RjG.title" = "Window";
+"eUy-cc-RjG.title" = "窓";
 
 /* Class = "NSButtonCell"; title = "Ascending"; ObjectID = "EYG-WM-BFN"; */
 "EYG-WM-BFN.title" = "昇順";
@@ -407,7 +407,7 @@
 "FS0-ZJ-WvJ.title" = "ファイル名:";
 
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
-"fsF-5N-tWg.title" = "Made with ❤️ in Ukraine 🇺🇦 ";
+"fsF-5N-tWg.title" = "ウクライナで❤️を使って作られました🇺🇦";
 
 /* Class = "NSMenuItem"; title = "Sidebar"; ObjectID = "Fuh-qO-nt2"; */
 "Fuh-qO-nt2.title" = "サイドバー";
@@ -440,7 +440,7 @@
 "GEO-Iw-cKr.title" = "フォーマット";
 
 /* Class = "NSButtonCell"; title = "FSNotes Server"; ObjectID = "gFA-SA-v9T"; */
-"gFA-SA-v9T.title" = "FSNotes Server";
+"gFA-SA-v9T.title" = "FSNotes サーバー";
 
 /* Class = "NSTextFieldCell"; title = "Web:"; ObjectID = "ghI-ln-bql"; */
 "ghI-ln-bql.title" = "Web:";
@@ -485,7 +485,7 @@
 "HK7-Qq-ilB.title" = ".markdown";
 
 /* Class = "NSMenuItem"; title = "Open In New Window"; ObjectID = "HmK-lp-ASv"; */
-"HmK-lp-ASv.title" = "Open In New Window";
+"HmK-lp-ASv.title" = "新しいウィンドウで開きます";
 
 /* Class = "NSMenuItem"; title = "Search and Create"; ObjectID = "hPY-aY-QOE"; */
 "hPY-aY-QOE.title" = "検索または新規作成";
@@ -554,7 +554,7 @@
 "jLq-8F-n0X.title" = "名称変更";
 
 /* Class = "NSTextFieldCell"; title = "Visibility:"; ObjectID = "jrj-ea-xmm"; */
-"jrj-ea-xmm.title" = "Visibility:";
+"jrj-ea-xmm.title" = "視認性:";
 
 /* Class = "NSMenuItem"; title = "Header 1"; ObjectID = "jRm-BN-BNK"; */
 "jRm-BN-BNK.title" = "ヘッダー 1";
@@ -584,7 +584,7 @@
 "Kd2-mp-pUS.title" = "すべてを表示";
 
 /* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "kFX-as-1oC"; */
-"kFX-as-1oC.title" = "Password:";
+"kFX-as-1oC.title" = "パスワード:";
 
 /* Class = "NSMenuItem"; title = "Lock/Unlock"; ObjectID = "kg2-3u-V99"; */
 "kg2-3u-V99.title" = "ロック/ロックの削除";
@@ -599,7 +599,7 @@
 "KST-y3-KvM.title" = "Touch IDを使ってロックされたノートを表示";
 
 /* Class = "NSTextFieldCell"; title = "Origin for main project:"; ObjectID = "L20-FT-VZz"; */
-"L20-FT-VZz.title" = "Origin for main project:";
+"L20-FT-VZz.title" = "Origin メインプロジェクト用:";
 
 /* Class = "NSWindow"; title = "Preferences"; ObjectID = "ldu-U8-PD1"; */
 "ldu-U8-PD1.title" = "環境設定…";
@@ -650,7 +650,7 @@
 "nBn-aV-7mt.title" = "変更";
 
 /* Class = "NSTextFieldCell"; title = "Passpharse:"; ObjectID = "NcS-0N-6uU"; */
-"NcS-0N-6uU.title" = "Passpharse:";
+"NcS-0N-6uU.title" = "パスフレーズ:";
 
 /* Class = "NSMenuItem"; title = "Tab"; ObjectID = "Ncv-c4-Dmg"; */
 "Ncv-c4-Dmg.title" = "タブ";
@@ -695,7 +695,7 @@
 "oer-ZB-VOx.title" = "自動";
 
 /* Class = "NSMenuItem"; title = "Create Web Page"; ObjectID = "oL6-fG-vHv"; */
-"oL6-fG-vHv.title" = "Create Web Page";
+"oL6-fG-vHv.title" = "ウェブページの作成";
 
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "FSNotesを非表示";
@@ -752,7 +752,7 @@
 "PY8-lr-5qr.title" = "作成日";
 
 /* Class = "NSMenuItem"; title = "Delete Web Page"; ObjectID = "PzH-8q-38O"; */
-"PzH-8q-38O.title" = "Delete Web Page";
+"PzH-8q-38O.title" = "ウェブページを削除";
 
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "次を探す";
@@ -767,7 +767,7 @@
 "qiO-vb-B9L.title" = "Git バージョン:";
 
 /* Class = "NSTextFieldCell"; title = "Or use .ssh private key (Recommended):"; ObjectID = "Qkz-nR-Fh5"; */
-"Qkz-nR-Fh5.title" = "Or use .ssh private key (Recommended):";
+"Qkz-nR-Fh5.title" = "または、.ssh 秘密鍵を使用します (推奨):";
 
 /* Class = "NSMenuItem"; title = "Format: yyyy-MM-dd hh.mm.ss a"; ObjectID = "qn1-vy-8oB"; */
 "qn1-vy-8oB.title" = "フォーマット: yyyy-MM-dd hh.mm.ss a";
@@ -899,7 +899,7 @@
 "tRr-pd-1PS.title" = "データ検出";
 
 /* Class = "NSMenuItem"; title = "Open In New Window"; ObjectID = "u88-5C-vTe"; */
-"u88-5C-vTe.title" = "Open In New Window";
+"u88-5C-vTe.title" = "新しいウィンドウで開きます";
 
 /* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "UdE-8N-Qit"; */
 "UdE-8N-Qit.title" = "Label";
@@ -938,7 +938,7 @@
 "Ve2-qz-vtH.title" = "スリープ時";
 
 /* Class = "NSTextFieldCell"; title = "Or use .ssh private key:"; ObjectID = "vfT-nF-vst"; */
-"vfT-nF-vst.title" = "Or use .ssh private key:";
+"vfT-nF-vst.title" = "または、.ssh 秘密鍵を使用します。";
 
 /* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "vmV-6d-7jI"; */
 "vmV-6d-7jI.title" = "大文字にする";
@@ -950,16 +950,16 @@
 "Vwq-Ek-K2v.title" = "Escボタンを押して検索バーに移動";
 
 /* Class = "NSMenuItem"; title = "Create Web Page"; ObjectID = "vZO-Tx-X1j"; */
-"vZO-Tx-X1j.title" = "Create Web Page";
+"vZO-Tx-X1j.title" = "ウェブページの作成";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "編集";
 
 /* Class = "NSMenuItem"; title = "Lock Folder"; ObjectID = "w7R-OL-Nfh"; */
-"w7R-OL-Nfh.title" = "Lock Folder";
+"w7R-OL-Nfh.title" = "フォルダのロック";
 
 /* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "wa2-sX-NOx"; */
-"wa2-sX-NOx.placeholderString" = "optional";
+"wa2-sX-NOx.placeholderString" = "オプション";
 
 /* Class = "NSPathCell"; placeholderString = "~/.ssh/id_rsa"; ObjectID = "wDP-Yg-13R"; */
 "wDP-Yg-13R.placeholderString" = "~/.ssh/id_rsa";
@@ -1022,7 +1022,7 @@
 "xSO-lW-k8f.title" = "Finderに表示";
 
 /* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "xWi-IK-gJS"; */
-"xWi-IK-gJS.placeholderString" = "optional";
+"xWi-IK-gJS.placeholderString" = "オプション";
 
 /* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
 "xX0-9b-KDq.title" = "コードブロックの色付け (再起動後に反映)";
@@ -1037,7 +1037,7 @@
 "YEy-JH-Tfz.title" = "検索と置換…";
 
 /* Class = "NSTextFieldCell"; title = "Quick note:"; ObjectID = "yNE-Yn-AWj"; */
-"yNE-Yn-AWj.title" = "Quick note:";
+"yNE-Yn-AWj.title" = "クイックノート:";
 
 /* Class = "NSMenuItem"; title = "Start Speaking"; ObjectID = "Ynk-f8-cLZ"; */
 "Ynk-f8-cLZ.title" = "読み上げを開始";
@@ -1052,7 +1052,7 @@
 "Yum-W4-OUy.title" = "編集";
 
 /* Class = "NSTextFieldCell"; title = "Username:"; ObjectID = "yVt-tz-tMy"; */
-"yVt-tz-tMy.title" = "Username:";
+"yVt-tz-tMy.title" = "ユーザー名:";
 
 /* Class = "NSMenuItem"; title = "Image or File"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "画像またはファイル";
@@ -1070,7 +1070,7 @@
 "Ze0-SZ-STw.title" = "手動バックアップ";
 
 /* Class = "NSTextFieldCell"; title = "Username:"; ObjectID = "ZEX-Eh-68T"; */
-"ZEX-Eh-68T.title" = "Username:";
+"ZEX-Eh-68T.title" = "ユーザー名:";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
 "ZqK-gu-KdQ.title" = "検索でヒットしたノートを自動で選択する";

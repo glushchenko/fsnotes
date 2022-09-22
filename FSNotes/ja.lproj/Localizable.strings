@@ -35,6 +35,9 @@
 "Clear" = "クリア";
 
 /* No comment provided by engineer. */
+"Connection established successfully 🤟" = "接続が確立されました🤟";
+
+/* No comment provided by engineer. */
 "Copy HTML" = "HTMLをコピー";
 
 /* No comment provided by engineer. */
@@ -45,6 +48,10 @@
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "スペルを自動的に修正";
+
+/* No comment provided by engineer. */
+"Create Web Page" = "ウェブページの作成";
+
 /* Menu */
 "Creation date:" = "作成日:";
 
@@ -53,6 +60,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "データ検出";
+
+/* No comment provided by engineer. */
+"Decrypt" = "復号化";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "デフォルトストレージパスはGitパスとは異なる必要があります";
@@ -82,6 +92,9 @@
 "Empty password" = "パスワードが空です";
 
 /* No comment provided by engineer. */
+"Encrypt" = "暗号化する";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "マスターパスワードを入力する";
 
 /* No comment provided by engineer. */
@@ -97,6 +110,9 @@
 "FSNotes [preview]" = "FSNotes [プレビュー]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push エラー";
+
+/* No comment provided by engineer. */
 "History" = "履歴";
 
 /* No comment provided by engineer. */
@@ -106,7 +122,13 @@
 "Inbox" = "未整理";
 
 /* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 エラー: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "リンク";
+
+/* No comment provided by engineer. */
+"Lock" = "ロック";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "ロックされたノートをすべて閉じる";
@@ -164,6 +186,12 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "タグを入力(コンマ区切り):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "秘密鍵と公開鍵を選択してください";
+
+/* No comment provided by engineer. */
+"Please select private key" = "秘密鍵を選択してください";
 
 /* No comment provided by engineer. */
 "Please try again" = "もう一度試してください";
@@ -229,6 +257,9 @@
 "Spelling and Grammar" = "スペルと文法";
 
 /* No comment provided by engineer. */
+"SSH error" = "SSH エラー";
+
+/* No comment provided by engineer. */
 "Substitutions" = "自動置換";
 
 /* Menu
@@ -254,10 +285,16 @@
 "Underline" = "アンダーライン";
 
 /* No comment provided by engineer. */
+"Unlock" = "ロック解除";
+
+/* No comment provided by engineer. */
 "Untagged" = "タグ無し";
 
 /* Untitled Note */
 "Untitled Note" = "名称未設定のノート";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "Web ページの更新";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "クリップボードにURLがコピーされました";
@@ -272,7 +309,16 @@
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "移動先に同名のアイテムがすでに存在しているため、\\\"{DST_PATH}\\\"を移動できませんでした";
 
 /* No comment provided by engineer. */
+"Web publishing error" = "ウェブ公開エラー";
+
+/* No comment provided by engineer. */
+"Wrong password" = "間違ったパスワード";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "再入力されたパスワードが一致していません";
 
 /* No comment provided by engineer. */
 "Yes" = "はい";
+
+/* Menu */
+"Change creation date" = "作成日の変更";
