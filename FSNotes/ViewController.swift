@@ -1715,6 +1715,8 @@ class ViewController: EditorViewController,
     }
     
     func pin(selectedNotes: [Note]) {
+        let projects = sidebarOutlineView.getSidebarProjects()
+        
         if selectedNotes.count == 0 {
             return
         }
@@ -1732,7 +1734,7 @@ class ViewController: EditorViewController,
             cell.renderPin()
         }
 
-        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue)
+        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue, project: projects?.first)
         let indexes = updatedNotes.compactMap({ _, note in resorted.firstIndex(where: { $0 === note }) })
         let newIndexes = IndexSet(indexes)
 
