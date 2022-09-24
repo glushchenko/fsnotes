@@ -137,9 +137,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
                 if vcDelegate.vcEditor?.isPreviewEnabled() == true
                     && vcDelegate.editor.note?.container != .encryptedTextPack {
-                    vcDelegate.vcEditor?.changePreviewState(false)
-                    
-                    vcDelegate.editor.note?.previewState = false
+                    vcDelegate.vcEditor?.disablePreviewEditorAndNote()
                     
                     DispatchQueue.main.async {
                         self.vcDelegate.refillEditArea()

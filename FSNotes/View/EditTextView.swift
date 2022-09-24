@@ -2441,4 +2441,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public func isPreviewEnabled() -> Bool {
         return preview
     }
+    
+    public func disablePreviewEditorAndNote() {
+        preview = false
+        
+        note?.previewState = false
+    }
 }

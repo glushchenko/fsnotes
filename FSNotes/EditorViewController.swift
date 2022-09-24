@@ -113,13 +113,13 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     }
     
     @IBAction func togglePreview(_ sender: Any) {
-        guard let note = vcEditor?.note else { return }
+        guard let editor = vcEditor else { return }
         
         let firstResp = view.window?.firstResponder
 
-        vcEditor?.togglePreviewState()
+        editor.togglePreviewState()
         
-        if (note.previewState) {
+        if (editor.isPreviewEnabled()) {
             
             //Preview mode doesn't support text search
             cancelTextSearch()
@@ -558,7 +558,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         viewController.initWindow()
                 
         viewController.editor.changePreviewState(preview)
-        
         viewController.editor.fill(note: note)
         
         if note.isEncryptedAndLocked() {
@@ -575,9 +574,10 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     }
 
     func disablePreview() {
+        vcEditor?.disablePreviewEditorAndNote()
+        
         vcEditor?.markdownView?.removeFromSuperview()
         vcEditor?.markdownView = nil
-        vcEditor?.note?.previewState = false
         
         guard let editor = self.vcEditor else { return }
         editor.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
@@ -885,7 +885,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
 
         if !openInNewWindow {
-            vc.editor.changePreviewState(false)
             disablePreview()
             
             vc.notesTableView.deselectNotes()

@@ -44,11 +44,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if let note = vc.editor.note,
-           event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)
-        {
-            vc.editor.changePreviewState(note.previewState)
-            
+        if event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control) {
             if vc.editor?.isPreviewEnabled() == true {
                 NSApp.mainWindow?.makeFirstResponder(vc.editor.markdownView)
             } else {
@@ -182,7 +178,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
             
             vc.editor.changePreviewState(note.previewState)
-
             vc.editor.fill(note: note, highlight: true)
 
             if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {

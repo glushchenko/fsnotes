@@ -759,8 +759,6 @@ class ViewController: EditorViewController,
                     if let note = editor.note, fr.isKind(of: NotesTableView.self) {
                         if note.container != .encryptedTextPack {
                             if vcEditor?.isPreviewEnabled() == true {
-                                vcEditor?.changePreviewState(false)
-                                
                                 disablePreview()
                             }
                             NSApp.mainWindow?.makeFirstResponder(editor)
@@ -859,8 +857,6 @@ class ViewController: EditorViewController,
                 }
 
                 //Turn off preview mode as text search works only in text editor
-                vcEditor?.changePreviewState(false)
-                
                 disablePreview()
                 return true
             }
@@ -2005,8 +2001,6 @@ class ViewController: EditorViewController,
         if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
 
             if vcEditor?.isPreviewEnabled() == true && vc.notesTableView.selectedRow > -1 {
-                vcEditor?.changePreviewState(false)
-                
                 vc.disablePreview()
             }
 
@@ -2160,8 +2154,6 @@ class ViewController: EditorViewController,
         
         var mainKey = false
         for item in unarchivedData.reversed() {
-            print(item)
-            
             guard let url = item["url"] as? URL,
                   let frameData = item["frame"] as? Data,
                   let main = item["main"] as? Bool,
