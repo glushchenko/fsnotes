@@ -117,19 +117,19 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         let firstResp = view.window?.firstResponder
 
+        vcEditor?.togglePreviewState()
+        
         if (note.previewState) {
-            disablePreview()
-        } else {
+            
             //Preview mode doesn't support text search
-            
             cancelTextSearch()
-            
-            note.previewState = true
             refillEditArea()
             
             if let mdView = vcEditor?.editorViewController?.vcEditor?.markdownView {
                 view.window?.makeFirstResponder(mdView)
             }
+        } else {
+            disablePreview()
         }
 
         if let responder = firstResp, (
@@ -139,11 +139,15 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         ) {
             view.window?.makeFirstResponder(firstResp)
         } else {
-            let responder = note.previewState
-                ? vcEditor?.markdownView
-                : vcEditor
+            var responder: NSResponder? = vcEditor
             
-            view.window?.makeFirstResponder(responder)
+            if vcEditor?.isPreviewEnabled() == true, let mView = vcEditor?.markdownView {
+                responder = mView
+            }
+            
+            if let responder = responder {
+                view.window?.makeFirstResponder(responder)
+            }
         }
 
         vcEditor?.userActivity?.needsSave = true
@@ -537,7 +541,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     // MARK: Dep methods
     
-    public func openInNewWindow(note: Note, previewState: Bool? = nil, frame: NSRect? = nil) {
+    public func openInNewWindow(note: Note, previewState: Bool? = nil, frame: NSRect? = nil, preview: Bool = false) {
         guard let windowController = NSStoryboard(name: "Main", bundle: nil)
             .instantiateController(withIdentifier: "noteWindowController") as? NSWindowController else { return }
         
@@ -553,6 +557,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         let viewController = windowController.contentViewController as! NoteViewController
         viewController.initWindow()
                 
+        viewController.editor.changePreviewState(preview)
+        
         viewController.editor.fill(note: note)
         
         if note.isEncryptedAndLocked() {
@@ -573,7 +579,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         vcEditor?.markdownView = nil
         vcEditor?.note?.previewState = false
         
-        
         guard let editor = self.vcEditor else { return }
         editor.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 
@@ -581,7 +586,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     }
     
     public func viewDidResize() {
-        guard vcEditor?.note?.previewState == true else { return }
+        guard vcEditor?.isPreviewEnabled() == true else { return }
 
         if noteLoading != .incomplete {
             previewResizeTimer.invalidate()
@@ -618,7 +623,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     func refillEditArea(saveTyping: Bool = false, force: Bool = false) {
         noteLoading = .incomplete
-        vcPreviewButton?.state = vcEditor?.note?.previewState == true ? .on : .off
+        vcPreviewButton?.state = vcEditor?.isPreviewEnabled() == true ? .on : .off
 
         if let note = vcEditor?.note {
             vcEditor?.fill(note: note, saveTyping: saveTyping, force: force)
@@ -806,7 +811,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     func focusEditArea() {
         guard let editor = vcEditor, let note = editor.note,
-              note.previewState == false || note.isRTF(),
+              !editor.isPreviewEnabled() || note.isRTF(),
             note.container != .encryptedTextPack
         else { return }
 
@@ -828,10 +833,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         vc.blockFSUpdates()
 
-        if (
-            note.previewState == false
-            && editor.isEditable
-        ) {
+        if editor.isEditable {
             editor.removeHighlight()
             editor.saveImages()
 
@@ -847,7 +849,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         guard let editor = vcEditor else { return }
         
         if (
-            vcEditor?.note?.previewState == false
+            editor.isPreviewEnabled() == false
            && editor.isEditable
         ) {
             editor.breakUndoCoalescing()
@@ -883,7 +885,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
 
         if !openInNewWindow {
+            vc.editor.changePreviewState(false)
             disablePreview()
+            
             vc.notesTableView.deselectNotes()
             vc.editor.string = text
             vc.editor.note = note

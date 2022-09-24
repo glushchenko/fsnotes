@@ -138,23 +138,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private static func saveWindowsState() {
-        var result = [URL: Data]()
+        var result = [[String: Any]]()
                 
         let noteWindows = self.noteWindows.sorted(by: { $0.window!.orderedIndex > $1.window!.orderedIndex })
-        for windowController in noteWindows{
+        for windowController in noteWindows {
             if let frame = windowController.window?.frame {
                 let data = NSKeyedArchiver.archivedData(withRootObject: frame)
                 
                 if let controller = windowController.contentViewController as? NoteViewController,
                     let note = controller.editor.note {
-                    result[note.url] = data
+                    let key = windowController.window?.isKeyWindow == true
+                    
+                    result.append(["frame": data, "preview": controller.editor.isPreviewEnabled(), "url": note.url, "main": false, "key": key])
                 }
             }
         }
-
+        
+        // Main frame
+        if let vc = ViewController.shared(), let note = vc.editor?.note, let mainFrame = vc.view.window?.frame {
+            let data = NSKeyedArchiver.archivedData(withRootObject: mainFrame)
+            let key = vc.view.window?.isKeyWindow == true
+            
+            result.append(["frame": data, "preview": vc.editor.isPreviewEnabled(), "url": note.url, "main": true, "key": key])
+        }
+    
         let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
         if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-            try? projectsData?.write(to: documentDir.appendingPathComponent("windows.settings"))
+            try? projectsData?.write(to: documentDir.appendingPathComponent("editors.settings"))
         }
     }
     

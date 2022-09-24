@@ -3192,7 +3192,6 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="H46-qe-euU" firstAttribute="centerY" secondItem="Xp9-26-JdA" secondAttribute="centerY" id="9TS-QY-GEB"/>
                             <constraint firstItem="32v-oF-7du" firstAttribute="baseline" secondItem="IcJ-Ga-eZF" secondAttribute="firstBaseline" id="9VD-4x-0F0"/>
                             <constraint firstItem="oSP-ff-KY3" firstAttribute="leading" secondItem="rYS-6l-toX" secondAttribute="trailing" constant="8" symbolic="YES" id="ALZ-k8-FZj"/>
-                            <constraint firstItem="6jj-hR-ROP" firstAttribute="top" secondItem="IcJ-Ga-eZF" secondAttribute="bottom" constant="22" id="Aa0-q0-B1D"/>
                             <constraint firstItem="Jo4-zQ-htF" firstAttribute="baseline" secondItem="w1K-65-6eZ" secondAttribute="firstBaseline" id="B8a-qb-x8o"/>
                             <constraint firstItem="H46-qe-euU" firstAttribute="leading" secondItem="Xp9-26-JdA" secondAttribute="trailing" constant="8" symbolic="YES" id="Bw1-d1-8yq"/>
                             <constraint firstAttribute="trailing" secondItem="Y9p-ND-X8k" secondAttribute="trailing" constant="35" id="CP3-p7-ibB"/>
@@ -3262,7 +3261,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="Xp9-26-JdA" firstAttribute="leading" secondItem="lK7-QU-fN2" secondAttribute="trailing" constant="30" id="smq-zT-nAA"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dRB-iE-HKk" secondAttribute="trailing" constant="20" symbolic="YES" id="uvT-ZY-JAo"/>
                             <constraint firstAttribute="centerX" secondItem="zKc-tc-Ouv" secondAttribute="trailing" constant="10" id="vQu-gu-jHe"/>
-                            <constraint firstItem="IcJ-Ga-eZF" firstAttribute="leading" secondItem="32v-oF-7du" secondAttribute="trailing" constant="8" symbolic="YES" id="vbl-Ac-o9n"/>
+                            <constraint firstItem="IcJ-Ga-eZF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="32v-oF-7du" secondAttribute="trailing" constant="8" symbolic="YES" id="vbl-Ac-o9n"/>
                             <constraint firstAttribute="trailing" secondItem="RPl-LM-BO3" secondAttribute="trailing" constant="20" symbolic="YES" id="vbn-za-5x0"/>
                             <constraint firstItem="Su7-am-ZzF" firstAttribute="leading" secondItem="N8Z-se-hEF" secondAttribute="leading" id="wwm-dc-8iK"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Aci-NI-V7k" secondAttribute="trailing" constant="20" symbolic="YES" id="yPf-zf-47q"/>
@@ -3798,7 +3797,7 @@ Will Pazner (github.com/pazner)</string>
                                 </scroller>
                             </scrollView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ML3-K3-vlx">
-                                <rect key="frame" x="184" y="111" width="109" height="115"/>
+                                <rect key="frame" x="183" y="111" width="109" height="115"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logo_editor" id="riY-9N-gUN"/>
                             </imageView>

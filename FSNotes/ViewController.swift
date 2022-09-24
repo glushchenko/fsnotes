@@ -83,7 +83,7 @@ class ViewController: EditorViewController,
     }
     @IBOutlet weak var previewButton: NSButton! {
         didSet {
-            previewButton.state = vcEditor?.note?.previewState == true ? .on : .off
+            previewButton.state = vcEditor?.isPreviewEnabled() == true ? .on : .off
         }
     }
     @IBOutlet weak var titleBarView: TitleBarView! {
@@ -208,8 +208,6 @@ class ViewController: EditorViewController,
                 appDelegate.create(name: name, content: content)
             }
         }
-        
-        restoreOpenedWindows()
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -502,14 +500,7 @@ class ViewController: EditorViewController,
                     return
                 }
 
-                if let url = UserDefaultsManagement.lastSelectedURL,
-                    let lastNote = self.storage.getBy(url: url),
-                    let i = self.notesTableView.getIndex(lastNote) {
-
-                    self.notesTableView.saveNavigationHistory(note: lastNote)
-                    self.notesTableView.selectRow(i)
-                    self.notesTableView.scrollRowToVisible(i)
-                }
+                self.restoreOpenedWindows()
             }
         }
     }
@@ -767,7 +758,9 @@ class ViewController: EditorViewController,
                     
                     if let note = editor.note, fr.isKind(of: NotesTableView.self) {
                         if note.container != .encryptedTextPack {
-                            if note.previewState {
+                            if vcEditor?.isPreviewEnabled() == true {
+                                vcEditor?.changePreviewState(false)
+                                
                                 disablePreview()
                             }
                             NSApp.mainWindow?.makeFirstResponder(editor)
@@ -866,6 +859,8 @@ class ViewController: EditorViewController,
                 }
 
                 //Turn off preview mode as text search works only in text editor
+                vcEditor?.changePreviewState(false)
+                
                 disablePreview()
                 return true
             }
@@ -906,7 +901,7 @@ class ViewController: EditorViewController,
 
         if event.keyCode == kVK_RightArrow {
             if let fr = mw.firstResponder, fr.isKind(of: NotesTableView.self) {
-                if vcEditor?.note?.previewState == true {
+                if vcEditor?.isPreviewEnabled() == true {
                     NSApp.mainWindow?.makeFirstResponder(editor.markdownView)
                 } else {
                     focusEditArea()
@@ -2009,7 +2004,9 @@ class ViewController: EditorViewController,
 
         if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
 
-            if vcEditor?.note?.previewState == true && vc.notesTableView.selectedRow > -1 {
+            if vcEditor?.isPreviewEnabled() == true && vc.notesTableView.selectedRow > -1 {
+                vcEditor?.changePreviewState(false)
+                
                 vc.disablePreview()
             }
 
@@ -2119,7 +2116,9 @@ class ViewController: EditorViewController,
             let note = Storage.sharedInstance().getBy(name: name)
         else { return }
 
-        vcEditor?.note?.previewState = (state == "preview")
+        vcEditor?.changePreviewState(state == "preview")
+        
+        note.previewState = state == "preview"
 
         if let position = Int(position),
             position > -1,
@@ -2152,19 +2151,49 @@ class ViewController: EditorViewController,
         }
     }
     
-    private func restoreOpenedWindows() {
+    public func restoreOpenedWindows() {
         guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
- 
-        let projectsDataUrl = documentDir.appendingPathComponent("windows.settings")
+        let projectsDataUrl = documentDir.appendingPathComponent("editors.settings")
+        
         guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
+        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[String: Any]] else { return }
         
-        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: Data] else { return }
-        
+        var mainKey = false
         for item in unarchivedData.reversed() {
-            guard let note = storage.getBy(url: item.key) else { continue }
-            guard let frame = NSKeyedUnarchiver.unarchiveObject(with: item.value) as? NSRect else { continue }
+            print(item)
             
-            openInNewWindow(note: note, frame: frame)
+            guard let url = item["url"] as? URL,
+                  let frameData = item["frame"] as? Data,
+                  let main = item["main"] as? Bool,
+                  let key = item["key"] as? Bool,
+                  let preview = item["preview"] as? Bool,
+                  let note = self.storage.getBy(url: url)
+            else { continue }
+            
+            if main {
+                if key {
+                    mainKey = true
+                }
+                
+                editor.changePreviewState(preview)
+                
+                if let i = self.notesTableView.getIndex(note) {
+                    note.previewState = self.editor.isPreviewEnabled()
+                    
+                    self.notesTableView.saveNavigationHistory(note: note)
+                    self.notesTableView.selectRow(i)
+                    self.notesTableView.scrollRowToVisible(i)
+                }
+            } else {
+                guard let frame = NSKeyedUnarchiver.unarchiveObject(with: frameData) as? NSRect else { continue }
+               
+                self.openInNewWindow(note: note, frame: frame, preview: preview)
+           }
+        }
+        
+        if mainKey {
+            NSApp.activate(ignoringOtherApps: true)
+            self.view.window?.makeKeyAndOrderFront(self)
         }
     }
 }

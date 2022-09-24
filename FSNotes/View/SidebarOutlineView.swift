@@ -724,18 +724,8 @@ class SidebarOutlineView: NSOutlineView,
 
         vd.updateTable() {
             if self.isFirstLaunch {
-                if let url = UserDefaultsManagement.lastSelectedURL,
-                    let lastNote = vd.storage.getBy(url: url),
-                    let i = vd.notesTableView.getIndex(lastNote)
-                {
-                    vd.notesTableView.saveNavigationHistory(note: lastNote)
-                    vd.notesTableView.selectRow(i)
-
-                    DispatchQueue.main.async {
-                        vd.notesTableView.scrollRowToVisible(i)
-                    }
-                }
-
+                vd.restoreOpenedWindows()
+            
                 self.isFirstLaunch = false
             }
 

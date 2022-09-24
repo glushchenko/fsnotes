@@ -77,7 +77,7 @@ class PreferencesEditorViewController: NSViewController {
 
             UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
 
-            if let note = editor.note, let evc = editor.editorViewController, note.previewState == false {
+            if let note = editor.note, let evc = editor.editorViewController, !editor.isPreviewEnabled() {
                 NotesTextProcessor.highlight(note: note)
                 evc.refillEditArea()
             }
@@ -155,7 +155,7 @@ class PreferencesEditorViewController: NSViewController {
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
-            if let note = editor.note, let evc = editor.editorViewController, note.previewState == false {
+            if let note = editor.note, let evc = editor.editorViewController, !editor.isPreviewEnabled() {
                 NotesTextProcessor.highlight(note: note)
                 
                 evc.refillEditArea()
