@@ -59,6 +59,7 @@ public class UserDefaultsManagement {
         static let CacheDiff = "cacheDiff"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
+        static let ClickableLinks = "clickableLinks"
         static let CodeFontNameKey = "codeFont"
         static let CodeFontSizeKey = "codeFontSize"
         static let codeBlockHighlight = "codeBlockHighlight"
@@ -1680,6 +1681,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.UploadKey)
+        }
+    }
+    
+    static var clickableLinks: Bool {
+        get {
+            if let highlight = shared?.object(forKey: Constants.ClickableLinks) {
+                return highlight as! Bool
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.ClickableLinks)
         }
     }
 }

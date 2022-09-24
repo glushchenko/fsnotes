@@ -3294,11 +3294,11 @@ Will Pazner (github.com/pazner)</string>
             <objects>
                 <viewController title="Editor" id="ssC-ed-19K" customClass="PreferencesEditorViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GY1-6c-5uL">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="478"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="495"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-4N-l26">
-                                <rect key="frame" x="134" y="437" width="4" height="17"/>
+                                <rect key="frame" x="134" y="454" width="4" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="vNg-wB-rdP">
                                     <font key="font" metaFont="system"/>
@@ -3307,7 +3307,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kcg-vn-Dwj">
-                                <rect key="frame" x="33" y="426" width="347" height="18"/>
+                                <rect key="frame" x="33" y="443" width="347" height="18"/>
                                 <buttonCell key="cell" type="check" title="Code block live highlighting (app restart required)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xX0-9b-KDq">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3317,10 +3317,10 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2ZF-VY-6Ij">
-                                <rect key="frame" x="20" y="162" width="360" height="5"/>
+                                <rect key="frame" x="20" y="179" width="360" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UiV-vt-WHK">
-                                <rect key="frame" x="38" y="373" width="86" height="16"/>
+                                <rect key="frame" x="38" y="390" width="86" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Code Theme:" id="6F0-Cb-DVX">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3328,7 +3328,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xZA-pB-1nm">
-                                <rect key="frame" x="144" y="367" width="144" height="25"/>
+                                <rect key="frame" x="144" y="384" width="144" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="github" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="v1K-9W-2aB" id="ai1-t2-fc1">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -3369,7 +3369,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rmv-ik-PYa">
-                                <rect key="frame" x="53" y="345" width="71" height="16"/>
+                                <rect key="frame" x="53" y="362" width="71" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Code Font:" id="63m-us-3j9">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3377,7 +3377,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="5" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B07-UG-KXb">
-                                <rect key="frame" x="147" y="342" width="169" height="21"/>
+                                <rect key="frame" x="147" y="359" width="169" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="vzd-qe-6Ha"/>
                                 </constraints>
@@ -3388,7 +3388,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JQw-9h-UpN">
-                                <rect key="frame" x="33" y="404" width="347" height="18"/>
+                                <rect key="frame" x="33" y="421" width="347" height="18"/>
                                 <buttonCell key="cell" type="check" title="Highlight indented code blocks" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7D9-lM-GXX">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3398,10 +3398,10 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BAc-kR-eMo">
-                                <rect key="frame" x="20" y="319" width="360" height="5"/>
+                                <rect key="frame" x="20" y="336" width="360" height="5"/>
                             </box>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ons-S0-fcz">
-                                <rect key="frame" x="33" y="127" width="347" height="18"/>
+                                <rect key="frame" x="33" y="144" width="347" height="18"/>
                                 <buttonCell key="cell" type="check" title="Live images preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wG8-3A-BMJ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3411,7 +3411,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cj1-ab-Sv6">
-                                <rect key="frame" x="33" y="105" width="347" height="18"/>
+                                <rect key="frame" x="33" y="122" width="347" height="18"/>
                                 <buttonCell key="cell" type="check" title="Focus in editor when selecting note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="r2R-xe-eCA">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3421,7 +3421,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="APN-cG-GJc">
-                                <rect key="frame" x="33" y="83" width="347" height="18"/>
+                                <rect key="frame" x="33" y="100" width="347" height="18"/>
                                 <buttonCell key="cell" type="check" title="Restore cursor position" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3iM-ZV-3Gf">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3431,7 +3431,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gk5-il-WSG">
-                                <rect key="frame" x="33" y="61" width="347" height="18"/>
+                                <rect key="frame" x="33" y="78" width="347" height="18"/>
                                 <buttonCell key="cell" type="check" title="Automatically insert closing braces and close quotes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ypO-g0-1Xo">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3441,7 +3441,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cMm-a9-mcN">
-                                <rect key="frame" x="38" y="257" width="86" height="20"/>
+                                <rect key="frame" x="38" y="274" width="86" height="20"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Line Spacing:" id="iUm-Zm-zeg">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3449,35 +3449,35 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-ya-69N">
-                                <rect key="frame" x="145" y="251" width="222" height="28"/>
+                                <rect key="frame" x="145" y="268" width="222" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="50" tickMarkPosition="above" sliderType="linear" id="fZA-cO-0ac"/>
                                 <connections>
                                     <action selector="lineSpacing:" target="ssC-ed-19K" id="Sqq-6a-XQe"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dmd-5j-kY7">
-                                <rect key="frame" x="145" y="201" width="222" height="28"/>
+                                <rect key="frame" x="145" y="218" width="222" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="311" maxValue="1000" doubleValue="1000" tickMarkPosition="above" sliderType="linear" id="csk-Ct-cff"/>
                                 <connections>
                                     <action selector="imagesWidth:" target="ssC-ed-19K" id="SCj-iP-0p1"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gl0-rI-S66">
-                                <rect key="frame" x="145" y="177" width="222" height="28"/>
+                                <rect key="frame" x="145" y="194" width="222" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="200" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="UC2-tH-UtC"/>
                                 <connections>
                                     <action selector="marginSize:" target="ssC-ed-19K" id="Hhx-hm-H5O"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-Se-i0R">
-                                <rect key="frame" x="145" y="225" width="222" height="28"/>
+                                <rect key="frame" x="145" y="242" width="222" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="100" maxValue="1000" doubleValue="300" tickMarkPosition="above" sliderType="linear" id="w1e-Tq-0qv"/>
                                 <connections>
                                     <action selector="lineWidth:" target="ssC-ed-19K" id="sMF-LC-b8U"/>
                                 </connections>
                             </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vrr-sG-fOD">
-                                <rect key="frame" x="33" y="209" width="91" height="16"/>
+                                <rect key="frame" x="33" y="226" width="91" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Images Width:" id="ltm-qj-nke">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3485,7 +3485,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3el-ze-TIn">
-                                <rect key="frame" x="45" y="185" width="79" height="16"/>
+                                <rect key="frame" x="45" y="202" width="79" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Margin Size:" id="r69-B6-vT3">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3493,7 +3493,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bEN-ep-bl6">
-                                <rect key="frame" x="51" y="233" width="73" height="16"/>
+                                <rect key="frame" x="51" y="250" width="73" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Line Width:" id="Izt-6v-pKO">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3501,7 +3501,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fYl-Tw-kcO">
-                                <rect key="frame" x="317" y="336" width="55" height="32"/>
+                                <rect key="frame" x="317" y="353" width="55" height="32"/>
                                 <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7od-TM-cUB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3511,7 +3511,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="GnH-BV-JGa">
-                                <rect key="frame" x="39" y="285" width="85" height="16"/>
+                                <rect key="frame" x="39" y="302" width="85" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Indent Using:" id="P4M-cL-lfo">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3519,7 +3519,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XOm-C4-sCs">
-                                <rect key="frame" x="33" y="39" width="347" height="18"/>
+                                <rect key="frame" x="33" y="56" width="347" height="18"/>
                                 <buttonCell key="cell" type="check" title="Scan inline tags" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="g5W-YF-jAC">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3529,7 +3529,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="RxO-oS-Sa7" userLabel="Indent using">
-                                <rect key="frame" x="144" y="279" width="96" height="25"/>
+                                <rect key="frame" x="144" y="296" width="96" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Tab" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ncv-c4-Dmg" id="r8k-ev-75i" userLabel="Indent using">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -3551,6 +3551,16 @@ Will Pazner (github.com/pazner)</string>
                                     <action selector="indentUsing:" target="ssC-ed-19K" id="aC2-Ma-Ne7"/>
                                 </connections>
                             </popUpButton>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mLR-t7-nz0">
+                                <rect key="frame" x="33" y="34" width="347" height="18"/>
+                                <buttonCell key="cell" type="check" title="Clickable links" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="N8h-ep-HFG">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="highlightLinks:" target="ssC-ed-19K" id="jLx-rM-jlz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="JQw-9h-UpN" firstAttribute="trailing" secondItem="Kcg-vn-Dwj" secondAttribute="trailing" id="02H-uq-Sdc"/>
@@ -3573,8 +3583,10 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="GnH-BV-JGa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="9Sd-X7-etJ"/>
                             <constraint firstItem="DQU-Se-i0R" firstAttribute="centerY" secondItem="bEN-ep-bl6" secondAttribute="centerY" id="B21-9b-4sR"/>
                             <constraint firstItem="B07-UG-KXb" firstAttribute="leading" secondItem="rmv-ik-PYa" secondAttribute="trailing" constant="25" id="BHd-tb-ZsE"/>
+                            <constraint firstAttribute="bottom" secondItem="mLR-t7-nz0" secondAttribute="bottom" constant="35" id="CJs-0J-F6C"/>
                             <constraint firstAttribute="trailing" secondItem="2ZF-VY-6Ij" secondAttribute="trailing" constant="20" symbolic="YES" id="D8I-T5-4p8"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xZA-pB-1nm" secondAttribute="trailing" constant="20" symbolic="YES" id="DSh-tg-WcT"/>
+                            <constraint firstItem="mLR-t7-nz0" firstAttribute="top" secondItem="XOm-C4-sCs" secondAttribute="bottom" constant="6" symbolic="YES" id="DgG-Yj-rRQ"/>
                             <constraint firstItem="fYl-Tw-kcO" firstAttribute="centerY" secondItem="B07-UG-KXb" secondAttribute="centerY" id="EvX-JZ-gTl"/>
                             <constraint firstItem="RxO-oS-Sa7" firstAttribute="centerY" secondItem="GnH-BV-JGa" secondAttribute="centerY" id="EyI-GW-r8z"/>
                             <constraint firstItem="RxO-oS-Sa7" firstAttribute="leading" secondItem="GnH-BV-JGa" secondAttribute="trailing" priority="500" constant="25" id="F97-pG-Rea"/>
@@ -3609,6 +3621,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstAttribute="trailing" secondItem="T2k-ya-69N" secondAttribute="trailing" constant="35" id="bcd-lH-eP7"/>
                             <constraint firstItem="cj1-ab-Sv6" firstAttribute="top" secondItem="ons-S0-fcz" secondAttribute="bottom" constant="6" symbolic="YES" id="cH1-9K-dFp"/>
                             <constraint firstItem="T2k-ya-69N" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RxO-oS-Sa7" secondAttribute="leading" id="cfN-oc-fEV"/>
+                            <constraint firstItem="mLR-t7-nz0" firstAttribute="leading" secondItem="XOm-C4-sCs" secondAttribute="leading" id="djq-aH-p2t"/>
                             <constraint firstItem="2ZF-VY-6Ij" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="20" symbolic="YES" id="djv-bU-ozQ"/>
                             <constraint firstItem="dmd-5j-kY7" firstAttribute="leading" secondItem="Vrr-sG-fOD" secondAttribute="trailing" constant="25" id="e51-0R-Mte"/>
                             <constraint firstItem="ons-S0-fcz" firstAttribute="top" secondItem="2ZF-VY-6Ij" secondAttribute="bottom" constant="20" id="eS6-Jq-GvZ"/>
@@ -3636,10 +3649,12 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="JQw-9h-UpN" firstAttribute="top" secondItem="Kcg-vn-Dwj" secondAttribute="bottom" constant="6" symbolic="YES" id="v0j-1M-zVw"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="vH1-tR-yNz"/>
                             <constraint firstItem="rmv-ik-PYa" firstAttribute="centerY" secondItem="B07-UG-KXb" secondAttribute="centerY" id="xg5-Ka-fyG"/>
+                            <constraint firstItem="mLR-t7-nz0" firstAttribute="trailing" secondItem="XOm-C4-sCs" secondAttribute="trailing" id="zc0-G9-yAY"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="autocloseBrackets" destination="gk5-il-WSG" id="Iug-US-Weg"/>
+                        <outlet property="clickableLinks" destination="mLR-t7-nz0" id="Obm-sY-z1U"/>
                         <outlet property="codeBlockHighlight" destination="Kcg-vn-Dwj" id="7yz-yx-8Tu"/>
                         <outlet property="codeFont" destination="B07-UG-KXb" id="3G7-e5-Ckw"/>
                         <outlet property="highlightIndentedCodeBlocks" destination="JQw-9h-UpN" id="ogm-Wb-2dv"/>
@@ -3657,7 +3672,7 @@ Will Pazner (github.com/pazner)</string>
                 </viewController>
                 <customObject id="bsT-UP-VdO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1786" y="538"/>
+            <point key="canvasLocation" x="1786" y="545.5"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="ixM-Cu-fRC">

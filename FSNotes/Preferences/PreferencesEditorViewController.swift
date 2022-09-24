@@ -24,7 +24,8 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var lineWidth: NSSlider!
     @IBOutlet weak var marginSize: NSSlider!
     @IBOutlet weak var inlineTags: NSButton!
-
+    @IBOutlet weak var clickableLinks: NSButton!
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 495)
@@ -59,6 +60,8 @@ class PreferencesEditorViewController: NSViewController {
         marginSize.floatValue = UserDefaultsManagement.marginSize
 
         inlineTags.state = UserDefaultsManagement.inlineTags ? .on : .off
+        
+        clickableLinks.state = UserDefaultsManagement.clickableLinks ? .on : .off
     }
 
     //MARK: global variables
@@ -271,6 +274,20 @@ class PreferencesEditorViewController: NSViewController {
             }
         }
     }
+    
+    @IBAction func highlightLinks(_ sender: NSButton) {
+        UserDefaultsManagement.clickableLinks = (sender.state == NSControl.StateValue.on)
+
+        Storage.sharedInstance().resetCacheAttributes()
+        
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                evc.refillEditArea()
+            }
+        }
+    }
+    
     
     private func setCodeFont() {
         let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
