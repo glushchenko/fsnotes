@@ -286,6 +286,12 @@ class FileSystemEventManager {
                     }
                 }
             }
+        } else if let modificationDate = note.getFileModifiedDate(), let creationDate = note.getFileCreationDate() {
+            if modificationDate != note.modifiedLocalAt || creationDate != note.creationDate {
+                note.modifiedLocalAt = modificationDate
+                note.creationDate = creationDate
+                delegate.notesTableView.reloadDate(note: note)
+            }
         }
     }
     

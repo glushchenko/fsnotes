@@ -527,6 +527,16 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
     }
+    
+    public func reloadDate(note: Note) {
+        DispatchQueue.main.async {
+            if let i = self.noteList.firstIndex(of: note) {
+                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
+                    cell.date.stringValue = note.getDateForLabel()
+                }
+            }
+        }
+    }
 
     public func saveNavigationHistory(note: Note) {
         guard history.last != note.url else {
