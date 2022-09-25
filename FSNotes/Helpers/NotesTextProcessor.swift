@@ -612,7 +612,7 @@ public class NotesTextProcessor {
                 
                 guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
                 
-                if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
+                if ["!", "?", ";", ":", ".", ",", "_"].contains(substring.last) {
                     range = NSRange(location: range.location, length: range.length - 1)
                     substring = String(substring.dropLast())
                 }
@@ -625,9 +625,9 @@ public class NotesTextProcessor {
                     range = NSRange(location: range.location, length: range.length - 1)
                 }
                 
-                substring = String(substring).idnaEncodeURL()
-                
-                attributedString.addAttribute(.link, value: substring, range: range)
+                if let substring = String(substring).addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+                    attributedString.addAttribute(.link, value: substring, range: range)
+                }
                 
                 if NotesTextProcessor.hideSyntax {
                     NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
@@ -1435,7 +1435,7 @@ public class NotesTextProcessor {
 
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    fileprivate static let autolinkPattern = "([\\(]*(https?|ftp):[^`\'\">\\s\\*\\_]+)"
+    fileprivate static let autolinkPattern = "([\\(]*(https?|ftp):[^`\'\">\\s\\*]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
