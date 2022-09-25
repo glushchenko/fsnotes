@@ -625,7 +625,9 @@ public class NotesTextProcessor {
                     range = NSRange(location: range.location, length: range.length - 1)
                 }
                 
-                if let substring = String(substring).addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+                if let url = URL(string: substring) {
+                    attributedString.addAttribute(.link, value: url, range: range)
+                } else if let substring = String(substring).addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
                     attributedString.addAttribute(.link, value: substring, range: range)
                 }
                 
