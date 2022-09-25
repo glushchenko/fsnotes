@@ -228,7 +228,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     @IBAction func copyURL(_ sender: Any) {
         guard let note = getSelectedNotes()?.first else { return }
         
-        if let title = note.title.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+        if let title = note.title.addingPercentEncoding(withAllowedCharacters: .alphanumerics) {
 
             let name = "fsnotes://find?id=\(title)"
             let pasteboard = NSPasteboard.general
