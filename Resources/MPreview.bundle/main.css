@@ -269,7 +269,7 @@ canvas {
     border-radius: 3px;
     max-width: 100%;
 }
-h1,
+h1:not(.no-border),
 h2 {
     padding-bottom: .3em;
     border-bottom: 1px solid #eee

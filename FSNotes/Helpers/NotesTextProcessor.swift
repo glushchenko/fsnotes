@@ -43,6 +43,8 @@ public class NotesTextProcessor {
      */
     public static var syntaxColor = Color.lightGray
     
+    public static var yamlOpenerColor = Color.systemRed
+    
 #if os(OSX)
     public static var font: NSFont {
         get {
@@ -638,6 +640,23 @@ public class NotesTextProcessor {
             }
         }
         
+        FSParser.yamlBlockRegex.matches(string, range: NSRange(location: 0, length: attributedString.length)) { (result) -> Void in
+            guard let range = result?.range(at: 1) else { return }
+            
+            if range.location == 0 {
+                let listOpeningRegex = MarklightRegex(pattern: "((.+):)", options: [.allowCommentsAndWhitespace])
+                listOpeningRegex.matches(string, range: range) { (result) -> Void in
+                    guard let range = result?.range(at: 0) else { return }
+                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: range)
+                }
+                
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: NSRange(location: 0, length: 3))
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: NSRange(location: range.length - 3, length: 3))
+                
+                attributedString.addAttribute(NSAttributedString.Key.yamlBlock, value: range, range: range)
+            }
+        }
+        
         // We detect and process underlined headers
         NotesTextProcessor.headersSetextRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -1095,7 +1114,7 @@ public class NotesTextProcessor {
         "^(.+?)",
         "\\p{Z}*",
         "\\n",
-        "(==+|--+)",  // $1 = string of ='s or -'s
+        "(==+)",  // $1 = string of ='s or -'s
         "\\p{Z}*",
         "\\n|\\Z"
         ].joined(separator: "\n")

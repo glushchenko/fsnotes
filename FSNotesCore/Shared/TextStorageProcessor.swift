@@ -97,6 +97,20 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
     }
 
     private func rescanPartial(textStorage: NSTextStorage, delta: Int, editedRange: NSRange) {
+
+        // Rescan header yaml
+
+        var checkAt = editedRange.location - 1
+        if checkAt < 0 {
+            checkAt = 0
+        }
+
+        if let yamlRange = textStorage.attribute(.yamlBlock, at: checkAt, effectiveRange: nil) as? NSRange {
+            let fixRange = NSRange(location: 0, length: yamlRange.length + delta)
+            textStorage.removeAttribute(.yamlBlock, range: fixRange)
+            textStorage.removeAttribute(.foregroundColor, range: fixRange)
+        }
+
         guard delta == 1 || delta == -1 else {
             highlightMultiline(textStorage: textStorage, editedRange: editedRange)
             return
