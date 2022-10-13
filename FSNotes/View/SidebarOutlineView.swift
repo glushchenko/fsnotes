@@ -982,7 +982,10 @@ class SidebarOutlineView: NSOutlineView,
         DispatchQueue.global(qos: .background).async {
             let project = project.getGitProject()
 
-            _ = project.commitAll()
+            project.pull()
+            project.push()
+            
+            project.commitAll()
             _ = project.push()
             
             vc.isGitProcessLocked = false

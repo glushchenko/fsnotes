@@ -20,31 +20,22 @@ extension EditorViewController {
         isGitProcessLocked = true
 
         DispatchQueue.global().async {
-            guard let repository = project.getRepository() else {
-                self.isGitProcessLocked = false
-                return
-            }
-            
-            let gitPath = note.getGitPath()
-            if case .failure(let error) = repository.add(path: gitPath) {
-                print("Git add: \(error)")
-            }
-            
-            let sig = Signature(name: "FSNotes App", email: "support@fsnot.es", time: Date(), timeZone: TimeZone.current)
-            if case .failure(let error) = repository.commit(message: " - Updates note", signature: sig) {
-                print("Git commit: \(error)")
-            }
+            project.addAndCommit()
 
-            let code = project.push()
-            if code != GIT_OK.rawValue {
+            if project.pull() == GIT_OK.rawValue {
+                print("Pull successful")
+            }
+            
+            if project.push() != GIT_OK.rawValue {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.alertStyle = .critical
-                    alert.informativeText = NSLocalizedString("Libgit2 error: \(code)", comment: "")
+                    alert.informativeText = NSLocalizedString("Libgit2 error", comment: "")
                     alert.messageText = NSLocalizedString("Git push error", comment: "")
                     alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
                 }
             }
+            
             self.isGitProcessLocked = false
         }
     }
@@ -108,7 +99,7 @@ extension EditorViewController {
                 }
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    _ = project.commitAll()
+                    project.commitAll()
                     _ = project.push()
                 }
             }
