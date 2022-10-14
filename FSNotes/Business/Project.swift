@@ -716,18 +716,20 @@ public class Project: Equatable {
     
     public func getRepository() -> Repository? {
         let repositoryManager = RepositoryManager()
-        
         let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git")
-        
         
         do {
             let repository = try repositoryManager.openRepository(at: repoURL)
             return repository
         } catch {
             guard let originString = getGitOrigin(), let origin = URL(string: originString) else { return nil }
-            let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
             
-            guard let _ = try? repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler()) else { return nil }
+            let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+            try? FileManager.default.removeItem(at: cloneURL)
+            
+            guard let repository = try? repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler()) else { return nil }
+            repository.setWorkTree(path: url.path)
+            
             let dotGit = cloneURL.appendingPathComponent(".git")
             
             if FileManager.default.directoryExists(atUrl: dotGit) {
@@ -762,15 +764,25 @@ public class Project: Equatable {
         return Signature(name: "FSNotes App", email: "support@fsnot.es")
     }
     
-    public func addAndCommit() {
+    public func commit() {
+        guard let repository = getRepository() else { return }
         
-        if let repository = getRepository(), Statuses(repository: repository).workingDirectoryClean == false {
-            _ = repository.add(path: ".")
-            
+        let statuses = Statuses(repository: repository)
+        let lastCommit = try? repository.head().targetCommit()
+        
+        if statuses.workingDirectoryClean == false || lastCommit == nil {
             do {
-                let head = try repository.head().index()
                 let sign = getSign()
-                _ = try head.createCommit(msg: "Save revision", signature: sign)
+                let head = try repository.head().index()
+                
+                head.add(path: ".")
+                try head.save()
+                
+                if lastCommit == nil {
+                    _ = try head.createInitialCommit(msg: "FSNotes Init ;-)", signature: sign)
+                } else {
+                    _ = try head.createCommit(msg: "Usual commit", signature: sign)
+                }
             } catch {
                 print("Commit error: \(error)")
             }
@@ -779,15 +791,19 @@ public class Project: Equatable {
     
     public func push() -> Int32 {
         guard let repository = getRepository() else { return -1 }
-
+        
         if let origin = getGitOrigin() {
             repository.addRemoteOrigin(path: origin)
         }
         
         let handler = getHandler()
         
+        guard let names = try? Branches(repository: repository).names(type: .local) else { return -1  }
+        guard names.count > 0 else { return -1 }
+        guard let branchName = names.first?.components(separatedBy: "/").last else { return -1 }
+        
         do {
-            let localMaster = try repository.branches.get(name: "master")            
+            let localMaster = try repository.branches.get(name: branchName)
             try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
         } catch {
             print("Push error \(error)")

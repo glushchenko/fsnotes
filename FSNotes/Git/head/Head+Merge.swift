@@ -205,8 +205,12 @@ extension Head {
                 throw gitUnknownError("Unable to merge conflicted branch \(branch.name)", code: error)
             }
             
-            repository.add(path: "")
-                        
+            do {
+                return try resolveConflicts(annotatedCommit: annotatedCommit, signature: signature)
+            } catch {
+                print("Automatic conflict resolution failed")
+            }
+            
             return false
             
         } else {
@@ -225,6 +229,117 @@ extension Head {
             
             return true
         }
+    }
+    
+    private func conflictPaths(index: OpaquePointer) -> [String]? {
+        var iterator: OpaquePointer?
+        var result = git_index_conflict_iterator_new(&iterator, index)
+        defer {
+            git_index_conflict_iterator_free(iterator)
+        }
+        guard result == GIT_OK.rawValue else {
+            return nil
+        }
+        var paths = [String]()
+        var entry: UnsafePointer<git_index_entry>?
+        var our: UnsafePointer<git_index_entry>?
+        var their: UnsafePointer<git_index_entry>?
+        while true {
+            result = git_index_conflict_next(&entry, &our, &their, iterator!)
+            if result == GIT_ITEROVER.rawValue { break }
+            guard result == GIT_OK.rawValue else {
+                return nil
+            }
+            paths.append(String(cString: entry!.pointee.path))
+        }
+        return paths
+    }
+    
+    private func resolveConflicts(annotatedCommit: UnsafeMutablePointer<OpaquePointer?>, signature: Signature) throws -> Bool {
+        var index: OpaquePointer? = nil
+        git_repository_index(&index, repository.pointer.pointee)
         
+        guard let index = index else { return false }
+        guard let paths = conflictPaths(index: index) else { return false }
+        
+        for path in paths {
+            git_index_add_bypath(index, path)
+            git_index_conflict_remove(index, path)
+        }
+        
+        git_index_conflict_cleanup(index)
+        git_index_write(index)
+        
+        var headRef: OpaquePointer? = nil
+        git_repository_head(&headRef, repository.pointer.pointee)
+        
+        guard let lastCommit = try repository.head().targetCommit().pointer.pointee else {
+            throw GitError.notFound(ref: "HEAD")
+        }
+        
+        guard let commitID = git_annotated_commit_id(annotatedCommit.pointee) else { return false }
+        let parent2 = try repository.commitLookup(oid: OID(withGitOid: commitID.pointee))
+        
+        var treeOid = git_oid()
+        git_index_write_tree(&treeOid, index)
+        
+        var tree : OpaquePointer? = nil
+        git_tree_lookup(&tree, repository.pointer.pointee, &treeOid);
+                    
+        var sig = UnsafeMutablePointer<UnsafeMutablePointer<git_signature>?>.allocate(capacity: 1)
+        defer {
+            if let ptr = sig.pointee {
+                git_signature_free(ptr)
+            }
+            
+            sig.deinitialize(count: 1)
+            sig.deallocate()
+        }
+        
+        // Create now signature
+        try signature.now(sig: sig)
+        
+        
+        // Parents
+        var parentsPtr : UnsafeMutablePointer<OpaquePointer?>? = nil
+        defer {
+            if let ptr = parentsPtr {
+                ptr.deinitialize(count: 1)
+                ptr.deallocate()
+            }
+        }
+        
+        parentsPtr = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 2)
+        
+        var it = parentsPtr!
+        
+        it.initialize(to: lastCommit)
+        it = it.successor()
+        
+        it.initialize(to: parent2.pointer.pointee)
+        it = it.successor()
+        
+        
+        // Create merge commit
+        var commit_id = git_oid()
+        let commitError = git_commit_create(&commit_id,
+            repository.pointer.pointee,
+            "HEAD",
+            sig.pointee,
+            sig.pointee,
+            "UTF-8", "Merge conflict",
+            tree,
+            2,
+           parentsPtr
+        )
+        
+        if (commitError != 0) {
+            throw gitUnknownError("Unable to create commit", code: commitError)
+        }
+        
+        git_tree_free(tree)
+        git_repository_state_cleanup(repository.pointer.pointee)
+        
+        return true
     }
 }

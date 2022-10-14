@@ -20,7 +20,7 @@ extension EditorViewController {
         isGitProcessLocked = true
 
         DispatchQueue.global().async {
-            project.addAndCommit()
+            project.commit()
 
             if project.pull() == GIT_OK.rawValue {
                 print("Pull successful")
