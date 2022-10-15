@@ -134,7 +134,7 @@ extension Head {
         try targetReference().updateTargetCommit(commit: try branch.targetCommit(), message: "Merge '\(branch.name)': Fast forward")
         
         // Checkout force
-        try checkout(tree: revTree(), type: .force, progress: progress)
+        try checkout(tree: revTree(), type: .safe, progress: progress)
     }
 
     /// Internal normal merge
@@ -152,11 +152,10 @@ extension Head {
         let mergeIndexPtr = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
 
         // Merge
-        let error = git_merge_commits(mergeIndexPtr,
-                                    repository.pointer.pointee,
-                                    try targetCommit().pointer.pointee,
-                                    try branch.targetCommit().pointer.pointee,
-                                    nil)
+        let tCommit = try targetCommit()
+        let bCommit = try branch.targetCommit()
+        let error = git_merge_commits(mergeIndexPtr, repository.pointer.pointee, tCommit.pointer.pointee, bCommit.pointer.pointee, nil)
+        
         if (error != 0) {
             
             // Dealloc
@@ -273,7 +272,9 @@ extension Head {
         var headRef: OpaquePointer? = nil
         git_repository_head(&headRef, repository.pointer.pointee)
         
-        guard let lastCommit = try repository.head().targetCommit().pointer.pointee else {
+        let rHead = try repository.head()
+        let tCommit = try rHead.targetCommit()
+        guard let lastCommit = tCommit.pointer.pointee else {
             throw GitError.notFound(ref: "HEAD")
         }
         

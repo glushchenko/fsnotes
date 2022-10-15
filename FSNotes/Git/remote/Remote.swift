@@ -101,7 +101,8 @@ public class Remote {
         }
         
         // Merge head
-        return try repository.head().merge(branch: remoteBranch, signature: signature, progress: progress, project: project)
+        let head = try repository.head()
+        return try head.merge(branch: remoteBranch, signature: signature, progress: progress, project: project)
     }
     
     /// Push a branch to remote

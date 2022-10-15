@@ -36,6 +36,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     public var isGitProcessLocked = false
     public var snapshotsTimer = Timer()
     public var lastSnapshot: Int = 0
+    public var pullTimer = Timer()
     
     public func initView() {
         vcEditor?.delegate = self
