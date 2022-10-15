@@ -20,31 +20,22 @@ extension EditorViewController {
         isGitProcessLocked = true
 
         DispatchQueue.global().async {
-            guard let repository = project.getRepository() else {
-                self.isGitProcessLocked = false
-                return
-            }
-            
-            let gitPath = note.getGitPath()
-            if case .failure(let error) = repository.add(path: gitPath) {
-                print("Git add: \(error)")
-            }
-            
-            let sig = Signature(name: "FSNotes App", email: "support@fsnot.es", time: Date(), timeZone: TimeZone.current)
-            if case .failure(let error) = repository.commit(message: " - Updates note", signature: sig) {
-                print("Git commit: \(error)")
-            }
+            project.commit()
 
-            let code = project.push()
-            if code != GIT_OK.rawValue {
+            if project.pull() == GIT_OK.rawValue {
+                print("Pull successful")
+            }
+            
+            if project.push() != GIT_OK.rawValue {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.alertStyle = .critical
-                    alert.informativeText = NSLocalizedString("Libgit2 error: \(code)", comment: "")
+                    alert.informativeText = NSLocalizedString("Libgit2 error", comment: "")
                     alert.messageText = NSLocalizedString("Git push error", comment: "")
                     alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
                 }
             }
+            
             self.isGitProcessLocked = false
         }
     }
@@ -108,8 +99,31 @@ extension EditorViewController {
                 }
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    _ = project.commitAll()
+                    project.commit()
+                    _ = project.pull()
                     _ = project.push()
+                }
+            }
+            
+            self.isGitProcessLocked = false
+        }
+    }
+    
+    @IBAction private func pull(_ sender: Any) {
+        guard !isGitProcessLocked else { return }
+
+        let storage = Storage.sharedInstance()
+        let projects = storage.getProjects()
+
+        isGitProcessLocked = true
+        DispatchQueue.global().async {
+            for project in projects {
+                if project.isTrash {
+                    continue
+                }
+
+                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                    _ = project.pull()
                 }
             }
             
@@ -122,5 +136,14 @@ extension EditorViewController {
 
         snapshotsTimer.invalidate()
         snapshotsTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(makeFullSnapshot), userInfo: nil, repeats: true)
+    }
+    
+    public func schedulePull() {
+        guard !UserDefaultsManagement.backupManually else { return }
+
+        let interval = UserDefaultsManagement.pullInterval
+        
+        pullTimer.invalidate()
+        pullTimer = Timer.scheduledTimer(timeInterval: TimeInterval(interval), target: self, selector: #selector(pull), userInfo: nil, repeats: true)
     }
 }

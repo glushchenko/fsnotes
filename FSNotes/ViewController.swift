@@ -148,6 +148,7 @@ class ViewController: EditorViewController,
         storage.restoreAPIIds()
         
         scheduleSnapshots()
+        schedulePull()
         
         configureShortcuts()
         configureDelegates()
@@ -1869,6 +1870,21 @@ class ViewController: EditorViewController,
 
         DispatchQueue.global().async {
             let project = note.project.getGitProject()
+            
+//            if let repository = note.project.getRepository() {
+//                do {
+//                    let path = note.getGitPath()
+//                    let fileRevLog11 = try FileHistoryIterator(repository: repository, path: path)
+//                    if let first = fileRevLog11.next() {
+//                        if let commit = try? repository.commitLookup(oid: first) {
+//                            print(commit.date)
+//                        }
+//                    }
+//                } catch {
+//                    
+//                }
+//            }
+            
             let git = FSGit.sharedInstance()
             let repository = git.getRepository(by: project)
             let commits = repository.getCommits(by: note.getGitPath())

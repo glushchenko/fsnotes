@@ -121,6 +121,7 @@ public class UserDefaultsManagement {
         static let ProjectsKey = "projects"
         static let RecentSearches = "recentSearches"
         static let RestoreCursorPosition = "restoreCursorPosition"
+        static let PullInterval = "pullInterval"
         static let SaveInKeychain = "saveInKeychain"
         static let SearchHighlight = "searchHighlighting"
         static let SftpHost = "sftpHost"
@@ -1194,6 +1195,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.SnapshotsInterval)
+        }
+    }
+    
+    static var pullInterval: Int {
+        get {
+            if let interval = shared?.object(forKey: Constants.PullInterval) as? Int {
+                return interval
+            }
+
+            return 10
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.PullInterval)
         }
     }
 

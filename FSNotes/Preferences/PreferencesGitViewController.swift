@@ -21,22 +21,11 @@ class PreferencesGitViewController: NSViewController {
     @IBOutlet weak var password: NSSecureTextField!
     @IBOutlet weak var rsaPath: NSPathControl!
     @IBOutlet weak var passphrase: NSSecureTextField!
+    @IBOutlet weak var pullInterval: NSTextField!
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 352)
-
-        DispatchQueue.global().async {
-            if let version = FSGit.sharedInstance().getVersion() {
-                let allowedCharset = CharacterSet
-                    .decimalDigits
-                    .union(CharacterSet(charactersIn: "."))
-
-                DispatchQueue.main.async {
-                    self.gitVersion.stringValue = String(version.unicodeScalars.filter(allowedCharset.contains))
-                }
-            }
-        }
+        //preferredContentSize = NSSize(width: 550, height: 612)
 
         repositoriesPath.url = UserDefaultsManagement.gitStorage
 
@@ -61,6 +50,7 @@ class PreferencesGitViewController: NSViewController {
         }
         
         passphrase.stringValue = UserDefaultsManagement.gitPassphrase
+        pullInterval.stringValue = String(UserDefaultsManagement.pullInterval)
     }
 
     @IBAction func changeGitStorage(_ sender: NSButton) {
@@ -181,6 +171,15 @@ class PreferencesGitViewController: NSViewController {
     
     @IBAction func passphrase(_ sender: NSSecureTextField) {
         UserDefaultsManagement.gitPassphrase = sender.stringValue
+    }
+    
+    @IBAction func pullInterval(_ sender: NSTextField) {
+        if let interval = Int(sender.stringValue) {
+            UserDefaultsManagement.pullInterval = interval
+        }
+
+        guard let vc = ViewController.shared() else { return }
+        vc.schedulePull()
     }
     
 }

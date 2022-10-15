@@ -715,18 +715,78 @@ public class Project: Equatable {
     }
     
     public func getRepository() -> Repository? {
+        let repositoryManager = RepositoryManager()
         let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git")
         
-        if case .success(let projectRepo) = Repository.at(repoURL) {
-            return projectRepo
-        } else {
-            let result = Repository.create(at: repoURL, with: url)
-            if case .success(let projectRepo) = result {
-                return projectRepo
+        do {
+            let repository = try repositoryManager.openRepository(at: repoURL)
+            return repository
+        } catch {
+            guard let originString = getGitOrigin(), let origin = URL(string: originString) else { return nil }
+            
+            let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+            try? FileManager.default.removeItem(at: cloneURL)
+            
+            guard let repository = try? repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler()) else { return nil }
+            repository.setWorkTree(path: url.path)
+            
+            let dotGit = cloneURL.appendingPathComponent(".git")
+            
+            if FileManager.default.directoryExists(atUrl: dotGit) {
+                try? FileManager.default.moveItem(at: dotGit, to: repoURL)
+                
+                return try? repositoryManager.openRepository(at: repoURL)
             }
         }
         
         return nil
+    }
+    
+    public func getHandler() -> SshKeyHandler? {
+        var rsa: URL?
+
+        if let accessData = UserDefaultsManagement.gitPrivateKeyData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data],
+            let url = bookmarks.first?.key {
+            rsa = url
+        }
+        
+        guard let rsaURL = rsa else { return nil }
+        
+        let passphrase = UserDefaultsManagement.gitPassphrase
+        let sshKeyDelegate = StaticSshKeyDelegate(privateUrl: rsaURL, passphrase: passphrase)
+        let handler = SshKeyHandler(sshKeyDelegate: sshKeyDelegate)
+        
+        return handler
+    }
+    
+    public func getSign() -> Signature {
+        return Signature(name: "FSNotes App", email: "support@fsnot.es")
+    }
+    
+    public func commit() {
+        guard let repository = getRepository() else { return }
+        
+        let statuses = Statuses(repository: repository)
+        let lastCommit = try? repository.head().targetCommit()
+        
+        if statuses.workingDirectoryClean == false || lastCommit == nil {
+            do {
+                let sign = getSign()
+                let head = try repository.head().index()
+                
+                head.add(path: ".")
+                try head.save()
+                
+                if lastCommit == nil {
+                    _ = try head.createInitialCommit(msg: "FSNotes Init ;-)", signature: sign)
+                } else {
+                    _ = try head.createCommit(msg: "Usual commit", signature: sign)
+                }
+            } catch {
+                print("Commit error: \(error)")
+            }
+        }
     }
     
     public func push() -> Int32 {
@@ -734,28 +794,48 @@ public class Project: Equatable {
         
         if let origin = getGitOrigin() {
             repository.addRemoteOrigin(path: origin)
-            let code = repository.push()
-            return code
         }
         
-        return -1
-    }
-    
-    public func commitAll() -> Int32 {
-        guard let repository = getRepository() else { return -1 }
+        let handler = getHandler()
         
-        if case .failure(let error) = repository.add(path: ".") {
-            print("Git add: \(error)")
-            return -1
-        }
+        guard let names = try? Branches(repository: repository).names(type: .local) else { return -1  }
+        guard names.count > 0 else { return -1 }
+        guard let branchName = names.first?.components(separatedBy: "/").last else { return -1 }
         
-        let sig = Signature(name: "FSNotes App", email: "support@fsnot.es", time: Date(), timeZone: TimeZone.current)
-        if case .failure(let error) = repository.commit(message: " - Updates project", signature: sig) {
-            print("Git commit: \(error)")
+        do {
+            let localMaster = try repository.branches.get(name: branchName)
+            try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
+        } catch {
+            print("Push error \(error)")
             return -1
         }
         
         return 0
+    }
+    
+    public func pull() -> Int32 {
+        guard let repository = getRepository() else { return -1 }
+                
+        repository.setWorkTree(path: url.path)
+                
+        let handler = getHandler()
+        let sign = getSign()
+        
+        do {
+            let remote = repository.remotes
+            let origin = try remote.get(remoteName: "origin")
+            _ = try origin.pull(signature: sign, authentication: handler, project: self)
+        } catch {
+            return -1
+        }
+        
+        return 0
+    }
+    
+    public func commitAll() {
+        let git = FSGit.sharedInstance()
+        let repository = git.getRepository(by: self)
+        repository.commitAll()
     }
     
     public func getGitProject() -> Project {
