@@ -318,7 +318,7 @@ class SidebarOutlineView: NSOutlineView,
             var srcIndex: Int?
             let dstProject = item as? Project
             
-            if dstProject != nil, let srcParent = project.parent, !srcParent.isRoot {
+            if dstProject != nil, let srcParent = project.parent, !srcParent.isRoot || srcParent.isExternal {
                 srcIndex = srcParent.child.firstIndex(where: { $0 === project })
             } else {
                 srcIndex = sidebarItems.firstIndex(where: { $0 as? Project === project })
@@ -1169,19 +1169,19 @@ class SidebarOutlineView: NSOutlineView,
 
     // MARK: Functions
     
-    private func isAllowedDropIndex(srcProject: Project, dstProject: Project?,  dstIndex: Int) -> Bool {
+    private func isAllowedDropIndex(srcProject: Project, dstProject: Project?, dstIndex: Int) -> Bool {
         guard let sidebarItems = self.sidebarItems else { return false }
         
         var srcIndex: Int?
         
-        if dstProject != nil, let srcParent = srcProject.parent, !srcParent.isRoot {
+        if dstProject != nil, let srcParent = srcProject.parent, !srcParent.isRoot || srcParent.isExternal {
             srcIndex = srcParent.child.firstIndex(where: { $0 === srcProject })
         } else {
             srcIndex = sidebarItems.firstIndex(where: { $0 as? Project === srcProject })
         }
-        
+                
         // Disallow move from root to external
-        if let dstProject = dstProject, dstProject.isExternal, !srcProject.isExternal {
+        if let dstProject = dstProject, dstProject.isExternal, !srcProject.isExternal && srcProject.parent == nil {
             return false
         }
         
