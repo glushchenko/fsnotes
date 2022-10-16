@@ -90,6 +90,7 @@ extension ViewController {
                     if image.path.startsWith(string: "http://") || image.path.startsWith(string: "https://") {
                         continue
                     }
+                    
                     if !imageDirCreationDone {
                         let imageDirName = image.path.split(separator: "/")[0]
                     

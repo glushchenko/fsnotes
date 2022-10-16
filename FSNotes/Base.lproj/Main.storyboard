@@ -1061,9 +1061,6 @@ CA
                                             <menuItem title=".markdown" state="on" id="HK7-Qq-ilB"/>
                                             <menuItem title=".md" id="bCL-eg-DgP"/>
                                             <menuItem title=".txt" id="TfH-z4-HHY"/>
-                                            <menuItem title=".rtf" id="DdA-4M-JZH">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>

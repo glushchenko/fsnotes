@@ -143,12 +143,7 @@ class PreferencesGeneralViewController: NSViewController {
         let ext = sender.title.replacingOccurrences(of: ".", with: "")
 
         UserDefaultsManagement.noteExtension = ext
-
-        if ext == "rtf" {
-            UserDefaultsManagement.fileFormat = .RichText
-        } else {
-            UserDefaultsManagement.fileFormat = .Markdown
-        }
+        UserDefaultsManagement.fileFormat = .Markdown
     }
 
     @IBAction func filesNaming(_ sender: NSPopUpButton) {

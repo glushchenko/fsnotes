@@ -916,9 +916,6 @@ public class UserDefaultsManagement {
 
     static var fileFormat: NoteType {
         get {
-            if let result = shared?.object(forKey: Constants.NoteType) as? Int {
-                return NoteType.withTag(rawValue: result)
-            }
             return .Markdown
         }
         set {
