@@ -462,7 +462,6 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
-
         if let archivedData = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
             let url = URL(fileURLWithPath: archivedData)
             
@@ -489,6 +488,11 @@ class SidebarOutlineView: NSOutlineView,
 
             if let url = urls.first, Storage.sharedInstance().getBy(url: url) != nil {
                 isLocalNote = true
+            }
+            
+            // Disable drag and drop notes between sidebar items
+            if index > -1 {
+                return NSDragOperation(rawValue: 0)
             }
         }
 
@@ -982,11 +986,9 @@ class SidebarOutlineView: NSOutlineView,
         DispatchQueue.global(qos: .background).async {
             let project = project.getGitProject()
 
+            project.commit()
             project.pull()
             project.push()
-            
-            project.commitAll()
-            _ = project.push()
             
             vc.isGitProcessLocked = false
         }

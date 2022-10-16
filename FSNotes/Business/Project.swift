@@ -832,12 +832,6 @@ public class Project: Equatable {
         return 0
     }
     
-    public func commitAll() {
-        let git = FSGit.sharedInstance()
-        let repository = git.getRepository(by: self)
-        repository.commitAll()
-    }
-    
     public func getGitProject() -> Project {
         if isGitOriginExist() {
             return self
