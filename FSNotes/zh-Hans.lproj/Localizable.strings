@@ -140,7 +140,7 @@
 "Link" = "链接";
 
 /* No comment provided by engineer. */
-"Lock" = "Lock";
+"Lock" = "锁定";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "锁定所有加密的笔记";
@@ -306,7 +306,7 @@
 "Underline" = "下划线";
 
 /* No comment provided by engineer. */
-"Unlock" = "Unlock";
+"Unlock" = "解锁";
 
 /* No comment provided by engineer. */
 "Unpin" = "取消置顶";

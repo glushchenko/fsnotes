@@ -116,10 +116,10 @@
 "Git push error" = "Git push error";
 
 /* No comment provided by engineer. */
-"Hide Note List" = "Hide Note List";
+"Hide Note List" = "Ocultar notas";
 
 /* No comment provided by engineer. */
-"Hide Sidebar" = "Hide Sidebar";
+"Hide Sidebar" = "Mostrar barra lateral";
 
 /* No comment provided by engineer. */
 "History" = "Historia";
@@ -185,7 +185,7 @@
 "Path not available" = "Carpeta no disponible";
 
 /* No comment provided by engineer. */
-"Pin" = "Pin";
+"Pin" = "Anclar";
 
 /* Edit area */
 "Please enter image title:" = "Por favor, introduce un título para la imagen:";
@@ -251,10 +251,10 @@
 "Show in Finder" = "Mostrar carpeta";
 
 /* No comment provided by engineer. */
-"Show Note List" = "Show Note List";
+"Show Note List" = "Mostrar notas";
 
 /* No comment provided by engineer. */
-"Show Sidebar" = "Show Sidebar";
+"Show Sidebar" = "Ocultar barra lateral";
 
 /* No comment provided by engineer. */
 "Show view options" = "Ver configuración";
@@ -309,7 +309,7 @@
 "Unlock" = "Desbloquear";
 
 /* No comment provided by engineer. */
-"Unpin" = "Unpin";
+"Unpin" = "Desanclar";
 
 /* No comment provided by engineer. */
 "Untagged" = "Sin etiquetar";

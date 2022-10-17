@@ -236,7 +236,7 @@
 "buJ-ug-pKt.title" = "استخدم التحديد للبحث";
 
 /* Class = "NSTextFieldCell"; title = "Publish notes to:"; ObjectID = "bUL-WS-rIS"; */
-"bUL-WS-rIS.title" = "Publish notes to:";
+"bUL-WS-rIS.title" = "انشر الملاحظات على:";
 
 /* Class = "NSMenuItem"; title = "Untagged"; ObjectID = "BX0-nb-tVk"; */
 "BX0-nb-tVk.title" = "بدون علامات";
@@ -428,7 +428,7 @@
 "gbE-yH-ECm.title" = "حفظ اختصار الحافظة:";
 
 /* Class = "NSTextFieldCell"; title = "seconds"; ObjectID = "Gbf-V7-5Ra"; */
-"Gbf-V7-5Ra.title" = "seconds";
+"Gbf-V7-5Ra.title" = "ثواني";
 
 /* Class = "NSButtonCell"; title = "Modification date"; ObjectID = "GCG-C6-9cg"; */
 "GCG-C6-9cg.title" = "تاريخ التعديل";

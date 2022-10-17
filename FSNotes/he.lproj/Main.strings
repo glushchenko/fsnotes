@@ -428,7 +428,7 @@
 "gbE-yH-ECm.title" = "קיצור דרך לשמור את לוח העריכה:";
 
 /* Class = "NSTextFieldCell"; title = "seconds"; ObjectID = "Gbf-V7-5Ra"; */
-"Gbf-V7-5Ra.title" = "seconds";
+"Gbf-V7-5Ra.title" = "שניות";
 
 /* Class = "NSButtonCell"; title = "Modification date"; ObjectID = "GCG-C6-9cg"; */
 "GCG-C6-9cg.title" = "תאריך שינוי";
@@ -647,7 +647,7 @@
 "n0M-SN-fzg.title" = "החלף מצב מטלה";
 
 /* Class = "NSButtonCell"; title = "Clickable links"; ObjectID = "N8h-ep-HFG"; */
-"N8h-ep-HFG.title" = "Clickable links";
+"N8h-ep-HFG.title" = "קישורים ללחיצה";
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "nBn-aV-7mt"; */
 "nBn-aV-7mt.title" = "שנה";

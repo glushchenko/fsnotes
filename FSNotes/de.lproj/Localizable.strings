@@ -35,7 +35,7 @@
 "Check Spelling While Typing" = "Während der Texteingabe prüfen";
 
 /* No comment provided by engineer. */
-"Clear" = "Clear";
+"Clear" = "Klar";
 
 /* No comment provided by engineer. */
 "Connection established successfully 🤟" = "Verbindung erfolgreich hergestellt 🤟";
@@ -56,7 +56,7 @@
 "Create Web Page" = "Webseite erstellen";
 
 /* Menu */
-"Creation date:" = "Creation date:";
+"Creation date:" = "Erstellungsdatum:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "Das aktuelle Passwort stimmt nicht mit dem Passwort im Schlüsselbund überein";
@@ -68,7 +68,7 @@
 "Decrypt" = "Entschlüsseln";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "Der Standardspeicherpfad sollte nicht gleich dem Git-Pfad sein.";
 
 /* No comment provided by engineer. */
 "Delete" = "Löschen";
@@ -83,7 +83,7 @@
 "Detach storage" = "Speicher abnehmen";
 
 /* No comment provided by engineer. */
-"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+"Do you want to move current notes in the new destination?" = "Möchten Sie aktuelle Notizen an das neue Ziel verschieben?";
 
 /* No comment provided by engineer. */
 "Documents" = "Documents";
@@ -116,10 +116,10 @@
 "Git push error" = "Git push fehler";
 
 /* No comment provided by engineer. */
-"Hide Note List" = "Hide Note List";
+"Hide Note List" = "Notizliste ausblenden";
 
 /* No comment provided by engineer. */
-"Hide Sidebar" = "Hide Sidebar";
+"Hide Sidebar" = "Seitenleiste ausblenden";
 
 /* No comment provided by engineer. */
 "History" = "Die geschichte";
@@ -176,7 +176,7 @@
 "OK" = "OK";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open note" = "Notiz öffnen";
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
@@ -185,7 +185,7 @@
 "Path not available" = "Path not available";
 
 /* No comment provided by engineer. */
-"Pin" = "Pin";
+"Pin" = "Fixieren";
 
 /* Edit area */
 "Please enter image title:" = "Geben Sie die Bildbezeichnung ein:";
@@ -197,7 +197,7 @@
 "Please enter project name:" = "Geben Sie den Projektname ein:";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "Bitte geben Sie den Tag-Namen ein:";
 
 /* Menu */
 "Please enter tags (comma separated):" = "Geben Sie Tags ein (durch Kommas getrennt):";
@@ -218,10 +218,10 @@
 "Quit FSNotes" = "FSNotes beenden";
 
 /* No comment provided by engineer. */
-"Recents" = "Recents";
+"Recents" = "Letzte";
 
 /* No comment provided by engineer. */
-"Recents Search" = "Recents Search";
+"Recents Search" = "Neueste Suche";
 
 /* Delete menu */
 "Remove" = "Löschen";
@@ -251,10 +251,10 @@
 "Show in Finder" = "Ordner anzeigen";
 
 /* No comment provided by engineer. */
-"Show Note List" = "Show Note List";
+"Show Note List" = "Notizliste anzeigen";
 
 /* No comment provided by engineer. */
-"Show Sidebar" = "Show Sidebar";
+"Show Sidebar" = "Seitenleiste anzeigen";
 
 /* No comment provided by engineer. */
 "Show view options" = "Einstellungen anzeigen";
@@ -309,7 +309,7 @@
 "Unlock" = "Freischalten";
 
 /* No comment provided by engineer. */
-"Unpin" = "Unpin";
+"Unpin" = "Loslösen";
 
 /* No comment provided by engineer. */
 "Untagged" = "Ungetaggt";
@@ -342,4 +342,4 @@
 "Wrong repeated password" = "Passwort stimmt nicht überein";
 
 /* No comment provided by engineer. */
-"Yes" = "Yes";
+"Yes" = "Ja";

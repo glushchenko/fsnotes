@@ -116,10 +116,10 @@
 "Git push error" = "Git push שְׁגִיאָה";
 
 /* No comment provided by engineer. */
-"Hide Note List" = "Hide Note List";
+"Hide Note List" = "הסתר רשימת הערות";
 
 /* No comment provided by engineer. */
-"Hide Sidebar" = "Hide Sidebar";
+"Hide Sidebar" = "הסתר סרגל צד";
 
 /* No comment provided by engineer. */
 "History" = "היסטוריה";
@@ -140,7 +140,7 @@
 "Link" = "קישור";
 
 /* No comment provided by engineer. */
-"Lock" = "Lock";
+"Lock" = "נעל";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "נעל פתקים מוצפנים";
@@ -185,7 +185,7 @@
 "Path not available" = "הנתיב אינו זמין";
 
 /* No comment provided by engineer. */
-"Pin" = "Pin";
+"Pin" = "הצמד";
 
 /* Edit area */
 "Please enter image title:" = "נא הכנס כותרת תמונה:";
@@ -251,10 +251,10 @@
 "Show in Finder" = "הצג ב-Finder";
 
 /* No comment provided by engineer. */
-"Show Note List" = "Show Note List";
+"Show Note List" = "הצג רשימת הערות";
 
 /* No comment provided by engineer. */
-"Show Sidebar" = "Show Sidebar";
+"Show Sidebar" = "הצג סרגל צד";
 
 /* No comment provided by engineer. */
 "Show view options" = "הצג אפשרויות תצוגה";
@@ -306,10 +306,10 @@
 "Underline" = "קו תחתון";
 
 /* No comment provided by engineer. */
-"Unlock" = "Unlock";
+"Unlock" = "פתח";
 
 /* No comment provided by engineer. */
-"Unpin" = "Unpin";
+"Unpin" = "בטל הצמדה";
 
 /* No comment provided by engineer. */
 "Untagged" = "ללא תגים";

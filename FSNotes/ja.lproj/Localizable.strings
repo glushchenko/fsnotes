@@ -116,10 +116,10 @@
 "Git push error" = "Git push エラー";
 
 /* No comment provided by engineer. */
-"Hide Note List" = "Hide Note List";
+"Hide Note List" = "ノート リストを非表示";
 
 /* No comment provided by engineer. */
-"Hide Sidebar" = "Hide Sidebar";
+"Hide Sidebar" = "サイドバーを隠す";
 
 /* No comment provided by engineer. */
 "History" = "履歴";
@@ -185,7 +185,7 @@
 "Path not available" = "無効なパスです";
 
 /* No comment provided by engineer. */
-"Pin" = "Pin";
+"Pin" = "メモをピンで固定";
 
 /* Edit area */
 "Please enter image title:" = "イメージタイトルを入力:";
@@ -251,10 +251,10 @@
 "Show in Finder" = "Finderに表示";
 
 /* No comment provided by engineer. */
-"Show Note List" = "Show Note List";
+"Show Note List" = "ノート一覧を表示";
 
 /* No comment provided by engineer. */
-"Show Sidebar" = "Show Sidebar";
+"Show Sidebar" = "サイドバーを表示";
 
 /* No comment provided by engineer. */
 "Show view options" = "表示オプションを表示";
@@ -288,7 +288,7 @@
 "Tags" = "タグ";
 
 /* No comment provided by engineer. */
-"Text Replacement" = "Замена текста";
+"Text Replacement" = "テキストの置換";
 
 /* Delete menu */
 "This action cannot be undone." = "このアクションは取り消しできません。";
@@ -309,7 +309,7 @@
 "Unlock" = "ロック解除";
 
 /* No comment provided by engineer. */
-"Unpin" = "Unpin";
+"Unpin" = "ピン固定の解除";
 
 /* No comment provided by engineer. */
 "Untagged" = "タグ無し";

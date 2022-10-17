@@ -1,5 +1,5 @@
 /* No comment provided by engineer. */
-"Add" = "Add";
+"Add" = "Ajouter";
 
 /* No comment provided by engineer. */
 "Add External Folder..." = "Attacher un stockage...";
@@ -29,49 +29,49 @@
 "Change creation date" = "Modifier la date de création";
 
 /* No comment provided by engineer. */
-"Check Grammar With Spelling" = "Check Grammar With Spelling";
+"Check Grammar With Spelling" = "Vérifier la grammaire avec l'orthographe";
 
 /* No comment provided by engineer. */
-"Check Spelling While Typing" = "Check Spelling While Typing";
+"Check Spelling While Typing" = "Vérifier l'orthographe lors de la frappe";
 
 /* No comment provided by engineer. */
-"Clear" = "Clear";
+"Clear" = "Dégager";
 
 /* No comment provided by engineer. */
 "Connection established successfully 🤟" = "Connexion établie avec succès 🤟";
 
 /* No comment provided by engineer. */
-"Copy HTML" = "Copy HTML";
+"Copy HTML" = "Copier HTML";
 
 /* No comment provided by engineer. */
-"Copy Link" = "Copy Link";
+"Copy Link" = "Copier le lien";
 
 /* No comment provided by engineer. */
-"Copy Plain Text" = "Copy Plain Text";
+"Copy Plain Text" = "Copier du texte brut";
 
 /* No comment provided by engineer. */
-"Correct Spelling Automatically" = "Correct Spelling Automatically";
+"Correct Spelling Automatically" = "Corriger l'orthographe automatiquement";
 
 /* No comment provided by engineer. */
 "Create Web Page" = "Créer une page Web";
 
 /* Menu */
-"Creation date:" = "Creation date:";
+"Creation date:" = "Date de création:";
 
 /* No comment provided by engineer. */
-"Current password does not match with password in keychain" = "Current password does not match with password in keychain";
+"Current password does not match with password in keychain" = "Le mot de passe actuel ne correspond pas au mot de passe du trousseau";
 
 /* No comment provided by engineer. */
-"Data Detectors" = "Data Detectors";
+"Data Detectors" = "Détecteurs de données";
 
 /* No comment provided by engineer. */
 "Decrypt" = "Décrypter";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "Le chemin de stockage par défaut ne doit pas être égal au chemin Git.";
 
 /* No comment provided by engineer. */
-"Delete" = "Delete";
+"Delete" = "Effacer";
 
 /* No comment provided by engineer. */
 "Delete Folder" = "Supprimer le dossier";
@@ -80,28 +80,28 @@
 "Delete Tag" = "Supprimer le libellé";
 
 /* No comment provided by engineer. */
-"Detach storage" = "Detach storage";
+"Detach storage" = "Détacher le stockage";
 
 /* No comment provided by engineer. */
-"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+"Do you want to move current notes in the new destination?" = "Voulez-vous déplacer les notes actuelles vers la nouvelle destination ?";
 
 /* No comment provided by engineer. */
 "Documents" = "Documents";
 
 /* No comment provided by engineer. */
-"Edit Link…" = "Edit Link…";
+"Edit Link…" = "Modifier le lien…";
 
 /* No comment provided by engineer. */
-"Empty password" = "Empty password";
+"Empty password" = "Mot de passe vide";
 
 /* No comment provided by engineer. */
 "Encrypt" = "Crypter";
 
 /* No comment provided by engineer. */
-"Enter Master Password" = "Enter Master Password";
+"Enter Master Password" = "Entrez le mot de passe principal";
 
 /* No comment provided by engineer. */
-"External Folders" = "External Folders";
+"External Folders" = "Dossiers externes";
 
 /* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
@@ -116,10 +116,10 @@
 "Git push error" = "Git push erreur";
 
 /* No comment provided by engineer. */
-"Hide Note List" = "Hide Note List";
+"Hide Note List" = "Masquer la liste des notes";
 
 /* No comment provided by engineer. */
-"Hide Sidebar" = "Hide Sidebar";
+"Hide Sidebar" = "Masquer la barre latérale";
 
 /* No comment provided by engineer. */
 "History" = "Historique";
@@ -143,64 +143,64 @@
 "Lock" = "Bloquer";
 
 /* No comment provided by engineer. */
-"Lock All Encrypted" = "Lock All Encrypted";
+"Lock All Encrypted" = "Verrouiller tout crypté";
 
 /* No comment provided by engineer. */
-"Master password:" = "Master password:";
+"Master password:" = "Mot de passe maître:";
 
 /* Menu */
 "Move" = "Déplacer";
 
 /* No comment provided by engineer. */
-"New" = "New";
+"New" = "Nouvelle";
 
 /* No comment provided by engineer. */
 "New folder" = "Nouveau dossier";
 
 /* No comment provided by engineer. */
-"New project" = "New project";
+"New project" = "Nouveau projet";
 
 /* No comment provided by engineer. */
 "New RTF" = "New RTF";
 
 /* No comment provided by engineer. */
-"No" = "No";
+"No" = "Non";
 
 /* No comment provided by engineer. */
-"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+"Note with name \"%@\" already exists in selected directory." = "La note avec le nom \"%@\" existe déjà dans le répertoire sélectionné.";
 
 /* Sidebar label */
-"Notes" = "Notes";
+"Notes" = "Remarques";
 
 /* No comment provided by engineer. */
 "OK" = "OK";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open note" = "Remarque ouverte";
 
 /* No comment provided by engineer. */
-"Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+"Otherwise, the database of your notes will be available at: " = "Sinon, la base de données de vos notes sera disponible sur : ";
 
 /* No comment provided by engineer. */
-"Path not available" = "Path not available";
+"Path not available" = "Chemin non disponible";
 
 /* No comment provided by engineer. */
-"Pin" = "Pin";
+"Pin" = "Épingler";
 
 /* Edit area */
-"Please enter image title:" = "Please enter image title:";
+"Please enter image title:" = "Veuillez saisir le titre de l'image :";
 
 /* No comment provided by engineer. */
-"Please enter password for current note" = "Please enter password for current note";
+"Please enter password for current note" = "Veuillez entrer le mot de passe pour la note actuelle";
 
 /* No comment provided by engineer. */
-"Please enter project name:" = "Please enter project name:";
+"Please enter project name:" = "Veuillez saisir le nom du projet :";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "Veuillez saisir le nom du tag :";
 
 /* Menu */
-"Please enter tags (comma separated):" = "Please enter tags (comma separated):";
+"Please enter tags (comma separated):" = "Veuillez saisir des balises (séparées par des virgules) :";
 
 /* No comment provided by engineer. */
 "Please select private and public key" = "Veuillez sélectionner une clé privée et une clé publique";
@@ -209,25 +209,25 @@
 "Please select private key" = "Veuillez sélectionner la clé privée";
 
 /* No comment provided by engineer. */
-"Please try again" = "Please try again";
+"Please try again" = "Veuillez réessayer";
 
 /* No comment provided by engineer. */
-"Preferences" = "Preferences";
+"Preferences" = "Préférences";
 
 /* No comment provided by engineer. */
-"Quit FSNotes" = "Quit FSNotes";
+"Quit FSNotes" = "Quitter FSNotes";
 
 /* No comment provided by engineer. */
-"Recents" = "Recents";
+"Recents" = "Récents";
 
 /* No comment provided by engineer. */
-"Recents Search" = "Recents Search";
+"Recents Search" = "Recherche récente";
 
 /* Delete menu */
 "Remove" = "Supprimer";
 
 /* No comment provided by engineer. */
-"Remove Link" = "Remove Link";
+"Remove Link" = "Supprimer le lien";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Supprimer les notes";
@@ -245,34 +245,34 @@
 "Rename Tags" = "Renommer les libelés";
 
 /* No comment provided by engineer. */
-"Search and create" = "Search and create";
+"Search and create" = "Rechercher et créer";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Localiser dans le Finder";
 
 /* No comment provided by engineer. */
-"Show Note List" = "Show Note List";
+"Show Note List" = "Afficher la liste des notes";
 
 /* No comment provided by engineer. */
-"Show Sidebar" = "Show Sidebar";
+"Show Sidebar" = "Afficher la barre latérale";
 
 /* No comment provided by engineer. */
 "Show view options" = "Afficher les options d'affichage";
 
 /* No comment provided by engineer. */
-"Smart Copy/Paste" = "Smart Copy/Paste";
+"Smart Copy/Paste" = "Copier/Coller intelligent";
 
 /* No comment provided by engineer. */
-"Smart Dashes" = "Smart Dashes";
+"Smart Dashes" = "Tirets intelligents";
 
 /* No comment provided by engineer. */
-"Smart Links" = "Smart Links";
+"Smart Links" = "Liens intelligents";
 
 /* No comment provided by engineer. */
-"Smart Quotes" = "Smart Quotes";
+"Smart Quotes" = "Citations intelligentes";
 
 /* View menu */
-"Sort by" = "Sort by";
+"Sort by" = "Trier par";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Spelling and Grammar";
@@ -291,13 +291,13 @@
 "Text Replacement" = "Text Replacement";
 
 /* Delete menu */
-"This action cannot be undone." = "This action cannot be undone.";
+"This action cannot be undone." = "Cette action ne peut pas être annulée.";
 
 /* No comment provided by engineer. */
 "Todo" = "Tâches";
 
 /* No comment provided by engineer. */
-"Toggle preview" = "Toggle preview";
+"Toggle preview" = "Basculer l'aperçu";
 
 /* Sidebar label */
 "Trash" = "Corbeille";
@@ -309,10 +309,10 @@
 "Unlock" = "Ouvrir";
 
 /* No comment provided by engineer. */
-"Unpin" = "Unpin";
+"Unpin" = "Désépingler";
 
 /* No comment provided by engineer. */
-"Untagged" = "Untagged";
+"Untagged" = "Non étiqueté";
 
 /* Untitled Note */
 "Untitled Note" = "Untitled Note";
@@ -321,16 +321,16 @@
 "Update Web Page" = "Mettre à jour la page Web";
 
 /* No comment provided by engineer. */
-"URL has been copied to clipboard" = "URL has been copied to clipboard";
+"URL has been copied to clipboard" = "L'URL a été copiée dans le presse-papiers";
 
 /* Menu */
-"View" = "View";
+"View" = "Voir";
 
 /* No comment provided by engineer. */
-"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?";
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "Nous détectons que vous installez FSNotes depuis le Mac App Store avec le stockage par défaut dans iCloud Drive, voulez-vous déplacer l'ancienne base de données dans iCloud Drive ?";
 
 /* No comment provided by engineer. */
-"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "Nous ne pouvons pas déplacer \"{DST_PATH}\" car cet élément existe déjà dans la destination sélectionnée.";
 
 /* No comment provided by engineer. */
 "Web publishing error" = "Erreur de publication Web";
@@ -339,7 +339,7 @@
 "Wrong password" = "Mauvais mot de passe";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "Wrong repeated password";
+"Wrong repeated password" = "Mauvais mot de passe répété";
 
 /* No comment provided by engineer. */
-"Yes" = "Yes";
+"Yes" = "Oui";

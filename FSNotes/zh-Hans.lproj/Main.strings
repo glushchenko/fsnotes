@@ -647,7 +647,7 @@
 "n0M-SN-fzg.title" = "切换待办事项";
 
 /* Class = "NSButtonCell"; title = "Clickable links"; ObjectID = "N8h-ep-HFG"; */
-"N8h-ep-HFG.title" = "Clickable links";
+"N8h-ep-HFG.title" = "可点击的链接";
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "nBn-aV-7mt"; */
 "nBn-aV-7mt.title" = "更改";
@@ -899,7 +899,7 @@
 "tRr-pd-1PS.title" = "数据检测器";
 
 /* Class = "NSTextFieldCell"; title = "Pull every"; ObjectID = "tZ6-GT-LxK"; */
-"tZ6-GT-LxK.title" = "Pull every";
+"tZ6-GT-LxK.title" = "拉每个";
 
 /* Class = "NSMenuItem"; title = "Open In New Window"; ObjectID = "u88-5C-vTe"; */
 "u88-5C-vTe.title" = "在新窗口中打开";

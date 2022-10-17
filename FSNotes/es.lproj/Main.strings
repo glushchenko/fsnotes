@@ -1067,7 +1067,7 @@
 "zcY-e5-gKs.title" = "Abrir en editor externo:";
 
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "zd2-Rs-DPm"; */
-"zd2-Rs-DPm.title" = "Force Delete";
+"zd2-Rs-DPm.title" = "Forzar eliminación";
 
 /* Class = "NSTextFieldCell"; title = "3"; ObjectID = "ZDl-8b-mam"; */
 "ZDl-8b-mam.title" = "3";

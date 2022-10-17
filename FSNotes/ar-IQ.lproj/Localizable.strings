@@ -116,10 +116,10 @@
 "Git push error" = "Git push خطأ";
 
 /* No comment provided by engineer. */
-"Hide Note List" = "Hide Note List";
+"Hide Note List" = "إخفاء قائمة الملاحظات";
 
 /* No comment provided by engineer. */
-"Hide Sidebar" = "Hide Sidebar";
+"Hide Sidebar" = "اخفاء الشريط الجانبي";
 
 /* No comment provided by engineer. */
 "History" = "تاريخ";
@@ -185,7 +185,7 @@
 "Path not available" = "المسار غير متوفر";
 
 /* No comment provided by engineer. */
-"Pin" = "Pin";
+"Pin" = "دبوس";
 
 /* Edit area */
 "Please enter image title:" = "الرجاء إدخال عنوان الصورة:";
@@ -251,10 +251,10 @@
 "Show in Finder" = "فتح المجلد";
 
 /* No comment provided by engineer. */
-"Show Note List" = "Show Note List";
+"Show Note List" = "إظهار قائمة الملاحظات";
 
 /* No comment provided by engineer. */
-"Show Sidebar" = "Show Sidebar";
+"Show Sidebar" = "إظهار الشريط الجانبي";
 
 /* No comment provided by engineer. */
 "Show view options" = "عرض الاعدادات";
@@ -272,7 +272,7 @@
 "Smart Quotes" = "اقتباسات ذكية";
 
 /* View menu */
-"Sort by" = "Sort by";
+"Sort by" = "صنف حسب";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "التهجئة والقواعد اللغوية";
@@ -309,7 +309,7 @@
 "Unlock" = "الغاء القفل";
 
 /* No comment provided by engineer. */
-"Unpin" = "Unpin";
+"Unpin" = "إلغاء التثبيت";
 
 /* No comment provided by engineer. */
 "Untagged" = "بدون علامات";
