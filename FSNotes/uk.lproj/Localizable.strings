@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Змінити дату створення";
 
+/* Menu */
+"Change creation date" = "Змінити дату створення";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Перевіряти граматику та правопис";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Git push помилка";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Приховати нотатки";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Приховати сайдбар";
+
+/* No comment provided by engineer. */
 "History" = "Історія";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "Вхідні";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 помилка: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "Шлях недоступний";
+
+/* No comment provided by engineer. */
+"Pin" = "Закріпити";
 
 /* Edit area */
 "Please enter image title:" = "Заголовок зображення:";
@@ -236,6 +251,12 @@
 "Show in Finder" = "Показати в Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Показати нотатки";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Показати сайдбар";
+
+/* No comment provided by engineer. */
 "Show view options" = "Налаштування вигляду";
 
 /* No comment provided by engineer. */
@@ -285,7 +306,10 @@
 "Underline" = "Підкреслений";
 
 /* No comment provided by engineer. */
-"Unlock" = "Unlock";
+"Unlock" = "Розблокувати";
+
+/* No comment provided by engineer. */
+"Unpin" = "Відкріпити";
 
 /* No comment provided by engineer. */
 "Untagged" = "Без тегів";
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Так";
-
-/* Menu */
-"Change creation date" = "Змінити дату створення";

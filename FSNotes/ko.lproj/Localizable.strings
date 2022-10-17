@@ -8,7 +8,7 @@
 "Archive" = "아카이브";
 
 /* No comment provided by engineer. */
-"정말 제거하시겠습니까? %d tag(s)? This action can not be undone." = "%d개의 태그를 제거하시겠습니까? 이 작업은 취소할 수 없습니다.";
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "%d개의 노트를 영구적으로 지우겠습니까?";
@@ -24,6 +24,9 @@
 
 /* Menu */
 "Change Creation Date" = "생성 일 변경";
+
+/* Menu */
+"Change creation date" = "생성 날짜 변경";
 
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "맞춤법 및 문법 검사";
@@ -113,6 +116,12 @@
 "Git push error" = "Git push 오류";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "메모 목록 숨기기";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "사이드바 숨기기";
+
+/* No comment provided by engineer. */
 "History" = "변경 이력";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "Inbox";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 오류: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "경로를 사용할 수 없음";
+
+/* No comment provided by engineer. */
+"Pin" = "고정";
 
 /* Edit area */
 "Please enter image title:" = "이미지 제목을 입력하십시오：";
@@ -236,6 +251,12 @@
 "Show in Finder" = "Finder에서 보기";
 
 /* No comment provided by engineer. */
+"Show Note List" = "메모 목록 표시";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "사이드바 표시";
+
+/* No comment provided by engineer. */
 "Show view options" = "보기 옵션";
 
 /* No comment provided by engineer. */
@@ -285,7 +306,10 @@
 "Underline" = "밑줄체";
 
 /* No comment provided by engineer. */
-"Unlock" = "Unlock";
+"Unlock" = "잠금 해제";
+
+/* No comment provided by engineer. */
+"Unpin" = "고정 해제"";
 
 /* No comment provided by engineer. */
 "Untagged" = "태그가 없는";
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "예";
-
-/* Menu */
-"Change creation date" = "생성 날짜 변경";

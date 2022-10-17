@@ -214,6 +214,15 @@ class ViewController: EditorViewController,
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let vc = ViewController.shared() else { return false}
         
+        // Current note
+        var note = vc.editor.note
+        
+        if note == nil {
+            note = vc.getSelectedNotes()?.first
+        }
+        
+        let ident = menuItem.identifier?.rawValue
+        
         if let title = menuItem.menu?.identifier?.rawValue {
             switch title {
             case "fsnotesMenu":
@@ -232,7 +241,7 @@ class ViewController: EditorViewController,
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
-                    if let note = editor.note, note.isEncrypted() {
+                    if let note = note, note.isEncrypted() {
                         menuItem.isHidden = false
                         return true
                     } else {
@@ -296,17 +305,30 @@ class ViewController: EditorViewController,
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.togglePin" {
-                    if vc.notesTableView.selectedRowIndexes.count < 1 {
-                        return false
-                    }
-
-                    if editor.note != nil {
+                    if let note = note {
+                        menuItem.title = note.isPinned
+                            ? NSLocalizedString("Unpin", comment: "")
+                            : NSLocalizedString("Pin", comment: "")
+                        
                         return true
                     }
+                    
+                    return false
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.toggleLock" {
+                    if let note = note {
+                        menuItem.title = note.isEncryptedAndLocked()
+                            ? NSLocalizedString("Unlock", comment: "")
+                            : NSLocalizedString("Lock", comment: "")
+                        
+                        return true
+                    }
+                    
+                    return false
                 }
 
                 if ["fileMenu.new",
-                    "fileMenu.newRtf",
                     "fileMenu.searchAndCreate",
                     "fileMenu.import"
                    ].contains(menuItem.identifier?.rawValue)
@@ -383,17 +405,40 @@ class ViewController: EditorViewController,
                     break
                 }
             case "viewMenu":
-                if menuItem.identifier?.rawValue == "previewMathJax" {
+                
+                switch ident {
+                case "previewMathJax":
                     menuItem.state = UserDefaultsManagement.mathJaxPreview ? .on : .off
+                    break
+                    
+                case "viewMenu.historyBack":
+                    if vc.notesTableView.historyPosition == 0 {
+                        return false
+                    }
+                    break
+                    
+                case "viewMenu.historyForward":
+                    if vc.notesTableView.historyPosition == vc.notesTableView.history.count - 1 {
+                        return false
+                    }
+                    break
+                    
+                case "view.toggleNoteList":
+                    menuItem.title = vc.isVisibleNoteList()
+                        ? NSLocalizedString("Hide Note List", comment: "")
+                        : NSLocalizedString("Show Note List", comment: "")
+                    break
+                    
+                case "view.toggleSidebar":
+                    menuItem.title = vc.isVisibleSidebar()
+                        ? NSLocalizedString("Hide Sidebar", comment: "")
+                        : NSLocalizedString("Show Sidebar", comment: "")
+                    break
+                    
+                default:
+                    break
                 }
                 
-                if (menuItem.identifier?.rawValue == "viewMenu.historyBack" &&  vc.notesTableView.historyPosition == 0) {
-                    return false
-                }
-                
-                if (menuItem.identifier?.rawValue == "viewMenu.historyForward" && vc.notesTableView.historyPosition == vc.notesTableView.history.count - 1) {
-                    return false
-                }
             default:
                 break
             }
@@ -1187,10 +1232,8 @@ class ViewController: EditorViewController,
     @IBAction func toggleSidebar(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
 
-        let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
-
-        if size != 0 {
-            UserDefaultsManagement.realSidebarSize = size
+        if isVisibleSidebar() {
+            UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
         } else {
             vc.sidebarSplitView.setPosition(CGFloat(UserDefaultsManagement.realSidebarSize), ofDividerAt: 0)
@@ -2203,5 +2246,23 @@ class ViewController: EditorViewController,
             NSApp.activate(ignoringOtherApps: true)
             self.view.window?.makeKeyAndOrderFront(self)
         }
+    }
+    
+    public func isVisibleNoteList() -> Bool {
+        guard let vc = ViewController.shared() else { return false }
+
+        let size = UserDefaultsManagement.horizontalOrientation
+            ? vc.splitView.subviews[0].frame.height
+            : vc.splitView.subviews[0].frame.width
+        
+        return size != 0
+    }
+    
+    public func isVisibleSidebar() -> Bool {
+        guard let vc = ViewController.shared() else { return false }
+
+        let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
+        
+        return size != 0
     }
 }

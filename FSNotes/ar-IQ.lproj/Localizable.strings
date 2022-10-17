@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "تغيير تاريخ الإنشاء";
 
+/* Menu */
+"Change creation date" = "تغيير تاريخ الإنشاء";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "تحقق من القواعد مع التدقيق الإملائي";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Git push خطأ";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Hide Note List";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Hide Sidebar";
+
+/* No comment provided by engineer. */
 "History" = "تاريخ";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "الوارد";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 خطأ: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "المسار غير متوفر";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
 
 /* Edit area */
 "Please enter image title:" = "الرجاء إدخال عنوان الصورة:";
@@ -236,6 +251,12 @@
 "Show in Finder" = "فتح المجلد";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Show Note List";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Show Sidebar";
+
+/* No comment provided by engineer. */
 "Show view options" = "عرض الاعدادات";
 
 /* No comment provided by engineer. */
@@ -288,6 +309,9 @@
 "Unlock" = "الغاء القفل";
 
 /* No comment provided by engineer. */
+"Unpin" = "Unpin";
+
+/* No comment provided by engineer. */
 "Untagged" = "بدون علامات";
 
 /* Untitled Note */
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "نعم";
-
-/* Menu */
-"Change creation date" = "تغيير تاريخ الإنشاء";

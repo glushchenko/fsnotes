@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Erstellungsdatum ändern";
 
+/* Menu */
+"Change creation date" = "Erstellungsdatum ändern";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Grammatik und Rechtschreibung prüfen";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Git push fehler";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Hide Note List";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Hide Sidebar";
+
+/* No comment provided by engineer. */
 "History" = "Die geschichte";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "Posteingang";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 fehler: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "Path not available";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
 
 /* Edit area */
 "Please enter image title:" = "Geben Sie die Bildbezeichnung ein:";
@@ -236,6 +251,12 @@
 "Show in Finder" = "Ordner anzeigen";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Show Note List";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Show Sidebar";
+
+/* No comment provided by engineer. */
 "Show view options" = "Einstellungen anzeigen";
 
 /* No comment provided by engineer. */
@@ -288,6 +309,9 @@
 "Unlock" = "Freischalten";
 
 /* No comment provided by engineer. */
+"Unpin" = "Unpin";
+
+/* No comment provided by engineer. */
 "Untagged" = "Ungetaggt";
 
 /* Untitled Note */
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-/* Menu */
-"Change creation date" = "Erstellungsdatum ändern";

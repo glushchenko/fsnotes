@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "变更建立日期";
 
+/* Menu */
+"Change creation date" = "更改创建日期";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "检查拼写和语法";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Git push 错误";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "隐藏笔记列表";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "隐藏边栏";
+
+/* No comment provided by engineer. */
 "History" = "历史";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "收件箱";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 错误: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "路径不可用";
+
+/* No comment provided by engineer. */
+"Pin" = "置顶";
 
 /* Edit area */
 "Please enter image title:" = "请输入图片标题：";
@@ -236,6 +251,12 @@
 "Show in Finder" = "在访达中显示";
 
 /* No comment provided by engineer. */
+"Show Note List" = "显示笔记列表";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "显示侧边栏";
+
+/* No comment provided by engineer. */
 "Show view options" = "显示视图选项";
 
 /* No comment provided by engineer. */
@@ -288,6 +309,9 @@
 "Unlock" = "Unlock";
 
 /* No comment provided by engineer. */
+"Unpin" = "取消置顶";
+
+/* No comment provided by engineer. */
 "Untagged" = "无标签";
 
 /* Untitled Note */
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "是的";
-
-/* Menu */
-"Change creation date" = "更改创建日期";

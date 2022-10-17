@@ -116,6 +116,12 @@
 "Git push error" = "Git push error";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Hide Note List";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Hide Sidebar";
+
+/* No comment provided by engineer. */
 "History" = "History";
 
 /* No comment provided by engineer. */
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "Inbox";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 error: \(code)";
@@ -174,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "Path not available";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
 
 /* Edit area */
 "Please enter image title:" = "Please enter image title:";
@@ -245,6 +257,12 @@
 "Show in Finder" = "Show in Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Show Note List";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Show Sidebar";
+
+/* No comment provided by engineer. */
 "Show view options" = "Show view options";
 
 /* No comment provided by engineer. */
@@ -295,6 +313,9 @@
 
 /* No comment provided by engineer. */
 "Unlock" = "Unlock";
+
+/* No comment provided by engineer. */
+"Unpin" = "Unpin";
 
 /* No comment provided by engineer. */
 "Untagged" = "Untagged";

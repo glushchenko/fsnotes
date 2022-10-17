@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "作成日を変更";
 
+/* Menu */
+"Change creation date" = "作成日の変更";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "文法チェック";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Git push エラー";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Hide Note List";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Hide Sidebar";
+
+/* No comment provided by engineer. */
 "History" = "履歴";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "未整理";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 エラー: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "無効なパスです";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
 
 /* Edit area */
 "Please enter image title:" = "イメージタイトルを入力:";
@@ -236,6 +251,12 @@
 "Show in Finder" = "Finderに表示";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Show Note List";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Show Sidebar";
+
+/* No comment provided by engineer. */
 "Show view options" = "表示オプションを表示";
 
 /* No comment provided by engineer. */
@@ -288,6 +309,9 @@
 "Unlock" = "ロック解除";
 
 /* No comment provided by engineer. */
+"Unpin" = "Unpin";
+
+/* No comment provided by engineer. */
 "Untagged" = "タグ無し";
 
 /* Untitled Note */
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "はい";
-
-/* Menu */
-"Change creation date" = "作成日の変更";

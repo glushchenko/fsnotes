@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Изменить дату создания";
 
+/* Menu */
+"Change creation date" = "Изменить дату создания";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Проверить грамматику с орфографией";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Ошибка git push";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Спрятать список заметок";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Спрятать сайдбар";
+
+/* No comment provided by engineer. */
 "History" = "История";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "Входящие";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Ошибка lbgit2: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "Path not available";
+
+/* No comment provided by engineer. */
+"Pin" = "Прикрепить";
 
 /* Edit area */
 "Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
@@ -236,6 +251,12 @@
 "Show in Finder" = "Показать в Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Показать список заметок";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Показать сайдбар";
+
+/* No comment provided by engineer. */
 "Show view options" = "Настроить вид";
 
 /* No comment provided by engineer. */
@@ -288,6 +309,9 @@
 "Unlock" = "Разблокировать";
 
 /* No comment provided by engineer. */
+"Unpin" = "Открепить";
+
+/* No comment provided by engineer. */
 "Untagged" = "Без тегов";
 
 /* Untitled Note */
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Да";
-
-/* Menu */
-"Change creation date" = "Изменить дату создания";

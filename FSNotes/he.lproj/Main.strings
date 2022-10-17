@@ -64,7 +64,7 @@
 /* Class = "NSMenu"; title = "Speech"; ObjectID = "3rS-ZA-NoH"; */
 "3rS-ZA-NoH.title" = "הקראה";
 
-/* Class = "NSMenuItem"; title = "Open"; ObjectID = "3tV-h0-YEb"; */
+/* Class = "NSMenuItem"; title = "Open External"; ObjectID = "3tV-h0-YEb"; */
 "3tV-h0-YEb.title" = "פתח";
 
 /* Class = "NSMenuItem"; title = "Create Folder"; ObjectID = "3zv-SD-lSX"; */
@@ -289,9 +289,6 @@
 /* Class = "NSMenuItem"; title = "Medium"; ObjectID = "DcN-1g-hEi"; */
 "DcN-1g-hEi.title" = "בינוני";
 
-/* Class = "NSMenuItem"; title = ".rtf"; ObjectID = "DdA-4M-JZH"; */
-"DdA-4M-JZH.title" = ".rtf";
-
 /* Class = "NSMenuItem"; title = "Shift Left"; ObjectID = "DeU-hy-pvi"; */
 "DeU-hy-pvi.title" = "הזחה שמאלה";
 
@@ -429,6 +426,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Save clipboard shortcut:"; ObjectID = "gbE-yH-ECm"; */
 "gbE-yH-ECm.title" = "קיצור דרך לשמור את לוח העריכה:";
+
+/* Class = "NSTextFieldCell"; title = "seconds"; ObjectID = "Gbf-V7-5Ra"; */
+"Gbf-V7-5Ra.title" = "seconds";
 
 /* Class = "NSButtonCell"; title = "Modification date"; ObjectID = "GCG-C6-9cg"; */
 "GCG-C6-9cg.title" = "תאריך שינוי";
@@ -646,10 +646,13 @@
 /* Class = "NSMenuItem"; title = "Toggle Todo"; ObjectID = "n0M-SN-fzg"; */
 "n0M-SN-fzg.title" = "החלף מצב מטלה";
 
+/* Class = "NSButtonCell"; title = "Clickable links"; ObjectID = "N8h-ep-HFG"; */
+"N8h-ep-HFG.title" = "Clickable links";
+
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "nBn-aV-7mt"; */
 "nBn-aV-7mt.title" = "שנה";
 
-/* Class = "NSTextFieldCell"; title = "Passpharse:"; ObjectID = "NcS-0N-6uU"; */
+/* Class = "NSTextFieldCell"; title = "Passphrase:"; ObjectID = "NcS-0N-6uU"; */
 "NcS-0N-6uU.title" = "ביטוי סיסמה:";
 
 /* Class = "NSMenuItem"; title = "Tab"; ObjectID = "Ncv-c4-Dmg"; */
@@ -763,9 +766,6 @@
 /* Class = "NSMenuItem"; title = "Report Bugs or Feature Requests"; ObjectID = "Q9n-yE-Ul0"; */
 "Q9n-yE-Ul0.title" = "דוחות באגים ובקשות";
 
-/* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
-"qiO-vb-B9L.title" = "גרסת Git:";
-
 /* Class = "NSTextFieldCell"; title = "Or use .ssh private key (Recommended):"; ObjectID = "Qkz-nR-Fh5"; */
 "Qkz-nR-Fh5.title" = "או השתמש במפתח פרטי .ssh (מומלץ):";
 
@@ -835,7 +835,7 @@
 /* Class = "NSMenuItem"; title = "Add External Folder..."; ObjectID = "S8Z-Js-fwB"; */
 "S8Z-Js-fwB.title" = "הוסף תיקיה חיצונית...";
 
-/* Class = "NSButtonCell"; title = "Back up every"; ObjectID = "sAn-Wm-FfY"; */
+/* Class = "NSButtonCell"; title = "Commit/Push every"; ObjectID = "sAn-Wm-FfY"; */
 "sAn-Wm-FfY.title" = "גבה אוטומטית כל";
 
 /* Class = "NSTextFieldCell"; title = "Notes List:"; ObjectID = "Scc-aD-CFQ"; */
@@ -897,6 +897,9 @@
 
 /* Class = "NSMenuItem"; title = "Data Detectors"; ObjectID = "tRr-pd-1PS"; */
 "tRr-pd-1PS.title" = "גלאי נתונים";
+
+/* Class = "NSTextFieldCell"; title = "Pull every"; ObjectID = "tZ6-GT-LxK"; */
+"tZ6-GT-LxK.title" = "Pull every";
 
 /* Class = "NSMenuItem"; title = "Open In New Window"; ObjectID = "u88-5C-vTe"; */
 "u88-5C-vTe.title" = "פתח בחלון חדש";
@@ -1065,6 +1068,9 @@
 
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "zd2-Rs-DPm"; */
 "zd2-Rs-DPm.title" = "מחק מיידית";
+
+/* Class = "NSTextFieldCell"; title = "3"; ObjectID = "ZDl-8b-mam"; */
+"ZDl-8b-mam.title" = "3";
 
 /* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */
 "Ze0-SZ-STw.title" = "גבה באופן ידני";

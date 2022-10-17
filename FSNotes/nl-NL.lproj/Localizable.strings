@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Wijzig de aanmaakdatum";
 
+/* Menu */
+"Change creation date" = "Aanmaakdatum wijzigen";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Controleer grammatica tegelijk met spelling";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Git push error";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Verbergen notitielijst";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Verbergen zijbalk";
+
+/* No comment provided by engineer. */
 "History" = "Geschiedenis";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "Postvak In";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 error: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "Pad niet beschikbaar";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
 
 /* Edit area */
 "Please enter image title:" = "Voer a.u.b. afbeeldingstitel in:";
@@ -236,6 +251,12 @@
 "Show in Finder" = "Toon in Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Tonen notitielijst";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Tonen zijbalk";
+
+/* No comment provided by engineer. */
 "Show view options" = "Toon weergaveopties";
 
 /* No comment provided by engineer. */
@@ -288,6 +309,9 @@
 "Unlock" = "Ontgrendelen";
 
 /* No comment provided by engineer. */
+"Unpin" = "VerwijderPin";
+
+/* No comment provided by engineer. */
 "Untagged" = "Niet gelabeld";
 
 /* Untitled Note */
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Ja";
-
-/* Menu */
-"Change creation date" = "Aanmaakdatum wijzigen";

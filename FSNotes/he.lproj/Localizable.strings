@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "שנה תאריך יצירה";
 
+/* Menu */
+"Change creation date" = "שנה את תאריך היצירה";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "בדוק דקדוק ביחד עם איות";
 
@@ -113,6 +116,12 @@
 "Git push error" = "Git push שְׁגִיאָה";
 
 /* No comment provided by engineer. */
+"Hide Note List" = "Hide Note List";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Hide Sidebar";
+
+/* No comment provided by engineer. */
 "History" = "היסטוריה";
 
 /* No comment provided by engineer. */
@@ -120,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "תיבת דואר נכנס";
+
+/* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 שְׁגִיאָה: \(code)";
@@ -171,6 +183,9 @@
 
 /* No comment provided by engineer. */
 "Path not available" = "הנתיב אינו זמין";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
 
 /* Edit area */
 "Please enter image title:" = "נא הכנס כותרת תמונה:";
@@ -236,6 +251,12 @@
 "Show in Finder" = "הצג ב-Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Show Note List";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Show Sidebar";
+
+/* No comment provided by engineer. */
 "Show view options" = "הצג אפשרויות תצוגה";
 
 /* No comment provided by engineer. */
@@ -288,6 +309,9 @@
 "Unlock" = "Unlock";
 
 /* No comment provided by engineer. */
+"Unpin" = "Unpin";
+
+/* No comment provided by engineer. */
 "Untagged" = "ללא תגים";
 
 /* Untitled Note */
@@ -319,6 +343,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "כן";
-
-/* Menu */
-"Change creation date" = "שנה את תאריך היצירה";

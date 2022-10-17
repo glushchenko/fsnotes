@@ -100,16 +100,6 @@ CA
                                                 <action selector="createInNewWindow:" target="Ady-hI-5gd" id="fVv-cz-Kms"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save Revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
-                                            <connections>
-                                                <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Open In New Window" keyEquivalent="o" id="HmK-lp-ASv">
-                                            <connections>
-                                                <action selector="openWindow:" target="Ady-hI-5gd" id="HOV-Ja-fKS"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
                                         <menuItem title="Search and Create" keyEquivalent="l" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
                                             <connections>
@@ -117,6 +107,16 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DJZ-Sf-cos"/>
+                                        <menuItem title="Open In New Window" keyEquivalent="o" id="HmK-lp-ASv">
+                                            <connections>
+                                                <action selector="openWindow:" target="Ady-hI-5gd" id="HOV-Ja-fKS"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save Revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
+                                            <connections>
+                                                <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Duplicate" keyEquivalent="d" id="pnm-dP-GKO">
                                             <connections>
                                                 <action selector="duplicate:" target="Ady-hI-5gd" id="9eI-Pe-IRx"/>
@@ -154,7 +154,7 @@ CA
                                                 <action selector="removeNoteEncryption:" target="Ady-hI-5gd" id="nZq-wN-Jep"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Lock/Unlock" keyEquivalent="l" id="RSs-wb-GNg">
+                                        <menuItem title="Lock/Unlock" keyEquivalent="l" identifier="fileMenu.toggleLock" id="RSs-wb-GNg">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleNotesLock:" target="Ady-hI-5gd" id="VTr-hR-bSV"/>
@@ -645,12 +645,12 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="sLG-sQ-Yi1"/>
-                                        <menuItem title="Hide/Show Note List" keyEquivalent="B" id="WHt-T4-l9c">
+                                        <menuItem title="Hide/Show Note List" keyEquivalent="B" identifier="view.toggleNoteList" id="WHt-T4-l9c">
                                             <connections>
                                                 <action selector="toggleNoteList:" target="L4m-js-agn" id="G22-P2-hks"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Hide/Show Sidebar" keyEquivalent="B" id="DCh-5P-PZe">
+                                        <menuItem title="Hide/Show Sidebar" keyEquivalent="B" identifier="view.toggleSidebar" id="DCh-5P-PZe">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleSidebar:" target="L4m-js-agn" id="MRM-fh-zTo"/>
@@ -2104,14 +2104,14 @@ CA
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="Save Revision" tag="100" keyEquivalent="s" identifier="note.saveRevision" id="Nhf-c1-VJ6">
-                            <connections>
-                                <action selector="saveRevision:" target="rPt-NT-nkU" id="3q1-my-06E"/>
-                            </connections>
-                        </menuItem>
                         <menuItem title="Open In New Window" keyEquivalent="o" id="u88-5C-vTe">
                             <connections>
                                 <action selector="openWindow:" target="rPt-NT-nkU" id="OwA-Zj-vgW"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Save Revision" tag="100" keyEquivalent="s" identifier="note.saveRevision" id="Nhf-c1-VJ6">
+                            <connections>
+                                <action selector="saveRevision:" target="rPt-NT-nkU" id="3q1-my-06E"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Duplicate" keyEquivalent="d" id="E6I-n5-dsi">
@@ -2141,7 +2141,7 @@ CA
                                 <action selector="deleteNote:" target="rPt-NT-nkU" id="utQ-Hf-HAy"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Pin/Unpin" keyEquivalent="8" id="jFN-Dp-LON">
+                        <menuItem title="Pin/Unpin" keyEquivalent="8" identifier="fileMenu.pinUnpin" id="jFN-Dp-LON">
                             <connections>
                                 <action selector="pinMenu:" target="rPt-NT-nkU" id="EyW-HI-rr9"/>
                             </connections>
@@ -2151,13 +2151,13 @@ CA
                                 <action selector="removeNoteEncryption:" target="rPt-NT-nkU" id="5ga-uK-aSH"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Lock/Unlock" keyEquivalent="l" id="kg2-3u-V99">
+                        <menuItem title="Lock/Unlock" keyEquivalent="l" identifier="fileMenu.lockUnlock" id="kg2-3u-V99">
                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
                                 <action selector="toggleNotesLock:" target="rPt-NT-nkU" id="tK5-CH-cx8"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Open" keyEquivalent="e" id="3tV-h0-YEb">
+                        <menuItem title="Open External" keyEquivalent="e" id="3tV-h0-YEb">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                             <connections>
                                 <action selector="editorMenu:" target="rPt-NT-nkU" id="0ta-2C-c0S"/>

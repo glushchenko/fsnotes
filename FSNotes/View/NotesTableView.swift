@@ -320,15 +320,37 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         menu.autoenablesItems = false
 
+        var note = vc.editor.note
+        
+        if note == nil {
+            note = vc.getSelectedNotes()?.first
+        }
+        
         for menuItem in menu.items {
             if let identifier = menuItem.identifier?.rawValue,
                 limitedActionsList.contains(identifier)
             {
                 menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
             }
+            
+            if menuItem.identifier?.rawValue == "fileMenu.pinUnpin" {
+                if let note = note {
+                    menuItem.title = note.isPinned
+                        ? NSLocalizedString("Unpin", comment: "")
+                        : NSLocalizedString("Pin", comment: "")
+                }
+            }
+            
+            if menuItem.identifier?.rawValue == "fileMenu.lockUnlock" {
+                if let note = note {
+                    menuItem.title = note.isEncryptedAndLocked()
+                        ? NSLocalizedString("Unlock", comment: "")
+                        : NSLocalizedString("Lock", comment: "")
+                }
+            }
 
             if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
-                if let note = vc.editor.note, note.isEncrypted() {
+                if let note = note, note.isEncrypted() {
                     menuItem.isEnabled = true
                     menuItem.isHidden = false
                 } else {
@@ -371,7 +393,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func selectCurrent() {
-        guard let vc = ViewController.shared() else { return }
         guard noteList.count > 0 else { return }
 
         UserDataService.instance.searchTrigger = false
@@ -386,8 +407,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func selectNext() {
-        guard let vc = ViewController.shared() else { return }
-
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRow + 1
@@ -402,8 +421,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     public func selectPrev() {
-        guard let vc = ViewController.shared() else { return }
-        
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRow - 1
