@@ -36,6 +36,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         userContentController.add(handlerCheckbox, name: "checkbox")
         userContentController.add(HandlerMouse(), name: "mouse")
         userContentController.add(HandlerClipboard(), name: "clipboard")
+        userContentController.add(HandlerOpen(), name: "open")
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
@@ -786,5 +787,18 @@ class HandlerClipboard: NSObject, WKScriptMessageHandler {
                 [kUTTypePlainText as String: cleanText]
             ])
         #endif
+    }
+}
+
+class HandlerOpen: NSObject, WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+
+        guard let action = message.body as? String else { return }
+        let cleanText = action.trim()
+        
+        if let url = URL(string: cleanText) {
+            NSWorkspace.shared.activateFileViewerSelecting([url])
+        }
     }
 }

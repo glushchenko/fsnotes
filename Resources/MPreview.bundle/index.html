@@ -207,6 +207,23 @@
             });
         };
         
+        let addLocalAHrefEvent = () => {
+            var aList = document.getElementsByTagName("A"),
+                length = aList.length,
+                i = 0;
+
+            for (i; i < length; i++) {
+                var pattern = /^((file):\/\/)/;
+                var url = aList[i].href
+                
+                if (pattern.test(url)) {
+                    aList[i].addEventListener("click", function(event) {
+                        window.webkit.messageHandlers.open.postMessage(event.target.href);
+                    });
+                }
+            }
+        };
+        
         let loadCheckboxActions = () => {
             var inputs = document.querySelectorAll('input[type=checkbox]'),
                 length = inputs.length,
@@ -287,6 +304,7 @@
             loadAHover()
             loadCodeActions()
             loadMemaid()
+            addLocalAHrefEvent()
         };
     </script>
 </head>

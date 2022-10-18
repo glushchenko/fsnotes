@@ -249,13 +249,16 @@ class SidebarOutlineView: NSOutlineView,
         }
         
         if id == "folderMenu.toggleEncryption" || id == "folderMenubar.toggleEncryption" {
-            if let project = project {
+            if let project = project, !project.isArchive, !project.isTrash, !project.isDefault {
                 menuItem.title = project.isEncrypted
                     ? NSLocalizedString("Decrypt", comment: "")
                     : NSLocalizedString("Encrypt", comment: "")
                 
                 menuItem.isHidden = false
                 return true
+            } else {
+                menuItem.isHidden = true
+                return false
             }
         }
         
