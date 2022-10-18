@@ -892,6 +892,13 @@ class Storage {
                 $0.title.lowercased().starts(with: startWith.lowercased())
             }
     }
+    
+    func getBy(contains: String) -> [Note]? {
+        return
+            noteList.filter{
+                $0.title.lowercased().contains(contains.lowercased())
+            }
+    }
 
     public func getTitles(by word: String? = nil) -> [String]? {
         var notes = noteList

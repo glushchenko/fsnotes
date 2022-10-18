@@ -291,6 +291,9 @@ class FileSystemEventManager {
                 note.modifiedLocalAt = modificationDate
                 note.creationDate = creationDate
                 delegate.notesTableView.reloadDate(note: note)
+                
+                // Reload images if note moved (cache invalidated)
+                note.loadPreviewInfo()
             }
         }
     }
