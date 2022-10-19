@@ -1088,12 +1088,14 @@ public class UserDefaultsManagement {
 
     static var markdownPreviewCSS: URL? {
         get {
-            if let path = shared?.object(forKey: Constants.MarkdownPreviewCSS) as? String,
-                let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-
-                if FileManager.default.fileExists(atPath: path) {
-                    return URL(string: "file://" + encodedPath)
+            if let applicationSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                let previewCssUrl = applicationSupport.appendingPathComponent("preview.css")
+                
+                if !FileManager.default.fileExists(atPath: previewCssUrl.path) {
+                    try? "".write(to: previewCssUrl, atomically: true, encoding: .utf8)
                 }
+                
+                return previewCssUrl
             }
             
             return nil

@@ -11,7 +11,6 @@ import Cocoa
 class PreferencesAdvancedViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 440)
     }
 
     @IBOutlet weak var archivePathControl: NSPathControl!
@@ -132,41 +131,41 @@ class PreferencesAdvancedViewController: NSViewController {
         }
     }
 
-    @IBAction func changeMarkdownStyle(_ sender: Any) {
-        let openPanel = NSOpenPanel()
-        openPanel.allowsMultipleSelection = false
-        openPanel.canChooseDirectories = false
-        openPanel.canCreateDirectories = true
-        openPanel.canChooseFiles = true
-        openPanel.allowedFileTypes = ["css"]
-        openPanel.begin { (result) -> Void in
-            if result == .OK {
-                guard let url = openPanel.url else { return }
-
-                let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
-                
-                if let currentURL = UserDefaultsManagement.markdownPreviewCSS {
-                    bookmark.remove(url: currentURL)
-                }
-
-                bookmark.store(url: url)
-                bookmark.save()
-
-                UserDefaultsManagement.markdownPreviewCSS = url
-                self.markdownPreviewCSS.url = url
-
-                let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-
-                try? FileManager.default.removeItem(at: webkitPreview)
-
-                let editors = AppDelegate.getEditTextViews()
-                for editor in editors {
-                    editor.editorViewController?.refillEditArea()
-                }
-            }
-        }
-    }
+//    @IBAction func changeMarkdownStyle(_ sender: Any) {
+//        let openPanel = NSOpenPanel()
+//        openPanel.allowsMultipleSelection = false
+//        openPanel.canChooseDirectories = false
+//        openPanel.canCreateDirectories = true
+//        openPanel.canChooseFiles = true
+//        openPanel.allowedFileTypes = ["css"]
+//        openPanel.begin { (result) -> Void in
+//            if result == .OK {
+//                guard let url = openPanel.url else { return }
+//
+//                let bookmark = SandboxBookmark.sharedInstance()
+//                _ = bookmark.load()
+//
+//                if let currentURL = UserDefaultsManagement.markdownPreviewCSS {
+//                    bookmark.remove(url: currentURL)
+//                }
+//
+//                bookmark.store(url: url)
+//                bookmark.save()
+//
+//                UserDefaultsManagement.markdownPreviewCSS = url
+//                self.markdownPreviewCSS.url = url
+//
+//                let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+//
+//                try? FileManager.default.removeItem(at: webkitPreview)
+//
+//                let editors = AppDelegate.getEditTextViews()
+//                for editor in editors {
+//                    editor.editorViewController?.refillEditArea()
+//                }
+//            }
+//        }
+//    }
 
     @IBAction func languagePopUp(_ sender: NSPopUpButton) {
         let type = LanguageType.withName(rawValue: sender.title)
@@ -195,5 +194,10 @@ class PreferencesAdvancedViewController: NSViewController {
         guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
         appDelegate.loadDockIcon()
     }
-
+    
+    @IBAction func editCss(_ sender: Any) {
+        if let url = UserDefaultsManagement.markdownPreviewCSS {
+            NSWorkspace.shared.activateFileViewerSelecting([url])
+        }
+    }
 }
