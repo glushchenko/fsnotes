@@ -107,6 +107,8 @@ class Storage {
         ciphertextWriter.qualityOfService = .userInteractive
     }
 
+    // iOS
+    
     init(micro: Bool) {
         guard let url = getRoot() else { return }
         removeCachesIfCrashed()
@@ -332,8 +334,14 @@ class Storage {
     }
 
     private func assignTrash(by url: URL) {
-        let trashURL = url.appendingPathComponent("Trash", isDirectory: true)
-
+        var trashURL = url.appendingPathComponent("Trash", isDirectory: true)
+        
+    #if os(OSX)
+        if let trash = UserDefaultsManagement.trashURL {
+            trashURL = trash
+        }
+    #endif
+        
         do {
             try FileManager.default.contentsOfDirectory(atPath: trashURL.path)
         } catch {

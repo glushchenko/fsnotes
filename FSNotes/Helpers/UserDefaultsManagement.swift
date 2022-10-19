@@ -145,6 +145,7 @@ public class UserDefaultsManagement {
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
         static let TextMatchAutoSelection = "textMatchAutoSelection"
+        static let TrashKey = "trashKey"
         static let UploadKey = "uploadKey"
         static let AutocloseBrackets = "autocloseBrackets"
         static let Welcome = "welcome"
@@ -1706,6 +1707,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.ClickableLinks)
+        }
+    }
+    
+    static var trashURL: URL? {
+        get {
+            if let trashUrl = shared?.url(forKey: Constants.TrashKey) {
+                return trashUrl
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.TrashKey)
         }
     }
 }

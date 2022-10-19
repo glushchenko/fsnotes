@@ -23,7 +23,8 @@ class PreferencesAdvancedViewController: NSViewController {
     @IBOutlet weak var dockIconSecond: NSButton!
 
     @IBOutlet weak var markdownPreviewCSS: NSPathControl!
-
+    @IBOutlet weak var trashPath: NSPathControl!
+    
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
@@ -91,6 +92,10 @@ class PreferencesAdvancedViewController: NSViewController {
 
         if let preview = UserDefaultsManagement.markdownPreviewCSS {
             markdownPreviewCSS.url = preview
+        }
+        
+        if let url = Storage.sharedInstance().getDefaultTrash()?.url {
+            trashPath.url = url
         }
     }
 
@@ -200,4 +205,35 @@ class PreferencesAdvancedViewController: NSViewController {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }
     }
+    
+    @IBAction func trash(_ sender: NSButton) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.canChooseFiles = false
+        openPanel.canSelectHiddenExtension = true
+        openPanel.begin { (result) -> Void in
+            if result == .OK {
+                guard let url = openPanel.url else { return }
+
+                let bookmark = SandboxBookmark.sharedInstance()
+                _ = bookmark.load()
+
+                if let currentURL = UserDefaultsManagement.trashURL {
+                    bookmark.remove(url: currentURL)
+                }
+
+                bookmark.store(url: url)
+                bookmark.save()
+
+                UserDefaultsManagement.trashURL = url
+                self.trashPath.url = url
+                
+                Storage.sharedInstance().getDefaultTrash()?.url = url
+                self.restart()
+            }
+        }
+    }
+    
 }
