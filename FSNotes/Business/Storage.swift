@@ -989,11 +989,11 @@ class Storage {
     func getSubFolders(url: URL) -> [NSURL]? {
         var isFinishedEnumerationProcess = false
         
-        // Reset root storage after timeout
-        DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
+        // Reset root storage after 30 seconds timeout
+        DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
             
             // Reset storage path
-            if !isFinishedEnumerationProcess && UserDefaultsManagement.customStoragePath != nil {
+            if !isFinishedEnumerationProcess {
                 
                 // Remove bookmark
                 let bookmark = SandboxBookmark.sharedInstance()
@@ -1012,55 +1012,21 @@ class Storage {
             }
         }
         
-        guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
+        guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey], options: FileManager.DirectoryEnumerationOptions()) else { return nil }
 
-        var extensions = self.allowedExtensions
-        for ext in ["jpg", "png", "gif", "jpeg", "json", "JPG", "PNG", ".icloud"] {
-            extensions.append(ext)
-        }
-        let lastPatch = ["assets", ".cache", "i", ".Trash"]
+        let lastPath = ["assets", ".cache", "i", ".Trash", ".icloud", "textbundle"]
 
         // Load from disk (long process)
         let urls = fileEnumerator.allObjects.filter {
-            !extensions.contains(($0 as? NSURL)!.pathExtension!)
-            && !lastPatch.contains(($0 as? NSURL)!.lastPathComponent!)
+            !lastPath.contains(($0 as? NSURL)!.lastPathComponent!)
+            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true
+            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isDirectoryKey]))?.isPackage == false
+            && ($0 as? URL)?.isHidden() == false
         } as! [NSURL]
         
         isFinishedEnumerationProcess = true
-
-        var subdirs = [NSURL]()
-        var i = 0
-
-        for url in urls {
-            i = i + 1
-
-            do {
-                var isDirectoryResourceValue: AnyObject?
-                try url.getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
-
-                var isPackageResourceValue: AnyObject?
-                try url.getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
-
-                if isDirectoryResourceValue as? Bool == true,
-                    isPackageResourceValue as? Bool == false {
-
-                    if (url as URL).isHidden() {
-                        continue
-                    }
-
-                    subdirs.append(url)
-                }
-            }
-            catch let error as NSError {
-                print("Error: ", error.localizedDescription)
-            }
-            
-            if i > 50000 {
-                break
-            }
-        }
         
-        return subdirs
+        return urls
     }
 
     private func fetchAllDirectories(url: URL) -> [URL]? {
