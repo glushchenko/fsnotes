@@ -1020,7 +1020,7 @@ class Storage {
         let urls = fileEnumerator.allObjects.filter {
             !lastPath.contains(($0 as? NSURL)!.lastPathComponent!)
             && (try? ($0 as? URL)?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true
-            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isDirectoryKey]))?.isPackage == false
+            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isPackageKey]))?.isPackage == false
             && ($0 as? URL)?.isHidden() == false
         } as! [NSURL]
         
