@@ -125,7 +125,7 @@ class PreferencesAdvancedViewController: NSViewController {
                 if let archive = storage.getArchive() {
                     archive.url = url
                     storage.unload(project: archive)
-                    storage.loadLabel(archive)
+                    storage.loadNotes(archive)
 
                     vc.fsManager?.restart()
                     vc.notesTableView.reloadData()

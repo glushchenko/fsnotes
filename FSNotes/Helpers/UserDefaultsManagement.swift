@@ -267,7 +267,7 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var storagePath: String? {
+    static var customStoragePath: String? {
         get {
             if let storagePath = shared?.object(forKey: Constants.StoragePathKey) {
                 if FileManager.default.isWritableFile(atPath: storagePath as! String) {
@@ -276,6 +276,20 @@ public class UserDefaultsManagement {
                 } else {
                     print("Storage path not accessible, settings resetted to default")
                 }
+            }
+            
+            return nil
+        }
+        
+        set {
+            shared?.set(newValue, forKey: Constants.StoragePathKey)
+        }
+    }
+    
+    static var storagePath: String? {
+        get {
+            if let customStoragePath = self.customStoragePath {
+                return customStoragePath
             }
 
             if let iCloudDocumentsURL = self.iCloudDocumentsContainer {
@@ -289,9 +303,6 @@ public class UserDefaultsManagement {
             }
 
             return nil
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.StoragePathKey)
         }
     }
 

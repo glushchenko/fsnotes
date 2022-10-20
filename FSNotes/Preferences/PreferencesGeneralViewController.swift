@@ -79,7 +79,7 @@ class PreferencesGeneralViewController: NSViewController {
                 bookmark.save()
 
                 UserDefaultsManagement.storageType = .custom
-                UserDefaultsManagement.storagePath = url.path
+                UserDefaultsManagement.customStoragePath = url.path
 
                 self.defaultStoragePath.stringValue = url.path
 

@@ -60,6 +60,51 @@
 		D70E8D6923705C6200E64D62 /* tag2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6623705C6200E64D62 /* tag2@2x.png */; };
 		D70E8D6A23705C6200E64D62 /* tag2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6723705C6200E64D62 /* tag2@3x.png */; };
 		D70E8D6B23705C6200E64D62 /* tag2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6823705C6200E64D62 /* tag2.png */; };
+		D70E9DEE2901AE9100A3C634 /* Branch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5628EB5EBE008B3BBC /* Branch.swift */; };
+		D70E9DEF2901AE9400A3C634 /* Branches.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5728EB5EBE008B3BBC /* Branches.swift */; };
+		D70E9DF02901AE9700A3C634 /* BranchesIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5828EB5EBE008B3BBC /* BranchesIterator.swift */; };
+		D70E9DF12901AE9B00A3C634 /* KeyAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6E28EB5EC0008B3BBC /* KeyAuthentication.swift */; };
+		D70E9DF22901AE9E00A3C634 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6F28EB5EC0008B3BBC /* Authentication.swift */; };
+		D70E9DF32901AEA100A3C634 /* PasswordAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7028EB5EC0008B3BBC /* PasswordAuthentication.swift */; };
+		D70E9DF42901AEA800A3C634 /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5428EB5EBE008B3BBC /* Commit.swift */; };
+		D70E9DF52901AEAF00A3C634 /* Blob.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5F28EB5EBE008B3BBC /* Blob.swift */; };
+		D70E9DF62901AEAF00A3C634 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5C28EB5EBE008B3BBC /* Error.swift */; };
+		D70E9DF72901AEAF00A3C634 /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5B28EB5EBE008B3BBC /* ConfigManager.swift */; };
+		D70E9DF82901AEAF00A3C634 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5A28EB5EBE008B3BBC /* Strings.swift */; };
+		D70E9DF92901AEAF00A3C634 /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5E28EB5EBE008B3BBC /* Progress.swift */; };
+		D70E9DFA2901AEAF00A3C634 /* Signature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6128EB5EBF008B3BBC /* Signature.swift */; };
+		D70E9DFB2901AEAF00A3C634 /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6228EB5EBF008B3BBC /* Object.swift */; };
+		D70E9DFC2901AEAF00A3C634 /* Wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5D28EB5EBE008B3BBC /* Wrapper.swift */; };
+		D70E9DFD2901AEAF00A3C634 /* OID.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6028EB5EBF008B3BBC /* OID.swift */; };
+		D70E9DFE2901AEAF00A3C634 /* StaticSshKeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E32C2B28F8D0740048614B /* StaticSshKeyDelegate.swift */; };
+		D70E9DFF2901AEAF00A3C634 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771E96E28EDFBF600CD4871 /* Errors.swift */; };
+		D70E9E002901AEB600A3C634 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6C28EB5EC0008B3BBC /* Diff.swift */; };
+		D70E9E012901AEB600A3C634 /* DiffEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6B28EB5EC0008B3BBC /* DiffEntry.swift */; };
+		D70E9E022901AEBF00A3C634 /* Head.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7E28EB5EC2008B3BBC /* Head.swift */; };
+		D70E9E032901AEBF00A3C634 /* Head+Checkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7D28EB5EC2008B3BBC /* Head+Checkout.swift */; };
+		D70E9E042901AEBF00A3C634 /* Head+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7F28EB5EC2008B3BBC /* Head+Merge.swift */; };
+		D70E9E052901AEC400A3C634 /* Index+Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7B28EB5EC1008B3BBC /* Index+Files.swift */; };
+		D70E9E062901AEC400A3C634 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7928EB5EC1008B3BBC /* Index.swift */; };
+		D70E9E072901AEC400A3C634 /* Index+Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7A28EB5EC1008B3BBC /* Index+Commit.swift */; };
+		D70E9E082901AEC900A3C634 /* Reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8A28EB5EC3008B3BBC /* Reference.swift */; };
+		D70E9E092901AECF00A3C634 /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7228EB5EC0008B3BBC /* Remote.swift */; };
+		D70E9E0A2901AECF00A3C634 /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7228EB5EC0008B3BBC /* Remote.swift */; };
+		D70E9E0B2901AED400A3C634 /* Remotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7328EB5EC0008B3BBC /* Remotes.swift */; };
+		D70E9E0C2901AEDA00A3C634 /* Repository+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8728EB5EC3008B3BBC /* Repository+Lookup.swift */; };
+		D70E9E0D2901AEDA00A3C634 /* Repository+Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8828EB5EC3008B3BBC /* Repository+Commit.swift */; };
+		D70E9E0E2901AEDA00A3C634 /* Repository+Open.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8628EB5EC3008B3BBC /* Repository+Open.swift */; };
+		D70E9E0F2901AEDA00A3C634 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8528EB5EC3008B3BBC /* Repository.swift */; };
+		D70E9E102901AEDA00A3C634 /* RepositoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8428EB5EC3008B3BBC /* RepositoryManager.swift */; };
+		D70E9E112901AEE100A3C634 /* RevisionIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6828EB5EBF008B3BBC /* RevisionIterator.swift */; };
+		D70E9E122901AEE100A3C634 /* FileHistoryIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6928EB5EBF008B3BBC /* FileHistoryIterator.swift */; };
+		D70E9E132901AEE600A3C634 /* Statuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7528EB5EC1008B3BBC /* Statuses.swift */; };
+		D70E9E142901AEEB00A3C634 /* StatusIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7728EB5EC1008B3BBC /* StatusIterator.swift */; };
+		D70E9E152901AEEB00A3C634 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7628EB5EC1008B3BBC /* Status.swift */; };
+		D70E9E162901AEF300A3C634 /* TagIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6428EB5EBF008B3BBC /* TagIterator.swift */; };
+		D70E9E172901AEF300A3C634 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6528EB5EBF008B3BBC /* Tags.swift */; };
+		D70E9E182901AEF300A3C634 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC6628EB5EBF008B3BBC /* Tag.swift */; };
+		D70E9E192901AEF900A3C634 /* TreeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8128EB5EC2008B3BBC /* TreeEntry.swift */; };
+		D70E9E1A2901AEF900A3C634 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8228EB5EC2008B3BBC /* Tree.swift */; };
 		D70F830428CE858E004818C5 /* Git in Frameworks */ = {isa = PBXBuildFile; productRef = D70F830328CE858E004818C5 /* Git */; };
 		D70F830628CE8596004818C5 /* Git in Frameworks */ = {isa = PBXBuildFile; productRef = D70F830528CE8596004818C5 /* Git */; };
 		D70FE12D20FE198200813F9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE12B20FE198200813F9E /* Localizable.strings */; };
@@ -289,7 +334,6 @@
 		D73BCCD028EB5EC4008B3BBC /* PasswordAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7028EB5EC0008B3BBC /* PasswordAuthentication.swift */; };
 		D73BCCD128EB5EC4008B3BBC /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7228EB5EC0008B3BBC /* Remote.swift */; };
 		D73BCCD228EB5EC4008B3BBC /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7228EB5EC0008B3BBC /* Remote.swift */; };
-		D73BCCD328EB5EC4008B3BBC /* Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7228EB5EC0008B3BBC /* Remote.swift */; };
 		D73BCCD428EB5EC4008B3BBC /* Remotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7328EB5EC0008B3BBC /* Remotes.swift */; };
 		D73BCCD528EB5EC4008B3BBC /* Remotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7328EB5EC0008B3BBC /* Remotes.swift */; };
 		D73BCCD628EB5EC4008B3BBC /* Remotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC7328EB5EC0008B3BBC /* Remotes.swift */; };
@@ -3826,6 +3870,7 @@
 				D73BCD0928EB5EC4008B3BBC /* Reference.swift in Sources */,
 				D75E338022462442006AD1C1 /* Project.swift in Sources */,
 				D752D81123463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
+				D70E9E092901AECF00A3C634 /* Remote.swift in Sources */,
 				D75E338122462442006AD1C1 /* ImagesProcessor.swift in Sources */,
 				D75E338222462442006AD1C1 /* NoteType.swift in Sources */,
 				D73BCC9D28EB5EC3008B3BBC /* ConfigManager.swift in Sources */,
@@ -3837,7 +3882,6 @@
 				D73BCCE828EB5EC4008B3BBC /* Index+Files.swift in Sources */,
 				D75E338822462442006AD1C1 /* ImageAttachment+.swift in Sources */,
 				D73BCCD628EB5EC4008B3BBC /* Remotes.swift in Sources */,
-				D73BCCD328EB5EC4008B3BBC /* Remote.swift in Sources */,
 				D74D47A5256DFACD00D97647 /* NSTextStorage+.swift in Sources */,
 				D75E338922462442006AD1C1 /* UserDefaultsManagement.swift in Sources */,
 				D75E338A22462442006AD1C1 /* TitleBarView.swift in Sources */,
@@ -4019,30 +4063,45 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D70E9E012901AEB600A3C634 /* DiffEntry.swift in Sources */,
+				D70E9DF42901AEA800A3C634 /* Commit.swift in Sources */,
+				D70E9E172901AEF300A3C634 /* Tags.swift in Sources */,
 				D7409FA5221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift in Sources */,
 				D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */,
 				D79651B42517741400333AD4 /* ProgressState.swift in Sources */,
+				D70E9E0A2901AECF00A3C634 /* Remote.swift in Sources */,
+				D70E9DF32901AEA100A3C634 /* PasswordAuthentication.swift in Sources */,
+				D70E9E132901AEE600A3C634 /* Statuses.swift in Sources */,
 				D792DD8527A6C980006ADC01 /* FSParser.swift in Sources */,
 				D794559A27C1B3F9000C283F /* ExternalViewController.swift in Sources */,
 				8F7136F023490CBF004DFA6E /* Markdown.swift in Sources */,
 				D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */,
+				D70E9DF12901AE9B00A3C634 /* KeyAuthentication.swift in Sources */,
 				D73A1FFD249941A200CFC376 /* NamingViewController.swift in Sources */,
 				D71FD21F2101B2D5008BEFA1 /* NoteAttachment.swift in Sources */,
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
 				D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
+				D70E9E122901AEE100A3C634 /* FileHistoryIterator.swift in Sources */,
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
 				D736DDAD27BAC7940012ED70 /* Note+History.swift in Sources */,
 				D730BD45223510A700E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D785805C27A3483B000C1BAF /* FolderPopoverActions.swift in Sources */,
+				D70E9E0C2901AEDA00A3C634 /* Repository+Lookup.swift in Sources */,
 				D7A549C324DD9D3400537544 /* SettingsEditorViewController.swift in Sources */,
+				D70E9DF02901AE9700A3C634 /* BranchesIterator.swift in Sources */,
+				D70E9DEF2901AE9400A3C634 /* Branches.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
+				D70E9DF52901AEAF00A3C634 /* Blob.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D7153E0D2286B85B00A2C20F /* DefaultContainerViewController.swift in Sources */,
+				D70E9DFA2901AEAF00A3C634 /* Signature.swift in Sources */,
+				D70E9E1A2901AEF900A3C634 /* Tree.swift in Sources */,
+				D70E9DFB2901AEAF00A3C634 /* Object.swift in Sources */,
 				D7104A67230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627D126D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D736DDAB27BABFFB0012ED70 /* RevisionsViewController.swift in Sources */,
@@ -4055,7 +4114,10 @@
 				D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */,
 				D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */,
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
+				D70E9E052901AEC400A3C634 /* Index+Files.swift in Sources */,
+				D70E9DF82901AEAF00A3C634 /* Strings.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
+				D70E9E022901AEBF00A3C634 /* Head.swift in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
 				D730BD30222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D76E10C3215A96080017F4A3 /* DayOneImportHelper.swift in Sources */,
@@ -4064,11 +4126,21 @@
 				D768D75A245E86690028F344 /* NSAttributedString+.swift in Sources */,
 				D75A34E527D7CD440085438F /* SidebarViewController.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+.swift in Sources */,
+				D70E9DFF2901AEAF00A3C634 /* Errors.swift in Sources */,
 				D712FED2206F67C500370BA4 /* NightMode.swift in Sources */,
 				D7470D092170E890006B2A92 /* NSTextStorage++.swift in Sources */,
+				D70E9DF72901AEAF00A3C634 /* ConfigManager.swift in Sources */,
+				D70E9E102901AEDA00A3C634 /* RepositoryManager.swift in Sources */,
 				D73794BF2336642500E75A28 /* ImagePreviewViewController.swift in Sources */,
+				D70E9E062901AEC400A3C634 /* Index.swift in Sources */,
+				D70E9DF92901AEAF00A3C634 /* Progress.swift in Sources */,
 				D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */,
+				D70E9E082901AEC900A3C634 /* Reference.swift in Sources */,
+				D70E9DEE2901AE9100A3C634 /* Branch.swift in Sources */,
+				D70E9E042901AEBF00A3C634 /* Head+Merge.swift in Sources */,
+				D70E9E0D2901AEDA00A3C634 /* Repository+Commit.swift in Sources */,
 				D7503456285F7EF000086424 /* NSTextStorage+.swift in Sources */,
+				D70E9E192901AEF900A3C634 /* TreeEntry.swift in Sources */,
 				D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */,
 				D750345F285F81F300086424 /* URL+.swift in Sources */,
 				D7680FB525D02B2C00810DA8 /* FileManager+.swift in Sources */,
@@ -4079,7 +4151,9 @@
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
 				D785805827A1FA0F000C1BAF /* UITableViewController+.swift in Sources */,
 				D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */,
+				D70E9E072901AEC400A3C634 /* Index+Commit.swift in Sources */,
 				D75629B527D5036D00F55588 /* SortByViewController.swift in Sources */,
+				D70E9DFC2901AEAF00A3C634 /* Wrapper.swift in Sources */,
 				D75629B127D4DB7E00F55588 /* CodeFontViewController.swift in Sources */,
 				D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */,
 				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,
@@ -4097,27 +4171,38 @@
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
 				D792DD9927A6D71C006ADC01 /* String+Punycode.swift in Sources */,
 				D7CD5CDE218330100009D63B /* Note+.swift in Sources */,
+				D70E9E032901AEBF00A3C634 /* Head+Checkout.swift in Sources */,
 				D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D714749B279CE8EE001A8B29 /* MainNavigationController.swift in Sources */,
 				D750345E285F817D00086424 /* String+.swift in Sources */,
 				D714749D279D7DBC001A8B29 /* SearchQuery.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
+				D70E9DF22901AE9E00A3C634 /* Authentication.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
+				D70E9DF62901AEAF00A3C634 /* Error.swift in Sources */,
+				D70E9E182901AEF300A3C634 /* Tag.swift in Sources */,
+				D70E9E002901AEB600A3C634 /* Diff.swift in Sources */,
 				D7B4AC612471253100F3888A /* NoteMeta.swift in Sources */,
+				D70E9DFD2901AEAF00A3C634 /* OID.swift in Sources */,
 				6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */,
 				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
+				D70E9E162901AEF300A3C634 /* TagIterator.swift in Sources */,
 				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
 				D7EDEDFD21920402000B8C1A /* NoteCellView+.swift in Sources */,
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
 				D781156B2153E05A004FA1CA /* ProjectSettingsViewController.swift in Sources */,
+				D70E9E0E2901AEDA00A3C634 /* Repository+Open.swift in Sources */,
 				D7BAC62F249D11F8008D29AA /* SettingsFilesNaming.swift in Sources */,
 				D75629B727D53EB100F55588 /* ThanksViewController.swift in Sources */,
 				D77E0538246312B400AD7772 /* StorageType.swift in Sources */,
 				D7B34F9A25195D7E0007877E /* PreviewState.swift in Sources */,
+				D70E9E0F2901AEDA00A3C634 /* Repository.swift in Sources */,
+				D70E9E152901AEEB00A3C634 /* Status.swift in Sources */,
 				D7EFAF6B278B310300175A2F /* HighlighterTheme.swift in Sources */,
 				D7D00E79248FBFF7009AE455 /* UIView+.swift in Sources */,
+				D70E9DFE2901AEAF00A3C634 /* StaticSshKeyDelegate.swift in Sources */,
 				D7E7DB3327A9B17000408725 /* DatePickerViewController.swift in Sources */,
 				D71B9D892868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
 				D7CD5CDB21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
@@ -4128,9 +4213,12 @@
 				D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */,
 				D7D88192214AACF40054586C /* UINote.swift in Sources */,
+				D70E9E142901AEEB00A3C634 /* StatusIterator.swift in Sources */,
 				D794558E27C05743000C283F /* ProViewController.swift in Sources */,
 				D7BDFE6C201F6DC200897A58 /* EditTextView.swift in Sources */,
+				D70E9E0B2901AED400A3C634 /* Remotes.swift in Sources */,
 				D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */,
+				D70E9E112901AEE100A3C634 /* RevisionIterator.swift in Sources */,
 				D7B6E59D20794B8C00FE0E20 /* Project.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -731,9 +731,10 @@ class SidebarOutlineView: NSOutlineView,
 
         vd.updateTable() {
             if self.isFirstLaunch {
-                vd.restoreOpenedWindows()
-            
-                self.isFirstLaunch = false
+                DispatchQueue.main.async {
+                    vd.restoreOpenedWindows()
+                    self.isFirstLaunch = false
+                }
             }
 
             if let note = self.selectNote {
@@ -1440,7 +1441,7 @@ class SidebarOutlineView: NSOutlineView,
                 
                 self.storage.assignTree(for: newProject) { projects in
                     for project in projects {
-                        self.storage.loadLabel(project)
+                        self.storage.loadNotes(project)
                     }
 
                     self.reloadSidebar(reloadManager: true)

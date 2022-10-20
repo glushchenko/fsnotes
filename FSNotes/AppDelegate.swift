@@ -45,7 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
 
         let storage = Storage.sharedInstance()
-        storage.loadProjects()
         storage.loadNotesSettings()
         storage.loadDocuments()
         
@@ -228,7 +227,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 bookmarks.save(url: url)
 
                 UserDefaultsManagement.storageType = .custom
-                UserDefaultsManagement.storagePath = url.path
+                UserDefaultsManagement.customStoragePath = url.path
                 
                 self.restartApp()
             } else {

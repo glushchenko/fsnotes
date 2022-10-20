@@ -49,7 +49,7 @@ class Storage {
 
     public var plainWriter = OperationQueue.init()
     public var ciphertextWriter = OperationQueue.init()
-
+    
     init() {
         let storageType = UserDefaultsManagement.storageType
         let bookmark = SandboxBookmark.sharedInstance()
@@ -105,6 +105,10 @@ class Storage {
 
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
+        
+        for project in projects {
+            loadNotes(project)
+        }
     }
 
     // iOS
@@ -495,28 +499,6 @@ class Storage {
         return storage
     }
 
-    public func loadProjects(withTrash: Bool = true, skipRoot: Bool = false, withArchive: Bool = true) {
-        if !skipRoot {
-            noteList.removeAll()
-        }
-
-        for project in projects {
-            if project.isTrash && !withTrash {
-                continue
-            }
-
-            if project.isRoot && !project.isExternal && skipRoot {
-                continue
-            }
-
-            if project.isArchive && !withArchive {
-                continue
-            }
-
-            loadLabel(project)
-        }
-    }
-
     public func loadDocuments() {
         let startingPoint = Date()
 
@@ -689,7 +671,7 @@ class Storage {
         return note.isPinned && !next.isPinned
     }
 
-    func loadLabel(_ item: Project, loadContent: Bool = false) {
+    func loadNotes(_ item: Project, loadContent: Bool = false) {
         var currentUrl: URL?
                 
         #if NOT_EXTENSION
@@ -751,7 +733,7 @@ class Storage {
 
         for project in projects {
             if project.isTrash {
-                self.loadLabel(project, loadContent: true)
+                loadNotes(project, loadContent: true)
             }
         }
     }
@@ -1005,6 +987,31 @@ class Storage {
     }
         
     func getSubFolders(url: URL) -> [NSURL]? {
+        var isFinishedEnumerationProcess = false
+        
+        // Reset root storage after timeout
+        DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
+            
+            // Reset storage path
+            if !isFinishedEnumerationProcess && UserDefaultsManagement.customStoragePath != nil {
+                
+                // Remove bookmark
+                let bookmark = SandboxBookmark.sharedInstance()
+                bookmark.resetBookmarksDb()
+                
+                // Reset storage url
+                UserDefaultsManagement.customStoragePath = nil
+
+                let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+                let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+                let task = Process()
+                task.launchPath = "/usr/bin/open"
+                task.arguments = [path]
+                task.launch()
+                exit(0)
+            }
+        }
+        
         guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
 
         var extensions = self.allowedExtensions
@@ -1013,10 +1020,13 @@ class Storage {
         }
         let lastPatch = ["assets", ".cache", "i", ".Trash"]
 
+        // Load from disk (long process)
         let urls = fileEnumerator.allObjects.filter {
             !extensions.contains(($0 as? NSURL)!.pathExtension!)
             && !lastPatch.contains(($0 as? NSURL)!.lastPathComponent!)
         } as! [NSURL]
+        
+        isFinishedEnumerationProcess = true
 
         var subdirs = [NSURL]()
         var i = 0

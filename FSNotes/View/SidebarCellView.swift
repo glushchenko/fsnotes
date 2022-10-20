@@ -39,7 +39,7 @@ class SidebarCellView: NSTableCellView {
         }
 
         storage.unload(project: project)
-        storage.loadLabel(project)
+        storage.loadNotes(project)
 
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         vc.fsManager?.restart()

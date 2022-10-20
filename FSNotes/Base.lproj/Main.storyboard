@@ -1390,7 +1390,7 @@ CA
                                 </connections>
                             </button>
                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="OZO-BG-4Lc">
-                                <rect key="frame" x="285" y="237" width="63" height="23"/>
+                                <rect key="frame" x="282" y="235" width="69" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="bBq-4J-LQo"/>
                                     <constraint firstAttribute="width" constant="63" id="ysc-lI-9Ds"/>
@@ -1401,7 +1401,7 @@ CA
                                 </connections>
                             </colorWell>
                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="o3v-hr-61f">
-                                <rect key="frame" x="112" y="237" width="63" height="23"/>
+                                <rect key="frame" x="109" y="235" width="69" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="63" id="FSI-p8-SIa"/>
                                     <constraint firstAttribute="height" constant="23" id="SBS-1M-dCP"/>
@@ -4635,9 +4635,9 @@ Will Pazner (github.com/pazner)</string>
         </scene>
     </scenes>
     <resources>
-        <image name="NSLockLockedTemplate" width="14" height="15"/>
-        <image name="NSQuickLookTemplate" width="21" height="13"/>
-        <image name="NSShareTemplate" width="15" height="17"/>
+        <image name="NSLockLockedTemplate" width="19" height="19"/>
+        <image name="NSQuickLookTemplate" width="26" height="17"/>
+        <image name="NSShareTemplate" width="19" height="22"/>
         <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
         <image name="icon" width="1024" height="1024"/>

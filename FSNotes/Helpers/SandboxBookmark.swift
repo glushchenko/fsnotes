@@ -21,6 +21,11 @@ class SandboxBookmark {
         return sandbox
     }
     
+    public func resetBookmarksDb() {
+        let url = URL(fileURLWithPath: bookmarkPath())
+        try? FileManager.default.removeItem(at: url)
+    }
+    
     func bookmarkPath() -> String {
         var url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         url = url.appendingPathComponent("Bookmarks.dict")
