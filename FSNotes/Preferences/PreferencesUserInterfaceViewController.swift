@@ -210,6 +210,16 @@ class PreferencesUserInterfaceViewController: NSViewController {
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont)
         UserDefaultsManagement.noteFont = newFont
 
+        reloadFont()
+    }
+    
+    @IBAction func resetFont(_ sender: Any) {
+        UserDefaultsManagement.fontName = nil
+        
+        reloadFont()
+    }
+    
+    private func reloadFont() {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
@@ -227,7 +237,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         setFontPreview()
     }
-
+    
     private func setFontPreview() {
         fontPreview.font = NSFont(name: UserDefaultsManagement.noteFont.fontName, size: 13)
         fontPreview.stringValue = "\(UserDefaultsManagement.noteFont.fontName) \(UserDefaultsManagement.noteFont.pointSize)pt"
