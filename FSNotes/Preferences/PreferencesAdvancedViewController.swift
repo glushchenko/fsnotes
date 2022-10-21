@@ -101,6 +101,7 @@ class PreferencesAdvancedViewController: NSViewController {
 
     @IBAction func changeArchiveStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
+        openPanel.directoryURL = UserDefaultsManagement.archiveDirectory
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
@@ -208,6 +209,7 @@ class PreferencesAdvancedViewController: NSViewController {
     
     @IBAction func trash(_ sender: NSButton) {
         let openPanel = NSOpenPanel()
+        openPanel.directoryURL = Storage.sharedInstance().getDefaultTrash()?.url
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true

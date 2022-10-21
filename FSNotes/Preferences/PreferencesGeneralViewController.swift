@@ -44,7 +44,7 @@ class PreferencesGeneralViewController: NSViewController {
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
 
         if let url = UserDefaultsManagement.storageUrl {
-            defaultStoragePath.stringValue = url.path
+            defaultStoragePath.url = url
         }
 
         showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
@@ -63,7 +63,7 @@ class PreferencesGeneralViewController: NSViewController {
 
     @IBAction func changeDefaultStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
-        openPanel.allowsMultipleSelection = false
+        openPanel.directoryURL = UserDefaultsManagement.storageUrl
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
         openPanel.canChooseFiles = false

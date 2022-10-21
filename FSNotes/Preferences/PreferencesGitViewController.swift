@@ -55,6 +55,7 @@ class PreferencesGitViewController: NSViewController {
 
     @IBAction func changeGitStorage(_ sender: NSButton) {
         let openPanel = NSOpenPanel()
+        openPanel.directoryURL = UserDefaultsManagement.gitStorage
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true

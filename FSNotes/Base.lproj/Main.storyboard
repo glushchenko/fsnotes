@@ -3813,7 +3813,7 @@ Will Pazner (github.com/pazner)</string>
                                 </scroller>
                             </scrollView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ML3-K3-vlx">
-                                <rect key="frame" x="183" y="111" width="109" height="115"/>
+                                <rect key="frame" x="182" y="111" width="110" height="115"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logo_editor" id="riY-9N-gUN"/>
                             </imageView>
