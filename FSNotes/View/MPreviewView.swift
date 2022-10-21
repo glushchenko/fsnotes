@@ -298,7 +298,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, web: web)
         }
         
-        if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath, print: print, archivePath: zipName) {
+        if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath, print: print, archivePath: zipName, note: note) {
             let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString, at: dst)
             
             return indexURL
@@ -424,7 +424,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return htmlString
     }
 
-    public static func htmlFromTemplate(_ htmlString: String, webPath: String? = nil, print: Bool = false, archivePath: String? = nil) throws -> String {
+    public static func htmlFromTemplate(_ htmlString: String, webPath: String? = nil, print: Bool = false, archivePath: String? = nil, note: Note? = nil) throws -> String {
         let webPath = webPath ?? ""
 
         var htmlString = htmlString
@@ -555,7 +555,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             """
         }
         
+        var title = String()
+        if let unwrapped = note?.getTitle() {
+            title = unwrapped
+        }
+        
         template = template
+            .replacingOccurrences(of: "{TITLE}", with: title)
             .replacingOccurrences(of: "{INLINE_CSS}", with: MPreviewView.getPreviewStyle(print: print))
             .replacingOccurrences(of: "{MATH_JAX_JS}", with: MPreviewView.getMathJaxJS())
             .replacingOccurrences(of: "{FSNOTES_APPEARANCE}", with: appearance)

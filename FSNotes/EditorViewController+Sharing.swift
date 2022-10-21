@@ -11,22 +11,29 @@ import Cocoa
 extension EditorViewController: NSSharingServicePickerDelegate {
     func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, sharingServicesForItems items: [Any], proposedSharingServices proposedServices: [NSSharingService]) -> [NSSharingService] {
         
-        guard let image = NSImage(named: "copy.png") else {
+        guard let image = NSImage(named: "copy.png"), let webImage = NSImage(named: "web") else {
             return proposedServices
         }
         
         var share = proposedServices
+        
+        let titleWeb = NSLocalizedString("Web", comment: "")
+        let web = NSSharingService(title: titleWeb, image: webImage, alternateImage: nil, handler: {
+            ViewController.shared()?.uploadWebNote(NSMenuItem())
+        })
+        share.insert(web, at: 0)
+        
         let titlePlain = NSLocalizedString("Copy Plain Text", comment: "")
         let plainText = NSSharingService(title: titlePlain, image: image, alternateImage: image, handler: {
             self.saveTextAtClipboard()
         })
-        share.insert(plainText, at: 0)
+        share.insert(plainText, at: 1)
 
         let titleHTML = NSLocalizedString("Copy HTML", comment: "")
         let html = NSSharingService(title: titleHTML, image: image, alternateImage: image, handler: {
             self.saveHtmlAtClipboard()
         })
-        share.insert(html, at: 1)
+        share.insert(html, at: 2)
         
         return share
     }
