@@ -886,7 +886,6 @@ public class TextFormatter {
         for line in lines {
 
             // Removes extra chars identified as list items start
-
             var line = line
 
             let digitRegex = try! NSRegularExpression(pattern: "^([0-9]+\\. )")
@@ -940,19 +939,24 @@ public class TextFormatter {
         }
 
         let mutableResult = NSMutableAttributedString(string: result)
-
-#if os(iOS)
-        let textColor: UIColor = NightNight.theme == .night ? UIColor.white : UIColor.black
+        
+        #if os(iOS)
+            let textColor: UIColor = NightNight.theme == .night ? UIColor.white : UIColor.black
+        #else
+            let textColor: NSColor = NotesTextProcessor.fontColor
+        #endif
+        
         mutableResult.addAttribute(.foregroundColor, value: textColor, range: NSRange(location: 0, length: mutableResult.length))
         mutableResult.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: 0, length: mutableResult.length))
-#endif
-
         mutableResult.loadCheckboxes()
 
         let diff = mutableResult.length - attributedString.length
         let selectRange = selectedRange.length == 0 || lines.count == 1
             ? NSRange(location: pRange.location + pRange.length + diff - 1, length: 0)
             : NSRange(location: pRange.location, length: mutableResult.length)
+        
+        // Fixes clicked area
+        textView.textStorage?.removeAttribute(.todo, range: pRange)
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
         storage.updateParagraphStyle(range: getParagraphRange())
@@ -976,12 +980,7 @@ public class TextFormatter {
             }
             
             if paragraph.contains(location) {
-                let strike = (todoAttr == 0) ? 1 : 0
-                #if os(OSX)
-                    textView.typingAttributes[.strikethroughStyle] = strike
-                #else
-                    textView.typingAttributes[.strikethroughStyle] = strike
-                #endif
+                textView.typingAttributes[.strikethroughStyle] = (todoAttr == 0) ? 1 : 0
             }
 
             storage.updateParagraphStyle(range: paragraph)
@@ -1417,8 +1416,12 @@ public class TextFormatter {
         let selectRange = selectedRange.length == 0 || lines.count == 1
             ? NSRange(location: pRange.location + result.count - 1, length: 0)
             : NSRange(location: pRange.location, length: result.count)
-
+        
+        reset(pRange: pRange)
         insertText(result, replacementRange: pRange, selectRange: selectRange)
+        
+        // Fixes small font bug
+        textView.textStorage?.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
     }
 
     public func orderedList() {
@@ -1485,7 +1488,16 @@ public class TextFormatter {
             ? NSRange(location: pRange.location + result.count - 1, length: 0)
             : NSRange(location: pRange.location, length: result.count)
 
+        reset(pRange: pRange)
         insertText(result, replacementRange: pRange, selectRange: selectRange)
+        
+        // Fixes small font bug
+        textView.textStorage?.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
+    }
+    
+    private func reset(pRange: NSRange) {
+        textView.textStorage?.removeAttribute(.strikethroughStyle, range: pRange)
+        textView.textStorage?.removeAttribute(.todo, range: pRange)
     }
 
     private func cleanListItem(line: String) -> String {
