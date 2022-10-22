@@ -124,6 +124,7 @@ public class UserDefaultsManagement {
         static let PullInterval = "pullInterval"
         static let SaveInKeychain = "saveInKeychain"
         static let SearchHighlight = "searchHighlighting"
+        static let SeparateRepo = "separateRepo"
         static let SftpHost = "sftpHost"
         static let SftpPort = "sftpPort"
         static let SftpPath = "sftpPath"
@@ -1731,6 +1732,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.TrashKey)
+        }
+    }
+    
+    static var separateRepo: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.SeparateRepo) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SeparateRepo)
         }
     }
 }

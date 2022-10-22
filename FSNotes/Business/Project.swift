@@ -715,6 +715,10 @@ public class Project: Equatable {
     }
     
     public func getRepository() -> Repository? {
+        if UserDefaultsManagement.separateRepo && !isCloudProject() {
+            return getSeparateRepository()
+        }
+        
         let repositoryManager = RepositoryManager()
         let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git")
         
@@ -740,6 +744,41 @@ public class Project: Equatable {
         }
         
         return nil
+    }
+    
+    public func getSeparateRepository() -> Repository? {
+        let repositoryManager = RepositoryManager()
+        let repoURL = url.appendingPathComponent(".git", isDirectory: true)
+        
+        do {
+            let repository = try repositoryManager.openRepository(at: repoURL)
+            return repository
+        } catch {/*_*/}
+        
+        guard let originString = getGitOrigin(), let origin = URL(string: originString) else { return nil }
+        
+        let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+        try? FileManager.default.removeItem(at: cloneURL)
+        
+        do {
+            _ = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
+            let dotGit = cloneURL.appendingPathComponent(".git")
+            
+            if FileManager.default.directoryExists(atUrl: dotGit) {
+                try FileManager.default.moveItem(at: dotGit, to: repoURL)
+                
+                return try repositoryManager.openRepository(at: repoURL)
+            }
+        } catch {
+            print("Clone error: \(error)")
+        }
+        
+        return nil
+    }
+    
+    public func isCloudProject() -> Bool {
+        return UserDefaultsManagement.storagePath == UserDefaultsManagement.iCloudDocumentsContainer?.path
+            && url.path == UserDefaultsManagement.storagePath
     }
     
     public func getHandler() -> SshKeyHandler? {
@@ -789,6 +828,20 @@ public class Project: Equatable {
         }
     }
     
+    public func getLocalBranch(repository: Repository) -> Branch?  {
+        do {
+            let names = try Branches(repository: repository).names(type: .local)
+            
+            guard names.count > 0 else { return nil }
+            guard let branchName = names.first?.components(separatedBy: "/").last else { return nil }
+            
+            let localMaster = try repository.branches.get(name: branchName)
+            return localMaster
+        } catch {/**/}
+        
+        return nil
+    }
+    
     public func push() -> Int32 {
         guard let repository = getRepository() else { return -1 }
         
@@ -813,23 +866,21 @@ public class Project: Equatable {
         return 0
     }
     
-    public func pull() -> Int32 {
-        guard let repository = getRepository() else { return -1 }
+    public func pull() throws -> Bool {
+        guard let repository = getRepository() else { return false }
                 
-        repository.setWorkTree(path: url.path)
+        if !UserDefaultsManagement.separateRepo || isCloudProject() {
+            repository.setWorkTree(path: url.path)
+        }
                 
         let handler = getHandler()
         let sign = getSign()
         
-        do {
-            let remote = repository.remotes
-            let origin = try remote.get(remoteName: "origin")
-            _ = try origin.pull(signature: sign, authentication: handler, project: self)
-        } catch {
-            return -1
-        }
+        let remote = repository.remotes
+        let origin = try remote.get(remoteName: "origin")
         
-        return 0
+        return try origin.pull(signature: sign, authentication: handler, project: self)
+        
     }
     
     public func getGitProject() -> Project {

@@ -22,6 +22,8 @@ class PreferencesGitViewController: NSViewController {
     @IBOutlet weak var rsaPath: NSPathControl!
     @IBOutlet weak var passphrase: NSSecureTextField!
     @IBOutlet weak var pullInterval: NSTextField!
+    @IBOutlet weak var customWorktree: NSButton!
+    @IBOutlet weak var separateDotGit: NSButton!
     
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -51,6 +53,9 @@ class PreferencesGitViewController: NSViewController {
         
         passphrase.stringValue = UserDefaultsManagement.gitPassphrase
         pullInterval.stringValue = String(UserDefaultsManagement.pullInterval)
+        
+        customWorktree.state = UserDefaultsManagement.separateRepo ? .off : .on
+        separateDotGit.state = UserDefaultsManagement.separateRepo ? .on : .off
     }
 
     @IBAction func changeGitStorage(_ sender: NSButton) {
@@ -183,4 +188,7 @@ class PreferencesGitViewController: NSViewController {
         vc.schedulePull()
     }
     
+    @IBAction func separateRepo(_ sender: NSButton) {
+        UserDefaultsManagement.separateRepo = (sender.tag == 1)
+    }
 }

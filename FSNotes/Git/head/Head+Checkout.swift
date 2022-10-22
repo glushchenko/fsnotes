@@ -141,6 +141,17 @@ extension Head {
         if (error != 0) {
             throw gitUnknownError("Unable to reset 'HEAD'", code: error)
         }
+    }
+    
+    public func forceCheckout(branch: Branch, progress: Progress? = nil) throws {
         
+        // Checkout new tree
+        try checkout(tree: try branch.revTree(), type: .force, progress: progress)
+        
+        // Set head
+        let error = git_repository_set_head(repository.pointer.pointee, branch.name)
+        if (error != 0) {
+            throw gitUnknownError("Unable to switch to '\(branch.name)' branch", code: error)
+        }
     }
 }

@@ -991,8 +991,9 @@ class SidebarOutlineView: NSOutlineView,
             let project = project.getGitProject()
 
             project.commit()
-            project.pull()
-            project.push()
+            
+            _ = try? project.pull()
+            _ = project.push()
             
             vc.isGitProcessLocked = false
         }

@@ -22,9 +22,12 @@ extension EditorViewController {
         DispatchQueue.global().async {
             project.commit()
 
-            if project.pull() == GIT_OK.rawValue {
-                print("Pull successful")
-            }
+            do {
+                let result = try project.pull()
+                if result {
+                    print("Pull successful")
+                }
+            } catch {/*_*/}
             
             if project.push() != GIT_OK.rawValue {
                 DispatchQueue.main.async {
@@ -100,7 +103,7 @@ extension EditorViewController {
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
                     project.commit()
-                    _ = project.pull()
+                    _ = try? project.pull()
                     _ = project.push()
                 }
             }
@@ -123,7 +126,7 @@ extension EditorViewController {
                 }
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    _ = project.pull()
+                    _ = try? project.pull()
                 }
             }
             

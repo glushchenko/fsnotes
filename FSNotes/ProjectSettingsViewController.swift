@@ -92,9 +92,60 @@ class ProjectSettingsViewController: NSViewController {
 
         project.gitOrigin = sender.stringValue
         project.saveSettings()
+        
+        if project.isCloudProject() {
+            UserDefaultsManagement.gitOrigin = sender.stringValue
+        }
     }
     
+    @IBAction func clonePull(_ sender: Any) {
+        guard let project = self.project else { return }
+        let origin = self.origin.stringValue
+        
+        guard origin.count > 3 else {
+            let alert = NSAlert()
+            alert.messageText = "Origin is empty"
+            alert.alertStyle = .critical
+            alert.informativeText = "Configure origin at first!"
+            alert.runModal()
+            return
+        }
+        
+        do {
+            if try project.pull() {
+                askForceCheckout()
+            }
+            return
+        } catch GitError.unknownError(let errorMessage, _, let desc){
+            let alert = NSAlert()
+            alert.messageText = "git clone/pull failed"
+            alert.alertStyle = .critical
+            alert.informativeText = String("\(errorMessage) –  \(desc)")
+            alert.runModal()
+        } catch {/*_*/}
+    }
+    
+    public func askForceCheckout() {
+        guard let window = view.window else { return }
 
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Do you want force checkout?", comment: "")
+        alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
+        alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("No", comment: ""))
+        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                if let repo = self.project?.getRepository(), let local = self.project?.getLocalBranch(repository: repo) {
+                    do {
+                        try repo.head().forceCheckout(branch: local)
+                    } catch {
+                        print("Checkout: \(error)")
+                    }
+                }
+            }
+        }
+    }
+    
     override func keyDown(with event: NSEvent) {
         if event.keyCode == kVK_Return || event.keyCode == kVK_Escape {
             self.dismiss(nil)
@@ -114,10 +165,13 @@ class ProjectSettingsViewController: NSViewController {
         directionASC.state = project.sortDirection == .asc ? .on : .off
         directionDESC.state = project.sortDirection == .desc ? .on : .off
 
-        origin.stringValue = project.gitOrigin ?? ""
+        if project.isCloudProject(), let masterOrigin = UserDefaultsManagement.gitOrigin {
+            origin.stringValue = masterOrigin
+        } else {
+            origin.stringValue = project.gitOrigin ?? ""
+        }
         
         self.project = project
-        
         
         project.loadSettings()
     }
