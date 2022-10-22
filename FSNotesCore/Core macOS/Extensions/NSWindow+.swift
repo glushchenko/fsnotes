@@ -11,7 +11,8 @@ import Cocoa
 extension NSWindow {
     public func setFrameOriginToPositionWindowInCenterOfScreen() {
         if let screenSize = screen?.frame.size {
-            self.setFrameOrigin(NSPoint(x: (screenSize.width-frame.size.width)/2, y: (screenSize.height-frame.size.height)/2))
+            let origin = NSPoint(x: (screenSize.width-800)/2, y: (screenSize.height-600)/2)
+            self.setFrame(NSRect(origin: origin, size: CGSize(width: 800, height: 600)), display: true)
         }
     }
 }
