@@ -24,6 +24,7 @@ class PreferencesGitViewController: NSViewController {
     @IBOutlet weak var pullInterval: NSTextField!
     @IBOutlet weak var customWorktree: NSButton!
     @IBOutlet weak var separateDotGit: NSButton!
+    @IBOutlet weak var askCommitMessage: NSButton!
     
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -56,6 +57,7 @@ class PreferencesGitViewController: NSViewController {
         
         customWorktree.state = UserDefaultsManagement.separateRepo ? .off : .on
         separateDotGit.state = UserDefaultsManagement.separateRepo ? .on : .off
+        askCommitMessage.state = UserDefaultsManagement.askCommitMessage ? .on : .off
     }
 
     @IBAction func changeGitStorage(_ sender: NSButton) {
@@ -191,4 +193,9 @@ class PreferencesGitViewController: NSViewController {
     @IBAction func separateRepo(_ sender: NSButton) {
         UserDefaultsManagement.separateRepo = (sender.tag == 1)
     }
+    
+    @IBAction func askCommitMessage(_ sender: NSButton) {
+        UserDefaultsManagement.askCommitMessage = sender.state == .on
+    }
+    
 }

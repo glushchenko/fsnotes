@@ -13,6 +13,39 @@ import Cgit2
 extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
+        guard let window = self.view.window else { return }
+        if UserDefaultsManagement.askCommitMessage {
+            let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 60))
+            if let lastMessage = UserDefaultsManagement.lastCommitMessage {
+                field.stringValue = lastMessage
+            }
+            
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Commit message:", comment: "")
+            alert.accessoryView = field
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    var commitMessage: String? = field.stringValue.count > 0 ? field.stringValue : nil
+                    
+                    if field.stringValue.count > 0 {
+                        UserDefaultsManagement.lastCommitMessage = commitMessage
+                    }
+                    
+                    self.saveRevision(commitMessage: commitMessage)
+                }
+            }
+            
+            field.becomeFirstResponder()
+            return
+        }
+        
+        saveRevision(commitMessage: nil)
+    }
+    
+    private func saveRevision(commitMessage: String? = nil) {
         guard !isGitProcessLocked else { return }
         guard let note = getSelectedNotes()?.first else { return }
 
@@ -20,7 +53,7 @@ extension EditorViewController {
         isGitProcessLocked = true
 
         DispatchQueue.global().async {
-            project.commit()
+            project.commit(message: commitMessage)
 
             do {
                 let result = try project.pull()
@@ -37,6 +70,8 @@ extension EditorViewController {
                     alert.messageText = NSLocalizedString("Git push error", comment: "")
                     alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
                 }
+            } else {
+                print("Push successful")
             }
             
             self.isGitProcessLocked = false

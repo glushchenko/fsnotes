@@ -822,7 +822,7 @@ public class Project: Equatable {
         return Signature(name: "FSNotes App", email: "support@fsnot.es")
     }
     
-    public func commit() {
+    public func commit(message: String? = nil) {
         guard let repository = getRepository() else { return }
         
         let statuses = Statuses(repository: repository)
@@ -837,9 +837,11 @@ public class Project: Equatable {
                 try head.save()
                 
                 if lastCommit == nil {
-                    _ = try head.createInitialCommit(msg: "FSNotes Init ;-)", signature: sign)
+                    let commitMessage = message ?? "FSNotes Init ;-)"
+                    _ = try head.createInitialCommit(msg: commitMessage, signature: sign)
                 } else {
-                    _ = try head.createCommit(msg: "Usual commit", signature: sign)
+                    let commitMessage = message ?? "Usual commit"
+                    _ = try head.createCommit(msg: commitMessage, signature: sign)
                 }
             } catch {
                 print("Commit error: \(error)")

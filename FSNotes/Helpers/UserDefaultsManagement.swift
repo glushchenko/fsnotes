@@ -44,6 +44,7 @@ public class UserDefaultsManagement {
     private struct Constants {
         static let AllowTouchID = "allowTouchID"
         static let AppearanceTypeKey = "appearanceType"
+        static let AskCommitMessage = "askCommitMessage"
         static let ApiBookmarksData = "apiBookmarksData"
         static let ArchiveDirectoryKey = "archiveDirectory"
         static let AutoInsertHeader = "autoInsertHeader"
@@ -93,6 +94,7 @@ public class UserDefaultsManagement {
         static let IndentedCodeBlockHighlighting = "IndentedCodeBlockHighlighting"
         static let IndentUsing = "indentUsing"
         static let InlineTags = "inlineTags"
+        static let LastCommitMessage = "lastCommitMessage"
         static let LastNews = "lastNews"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastScreenX = "lastScreenX"
@@ -1744,6 +1746,32 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.SeparateRepo)
+        }
+    }
+    
+    static var askCommitMessage: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.AskCommitMessage) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.AskCommitMessage)
+        }
+    }
+    
+    static var lastCommitMessage: String? {
+        get {
+            if let result = shared?.object(forKey: Constants.LastCommitMessage) as? String, result.count > 0 {
+                return result
+            }
+            
+            return nil
+        }
+        
+        set {
+            shared?.set(newValue, forKey: Constants.LastCommitMessage)
         }
     }
 }
