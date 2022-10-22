@@ -795,6 +795,10 @@ public class Project: Equatable {
         return nil
     }
     
+    public func isUseSeparateRepo() -> Bool {
+        return UserDefaultsManagement.separateRepo && !isCloudProject()
+    }
+    
     public func isCloudProject() -> Bool {
         return UserDefaultsManagement.storagePath == UserDefaultsManagement.iCloudDocumentsContainer?.path
             && url.path == UserDefaultsManagement.storagePath

@@ -70,10 +70,9 @@ class FSGit {
     }
 
     public func exec(args: [String], env: [String: String]? = nil) -> String? {
-        guard let launchPath = pathToGit() else { return nil }
+       guard let launchPath = pathToGit() else { return nil }
 
         let process = Process()
-
         process.launchPath = launchPath
 
         var defaultEnv = [
@@ -125,8 +124,7 @@ class FSGit {
     }
 
     public func getRepository(by project: Project) -> FSRepository {
-        let repository = FSRepository(git: self, debug: debug, project: project, workTree: project.url)
-        repository.initialize(from: project)
+        let repository = FSRepository(git: self, debug: debug, project: project)
 
         return repository
     }

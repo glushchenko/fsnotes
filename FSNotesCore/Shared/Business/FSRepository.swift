@@ -10,15 +10,13 @@ import Foundation
 
 class FSRepository {
     private var git: FSGit
-    private var name: String
-    private var workTree: URL
     private var debug: Bool
+    private var project: Project
 
-    init(git: FSGit, debug: Bool, project: Project, workTree: URL) {
+    init(git: FSGit, debug: Bool, project: Project) {
         self.git = git
         self.debug = debug
-        self.workTree = workTree
-        self.name = project.getShortSign() + " - " + project.label + ".git"
+        self.project = project
     }
 
     private func exec(args: [String]) -> String? {
@@ -28,39 +26,16 @@ class FSRepository {
     }
 
     public func getEnvironment() -> [String: String] {
-        let repo = git.getRepositoriesHome().appendingPathComponent(name)
-        return ["GIT_DIR": repo.path, "GIT_WORK_TREE": workTree.path]
-    }
+        let name = project.getShortSign() + " - " + project.label + ".git"
+        var repo = git.getRepositoriesHome().appendingPathComponent(name)
 
-    public func initialize(from: Project) {
-        let repo = git.getRepositoriesHome().appendingPathComponent(name)
-        guard !FileManager.default.fileExists(atPath: repo.path) else { return }
-
-        let output = exec(args: ["init"])
-
-        if debug {
-            print("Repo init: \(String(describing: output))")
+        if project.isUseSeparateRepo() {
+            repo = project.url.appendingPathComponent(".git", isDirectory: true)
         }
-    }
 
-    public func commit(fileName: String) {
-        let add = exec(args: ["add", "\(fileName)"])
-        let commit = exec(args: ["commit", "-m", "'\(fileName) update'"])
+        var env = ["GIT_DIR": repo.path, "GIT_WORK_TREE": project.url.path]
 
-        if debug {
-            print("Add file: \(String(describing: add))")
-            print("Commit file: \(String(describing: commit))")
-        }
-    }
-
-    public func commitAll() {
-        let add = exec(args: ["add", "."])
-        let commit = exec(args: ["commit", "-m", "'Scheduled snapshot'"])
-
-        if debug {
-            print("Add files: \(String(describing: add))")
-            print("Commit files: \(String(describing: commit))")
-        }
+        return env
     }
 
     public func getCommits(by fileName: String) -> [FSCommit] {

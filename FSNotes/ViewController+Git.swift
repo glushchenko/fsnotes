@@ -28,7 +28,7 @@ extension EditorViewController {
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
             alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                    var commitMessage: String? = field.stringValue.count > 0 ? field.stringValue : nil
+                    let commitMessage: String? = field.stringValue.count > 0 ? field.stringValue : nil
                     
                     if field.stringValue.count > 0 {
                         UserDefaultsManagement.lastCommitMessage = commitMessage
@@ -88,9 +88,10 @@ extension EditorViewController {
         let repository = git.getRepository(by: note.project.getGitProject())
 
         if git.prevCommit == nil {
-            saveRevision(sender)
+            saveRevision(commitMessage: nil)
         }
 
+        print(note.getGitPath())
         repository.checkout(commit: commit, fileName: note.getGitPath())
         git.prevCommit = commit
 
