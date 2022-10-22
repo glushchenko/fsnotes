@@ -75,19 +75,4 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     func windowDidExitFullScreen(_ notification: Notification) {
         UserDefaultsManagement.fullScreen = false
     }
-
-    public func maximizeWindow() {
-        let currentSize = window?.frame
-        
-        if let screen = NSScreen.main {
-            let size = lastWindowSize ?? screen.visibleFrame
-            window?.setFrame(size, display: true, animate: true)
-
-            if lastWindowSize == nil {
-                lastWindowSize = currentSize
-            } else {
-                lastWindowSize = nil
-            }
-        }
-    }
 }

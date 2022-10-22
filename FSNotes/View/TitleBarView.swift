@@ -38,9 +38,7 @@ class TitleBarView: NSView {
 
     override func mouseDown(with event: NSEvent) {
         if event.clickCount == 2 {
-            if let md = AppDelegate.mainWindowController {
-                md.maximizeWindow()
-            }
+            self.window?.windowController?.maximizeWindow()
         }
     }
     
