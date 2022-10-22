@@ -1601,7 +1601,7 @@ class ViewController: EditorViewController,
                     || type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
                     || self.isMatched(note: note, terms: terms!)
             ) && (
-                type == .All && !note.project.isArchive && note.project.showInCommon
+                type == .All && !note.project.isArchive && note.project.isVisibleInCommon() 
                 || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
                 || type == .Inbox && note.project.isDefault
                 || type == .Trash

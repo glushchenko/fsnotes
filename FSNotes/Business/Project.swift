@@ -314,6 +314,25 @@ public class Project: Equatable {
         
         return self
     }
+    
+    public func isVisibleInCommon() -> Bool {
+        var parent = self.parent
+                
+        while parent != nil {
+            if let unwrapped = parent?.parent {
+                if !unwrapped.showInCommon {
+                    return false
+                }
+                
+                parent = unwrapped
+                continue
+            }
+            
+            return parent?.showInCommon == true
+        }
+        
+        return showInCommon
+    }
 
     public func getNestedLabel() -> String {
         var project: Project? = self
