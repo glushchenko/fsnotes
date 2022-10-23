@@ -105,12 +105,19 @@ class PreferencesGitViewController: NSViewController {
 
     @IBAction func backupMethod(_ sender: NSButton) {
         guard let ident = sender.identifier?.rawValue else { return }
-
+        
         let isManualBackup = ident == "manual"
-
+        
         UserDefaultsManagement.backupManually = isManualBackup
         backupManually.state = isManualBackup ? .on : .off
         backupBySchedule.state = isManualBackup ? .off : .on
+        
+        guard let vc = ViewController.shared() else { return }
+        if backupBySchedule.state == .on {
+            vc.schedulePull()
+        } else {
+            vc.stopPull()
+        }
     }
 
 

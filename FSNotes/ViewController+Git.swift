@@ -185,4 +185,8 @@ extension EditorViewController {
         pullTimer.invalidate()
         pullTimer = Timer.scheduledTimer(timeInterval: TimeInterval(interval), target: self, selector: #selector(pull), userInfo: nil, repeats: true)
     }
+    
+    public func stopPull() {
+        pullTimer.invalidate()
+    }
 }

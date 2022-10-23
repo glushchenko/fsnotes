@@ -134,7 +134,7 @@ extension Head {
         try targetReference().updateTargetCommit(commit: try branch.targetCommit(), message: "Merge '\(branch.name)': Fast forward")
         
         // Checkout force
-        try checkout(tree: revTree(), type: .safe, progress: progress)
+        try checkout(tree: revTree(), type: .force, progress: progress)
     }
 
     /// Internal normal merge
