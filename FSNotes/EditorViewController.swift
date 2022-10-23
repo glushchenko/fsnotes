@@ -33,7 +33,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     public var printWebView = WebView()
     
     // git
-    public var isGitProcessLocked = false
     public var snapshotsTimer = Timer()
     public var lastSnapshot: Int = 0
     public var pullTimer = Timer()

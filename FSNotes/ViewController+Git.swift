@@ -46,13 +46,11 @@ extension EditorViewController {
     }
     
     private func saveRevision(commitMessage: String? = nil) {
-        guard !isGitProcessLocked else { return }
-        guard let note = getSelectedNotes()?.first else { return }
-
-        let project = note.project.getGitProject()
-        isGitProcessLocked = true
-
-        DispatchQueue.global().async {
+        guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
+        
+        let operation = BlockOperation()
+        operation.addExecutionBlock { [] in
+            let project = note.project.getGitProject()
             project.commit(message: commitMessage)
 
             do {
@@ -68,14 +66,14 @@ extension EditorViewController {
                     alert.alertStyle = .critical
                     alert.informativeText = NSLocalizedString("Libgit2 error", comment: "")
                     alert.messageText = NSLocalizedString("Git push error", comment: "")
-                    alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
+                    alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in }
                 }
             } else {
                 print("Push successful")
             }
-            
-            self.isGitProcessLocked = false
         }
+        
+        ViewController.shared()?.gitQueue.addOperation(operation)
     }
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
@@ -107,8 +105,6 @@ extension EditorViewController {
     }
 
     @IBAction private func makeFullSnapshot(_ sender: Any) {
-        guard !isGitProcessLocked else { return }
-
         let cal = Calendar.current
         let hour = cal.component(.hour, from: Date())
         let minute = cal.component(.minute, from: Date())
@@ -130,8 +126,7 @@ extension EditorViewController {
         let storage = Storage.sharedInstance()
         let projects = storage.getProjects()
 
-        isGitProcessLocked = true
-        DispatchQueue.global().async {
+        ViewController.shared()?.gitQueue.addOperation({
             for project in projects {
                 if project.isTrash {
                     continue
@@ -143,19 +138,21 @@ extension EditorViewController {
                     _ = project.push()
                 }
             }
-            
-            self.isGitProcessLocked = false
-        }
+        })
     }
     
     @IBAction private func pull(_ sender: Any) {
-        guard !isGitProcessLocked else { return }
-
+        guard let vc = ViewController.shared() else { return }
+        
         let storage = Storage.sharedInstance()
         let projects = storage.getProjects()
 
-        isGitProcessLocked = true
-        DispatchQueue.global().async {
+        // Skip on high load
+        if vc.gitQueue.operationCount > 5 {
+            return
+        }
+        
+        vc.gitQueue.addOperation({
             for project in projects {
                 if project.isTrash {
                     continue
@@ -165,9 +162,7 @@ extension EditorViewController {
                     _ = try? project.pull()
                 }
             }
-            
-            self.isGitProcessLocked = false
-        }
+        })
     }
 
     public func scheduleSnapshots() {

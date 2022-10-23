@@ -982,21 +982,15 @@ class SidebarOutlineView: NSOutlineView,
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
         guard let vc = ViewController.shared() else { return }
-        guard !vc.isGitProcessLocked else { return }
-
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
-        vc.isGitProcessLocked = true
-        DispatchQueue.global(qos: .background).async {
+        vc.gitQueue.addOperation({
             let project = project.getGitProject()
-
             project.commit()
             
             _ = try? project.pull()
             _ = project.push()
-            
-            vc.isGitProcessLocked = false
-        }
+        })
     }
     
     @IBAction func toggleFolderEncryption(_ sender: NSMenuItem) {

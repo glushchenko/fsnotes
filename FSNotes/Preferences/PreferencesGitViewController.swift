@@ -189,7 +189,12 @@ class PreferencesGitViewController: NSViewController {
     }
     
     @IBAction func pullInterval(_ sender: NSTextField) {
-        if let interval = Int(sender.stringValue) {
+        if var interval = Int(sender.stringValue) {
+            if interval < 10 {
+                interval = 10
+                pullInterval.stringValue = String(10)
+            }
+            
             UserDefaultsManagement.pullInterval = interval
         }
 
@@ -205,4 +210,12 @@ class PreferencesGitViewController: NSViewController {
         UserDefaultsManagement.askCommitMessage = sender.state == .on
     }
     
+    @IBAction func clonePull(_ sender: Any) {
+        guard let project = Storage.shared().getDefault() else { return }
+        guard let window = view.window else { return }
+        
+        let origin = self.origin.stringValue
+        
+        ProjectSettingsViewController.pull(origin: origin, project: project, window: window)
+    }
 }

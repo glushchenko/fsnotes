@@ -30,7 +30,10 @@ class ViewController: EditorViewController,
     var sidebarTimer = Timer()
     
     let searchQueue = OperationQueue()
+    
     var tagsScannerQueue = [Note]()
+    
+    public let gitQueue = OperationQueue()
 
     /* Git */
     private var updateViews = [Note]()
@@ -173,6 +176,8 @@ class ViewController: EditorViewController,
         #endif
         
         searchQueue.maxConcurrentOperationCount = 1
+        gitQueue.maxConcurrentOperationCount = 1
+        
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
     }
 

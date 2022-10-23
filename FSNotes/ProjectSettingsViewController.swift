@@ -100,8 +100,13 @@ class ProjectSettingsViewController: NSViewController {
     
     @IBAction func clonePull(_ sender: Any) {
         guard let project = self.project else { return }
+        guard let window = view.window else { return }
         let origin = self.origin.stringValue
         
+        ProjectSettingsViewController.pull(origin: origin, project: project, window: window)
+    }
+    
+    public static func pull(origin: String, project: Project, window: NSWindow) {
         guard origin.count > 3 else {
             let alert = NSAlert()
             alert.messageText = "Origin is empty"
@@ -113,7 +118,7 @@ class ProjectSettingsViewController: NSViewController {
         
         do {
             if try project.pull() {
-                askForceCheckout()
+                ProjectSettingsViewController.askForceCheckout(project: project, window: window)
             }
             return
         } catch GitError.unknownError(let errorMessage, _, let desc){
@@ -125,9 +130,8 @@ class ProjectSettingsViewController: NSViewController {
         } catch {/*_*/}
     }
     
-    public func askForceCheckout() {
-        guard let window = view.window else { return }
-
+    public static func askForceCheckout(project: Project, window: NSWindow) {
+    
         let alert = NSAlert()
         alert.messageText = NSLocalizedString("Do you want force checkout?", comment: "")
         alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
@@ -135,7 +139,7 @@ class ProjectSettingsViewController: NSViewController {
         alert.addButton(withTitle: NSLocalizedString("No", comment: ""))
         alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                if let repo = self.project?.getRepository(), let local = self.project?.getLocalBranch(repository: repo) {
+                if let repo = project.getRepository(), let local = project.getLocalBranch(repository: repo) {
                     do {
                         try repo.head().forceCheckout(branch: local)
                     } catch {

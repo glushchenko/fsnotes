@@ -2932,11 +2932,11 @@ Will Pazner (github.com/pazner)</string>
             <objects>
                 <viewController title="Git" id="2un-du-hJz" customClass="PreferencesGitViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ffx-Mm-mqT">
-                        <rect key="frame" x="0.0" y="0.0" width="526" height="699"/>
+                        <rect key="frame" x="0.0" y="0.0" width="533" height="699"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="uMw-RH-Mnu">
-                                <rect key="frame" x="140" y="247" width="70" height="15"/>
+                                <rect key="frame" x="140" y="247" width="79" height="15"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Username:" id="ZEX-Eh-68T">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2952,7 +2952,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IcJ-Ga-eZF">
-                                <rect key="frame" x="218" y="213" width="273" height="21"/>
+                                <rect key="frame" x="225" y="213" width="273" height="21"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="ghp_if6C09slkds893klssd9032sdklCC" drawsBackground="YES" usesSingleLineMode="YES" id="AEC-HT-Gd6">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2966,7 +2966,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </secureTextField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G5r-Ye-OQb">
-                                <rect key="frame" x="218" y="244" width="273" height="21"/>
+                                <rect key="frame" x="225" y="244" width="273" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="glushchenko" drawsBackground="YES" id="fqf-qt-2y7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2977,7 +2977,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </textField>
                             <pathControl verticalHuggingPriority="751" verticalCompressionResistancePriority="751" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKc-tc-Ouv">
-                                <rect key="frame" x="159" y="141" width="94" height="16"/>
+                                <rect key="frame" x="163" y="141" width="94" height="16"/>
                                 <pathCell key="cell" selectable="YES" editable="YES" alignment="left" placeholderString="~/.ssh/id_rsa" id="jce-O1-mzi">
                                     <font key="font" metaFont="system"/>
                                 </pathCell>
@@ -2991,7 +2991,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TTi-gR-3SW">
-                                <rect key="frame" x="259" y="132" width="55" height="32"/>
+                                <rect key="frame" x="266" y="132" width="55" height="32"/>
                                 <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="juB-By-EsE">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3001,16 +3001,16 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w1K-65-6eZ">
-                                <rect key="frame" x="66" y="35" width="144" height="16"/>
+                                <rect key="frame" x="33" y="35" width="144" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Origin for main project:" id="L20-FT-VZz">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jo4-zQ-htF">
-                                <rect key="frame" x="218" y="32" width="273" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="https://github.com/glushchenko/fsnotes.git" drawsBackground="YES" id="4Sj-5v-Clo">
+                            <textField verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Jo4-zQ-htF">
+                                <rect key="frame" x="183" y="32" width="226" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="git@github.com:test/notes.git" placeholderString="https://github.com/glushchenko/fsnotes.git" drawsBackground="YES" id="4Sj-5v-Clo">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3020,10 +3020,10 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </textField>
                             <box verticalHuggingPriority="751" verticalCompressionResistancePriority="751" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="SVo-NP-Tq5">
-                                <rect key="frame" x="20" y="77" width="486" height="5"/>
+                                <rect key="frame" x="20" y="77" width="493" height="5"/>
                             </box>
                             <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y9p-ND-X8k">
-                                <rect key="frame" x="218" y="103" width="273" height="21"/>
+                                <rect key="frame" x="225" y="103" width="273" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="273" id="dEr-uQ-YCl"/>
                                 </constraints>
@@ -3048,7 +3048,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <pathControl verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Su7-am-ZzF">
-                                <rect key="frame" x="35" y="570" width="381" height="22"/>
+                                <rect key="frame" x="35" y="570" width="388" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ZGQ-Mi-Kvl"/>
                                 </constraints>
@@ -3059,7 +3059,7 @@ Will Pazner (github.com/pazner)</string>
                                 </pathCell>
                             </pathControl>
                             <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nxs-E7-HiW">
-                                <rect key="frame" x="417" y="564" width="81" height="32"/>
+                                <rect key="frame" x="424" y="564" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7xA-9l-dja">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3089,7 +3089,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ey5-Rw-Svp">
-                                <rect key="frame" x="20" y="471" width="486" height="5"/>
+                                <rect key="frame" x="20" y="471" width="493" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jg2-oT-Bcf">
                                 <rect key="frame" x="33" y="437" width="137" height="16"/>
@@ -3125,7 +3125,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8Z-se-hEF">
-                                <rect key="frame" x="33" y="648" width="460" height="16"/>
+                                <rect key="frame" x="33" y="648" width="467" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repositories:" id="ASf-hd-2fT">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3170,7 +3170,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bqG-mw-WZF">
-                                <rect key="frame" x="373" y="365" width="135" height="16"/>
+                                <rect key="frame" x="373" y="365" width="142" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="minutes" id="Bri-cl-z86">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3208,7 +3208,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="bar-ZF-HRI">
-                                <rect key="frame" x="20" y="314" width="486" height="5"/>
+                                <rect key="frame" x="20" y="314" width="493" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Aci-NI-V7k">
                                 <rect key="frame" x="33" y="280" width="109" height="16"/>
@@ -3219,7 +3219,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="esF-2f-8xQ">
-                                <rect key="frame" x="33" y="611" width="137" height="18"/>
+                                <rect key="frame" x="33" y="611" width="144" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Custom worktree" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="l5q-h8-hfU">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3229,7 +3229,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="sW2-Jy-o1S">
-                                <rect key="frame" x="176" y="611" width="315" height="18"/>
+                                <rect key="frame" x="183" y="611" width="315" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="sW2-Jy-o1S" secondAttribute="height" multiplier="149:8" id="Ctm-Zt-vEh"/>
                                 </constraints>
@@ -3242,13 +3242,23 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uox-cj-0Ej">
-                                <rect key="frame" x="33" y="493" width="458" height="18"/>
+                                <rect key="frame" x="33" y="493" width="465" height="18"/>
                                 <buttonCell key="cell" type="check" title="Ask commit message on note save" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VJs-0B-jGe">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="askCommitMessage:" target="2un-du-hJz" id="Irc-TQ-1Sb"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L90-ti-Wjx">
+                                <rect key="frame" x="410" y="26" width="95" height="32"/>
+                                <buttonCell key="cell" type="push" title="Clone/Pull" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ri7-Yr-qyB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clonePull:" target="2un-du-hJz" id="uaM-ft-w4H"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -3258,7 +3268,6 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="Nxs-E7-HiW" firstAttribute="trailing" secondItem="N8Z-se-hEF" secondAttribute="trailing" id="1VT-hP-mVU"/>
                             <constraint firstAttribute="trailing" secondItem="bqG-mw-WZF" secondAttribute="trailing" constant="20" symbolic="YES" id="1u1-h8-mjR"/>
                             <constraint firstItem="G5r-Ye-OQb" firstAttribute="top" secondItem="Aci-NI-V7k" secondAttribute="bottom" constant="15" id="2do-cC-gbg"/>
-                            <constraint firstItem="Jo4-zQ-htF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="w1K-65-6eZ" secondAttribute="trailing" constant="8" symbolic="YES" id="2nY-Md-tCh"/>
                             <constraint firstItem="G5r-Ye-OQb" firstAttribute="centerY" secondItem="uMw-RH-Mnu" secondAttribute="centerY" id="3Mj-l1-wH6"/>
                             <constraint firstItem="32v-oF-7du" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="146" id="3pC-dF-Xtm"/>
                             <constraint firstItem="32v-oF-7du" firstAttribute="top" secondItem="uMw-RH-Mnu" secondAttribute="bottom" constant="15" id="4CC-8L-iqy"/>
@@ -3272,10 +3281,9 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="H46-qe-euU" firstAttribute="leading" secondItem="Xp9-26-JdA" secondAttribute="trailing" constant="15" id="Bw1-d1-8yq"/>
                             <constraint firstAttribute="bottom" secondItem="w1K-65-6eZ" secondAttribute="bottom" constant="35" id="CyC-ZW-bgl"/>
                             <constraint firstAttribute="trailing" secondItem="Y9p-ND-X8k" secondAttribute="trailing" constant="35" id="DCJ-fJ-UU9"/>
-                            <constraint firstItem="Y9p-ND-X8k" firstAttribute="centerY" secondItem="yPi-3d-3aE" secondAttribute="centerY" id="DlL-Nc-mqG"/>
                             <constraint firstItem="bar-ZF-HRI" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="20" symbolic="YES" id="EGu-cP-jhg"/>
                             <constraint firstItem="ey5-Rw-Svp" firstAttribute="top" secondItem="uox-cj-0Ej" secondAttribute="bottom" constant="20" id="EU5-uc-jbA"/>
-                            <constraint firstAttribute="trailing" secondItem="G5r-Ye-OQb" secondAttribute="trailing" constant="35" id="FbI-MY-80Q"/>
+                            <constraint firstItem="IcJ-Ga-eZF" firstAttribute="leading" secondItem="G5r-Ye-OQb" secondAttribute="leading" id="Fi0-by-3Na"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jg2-oT-Bcf" secondAttribute="trailing" constant="35" id="G2P-ve-Bcm"/>
                             <constraint firstItem="j6S-7D-dXz" firstAttribute="leading" secondItem="MJR-Nj-qpL" secondAttribute="trailing" constant="12" symbolic="YES" id="HRI-Tp-2PN"/>
                             <constraint firstItem="Xp9-26-JdA" firstAttribute="centerY" secondItem="lK7-QU-fN2" secondAttribute="centerY" id="HTU-NW-1z3"/>
@@ -3284,6 +3292,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="lK7-QU-fN2" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="I2q-S0-61f"/>
                             <constraint firstItem="sW2-Jy-o1S" firstAttribute="leading" secondItem="esF-2f-8xQ" secondAttribute="trailing" constant="8" symbolic="YES" id="IZp-91-YWY"/>
                             <constraint firstItem="uMw-RH-Mnu" firstAttribute="baseline" secondItem="G5r-Ye-OQb" secondAttribute="firstBaseline" id="InA-Bp-zGv"/>
+                            <constraint firstAttribute="trailing" secondItem="G5r-Ye-OQb" secondAttribute="trailing" constant="35" id="Km1-Xh-WYC"/>
                             <constraint firstItem="Jo4-zQ-htF" firstAttribute="baseline" secondItem="w1K-65-6eZ" secondAttribute="firstBaseline" id="L6x-j3-JUL"/>
                             <constraint firstItem="lK7-QU-fN2" firstAttribute="leading" secondItem="dRB-iE-HKk" secondAttribute="leading" id="L7L-JP-NZq"/>
                             <constraint firstItem="6jj-hR-ROP" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="Mmm-Dt-s5U"/>
@@ -3293,7 +3302,6 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstAttribute="trailing" secondItem="bar-ZF-HRI" secondAttribute="trailing" constant="20" symbolic="YES" id="PCJ-WX-SdF"/>
                             <constraint firstItem="bqG-mw-WZF" firstAttribute="leading" secondItem="e0E-YB-Oq8" secondAttribute="trailing" constant="15" id="PEq-E8-ryQ"/>
                             <constraint firstItem="e0E-YB-Oq8" firstAttribute="centerY" secondItem="H46-qe-euU" secondAttribute="centerY" id="PI0-Xz-JFx"/>
-                            <constraint firstItem="G5r-Ye-OQb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uMw-RH-Mnu" secondAttribute="trailing" constant="8" symbolic="YES" id="Qc2-2U-tc3"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6jj-hR-ROP" secondAttribute="trailing" constant="20" symbolic="YES" id="QhZ-5J-Kb5"/>
                             <constraint firstItem="mzn-Yp-WXt" firstAttribute="centerY" secondItem="7WC-IR-nhp" secondAttribute="centerY" id="RfM-zW-yj1"/>
                             <constraint firstItem="MJR-Nj-qpL" firstAttribute="top" secondItem="Su7-am-ZzF" secondAttribute="bottom" constant="20" symbolic="YES" id="S0Z-jd-q4g"/>
@@ -3309,15 +3317,13 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="ey5-Rw-Svp" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="20" symbolic="YES" id="YEu-2u-w6w"/>
                             <constraint firstItem="SVo-NP-Tq5" firstAttribute="top" secondItem="yPi-3d-3aE" secondAttribute="bottom" constant="25" id="Yka-a0-mQ0"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Aci-NI-V7k" secondAttribute="trailing" constant="20" symbolic="YES" id="Z8S-Mk-hDb"/>
-                            <constraint firstItem="Jo4-zQ-htF" firstAttribute="leading" secondItem="Y9p-ND-X8k" secondAttribute="leading" id="ZVa-dn-fNh"/>
+                            <constraint firstItem="G5r-Ye-OQb" firstAttribute="leading" secondItem="uMw-RH-Mnu" secondAttribute="trailing" constant="8" symbolic="YES" id="ZYI-HD-ZK3"/>
                             <constraint firstItem="IcJ-Ga-eZF" firstAttribute="centerY" secondItem="32v-oF-7du" secondAttribute="centerY" id="aIP-Zz-tq3"/>
                             <constraint firstItem="bar-ZF-HRI" firstAttribute="top" secondItem="mzn-Yp-WXt" secondAttribute="bottom" constant="20" id="aJ4-F6-Q5H"/>
-                            <constraint firstItem="IcJ-Ga-eZF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="32v-oF-7du" secondAttribute="trailing" constant="8" symbolic="YES" id="aOD-xT-L7M"/>
                             <constraint firstItem="sW2-Jy-o1S" firstAttribute="centerY" secondItem="esF-2f-8xQ" secondAttribute="centerY" id="b7z-l1-tgu"/>
                             <constraint firstItem="Jo4-zQ-htF" firstAttribute="top" secondItem="SVo-NP-Tq5" secondAttribute="bottom" constant="25" id="bFU-Uu-fsL"/>
                             <constraint firstItem="jg2-oT-Bcf" firstAttribute="top" secondItem="ey5-Rw-Svp" secondAttribute="bottom" constant="20" id="bQJ-Fb-Mnz"/>
-                            <constraint firstAttribute="trailing" secondItem="Jo4-zQ-htF" secondAttribute="trailing" constant="35" id="bte-vq-aNm"/>
-                            <constraint firstItem="Jo4-zQ-htF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="G5r-Ye-OQb" secondAttribute="leading" id="c8n-Je-ZcX"/>
+                            <constraint firstItem="Jo4-zQ-htF" firstAttribute="leading" secondItem="w1K-65-6eZ" secondAttribute="trailing" constant="8" symbolic="YES" id="blx-oC-BwH"/>
                             <constraint firstItem="N8Z-se-hEF" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="cRz-qV-q6g"/>
                             <constraint firstItem="bqG-mw-WZF" firstAttribute="centerY" secondItem="e0E-YB-Oq8" secondAttribute="centerY" id="chD-4C-OmW"/>
                             <constraint firstAttribute="trailing" secondItem="uox-cj-0Ej" secondAttribute="trailing" constant="35" id="fHA-uo-1Nr"/>
@@ -3328,11 +3334,11 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstAttribute="trailing" secondItem="IcJ-Ga-eZF" secondAttribute="trailing" constant="35" id="mjP-bB-jsJ"/>
                             <constraint firstItem="7WC-IR-nhp" firstAttribute="top" secondItem="lK7-QU-fN2" secondAttribute="bottom" constant="10" id="n1r-25-a27"/>
                             <constraint firstItem="Aci-NI-V7k" firstAttribute="top" secondItem="bar-ZF-HRI" secondAttribute="bottom" constant="20" id="nMd-Aq-a6R"/>
-                            <constraint firstItem="Jo4-zQ-htF" firstAttribute="baseline" secondItem="w1K-65-6eZ" secondAttribute="baseline" id="ndw-34-bfS"/>
                             <constraint firstItem="Nxs-E7-HiW" firstAttribute="centerY" secondItem="Su7-am-ZzF" secondAttribute="centerY" id="oXt-Oo-ACZ"/>
                             <constraint firstItem="zKc-tc-Ouv" firstAttribute="top" secondItem="6jj-hR-ROP" secondAttribute="bottom" constant="20" id="ogq-nC-5aL"/>
                             <constraint firstItem="esF-2f-8xQ" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="pEA-CS-y4P"/>
                             <constraint firstItem="Jo4-zQ-htF" firstAttribute="centerY" secondItem="w1K-65-6eZ" secondAttribute="centerY" id="qDY-MX-Ggz"/>
+                            <constraint firstItem="L90-ti-Wjx" firstAttribute="centerY" secondItem="Jo4-zQ-htF" secondAttribute="centerY" id="qfm-zF-GaN"/>
                             <constraint firstItem="ZU7-AI-4gb" firstAttribute="leading" secondItem="mzn-Yp-WXt" secondAttribute="trailing" constant="15" id="sPh-Qv-9DZ"/>
                             <constraint firstItem="Xp9-26-JdA" firstAttribute="leading" secondItem="lK7-QU-fN2" secondAttribute="trailing" constant="15" id="smq-zT-nAA"/>
                             <constraint firstItem="TTi-gR-3SW" firstAttribute="centerY" secondItem="zKc-tc-Ouv" secondAttribute="centerY" id="tfu-KR-HeO"/>
@@ -3341,11 +3347,13 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="dRB-iE-HKk" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="usL-pA-PKw"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dRB-iE-HKk" secondAttribute="trailing" constant="20" symbolic="YES" id="uvT-ZY-JAo"/>
                             <constraint firstAttribute="centerX" secondItem="zKc-tc-Ouv" secondAttribute="trailing" constant="10" id="vQu-gu-jHe"/>
-                            <constraint firstItem="w1K-65-6eZ" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="68" id="wwc-Vb-A6g"/>
+                            <constraint firstAttribute="trailing" secondItem="L90-ti-Wjx" secondAttribute="trailing" constant="35" id="wkW-UL-Q9s"/>
+                            <constraint firstItem="w1K-65-6eZ" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="wwc-Vb-A6g"/>
                             <constraint firstItem="Su7-am-ZzF" firstAttribute="leading" secondItem="N8Z-se-hEF" secondAttribute="leading" id="wwm-dc-8iK"/>
+                            <constraint firstItem="Y9p-ND-X8k" firstAttribute="centerY" secondItem="yPi-3d-3aE" secondAttribute="centerY" id="y1e-uO-CjJ"/>
                             <constraint firstItem="Nxs-E7-HiW" firstAttribute="leading" secondItem="Su7-am-ZzF" secondAttribute="trailing" constant="8" symbolic="YES" id="yne-1y-mnc"/>
-                            <constraint firstItem="G5r-Ye-OQb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IcJ-Ga-eZF" secondAttribute="leading" id="yy9-xK-wBt"/>
                             <constraint firstItem="dRB-iE-HKk" firstAttribute="top" secondItem="jg2-oT-Bcf" secondAttribute="bottom" constant="20" id="zIh-mO-QLe"/>
+                            <constraint firstItem="L90-ti-Wjx" firstAttribute="leading" secondItem="Jo4-zQ-htF" secondAttribute="trailing" constant="8" symbolic="YES" id="zRC-Pa-mN3"/>
                             <constraint firstAttribute="trailing" secondItem="ey5-Rw-Svp" secondAttribute="trailing" constant="20" symbolic="YES" id="zWD-Ch-4oe"/>
                             <constraint firstAttribute="trailing" secondItem="SVo-NP-Tq5" secondAttribute="trailing" constant="20" symbolic="YES" id="zgk-Am-6r6"/>
                             <constraint firstAttribute="trailing" secondItem="sW2-Jy-o1S" secondAttribute="trailing" constant="35" id="zyY-Or-3xg"/>
@@ -3370,7 +3378,7 @@ Will Pazner (github.com/pazner)</string>
                 </viewController>
                 <customObject id="sHj-M9-56t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2990" y="730"/>
+            <point key="canvasLocation" x="2993.5" y="729.5"/>
         </scene>
         <!--Editor-->
         <scene sceneID="cwg-C1-p0s">
