@@ -346,6 +346,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                     menuItem.title = note.container == .none
                         ? NSLocalizedString("Convert to TextBundle", comment: "")
                         : NSLocalizedString("Convert to Plain", comment: "")
+                    
+                    menuItem.isEnabled = true
+                } else {
+                    menuItem.isEnabled = false
                 }
             }
             
