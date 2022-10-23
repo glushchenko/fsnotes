@@ -2157,4 +2157,28 @@ public class Note: NSObject  {
     public func isPublished() -> Bool {
         return apiId != nil || uploadPath != nil
     }
+    
+    public func convertContainer(to: NoteContainer) {
+        if to == .textBundleV2 {
+            let tempUrl = convertFlatToTextBundle()
+            
+            let name = url.deletingPathExtension().lastPathComponent
+            let uniqueURL = NameHelper.getUniqueFileName(name: name, project: project, ext: "textbundle")
+
+            do {
+                let oldUrl = url
+                url = uniqueURL
+                try FileManager.default.moveItem(at: tempUrl, to: uniqueURL)
+                try FileManager.default.removeItem(at: oldUrl)
+            } catch {/*_*/}
+        } else {
+            let name = url.deletingPathExtension().lastPathComponent
+            
+            convertTextBundleToFlat(name: name)
+        }
+        
+        invalidateCache()
+        load()
+        parseURL()
+    }
 }

@@ -171,6 +171,7 @@ CA
                                                 <action selector="finderMenu:" target="Ady-hI-5gd" id="Ift-tc-85m"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="uk8-Oi-IxM"/>
                                         <menuItem title="Change Creation Date" keyEquivalent="d" identifier="fileMenu.changeCreationDate" id="49W-tO-6Vu">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <attributedString key="userComments">
@@ -178,6 +179,12 @@ CA
                                             </attributedString>
                                             <connections>
                                                 <action selector="changeCreationDate:" target="Ady-hI-5gd" id="BfF-b0-iLh"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Toggle Container" identifier="fileMenu.toggleContainer" id="VwE-w2-fAG">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleContainer:" target="Ady-hI-5gd" id="Ct4-tU-OUo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="y7K-xq-tI8"/>
@@ -845,7 +852,7 @@ CA
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="rlq-iU-PD6"/>
             </objects>
-            <point key="canvasLocation" x="-640" y="-791"/>
+            <point key="canvasLocation" x="-291" y="-501"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="mVP-iC-cBD">
@@ -2190,6 +2197,12 @@ CA
                                 <action selector="changeCreationDate:" target="rPt-NT-nkU" id="R4F-Ug-M9Q"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Toggle Container" identifier="note.toggleContainer" id="y4W-TV-iZ3">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="toggleContainer:" target="rPt-NT-nkU" id="10h-VM-5y7"/>
+                            </connections>
+                        </menuItem>
                         <menuItem isSeparatorItem="YES" id="06c-Up-wPq"/>
                         <menuItem title="Copy URL" identifier="note.copyURL" id="uQ1-ej-ufE">
                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -3357,7 +3370,7 @@ Will Pazner (github.com/pazner)</string>
                 </viewController>
                 <customObject id="sHj-M9-56t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2989" y="754"/>
+            <point key="canvasLocation" x="2990" y="730"/>
         </scene>
         <!--Editor-->
         <scene sceneID="cwg-C1-p0s">

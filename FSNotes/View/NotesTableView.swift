@@ -341,6 +341,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 }
             }
             
+            if menuItem.identifier?.rawValue == "note.toggleContainer" {
+                if let note = note, note.container != .encryptedTextPack {
+                    menuItem.title = note.container == .none
+                        ? NSLocalizedString("Convert to TextBundle", comment: "")
+                        : NSLocalizedString("Convert to Plain", comment: "")
+                }
+            }
+            
             if menuItem.identifier?.rawValue == "fileMenu.lockUnlock" {
                 if let note = note {
                     menuItem.title = note.isEncryptedAndLocked()

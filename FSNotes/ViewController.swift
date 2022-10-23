@@ -280,6 +280,14 @@ class ViewController: EditorViewController,
                 if menuItem.identifier?.rawValue ==  "fileMenu.changeCreationDate" {
                     menuItem.title = NSLocalizedString("Change Creation Date", comment: "Menu")
                 }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.toggleContainer" {
+                    if let note = note, note.container != .encryptedTextPack {
+                        menuItem.title = note.container == .none
+                            ? NSLocalizedString("Convert to TextBundle", comment: "")
+                            : NSLocalizedString("Convert to Plain", comment: "")
+                    }
+                }
 
                 if menuItem.identifier?.rawValue == "fileMenu.tags" {
                     if UserDefaultsManagement.inlineTags {
@@ -2264,5 +2272,22 @@ class ViewController: EditorViewController,
         let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
         
         return size != 0
+    }
+    
+    @IBAction func toggleContainer(_ sender: NSMenuItem) {
+        guard let notes = getSelectedNotes() else { return }
+        
+        var newContainer: NoteContainer = .textBundleV2
+        if notes.first?.container == .textBundle || notes.first?.container == .textBundleV2 {
+            newContainer = .none
+        }
+        
+        for note in notes {
+            if note.container == .encryptedTextPack {
+                continue
+            }
+            
+            note.convertContainer(to: newContainer)
+        }
     }
 }
