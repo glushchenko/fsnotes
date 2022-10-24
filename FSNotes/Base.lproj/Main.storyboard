@@ -1723,7 +1723,7 @@ CA
                                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 <subviews>
                                                     <searchField wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bd7-O3-GQF" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="550" width="189" height="22"/>
+                                                        <rect key="frame" x="8" y="550" width="197" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="Ptr-z2-0T0"/>
                                                         </constraints>
@@ -1885,7 +1885,10 @@ CA
                                                         </scroller>
                                                     </scrollView>
                                                     <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TiA-aF-Uev">
-                                                        <rect key="frame" x="212" y="548" width="21" height="27"/>
+                                                        <rect key="frame" x="212" y="523" width="18" height="76"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="18" id="q4S-bz-l8F"/>
+                                                        </constraints>
                                                         <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="new_note_button" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Y7B-FM-tuq">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="cellTitle"/>
@@ -1904,18 +1907,16 @@ CA
                                                     </imageView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="TiA-aF-Uev" firstAttribute="leading" secondItem="bd7-O3-GQF" secondAttribute="trailing" constant="15" id="0kI-rM-bW0"/>
-                                                    <constraint firstAttribute="trailing" secondItem="bd7-O3-GQF" secondAttribute="trailing" constant="40" id="22G-me-b0r"/>
+                                                    <constraint firstItem="TiA-aF-Uev" firstAttribute="leading" secondItem="bd7-O3-GQF" secondAttribute="trailing" constant="7" id="0kI-rM-bW0"/>
                                                     <constraint firstItem="JTJ-Ja-LIg" firstAttribute="centerY" secondItem="8ej-mX-KM6" secondAttribute="centerY" id="4a6-WP-Oc8"/>
-                                                    <constraint firstAttribute="trailing" secondItem="TiA-aF-Uev" secondAttribute="trailing" constant="4" id="Bwk-QM-Hza"/>
-                                                    <constraint firstItem="TiA-aF-Uev" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="25" id="WNt-DJ-R3r"/>
+                                                    <constraint firstAttribute="trailing" secondItem="TiA-aF-Uev" secondAttribute="trailing" constant="7" id="Bwk-QM-Hza"/>
                                                     <constraint firstItem="JTJ-Ja-LIg" firstAttribute="centerX" secondItem="8ej-mX-KM6" secondAttribute="centerX" id="cQa-gs-t44"/>
                                                     <constraint firstItem="bd7-O3-GQF" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" priority="2" constant="8" id="fJK-am-Cfu"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="lGx-ze-4gU"/>
                                                     <constraint firstItem="bd7-O3-GQF" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="28" id="nXO-Fh-8nv"/>
                                                     <constraint firstAttribute="bottom" secondItem="Kzf-Jh-YEb" secondAttribute="bottom" id="oxv-Hv-dH1"/>
+                                                    <constraint firstItem="TiA-aF-Uev" firstAttribute="centerY" secondItem="bd7-O3-GQF" secondAttribute="centerY" id="pTm-L3-mZO"/>
                                                     <constraint firstAttribute="trailing" secondItem="Kzf-Jh-YEb" secondAttribute="trailing" id="vRz-kK-vLv"/>
-                                                    <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="TiA-aF-Uev" secondAttribute="bottom" constant="6" id="ywH-7y-xST"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="bd7-O3-GQF" secondAttribute="bottom" constant="8" id="z4N-Ag-s6x"/>
                                                 </constraints>
                                             </customView>
@@ -2101,7 +2102,6 @@ CA
                         <outlet property="lockedFolder" destination="JTJ-Ja-LIg" id="lYY-zF-PHH"/>
                         <outlet property="menuChangeCreationDate" destination="QdU-og-lQH" id="3h3-dh-83s"/>
                         <outlet property="newNoteButton" destination="TiA-aF-Uev" id="RLL-yl-PiF"/>
-                        <outlet property="newNoteTopConstraint" destination="WNt-DJ-R3r" id="jhb-vo-lvp"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesScrollView" destination="Kzf-Jh-YEb" id="u8R-Hy-KjV"/>
