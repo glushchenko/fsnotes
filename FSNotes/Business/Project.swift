@@ -316,6 +316,10 @@ public class Project: Equatable {
     }
     
     public func isVisibleInCommon() -> Bool {
+        if !showInCommon {
+            return false
+        }
+        
         var parent = self.parent
                 
         while parent != nil {
