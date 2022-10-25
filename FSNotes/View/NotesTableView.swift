@@ -580,10 +580,16 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     public func enableLockedProject() {
         ViewController.shared()?.lockedFolder.isHidden = false
         usesAlternatingRowBackgroundColors = false
+        clean()
     }
     
     public func disableLockedProject() {
         ViewController.shared()?.lockedFolder.isHidden = true
         usesAlternatingRowBackgroundColors = true
+    }
+    
+    public func clean() {
+        noteList.removeAll()
+        reloadData()
     }
 }

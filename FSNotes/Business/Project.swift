@@ -688,6 +688,10 @@ public class Project: Equatable {
     }
     
     public func encrypt(password: String) -> [Note] {
+        if isEncrypted {
+            return [Note]()
+        }
+        
         let encFolder = getEncryptionStatusFilePath()
         FileManager.default.createFile(atPath: encFolder.path, contents: nil)
         
@@ -706,19 +710,27 @@ public class Project: Equatable {
     }
     
     public func decrypt(password: String) -> [Note] {
+        if !isEncrypted {
+            return [Note]()
+        }
+                
+        let notes = storage.getNotesBy(project: self)
+        var decrypted = [Note]()
+        
+        var qty = 0
+        for note in notes {
+            if note.unEncrypt(password: password) {
+                qty += 1
+                decrypted.append(note)
+            }
+        }
+        
+        guard qty > 0 else { return [Note]() }
+        
         let encFolder = getEncryptionStatusFilePath()
         try? FileManager.default.removeItem(at: encFolder)
         
         isEncrypted = false
-        
-        let notes = storage.getNotesBy(project: self)
-        var decrypted = [Note]()
-        
-        for note in notes {
-            if note.unEncrypt(password: password) {
-                decrypted.append(note)
-            }
-        }
         
         return decrypted
     }

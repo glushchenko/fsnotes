@@ -397,11 +397,13 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         guard let notes = getSelectedNotes() else { return }
         
         if let project = Storage.sharedInstance().getArchive() {
-            vc.move(notes: notes, project: project)
-            
-            if let cvc = NSApplication.shared.keyWindow?.contentViewController,
-                cvc.isKind(of: NoteViewController.self) {
-                updateTitle(note: notes.first!)
+            vc.moveReq(notes: notes, project: project) { success in
+                guard success else { return }
+                
+                if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+                    cvc.isKind(of: NoteViewController.self) {
+                    self.updateTitle(note: notes.first!)
+                }
             }
         }
     }
@@ -531,11 +533,13 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         guard let notes = getSelectedNotes() else { return }
         
-        ViewController.shared()?.move(notes: notes, project: project)
-        
-        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
-            cvc.isKind(of: NoteViewController.self) {
-            updateTitle(note: notes.first!)
+        ViewController.shared()?.moveReq(notes: notes, project: project) { success in
+            guard success else { return }
+            
+            if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+               cvc.isKind(of: NoteViewController.self) {
+                self.updateTitle(note: notes.first!)
+            }
         }
     }
     

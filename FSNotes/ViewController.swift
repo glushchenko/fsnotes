@@ -720,9 +720,43 @@ class ViewController: EditorViewController,
         }
     }
         
-    public func move(notes: [Note], project: Project) {
+    // Ask project password before move to encrypted
+    public func moveReq(notes: [Note], project: Project, completion: @escaping (Bool) -> ()) {
+        
+        // Encrypted and locked
+        if project.isEncrypted && project.isLocked() {
+            getMasterPassword() { password, _ in
+                self.sidebarOutlineView.unlock(projects: [project], password: password)
+                if project.password != nil {
+                    self.move(notes: notes, project: project)
+                    
+                    for note in notes {
+                        note.encryptAndUnlock(password: password)
+                    }
+                    completion(true)
+                    return
+                }
+                
+                completion(false)
+            }
+            return
+        }
+        
+        self.move(notes: notes, project: project)
+        
+        // Encrypted and non locked
+        if project.isEncrypted, let password = project.password {
+            for note in notes {
+                note.encryptAndUnlock(password: password)
+            }
+        }
+        
+        completion(true)
+    }
+    
+    private func move(notes: [Note], project: Project) {
         let selectedRow = notesTableView.selectedRowIndexes.min()
-
+        
         for note in notes {
             if note.project == project {
                 continue

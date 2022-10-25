@@ -1953,6 +1953,12 @@ public class Note: NSObject  {
             return false
         }
     }
+    
+    public func encryptAndUnlock(password: String) {
+        if encrypt(password: password) {
+            _ = unLock(password: password)
+        }
+    }
 
     public func cleanOut() {
         isParsed = false

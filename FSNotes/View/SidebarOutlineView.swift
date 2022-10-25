@@ -422,7 +422,9 @@ class SidebarOutlineView: NSOutlineView,
                     }
                 }
             } else {
-                vc.move(notes: notes, project: project)
+                vc.moveReq(notes: notes, project: project) { success in
+                    guard success else { return }
+                }
             }
 
             return true
@@ -999,44 +1001,11 @@ class SidebarOutlineView: NSOutlineView,
         
         guard let firstProject = projects.first  else { return }
         
-        // Decrypt
-        if firstProject.isEncrypted {
-            vc.getMasterPassword() { password, _ in
-                for project in projects {
-                    let decrypted = project.decrypt(password: password)
-                    self.showTags(notes: decrypted)
-                }
-                
-                DispatchQueue.main.async {
-                    vc.notesTableView.disableLockedProject()
-                    vc.updateTable()
-                    
-                    self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
-                }
-            }
-            
-        // Encrypt
-        } else {
-            vc.getMasterPassword() { password, _ in
-                for project in projects {
-                    let encrypted = project.encrypt(password: password)
-                    self.hideTags(notes: encrypted)
-                }
-                
-                DispatchQueue.main.async {
-                    vc.notesTableView.enableLockedProject()
-                    vc.updateTable()
-                    
-                    self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
-                    
-                    // Lock all editors
-                    let editors = AppDelegate.getEditTextViews()
-                    for editor in editors {
-                        if let evc = editor.editorViewController {
-                            evc.refillEditArea()
-                        }
-                    }
-                }
+        vc.getMasterPassword() { password, _ in
+            if firstProject.isEncrypted {
+                self.decrypt(projects: projects, password: password)
+            } else {
+                self.encrypt(projects: projects, password: password)
             }
         }
     }
@@ -1053,41 +1022,58 @@ class SidebarOutlineView: NSOutlineView,
             
         // Unlock
         } else {
+            let action = sender.identifier?.rawValue
             vc.getMasterPassword() { password, _ in
-                var unlocked = [Note]()
-                var unlockedQty = 0
-                
-                for project in projects {
-                    let notes = self.storage.getNotesBy(project: project)
-                    for note in notes {
-                        if note.unLock(password: password) {
-                            project.password = password
-                            
-                            unlocked.append(note)
-                            unlockedQty += 1
-                        }
-                    }
-                }
-                
-                self.showTags(notes: unlocked)
-                
-                DispatchQueue.main.async {
-                    if unlockedQty > 0 {
-                        vc.notesTableView.disableLockedProject()
-                        vc.updateTable() {
-                            
-                            if sender.identifier?.rawValue == "menu.newNote" {
-                                _ = vc.createNote()
-                            }
-                        }
-                        
-                        self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
-                    } else {
-                        let alert = NSAlert()
-                        alert.alertStyle = .critical
-                        alert.messageText = NSLocalizedString("Wrong password", comment: "")
-                        alert.beginSheetModal(for: self.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
-                    }
+                self.unlock(projects: projects, password: password, action: action)
+            }
+        }
+    }
+    
+    public func decrypt(projects: [Project], password: String) {
+        guard let vc = ViewController.shared() else { return }
+        
+        var decryptedQty = 0
+        for project in projects {
+            let decrypted = project.decrypt(password: password)
+            for note in decrypted {
+                vc.notesTableView.reloadRow(note: note)
+            }
+            
+            decryptedQty = decrypted.count
+            self.showTags(notes: decrypted)
+        }
+        
+        guard decryptedQty > 0 else {
+            self.wrongPassAlert()
+            return
+        }
+        
+        DispatchQueue.main.async {
+            vc.notesTableView.disableLockedProject()
+            vc.updateTable()
+            
+            self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
+        }
+    }
+    
+    public func encrypt(projects: [Project], password: String) {
+        guard let vc = ViewController.shared() else { return }
+        
+        for project in projects {
+            let encrypted = project.encrypt(password: password)
+            self.hideTags(notes: encrypted)
+        }
+        
+        DispatchQueue.main.async {
+            vc.notesTableView.enableLockedProject()
+            
+            self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
+            
+            // Lock all editors
+            let editors = AppDelegate.getEditTextViews()
+            for editor in editors {
+                if let evc = editor.editorViewController {
+                    evc.refillEditArea()
                 }
             }
         }
@@ -1095,7 +1081,6 @@ class SidebarOutlineView: NSOutlineView,
     
     public func lock(projects: [Project]) {
         guard let vc = ViewController.shared() else { return }
-        
         
         var locked = [Note]()
         for project in projects {
@@ -1128,6 +1113,49 @@ class SidebarOutlineView: NSOutlineView,
                 evc.refillEditArea()
             }
         }
+    }
+    
+    public func unlock(projects: [Project], password: String, action: String? = nil) {
+        guard let vc = ViewController.shared() else { return }
+        
+        var unlocked = [Note]()
+        var unlockedQty = 0
+        
+        for project in projects {
+            let notes = self.storage.getNotesBy(project: project)
+            for note in notes {
+                if note.unLock(password: password) {
+                    project.password = password
+                    
+                    unlocked.append(note)
+                    unlockedQty += 1
+                }
+            }
+        }
+        
+        self.showTags(notes: unlocked)
+        
+        DispatchQueue.main.async {
+            if unlockedQty > 0 {
+                vc.notesTableView.disableLockedProject()
+                vc.updateTable() {
+                    if action == "menu.newNote" {
+                        _ = vc.createNote()
+                    }
+                }
+                
+                self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
+            } else {
+                self.wrongPassAlert()
+            }
+        }
+    }
+    
+    private func wrongPassAlert() {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = NSLocalizedString("Wrong password", comment: "")
+        alert.beginSheetModal(for: self.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
     }
     
     private func hideTags(notes: [Note]) {
