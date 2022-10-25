@@ -436,6 +436,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var template = try String(contentsOf: baseURL, encoding: .utf8)
         var platform = String()
         var appearance = String()
+        
+        let isWeb = webPath.count > 0
         let preview = String(webPath.count == 0)
 
 #if os(iOS)
@@ -540,6 +542,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                                 display: none;
                             }
                         }
+            
+                    .macos ul.cb {
+                        margin-left: 0;
+                    }
                 </style>
                 <article>\(htmlString)</article>
                 
@@ -560,9 +566,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             title = unwrapped
         }
         
+        let inlineCss = MPreviewView.getPreviewStyle(print: print, forceLightTheme: isWeb)
+        
         template = template
             .replacingOccurrences(of: "{TITLE}", with: title)
-            .replacingOccurrences(of: "{INLINE_CSS}", with: MPreviewView.getPreviewStyle(print: print))
+            .replacingOccurrences(of: "{INLINE_CSS}", with: inlineCss)
             .replacingOccurrences(of: "{MATH_JAX_JS}", with: MPreviewView.getMathJaxJS())
             .replacingOccurrences(of: "{FSNOTES_APPEARANCE}", with: appearance)
             .replacingOccurrences(of: "{FSNOTES_PLATFORM}", with: platform)
@@ -573,7 +581,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return template
     }
 
-    public static func getPreviewStyle(print: Bool = false) -> String {
+    public static func getPreviewStyle(print: Bool = false, forceLightTheme: Bool = false) -> String {
         var theme: String? = nil
         var fullScreen = false
         var useFixedImageHeight = true
@@ -597,6 +605,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 : String()
 
         theme = theme ?? UserDefaultsManagement.codeTheme
+        
+        if forceLightTheme {
+            theme = UserDefaultsManagement.lightCodeTheme
+        }
 
         var codeStyle = String()
         if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme! + ".min", ofType: "css") {
