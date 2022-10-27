@@ -118,7 +118,13 @@ class ProjectSettingsViewController: NSViewController {
         
         do {
             if try project.pull() {
-                //ProjectSettingsViewController.askForceCheckout(project: project, window: window)
+                if let repo = project.getRepository(), let local = project.getLocalBranch(repository: repo) {
+                    do {
+                        try repo.head().forceCheckout(branch: local)
+                    } catch {
+                        print("Checkout: \(error)")
+                    }
+                }
             }
             return
         } catch GitError.unknownError(let errorMessage, _, let desc){
