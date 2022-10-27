@@ -1120,9 +1120,17 @@ class SidebarOutlineView: NSOutlineView,
         
         var unlocked = [Note]()
         var unlockedQty = 0
+        var isEmptyDir = false
         
         for project in projects {
             let notes = self.storage.getNotesBy(project: project)
+            
+            if notes.count == 0 {
+                isEmptyDir = true
+                project.password = password
+                continue
+            }
+            
             for note in notes {
                 if note.unLock(password: password) {
                     project.password = password
@@ -1136,7 +1144,7 @@ class SidebarOutlineView: NSOutlineView,
         self.showTags(notes: unlocked)
         
         DispatchQueue.main.async {
-            if unlockedQty > 0 {
+            if unlockedQty > 0 || (projects.count == 1 && isEmptyDir) {
                 vc.notesTableView.disableLockedProject()
                 vc.updateTable() {
                     if action == "menu.newNote" {

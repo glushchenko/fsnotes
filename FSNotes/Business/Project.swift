@@ -857,7 +857,7 @@ public class Project: Equatable {
                 try head.save()
                 
                 if lastCommit == nil {
-                    let commitMessage = message ?? "FSNotes Init ;-)"
+                    let commitMessage = message ?? "FSNotes Init"
                     _ = try head.createInitialCommit(msg: commitMessage, signature: sign)
                 } else {
                     let commitMessage = message ?? "Usual commit"

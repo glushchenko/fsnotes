@@ -815,6 +815,10 @@ class HandlerOpen: NSObject, WKScriptMessageHandler {
         guard let action = message.body as? String else { return }
         let cleanText = action.trim()
         
+        if cleanText.contains("wkPreview/index.html") {
+            return
+        }
+        
         if let url = URL(string: cleanText) {
             NSWorkspace.shared.activateFileViewerSelecting([url])
         }
