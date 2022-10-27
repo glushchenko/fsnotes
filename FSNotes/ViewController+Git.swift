@@ -48,8 +48,7 @@ extension EditorViewController {
     private func saveRevision(commitMessage: String? = nil) {
         guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
         
-        let operation = BlockOperation()
-        operation.addExecutionBlock { [] in
+        ViewController.shared()?.gitQueue.addOperation({
             let project = note.project.getGitProject()
             project.commit(message: commitMessage)
 
@@ -71,9 +70,7 @@ extension EditorViewController {
             } else {
                 print("Push successful")
             }
-        }
-        
-        ViewController.shared()?.gitQueue.addOperation(operation)
+        })
     }
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {

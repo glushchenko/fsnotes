@@ -736,6 +736,10 @@ public class Project: Equatable {
     }
     
     public func getGitOrigin() -> String? {
+        if let origin = gitOrigin, origin.count > 0 {
+            return origin
+        }
+        
         let parentProject = getParent()
         
         if parentProject.isDefault, let origin = UserDefaultsManagement.gitOrigin, origin.count > 0  {

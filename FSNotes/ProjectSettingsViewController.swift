@@ -118,7 +118,7 @@ class ProjectSettingsViewController: NSViewController {
         
         do {
             if try project.pull() {
-                ProjectSettingsViewController.askForceCheckout(project: project, window: window)
+                //ProjectSettingsViewController.askForceCheckout(project: project, window: window)
             }
             return
         } catch GitError.unknownError(let errorMessage, _, let desc){

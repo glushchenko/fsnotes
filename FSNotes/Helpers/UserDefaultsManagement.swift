@@ -1403,7 +1403,7 @@ public class UserDefaultsManagement {
                 return settings
             }
 
-            return .uuid
+            return .autoRename
         }
         set {
             shared?.set(newValue.rawValue, forKey: "naming")
