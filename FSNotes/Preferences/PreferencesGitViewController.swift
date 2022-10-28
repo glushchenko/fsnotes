@@ -216,6 +216,6 @@ class PreferencesGitViewController: NSViewController {
         
         let origin = self.origin.stringValue
         
-        ProjectSettingsViewController.pull(origin: origin, project: project, window: window)
+        ProjectSettingsViewController.cloneAndPull(origin: origin, project: project, window: window)
     }
 }

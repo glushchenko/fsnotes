@@ -182,6 +182,11 @@ class FileSystemEventManager {
                     self.delegate.notesTableView.setSelected(note: nUnwrapped)
                     UserDataService.instance.focusOnImport = nil
                 }
+                
+            // When git checkout .textbundle/text.md system trigger remove/create events
+            // but the note is not deleted, so the note must be reloaded
+            } else if let nUnwrapped = n {
+                reloadNote(note: nUnwrapped)
             }
             return
         }

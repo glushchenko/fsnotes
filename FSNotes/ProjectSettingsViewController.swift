@@ -10,86 +10,83 @@ import Cocoa
 import Carbon.HIToolbox
 
 class ProjectSettingsViewController: NSViewController {
-
+    
     private var project: Project?
-
+    
     @IBOutlet weak var modificationDate: NSButton!
     @IBOutlet weak var creationDate: NSButton!
     @IBOutlet weak var titleButton: NSButton!
     @IBOutlet weak var sortByGlobal: NSButton!
-
     @IBOutlet weak var directionASC: NSButton!
     @IBOutlet weak var directionDESC: NSButton!
-
     @IBOutlet weak var showInAll: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
     @IBOutlet weak var nestedFoldersContent: NSButton!
-    
     @IBOutlet weak var origin: NSTextField!
-    
+
     @IBAction func sortBy(_ sender: NSButton) {
         guard let project = project else { return }
-
+        
         let sortBy = SortBy(rawValue: sender.identifier!.rawValue)!
         if sortBy != .none {
             project.sortBy = sortBy
         }
-
+        
         project.sortBy = sortBy
         project.saveSettings()
-
+        
         guard let vc = ViewController.shared() else { return }
         vc.updateTable()
     }
-
+    
     @IBAction func sortDirection(_ sender: NSButton) {
         guard let project = project else { return }
-
+        
         project.sortDirection = SortDirection(rawValue: sender.identifier!.rawValue)!
         project.saveSettings()
-
+        
         guard let vc = ViewController.shared() else { return }
         vc.updateTable()
     }
-
-
+    
+    
     @IBAction func showNotesInMainList(_ sender: NSButton) {
         project?.showInCommon = sender.state == .on
         project?.saveSettings()
     }
-
+    
     @IBAction func firstLineAsTitle(_ sender: NSButton) {
         guard let project = self.project else { return }
-
+        
         project.firstLineAsTitle = sender.state == .on
         project.saveSettings()
-
+        
         let notes = Storage.sharedInstance().getNotesBy(project: project)
         for note in notes {
             note.invalidateCache()
         }
-
+        
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
     }
-
+    
     @IBAction func close(_ sender: Any) {
         self.dismiss(nil)
     }
-
+    
     @IBAction func showNestedFoldersContent(_ sender: NSButton) {
         guard let project = self.project else { return }
-
+        
         project.showNestedFoldersContent = sender.state == .on
         project.saveSettings()
-
+        
         guard let vc = ViewController.shared() else { return }
         vc.updateTable()
     }
     
     @IBAction func origin(_ sender: NSTextField) {
         guard let project = self.project else { return }
-
+        
         project.gitOrigin = sender.stringValue
         project.saveSettings()
         
@@ -103,10 +100,10 @@ class ProjectSettingsViewController: NSViewController {
         guard let window = view.window else { return }
         let origin = self.origin.stringValue
         
-        ProjectSettingsViewController.pull(origin: origin, project: project, window: window)
+        ProjectSettingsViewController.cloneAndPull(origin: origin, project: project, window: window)
     }
     
-    public static func pull(origin: String, project: Project, window: NSWindow) {
+    public static func cloneAndPull(origin: String, project: Project, window: NSWindow) {
         guard origin.count > 3 else {
             let alert = NSAlert()
             alert.messageText = "Origin is empty"
@@ -116,6 +113,28 @@ class ProjectSettingsViewController: NSViewController {
             return
         }
         
+        if project.isRepoExist() {
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Git repository already exists, delete it and clone again??", comment: "")
+            alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
+            alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("No", comment: ""))
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    do {
+                        try FileManager.default.removeItem(at: project.getGitRepositoryUrl())
+                        
+                        ProjectSettingsViewController.cloneAndPull(project: project)
+                    } catch {/*_*/}
+                }
+            }
+            return
+        }
+        
+        ProjectSettingsViewController.cloneAndPull(project: project)
+    }
+    
+    public static func cloneAndPull(project: Project) {
         do {
             if try project.pull() {
                 if let repo = project.getRepository(), let local = project.getLocalBranch(repository: repo) {
@@ -133,11 +152,18 @@ class ProjectSettingsViewController: NSViewController {
             alert.alertStyle = .critical
             alert.informativeText = String("\(errorMessage) –  \(desc)")
             alert.runModal()
-        } catch {/*_*/}
+        } catch GitError.notFound(let ref) {
+            // Empty repository – commit and push
+            if ref == "refs/heads/master" {
+                project.commit()
+                _ = project.push()
+            }
+        } catch {
+            print(error)
+        }
     }
     
     public static func askForceCheckout(project: Project, window: NSWindow) {
-    
         let alert = NSAlert()
         alert.messageText = NSLocalizedString("Do you want force checkout?", comment: "")
         alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")

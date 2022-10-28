@@ -753,6 +753,19 @@ public class Project: Equatable {
         return nil
     }
     
+    public func getGitRepositoryUrl() -> URL {
+        if UserDefaultsManagement.separateRepo && !isCloudProject() {
+            return url.appendingPathComponent(".git", isDirectory: true)
+        }
+        
+        return UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git", isDirectory: true)
+    }
+    
+    public func isRepoExist() -> Bool {
+        let url = getGitRepositoryUrl()
+        return FileManager.default.directoryExists(atUrl: url)
+    }
+    
     public func getRepository() -> Repository? {
         if UserDefaultsManagement.separateRepo && !isCloudProject() {
             return getSeparateRepository()
