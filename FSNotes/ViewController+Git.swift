@@ -50,25 +50,25 @@ extension EditorViewController {
         
         ViewController.shared()?.gitQueue.addOperation({
             let project = note.project.getGitProject()
-            project.commit(message: commitMessage)
+            try? project.commit(message: commitMessage)
 
-            do {
-                let result = try project.pull()
-                if result {
-                    print("Pull successful")
-                }
-            } catch {/*_*/}
+            // No hands – no mults
+            guard project.getGitOrigin() != nil else { return }
             
-            if project.push() != GIT_OK.rawValue {
+            do {
+                try project.pull()
+                print("Pull successful")
+                
+                try project.push()
+                print("Push successful")
+            } catch {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.alertStyle = .critical
-                    alert.informativeText = NSLocalizedString("Libgit2 error", comment: "")
-                    alert.messageText = NSLocalizedString("Git push error", comment: "")
+                    alert.informativeText = NSLocalizedString("Git error", comment: "")
+                    alert.messageText = error.localizedDescription
                     alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in }
                 }
-            } else {
-                print("Push successful")
             }
         })
     }
@@ -130,9 +130,12 @@ extension EditorViewController {
                 }
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    project.commit()
-                    _ = try? project.pull()
-                    _ = project.push()
+                    try? project.commit()
+                    
+                    if project.isGitOriginExist() {
+                        try? project.pull()
+                        try? project.push()
+                    }
                 }
             }
         })
@@ -156,7 +159,7 @@ extension EditorViewController {
                 }
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    _ = try? project.pull()
+                    try? project.pull()
                 }
             }
         })

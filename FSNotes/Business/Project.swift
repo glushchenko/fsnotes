@@ -766,7 +766,7 @@ public class Project: Equatable {
         return FileManager.default.directoryExists(atUrl: url)
     }
     
-    public func getRepository() -> Repository? {
+    public func getRepository() throws -> Repository? {
         if UserDefaultsManagement.separateRepo && !isCloudProject() {
             return getSeparateRepository()
         }
@@ -783,7 +783,8 @@ public class Project: Equatable {
             let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
             try? FileManager.default.removeItem(at: cloneURL)
             
-            guard let repository = try? repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler()) else { return nil }
+            let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
+            
             repository.setWorkTree(path: url.path)
             
             let dotGit = cloneURL.appendingPathComponent(".git")
@@ -791,7 +792,7 @@ public class Project: Equatable {
             if FileManager.default.directoryExists(atUrl: dotGit) {
                 try? FileManager.default.moveItem(at: dotGit, to: repoURL)
                 
-                return try? repositoryManager.openRepository(at: repoURL)
+                return try repositoryManager.openRepository(at: repoURL)
             }
         }
         
@@ -859,8 +860,8 @@ public class Project: Equatable {
         return Signature(name: "FSNotes App", email: "support@fsnot.es")
     }
     
-    public func commit(message: String? = nil) {
-        guard let repository = getRepository() else { return }
+    public func commit(message: String? = nil) throws {
+        guard let repository = try getRepository() else { return }
         
         let statuses = Statuses(repository: repository)
         let lastCommit = try? repository.head().targetCommit()
@@ -900,8 +901,8 @@ public class Project: Equatable {
         return nil
     }
     
-    public func push() -> Int32 {
-        guard let repository = getRepository() else { return -1 }
+    public func push() throws {
+        guard let repository = try getRepository() else { return }
         
         if let origin = getGitOrigin() {
             repository.addRemoteOrigin(path: origin)
@@ -909,23 +910,17 @@ public class Project: Equatable {
         
         let handler = getHandler()
         
-        guard let names = try? Branches(repository: repository).names(type: .local) else { return -1  }
-        guard names.count > 0 else { return -1 }
-        guard let branchName = names.first?.components(separatedBy: "/").last else { return -1 }
+        let names = try Branches(repository: repository).names(type: .local)
+        guard names.count > 0 else { return }
+        guard let branchName = names.first?.components(separatedBy: "/").last else { return }
         
-        do {
-            let localMaster = try repository.branches.get(name: branchName)
-            try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
-        } catch {
-            print("Push error \(error)")
-            return -1
-        }
         
-        return 0
+        let localMaster = try repository.branches.get(name: branchName)
+        try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
     }
     
-    public func pull() throws -> Bool {
-        guard let repository = getRepository() else { return false }
+    public func pull() throws {
+        guard let repository = try getRepository() else { return }
                 
         if !UserDefaultsManagement.separateRepo || isCloudProject() {
             repository.setWorkTree(path: url.path)
@@ -937,8 +932,7 @@ public class Project: Equatable {
         let remote = repository.remotes
         let origin = try remote.get(remoteName: "origin")
         
-        return try origin.pull(signature: sign, authentication: handler, project: self)
-        
+        _ = try origin.pull(signature: sign, authentication: handler, project: self)
     }
     
     public func getGitProject() -> Project {

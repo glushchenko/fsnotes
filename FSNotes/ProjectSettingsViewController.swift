@@ -89,7 +89,7 @@ class ProjectSettingsViewController: NSViewController {
         
         project.gitOrigin = sender.stringValue
         project.saveSettings()
-        
+
         if project.isCloudProject() {
             UserDefaultsManagement.gitOrigin = sender.stringValue
         }
@@ -99,6 +99,9 @@ class ProjectSettingsViewController: NSViewController {
         guard let project = self.project else { return }
         guard let window = view.window else { return }
         let origin = self.origin.stringValue
+        
+        project.gitOrigin = origin
+        project.saveSettings()
         
         ProjectSettingsViewController.cloneAndPull(origin: origin, project: project, window: window)
     }
@@ -136,30 +139,30 @@ class ProjectSettingsViewController: NSViewController {
     
     public static func cloneAndPull(project: Project) {
         do {
-            if try project.pull() {
-                if let repo = project.getRepository(), let local = project.getLocalBranch(repository: repo) {
-                    do {
-                        try repo.head().forceCheckout(branch: local)
-                    } catch {
-                        print("Checkout: \(error)")
-                    }
-                }
+            try project.pull()
+                
+            if let repo = try project.getRepository(), let local = project.getLocalBranch(repository: repo) {
+                try repo.head().forceCheckout(branch: local)
             }
             return
         } catch GitError.unknownError(let errorMessage, _, let desc){
             let alert = NSAlert()
-            alert.messageText = "git clone/pull failed"
+            alert.messageText = "Git clone/pull error"
             alert.alertStyle = .critical
             alert.informativeText = String("\(errorMessage) –  \(desc)")
             alert.runModal()
         } catch GitError.notFound(let ref) {
             // Empty repository – commit and push
             if ref == "refs/heads/master" {
-                project.commit()
-                _ = project.push()
+                try? project.commit()
+                try? project.push()
             }
         } catch {
-            print(error)
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.informativeText = NSLocalizedString("Git error", comment: "")
+            alert.messageText = error.localizedDescription
+            alert.runModal()
         }
     }
     
@@ -171,7 +174,7 @@ class ProjectSettingsViewController: NSViewController {
         alert.addButton(withTitle: NSLocalizedString("No", comment: ""))
         alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                if let repo = project.getRepository(), let local = project.getLocalBranch(repository: repo) {
+                if let repo = try? project.getRepository(), let local = project.getLocalBranch(repository: repo) {
                     do {
                         try repo.head().forceCheckout(branch: local)
                     } catch {

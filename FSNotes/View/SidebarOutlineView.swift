@@ -983,15 +983,30 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
+        guard let window = self.window else { return }
         guard let vc = ViewController.shared() else { return }
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
         vc.gitQueue.addOperation({
             let project = project.getGitProject()
-            project.commit()
             
-            _ = try? project.pull()
-            _ = project.push()
+            do {
+                try project.commit()
+                
+                // No hands – no mults
+                guard project.getGitOrigin() != nil else { return }
+                
+                try project.pull()
+                try project.push()
+            } catch {
+                DispatchQueue.main.async {
+                    let alert = NSAlert()
+                    alert.alertStyle = .critical
+                    alert.informativeText = NSLocalizedString("Git error", comment: "")
+                    alert.messageText = error.localizedDescription
+                    alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in }
+                }
+            }
         })
     }
     
