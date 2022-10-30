@@ -182,6 +182,11 @@ class FileSystemEventManager {
                     self.delegate.notesTableView.setSelected(note: nUnwrapped)
                     UserDataService.instance.focusOnImport = nil
                 }
+                
+            // When git checkout .textbundle/text.md system trigger remove/create events
+            // but the note is not deleted, so the note must be reloaded
+            } else if let nUnwrapped = n {
+                reloadNote(note: nUnwrapped)
             }
             return
         }
@@ -278,10 +283,22 @@ class FileSystemEventManager {
 
             self.delegate.notesTableView.reloadRow(note: note)
 
-            if EditTextView.note == note {
-                DispatchQueue.main.async {
-                    self.delegate.refillEditArea(force: true)
+            let editors = AppDelegate.getEditTextViews()
+            for editor in editors {
+                if editor.note == note {
+                    DispatchQueue.main.async {
+                        editor.editorViewController?.refillEditArea(force: true)
+                    }
                 }
+            }
+        } else if let modificationDate = note.getFileModifiedDate(), let creationDate = note.getFileCreationDate() {
+            if modificationDate != note.modifiedLocalAt || creationDate != note.creationDate {
+                note.modifiedLocalAt = modificationDate
+                note.creationDate = creationDate
+                delegate.notesTableView.reloadDate(note: note)
+                
+                // Reload images if note moved (cache invalidated)
+                note.loadPreviewInfo()
             }
         }
     }
@@ -338,16 +355,19 @@ class FileSystemEventManager {
                 }
 
                 // Reload current encrypted note
-                if let currentNote = EditTextView.note, currentNote.url == url {
-                    if let password = currentNote.password, ext == "etp" {
-                        _ = currentNote.unLock(password: password)
-                    }
+                let editors = AppDelegate.getEditTextViews()
+                for editor in editors {
+                    if let currentNote = editor.note, currentNote.url == url {
+                        if let password = currentNote.password, ext == "etp" {
+                            _ = currentNote.unLock(password: password)
+                        }
 
-                    DispatchQueue.main.async {
-                        self.delegate.refillEditArea(force: true)
+                        DispatchQueue.main.async {
+                            editor.editorViewController?.refillEditArea(force: true)
+                        }
                     }
                 }
-
+                
                 do {
                     try FileManager.default.copyItem(at: conflict.url, to: to)
                     var attributes = [FileAttributeKey : Any]()

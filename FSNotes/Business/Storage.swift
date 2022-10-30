@@ -49,7 +49,7 @@ class Storage {
 
     public var plainWriter = OperationQueue.init()
     public var ciphertextWriter = OperationQueue.init()
-
+    
     init() {
         let storageType = UserDefaultsManagement.storageType
         let bookmark = SandboxBookmark.sharedInstance()
@@ -105,8 +105,14 @@ class Storage {
 
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
+        
+        for project in projects {
+            loadNotes(project)
+        }
     }
 
+    // iOS
+    
     init(micro: Bool) {
         guard let url = getRoot() else { return }
         removeCachesIfCrashed()
@@ -323,13 +329,23 @@ class Storage {
 
         projects.append(project)
         parent?.child.append(project)
+        
+        if let sorted = parent?.child.sorted(by: { $0.priority < $1.priority }) {
+            parent?.child = sorted
+        }
 
         return project
     }
 
     private func assignTrash(by url: URL) {
-        let trashURL = url.appendingPathComponent("Trash", isDirectory: true)
-
+        var trashURL = url.appendingPathComponent("Trash", isDirectory: true)
+        
+    #if os(OSX)
+        if let trash = UserDefaultsManagement.trashURL {
+            trashURL = trash
+        }
+    #endif
+        
         do {
             try FileManager.default.contentsOfDirectory(atPath: trashURL.path)
         } catch {
@@ -474,34 +490,13 @@ class Storage {
         return bookmarks
     }
     
+    // macOS
     public static func sharedInstance() -> Storage {
         guard let storage = self.instance else {
             self.instance = Storage()
             return self.instance!
         }
         return storage
-    }
-
-    public func loadProjects(withTrash: Bool = true, skipRoot: Bool = false, withArchive: Bool = true) {
-        if !skipRoot {
-            noteList.removeAll()
-        }
-
-        for project in projects {
-            if project.isTrash && !withTrash {
-                continue
-            }
-
-            if project.isRoot && !project.isExternal && skipRoot {
-                continue
-            }
-
-            if project.isArchive && !withArchive {
-                continue
-            }
-
-            loadLabel(project)
-        }
     }
 
     public func loadDocuments() {
@@ -676,15 +671,14 @@ class Storage {
         return note.isPinned && !next.isPinned
     }
 
-    func loadLabel(_ item: Project, loadContent: Bool = false) {
+    func loadNotes(_ item: Project, loadContent: Bool = false) {
         var currentUrl: URL?
-
-        #if NOT_EXTENSION || os(OSX)
+                
+        #if NOT_EXTENSION
             currentUrl = EditTextView.note?.url
         #endif
-
+        
         let documents = readDirectory(item.url)
-
         let pins = UserDefaultsManagement.pinList
 
         for document in documents {
@@ -739,7 +733,7 @@ class Storage {
 
         for project in projects {
             if project.isTrash {
-                self.loadLabel(project, loadContent: true)
+                loadNotes(project, loadContent: true)
             }
         }
     }
@@ -888,6 +882,13 @@ class Storage {
                 $0.title.lowercased().starts(with: startWith.lowercased())
             }
     }
+    
+    func getBy(contains: String) -> [Note]? {
+        return
+            noteList.filter{
+                $0.title.lowercased().contains(contains.lowercased())
+            }
+    }
 
     public func getTitles(by word: String? = nil) -> [String]? {
         var notes = noteList
@@ -986,52 +987,46 @@ class Storage {
     }
         
     func getSubFolders(url: URL) -> [NSURL]? {
-        guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
-
-        var extensions = self.allowedExtensions
-        for ext in ["jpg", "png", "gif", "jpeg", "json", "JPG", "PNG", ".icloud"] {
-            extensions.append(ext)
-        }
-        let lastPatch = ["assets", ".cache", "i", ".Trash"]
-
-        let urls = fileEnumerator.allObjects.filter {
-            !extensions.contains(($0 as? NSURL)!.pathExtension!)
-            && !lastPatch.contains(($0 as? NSURL)!.lastPathComponent!)
-        } as! [NSURL]
-
-        var subdirs = [NSURL]()
-        var i = 0
-
-        for url in urls {
-            i = i + 1
-
-            do {
-                var isDirectoryResourceValue: AnyObject?
-                try url.getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
-
-                var isPackageResourceValue: AnyObject?
-                try url.getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
-
-                if isDirectoryResourceValue as? Bool == true,
-                    isPackageResourceValue as? Bool == false {
-
-                    if (url as URL).isHidden() {
-                        continue
-                    }
-
-                    subdirs.append(url)
-                }
-            }
-            catch let error as NSError {
-                print("Error: ", error.localizedDescription)
-            }
+        var isFinishedEnumerationProcess = false
+        
+        // Reset root storage after 30 seconds timeout
+        DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
             
-            if i > 50000 {
-                break
+            // Reset storage path
+            if !isFinishedEnumerationProcess {
+                
+                // Remove bookmark
+                let bookmark = SandboxBookmark.sharedInstance()
+                bookmark.resetBookmarksDb()
+                
+                // Reset storage url
+                UserDefaultsManagement.customStoragePath = nil
+
+                let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+                let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+                let task = Process()
+                task.launchPath = "/usr/bin/open"
+                task.arguments = [path]
+                task.launch()
+                exit(0)
             }
         }
         
-        return subdirs
+        guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey], options: FileManager.DirectoryEnumerationOptions()) else { return nil }
+
+        let lastPath = ["assets", ".cache", "i", ".Trash", ".icloud", "textbundle"]
+
+        // Load from disk (long process)
+        let urls = fileEnumerator.allObjects.filter {
+            !lastPath.contains(($0 as? NSURL)!.lastPathComponent!)
+            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true
+            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isPackageKey]))?.isPackage == false
+            && ($0 as? URL)?.isHidden() == false
+        } as! [NSURL]
+        
+        isFinishedEnumerationProcess = true
+        
+        return urls
     }
 
     private func fetchAllDirectories(url: URL) -> [URL]? {
@@ -1521,6 +1516,86 @@ class Storage {
         let revisionsUrl = documentDir.appendingPathComponent(".revisions")
 
         return revisionsUrl
+    }
+    
+    public func saveUploadPaths() {
+        let notes = noteList.filter({ $0.uploadPath != nil })
+        
+        var bookmarks = [URL: String]()
+        for note in notes {
+            if let path = note.uploadPath, path.count > 1 {
+                bookmarks[note.url] = path
+            }
+        }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
+        UserDefaultsManagement.sftpUploadBookmarksData = data
+    }
+    
+    public func restoreUploadPaths() {
+        guard let data = UserDefaultsManagement.sftpUploadBookmarksData,
+              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
+        
+        for bookmark in uploadBookmarks {
+            if let note = getBy(url: bookmark.key) {
+                note.uploadPath = bookmark.value
+            }
+        }
+    }
+    
+    public func saveAPIIds() {
+        let notes = noteList.filter({ $0.apiId != nil })
+        
+        var bookmarks = [URL: String]()
+        for note in notes {
+            if let path = note.apiId, path.count > 1 {
+                bookmarks[note.url] = path
+            }
+        }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
+        UserDefaultsManagement.apiBookmarksData = data
+    }
+    
+    public func restoreAPIIds() {
+        guard let data = UserDefaultsManagement.apiBookmarksData,
+              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
+        
+        for bookmark in uploadBookmarks {
+            if let note = getBy(url: bookmark.key) {
+                note.apiId = bookmark.value
+            }
+        }
+    }
+    
+    public func saveNotesSettings() {
+        var result = [URL: [String: Any]]()
+
+        for note in noteList {
+            result[note.url] = ["preview": note.previewState]
+        }
+        
+        if result.count > 0 {
+            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
+            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                try? projectsData?.write(to: documentDir.appendingPathComponent("notes.settings"))
+            }
+        }
+    }
+    
+    public func loadNotesSettings() {
+        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
+ 
+        let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
+        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
+        
+        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: [String: Any]] else { return }
+        
+        for note in noteList {
+            if let data = unarchivedData[note.url], let state = data["preview"] as? Bool {
+                note.previewState = state
+            }
+        }
     }
 }
 

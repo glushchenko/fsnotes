@@ -14,12 +14,13 @@ import FSNotesCore_macOS
 class PreferencesGeneralViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 476, height: 481)
+        preferredContentSize = NSSize(width: 550, height: 481)
     }
 
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet var newNoteshortcutView: MASShortcutView!
     @IBOutlet var searchNotesShortcut: MASShortcutView!
+    @IBOutlet weak var quickNote: MASShortcutView!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
     @IBOutlet weak var showDockIcon: NSButton!
     @IBOutlet weak var searchFocusOnESC: NSButton!
@@ -43,7 +44,7 @@ class PreferencesGeneralViewController: NSViewController {
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
 
         if let url = UserDefaultsManagement.storageUrl {
-            defaultStoragePath.stringValue = url.path
+            defaultStoragePath.url = url
         }
 
         showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
@@ -62,7 +63,7 @@ class PreferencesGeneralViewController: NSViewController {
 
     @IBAction func changeDefaultStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
-        openPanel.allowsMultipleSelection = false
+        openPanel.directoryURL = UserDefaultsManagement.storageUrl
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
         openPanel.canChooseFiles = false
@@ -78,7 +79,7 @@ class PreferencesGeneralViewController: NSViewController {
                 bookmark.save()
 
                 UserDefaultsManagement.storageType = .custom
-                UserDefaultsManagement.storagePath = url.path
+                UserDefaultsManagement.customStoragePath = url.path
 
                 self.defaultStoragePath.stringValue = url.path
 
@@ -142,12 +143,7 @@ class PreferencesGeneralViewController: NSViewController {
         let ext = sender.title.replacingOccurrences(of: ".", with: "")
 
         UserDefaultsManagement.noteExtension = ext
-
-        if ext == "rtf" {
-            UserDefaultsManagement.fileFormat = .RichText
-        } else {
-            UserDefaultsManagement.fileFormat = .Markdown
-        }
+        UserDefaultsManagement.fileFormat = .Markdown
     }
 
     @IBAction func filesNaming(_ sender: NSPopUpButton) {
@@ -175,9 +171,11 @@ class PreferencesGeneralViewController: NSViewController {
         
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
         searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
+        quickNote.shortcutValue = UserDefaultsManagement.quickNoteShortcut
 
         newNoteshortcutView.shortcutValidator.allowAnyShortcutWithOptionModifier = true
         searchNotesShortcut.shortcutValidator.allowAnyShortcutWithOptionModifier = true
+        quickNote.shortcutValidator.allowAnyShortcutWithOptionModifier = true
 
         newNoteshortcutView.shortcutValueChange = { (sender) in
             if ((self.newNoteshortcutView.shortcutValue) != nil) {
@@ -214,6 +212,26 @@ class PreferencesGeneralViewController: NSViewController {
                 mas?.unregisterShortcut(UserDefaultsManagement.searchNoteShortcut)
 
                 UserDefaultsManagement.searchNoteShortcut = nil
+            }
+        }
+        
+        quickNote.shortcutValueChange = { (sender) in
+            if ((self.quickNote.shortcutValue) != nil) {
+                mas?.unregisterShortcut(UserDefaultsManagement.quickNoteShortcut)
+
+                let keyCode = self.quickNote.shortcutValue.keyCode
+                let modifierFlags = self.quickNote.shortcutValue.modifierFlags
+
+                UserDefaultsManagement.quickNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+
+                MASShortcutMonitor.shared().register(self.quickNote.shortcutValue, withAction: {
+                    
+                    vc.createInNewWindow(self)
+                })
+            } else {
+                mas?.unregisterShortcut(UserDefaultsManagement.quickNoteShortcut)
+
+                UserDefaultsManagement.quickNoteShortcut = nil
             }
         }
     }

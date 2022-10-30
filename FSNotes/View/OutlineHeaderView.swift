@@ -12,8 +12,7 @@ class OutlineHeaderView: NSView {
 
     override func mouseDown(with event: NSEvent) {
         if event.clickCount == 2 {
-            if let appd = NSApplication.shared.delegate as? AppDelegate,
-                let md = appd.mainWindowController {
+            if let md = AppDelegate.mainWindowController {
                 md.maximizeWindow()
             }
         } else {

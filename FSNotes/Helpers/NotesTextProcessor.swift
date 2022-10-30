@@ -43,6 +43,8 @@ public class NotesTextProcessor {
      */
     public static var syntaxColor = Color.lightGray
     
+    public static var yamlOpenerColor = Color.systemRed
+    
 #if os(OSX)
     public static var font: NSFont {
         get {
@@ -602,36 +604,58 @@ public class NotesTextProcessor {
         #endif
 
         // We detect and process inline links not formatted
-        NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard var range = result?.range else { return }
-            var substring = attributedString.mutableString.substring(with: range)
-
-            guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
-
-            if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
-                range = NSRange(location: range.location, length: range.length - 1)
-                substring = String(substring.dropLast())
-            }
-            
-            if substring.first == "(" {
-                range = NSRange(location: range.location + 1, length: range.length - 1)
-            }
-            
-            if substring.last == ")" {
-                range = NSRange(location: range.location, length: range.length - 1)
-            }
-
-            substring = String(substring).idnaEncodeURL()
-            
-            attributedString.addAttribute(.link, value: substring, range: range)
-
-            if NotesTextProcessor.hideSyntax {
-                NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
-                    attributedString.fixAttributes(in: innerRange)
-                    attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
+        
+        if  UserDefaultsManagement.clickableLinks {
+            NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
+                guard var range = result?.range else { return }
+                var substring = attributedString.mutableString.substring(with: range)
+                
+                guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+                
+                if ["!", "?", ";", ":", ".", ",", "_"].contains(substring.last) {
+                    range = NSRange(location: range.location, length: range.length - 1)
+                    substring = String(substring.dropLast())
                 }
+                
+                if substring.first == "(" {
+                    range = NSRange(location: range.location + 1, length: range.length - 1)
+                }
+                
+                if substring.last == ")" {
+                    range = NSRange(location: range.location, length: range.length - 1)
+                }
+                
+                if let url = URL(string: substring) {
+                    attributedString.addAttribute(.link, value: url, range: range)
+                } else if let substring = String(substring).addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+                    attributedString.addAttribute(.link, value: substring, range: range)
+                }
+                
+                if NotesTextProcessor.hideSyntax {
+                    NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
+                        guard let innerRange = innerResult?.range else { return }
+                        attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
+                        attributedString.fixAttributes(in: innerRange)
+                        attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
+                    }
+                }
+            }
+        }
+        
+        FSParser.yamlBlockRegex.matches(string, range: NSRange(location: 0, length: attributedString.length)) { (result) -> Void in
+            guard let range = result?.range(at: 1) else { return }
+            
+            if range.location == 0 {
+                let listOpeningRegex = MarklightRegex(pattern: "((.+):)", options: [.allowCommentsAndWhitespace])
+                listOpeningRegex.matches(string, range: range) { (result) -> Void in
+                    guard let range = result?.range(at: 0) else { return }
+                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: range)
+                }
+                
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: NSRange(location: 0, length: 3))
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: NSRange(location: range.length - 3, length: 3))
+                
+                attributedString.addAttribute(NSAttributedString.Key.yamlBlock, value: range, range: range)
             }
         }
         
@@ -915,22 +939,25 @@ public class NotesTextProcessor {
         }
         
         // We detect and process inline mailto links not formatted
-        NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            let substring = attributedString.mutableString.substring(with: range)
-            guard substring.lengthOfBytes(using: .utf8) > 0, URL(string: substring) != nil else { return }
-
-            if substring.isValidEmail() {
-                attributedString.addAttribute(.link, value: "mailto:\(substring)", range: range)
-            } else {
-                attributedString.addAttribute(.link, value: substring, range: range)
-            }
-            
-            if NotesTextProcessor.hideSyntax {
-                NotesTextProcessor.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
-                    attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
+        
+        if UserDefaultsManagement.clickableLinks {
+            NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
+                guard let range = result?.range else { return }
+                let substring = attributedString.mutableString.substring(with: range)
+                guard substring.lengthOfBytes(using: .utf8) > 0, URL(string: substring) != nil else { return }
+                
+                if substring.isValidEmail() {
+                    attributedString.addAttribute(.link, value: "mailto:\(substring)", range: range)
+                } else {
+                    attributedString.addAttribute(.link, value: substring, range: range)
+                }
+                
+                if NotesTextProcessor.hideSyntax {
+                    NotesTextProcessor.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
+                        guard let innerRange = innerResult?.range else { return }
+                        attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
+                        attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
+                    }
                 }
             }
         }
@@ -1089,7 +1116,7 @@ public class NotesTextProcessor {
         "^(.+?)",
         "\\p{Z}*",
         "\\n",
-        "(==+|--+)",  // $1 = string of ='s or -'s
+        "(==+)",  // $1 = string of ='s or -'s
         "\\p{Z}*",
         "\\n|\\Z"
         ].joined(separator: "\n")
@@ -1410,7 +1437,7 @@ public class NotesTextProcessor {
 
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    fileprivate static let autolinkPattern = "([\\(]*(https?|ftp):[^`\'\">\\s]+)"
+    fileprivate static let autolinkPattern = "([\\(]*(https?|ftp):[^`\'\">\\s\\*]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     

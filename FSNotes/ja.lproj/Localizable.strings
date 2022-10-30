@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "作成日を変更";
 
+/* Menu */
+"Change creation date" = "作成日の変更";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "文法チェック";
 
@@ -33,6 +36,9 @@
 
 /* No comment provided by engineer. */
 "Clear" = "クリア";
+
+/* No comment provided by engineer. */
+"Connection established successfully 🤟" = "接続が確立されました🤟";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "HTMLをコピー";
@@ -45,6 +51,10 @@
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "スペルを自動的に修正";
+
+/* No comment provided by engineer. */
+"Create Web Page" = "ウェブページの作成";
+
 /* Menu */
 "Creation date:" = "作成日:";
 
@@ -53,6 +63,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "データ検出";
+
+/* No comment provided by engineer. */
+"Decrypt" = "復号化";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "デフォルトストレージパスはGitパスとは異なる必要があります";
@@ -82,6 +95,9 @@
 "Empty password" = "パスワードが空です";
 
 /* No comment provided by engineer. */
+"Encrypt" = "暗号化する";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "マスターパスワードを入力する";
 
 /* No comment provided by engineer. */
@@ -97,6 +113,15 @@
 "FSNotes [preview]" = "FSNotes [プレビュー]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push エラー";
+
+/* No comment provided by engineer. */
+"Hide Note List" = "ノート リストを非表示";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "サイドバーを隠す";
+
+/* No comment provided by engineer. */
 "History" = "履歴";
 
 /* No comment provided by engineer. */
@@ -106,7 +131,16 @@
 "Inbox" = "未整理";
 
 /* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
+
+/* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 エラー: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "リンク";
+
+/* No comment provided by engineer. */
+"Lock" = "ロック";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "ロックされたノートをすべて閉じる";
@@ -150,6 +184,9 @@
 /* No comment provided by engineer. */
 "Path not available" = "無効なパスです";
 
+/* No comment provided by engineer. */
+"Pin" = "メモをピンで固定";
+
 /* Edit area */
 "Please enter image title:" = "イメージタイトルを入力:";
 
@@ -164,6 +201,12 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "タグを入力(コンマ区切り):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "秘密鍵と公開鍵を選択してください";
+
+/* No comment provided by engineer. */
+"Please select private key" = "秘密鍵を選択してください";
 
 /* No comment provided by engineer. */
 "Please try again" = "もう一度試してください";
@@ -208,6 +251,12 @@
 "Show in Finder" = "Finderに表示";
 
 /* No comment provided by engineer. */
+"Show Note List" = "ノート一覧を表示";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "サイドバーを表示";
+
+/* No comment provided by engineer. */
 "Show view options" = "表示オプションを表示";
 
 /* No comment provided by engineer. */
@@ -229,6 +278,9 @@
 "Spelling and Grammar" = "スペルと文法";
 
 /* No comment provided by engineer. */
+"SSH error" = "SSH エラー";
+
+/* No comment provided by engineer. */
 "Substitutions" = "自動置換";
 
 /* Menu
@@ -236,7 +288,7 @@
 "Tags" = "タグ";
 
 /* No comment provided by engineer. */
-"Text Replacement" = "Замена текста";
+"Text Replacement" = "テキストの置換";
 
 /* Delete menu */
 "This action cannot be undone." = "このアクションは取り消しできません。";
@@ -254,10 +306,19 @@
 "Underline" = "アンダーライン";
 
 /* No comment provided by engineer. */
+"Unlock" = "ロック解除";
+
+/* No comment provided by engineer. */
+"Unpin" = "ピン固定の解除";
+
+/* No comment provided by engineer. */
 "Untagged" = "タグ無し";
 
 /* Untitled Note */
 "Untitled Note" = "名称未設定のノート";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "Web ページの更新";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "クリップボードにURLがコピーされました";
@@ -270,6 +331,12 @@
 
 /* No comment provided by engineer. */
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "移動先に同名のアイテムがすでに存在しているため、\\\"{DST_PATH}\\\"を移動できませんでした";
+
+/* No comment provided by engineer. */
+"Web publishing error" = "ウェブ公開エラー";
+
+/* No comment provided by engineer. */
+"Wrong password" = "間違ったパスワード";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "再入力されたパスワードが一致していません";

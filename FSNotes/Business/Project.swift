@@ -40,6 +40,9 @@ public class Project: Equatable {
     public var firstLineAsTitle: Bool = false
     #endif
 
+    public var priority: Int = 0
+    public var gitOrigin: String?
+    
     public var sortBy: SortBy = .none
     public var metaCache = [NoteMeta]()
     
@@ -51,6 +54,10 @@ public class Project: Equatable {
 
     public var child = [Project]()
     public var isExpanded = false
+    
+    public var isEncrypted = false
+    public var password: String?
+    public var settingsList: Data?
 
     init(storage: Storage,
          url: URL,
@@ -104,6 +111,8 @@ public class Project: Equatable {
         if let name = localizedName as? String, name.count > 0 {
             self.label = name
         }
+        
+        isEncrypted = getEncryptionStatus()
     }
 
     public func getCacheURL() -> URL? {
@@ -305,6 +314,29 @@ public class Project: Equatable {
         
         return self
     }
+    
+    public func isVisibleInCommon() -> Bool {
+        if !showInCommon {
+            return false
+        }
+        
+        var parent = self.parent
+                
+        while parent != nil {
+            if let unwrapped = parent?.parent {
+                if !unwrapped.showInCommon {
+                    return false
+                }
+                
+                parent = unwrapped
+                continue
+            }
+            
+            return parent?.showInCommon == true
+        }
+        
+        return showInCommon
+    }
 
     public func getNestedLabel() -> String {
         var project: Project? = self
@@ -354,10 +386,12 @@ public class Project: Equatable {
             "showInCommon": showInCommon,
             "showInSidebar": showInSidebar,
             "firstLineAsTitle": firstLineAsTitle,
-            "showNestedFoldersContent": showNestedFoldersContent
+            "showNestedFoldersContent": showNestedFoldersContent,
+            "priority": priority,
+            "gitOrigin": gitOrigin ?? ""
         ] as [String : Any]
 
-        #if os(OSX)
+    #if os(OSX)
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
             let key = relativePath.count == 0 ? "root-directory" : relativePath
@@ -365,8 +399,13 @@ public class Project: Equatable {
             keyStore.set(data, forKey: key)
             keyStore.synchronize()
             return
+        } else {
+            settingsList = try? NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
+            
+            ProjectSettingsViewController.saveSettings()
+            return
         }
-        #endif
+    #endif
 
         UserDefaultsManagement.shared?.set(data, forKey: url.path.md5)
     }
@@ -377,43 +416,60 @@ public class Project: Equatable {
             sortDirection = .asc
         }
 
-        #if os(OSX)
+    #if os(OSX)
+        var settings: [String : Any]?
+        
         if let relativePath = getRelativePath() {
-            let keyStore = NSUbiquitousKeyValueStore()
             let key = relativePath.count == 0 ? "root-directory" : relativePath
 
-            if let settings = keyStore.dictionary(forKey: key) {
-                if let common = settings["showInCommon"] as? Bool {
-                    self.showInCommon = common
-                }
+            if let result = NSUbiquitousKeyValueStore().dictionary(forKey: key) {
+                settings = result
+            }
+        } else if let data = self.settingsList,
+            let result = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] {
+            settings = result
+        }
+        
+        guard let settings = settings else { return }
+        
+        if let common = settings["showInCommon"] as? Bool {
+            self.showInCommon = common
+        }
 
-                if let sidebar = settings["showInSidebar"] as? Bool {
-                    self.showInSidebar = sidebar
-                }
+        if let sidebar = settings["showInSidebar"] as? Bool {
+            self.showInSidebar = sidebar
+        }
 
-                if let sidebar = settings["showNestedFoldersContent"] as? Bool {
-                    self.showNestedFoldersContent = sidebar
-                }
+        if let sidebar = settings["showNestedFoldersContent"] as? Bool {
+            self.showNestedFoldersContent = sidebar
+        }
 
-                if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
-                    if sort != .none {
-                        sortBy = sort
+        if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
+            if sort != .none {
+                sortBy = sort
 
-                        if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
-                            sortDirection = direction
-                        }
-                    }
-                }
-
-                if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
-                    self.firstLineAsTitle = firstLineAsTitle
-                } else {
-                    self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+                if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
+                    sortDirection = direction
                 }
             }
-            return
         }
-        #endif
+
+        if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
+            self.firstLineAsTitle = firstLineAsTitle
+        } else {
+            self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+        }
+        
+        if let priority = settings["priority"] as? Int {
+            self.priority = priority
+        }
+        
+        if let origin = settings["gitOrigin"] as? String {
+            self.gitOrigin = origin
+        }
+        
+        return
+    #endif
 
         if let settings = UserDefaultsManagement.shared?.object(forKey: url.path.md5) as? NSObject {
             if let common = settings.value(forKey: "showInCommon") as? Bool {
@@ -472,7 +528,7 @@ public class Project: Equatable {
             return nil
         }
 
-        let parentURL = getParent().url
+        let parentURL = getGitProject().url
         let relative = url.path.replacingOccurrences(of: parentURL.path, with: "")
         
         if relative.first == "/" {
@@ -571,10 +627,6 @@ public class Project: Equatable {
         return (foundRemoved, foundAdded, foundChanged)
     }
 
-    public func addChild(project: Project) {
-        child.append(project)
-    }
-
     public func isExpandable() -> Bool {
         return child.count > 0
     }
@@ -617,5 +669,285 @@ public class Project: Equatable {
             }
         }
         return qty
+    }
+    
+    public func getEncryptionStatusFilePath() -> URL {
+        return url.appendingPathComponent(".encrypt", isDirectory: false)
+    }
+    
+    public func getEncryptionStatus() -> Bool {
+        let encFolder = getEncryptionStatusFilePath()
+        if FileManager.default.fileExists(atPath: encFolder.path) {
+            return true
+        }
+        return false
+    }
+    
+    public func isLocked() -> Bool {
+        return password == nil && isEncrypted
+    }
+    
+    public func encrypt(password: String) -> [Note] {
+        if isEncrypted {
+            return [Note]()
+        }
+        
+        let encFolder = getEncryptionStatusFilePath()
+        FileManager.default.createFile(atPath: encFolder.path, contents: nil)
+        
+        isEncrypted = true
+        
+        let notes = storage.getNotesBy(project: self)
+        var encrypted = [Note]()
+        
+        for note in notes {
+            if note.encrypt(password: password) {
+                encrypted.append(note)
+            }
+        }
+        
+        return encrypted
+    }
+    
+    public func decrypt(password: String) -> [Note] {
+        if !isEncrypted {
+            return [Note]()
+        }
+                
+        let notes = storage.getNotesBy(project: self)
+        var decrypted = [Note]()
+        
+        var qty = 0
+        for note in notes {
+            if note.unEncrypt(password: password) {
+                qty += 1
+                decrypted.append(note)
+            }
+        }
+        
+        guard qty > 0 else { return [Note]() }
+        
+        let encFolder = getEncryptionStatusFilePath()
+        try? FileManager.default.removeItem(at: encFolder)
+        
+        isEncrypted = false
+        
+        return decrypted
+    }
+    
+    public func getGitOrigin() -> String? {
+        if let origin = gitOrigin, origin.count > 0 {
+            return origin
+        }
+        
+        let parentProject = getParent()
+        
+        if parentProject.isDefault, let origin = UserDefaultsManagement.gitOrigin, origin.count > 0  {
+            return UserDefaultsManagement.gitOrigin
+        }
+        
+        if let gitOrigin = parentProject.gitOrigin, gitOrigin.count > 0 {
+            return gitOrigin
+        }
+        
+        return nil
+    }
+    
+    public func getGitRepositoryUrl() -> URL {
+        if UserDefaultsManagement.separateRepo && !isCloudProject() {
+            return url.appendingPathComponent(".git", isDirectory: true)
+        }
+        
+        return UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git", isDirectory: true)
+    }
+    
+    public func isRepoExist() -> Bool {
+        let url = getGitRepositoryUrl()
+        return FileManager.default.directoryExists(atUrl: url)
+    }
+    
+    public func getRepository() throws -> Repository? {
+        if UserDefaultsManagement.separateRepo && !isCloudProject() {
+            return getSeparateRepository()
+        }
+        
+        let repositoryManager = RepositoryManager()
+        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git")
+        
+        do {
+            let repository = try repositoryManager.openRepository(at: repoURL)
+            return repository
+        } catch {
+            guard let originString = getGitOrigin(), let origin = URL(string: originString) else { return nil }
+            
+            let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+            try? FileManager.default.removeItem(at: cloneURL)
+            
+            let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
+            
+            repository.setWorkTree(path: url.path)
+            
+            let dotGit = cloneURL.appendingPathComponent(".git")
+            
+            if FileManager.default.directoryExists(atUrl: dotGit) {
+                try? FileManager.default.moveItem(at: dotGit, to: repoURL)
+                
+                return try repositoryManager.openRepository(at: repoURL)
+            }
+        }
+        
+        return nil
+    }
+    
+    public func getSeparateRepository() -> Repository? {
+        let repositoryManager = RepositoryManager()
+        let repoURL = url.appendingPathComponent(".git", isDirectory: true)
+        
+        do {
+            let repository = try repositoryManager.openRepository(at: repoURL)
+            return repository
+        } catch {/*_*/}
+        
+        guard let originString = getGitOrigin(), let origin = URL(string: originString) else { return nil }
+        
+        let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+        try? FileManager.default.removeItem(at: cloneURL)
+        
+        do {
+            _ = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
+            let dotGit = cloneURL.appendingPathComponent(".git")
+            
+            if FileManager.default.directoryExists(atUrl: dotGit) {
+                try FileManager.default.moveItem(at: dotGit, to: repoURL)
+                
+                return try repositoryManager.openRepository(at: repoURL)
+            }
+        } catch {
+            print("Clone error: \(error)")
+        }
+        
+        return nil
+    }
+    
+    public func isUseSeparateRepo() -> Bool {
+        return UserDefaultsManagement.separateRepo && !isCloudProject()
+    }
+    
+    public func isCloudProject() -> Bool {
+        return UserDefaultsManagement.storagePath == UserDefaultsManagement.iCloudDocumentsContainer?.path
+            && url.path == UserDefaultsManagement.storagePath
+    }
+    
+    public func getHandler() -> SshKeyHandler? {
+        var rsa: URL?
+
+        if let accessData = UserDefaultsManagement.gitPrivateKeyData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data],
+            let url = bookmarks.first?.key {
+            rsa = url
+        }
+        
+        guard let rsaURL = rsa else { return nil }
+        
+        let passphrase = UserDefaultsManagement.gitPassphrase
+        let sshKeyDelegate = StaticSshKeyDelegate(privateUrl: rsaURL, passphrase: passphrase)
+        let handler = SshKeyHandler(sshKeyDelegate: sshKeyDelegate)
+        
+        return handler
+    }
+    
+    public func getSign() -> Signature {
+        return Signature(name: "FSNotes App", email: "support@fsnot.es")
+    }
+    
+    public func commit(message: String? = nil) throws {
+        guard let repository = try getRepository() else { return }
+        
+        let statuses = Statuses(repository: repository)
+        let lastCommit = try? repository.head().targetCommit()
+        
+        if statuses.workingDirectoryClean == false || lastCommit == nil {
+            do {
+                let sign = getSign()
+                let head = try repository.head().index()
+                
+                head.add(path: ".")
+                try head.save()
+                
+                if lastCommit == nil {
+                    let commitMessage = message ?? "FSNotes Init"
+                    _ = try head.createInitialCommit(msg: commitMessage, signature: sign)
+                } else {
+                    let commitMessage = message ?? "Usual commit"
+                    _ = try head.createCommit(msg: commitMessage, signature: sign)
+                }
+            } catch {
+                print("Commit error: \(error)")
+            }
+        }
+    }
+    
+    public func getLocalBranch(repository: Repository) -> Branch?  {
+        do {
+            let names = try Branches(repository: repository).names(type: .local)
+            
+            guard names.count > 0 else { return nil }
+            guard let branchName = names.first?.components(separatedBy: "/").last else { return nil }
+            
+            let localMaster = try repository.branches.get(name: branchName)
+            return localMaster
+        } catch {/**/}
+        
+        return nil
+    }
+    
+    public func push() throws {
+        guard let repository = try getRepository() else { return }
+        
+        if let origin = getGitOrigin() {
+            repository.addRemoteOrigin(path: origin)
+        }
+        
+        let handler = getHandler()
+        
+        let names = try Branches(repository: repository).names(type: .local)
+        guard names.count > 0 else { return }
+        guard let branchName = names.first?.components(separatedBy: "/").last else { return }
+        
+        
+        let localMaster = try repository.branches.get(name: branchName)
+        try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
+    }
+    
+    public func pull() throws {
+        guard let repository = try getRepository() else { return }
+                
+        if !UserDefaultsManagement.separateRepo || isCloudProject() {
+            repository.setWorkTree(path: url.path)
+        }
+                
+        let handler = getHandler()
+        let sign = getSign()
+        
+        let remote = repository.remotes
+        let origin = try remote.get(remoteName: "origin")
+        
+        _ = try origin.pull(signature: sign, authentication: handler, project: self)
+    }
+    
+    public func getGitProject() -> Project {
+        if isGitOriginExist() {
+            return self
+        } else {
+            return getParent()
+        }
+    }
+    
+    public func isGitOriginExist() -> Bool {
+        if let origin = gitOrigin, origin.count > 0 {
+            return true
+        }
+        
+        return false
     }
 }

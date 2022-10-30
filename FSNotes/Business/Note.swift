@@ -57,6 +57,11 @@ public class Note: NSObject  {
 
     public var cachingInProgress: Bool = false
     public var cacheHash: String?
+    
+    public var uploadPath: String?
+    public var apiId: String?
+    
+    public var previewState: Bool = false
 
     // Load exist
     
@@ -751,7 +756,9 @@ public class Note: NSObject  {
     }
     
     func cleanMetaData(content: String) -> String {
-        var extractedTitle: String = ""
+        var extractedTitle = String()
+        var author = String()
+        var date = String()
         
         if (content.hasPrefix("---\n")) {
             var list = content.components(separatedBy: "---")
@@ -759,24 +766,57 @@ public class Note: NSObject  {
             if (list.count > 2) {
                 let headerList = list[1].components(separatedBy: "\n")
                 for header in headerList {
-                    let nsHeader = header as NSString
-                    let regex = try! NSRegularExpression(pattern: "title: \"(.*?)\"", options: [])
-                    let matches = regex.matches(in: String(nsHeader), options: [], range: NSMakeRange(0, (nsHeader as String).count))
+                    if header.hasPrefix("title:") {
+                        extractedTitle = header.replacingOccurrences(of: "title:", with: "").trim()
+                        
+                        if extractedTitle.hasPrefix("\"") && extractedTitle.hasSuffix("\""){
+                            extractedTitle = String(extractedTitle.dropFirst(1))
+                            extractedTitle = String(extractedTitle.dropLast(1))
+                        }
+                    }
                     
-                    if let match = matches.first {
-                        let range = match.range(at: 1)
-                        extractedTitle = nsHeader.substring(with: range)
-                        break
+                    if header.hasPrefix("author:") {
+                        author = header.replacingOccurrences(of: "author:", with: "").trim()
+                        
+                        if author.hasPrefix("\"") && author.hasSuffix("\""){
+                            author = String(author.dropFirst(1))
+                            author = String(author.dropLast(1))
+                        }
+                    }
+                    
+                    if header.hasPrefix("date:") {
+                        date = header.replacingOccurrences(of: "date:", with: "").trim()
+                        
+                        if date.hasPrefix("\"") && date.hasSuffix("\""){
+                            date = String(date.dropFirst(1))
+                            date = String(date.dropLast(1))
+                        }
                     }
                 }
                 
+                list.removeSubrange(Range(0...1))
+                
+                var result = String()
+                
                 if (extractedTitle.count > 0) {
-                    list.removeSubrange(Range(0...1))
-                    
-                    return "## " + extractedTitle + "\n\n" + list.joined()
+                    result = "<h1 class=\"no-border\">" + extractedTitle + "</h1>\n\n"
                 }
                 
-                return list.joined()
+                if (author.count > 0) {
+                    result += "_" + author + "_\n\n"
+                }
+                
+                if (date.count > 0) {
+                    result += "_" + date + "_\n\n"
+                }
+                
+                if result.count > 0 {
+                    result += "<hr>\n\n"
+                }
+                
+                result += list.joined()
+                
+                return result
             }
         }
         
@@ -787,9 +827,10 @@ public class Note: NSObject  {
         #if NOT_EXTENSION || os(OSX)
             let mutable = NotesTextProcessor.convertAppTags(in: self.content)
             let content = NotesTextProcessor.convertAppLinks(in: mutable)
-            let result = content.string.replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
-
-            return cleanMetaData(content: result)
+            let result = cleanMetaData(content: content.string)
+                .replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
+        
+            return result
         #else
             return cleanMetaData(content: self.content.string)
         #endif
@@ -1430,6 +1471,7 @@ public class Note: NSObject  {
                 .replacingOccurrences(of: "- [x]", with: "")
                 .replacingOccurrences(of: "[[", with: "")
                 .replacingOccurrences(of: "]]", with: "")
+                .replacingOccurrences(of: "{{TOC}}", with: "")
 
         let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
 
@@ -1820,6 +1862,7 @@ public class Note: NSObject  {
             convertTextBundleToFlat(name: name)
             self.decryptedTemporarySrc = nil
 
+            invalidateCache()
             load()
             parseURL()
 
@@ -1863,6 +1906,10 @@ public class Note: NSObject  {
     }
 
     public func encrypt(password: String) -> Bool {
+        if container == .encryptedTextPack {
+            return false
+        }
+        
         var temporaryFlatSrc: URL?
         let isContainer = isTextBundle()
 
@@ -1897,6 +1944,7 @@ public class Note: NSObject  {
 
             cleanOut()
             removeTempContainer()
+            invalidateCache()
 
             return true
         } catch {
@@ -1905,8 +1953,15 @@ public class Note: NSObject  {
             return false
         }
     }
+    
+    public func encryptAndUnlock(password: String) {
+        if encrypt(password: password) {
+            _ = unLock(password: password)
+        }
+    }
 
     public func cleanOut() {
+        isParsed = false
         imageUrl = nil
         cacheHash = nil
         content = NSMutableAttributedString(string: String())
@@ -1954,7 +2009,7 @@ public class Note: NSObject  {
     }
 
     public func showIconInList() -> Bool {
-        return (isPinned || isEncrypted())
+        return (isPinned || isEncrypted() || isPublished())
     }
 
     public func getShortTitle() -> String {
@@ -2095,5 +2150,41 @@ public class Note: NSObject  {
 
     public func resetAttributesCache() {
         cacheHash = nil
+    }
+    
+    public func getLatinName() -> String {
+        let name = (self.fileName as NSString)
+            .applyingTransform(.toLatin, reverse: false)?
+            .applyingTransform(.stripDiacritics, reverse: false) ?? self.fileName
+        
+        return name.replacingOccurrences(of: " ", with: "_")
+    }
+    
+    public func isPublished() -> Bool {
+        return apiId != nil || uploadPath != nil
+    }
+    
+    public func convertContainer(to: NoteContainer) {
+        if to == .textBundleV2 {
+            let tempUrl = convertFlatToTextBundle()
+            
+            let name = url.deletingPathExtension().lastPathComponent
+            let uniqueURL = NameHelper.getUniqueFileName(name: name, project: project, ext: "textbundle")
+
+            do {
+                let oldUrl = url
+                url = uniqueURL
+                try FileManager.default.moveItem(at: tempUrl, to: uniqueURL)
+                try FileManager.default.removeItem(at: oldUrl)
+            } catch {/*_*/}
+        } else {
+            let name = url.deletingPathExtension().lastPathComponent
+            
+            convertTextBundleToFlat(name: name)
+        }
+        
+        invalidateCache()
+        load()
+        parseURL()
     }
 }

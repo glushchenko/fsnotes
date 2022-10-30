@@ -11,9 +11,9 @@ import Cocoa
 class EditorView: NSView {
     override func mouseDown(with event: NSEvent) {
         guard let vc = ViewController.shared() else { return }
-        vc.editArea.mouseDown(with: event)
+        vc.editor.mouseDown(with: event)
 
-        NSApp.mainWindow?.makeFirstResponder(vc.editArea)
+        NSApp.mainWindow?.makeFirstResponder(vc.editor)
     }
 
     override func draw(_ dirtyRect: NSRect) {

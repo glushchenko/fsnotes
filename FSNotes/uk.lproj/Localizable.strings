@@ -8,7 +8,7 @@
 "Archive" = "Архів";
 
 /* No comment provided by engineer. */
-"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Ви дійсно хочете видалити %d тег(и)? Ця дія не може бути скасована.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Вы впевнені що хочете назавжди видалити %d нотатку(ок)? ";
@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Змінити дату створення";
 
+/* Menu */
+"Change creation date" = "Змінити дату створення";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Перевіряти граматику та правопис";
 
@@ -33,6 +36,9 @@
 
 /* No comment provided by engineer. */
 "Clear" = "Очистити";
+
+/* No comment provided by engineer. */
+"Connection established successfully 🤟" = "З'єднання встановлено успішно 🤟";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Скопіювати HTML";
@@ -46,6 +52,9 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Автоматично коригувати правописання";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "Створити веб-сторінку";
+
 /* Menu */
 "Creation date:" = "Creation date:";
 
@@ -54,6 +63,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "Детектори даних";
+
+/* No comment provided by engineer. */
+"Decrypt" = "Розшифрувати";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "Шлях зберігання за умовчанням не повинен дорівнювати шляху Git.";
@@ -74,19 +86,22 @@
 "Do you want to move current notes in the new destination?" = "Ви хочете перемістити поточні нотатки до нового сховища?";
 
 /* No comment provided by engineer. */
-"Documents" = "Documents";
+"Documents" = "Документація";
 
 /* No comment provided by engineer. */
-"Edit Link…" = "Edit Link…";
+"Edit Link…" = "Редагувати посилання...";
 
 /* No comment provided by engineer. */
 "Empty password" = "Введіть пароль";
 
 /* No comment provided by engineer. */
+"Encrypt" = "Зашифрувати";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Введіть мастер пароль";
 
 /* No comment provided by engineer. */
-"External Folders" = "External Folders";
+"External Folders" = "Зовнішні папки";
 
 /* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Папка з назвою '%@' вже існує";
@@ -98,6 +113,15 @@
 "FSNotes [preview]" = "FSNotes [попередній перегляд]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push помилка";
+
+/* No comment provided by engineer. */
+"Hide Note List" = "Приховати нотатки";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Приховати сайдбар";
+
+/* No comment provided by engineer. */
 "History" = "Історія";
 
 /* No comment provided by engineer. */
@@ -107,7 +131,16 @@
 "Inbox" = "Вхідні";
 
 /* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
+
+/* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 помилка: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "Посилання";
+
+/* No comment provided by engineer. */
+"Lock" = "Заблокувати";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "Заблокувати всі секретні";
@@ -143,13 +176,16 @@
 "OK" = "OK";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open note" = "Відкрити нотатку";
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Інакше база даних ваших нотаток буде доступна за адресою: ";
 
 /* No comment provided by engineer. */
-"Path not available" = "Path not available";
+"Path not available" = "Шлях недоступний";
+
+/* No comment provided by engineer. */
+"Pin" = "Закріпити";
 
 /* Edit area */
 "Please enter image title:" = "Заголовок зображення:";
@@ -161,10 +197,16 @@
 "Please enter project name:" = "Будь ласка, введіть назву директорії:";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "Будь ласка, введіть назву тегу:";
 
 /* Menu */
 "Please enter tags (comma separated):" = "Будь ласка, введіть теги (розділити комою):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "Будь ласка, оберіть приватний та публічний ключ";
+
+/* No comment provided by engineer. */
+"Please select private key" = "Будь ласка, виберіть приватний ключ";
 
 /* No comment provided by engineer. */
 "Please try again" = "Буль ласка, спробуйте знову";
@@ -185,7 +227,7 @@
 "Remove" = "Видалити";
 
 /* No comment provided by engineer. */
-"Remove Link" = "Remove Link";
+"Remove Link" = "Видалити посилання";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Видалити нотатку(ок)";
@@ -209,6 +251,12 @@
 "Show in Finder" = "Показати в Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Показати нотатки";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Показати сайдбар";
+
+/* No comment provided by engineer. */
 "Show view options" = "Налаштування вигляду";
 
 /* No comment provided by engineer. */
@@ -228,6 +276,9 @@
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Орфографія і граматика";
+
+/* No comment provided by engineer. */
+"SSH error" = "SSH помилка";
 
 /* No comment provided by engineer. */
 "Substitutions" = "Заміни";
@@ -255,13 +306,22 @@
 "Underline" = "Підкреслений";
 
 /* No comment provided by engineer. */
+"Unlock" = "Розблокувати";
+
+/* No comment provided by engineer. */
+"Unpin" = "Відкріпити";
+
+/* No comment provided by engineer. */
 "Untagged" = "Без тегів";
 
 /* Untitled Note */
 "Untitled Note" = "Без назви";
 
 /* No comment provided by engineer. */
-"URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
+"Update Web Page" = "Оновити веб-сторінку";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "Посилання було скопійовано в буфер обміну";
 
 /* Menu */
 "View" = "Вид";
@@ -271,6 +331,12 @@
 
 /* No comment provided by engineer. */
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "Ми не можемо перемістити \\\"{DST_PATH}\\\", оскільки цей елемент вже існує у вибраному сховищі.";
+
+/* No comment provided by engineer. */
+"Web publishing error" = "Помилка веб-публікації";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Неправильний пароль";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Паролі не співпадають";

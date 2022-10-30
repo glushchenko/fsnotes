@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Wijzig de aanmaakdatum";
 
+/* Menu */
+"Change creation date" = "Aanmaakdatum wijzigen";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Controleer grammatica tegelijk met spelling";
 
@@ -33,6 +36,9 @@
 
 /* No comment provided by engineer. */
 "Clear" = "Clear";
+
+/* No comment provided by engineer. */
+"Connection established successfully 🤟" = "Connection established successfully 🤟";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Kopieer HTML";
@@ -46,6 +52,9 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Corrigeer Spelling Automatisch";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "Create Web Page";
+
 /* Menu */
 "Creation date:" = "Creation date:";
 
@@ -54,6 +63,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "Data Detectoren";
+
+/* No comment provided by engineer. */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
@@ -83,6 +95,9 @@
 "Empty password" = "Leeg wachtwoord";
 
 /* No comment provided by engineer. */
+"Encrypt" = "Encrypt";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Voer Hoofdwachtwoord in";
 
 /* No comment provided by engineer. */
@@ -98,6 +113,15 @@
 "FSNotes [preview]" = "FSNotes [voorvertoning]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push error";
+
+/* No comment provided by engineer. */
+"Hide Note List" = "Verbergen notitielijst";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Verbergen zijbalk";
+
+/* No comment provided by engineer. */
 "History" = "Geschiedenis";
 
 /* No comment provided by engineer. */
@@ -107,7 +131,16 @@
 "Inbox" = "Postvak In";
 
 /* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
+
+/* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 error: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "Link";
+
+/* No comment provided by engineer. */
+"Lock" = "Lock";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "Vergrendel alle versleutelde";
@@ -134,7 +167,7 @@
 "No" = "No";
 
 /* No comment provided by engineer. */
-"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+"Note with name \"%@\" already exists in selected directory." = "Opmerking met de naam \"%@\" bestaat al in de geselecteerde map.";
 
 /* Sidebar label */
 "Notes" = "Notities";
@@ -143,13 +176,16 @@
 "OK" = "OK";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open note" = "Notitie openen";
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
 
 /* No comment provided by engineer. */
-"Path not available" = "Path not available";
+"Path not available" = "Pad niet beschikbaar";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
 
 /* Edit area */
 "Please enter image title:" = "Voer a.u.b. afbeeldingstitel in:";
@@ -161,10 +197,16 @@
 "Please enter project name:" = "Voer a.u.b. projectnaam in:";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "Voer de tagnaam in:";
 
 /* Menu */
 "Please enter tags (comma separated):" = "Voer a.u.b. tags (kommagescheiden) in:";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "Selecteer a.u.b. privé en openbare sleutel";
+
+/* No comment provided by engineer. */
+"Please select private key" = "Selecteer a.u.b. privésleutel";
 
 /* No comment provided by engineer. */
 "Please try again" = "Probeer het a.u.b. opnieuw";
@@ -176,10 +218,10 @@
 "Quit FSNotes" = "Stop FSNotes";
 
 /* No comment provided by engineer. */
-"Recents" = "Recents";
+"Recents" = "Recente";
 
 /* No comment provided by engineer. */
-"Recents Search" = "Recents Search";
+"Recents Search" = "Recent zoeken";
 
 /* Delete menu */
 "Remove" = "Verwijder";
@@ -209,6 +251,12 @@
 "Show in Finder" = "Toon in Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Tonen notitielijst";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Tonen zijbalk";
+
+/* No comment provided by engineer. */
 "Show view options" = "Toon weergaveopties";
 
 /* No comment provided by engineer. */
@@ -228,6 +276,9 @@
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Spelling en Grammatica";
+
+/* No comment provided by engineer. */
+"SSH error" = "SSH fout";
 
 /* No comment provided by engineer. */
 "Substitutions" = "Vervangingen";
@@ -255,10 +306,19 @@
 "Underline" = "Onderstrepen";
 
 /* No comment provided by engineer. */
+"Unlock" = "Ontgrendelen";
+
+/* No comment provided by engineer. */
+"Unpin" = "VerwijderPin";
+
+/* No comment provided by engineer. */
 "Untagged" = "Niet gelabeld";
 
 /* Untitled Note */
 "Untitled Note" = "Naamloze notitie";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "Webpagina bijwerken";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL is gekopieerd naar klembord";
@@ -273,7 +333,13 @@
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
 
 /* No comment provided by engineer. */
+"Web publishing error" = "Fout bij webpublicatie";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Verkeerd wachtwoord";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "Verkeerd herhaald wachtwoord";
 
 /* No comment provided by engineer. */
-"Yes" = "Yes";
+"Yes" = "Ja";

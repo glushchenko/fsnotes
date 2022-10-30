@@ -44,11 +44,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if EditTextView.note != nil,
-           event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)
-        {
-            if vc.currentPreviewState == .on {
-                NSApp.mainWindow?.makeFirstResponder(vc.editArea.markdownView)
+        if event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control) {
+            if vc.editor?.isPreviewEnabled() == true {
+                NSApp.mainWindow?.makeFirstResponder(vc.editor.markdownView)
             } else {
                 vc.focusEditArea()
             }
@@ -64,9 +62,16 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     override func mouseDown(with event: NSEvent) {
+        guard let vc = self.window?.contentViewController as? ViewController else { return }
+        
+        if let selectedProject = vc.getSidebarProject(),
+            selectedProject.isLocked()
+        {
+            vc.sidebarOutlineView.toggleFolderLock(NSMenuItem())
+            return
+        }
+        
         UserDataService.instance.searchTrigger = false
-
-        ViewController.shared()?.restoreCurrentPreviewState()
 
         super.mouseDown(with: event)
     }
@@ -149,7 +154,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if vc.editAreaScroll.isFindBarVisible {
             let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
             menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
-            vc.editArea.performTextFinderAction(menu)
+            vc.editor.performTextFinderAction(menu)
         }
 
         if UserDataService.instance.isNotesTableEscape {
@@ -159,7 +164,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             
             vc.sidebarOutlineView.deselectAll(nil)
             vc.sidebarOutlineView.reloadTags()
-            vc.editArea.clear()
+            vc.editor.clear()
             return
         }
 
@@ -168,11 +173,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             let note = noteList[selectedRow]
 
             guard selectedRowIndexes.count == 0x01 else {
-                vc.editArea.clear()
+                vc.editor.clear()
                 return
             }
-
-            vc.editArea.fill(note: note, highlight: true)
+            
+            vc.editor.changePreviewState(note.previewState)
+            vc.editor.fill(note: note, highlight: true)
 
             if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
                 vc.focusEditArea()
@@ -182,7 +188,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
 
         // Clean
-        vc.editArea.clear()
+        vc.editor.clear()
 
         if !UserDefaultsManagement.inlineTags {
             vc.sidebarOutlineView.deselectAllTags()
@@ -267,12 +273,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if self.window?.firstResponder == self,
-           !event.modifierFlags.contains(.shift),
-           event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {
-            ViewController.shared()?.restoreCurrentPreviewState()
-        }
-
         if event.modifierFlags.contains(.control) && event.keyCode == kVK_Tab {
             return true
         }
@@ -320,19 +320,75 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         menu.autoenablesItems = false
 
+        var note = vc.editor.note
+        
+        if note == nil {
+            note = vc.getSelectedNotes()?.first
+        }
+        
         for menuItem in menu.items {
             if let identifier = menuItem.identifier?.rawValue,
                 limitedActionsList.contains(identifier)
             {
                 menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
             }
+            
+            if menuItem.identifier?.rawValue == "fileMenu.pinUnpin" {
+                if let note = note {
+                    menuItem.title = note.isPinned
+                        ? NSLocalizedString("Unpin", comment: "")
+                        : NSLocalizedString("Pin", comment: "")
+                }
+            }
+            
+            if menuItem.identifier?.rawValue == "note.toggleContainer" {
+                if let note = note, note.container != .encryptedTextPack {
+                    menuItem.title = note.container == .none
+                        ? NSLocalizedString("Convert to TextBundle", comment: "")
+                        : NSLocalizedString("Convert to Plain", comment: "")
+                    
+                    menuItem.isEnabled = true
+                } else {
+                    menuItem.isEnabled = false
+                }
+            }
+            
+            if menuItem.identifier?.rawValue == "fileMenu.lockUnlock" {
+                if let note = note {
+                    menuItem.title = note.isEncryptedAndLocked()
+                        ? NSLocalizedString("Unlock", comment: "")
+                        : NSLocalizedString("Lock", comment: "")
+                }
+            }
 
             if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
-                if let note = EditTextView.note, note.isEncrypted() {
+                if let note = note, note.isEncrypted() {
                     menuItem.isEnabled = true
                     menuItem.isHidden = false
                 } else {
                     menuItem.isEnabled = false
+                    menuItem.isHidden = true
+                }
+            }
+            
+            if menuItem.identifier?.rawValue == "noteMenu.removeOverSSH" {
+                if let note = vc.editor.note, !note.isEncrypted(), note.uploadPath != nil || note.apiId != nil {
+                    menuItem.isHidden = false
+                } else {
+                    menuItem.isHidden = true
+                }
+            }
+            
+            if menuItem.identifier?.rawValue == "noteMenu.uploadOverSSH" {
+                if let note = vc.editor.note, !note.isEncrypted() {
+                    if note.uploadPath != nil || note.apiId != nil {
+                        menuItem.title = NSLocalizedString("Update Web Page", comment: "")
+                    } else {
+                        menuItem.title = NSLocalizedString("Create Web Page", comment: "")
+                    }
+                    
+                    menuItem.isHidden = false
+                } else {
                     menuItem.isHidden = true
                 }
             }
@@ -349,10 +405,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func selectCurrent() {
-        guard let vc = ViewController.shared() else { return }
         guard noteList.count > 0 else { return }
-
-        vc.restoreCurrentPreviewState()
 
         UserDataService.instance.searchTrigger = false
 
@@ -366,9 +419,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func selectNext() {
-        guard let vc = ViewController.shared() else { return }
-        vc.restoreCurrentPreviewState()
-
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRow + 1
@@ -383,9 +433,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     public func selectPrev() {
-        guard let vc = ViewController.shared() else { return }
-        vc.restoreCurrentPreviewState()
-
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRow - 1
@@ -509,6 +556,16 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
     }
+    
+    public func reloadDate(note: Note) {
+        DispatchQueue.main.async {
+            if let i = self.noteList.firstIndex(of: note) {
+                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
+                    cell.date.stringValue = note.getDateForLabel()
+                }
+            }
+        }
+    }
 
     public func saveNavigationHistory(note: Note) {
         guard history.last != note.url else {
@@ -518,5 +575,21 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         history.append(note.url)
         historyPosition = history.count - 1
+    }
+    
+    public func enableLockedProject() {
+        ViewController.shared()?.lockedFolder.isHidden = false
+        usesAlternatingRowBackgroundColors = false
+        clean()
+    }
+    
+    public func disableLockedProject() {
+        ViewController.shared()?.lockedFolder.isHidden = true
+        usesAlternatingRowBackgroundColors = true
+    }
+    
+    public func clean() {
+        noteList.removeAll()
+        reloadData()
     }
 }

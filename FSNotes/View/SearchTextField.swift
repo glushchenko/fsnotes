@@ -123,7 +123,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             textView.deleteBackward(self)
             return true
         case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
-            if let note = vcDelegate.editArea.getSelectedNote(), stringValue.utf16.count > 0, note.title.lowercased() == stringValue.lowercased() || note.fileName.lowercased() == stringValue.lowercased() {
+            if let note = vcDelegate.editor.getSelectedNote(), stringValue.utf16.count > 0, note.title.lowercased() == stringValue.lowercased() || note.fileName.lowercased() == stringValue.lowercased() {
 
                 if note.title.lowercased() == stringValue.lowercased() && note.title != stringValue {
                     stringValue = note.title
@@ -135,12 +135,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
                 markCompleteonAsSuccess()
 
-                if vcDelegate.currentPreviewState == .on
-                    && EditTextView.note?.container != .encryptedTextPack {
-                    vcDelegate.currentPreviewState = .off
+                if vcDelegate.vcEditor?.isPreviewEnabled() == true
+                    && vcDelegate.editor.note?.container != .encryptedTextPack {
+                    vcDelegate.vcEditor?.disablePreviewEditorAndNote()
+                    
                     DispatchQueue.main.async {
                         self.vcDelegate.refillEditArea()
-                        NSApp.mainWindow?.makeFirstResponder(self.vcDelegate.editArea)
+                        NSApp.mainWindow?.makeFirstResponder(self.vcDelegate.editor)
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -157,13 +158,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         case "insertTab:":
             markCompleteonAsSuccess()
 
-            if vcDelegate.currentPreviewState == .on {
-                NSApp.mainWindow?.makeFirstResponder(vcDelegate.editArea.markdownView)
+            if vcDelegate.vcEditor?.isPreviewEnabled() == true {
+                NSApp.mainWindow?.makeFirstResponder(vcDelegate.editor.markdownView)
             } else {
                 vcDelegate.focusEditArea()
             }
 
-            vcDelegate.editArea.scrollToCursor()
+            vcDelegate.editor.scrollToCursor()
             return true
         case "deleteWordBackward:":
             self.skipAutocomplete = true
@@ -184,8 +185,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
 
     func controlTextDidChange(_ obj: Notification) {
-        vcDelegate.restoreCurrentPreviewState()
-        
         search()
 
         // Clean as lastSearchQuery used by highlighter
@@ -283,13 +282,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                                 self.suggestAutocomplete(note, filter: searchQuery)
                                 return
                             } else {
-                                self.vcDelegate.editArea.clear()
+                                self.vcDelegate.editor.clear()
                             }
                         }
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.vcDelegate.editArea.clear()
+                        self.vcDelegate.editor.clear()
                     }
                 }
             }
@@ -317,7 +316,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     @IBAction public func selectRecent(_ sender: NSMenuItem) {
         stringValue = sender.title
 
-        vcDelegate.restoreCurrentPreviewState()
         search()
     }
 

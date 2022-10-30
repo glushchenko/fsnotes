@@ -9,6 +9,19 @@
 import Foundation
 
 class FSParser {
+    /*
+     ---
+     key: value
+     ---
+
+     YAML
+     */
+    public static let yamlBlockPattern = [
+        "(?<=\\n|\\A)",
+            "(^---(([^\\n]*?)\\n(?!\\n))+---)",
+        "(?:\\n|\\Z)"
+        ].joined(separator: "\n")
+
     public static let tagsPattern = ###"""
         (?:\A|\s|[^\]]\()
         \#(
@@ -89,6 +102,8 @@ class FSParser {
     public static func repeatString(_ text: String, _ count: Int) -> String {
         return Array(repeating: text, count: count).reduce("", +)
     }
+
+    public static let yamlBlockRegex = FSParserRegex(pattern: yamlBlockPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
 
     public static let imageInlineRegex = FSParserRegex(pattern: imageInlinePattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
 

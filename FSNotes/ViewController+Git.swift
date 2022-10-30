@@ -7,94 +7,101 @@
 //
 
 import Cocoa
+import Git
+import Cgit2
 
-extension ViewController {
+extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
-        guard !isGitProcessLocked else { return }
-        guard let note = EditTextView.note else { return }
-
-        let project = note.project.getParent()
-        isGitProcessLocked = true
-
-        DispatchQueue.global().async {
-            let repository = Git.sharedInstance().getRepository(by: project)
-            let gitPath = note.getGitPath()
-            repository.initialize(from: project)
-            repository.commit(fileName: gitPath)
-            self.isGitProcessLocked = false
+        guard let window = self.view.window else { return }
+        if UserDefaultsManagement.askCommitMessage {
+            let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 60))
+            if let lastMessage = UserDefaultsManagement.lastCommitMessage {
+                field.stringValue = lastMessage
+            }
+            
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Commit message:", comment: "")
+            alert.accessoryView = field
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    let commitMessage: String? = field.stringValue.count > 0 ? field.stringValue : nil
+                    
+                    if field.stringValue.count > 0 {
+                        UserDefaultsManagement.lastCommitMessage = commitMessage
+                    }
+                    
+                    self.saveRevision(commitMessage: commitMessage)
+                }
+            }
+            
+            field.becomeFirstResponder()
+            return
         }
+        
+        saveRevision(commitMessage: nil)
+    }
+    
+    private func saveRevision(commitMessage: String? = nil) {
+        guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
+        
+        ViewController.shared()?.gitQueue.addOperation({
+            let project = note.project.getGitProject()
+            try? project.commit(message: commitMessage)
+
+            // No hands – no mults
+            guard project.getGitOrigin() != nil else { return }
+            
+            do {
+                try project.pull()
+                print("Pull successful")
+                
+                try project.push()
+                print("Push successful")
+            } catch {
+                DispatchQueue.main.async {
+                    let alert = NSAlert()
+                    alert.alertStyle = .critical
+                    alert.informativeText = NSLocalizedString("Git error", comment: "")
+                    alert.messageText = error.localizedDescription
+                    alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in }
+                }
+            }
+        })
     }
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
-        guard let commit = sender.representedObject as? Commit else { return }
-        guard let note = EditTextView.note else { return }
-        let git = Git.sharedInstance()
+        guard let commit = sender.representedObject as? FSCommit else { return }
+        guard let note = vcEditor?.note else { return }
+        let git = FSGit.sharedInstance()
 
         UserDataService.instance.fsUpdatesDisabled = true
 
-        let repository = git.getRepository(by: note.project.getParent())
+        let repository = git.getRepository(by: note.project.getGitProject())
 
         if git.prevCommit == nil {
-            saveRevision(sender)
+            saveRevision(commitMessage: nil)
         }
 
+        print(note.getGitPath())
         repository.checkout(commit: commit, fileName: note.getGitPath())
         git.prevCommit = commit
 
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)
-        refillEditArea(force: true)
-        notesTableView.reloadRow(note: note)
+        reloadAllOpenedWindows(note: note)
+        
+        ViewController.shared()?.notesTableView.reloadRow(note: note)
 
-        editArea.scanTagsAndAutoRename()
+        vcEditor?.scanTagsAndAutoRename()
 
         UserDataService.instance.fsUpdatesDisabled = false
     }
 
-    public func loadHistory() {
-        guard let vc = ViewController.shared(),
-            let notes = vc.notesTableView.getSelectedNotes(),
-            let note = notes.first
-        else { return }
-
-        let title = NSLocalizedString("History", comment: "")
-        let historyMenu = noteMenu.item(withTitle: title)
-        historyMenu?.submenu?.removeAllItems()
-        historyMenu?.isEnabled = false
-
-        guard notes.count == 0x01 else { return }
-
-        DispatchQueue.global().async {
-            let git = Git.sharedInstance()
-            let repository = git.getRepository(by: note.project.getParent())
-            let commits = repository.getCommits(by: note.getGitPath())
-
-            DispatchQueue.main.async {
-                guard commits.count > 0 else {
-                    historyMenu?.isEnabled = false
-                    return
-                }
-
-                for commit in commits {
-                    let menuItem = NSMenuItem()
-                    if let date = commit.getDate() {
-                        menuItem.title = date
-                    }
-
-                    menuItem.representedObject = commit
-                    menuItem.action = #selector(vc.checkoutRevision(_:))
-                    historyMenu?.submenu?.addItem(menuItem)
-                }
-
-                historyMenu?.isEnabled = true
-            }
-        }
-    }
-
     @IBAction private func makeFullSnapshot(_ sender: Any) {
-        guard !isGitProcessLocked else { return }
-
         let cal = Calendar.current
         let hour = cal.component(.hour, from: Date())
         let minute = cal.component(.minute, from: Date())
@@ -116,21 +123,46 @@ extension ViewController {
         let storage = Storage.sharedInstance()
         let projects = storage.getProjects()
 
-        isGitProcessLocked = true
-        DispatchQueue.global().async {
+        ViewController.shared()?.gitQueue.addOperation({
             for project in projects {
                 if project.isTrash {
                     continue
                 }
 
-                if project.isRoot || project.isArchive {
-                    let git = Git(storage: UserDefaultsManagement.gitStorage)
-                    let repo = git.getRepository(by: project)
-                    repo.commitAll()
-                    self.isGitProcessLocked = false
+                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                    try? project.commit()
+                    
+                    if project.isGitOriginExist() {
+                        try? project.pull()
+                        try? project.push()
+                    }
                 }
             }
+        })
+    }
+    
+    @IBAction private func pull(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        
+        let storage = Storage.sharedInstance()
+        let projects = storage.getProjects()
+
+        // Skip on high load
+        if vc.gitQueue.operationCount > 5 {
+            return
         }
+        
+        vc.gitQueue.addOperation({
+            for project in projects {
+                if project.isTrash {
+                    continue
+                }
+
+                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                    try? project.pull()
+                }
+            }
+        })
     }
 
     public func scheduleSnapshots() {
@@ -138,5 +170,18 @@ extension ViewController {
 
         snapshotsTimer.invalidate()
         snapshotsTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(makeFullSnapshot), userInfo: nil, repeats: true)
+    }
+    
+    public func schedulePull() {
+        guard !UserDefaultsManagement.backupManually else { return }
+
+        let interval = UserDefaultsManagement.pullInterval
+        
+        pullTimer.invalidate()
+        pullTimer = Timer.scheduledTimer(timeInterval: TimeInterval(interval), target: self, selector: #selector(pull), userInfo: nil, repeats: true)
+    }
+    
+    public func stopPull() {
+        pullTimer.invalidate()
     }
 }

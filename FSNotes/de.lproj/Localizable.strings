@@ -8,7 +8,7 @@
 "Archive" = "Archiv";
 
 /* No comment provided by engineer. */
-"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Möchten Sie wirklich %d Tag(s) entfernen? Diese Aktion kann nicht rückgängig gemacht werden.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Sind Sie sicher, dass Sie %d Notiz(en) unwiderruflich löschen möchten?";
@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Erstellungsdatum ändern";
 
+/* Menu */
+"Change creation date" = "Erstellungsdatum ändern";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Grammatik und Rechtschreibung prüfen";
 
@@ -32,7 +35,10 @@
 "Check Spelling While Typing" = "Während der Texteingabe prüfen";
 
 /* No comment provided by engineer. */
-"Clear" = "Clear";
+"Clear" = "Klar";
+
+/* No comment provided by engineer. */
+"Connection established successfully 🤟" = "Verbindung erfolgreich hergestellt 🤟";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "HTML kopieren";
@@ -46,8 +52,11 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Rechtschreibung automatisch korrigieren";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "Webseite erstellen";
+
 /* Menu */
-"Creation date:" = "Creation date:";
+"Creation date:" = "Erstellungsdatum:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "Das aktuelle Passwort stimmt nicht mit dem Passwort im Schlüsselbund überein";
@@ -56,7 +65,10 @@
 "Data Detectors" = "Datendetektoren";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Decrypt" = "Entschlüsseln";
+
+/* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "Der Standardspeicherpfad sollte nicht gleich dem Git-Pfad sein.";
 
 /* No comment provided by engineer. */
 "Delete" = "Löschen";
@@ -71,7 +83,7 @@
 "Detach storage" = "Speicher abnehmen";
 
 /* No comment provided by engineer. */
-"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+"Do you want to move current notes in the new destination?" = "Möchten Sie aktuelle Notizen an das neue Ziel verschieben?";
 
 /* No comment provided by engineer. */
 "Documents" = "Documents";
@@ -81,6 +93,9 @@
 
 /* No comment provided by engineer. */
 "Empty password" = "Passwort leer";
+
+/* No comment provided by engineer. */
+"Encrypt" = "Verschlüsseln";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "Geben Sie das Master Passwort ein";
@@ -98,6 +113,15 @@
 "FSNotes [preview]" = "FSNotes [Vorschau]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push fehler";
+
+/* No comment provided by engineer. */
+"Hide Note List" = "Notizliste ausblenden";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Seitenleiste ausblenden";
+
+/* No comment provided by engineer. */
 "History" = "Die geschichte";
 
 /* No comment provided by engineer. */
@@ -107,7 +131,16 @@
 "Inbox" = "Posteingang";
 
 /* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
+
+/* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 fehler: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "Link";
+
+/* No comment provided by engineer. */
+"Lock" = "Sperren";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "Alle verschlüsselte sperren";
@@ -143,13 +176,16 @@
 "OK" = "OK";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open note" = "Notiz öffnen";
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
 
 /* No comment provided by engineer. */
 "Path not available" = "Path not available";
+
+/* No comment provided by engineer. */
+"Pin" = "Fixieren";
 
 /* Edit area */
 "Please enter image title:" = "Geben Sie die Bildbezeichnung ein:";
@@ -161,10 +197,16 @@
 "Please enter project name:" = "Geben Sie den Projektname ein:";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "Bitte geben Sie den Tag-Namen ein:";
 
 /* Menu */
 "Please enter tags (comma separated):" = "Geben Sie Tags ein (durch Kommas getrennt):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "Bitte wählen Sie privaten und öffentlichen Schlüssel aus";
+
+/* No comment provided by engineer. */
+"Please select private key" = "Bitte wählen Sie den privaten Schlüssel aus";
 
 /* No comment provided by engineer. */
 "Please try again" = "Versuchen Sie bitte nochmal";
@@ -176,10 +218,10 @@
 "Quit FSNotes" = "FSNotes beenden";
 
 /* No comment provided by engineer. */
-"Recents" = "Recents";
+"Recents" = "Letzte";
 
 /* No comment provided by engineer. */
-"Recents Search" = "Recents Search";
+"Recents Search" = "Neueste Suche";
 
 /* Delete menu */
 "Remove" = "Löschen";
@@ -209,6 +251,12 @@
 "Show in Finder" = "Ordner anzeigen";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Notizliste anzeigen";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Seitenleiste anzeigen";
+
+/* No comment provided by engineer. */
 "Show view options" = "Einstellungen anzeigen";
 
 /* No comment provided by engineer. */
@@ -228,6 +276,9 @@
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Rechtschreibung und Grammatik";
+
+/* No comment provided by engineer. */
+"SSH error" = "SSH fehler";
 
 /* No comment provided by engineer. */
 "Substitutions" = "Ersetzungen";
@@ -255,10 +306,19 @@
 "Underline" = "Unterstrichen";
 
 /* No comment provided by engineer. */
+"Unlock" = "Freischalten";
+
+/* No comment provided by engineer. */
+"Unpin" = "Loslösen";
+
+/* No comment provided by engineer. */
 "Untagged" = "Ungetaggt";
 
 /* Untitled Note */
 "Untitled Note" = "Unbenannte Notiz";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "Webseite aktualisieren";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL wurde in die Zwischenablage kopiert";
@@ -273,7 +333,13 @@
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
 
 /* No comment provided by engineer. */
+"Web publishing error" = "Fehler bei der Webveröffentlichung";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Falsches Passwort";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "Passwort stimmt nicht überein";
 
 /* No comment provided by engineer. */
-"Yes" = "Yes";
+"Yes" = "Ja";

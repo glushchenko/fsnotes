@@ -16,4 +16,8 @@ public extension NSAttributedString.Key {
     static var tag: NSAttributedString.Key {
         return NSAttributedString.Key(rawValue: "es.fsnot.attributed.tag")
     }
+
+    static var yamlBlock: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.yaml")
+    }
 }

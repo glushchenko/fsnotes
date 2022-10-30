@@ -11,7 +11,7 @@ import AVKit
 
 extension NoteAttachment {
     public func load() -> NSTextAttachment? {
-        guard let container = ViewController.shared()?.editArea.textContainer else { return nil }
+        guard let container = self.editor?.textContainer else { return nil }
 
         let attachment = NSTextAttachment()
 
@@ -38,14 +38,6 @@ extension NoteAttachment {
         }
 
         return attachment
-    }
-
-    private func getEditorView() -> EditTextView? {
-        if let cvc = ViewController.shared(), let view = cvc.editArea {
-            return view
-        }
-
-        return nil
     }
 
     public func getSize(width: CGFloat, height: CGFloat) -> NSSize {

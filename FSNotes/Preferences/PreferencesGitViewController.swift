@@ -16,22 +16,19 @@ class PreferencesGitViewController: NSViewController {
     @IBOutlet weak var gitVersion: NSTextField!
     @IBOutlet weak var backupManually: NSButton!
     @IBOutlet weak var backupBySchedule: NSButton!
-
+    @IBOutlet weak var origin: NSTextField!
+    @IBOutlet weak var username: NSTextField!
+    @IBOutlet weak var password: NSSecureTextField!
+    @IBOutlet weak var rsaPath: NSPathControl!
+    @IBOutlet weak var passphrase: NSSecureTextField!
+    @IBOutlet weak var pullInterval: NSTextField!
+    @IBOutlet weak var customWorktree: NSButton!
+    @IBOutlet weak var separateDotGit: NSButton!
+    @IBOutlet weak var askCommitMessage: NSButton!
+    
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 476, height: 352)
-
-        DispatchQueue.global().async {
-            if let version = Git.sharedInstance().getVersion() {
-                let allowedCharset = CharacterSet
-                    .decimalDigits
-                    .union(CharacterSet(charactersIn: "."))
-
-                DispatchQueue.main.async {
-                    self.gitVersion.stringValue = String(version.unicodeScalars.filter(allowedCharset.contains))
-                }
-            }
-        }
+        //preferredContentSize = NSSize(width: 550, height: 612)
 
         repositoriesPath.url = UserDefaultsManagement.gitStorage
 
@@ -41,10 +38,31 @@ class PreferencesGitViewController: NSViewController {
 
         backupManually.state = UserDefaultsManagement.backupManually ? .on : .off
         backupBySchedule.state = UserDefaultsManagement.backupManually ? .off : .on
+        
+        origin.stringValue = UserDefaultsManagement.gitOrigin ?? ""
+        username.stringValue = UserDefaultsManagement.gitUsername ?? ""
+        password.stringValue = UserDefaultsManagement.gitPassword ?? ""
+        
+        if let accessData = UserDefaultsManagement.gitPrivateKeyData,
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+            
+            for bookmark in bookmarks {
+                rsaPath.url = bookmark.key
+                break
+            }
+        }
+        
+        passphrase.stringValue = UserDefaultsManagement.gitPassphrase
+        pullInterval.stringValue = String(UserDefaultsManagement.pullInterval)
+        
+        customWorktree.state = UserDefaultsManagement.separateRepo ? .off : .on
+        separateDotGit.state = UserDefaultsManagement.separateRepo ? .on : .off
+        askCommitMessage.state = UserDefaultsManagement.askCommitMessage ? .on : .off
     }
 
     @IBAction func changeGitStorage(_ sender: NSButton) {
         let openPanel = NSOpenPanel()
+        openPanel.directoryURL = UserDefaultsManagement.gitStorage
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
@@ -72,7 +90,7 @@ class PreferencesGitViewController: NSViewController {
                 UserDefaultsManagement.gitStorage = url
                 self.repositoriesPath.url = url
 
-                Git.resetInstance()
+                FSGit.resetInstance()
             }
         }
     }
@@ -87,12 +105,19 @@ class PreferencesGitViewController: NSViewController {
 
     @IBAction func backupMethod(_ sender: NSButton) {
         guard let ident = sender.identifier?.rawValue else { return }
-
+        
         let isManualBackup = ident == "manual"
-
+        
         UserDefaultsManagement.backupManually = isManualBackup
         backupManually.state = isManualBackup ? .on : .off
         backupBySchedule.state = isManualBackup ? .off : .on
+        
+        guard let vc = ViewController.shared() else { return }
+        if backupBySchedule.state == .on {
+            vc.schedulePull()
+        } else {
+            vc.stopPull()
+        }
     }
 
 
@@ -113,5 +138,86 @@ class PreferencesGitViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
         vc.scheduleSnapshots()
     }
+    
+    @IBAction func origin(_ sender: NSTextField) {
+        UserDefaultsManagement.gitOrigin = sender.stringValue
+    }
+    
+    @IBAction func username(_ sender: NSTextField) {
+        UserDefaultsManagement.gitUsername = sender.stringValue
+    }
+    
+    @IBAction func password(_ sender: NSSecureTextField) {
+        UserDefaultsManagement.gitPassword = sender.stringValue
+    }
+    
+    @IBAction func rsaKey(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = true
+        openPanel.canChooseFiles = true
+        openPanel.begin { (result) -> Void in
+            if result == .OK {
+                if openPanel.urls.count != 1 {
+                    let alert = NSAlert()
+                    alert.alertStyle = .warning
+                    alert.informativeText = NSLocalizedString("Please select private key", comment: "")
+                    alert.runModal()
+                    return
+                }
+                
+                var bookmarks = [URL: Data]()
+                for url in openPanel.urls {
+                    do {
+                        let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
+                        
+                        bookmarks[url] = data
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
+                UserDefaultsManagement.gitPrivateKeyData = data
+                
+                self.rsaPath.url = openPanel.urls[0]
+            }
+        }
+    }
+    
+    @IBAction func passphrase(_ sender: NSSecureTextField) {
+        UserDefaultsManagement.gitPassphrase = sender.stringValue
+    }
+    
+    @IBAction func pullInterval(_ sender: NSTextField) {
+        if var interval = Int(sender.stringValue) {
+            if interval < 10 {
+                interval = 10
+                pullInterval.stringValue = String(10)
+            }
+            
+            UserDefaultsManagement.pullInterval = interval
+        }
 
+        guard let vc = ViewController.shared() else { return }
+        vc.schedulePull()
+    }
+    
+    @IBAction func separateRepo(_ sender: NSButton) {
+        UserDefaultsManagement.separateRepo = (sender.tag == 1)
+    }
+    
+    @IBAction func askCommitMessage(_ sender: NSButton) {
+        UserDefaultsManagement.askCommitMessage = sender.state == .on
+    }
+    
+    @IBAction func clonePull(_ sender: Any) {
+        guard let project = Storage.shared().getDefault() else { return }
+        guard let window = view.window else { return }
+        
+        let origin = self.origin.stringValue
+        project.gitOrigin = origin
+        project.saveSettings()
+        
+        ProjectSettingsViewController.cloneAndPull(origin: origin, project: project, window: window)
+    }
 }

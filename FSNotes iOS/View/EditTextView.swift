@@ -20,7 +20,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     public static var shouldForceRescan: Bool = false
     public static var lastRemoved: String?
     public var lasTouchPoint: CGPoint?
-    public static var imagesLoaderQueue = OperationQueue.init()
+    public var imagesLoaderQueue = OperationQueue.init()
     public var keyboardIsOpened = true
     public var callCounter = 0
 
@@ -305,7 +305,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let imageUrl = note.getImageUrl(imageName: path) {
 
                 let range = NSRange(location: selectedRange.location, length: 1)
-                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, invalidateRange: range, note: note)
+                let attachment = NoteAttachment(editor: self, title: "", path: path, url: imageUrl, invalidateRange: range, note: note)
 
                 if let attributedString = attachment.getAttributedString() {
 

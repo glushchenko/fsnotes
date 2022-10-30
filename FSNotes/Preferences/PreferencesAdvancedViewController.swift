@@ -11,7 +11,6 @@ import Cocoa
 class PreferencesAdvancedViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 476, height: 440)
     }
 
     @IBOutlet weak var archivePathControl: NSPathControl!
@@ -24,24 +23,11 @@ class PreferencesAdvancedViewController: NSViewController {
     @IBOutlet weak var dockIconSecond: NSButton!
 
     @IBOutlet weak var markdownPreviewCSS: NSPathControl!
-
+    @IBOutlet weak var trashPath: NSPathControl!
+    
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
-
-            if type == .Dark {
-                UserDefaultsManagement.codeTheme = "monokai-sublime"
-            } else if type == .System {
-                if #available(OSX 10.14, *) {
-                    let mode = UserDefaults.standard.string(forKey: "AppleInterfaceStyle")
-
-                    if mode == "Dark" {
-                        UserDefaultsManagement.codeTheme = "monokai-sublime"
-                    }
-                }
-            } else {
-                UserDefaultsManagement.codeTheme = "github"
-            }
         }
 
         restart()
@@ -107,10 +93,15 @@ class PreferencesAdvancedViewController: NSViewController {
         if let preview = UserDefaultsManagement.markdownPreviewCSS {
             markdownPreviewCSS.url = preview
         }
+        
+        if let url = Storage.sharedInstance().getDefaultTrash()?.url {
+            trashPath.url = url
+        }
     }
 
     @IBAction func changeArchiveStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
+        openPanel.directoryURL = UserDefaultsManagement.archiveDirectory
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
@@ -135,7 +126,7 @@ class PreferencesAdvancedViewController: NSViewController {
                 if let archive = storage.getArchive() {
                     archive.url = url
                     storage.unload(project: archive)
-                    storage.loadLabel(archive)
+                    storage.loadNotes(archive)
 
                     vc.fsManager?.restart()
                     vc.notesTableView.reloadData()
@@ -146,39 +137,41 @@ class PreferencesAdvancedViewController: NSViewController {
         }
     }
 
-    @IBAction func changeMarkdownStyle(_ sender: Any) {
-        let openPanel = NSOpenPanel()
-        openPanel.allowsMultipleSelection = false
-        openPanel.canChooseDirectories = false
-        openPanel.canCreateDirectories = true
-        openPanel.canChooseFiles = true
-        openPanel.allowedFileTypes = ["css"]
-        openPanel.begin { (result) -> Void in
-            if result == .OK {
-                guard let url = openPanel.url else { return }
-
-                let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
-                
-                if let currentURL = UserDefaultsManagement.markdownPreviewCSS {
-                    bookmark.remove(url: currentURL)
-                }
-
-                bookmark.store(url: url)
-                bookmark.save()
-
-                UserDefaultsManagement.markdownPreviewCSS = url
-                self.markdownPreviewCSS.url = url
-
-                let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-
-                try? FileManager.default.removeItem(at: webkitPreview)
-
-                guard let vc = ViewController.shared() else { return }
-                vc.refillEditArea()
-            }
-        }
-    }
+//    @IBAction func changeMarkdownStyle(_ sender: Any) {
+//        let openPanel = NSOpenPanel()
+//        openPanel.allowsMultipleSelection = false
+//        openPanel.canChooseDirectories = false
+//        openPanel.canCreateDirectories = true
+//        openPanel.canChooseFiles = true
+//        openPanel.allowedFileTypes = ["css"]
+//        openPanel.begin { (result) -> Void in
+//            if result == .OK {
+//                guard let url = openPanel.url else { return }
+//
+//                let bookmark = SandboxBookmark.sharedInstance()
+//                _ = bookmark.load()
+//
+//                if let currentURL = UserDefaultsManagement.markdownPreviewCSS {
+//                    bookmark.remove(url: currentURL)
+//                }
+//
+//                bookmark.store(url: url)
+//                bookmark.save()
+//
+//                UserDefaultsManagement.markdownPreviewCSS = url
+//                self.markdownPreviewCSS.url = url
+//
+//                let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+//
+//                try? FileManager.default.removeItem(at: webkitPreview)
+//
+//                let editors = AppDelegate.getEditTextViews()
+//                for editor in editors {
+//                    editor.editorViewController?.refillEditArea()
+//                }
+//            }
+//        }
+//    }
 
     @IBAction func languagePopUp(_ sender: NSPopUpButton) {
         let type = LanguageType.withName(rawValue: sender.title)
@@ -207,5 +200,42 @@ class PreferencesAdvancedViewController: NSViewController {
         guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
         appDelegate.loadDockIcon()
     }
+    
+    @IBAction func editCss(_ sender: Any) {
+        if let url = UserDefaultsManagement.markdownPreviewCSS {
+            NSWorkspace.shared.activateFileViewerSelecting([url])
+        }
+    }
+    
+    @IBAction func trash(_ sender: NSButton) {
+        let openPanel = NSOpenPanel()
+        openPanel.directoryURL = Storage.sharedInstance().getDefaultTrash()?.url
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.canChooseFiles = false
+        openPanel.canSelectHiddenExtension = true
+        openPanel.begin { (result) -> Void in
+            if result == .OK {
+                guard let url = openPanel.url else { return }
 
+                let bookmark = SandboxBookmark.sharedInstance()
+                _ = bookmark.load()
+
+                if let currentURL = UserDefaultsManagement.trashURL {
+                    bookmark.remove(url: currentURL)
+                }
+
+                bookmark.store(url: url)
+                bookmark.save()
+
+                UserDefaultsManagement.trashURL = url
+                self.trashPath.url = url
+                
+                Storage.sharedInstance().getDefaultTrash()?.url = url
+                self.restart()
+            }
+        }
+    }
+    
 }

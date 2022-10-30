@@ -11,13 +11,11 @@ import AppKit
 
 class MainWindowController: NSWindowController, NSWindowDelegate {
     let notesListUndoManager = UndoManager()
-    var editorUndoManager = UndoManager()
-
+    
     public var lastWindowSize: NSRect? = nil
 
     override func windowDidLoad() {
-        let appDelegate = NSApplication.shared.delegate as! AppDelegate
-        appDelegate.mainWindowController = self
+        AppDelegate.mainWindowController = self
 
         self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
         self.window?.titleVisibility = .hidden
@@ -45,7 +43,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
             vc.focusEditArea()
         }
 
-        vc.editArea.updateTextContainerInset()
+        vc.editor.updateTextContainerInset()
     }
     
     func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
@@ -58,20 +56,16 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
         }
         
         if fr.isKind(of: EditTextView.self) {
-            guard let vc = ViewController.shared(), let ev = vc.editArea, ev.isEditable else { return notesListUndoManager }
+            guard let vc = ViewController.shared(), let ev = vc.editor, ev.isEditable else { return notesListUndoManager }
             
-            return editorUndoManager
+            return vc.editorUndoManager
         }
         
         return notesListUndoManager
     }
 
     public static func shared() -> NSWindow? {
-        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
-            return appDelegate.mainWindowController?.window
-        }
-
-        return nil
+        return AppDelegate.mainWindowController?.window
     }
 
     func windowDidEnterFullScreen(_ notification: Notification) {
@@ -80,20 +74,5 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
 
     func windowDidExitFullScreen(_ notification: Notification) {
         UserDefaultsManagement.fullScreen = false
-    }
-
-    public func maximizeWindow() {
-        let currentSize = window?.frame
-        
-        if let screen = NSScreen.main {
-            let size = lastWindowSize ?? screen.visibleFrame
-            window?.setFrame(size, display: true, animate: true)
-
-            if lastWindowSize == nil {
-                lastWindowSize = currentSize
-            } else {
-                lastWindowSize = nil
-            }
-        }
     }
 }

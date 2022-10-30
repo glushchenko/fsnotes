@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "Изменить дату создания";
 
+/* Menu */
+"Change creation date" = "Изменить дату создания";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Проверить грамматику с орфографией";
 
@@ -33,6 +36,9 @@
 
 /* No comment provided by engineer. */
 "Clear" = "Очистить";
+
+/* No comment provided by engineer. */
+"Connection established successfully 🤟" = "Соединение успешно установлено 🤟";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Скопировать HTML";
@@ -46,6 +52,9 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Корректировать правописание";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "Создать веб-страницу";
+
 /* Menu */
 "Creation date:" = "Creation date:";
 
@@ -54,6 +63,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "Детекторы данных";
+
+/* No comment provided by engineer. */
+"Decrypt" = "Расшифровать";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "Путь к хранилищу по умолчанию не должен совпадать с путем Git.";
@@ -83,6 +95,9 @@
 "Empty password" = "Не введен пароль";
 
 /* No comment provided by engineer. */
+"Encrypt" = "Зашифровать";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Введите мастер пароль";
 
 /* No comment provided by engineer. */
@@ -98,6 +113,15 @@
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Ошибка git push";
+
+/* No comment provided by engineer. */
+"Hide Note List" = "Спрятать список заметок";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "Спрятать сайдбар";
+
+/* No comment provided by engineer. */
 "History" = "История";
 
 /* No comment provided by engineer. */
@@ -107,7 +131,16 @@
 "Inbox" = "Входящие";
 
 /* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
+
+/* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Ошибка lbgit2: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "Ссылка";
+
+/* No comment provided by engineer. */
+"Lock" = "Заблокировать";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "Заблокировать все секретные";
@@ -143,13 +176,16 @@
 "OK" = "OK";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open note" = "Открыть заметку";
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "В противном случае база данных заметок будет доступна по адресу: ";
 
 /* No comment provided by engineer. */
 "Path not available" = "Path not available";
+
+/* No comment provided by engineer. */
+"Pin" = "Прикрепить";
 
 /* Edit area */
 "Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
@@ -165,6 +201,12 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "Пожалуйста, выберите закрытый и открытый ключ";
+
+/* No comment provided by engineer. */
+"Please select private key" = "Выберите закрытый ключ";
 
 /* No comment provided by engineer. */
 "Please try again" = "Пожалуйста, попробуйте ещё раз";
@@ -185,7 +227,7 @@
 "Remove" = "Удалить";
 
 /* No comment provided by engineer. */
-"Remove Link" = "Remove Link";
+"Remove Link" = "Удалить ссылку";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Удалить";
@@ -209,6 +251,12 @@
 "Show in Finder" = "Показать в Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "Показать список заметок";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "Показать сайдбар";
+
+/* No comment provided by engineer. */
 "Show view options" = "Настроить вид";
 
 /* No comment provided by engineer. */
@@ -228,6 +276,9 @@
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Орфография и грамматика";
+
+/* No comment provided by engineer. */
+"SSH error" = "Ошибка SSH";
 
 /* No comment provided by engineer. */
 "Substitutions" = "Замены";
@@ -255,10 +306,19 @@
 "Underline" = "Подчёркнутый";
 
 /* No comment provided by engineer. */
+"Unlock" = "Разблокировать";
+
+/* No comment provided by engineer. */
+"Unpin" = "Открепить";
+
+/* No comment provided by engineer. */
 "Untagged" = "Без тегов";
 
 /* Untitled Note */
 "Untitled Note" = "Без названия";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "Обновить веб-страницу";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
@@ -271,6 +331,12 @@
 
 /* No comment provided by engineer. */
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "Мы не можем переместить \\\"{DST_PATH}\\\", потому что этот путь уже существует в выбранном месте назначения.";
+
+/* No comment provided by engineer. */
+"Web publishing error" = "Ошибка веб-публикации";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Неправильный пароль";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Несоответствие паролей";

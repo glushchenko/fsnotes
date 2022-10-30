@@ -10,7 +10,8 @@ import libcmark_gfm
 
 
 func renderMarkdownHTML(markdown: String) -> String? {
-    
+    let markdown = markdown.replacingOccurrences(of: "{{TOC}}", with: "<div id=\"toc\"></div>")
+
     cmark_gfm_core_extensions_ensure_registered()
     
     guard let parser = cmark_parser_new(CMARK_OPT_FOOTNOTES) else { return nil }

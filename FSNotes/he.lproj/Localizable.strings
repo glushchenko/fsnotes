@@ -25,6 +25,9 @@
 /* Menu */
 "Change Creation Date" = "שנה תאריך יצירה";
 
+/* Menu */
+"Change creation date" = "שנה את תאריך היצירה";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "בדוק דקדוק ביחד עם איות";
 
@@ -33,6 +36,9 @@
 
 /* No comment provided by engineer. */
 "Clear" = "נקה";
+
+/* No comment provided by engineer. */
+"Connection established successfully 🤟" = "החיבור נוצר בהצלחה 🤟";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "העתק HTML";
@@ -46,6 +52,9 @@
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "תקן איות באופן אוטומטי";
 
+/* No comment provided by engineer. */
+"Create Web Page" = "צור דף אינטרנט";
+
 /* Menu */
 "Creation date:" = "תאריך יצירה:";
 
@@ -54,6 +63,9 @@
 
 /* No comment provided by engineer. */
 "Data Detectors" = "גלאי נתונים";
+
+/* No comment provided by engineer. */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "נתיב האחסון צריך לא להיות שווה לנתיב Git.";
@@ -83,6 +95,9 @@
 "Empty password" = "הסיסמה ריקה";
 
 /* No comment provided by engineer. */
+"Encrypt" = "הצפין";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "הכנס סיסמה ראשית";
 
 /* No comment provided by engineer. */
@@ -98,6 +113,15 @@
 "FSNotes [preview]" = "FSNotes [תצוגה]";
 
 /* No comment provided by engineer. */
+"Git push error" = "Git push שְׁגִיאָה";
+
+/* No comment provided by engineer. */
+"Hide Note List" = "הסתר רשימת הערות";
+
+/* No comment provided by engineer. */
+"Hide Sidebar" = "הסתר סרגל צד";
+
+/* No comment provided by engineer. */
 "History" = "היסטוריה";
 
 /* No comment provided by engineer. */
@@ -107,7 +131,16 @@
 "Inbox" = "תיבת דואר נכנס";
 
 /* No comment provided by engineer. */
+"Libgit2 error" = "Libgit2 error";
+
+/* No comment provided by engineer. */
+"Libgit2 error: \(code)" = "Libgit2 שְׁגִיאָה: \(code)";
+
+/* No comment provided by engineer. */
 "Link" = "קישור";
+
+/* No comment provided by engineer. */
+"Lock" = "נעל";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "נעל פתקים מוצפנים";
@@ -151,6 +184,9 @@
 /* No comment provided by engineer. */
 "Path not available" = "הנתיב אינו זמין";
 
+/* No comment provided by engineer. */
+"Pin" = "הצמד";
+
 /* Edit area */
 "Please enter image title:" = "נא הכנס כותרת תמונה:";
 
@@ -165,6 +201,12 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "נא הכנס תגים (מופרדים בפסיק):";
+
+/* No comment provided by engineer. */
+"Please select private and public key" = "אנא בחר מפתח פרטי וציבורי";
+
+/* No comment provided by engineer. */
+"Please select private key" = "אנא בחר מפתח פרטי";
 
 /* No comment provided by engineer. */
 "Please try again" = "נסה שוב";
@@ -209,6 +251,12 @@
 "Show in Finder" = "הצג ב-Finder";
 
 /* No comment provided by engineer. */
+"Show Note List" = "הצג רשימת הערות";
+
+/* No comment provided by engineer. */
+"Show Sidebar" = "הצג סרגל צד";
+
+/* No comment provided by engineer. */
 "Show view options" = "הצג אפשרויות תצוגה";
 
 /* No comment provided by engineer. */
@@ -228,6 +276,9 @@
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "איות ודקדוק";
+
+/* No comment provided by engineer. */
+"SSH error" = "SSH שְׁגִיאָה";
 
 /* No comment provided by engineer. */
 "Substitutions" = "החלפות";
@@ -255,10 +306,19 @@
 "Underline" = "קו תחתון";
 
 /* No comment provided by engineer. */
+"Unlock" = "פתח";
+
+/* No comment provided by engineer. */
+"Unpin" = "בטל הצמדה";
+
+/* No comment provided by engineer. */
 "Untagged" = "ללא תגים";
 
 /* Untitled Note */
 "Untitled Note" = "פתק ללא שם";
+
+/* No comment provided by engineer. */
+"Update Web Page" = "עדכן את דף האינטרנט";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "הכתובת הועתקה";
@@ -271,6 +331,12 @@
 
 /* No comment provided by engineer. */
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "לא ניתן להעביר \\\"{DST_PATH}\\\" מפני שקובץ באותו שם כבר קיים ביעד הנבחר.";
+
+/* No comment provided by engineer. */
+"Web publishing error" = "שגיאת פרסום באינטרנט";
+
+/* No comment provided by engineer. */
+"Wrong password" = "סיסמה שגויה";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "הסיסמאות לא תואמות";

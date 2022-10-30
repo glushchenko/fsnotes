@@ -22,10 +22,6 @@ extension NoteAttachment {
         return attachment
     }
 
-    private func getEditorView() -> EditTextView? {
-        return UIApplication.getEVC().editArea
-    }
-
     private func getImageSize(imageSize: CGSize) -> CGSize? {
         let controller = UIApplication.getVC()
         let maxWidth = controller.view.frame.width - 35

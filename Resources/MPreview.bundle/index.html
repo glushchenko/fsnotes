@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{TITLE}</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{WEB_PATH}apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{WEB_PATH}favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{WEB_PATH}favicon-16x16.png">
+    <meta name="keywords" content="FSNotes, Markdown, Sharing, Web, Hosting, Textbundle">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <meta name="publisher" content="fsnot.es">
+    <meta name="author" content="fsnot.es">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="initial-scale=1.0" />
+    <link charset="utf-8" href="{WEB_PATH}main.css?v=1.0.7" rel="stylesheet">
+    
+    {INLINE_CSS}
+    {MATH_JAX_JS}
+    
+    <script charset="utf-8" src="{WEB_PATH}js/highlight.min.js" type="text/javascript"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script async src="{WEB_PATH}js/mermaid.min.js"></script>
+    
+    <script>
+        function getElementsByText(str, tag = 'h1') {
+            return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
+        }
+
+        function getSelectionAndSendMessage() {
+            var txt = document.getSelection().toString();
+            if ({FSNOTES_PREVIEW}) {
+                window.webkit.messageHandlers.newSelectionDetected.postMessage(txt);
+            }
+        }
+        
+        var darkModeStylesNodeID = "darkModeStyles";
+
+        function addStyleString(str, nodeID) {
+            var node = document.createElement('style');
+            node.id = nodeID;
+            node.innerHTML = str;
+
+            document.getElementsByTagName('head')[0].appendChild(node);
+        }
+
+        function switchToDarkMode(background) {
+            var darkModeStyleElement = document.getElementById(darkModeStylesNodeID);
+            if (darkModeStyleElement == null) {
+                var darkModeStyles = "* { color: white; } body { background: " + background + "; } code { background: #454545; } .hljs { background: #454545 } a { color: #98e7a7 } table { border-color: red } table td, table th { background: #908D8D; border-color: black; } table td, table th, table td *, table th * { color: black }";
+                addStyleString(darkModeStyles, darkModeStylesNodeID);
+            }
+        }
+
+        function switchToLightMode() {
+            var darkModeStyleElement = document.getElementById(darkModeStylesNodeID);
+            if (darkModeStyleElement != null) {
+                darkModeStyleElement.parentElement.removeChild(darkModeStyleElement);
+            }
+        }
+        
+        function getElementsByTextContent(elText) {
+            var allSpans = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+            for (var i = 0; i < allSpans.length; i++) {
+                var spanText = allSpans[i].innerHTML;
+                if(spanText == elText ){
+                    return allSpans[i];
+                }
+            }
+        }
+
+        if ('{FSNOTES_APPEARANCE}' == 'darkmode') {
+            let background = '#2a2b2e';
+
+            if ('{FSNOTES_PLATFORM}' == 'ios') {
+                background = '#000000';
+            }
+
+            switchToDarkMode(background);
+        }
+        
+        document.onmouseup = getSelectionAndSendMessage;
+        document.onkeyup = getSelectionAndSendMessage;
+        document.oncontextmenu = getSelectionAndSendMessage;
+    </script>
+    
+    <script>
+        let loadCodeActions = () => {
+            var preList = document.getElementsByTagName("code"),
+                length = preList.length,
+                i = 0;
+
+            for (i; i < length; i++) {
+                if (preList[i].classList.contains('language-mermaid')) {
+                    continue;
+                }
+
+                preList[i].addEventListener("mouseenter", function(event) {
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('enter')
+                    }
+                });
+
+                preList[i].addEventListener("mouseleave", function(event) {
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('leave')
+                    }
+                });
+
+                preList[i].addEventListener("click", function(event) {
+                    let target = event.target
+                    while (target && target.nodeName !== "CODE") {
+                        target = target.parentElement
+                    }
+
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.clipboard.postMessage(target.innerText);
+                    } else {
+                        navigator.clipboard.writeText(target.innerText);
+                    }
+
+                    target.style.background = "#9c9c9c"
+                    setTimeout(function() {
+                        if (null == document.getElementById("darkModeStyles")) {
+                            target.style.background = "#f5f5f5";
+                        } else {
+                            target.style.background = "#454545";
+                        }
+                    }, 150)
+                });
+            }
+        }
+        
+        let loadAHover = () => {
+            var aList = document.getElementsByTagName("a"),
+                aLength = aList.length,
+                j = 0;
+
+            for (j; j < aLength; j++) {
+                aList[j].addEventListener("mouseenter", function(event) {
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('enter')
+                    }
+                });
+
+                aList[j].addEventListener("mouseleave", function(event) {
+                    if ({FSNOTES_PREVIEW}) {
+                        window.webkit.messageHandlers.mouse.postMessage('leave')
+                    }
+                });
+            }
+        }
+        
+        let loadListStyle = () => {
+            var liList = document.getElementsByTagName("li"),
+                length = liList.length,
+                i = 0;
+
+            for (i; i < length; i++) {
+                if (liList[i].parentNode.tagName == "UL" && liList[i].parentNode.classList.contains('cb')) {
+                    if (liList[i].querySelectorAll('input').length == 0) {
+                        liList[i].style.listStyleType = "disc"
+                    }
+                }
+            }
+        }
+        
+        let loadCheckboxStyle = () => {
+            var preList = document.getElementsByTagName("input"),
+                length = preList.length,
+                i = 0;
+
+            for (i; i < length; i++) {
+                preList[i].disabled = true;
+
+                if (preList[i].parentNode.tagName == "P" && preList[i].parentNode.parentNode.tagName == "LI") {
+                    preList[i].parentNode.parentNode.parentNode.classList.add('cb')
+                    continue;
+                }
+
+                if (preList[i].parentNode.tagName != "LI") {
+                    continue;
+                }
+
+                preList[i].parentNode.parentNode.classList.add('cb')
+            }
+        }
+        
+        let addCheckboxEvent = (element) => {
+            if (element.parentNode.nodeName == 'LI') {
+                element.parentNode.classList.remove('strike');
+            }
+
+            let id = element.dataset.checkbox;
+            
+            if ({FSNOTES_PREVIEW}) {
+                window.webkit.messageHandlers.checkbox.postMessage(id);
+            }
+
+            let input = document.createElement("input");
+            input.type = "checkbox";
+            input.dataset.checkbox = id;
+
+            if (!element.hasAttribute('checked')) {
+                input.defaultChecked = true;
+
+                if (element.parentNode.nodeName == 'LI') {
+                    element.parentNode.classList.add('strike');
+                }
+            }
+
+            element.parentNode.replaceChild(input, element);
+
+            input.addEventListener("click", function(event) {
+                addCheckboxEvent(input);
+            });
+        };
+        
+        let addLocalAHrefEvent = () => {
+            var aList = document.getElementsByTagName("A"),
+                length = aList.length,
+                i = 0;
+
+            for (i; i < length; i++) {
+                var pattern = /^((file):\/\/)/;
+                var url = aList[i].href
+                
+                if (pattern.test(url)) {
+                    aList[i].addEventListener("click", function(event) {
+                        window.webkit.messageHandlers.open.postMessage(event.target.href);
+                    });
+                }
+            }
+        };
+        
+        let loadCheckboxActions = () => {
+            var inputs = document.querySelectorAll('input[type=checkbox]'),
+                length = inputs.length,
+                i = 0;
+                
+            for (i; i < length; i++) {
+                if (inputs[i].parentNode.nodeName == "LI" && inputs[i].hasAttribute('checked')) {
+                    inputs[i].parentNode.classList.add("strike");
+                }
+
+                inputs[i].disabled = false
+                inputs[i].dataset.checkbox = i
+                inputs[i].addEventListener("click", function(event) {
+                    let element = event.target;
+                    addCheckboxEvent(element);
+                });
+            }
+        }
+        
+        let loadTOC = () => {
+            var toc = "";
+            var level = 0;
+
+            document.getElementById("preview").innerHTML =
+                document.getElementById("preview").innerHTML.replace(
+                    /<h([\d])>([^<]+)<\/h([\d])>/gi,
+                    function (str, openLevel, titleText, closeLevel) {
+                        if (openLevel != closeLevel) {
+                            return str;
+                        }
+
+                        if (openLevel > level) {
+                            toc += (new Array(openLevel - level + 1)).join("<ul>");
+                        } else if (openLevel < level) {
+                            toc += (new Array(level - openLevel + 1)).join("</ul>");
+                        }
+
+                        level = parseInt(openLevel);
+
+                        var anchor = encodeURIComponent(titleText.replace(/ /g, "_"));
+                        toc += "<li><a href=\"#" + anchor + "\">" + titleText
+                            + "</a></li>";
+
+                        return "<h" + openLevel + " id=\"" + anchor + "\">"
+                            + titleText + "</h" + closeLevel + ">";
+                    }
+                );
+
+            if (level) {
+                toc += (new Array(level + 1)).join("</ul>");
+            }
+
+            var tocEl = document.getElementById("toc")
+            if (tocEl != null) {
+                document.getElementById("toc").innerHTML += toc;
+            }
+        }
+        
+        let loadMemaid = () => {
+            var config = {
+                startOnLoad: true,
+                theme: 'forest',
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true
+                }
+            };
+
+            mermaid.initialize(config);
+            window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+        };
+        
+        window.onload = function () {
+            loadTOC()
+            loadCheckboxStyle()
+            loadCheckboxActions()
+            loadListStyle()
+            loadAHover()
+            loadCodeActions()
+            loadMemaid()
+            addLocalAHrefEvent()
+        };
+    </script>
+</head>
+
+<body class="{FSNOTES_APPEARANCE} {FSNOTES_PLATFORM}" id="preview">
+    {NOTE_BODY}
+</body>
+
+</html>

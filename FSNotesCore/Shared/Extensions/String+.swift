@@ -176,6 +176,24 @@ public extension String {
         guard let range = Range(nsRange, in: self) else { return nil }
         return self[range]
     }
+
+    func replaced(from: String, to: String, by new: String) -> String {
+        guard let from = range(of: from)?.lowerBound, let to = range(of: to)?.upperBound else { return self }
+
+        let range = from..<to
+        return replacingCharacters(in: range, with: new)
+    }
+    
+    static func random(length: Int = 20) -> String {
+         let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+         var randomString: String = ""
+
+         for _ in 0..<length {
+             let randomValue = arc4random_uniform(UInt32(base.count))
+             randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
+         }
+         return randomString
+     }
 }
 
 extension StringProtocol where Index == String.Index {
