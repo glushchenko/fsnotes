@@ -253,12 +253,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: NSLocalizedString("New", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
 
-        let rtf = NSMenuItem(title: NSLocalizedString("New RTF", comment: ""), action: #selector(AppDelegate.newRTF(_:)), keyEquivalent: "n")
+        let newWindow = NSMenuItem(title: NSLocalizedString("New Window", comment: ""), action: #selector(AppDelegate.createInNewWindow(_:)), keyEquivalent: "n")
         var modifier = NSEvent.modifierFlags
         modifier.insert(.command)
         modifier.insert(.shift)
-        rtf.keyEquivalentModifierMask = modifier
-        menu.addItem(rtf)
+        newWindow.keyEquivalentModifierMask = modifier
+        menu.addItem(newWindow)
 
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: NSLocalizedString("Search and create", comment: ""), action: #selector(AppDelegate.searchAndCreate(_:)), keyEquivalent: "l"))
@@ -339,10 +339,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         ViewController.shared()?.fileMenuNewNote(self)
     }
     
-    @IBAction func newRTF(_ sender: Any?) {
+    @IBAction func createInNewWindow(_ sender: Any?) {
         AppDelegate.mainWindowController?.makeNew()
         NSApp.activate(ignoringOtherApps: true)
-        ViewController.shared()?.fileMenuNewRTF(self)
+        ViewController.shared()?.createInNewWindow(self)
     }
     
     @IBAction func searchAndCreate(_ sender: Any?) {

@@ -94,7 +94,7 @@ CA
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New In New Window" keyEquivalent="N" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
+                                        <menuItem title="New Window" keyEquivalent="N" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
                                             <connections>
                                                 <action selector="createInNewWindow:" target="Ady-hI-5gd" id="fVv-cz-Kms"/>
                                             </connections>
@@ -4725,7 +4725,7 @@ Will Pazner (github.com/pazner)</string>
         <image name="NSShareTemplate" width="19" height="22"/>
         <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
-        <image name="friend" width="420" height="500"/>
+        <image name="friend" width="210" height="250"/>
         <image name="lock-closed" width="128" height="128"/>
         <image name="logo_editor" width="800" height="792"/>
         <image name="new_note_button" width="76" height="76"/>
