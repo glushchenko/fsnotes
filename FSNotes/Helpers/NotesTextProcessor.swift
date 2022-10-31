@@ -326,7 +326,7 @@ public class NotesTextProcessor {
                 .replacingOccurrences(of: "]]", with: "")
                 .trim()
 
-            guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+            guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else { return }
 
             attributedString.addAttribute(.link, value: "\(tagQuery)\(tag)", range: innerRange)
         })
@@ -823,7 +823,7 @@ public class NotesTextProcessor {
             let appLink = attributedString.mutableString.substring(with: _range)
             guard !appLink.startsWith(string: "`") else { return }
 
-            if let link = appLink.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+            if let link = appLink.addingPercentEncoding(withAllowedCharacters: .alphanumerics) {
 
             #if os(iOS)
                 let color =
