@@ -2162,6 +2162,12 @@ class ViewController: EditorViewController,
             if item.title == NSLocalizedString("Copy Link", comment: "")  {
                 item.action = #selector(NSText.copy(_:))
             }
+                        
+            if item.title == NSLocalizedString("Font", comment: "")
+                || item.title == "Make Link"
+                || item.title == NSLocalizedString("Make Link", comment: "") {
+                menu.removeItem(item)
+            }
         }
 
         return menu
