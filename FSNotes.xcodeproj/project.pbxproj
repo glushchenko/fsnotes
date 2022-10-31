@@ -199,9 +199,6 @@
 		D7271FAE2052803500033D0C /* unindent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA82052803400033D0C /* unindent@3x.png */; };
 		D7271FAF2052803500033D0C /* indent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA92052803500033D0C /* indent@3x.png */; };
 		D7271FB02052C77600033D0C /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
-		D727761C290D5B99001BA8EB /* friend.png in Resources */ = {isa = PBXBuildFile; fileRef = D727761B290D5B98001BA8EB /* friend.png */; };
-		D727761D290D5B99001BA8EB /* friend.png in Resources */ = {isa = PBXBuildFile; fileRef = D727761B290D5B98001BA8EB /* friend.png */; };
-		D727761E290D5B99001BA8EB /* friend.png in Resources */ = {isa = PBXBuildFile; fileRef = D727761B290D5B98001BA8EB /* friend.png */; };
 		D730829223084340003185D1 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
 		D730829323084340003185D1 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
 		D730829423084340003185D1 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
@@ -1413,7 +1410,6 @@
 		D7271FA72052803400033D0C /* unindent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unindent@2x.png"; sourceTree = "<group>"; };
 		D7271FA82052803400033D0C /* unindent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unindent@3x.png"; sourceTree = "<group>"; };
 		D7271FA92052803500033D0C /* indent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indent@3x.png"; sourceTree = "<group>"; };
-		D727761B290D5B98001BA8EB /* friend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = friend.png; path = ../../../Downloads/friend.png; sourceTree = "<group>"; };
 		D72E05861F5220D300977D02 /* Down.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Down.framework; sourceTree = "<group>"; };
 		D730829123084340003185D1 /* MPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPreviewView.swift; sourceTree = "<group>"; };
 		D730BD23222AA6B200E69C93 /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locked.png; sourceTree = "<group>"; };
@@ -2596,7 +2592,6 @@
 				D759D1F92276D25C00961E90 /* icon_alt.png */,
 				D759D1FD2276D4C200961E90 /* icon.png */,
 				D7BE112322DA2FE200435866 /* launch.png */,
-				D727761B290D5B98001BA8EB /* friend.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -3104,7 +3099,6 @@
 				D75E33D122462442006AD1C1 /* MPreview.bundle in Resources */,
 				D759D1FC2276D25C00961E90 /* icon_alt.png in Resources */,
 				D75E33D722462442006AD1C1 /* SourceCodePro-Bold.ttf in Resources */,
-				D727761E290D5B99001BA8EB /* friend.png in Resources */,
 				D75E33D822462442006AD1C1 /* AvenirNext-Medium.ttf in Resources */,
 				D75E33D922462442006AD1C1 /* AvenirNext-Bold.ttf in Resources */,
 				D75E33DA22462442006AD1C1 /* SourceCodePro-BoldIt.ttf in Resources */,
@@ -3350,7 +3344,6 @@
 				D7CDE9D6215FEC6B00DC5978 /* copy_white.png in Resources */,
 				D7C690D022AB025800BFBBD1 /* codeblock.png in Resources */,
 				D7C690C922AAE16500BFBBD1 /* indent.png in Resources */,
-				D727761C290D5B99001BA8EB /* friend.png in Resources */,
 				D7F2F19A21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D71AA0282143C1CE004AFD2A /* todo_sidebar.png in Resources */,
 				D7A216F92131A52C00AAFE11 /* todo.png in Resources */,
@@ -3495,7 +3488,6 @@
 				D7F2F1AD21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7D79C29236798C300898A2D /* Welcome.bundle in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,
-				D727761D290D5B99001BA8EB /* friend.png in Resources */,
 				D7C690AC22AA4AE500BFBBD1 /* bold@2x.png in Resources */,
 				D7F2F1B021C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
 				D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */,
@@ -4841,7 +4833,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 541;
+				CURRENT_PROJECT_VERSION = 543;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4852,11 +4844,12 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 6.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4879,7 +4872,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 541;
+				CURRENT_PROJECT_VERSION = 543;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4891,11 +4884,12 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 6.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
@@ -5237,7 +5231,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 542;
+				CURRENT_PROJECT_VERSION = 543;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -5275,7 +5269,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 542;
+				CURRENT_PROJECT_VERSION = 543;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
