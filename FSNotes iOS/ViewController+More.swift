@@ -396,7 +396,7 @@ extension ViewController: UIDocumentPickerDelegate {
             selectedProject.url = newDir
             selectedProject.loadLabel()
 
-            mvc.storage.loadLabel(selectedProject)
+            mvc.storage.loadNotes(selectedProject)
             mvc.sidebarTableView.insertRows(projects: [selectedProject])
             mvc.sidebarTableView.select(project: selectedProject)
         }

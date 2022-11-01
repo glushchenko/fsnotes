@@ -240,7 +240,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             )
 
             storage.assignTree(for: project)
-            storage.loadLabel(project, loadContent: true)
+            storage.loadNotes(project, loadContent: true)
 
             UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
 

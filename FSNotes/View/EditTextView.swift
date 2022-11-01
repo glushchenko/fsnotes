@@ -16,9 +16,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var editorViewController: EditorViewController?
     public var textStorageProcessor: TextStorageProcessor?
     public var note: Note?
-    
-    public static var isBusyProcessing: Bool = false
-
     public var viewDelegate: ViewController?
     
     var isHighlighted: Bool = false

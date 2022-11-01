@@ -2061,9 +2061,11 @@ public class Note: NSObject  {
     public func getGitPath() -> String {
         var path = name
 
+    #if NOT_EXTENSION || os(OSX)
         if let gitPath = project.getGitPath() {
             path = gitPath + "/" + name
         }
+    #endif
 
         return path
     }

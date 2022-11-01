@@ -315,7 +315,7 @@ class ShareViewController: SLComposeServiceViewController {
         let storage = Storage.sharedInstance()
 
         if storage.getNotesBy(project: project).count == 0 {
-            storage.loadLabel(project)
+            storage.loadNotes(project)
         }
 
         let notes = storage.noteList.filter({$0.project == project })

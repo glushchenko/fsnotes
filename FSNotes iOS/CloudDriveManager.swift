@@ -157,7 +157,7 @@ class CloudDriveManager {
                     continue
                 }
 
-                if let currentNote = EditTextView.note,
+                if let currentNote = delegate.editorViewController?.editArea.note,
                     let date = contentChangeDate,
                     currentNote.isEqualURL(url: url),
                     date > note.modifiedLocalAt
@@ -355,7 +355,7 @@ class CloudDriveManager {
                 }
 
                 // Reload current encrypted note
-                if let currentNote = EditTextView.note, currentNote.url == url {
+                if let currentNote = delegate.editorViewController?.editArea.note, currentNote.url == url {
                     if let password = currentNote.password, ext == "etp" {
                         _ = currentNote.unLock(password: password)
                     }

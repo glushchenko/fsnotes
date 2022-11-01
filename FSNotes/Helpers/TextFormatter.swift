@@ -956,7 +956,7 @@ public class TextFormatter {
             : NSRange(location: pRange.location, length: mutableResult.length)
         
         // Fixes clicked area
-        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        storage.removeAttribute(.todo, range: pRange)
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
         storage.updateParagraphStyle(range: getParagraphRange())
@@ -1340,7 +1340,11 @@ public class TextFormatter {
             let editedRange = NSRange(location: range.location, length: replaceString.count)
             storage.replaceCharacters(in: editedRange, with: string)
 
-            storage.textStorage(storage, didProcessEditing: .editedCharacters, range: editedRange, changeInLength: 1)
+            #if os(OSX)
+                storage.textStorage(storage, didProcessEditing: .editedCharacters, range: editedRange, changeInLength: 1)
+            #else
+                storage.delegate?.textStorage!(storage, didProcessEditing: NSTextStorage.EditActions.editedCharacters, range: editedRange, changeInLength: 1)
+            #endif
         }
 
         let parRange = NSRange(location: range.location, length: replaceString.count)
@@ -1421,7 +1425,7 @@ public class TextFormatter {
         insertText(result, replacementRange: pRange, selectRange: selectRange)
         
         // Fixes small font bug
-        textView.textStorage?.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
+        storage.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
     }
 
     public func orderedList() {
@@ -1492,12 +1496,12 @@ public class TextFormatter {
         insertText(result, replacementRange: pRange, selectRange: selectRange)
         
         // Fixes small font bug
-        textView.textStorage?.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
+        storage.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
     }
     
     private func reset(pRange: NSRange) {
-        textView.textStorage?.removeAttribute(.strikethroughStyle, range: pRange)
-        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        storage.removeAttribute(.strikethroughStyle, range: pRange)
+        storage.removeAttribute(.todo, range: pRange)
     }
 
     private func cleanListItem(line: String) -> String {
