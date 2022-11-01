@@ -314,20 +314,26 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         guard let bundleResourceURL = bundle?.resourceURL else { return nil }
 
-        let customCSS = UserDefaultsManagement.markdownPreviewCSS
+        var customCSS: URL? = UserDefaultsManagement.markdownPreviewCSS
+        
+        #if os(iOS)
+            customCSS = nil
+        #endif
 
         let webkitPreview = at
         try? FileManager.default.createDirectory(at: webkitPreview, withIntermediateDirectories: true, attributes: nil)
 
         let indexURL = webkitPreview.appendingPathComponent("index.html")
+        let mainCssUrl = webkitPreview.appendingPathComponent("main.css")
 
         // If updating markdown contents, no need to re-copy bundle.
-        if !FileManager.default.fileExists(atPath: indexURL.path) {
+        if !FileManager.default.fileExists(atPath: indexURL.path) || !FileManager.default.fileExists(atPath: mainCssUrl.path) {
             // Copy bundle resources to temporary location.
             do {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
 
                 for file in fileList {
+                    print(file)
                     if customCSS != nil && file == "css" {
                         continue
                     }
@@ -358,6 +364,12 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         // Write generated index.html to temporary location.
         try? pageHTMLString.write(to: indexURL, atomically: true, encoding: .utf8)
 
+        
+        let xxxUrl = URL(fileURLWithPath: "file:///private/var/mobile/Containers/Data/Application/61C1111B-8C3A-4EE7-AB0F-EFBBED81D1C4/tmp/wkPreview/")
+        
+        print(indexURL.deletingLastPathComponent().path)
+        print(try? FileManager.default.contentsOfDirectory(atPath: indexURL.deletingLastPathComponent().path))
+        
         return indexURL
     }
 
