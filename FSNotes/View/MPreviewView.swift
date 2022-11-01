@@ -364,12 +364,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         // Write generated index.html to temporary location.
         try? pageHTMLString.write(to: indexURL, atomically: true, encoding: .utf8)
 
-        
-        let xxxUrl = URL(fileURLWithPath: "file:///private/var/mobile/Containers/Data/Application/61C1111B-8C3A-4EE7-AB0F-EFBBED81D1C4/tmp/wkPreview/")
-        
-        print(indexURL.deletingLastPathComponent().path)
-        print(try? FileManager.default.contentsOfDirectory(atPath: indexURL.deletingLastPathComponent().path))
-        
         return indexURL
     }
 
