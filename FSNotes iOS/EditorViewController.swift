@@ -54,15 +54,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         editArea.addGestureRecognizer(tap)
-        editArea.textStorage.delegate = editArea.textStorage
+
+        editArea.initTextStorage()
 
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(editMode))
         tapGR.delegate = self
         tapGR.numberOfTapsRequired = 2
         view.addGestureRecognizer(tapGR)
 
-        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 1
-        EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
+        editArea.imagesLoaderQueue.maxConcurrentOperationCount = 1
+        editArea.imagesLoaderQueue.qualityOfService = .userInteractive
 
         super.viewDidLoad()
 
@@ -193,7 +194,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 //            coreNote = nil
 //        }
 
-        EditTextView.note = note
+        
+        editArea.note = note
 
         setTitle(text: note.getShortTitle())
 
@@ -221,7 +223,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         if note.isMarkdown() {
-            EditTextView.shouldForceRescan = true
+            editArea.textStorageProcessor?.shouldForceRescan = true
 
             if let content = note.content.mutableCopy() as? NSMutableAttributedString {
                 content.replaceCheckboxes()
@@ -337,7 +339,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if text == "" {
             let lastChar = textView.textStorage.attributedSubstring(from: range).string
             if lastChar.count == 1 {
-                EditTextView.lastRemoved = lastChar
+                editArea.textStorageProcessor?.lastRemoved = lastChar
             }
         }
 
@@ -597,7 +599,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     @objc public func scanTags() {
         guard UserDefaultsManagement.inlineTags else { return }
-        guard let note = EditTextView.note else { return }
+        guard let note = editArea.note else { return }
 
         UIApplication.getVC().sidebarTableView.loadTags(notes: [note])
 
@@ -621,7 +623,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                 if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
 
-                    if let note = EditTextView.note {
+                    if let note = editArea.note {
                         guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
 
                         let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageURL.lastPathComponent)
@@ -1552,7 +1554,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc public func togglePreview() {
-        guard let note = EditTextView.note else { return }
+        guard let note = editArea.note else { return }
 
         if UserDefaultsManagement.previewMode {
             UserDefaultsManagement.previewMode = false
@@ -1578,7 +1580,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func loadPreviewView() {
-        guard let note = EditTextView.note else { return }
+        guard let note = editArea.note else { return }
 
         var previewView: MPreviewView?
         previewView = getPreviewView()
@@ -1596,8 +1598,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         guard let previewView = previewView else { return }
-        try? previewView.loadHTMLView("", css: "")
 
+        previewView.clean()
         previewView.load(note: note, force: true)
     }
 
@@ -1709,7 +1711,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     override func updateUserActivityState(_ activity: NSUserActivity) {
-        guard let note = EditTextView.note else { return }
+        guard let note = editArea.note else { return }
 
         let position =
             editArea.isFirstResponder ? editArea.selectedRange.location : -1

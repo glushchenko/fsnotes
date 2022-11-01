@@ -819,8 +819,10 @@ class HandlerOpen: NSObject, WKScriptMessageHandler {
             return
         }
         
-        if let url = URL(string: cleanText) {
-            NSWorkspace.shared.activateFileViewerSelecting([url])
-        }
+        #if os(OSX)
+            if let url = URL(string: cleanText) {
+                NSWorkspace.shared.activateFileViewerSelecting([url])
+            }
+        #endif
     }
 }

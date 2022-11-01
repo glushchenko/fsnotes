@@ -11,18 +11,18 @@ import MobileCoreServices
 
 class EditTextView: UITextView, UITextViewDelegate {
 
+    public var textStorageProcessor: TextStorageProcessor?
+    
     public var isAllowedScrollRect: Bool?
-    private var undoIcon = UIImage(named: "undo.png")
-    private var redoIcon = UIImage(named: "redo.png")
     public var typingFont: UIFont?
-    public static var note: Note?
-    public static var isBusyProcessing: Bool = false
-    public static var shouldForceRescan: Bool = false
-    public static var lastRemoved: String?
+    public var note: Note?
     public var lasTouchPoint: CGPoint?
     public var imagesLoaderQueue = OperationQueue.init()
     public var keyboardIsOpened = true
     public var callCounter = 0
+    
+    private var undoIcon = UIImage(named: "undo.png")
+    private var redoIcon = UIImage(named: "redo.png")
 
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
@@ -42,6 +42,14 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         autocorrectionType = UserDefaultsManagement.editorAutocorrection ? .yes : .no
         spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
+    }
+    
+    public func initTextStorage() {
+        let processor = TextStorageProcessor()
+        processor.editor = self
+        
+        textStorageProcessor = processor
+        textStorage.delegate = processor
     }
 
     override func selectionRects(for range: UITextRange) -> [UITextSelectionRect] {
@@ -123,7 +131,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func cut(_ sender: Any?) {
-        guard let note = EditTextView.note else {
+        guard let note = self.note else {
             super.cut(sender)
             return
         }
@@ -176,13 +184,13 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func paste(_ sender: Any?) {
-        guard let note = EditTextView.note else {
+        guard let note = self.note else {
             super.paste(sender)
             return
         }
 
         note.invalidateCache()
-        EditTextView.shouldForceRescan = true
+        textStorageProcessor?.shouldForceRescan = true
 
         for item in UIPasteboard.general.items {
             if let rtfd = item["es.fsnot.attributed.text"] as? Data {
@@ -233,7 +241,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func copy(_ sender: Any?) {
-        guard let note = EditTextView.note else {
+        guard let note = self.note else {
             super.copy(sender)
             return
         }

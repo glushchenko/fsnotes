@@ -1641,23 +1641,24 @@ public class Note: NSObject  {
 
         if let jsonData = try? Data(contentsOf: json),
             let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData) {
-            if let flatExtension = info.flatExtension {
-                let ext = NoteType.withUTI(rawValue: info.type).getExtension(for: .textBundleV2)
-                let fileName = "text.\(ext)"
+                        
+            let ext = NoteType.withUTI(rawValue: info.type).getExtension(for: .textBundleV2)
+            let flatExtension = info.flatExtension ?? ext
+            
+            let fileName = "text.\(ext)"
 
-                let uniqueURL = NameHelper.getUniqueFileName(name: name, project: project, ext: flatExtension)
-                let flatURL = url.appendingPathComponent(fileName)
+            let uniqueURL = NameHelper.getUniqueFileName(name: name, project: project, ext: flatExtension)
+            let flatURL = url.appendingPathComponent(fileName)
 
-                url = uniqueURL
-                type = .withExt(rawValue: flatExtension)
-                container = .none
+            url = uniqueURL
+            type = .withExt(rawValue: flatExtension)
+            container = .none
 
-                try? FileManager.default.moveItem(at: flatURL, to: uniqueURL)
+            try? FileManager.default.moveItem(at: flatURL, to: uniqueURL)
 
-                moveFilesAssetsToFlat(content: uniqueURL, src: textBundleURL, project: project)
+            moveFilesAssetsToFlat(content: uniqueURL, src: textBundleURL, project: project)
 
-                try? FileManager.default.removeItem(at: textBundleURL)
-            }
+            try? FileManager.default.removeItem(at: textBundleURL)
         }
     }
 
@@ -2060,9 +2061,11 @@ public class Note: NSObject  {
     public func getGitPath() -> String {
         var path = name
 
+    #if NOT_EXTENSION || os(OSX)
         if let gitPath = project.getGitPath() {
             path = gitPath + "/" + name
         }
+    #endif
 
         return path
     }

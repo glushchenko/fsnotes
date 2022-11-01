@@ -307,8 +307,9 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
             attachment.image = NoteAttachment.getImage(url: url, size: retinaSize)
 
             DispatchQueue.main.async {
-                let manager = self.editor?.layoutManager as NSLayoutManager
-                manager.invalidateDisplay(forCharacterRange: range)
+                if let manager = self.editor?.layoutManager as? NSLayoutManager {
+                    manager.invalidateDisplay(forCharacterRange: range)
+                }
             }
         }
     }

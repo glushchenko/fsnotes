@@ -94,7 +94,7 @@ CA
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New In New Window" keyEquivalent="N" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
+                                        <menuItem title="New Window" keyEquivalent="N" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
                                             <connections>
                                                 <action selector="createInNewWindow:" target="Ady-hI-5gd" id="fVv-cz-Kms"/>
                                             </connections>
@@ -2931,7 +2931,7 @@ Will Pazner (github.com/pazner)</string>
             <objects>
                 <viewController title="Git" id="2un-du-hJz" customClass="PreferencesGitViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="ffx-Mm-mqT">
-                        <rect key="frame" x="0.0" y="0.0" width="533" height="654"/>
+                        <rect key="frame" x="0.0" y="0.0" width="533" height="642"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="uMw-RH-Mnu">
@@ -3302,7 +3302,6 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="bqG-mw-WZF" firstAttribute="leading" secondItem="e0E-YB-Oq8" secondAttribute="trailing" constant="15" id="PEq-E8-ryQ"/>
                             <constraint firstItem="e0E-YB-Oq8" firstAttribute="centerY" secondItem="H46-qe-euU" secondAttribute="centerY" id="PI0-Xz-JFx"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6jj-hR-ROP" secondAttribute="trailing" constant="20" symbolic="YES" id="QhZ-5J-Kb5"/>
-                            <constraint firstItem="zKc-tc-Ouv" firstAttribute="trailing" secondItem="32v-oF-7du" secondAttribute="trailing" id="Qlo-Gu-0cT"/>
                             <constraint firstItem="mzn-Yp-WXt" firstAttribute="centerY" secondItem="7WC-IR-nhp" secondAttribute="centerY" id="RfM-zW-yj1"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="j6S-7D-dXz" secondAttribute="trailing" constant="20" symbolic="YES" id="SQr-vH-Jip"/>
                             <constraint firstItem="ZU7-AI-4gb" firstAttribute="centerY" secondItem="mzn-Yp-WXt" secondAttribute="centerY" id="STu-SQ-72l"/>
@@ -3344,6 +3343,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="dRB-iE-HKk" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="usL-pA-PKw"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dRB-iE-HKk" secondAttribute="trailing" constant="20" symbolic="YES" id="uvT-ZY-JAo"/>
                             <constraint firstItem="zKc-tc-Ouv" firstAttribute="top" secondItem="6jj-hR-ROP" secondAttribute="bottom" constant="15" id="vOF-7B-UW0"/>
+                            <constraint firstItem="TTi-gR-3SW" firstAttribute="leading" secondItem="IcJ-Ga-eZF" secondAttribute="leading" id="wHO-t7-5LI"/>
                             <constraint firstAttribute="trailing" secondItem="L90-ti-Wjx" secondAttribute="trailing" constant="35" id="wkW-UL-Q9s"/>
                             <constraint firstItem="w1K-65-6eZ" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="wwc-Vb-A6g"/>
                             <constraint firstItem="Su7-am-ZzF" firstAttribute="leading" secondItem="N8Z-se-hEF" secondAttribute="leading" id="wwm-dc-8iK"/>
@@ -4725,7 +4725,7 @@ Will Pazner (github.com/pazner)</string>
         <image name="NSShareTemplate" width="19" height="22"/>
         <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
-        <image name="friend" width="420" height="500"/>
+        <image name="friend" width="210" height="250"/>
         <image name="lock-closed" width="128" height="128"/>
         <image name="logo_editor" width="800" height="792"/>
         <image name="new_note_button" width="76" height="76"/>

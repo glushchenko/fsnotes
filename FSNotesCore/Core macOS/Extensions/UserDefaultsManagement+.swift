@@ -151,19 +151,6 @@ extension UserDefaultsManagement {
         }
     }
 
-    static var lightCodeTheme: String {
-        get {
-            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
-                return theme
-            }
-
-            return "github"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
-        }
-    }
-
     static var dockIcon: Int {
         get {
             if let tag = UserDefaults.standard.object(forKey: Constants.dockIcon) as? Int {

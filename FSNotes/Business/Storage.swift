@@ -675,7 +675,7 @@ class Storage {
         var currentUrl: URL?
                 
         #if NOT_EXTENSION
-            currentUrl = EditTextView.note?.url
+            currentUrl = UIApplication.getEVC().editArea.note?.url
         #endif
         
         let documents = readDirectory(item.url)
@@ -989,28 +989,30 @@ class Storage {
     func getSubFolders(url: URL) -> [NSURL]? {
         var isFinishedEnumerationProcess = false
         
-        // Reset root storage after 30 seconds timeout
-        DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
-            
-            // Reset storage path
-            if !isFinishedEnumerationProcess {
+        #if os(OSX)
+            // Reset root storage after 30 seconds timeout
+            DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
                 
-                // Remove bookmark
-                let bookmark = SandboxBookmark.sharedInstance()
-                bookmark.resetBookmarksDb()
-                
-                // Reset storage url
-                UserDefaultsManagement.customStoragePath = nil
+                // Reset storage path
+                if !isFinishedEnumerationProcess {
+                    
+                    // Remove bookmark
+                    let bookmark = SandboxBookmark.sharedInstance()
+                    bookmark.resetBookmarksDb()
+                    
+                    // Reset storage url
+                    UserDefaultsManagement.customStoragePath = nil
 
-                let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
-                let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
-                let task = Process()
-                task.launchPath = "/usr/bin/open"
-                task.arguments = [path]
-                task.launch()
-                exit(0)
+                    let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+                    let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+                    let task = Process()
+                    task.launchPath = "/usr/bin/open"
+                    task.arguments = [path]
+                    task.launch()
+                    exit(0)
+                }
             }
-        }
+        #endif
         
         guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey], options: FileManager.DirectoryEnumerationOptions()) else { return nil }
 

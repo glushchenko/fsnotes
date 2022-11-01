@@ -62,6 +62,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     lazy var searchBar = UISearchBar(frame: CGRect.zero)
     private var searchController: UISearchController?
+    
+    // Pass for access from CloudDriveManager
+    public var editorViewController: EditorViewController?
 
     override func viewDidAppear(_ animated: Bool) {
         if nil == Storage.shared().getRoot() {
@@ -1017,6 +1020,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         let evc = UIApplication.getEVC()
+        editorViewController = evc
+        
         navigationController?.pushViewController(evc, animated: true)
     }
 
