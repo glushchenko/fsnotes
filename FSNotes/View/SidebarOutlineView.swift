@@ -1163,7 +1163,9 @@ class SidebarOutlineView: NSOutlineView,
                 vc.notesTableView.disableLockedProject()
                 vc.updateTable() {
                     if action == "menu.newNote" {
-                        _ = vc.createNote()
+                        DispatchQueue.main.async {
+                            _ = vc.createNote()
+                        }
                     }
                 }
                 
