@@ -123,6 +123,7 @@ extension ViewController {
         
     private func getSSHResource() -> SSH? {
         let host = UserDefaultsManagement.sftpHost
+        let port = UserDefaultsManagement.sftpPort
         let username = UserDefaultsManagement.sftpUsername
         let passphrase = UserDefaultsManagement.sftpPassphrase
         
@@ -141,17 +142,16 @@ extension ViewController {
         }
         
         guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return nil }
-        guard let ssh = try? SSH(host: host) else { return nil }
         
         do {
+            let ssh = try SSH(host: host, port: port)
             try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+            return ssh
         } catch {
             print(error, error.localizedDescription)
             
             return nil
         }
-        
-        return ssh
     }
     
     private func deleteAPI() {

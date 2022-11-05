@@ -136,15 +136,20 @@ class PreferencesWebViewController: NSViewController {
         let username = UserDefaultsManagement.sftpUsername
         let passphrase = UserDefaultsManagement.sftpPassphrase
         
-        guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return }
-        guard let ssh = try? SSH(host: host, port: port) else { return }
+        guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else {
+            uploadError(text: "Please set private and public keys")
+            return
+        }
         
         let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
 
         guard let bundleResourceURL = bundle?.resourceURL
-            else { return }
+            else {
+            uploadError(text: "Test bundle can not found")
+            return
+        }
         
         let localJsDir = bundleResourceURL.appendingPathComponent("js", isDirectory: true)
         let localFontsDir = bundleResourceURL.appendingPathComponent("fonts", isDirectory: true)
@@ -153,6 +158,8 @@ class PreferencesWebViewController: NSViewController {
         let alert = NSAlert()
 
         do {
+            let ssh = try SSH(host: host, port: port)
+            
             guard let remoteDir = UserDefaultsManagement.sftpPath else { throw "Please enter remote path" }
             
             let remoteJsDir = "\(remoteDir)js/"
@@ -163,8 +170,8 @@ class PreferencesWebViewController: NSViewController {
             
             try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
             
-            _ = try? ssh.execute("mkdir -p \(remoteJsDir)")
-            _ = try? ssh.execute("mkdir -p \(remoteFontsDir)")
+            _ = try ssh.execute("mkdir -p \(remoteJsDir)")
+            _ = try ssh.execute("mkdir -p \(remoteFontsDir)")
             
             let permissions = Permissions(arrayLiteral: .write, .read, .execute)
             let filePerm = FilePermissions(owner: permissions, group: permissions, others: permissions)
@@ -191,6 +198,14 @@ class PreferencesWebViewController: NSViewController {
             alert.messageText = NSLocalizedString("SSH error", comment: "")
         }
         
+        alert.beginSheetModal(for: self.view.window!)
+    }
+    
+    private func uploadError(text: String) {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.informativeText = NSLocalizedString("Upload error", comment: "")
+        alert.messageText = text
         alert.beginSheetModal(for: self.view.window!)
     }
     
