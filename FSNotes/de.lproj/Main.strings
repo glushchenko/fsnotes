@@ -230,7 +230,7 @@
 "Bri-cl-z86.title" = "minutes";
 
 /* Class = "NSMenuItem"; title = "Move Down in the Notes List"; ObjectID = "BtV-Z4-7Vq"; */
-"BtV-Z4-7Vq.title" = "Move Down In The Notes List";
+"BtV-Z4-7Vq.title" = "In der Notizliste nach unten gehen";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Auswahl suchen";
@@ -572,7 +572,7 @@
 "k32-YP-yyI.title" = "Kursiv";
 
 /* Class = "NSMenuItem"; title = "Delete Web Page"; ObjectID = "K4N-le-FPU"; */
-"K4N-le-FPU.title" = "Web-Seite löschen";
+"K4N-le-FPU.title" = "Geteilte löschen";
 
 /* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "KaC-Mz-siK"; */
 "KaC-Mz-siK.title" = "Passwort:";
@@ -755,7 +755,7 @@
 "PY8-lr-5qr.title" = "Erstellungsdatum";
 
 /* Class = "NSMenuItem"; title = "Delete Web Page"; ObjectID = "PzH-8q-38O"; */
-"PzH-8q-38O.title" = "Web-Seite löschen";
+"PzH-8q-38O.title" = "Geteilte aktualisieren";
 
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "Weitersuchen (vorwärts)";
@@ -947,13 +947,13 @@
 "vmV-6d-7jI.title" = "Großschreiben";
 
 /* Class = "NSMenuItem"; title = "Move Down in the Sidebar"; ObjectID = "vrs-XL-lyE"; */
-"vrs-XL-lyE.title" = "Move Down In The Sidebar";
+"vrs-XL-lyE.title" = "In der Seitenleiste nach unten gehen";
 
 /* Class = "NSButtonCell"; title = "Focus on search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
-"Vwq-Ek-K2v.title" = "Focus on Search bar when ESC is pressed";
+"Vwq-Ek-K2v.title" = "Fokus auf Suchleiste, wenn ESC gedrückt wird";
 
 /* Class = "NSMenuItem"; title = "Create Web Page"; ObjectID = "vZO-Tx-X1j"; */
-"vZO-Tx-X1j.title" = "Create Web Page";
+"vZO-Tx-X1j.title" = "Online teilen";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "Bearbeiten";

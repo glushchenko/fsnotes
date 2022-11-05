@@ -53,7 +53,7 @@
 "Correct Spelling Automatically" = "Rechtschreibung automatisch korrigieren";
 
 /* No comment provided by engineer. */
-"Create Web Page" = "Webseite erstellen";
+"Create Web Page" = "Online teilen";
 
 /* Menu */
 "Creation date:" = "Erstellungsdatum:";
@@ -318,7 +318,7 @@
 "Untitled Note" = "Unbenannte Notiz";
 
 /* No comment provided by engineer. */
-"Update Web Page" = "Webseite aktualisieren";
+"Update Web Page" = "Geteilte aktualisieren";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL wurde in die Zwischenablage kopiert";
