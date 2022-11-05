@@ -953,6 +953,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         return self.window?.contentViewController as! EditorViewController
     }
     
+    public func getEVC() -> EditorViewController? {
+        return self.window?.contentViewController as? EditorViewController
+    }
+    
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
         textStorage?.setAttributedString(NSAttributedString(string: ""))
         
@@ -1515,8 +1519,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 if note.fileName != title && title.count > 0 && !note.isEncrypted() {
                     note.rename(to: title)
 
-                    getVC().vcTitleLabel?.updateNotesTableView()
-                    getVC().updateTitle(note: note)
+                    if let editorViewController = getEVC() {
+                        editorViewController.vcTitleLabel?.updateNotesTableView()
+                        editorViewController.updateTitle(note: note)
+                    }
                 }
             }
 

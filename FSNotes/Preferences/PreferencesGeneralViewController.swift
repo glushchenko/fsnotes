@@ -216,21 +216,18 @@ class PreferencesGeneralViewController: NSViewController {
         }
         
         quickNote.shortcutValueChange = { (sender) in
+            mas?.unregisterShortcut(UserDefaultsManagement.quickNoteShortcut)
+            
             if ((self.quickNote.shortcutValue) != nil) {
-                mas?.unregisterShortcut(UserDefaultsManagement.quickNoteShortcut)
-
                 let keyCode = self.quickNote.shortcutValue.keyCode
                 let modifierFlags = self.quickNote.shortcutValue.modifierFlags
 
                 UserDefaultsManagement.quickNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
 
                 MASShortcutMonitor.shared().register(self.quickNote.shortcutValue, withAction: {
-                    
-                    vc.createInNewWindow(self)
+                    vc.quickNote(self)
                 })
             } else {
-                mas?.unregisterShortcut(UserDefaultsManagement.quickNoteShortcut)
-
                 UserDefaultsManagement.quickNoteShortcut = nil
             }
         }

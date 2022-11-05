@@ -424,11 +424,11 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         if let note = createNote(content: "", openInNewWindow: true) {
             NSApp.activate(ignoringOtherApps: true)
             
-            openInNewWindow(note: note, previewState: true)
-            
             if !NSApp.isActive {
-                AppDelegate.mainWindowController?.window?.miniaturize(nil)
+                AppDelegate.mainWindowController?.window?.miniaturize(self)
             }
+            
+            openInNewWindow(note: note, previewState: true)
         }
     }
     
