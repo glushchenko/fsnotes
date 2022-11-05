@@ -1637,6 +1637,10 @@ public class UserDefaultsManagement {
                     return nil
                 }
                 
+                if result.last != "/" {
+                    return result + "/"
+                }
+                
                 return result
             }
 
