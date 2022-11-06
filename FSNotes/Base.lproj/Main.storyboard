@@ -2930,7 +2930,7 @@ Will Pazner (github.com/pazner)</string>
         <scene sceneID="1eZ-Wz-jcm">
             <objects>
                 <viewController title="Git" id="2un-du-hJz" customClass="PreferencesGitViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="ffx-Mm-mqT">
+                    <view key="view" id="ffx-Mm-mqT">
                         <rect key="frame" x="0.0" y="0.0" width="533" height="642"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -3260,6 +3260,16 @@ Will Pazner (github.com/pazner)</string>
                                     <action selector="clonePull:" target="2un-du-hJz" id="uaM-ft-w4H"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F32-gY-oeO">
+                                <rect key="frame" x="271" y="122" width="69" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HPa-9J-5dS">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetGitKeys:" target="sHj-M9-56t" id="WIX-XT-dSP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="lK7-QU-fN2" firstAttribute="top" secondItem="dRB-iE-HKk" secondAttribute="bottom" constant="20" id="0EA-4j-pd0"/>
@@ -3328,6 +3338,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="Aci-NI-V7k" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="gql-Vb-hEZ"/>
                             <constraint firstItem="6jj-hR-ROP" firstAttribute="top" secondItem="IcJ-Ga-eZF" secondAttribute="bottom" constant="20" id="hgH-wQ-ccx"/>
                             <constraint firstItem="uox-cj-0Ej" firstAttribute="top" secondItem="MJR-Nj-qpL" secondAttribute="bottom" constant="20" id="jhp-lT-Ll8"/>
+                            <constraint firstItem="F32-gY-oeO" firstAttribute="centerY" secondItem="TTi-gR-3SW" secondAttribute="centerY" id="kzz-Ye-uak"/>
                             <constraint firstAttribute="trailing" secondItem="IcJ-Ga-eZF" secondAttribute="trailing" constant="35" id="mjP-bB-jsJ"/>
                             <constraint firstItem="7WC-IR-nhp" firstAttribute="top" secondItem="lK7-QU-fN2" secondAttribute="bottom" constant="10" id="n1r-25-a27"/>
                             <constraint firstItem="Aci-NI-V7k" firstAttribute="top" secondItem="bar-ZF-HRI" secondAttribute="bottom" constant="20" id="nMd-Aq-a6R"/>
@@ -3342,6 +3353,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="Y9p-ND-X8k" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yPi-3d-3aE" secondAttribute="trailing" constant="8" symbolic="YES" id="urf-jE-6D5"/>
                             <constraint firstItem="dRB-iE-HKk" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="usL-pA-PKw"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dRB-iE-HKk" secondAttribute="trailing" constant="20" symbolic="YES" id="uvT-ZY-JAo"/>
+                            <constraint firstItem="F32-gY-oeO" firstAttribute="leading" secondItem="TTi-gR-3SW" secondAttribute="trailing" constant="12" symbolic="YES" id="v5B-if-XQ6"/>
                             <constraint firstItem="zKc-tc-Ouv" firstAttribute="top" secondItem="6jj-hR-ROP" secondAttribute="bottom" constant="15" id="vOF-7B-UW0"/>
                             <constraint firstItem="TTi-gR-3SW" firstAttribute="leading" secondItem="IcJ-Ga-eZF" secondAttribute="leading" id="wHO-t7-5LI"/>
                             <constraint firstAttribute="trailing" secondItem="L90-ti-Wjx" secondAttribute="trailing" constant="35" id="wkW-UL-Q9s"/>
@@ -4608,6 +4620,16 @@ Will Pazner (github.com/pazner)</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lCo-ku-pRS">
                                 <rect key="frame" x="20" y="464" width="418" height="5"/>
                             </box>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t4Y-nY-xQx">
+                                <rect key="frame" x="275" y="114" width="69" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XEU-Ia-4j2">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetWebKeys:" target="WwD-v0-S8d" id="lGS-Oz-umV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="eNd-rT-JgT" firstAttribute="leading" secondItem="tsp-KF-Yi6" secondAttribute="leading" constant="35" id="0LB-Dk-H4m"/>
@@ -4632,6 +4654,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="XxT-6E-AmS" firstAttribute="top" secondItem="ehk-E6-jpV" secondAttribute="bottom" constant="10" symbolic="YES" id="Ec4-IA-g7c"/>
                             <constraint firstItem="qqs-mC-mg8" firstAttribute="centerY" secondItem="Zgg-g2-JdS" secondAttribute="centerY" id="Edr-6A-rbK"/>
                             <constraint firstItem="MMZ-ZU-abQ" firstAttribute="top" secondItem="XxT-6E-AmS" secondAttribute="bottom" constant="15" id="FlP-Jx-oqy"/>
+                            <constraint firstItem="t4Y-nY-xQx" firstAttribute="centerY" secondItem="DCf-Af-hOC" secondAttribute="centerY" id="G1z-9S-jhz"/>
                             <constraint firstItem="sJC-70-IBX" firstAttribute="top" secondItem="uVS-UC-gNC" secondAttribute="bottom" constant="25" id="HAf-ap-Iry"/>
                             <constraint firstItem="lCo-ku-pRS" firstAttribute="top" secondItem="KP8-dY-CEz" secondAttribute="bottom" constant="20" id="Hax-iJ-21S"/>
                             <constraint firstItem="XUd-k8-fNm" firstAttribute="baseline" secondItem="jwc-Mi-vbr" secondAttribute="firstBaseline" id="IDe-y8-AUw"/>
@@ -4664,6 +4687,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="M2V-5H-D91" firstAttribute="leading" secondItem="QTV-x3-Da5" secondAttribute="leading" id="WjU-TR-km0"/>
                             <constraint firstAttribute="trailing" secondItem="MMZ-ZU-abQ" secondAttribute="trailing" constant="20" symbolic="YES" id="XvN-yY-JtE"/>
                             <constraint firstAttribute="centerX" secondItem="Zgg-g2-JdS" secondAttribute="trailing" constant="10" id="Y7F-fQ-cw4"/>
+                            <constraint firstItem="t4Y-nY-xQx" firstAttribute="leading" secondItem="DCf-Af-hOC" secondAttribute="trailing" constant="12" symbolic="YES" id="Zau-Ha-xIX"/>
                             <constraint firstItem="XUd-k8-fNm" firstAttribute="leading" secondItem="DCf-Af-hOC" secondAttribute="leading" id="aom-mu-Ozp"/>
                             <constraint firstItem="uVS-UC-gNC" firstAttribute="top" secondItem="ycX-Lf-Ogr" secondAttribute="bottom" constant="20" id="bGX-I1-8n7"/>
                             <constraint firstItem="sQu-2C-39G" firstAttribute="leading" secondItem="tsp-KF-Yi6" secondAttribute="leading" constant="35" id="bRz-88-o2k"/>

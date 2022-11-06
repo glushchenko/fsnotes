@@ -220,4 +220,9 @@ class PreferencesGitViewController: NSViewController {
         
         ProjectSettingsViewController.cloneAndPull(origin: origin, project: project, window: window)
     }
+    
+    @IBAction func resetGitKeys(_ sender: NSButton) {
+        UserDefaultsManagement.gitPrivateKeyData = nil
+        rsaPath.url = nil
+    }
 }

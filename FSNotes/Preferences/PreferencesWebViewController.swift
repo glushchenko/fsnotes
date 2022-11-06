@@ -235,6 +235,10 @@ class PreferencesWebViewController: NSViewController {
         key.isEnabled = state
     }
     
+    @IBAction func resetWebKeys(_ sender: NSButton) {
+        UserDefaultsManagement.sftpAccessData = nil
+        rsaPath.url = nil
+    }
 }
 
 extension String: LocalizedError { // Adds error.localizedDescription to Error instances
