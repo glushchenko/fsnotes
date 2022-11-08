@@ -428,7 +428,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                 AppDelegate.mainWindowController?.window?.miniaturize(self)
             }
             
-            openInNewWindow(note: note, previewState: true)
+            openInNewWindow(note: note)
         }
     }
     
@@ -545,19 +545,13 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     // MARK: Dep methods
     
-    public func openInNewWindow(note: Note, previewState: Bool? = nil, frame: NSRect? = nil, preview: Bool = false) {
+    public func openInNewWindow(note: Note, frame: NSRect? = nil, preview: Bool = false) {
         guard let windowController = NSStoryboard(name: "Main", bundle: nil)
             .instantiateController(withIdentifier: "noteWindowController") as? NSWindowController else { return }
         
         windowController.showWindow(nil)
         windowController.window?.makeKeyAndOrderFront(windowController)
-        
-        if let frame = frame {
-            DispatchQueue.main.async {
-                windowController.window?.setFrame(frame, display: true)
-            }
-        }
-        
+                
         let viewController = windowController.contentViewController as! NoteViewController
         viewController.initWindow()
                 
@@ -569,6 +563,14 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
         
         AppDelegate.noteWindows.insert(windowController, at: 0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let frame = frame {
+                windowController.window?.setFrame(frame, display: true)
+            }
+            
+            viewController.view.window?.makeFirstResponder(viewController.editor)
+        }
     }
     
     func cancelTextSearch() {
