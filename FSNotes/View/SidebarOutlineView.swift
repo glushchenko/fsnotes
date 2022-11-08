@@ -84,6 +84,7 @@ class SidebarOutlineView: NSOutlineView,
                 }
 
                 if let project = item(atRow: selectedRow) as? Project, project.isLocked() {
+                    toggleFolderLock(NSMenuItem())
                     return
                 }
                 
