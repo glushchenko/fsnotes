@@ -134,9 +134,10 @@ class PreferencesWebViewController: NSViewController {
         let host = UserDefaultsManagement.sftpHost
         let port = UserDefaultsManagement.sftpPort
         let username = UserDefaultsManagement.sftpUsername
+        let password = UserDefaultsManagement.sftpPassword
         let passphrase = UserDefaultsManagement.sftpPassphrase
         
-        guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else {
+        if password.count == 0, publicKeyURL == nil || publicKeyURL == nil {
             uploadError(text: "Please set private and public keys")
             return
         }
@@ -168,7 +169,11 @@ class PreferencesWebViewController: NSViewController {
             guard let files = try? FileManager.default.contentsOfDirectory(atPath: localJsDir.path) else { return }
             guard let fontFiles = try? FileManager.default.contentsOfDirectory(atPath: localFontsDir.path) else { return }
             
-            try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+            if password.count > 0 {
+                try ssh.authenticate(username: username, password: password)
+            } else if let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL {
+                try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+            }
             
             _ = try ssh.execute("mkdir -p \(remoteJsDir)")
             _ = try ssh.execute("mkdir -p \(remoteFontsDir)")

@@ -125,6 +125,7 @@ extension ViewController {
         let host = UserDefaultsManagement.sftpHost
         let port = UserDefaultsManagement.sftpPort
         let username = UserDefaultsManagement.sftpUsername
+        let password = UserDefaultsManagement.sftpPassword
         let passphrase = UserDefaultsManagement.sftpPassphrase
         
         var publicKeyURL: URL?
@@ -141,17 +142,34 @@ extension ViewController {
             }
         }
         
-        guard let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL else { return nil }
+        if password.count == 0, publicKeyURL == nil || publicKeyURL == nil {
+            uploadError(text: "Please set private and public keys")
+            return nil
+        }
         
         do {
             let ssh = try SSH(host: host, port: port)
-            try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+            
+            if password.count > 0 {
+                try ssh.authenticate(username: username, password: password)
+            } else if let publicKeyURL = publicKeyURL, let privateKeyURL = privateKeyURL {
+                try ssh.authenticate(username: username, privateKey: privateKeyURL.path, publicKey: publicKeyURL.path, passphrase: passphrase)
+            }
+            
             return ssh
         } catch {
             print(error, error.localizedDescription)
             
             return nil
         }
+    }
+    
+    private func uploadError(text: String) {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.informativeText = NSLocalizedString("Upload error", comment: "")
+        alert.messageText = text
+        alert.beginSheetModal(for: self.view.window!)
     }
     
     private func deleteAPI() {
