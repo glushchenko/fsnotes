@@ -1131,8 +1131,6 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     public func unlock(projects: [Project], password: String, action: String? = nil) {
-        guard let vc = ViewController.shared() else { return }
-        
         var unlocked = [Note]()
         var unlockedQty = 0
         var isEmptyDir = false
@@ -1160,6 +1158,8 @@ class SidebarOutlineView: NSOutlineView,
         
         DispatchQueue.main.async {
             if unlockedQty > 0 || (projects.count == 1 && isEmptyDir) {
+                guard let vc = ViewController.shared() else { return }
+                
                 vc.notesTableView.disableLockedProject()
                 vc.updateTable() {
                     if action == "menu.newNote" {
