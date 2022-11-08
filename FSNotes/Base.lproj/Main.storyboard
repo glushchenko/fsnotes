@@ -1742,7 +1742,7 @@ CA
                                                                     <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="1" height="1"/>
-                                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="background_not_selected"/>
                                                                     <tableViewGridLines key="gridStyleMask" horizontal="YES"/>
                                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                     <tableColumns>
@@ -2480,11 +2480,11 @@ Gw
             <objects>
                 <viewController id="6OZ-zZ-7EL" customClass="AboutViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="stc-Pf-K3l">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="616"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="7js-bf-o2N">
-                                <rect key="frame" x="18" y="154" width="414" height="176"/>
+                                <rect key="frame" x="18" y="138" width="414" height="176"/>
                                 <textFieldCell key="cell" selectable="YES" id="iKE-bp-SFG">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Deutsch 🇩🇪
@@ -2505,7 +2505,7 @@ Hebrew 🇮🇱</string>
                                 </attributedString>
                             </textField>
                             <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs">
-                                <rect key="frame" x="192" y="533" width="67" height="70"/>
+                                <rect key="frame" x="192" y="517" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
@@ -2513,7 +2513,7 @@ Hebrew 🇮🇱</string>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="friend" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="192" y="472" width="67" height="17"/>
+                                <rect key="frame" x="192" y="456" width="67" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2524,7 +2524,7 @@ Hebrew 🇮🇱</string>
                                 </attributedString>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="73" y="372" width="304" height="32"/>
+                                <rect key="frame" x="73" y="356" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Copyright © 2017-2022 Oleksandr Hlushchenko.
@@ -2537,7 +2537,7 @@ All rights reserved.</string>
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="152" y="497" width="146" height="16"/>
+                                <rect key="frame" x="152" y="481" width="146" height="16"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2550,11 +2550,10 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="35" width="414" height="48"/>
+                                <rect key="frame" x="18" y="35" width="414" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Roman Kliuchkovych — kmstrr@gmail.com
-Baran Pirinçal – baranpirincal@gmail.com
 Olena Hlushcneko</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2564,7 +2563,7 @@ Olena Hlushcneko</string>
                                 </attributedString>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
-                                <rect key="frame" x="183" y="97" width="85" height="16"/>
+                                <rect key="frame" x="183" y="81" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Icons design:" id="FKf-Ph-LiA">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2572,7 +2571,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="187" y="348" width="76" height="16"/>
+                                <rect key="frame" x="187" y="332" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2580,7 +2579,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="7I7-hE-gq3">
-                                <rect key="frame" x="170" y="154" width="262" height="176"/>
+                                <rect key="frame" x="170" y="138" width="262" height="176"/>
                                 <textFieldCell key="cell" selectable="YES" id="thj-Sx-DxC">
                                     <font key="font" metaFont="systemThin" size="13"/>
                                     <string key="title">Michael Barzmann
@@ -2601,13 +2600,13 @@ Will Pazner (github.com/pazner)</string>
                                 </attributedString>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="453" width="410" height="5"/>
+                                <rect key="frame" x="20" y="437" width="410" height="5"/>
                             </box>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="tJW-sw-ju9">
-                                <rect key="frame" x="20" y="137" width="410" height="5"/>
+                                <rect key="frame" x="20" y="121" width="410" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="198" y="419" width="54" height="16"/>
+                                <rect key="frame" x="198" y="403" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4762,6 +4761,9 @@ Will Pazner (github.com/pazner)</string>
         <image name="prefsWeb" width="64" height="64"/>
         <image name="privacy" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
+        <namedColor name="background_not_selected">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="highlight">
             <color red="1" green="0.89999997615814209" blue="0.69999998807907104" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
