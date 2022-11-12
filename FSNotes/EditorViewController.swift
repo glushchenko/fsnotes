@@ -677,6 +677,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         for editor in editors {
             if editor.note == note {
                 editor.editorViewController?.refillEditArea(force: true)
+                
+                editor.window?.makeFirstResponder(editor)
             }
         }
     }
