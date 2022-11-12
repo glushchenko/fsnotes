@@ -994,6 +994,11 @@ class ViewController: EditorViewController,
 
         if event.keyCode == kVK_RightArrow {
             if let fr = mw.firstResponder, fr.isKind(of: NotesTableView.self) {
+                if let note = vcEditor?.note, note.isEncryptedAndLocked() {
+                    unLock(notes: [note])
+                    return true
+                }
+                
                 if vcEditor?.isPreviewEnabled() == true {
                     NSApp.mainWindow?.makeFirstResponder(editor.markdownView)
                 } else {
