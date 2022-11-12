@@ -614,6 +614,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         
         if forceLightTheme {
             theme = UserDefaultsManagement.lightCodeTheme
+            fullScreen = true
         }
 
         var codeStyle = String()
