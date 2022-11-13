@@ -46,7 +46,7 @@
 /* Class = "NSViewController"; title = "Git"; ObjectID = "2un-du-hJz"; */
 "2un-du-hJz.title" = "Git";
 
-/* Class = "NSMenuItem"; title = "New In New Window"; ObjectID = "2Vh-rt-1kc"; */
+/* Class = "NSMenuItem"; title = "New Window"; ObjectID = "2Vh-rt-1kc"; */
 "2Vh-rt-1kc.title" = "New In New Window";
 
 /* Class = "NSButtonCell"; title = "Restore cursor position"; ObjectID = "3iM-ZV-3Gf"; */
@@ -91,6 +91,9 @@
 /* Class = "NSTextFieldCell"; placeholderString = "https://github.com/glushchenko/fsnotes.git"; ObjectID = "4Sj-5v-Clo"; */
 "4Sj-5v-Clo.placeholderString" = "https://github.com/glushchenko/fsnotes.git";
 
+/* Class = "NSTextFieldCell"; title = "git@github.com:test/notes.git"; ObjectID = "4Sj-5v-Clo"; */
+"4Sj-5v-Clo.title" = "git@github.com:test/notes.git";
+
 /* Class = "NSTextFieldCell"; title = "Note List Location:"; ObjectID = "54i-GK-spQ"; */
 "54i-GK-spQ.title" = "Notes List Location:";
 
@@ -132,6 +135,9 @@
 
 /* Class = "NSButtonCell"; title = "Close"; ObjectID = "7GB-y2-EMo"; */
 "7GB-y2-EMo.title" = "Close";
+
+/* Class = "NSButtonCell"; title = "Clone"; ObjectID = "7iL-1X-EtS"; */
+"7iL-1X-EtS.title" = "Clone";
 
 /* Class = "NSTextFieldCell"; title = "Current Password:"; ObjectID = "7me-g8-vOq"; */
 "7me-g8-vOq.title" = "Current password:";
@@ -190,6 +196,9 @@
 /* Class = "NSButtonCell"; title = "Upload and test initial data"; ObjectID = "aGv-BR-Oc8"; */
 "aGv-BR-Oc8.title" = "Upload and test initial data";
 
+/* Class = "NSTextFieldCell"; title = "Frameworks and dependencies:"; ObjectID = "As2-xC-mka"; */
+"As2-xC-mka.title" = "Frameworks and dependencies:";
+
 /* Class = "NSTextFieldCell"; title = "Repositories:"; ObjectID = "ASf-hd-2fT"; */
 "ASf-hd-2fT.title" = "Repositories:";
 
@@ -216,6 +225,9 @@
 
 /* Class = "NSTextFieldCell"; placeholderString = "/var/www/example.com"; ObjectID = "bdD-JA-K8P"; */
 "bdD-JA-K8P.placeholderString" = "/var/www/example.com";
+
+/* Class = "NSButtonCell"; title = "Change"; ObjectID = "BHF-CB-P9C"; */
+"BHF-CB-P9C.title" = "Change";
 
 /* Class = "NSTextFieldCell"; title = "Note Font:"; ObjectID = "bJC-he-nDV"; */
 "bJC-he-nDV.title" = "Note Font:";
@@ -291,6 +303,9 @@
 
 /* Class = "NSMenuItem"; title = "Shift Left"; ObjectID = "DeU-hy-pvi"; */
 "DeU-hy-pvi.title" = "Shift Left";
+
+/* Class = "NSButtonCell"; title = "Separate .git in project dir (except iCloud Drive)"; ObjectID = "dop-ho-N26"; */
+"dop-ho-N26.title" = "Separate .git in project dir (except iCloud Drive)";
 
 /* Class = "NSButtonCell"; title = "Custom Server"; ObjectID = "Dp7-4n-ilt"; */
 "Dp7-4n-ilt.title" = "Custom Server";
@@ -487,6 +502,9 @@
 /* Class = "NSMenuItem"; title = "Open In New Window"; ObjectID = "HmK-lp-ASv"; */
 "HmK-lp-ASv.title" = "Open In New Window";
 
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "HPa-9J-5dS"; */
+"HPa-9J-5dS.title" = "Reset";
+
 /* Class = "NSMenuItem"; title = "Search and Create"; ObjectID = "hPY-aY-QOE"; */
 "hPY-aY-QOE.title" = "Search and create";
 
@@ -508,7 +526,10 @@
 /* Class = "NSMenu"; title = "Services"; ObjectID = "hz9-B4-Xy5"; */
 "hz9-B4-Xy5.title" = "Services";
 
-/* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
+/* Class = "NSTextFieldCell"; title = "Trash:"; ObjectID = "i2S-pt-KQH"; */
+"i2S-pt-KQH.title" = "Trash:";
+
+/* Class = "NSTextFieldCell"; title = "Preview CSS:"; ObjectID = "Icf-3C-atz"; */
 "Icf-3C-atz.title" = "Markdown Preview CSS:";
 
 /* Class = "NSMenuItem"; title = "Inbox"; ObjectID = "IHG-4U-pF1"; */
@@ -580,6 +601,9 @@
 /* Class = "NSButtonCell"; title = "Use first line as title"; ObjectID = "kbK-Um-cQk"; */
 "kbK-Um-cQk.title" = "Use first line as title";
 
+/* Class = "NSTextFieldCell"; title = "https://soulver.com"; ObjectID = "kcQ-dJ-JMM"; */
+"kcQ-dJ-JMM.title" = "https://soulver.com";
+
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "Show All";
 
@@ -598,8 +622,14 @@
 /* Class = "NSButtonCell"; title = "Allow Touch ID to unlock notes"; ObjectID = "KST-y3-KvM"; */
 "KST-y3-KvM.title" = "Allow Touch ID to unlock notes";
 
+/* Class = "NSTextFieldCell"; title = "SoulverCore – "; ObjectID = "kZk-te-evK"; */
+"kZk-te-evK.title" = "SoulverCore – ";
+
 /* Class = "NSTextFieldCell"; title = "Origin for main project:"; ObjectID = "L20-FT-VZz"; */
 "L20-FT-VZz.title" = "Origin for main project:";
+
+/* Class = "NSButtonCell"; title = "Custom worktree"; ObjectID = "l5q-h8-hfU"; */
+"l5q-h8-hfU.title" = "Custom worktree";
 
 /* Class = "NSWindow"; title = "Preferences"; ObjectID = "ldu-U8-PD1"; */
 "ldu-U8-PD1.title" = "Window";
@@ -645,6 +675,9 @@
 
 /* Class = "NSMenuItem"; title = "Toggle Todo"; ObjectID = "n0M-SN-fzg"; */
 "n0M-SN-fzg.title" = "Toggle Todo";
+
+/* Class = "NSMenuItem"; title = "Preview Soulver Calculator"; ObjectID = "n3J-UC-Kdr"; */
+"n3J-UC-Kdr.title" = "Preview Soulver Calculator";
 
 /* Class = "NSButtonCell"; title = "Clickable links"; ObjectID = "N8h-ep-HFG"; */
 "N8h-ep-HFG.title" = "Clickable links";
@@ -778,6 +811,9 @@
 /* Class = "NSMenuItem"; title = "Show Options"; ObjectID = "qs2-5J-Q3n"; */
 "qs2-5J-Q3n.title" = "Show view options";
 
+/* Class = "NSButtonCell"; title = "Open in Finder"; ObjectID = "qwS-gG-am3"; */
+"qwS-gG-am3.title" = "Open in Finder";
+
 /* Class = "NSTextFieldCell"; title = "Direction:"; ObjectID = "QxK-39-9yF"; */
 "QxK-39-9yF.title" = "Direction:";
 
@@ -793,6 +829,9 @@
 /* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "rbD-Rh-wIN"; */
 "rbD-Rh-wIN.title" = "Check Spelling While Typing";
 
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "rbM-i0-QFp"; */
+"rbM-i0-QFp.title" = "Reset";
+
 /* Class = "NSMenuItem"; title = "Trash"; ObjectID = "RdI-N4-pR2"; */
 "RdI-N4-pR2.title" = "Trash";
 
@@ -804,6 +843,9 @@
 
 /* Class = "NSMenuItem"; title = "Sort By"; ObjectID = "rHB-xF-GgG"; */
 "rHB-xF-GgG.title" = "Sort by";
+
+/* Class = "NSButtonCell"; title = "Clone"; ObjectID = "Ri7-Yr-qyB"; */
+"Ri7-Yr-qyB.title" = "Clone";
 
 /* Class = "NSMenuItem"; title = "atom-one-dark"; ObjectID = "Rog-4H-qth"; */
 "Rog-4H-qth.title" = "atom-one-dark";
@@ -889,6 +931,9 @@
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "TjZ-PX-YVo"; */
 "TjZ-PX-YVo.title" = "Delete";
 
+/* Class = "NSImageView"; ibShadowedToolTip = "In memory of Mars. ? - 25.08.2022"; ObjectID = "TKE-yB-wPs"; */
+"TKE-yB-wPs.ibShadowedToolTip" = "In memory of Mars. ? - 25.08.2022";
+
 /* Class = "NSButtonCell"; title = "First line as title"; ObjectID = "tMJ-Dj-OZc"; */
 "tMJ-Dj-OZc.title" = "First line as title";
 
@@ -943,11 +988,17 @@
 /* Class = "NSTextFieldCell"; title = "Or use .ssh private key:"; ObjectID = "vfT-nF-vst"; */
 "vfT-nF-vst.title" = "Or use .ssh private key:";
 
+/* Class = "NSButtonCell"; title = "Ask commit message on note save"; ObjectID = "VJs-0B-jGe"; */
+"VJs-0B-jGe.title" = "Ask commit message on note save";
+
 /* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "vmV-6d-7jI"; */
 "vmV-6d-7jI.title" = "Make Upper Case";
 
 /* Class = "NSMenuItem"; title = "Move Down in the Sidebar"; ObjectID = "vrs-XL-lyE"; */
 "vrs-XL-lyE.title" = "Move Down In The Sidebar";
+
+/* Class = "NSMenuItem"; title = "Toggle Container"; ObjectID = "VwE-w2-fAG"; */
+"VwE-w2-fAG.title" = "Toggle Container";
 
 /* Class = "NSButtonCell"; title = "Focus on search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
 "Vwq-Ek-K2v.title" = "Focus on Search bar when ESC is pressed";
@@ -1000,6 +1051,9 @@
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "XBB-Sr-T1D"; */
 "XBB-Sr-T1D.title" = "Rename";
 
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "XEU-Ia-4j2"; */
+"XEU-Ia-4j2.title" = "Reset";
+
 /* Class = "NSMenuItem"; title = "Link"; ObjectID = "xfW-7n-cIw"; */
 "xfW-7n-cIw.title" = "Link";
 
@@ -1036,6 +1090,9 @@
 /* Class = "NSMenuItem"; title = "Find…"; ObjectID = "Xz5-n4-O0W"; */
 "Xz5-n4-O0W.title" = "Find…";
 
+/* Class = "NSMenuItem"; title = "Toggle Container"; ObjectID = "y4W-TV-iZ3"; */
+"y4W-TV-iZ3.title" = "Toggle Container";
+
 /* Class = "NSMenuItem"; title = "Find and Replace…"; ObjectID = "YEy-JH-Tfz"; */
 "YEy-JH-Tfz.title" = "Find and Replace…";
 
@@ -1050,9 +1107,6 @@
 
 /* Class = "NSButtonCell"; title = "Automatically insert closing braces and close quotes"; ObjectID = "ypO-g0-1Xo"; */
 "ypO-g0-1Xo.title" = "Automatically insert closing braces and close quotes";
-
-/* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
-"Yum-W4-OUy.title" = "Change";
 
 /* Class = "NSTextFieldCell"; title = "Username:"; ObjectID = "yVt-tz-tMy"; */
 "yVt-tz-tMy.title" = "Username:";
@@ -1069,7 +1123,7 @@
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "zd2-Rs-DPm"; */
 "zd2-Rs-DPm.title" = "Force Delete";
 
-/* Class = "NSTextFieldCell"; title = "3"; ObjectID = "ZDl-8b-mam"; */
+/* Class = "NSTextFieldCell"; title = "10"; ObjectID = "ZDl-8b-mam"; */
 "ZDl-8b-mam.title" = "3";
 
 /* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */

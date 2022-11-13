@@ -38,7 +38,16 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
+"Commit message:" = "Commit message:";
+
+/* No comment provided by engineer. */
 "Connection established successfully 🤟" = "Connection established successfully 🤟";
+
+/* No comment provided by engineer. */
+"Convert to Plain" = "Convert to Plain";
+
+/* No comment provided by engineer. */
+"Convert to TextBundle" = "Convert to TextBundle";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Copy HTML";
@@ -83,6 +92,9 @@
 "Detach storage" = "Detach storage";
 
 /* No comment provided by engineer. */
+"Do you want force checkout?" = "Do you want force checkout?";
+
+/* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
 
 /* No comment provided by engineer. */
@@ -107,13 +119,22 @@
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
+"Font" = "Font";
+
+/* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редактирование]";
 
 /* No comment provided by engineer. */
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
 
 /* No comment provided by engineer. */
+"Git error" = "Git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push error";
+
+/* No comment provided by engineer. */
+"Git repository already exists, delete it and clone again??" = "Git repository already exists, delete it and clone again??";
 
 /* No comment provided by engineer. */
 "Hide Note List" = "Hide Note List";
@@ -146,6 +167,9 @@
 "Lock All Encrypted" = "Lock All Encrypted";
 
 /* No comment provided by engineer. */
+"Make Link" = "Make Link";
+
+/* No comment provided by engineer. */
 "Master password:" = "Master password:";
 
 /* Menu */
@@ -162,6 +186,9 @@
 
 /* No comment provided by engineer. */
 "New RTF" = "New RTF";
+
+/* No comment provided by engineer. */
+"New Window" = "New Window";
 
 /* No comment provided by engineer. */
 "No" = "No";
@@ -327,6 +354,9 @@
 "Update Web Page" = "Update Web Page";
 
 /* No comment provided by engineer. */
+"Upload error" = "Upload error";
+
+/* No comment provided by engineer. */
 "URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
 
 /* Menu */
@@ -337,6 +367,9 @@
 
 /* No comment provided by engineer. */
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+
+/* No comment provided by engineer. */
+"Web" = "Web";
 
 /* No comment provided by engineer. */
 "Web publishing error" = "Web publishing error";

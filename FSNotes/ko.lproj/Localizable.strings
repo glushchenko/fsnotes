@@ -38,7 +38,16 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
+"Commit message:" = "Commit message:";
+
+/* No comment provided by engineer. */
 "Connection established successfully 🤟" = "성공적으로 연결되었습니다 🤟";
+
+/* No comment provided by engineer. */
+"Convert to Plain" = "로 변환하다 Plain";
+
+/* No comment provided by engineer. */
+"Convert to TextBundle" = "로 변환하다 TextBundle";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "HTML 복사하기";
@@ -83,6 +92,9 @@
 "Detach storage" = "저장소 분리";
 
 /* No comment provided by engineer. */
+"Do you want force checkout?" = "Do you want force checkout?";
+
+/* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "현재 메모를 새 대상으로 이동하시겠습니까?";
 
 /* No comment provided by engineer. */
@@ -107,13 +119,22 @@
 "Folder with name '%@' already exist" = "이름이 '%@'인 폴더가 이미 있습니다.";
 
 /* No comment provided by engineer. */
+"Font" = "Font";
+
+/* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [수정]";
 
 /* No comment provided by engineer. */
 "FSNotes [preview]" = "FSNotes [미리보기]";
 
 /* No comment provided by engineer. */
+"Git error" = "Git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push 오류";
+
+/* No comment provided by engineer. */
+"Git repository already exists, delete it and clone again??" = "Git repository already exists, delete it and clone again??";
 
 /* No comment provided by engineer. */
 "Hide Note List" = "메모 목록 숨기기";
@@ -146,6 +167,9 @@
 "Lock All Encrypted" = "모든 암호화 된 노트 잠금";
 
 /* No comment provided by engineer. */
+"Make Link" = "Make Link";
+
+/* No comment provided by engineer. */
 "Master password:" = "마스터 암호:";
 
 /* Menu */
@@ -162,6 +186,9 @@
 
 /* No comment provided by engineer. */
 "New RTF" = "새로운 RTF파일";
+
+/* No comment provided by engineer. */
+"New Window" = "New Window";
 
 /* No comment provided by engineer. */
 "No" = "아니";
@@ -321,6 +348,9 @@
 "Update Web Page" = "웹 페이지 업데이트";
 
 /* No comment provided by engineer. */
+"Upload error" = "Upload error";
+
+/* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL이 클립보드에 복사되었습니다";
 
 /* Menu */
@@ -331,6 +361,9 @@
 
 /* No comment provided by engineer. */
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "이 항목이 선택한 대상에 이미 있으므로 \"{DST_PATH}\"을(를) 이동할 수 없습니다.";
+
+/* No comment provided by engineer. */
+"Web" = "Web";
 
 /* No comment provided by engineer. */
 "Web publishing error" = "웹 게시 오류";
