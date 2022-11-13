@@ -163,6 +163,14 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         refillEditArea(force: true)
     }
     
+    @IBAction func toggleSoulverCore(_ sender: NSMenuItem) {
+        sender.state = sender.state == .on ? .off : .on
+
+        UserDefaultsManagement.soulverPreview = sender.state == .on
+
+        refillEditArea(force: true)
+    }
+    
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = vcEditor?.note {
             let sharingPicker = NSSharingServicePicker(items: [

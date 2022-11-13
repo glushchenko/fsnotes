@@ -144,6 +144,7 @@ public class UserDefaultsManagement {
         static let SnapshotsInterval = "snapshotsInterval"
         static let SnapshotsIntervalMinutes = "snapshotsIntervalMinutes"
         static let SortBy = "sortBy"
+        static let SoulverPreview = "soulverPreview"
         static let StorageType = "storageType"
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
@@ -1297,6 +1298,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.MathJaxPreview)
+        }
+    }
+    
+    static var soulverPreview: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.SoulverPreview) as? Bool {
+                return result
+            }
+
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SoulverPreview)
         }
     }
 

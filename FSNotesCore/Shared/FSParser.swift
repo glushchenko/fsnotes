@@ -77,6 +77,8 @@ class FSParser {
         ")"
         ].joined(separator: "\n")
 
+    public static let soulverPattern = "(\\\\?\\{)(.+?[\\{\\}]*)(\\})"
+
     public static var nestedBracketsPattern = String()
     public static var nestedParensPattern = String()
 
@@ -157,6 +159,8 @@ class FSParser {
 
         return codeSpan
     }
+
+    public static let soulverRegex = FSParserRegex(pattern: soulverPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 }
 
 public struct FSParserRegex {

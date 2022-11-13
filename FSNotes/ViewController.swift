@@ -428,6 +428,10 @@ class ViewController: EditorViewController,
                     menuItem.state = UserDefaultsManagement.mathJaxPreview ? .on : .off
                     break
                     
+                case "viewMenu.previewSoulver":
+                    menuItem.state = UserDefaultsManagement.soulverPreview ? .on : .off
+                    break
+                    
                 case "viewMenu.historyBack":
                     if vc.notesTableView.historyPosition == 0 {
                         return false
