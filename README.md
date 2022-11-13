@@ -56,3 +56,7 @@ FSNotes is modern notes manager for macOS and iOS.
 ## License
 
 FSNotes is written in **Swift 5** and is open source (MIT license).
+
+## Special Thanks
+
+@zcohan (https://soulver.app) for soulver core framework https://github.com/soulverteam/SoulverCore for simple inline calculation 
