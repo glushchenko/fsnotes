@@ -34,6 +34,7 @@ class ViewController: EditorViewController,
     var tagsScannerQueue = [Note]()
     
     public let gitQueue = OperationQueue()
+    public var prevCommit: Commit?
 
     /* Git */
     private var updateViews = [Note]()
@@ -1974,44 +1975,37 @@ class ViewController: EditorViewController,
         guard notes.count == 0x01 else { return }
 
         DispatchQueue.global().async {
-            let project = note.project.getGitProject()
-            
-//            if let repository = note.project.getRepository() {
-//                do {
-//                    let path = note.getGitPath()
-//                    let fileRevLog11 = try FileHistoryIterator(repository: repository, path: path)
-//                    if let first = fileRevLog11.next() {
-//                        if let commit = try? repository.commitLookup(oid: first) {
-//                            print(commit.date)
-//                        }
-//                    }
-//                } catch {
-//                    
-//                }
-//            }
-            
-            let git = FSGit.sharedInstance()
-            let repository = git.getRepository(by: project)
-            let commits = repository.getCommits(by: note.getGitPath())
-
-            DispatchQueue.main.async {
-                guard commits.count > 0 else {
-                    historyMenu?.isEnabled = false
-                    return
-                }
-
-                for commit in commits {
-                    let menuItem = NSMenuItem()
-                    if let date = commit.getDate() {
-                        menuItem.title = date
+            do {
+                if let repository = try note.project.getRepository() {
+                    let path = note.getGitPath()
+                    let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
+                    
+                    var commits = [Commit]()
+                    while let rev = fileRevLog.next() {
+                        if let commit = try? repository.commitLookup(oid: rev) {
+                            commits.append(commit)
+                        }
                     }
-
-                    menuItem.representedObject = commit
-                    menuItem.action = #selector(vc.checkoutRevision(_:))
-                    historyMenu?.submenu?.addItem(menuItem)
+                    
+                    DispatchQueue.main.async {
+                        guard commits.count > 0 else {
+                            historyMenu?.isEnabled = false
+                            return
+                        }
+        
+                        for commit in commits {
+                            let menuItem = NSMenuItem()
+                            menuItem.title = commit.getDate()
+                            menuItem.representedObject = commit
+                            menuItem.action = #selector(vc.checkoutRevision(_:))
+                            historyMenu?.submenu?.addItem(menuItem)
+                        }
+        
+                        historyMenu?.isEnabled = true
+                    }
                 }
-
-                historyMenu?.isEnabled = true
+            } catch {
+                print(error)
             }
         }
     }

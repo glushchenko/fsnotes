@@ -447,39 +447,48 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         let moveMenu = NSMenu()
 
-        let git = FSGit.sharedInstance()
-        let repository = git.getRepository(by: note.project.getGitProject())
-        let commits = repository.getCommits(by: note.getGitPath())
+        do {
+            if let repository = try note.project.getRepository() {
+                let path = note.getGitPath()
+                let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
+                var commits = [Commit]()
+                while let rev = fileRevLog.next() {
+                    if let commit = try? repository.commitLookup(oid: rev) {
+                        commits.append(commit)
+                    }
+                }
+                
+                // Port
+                if commits.count == 0 {
+                    return
+                }
 
-        if commits.count == 0 {
-            return
-        }
-
-        for commit in commits {
-            let menuItem = NSMenuItem()
-            if let date = commit.getDate() {
-                menuItem.title = date
+                for commit in commits {
+                    let menuItem = NSMenuItem()
+                    menuItem.title = commit.getDate()
+                    menuItem.representedObject = commit
+                    menuItem.action = #selector(vc.checkoutRevision(_:))
+                    moveMenu.addItem(menuItem)
+                }
+                
+                let general = moveMenu.item(at: 0)
+                
+                // Main window
+                if cvc.isKind(of: ViewController.self),
+                   vc.notesTableView.selectedRow >= 0 {
+                    let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
+                    let x = vc.splitView.subviews[0].frame.width + 5
+                    moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
+                    return
+                }
+                
+                // Opened in new window
+                if cvc.isKind(of: NoteViewController.self) {
+                    moveMenu.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
+                }
             }
-
-            menuItem.representedObject = commit
-            menuItem.action = #selector(vc.checkoutRevision(_:))
-            moveMenu.addItem(menuItem)
-        }
-        
-        let general = moveMenu.item(at: 0)
-        
-        // Main window
-        if cvc.isKind(of: ViewController.self),
-           vc.notesTableView.selectedRow >= 0 {
-            let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
-            let x = vc.splitView.subviews[0].frame.width + 5
-            moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
-            return
-        }
-        
-        // Opened in new window
-        if cvc.isKind(of: NoteViewController.self) {
-            moveMenu.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
+        } catch {
+            print(error)
         }
     }
     
@@ -845,7 +854,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
               let note = editor.note,
               let vc = ViewController.shared() else { return }
 
-        FSGit.sharedInstance().cleanCheckoutHistory()
+        vc.prevCommit = nil
 
         vc.blockFSUpdates()
 

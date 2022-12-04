@@ -127,4 +127,22 @@ public class Repository {
             print("Core config error")
         }
     }
+    
+    public func checkout(commit: Commit, path: String) throws {
+        var dirPointer = UnsafeMutablePointer<Int8>(mutating: (path as NSString).utf8String)
+        let paths = withUnsafeMutablePointer(to: &dirPointer) {
+            git_strarray(strings: $0, count: 1)
+        }
+        
+        var opts = git_checkout_options()
+        opts.version = 1
+        opts.paths = paths
+        opts.checkout_strategy = GIT_CHECKOUT_FORCE.rawValue
+        
+        // Checkout new tree
+        let error = git_checkout_tree(self.pointer.pointee, commit.pointer.pointee, &opts);
+        if (error != 0) {
+            throw gitUnknownError("Unable to checkout commit path", code: error)
+        }
+    }
 }

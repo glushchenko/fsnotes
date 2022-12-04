@@ -74,21 +74,28 @@ extension EditorViewController {
     }
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
-        guard let commit = sender.representedObject as? FSCommit else { return }
+        guard let vc = ViewController.shared() else { return }
+        guard let commit = sender.representedObject as? Commit else { return }
         guard let note = vcEditor?.note else { return }
-        let git = FSGit.sharedInstance()
 
         UserDataService.instance.fsUpdatesDisabled = true
 
-        let repository = git.getRepository(by: note.project.getGitProject())
-
-        if git.prevCommit == nil {
-            saveRevision(commitMessage: nil)
+        
+        if vc.prevCommit == nil {
+            saveRevision(commitMessage: "Auto save on history checkout")
         }
 
-        print(note.getGitPath())
-        repository.checkout(commit: commit, fileName: note.getGitPath())
-        git.prevCommit = commit
+        vc.prevCommit = commit
+        
+        do {
+            if let repository = try note.project.getRepository() {
+                let commit = try repository.commitLookup(oid: commit.oid)
+                try repository.checkout(commit: commit, path: note.getGitCheckoutPath())
+                print("Successful checkout")
+            }
+        } catch {
+            print(error)
+        }
 
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)

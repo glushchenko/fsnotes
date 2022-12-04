@@ -2065,6 +2065,22 @@ public class Note: NSObject  {
         if let gitPath = project.getGitPath() {
             path = gitPath + "/" + name
         }
+        
+        if isTextBundle(), let text = getContentFileURL()?.lastPathComponent {
+            return path + "/" + text
+        }
+    #endif
+
+        return path
+    }
+    
+    public func getGitCheckoutPath() -> String {
+        var path = name
+
+    #if NOT_EXTENSION || os(OSX)
+        if let gitPath = project.getGitPath() {
+            path = gitPath + "/" + name
+        }
     #endif
 
         return path

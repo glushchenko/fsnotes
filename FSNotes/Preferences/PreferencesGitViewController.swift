@@ -89,8 +89,6 @@ class PreferencesGitViewController: NSViewController {
 
                 UserDefaultsManagement.gitStorage = url
                 self.repositoriesPath.url = url
-
-                FSGit.resetInstance()
             }
         }
     }

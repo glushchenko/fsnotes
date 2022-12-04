@@ -84,4 +84,8 @@ public class Commit : Object {
                                         code: error, desc: git_error_message())
         }
     }
+    
+    public func getDate() -> String {
+        date.string(format: "yyyy-MM-dd HH:mm:ss")
+    }
 }

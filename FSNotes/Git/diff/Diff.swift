@@ -10,6 +10,8 @@ import Foundation
 
 import Cgit2
 
+var paths = NSMutableDictionary()
+
 /// Define internal object to cast and use with C hander
 class InternalDiffWrapper {
     
@@ -31,7 +33,7 @@ public class Diff {
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
     
     /// All Diff entries
-    lazy private var entries : Dictionary<String, DiffEntry> = {
+    lazy private var entries : NSMutableDictionary = {
         
         // Create internal object to convert in C pointer
         var payload = InternalDiffWrapper(self)
@@ -40,42 +42,12 @@ public class Diff {
         let ptr = Unmanaged.passRetained(CWrapper(payload)).toOpaque()
         
         // Foreach on all diff entries
-        let error = git_diff_foreach(self.pointer.pointee,
-                                     {  delta, progress, payload in
-                                        
-                                        // Transformation du pointer en wrapper
-                                        let diffWrapper = Unmanaged<CWrapper<InternalDiffWrapper>>
-                                            .fromOpaque(payload!)
-                                            .takeRetainedValue()
-                                        
-                                        if let delta = delta {
-                                            
-                                            // Create diff entry
-                                            let diffEntry = DiffEntry(delta: delta)
-                                            
-                                            // Test old name
-                                            if let oldName = diffEntry.oldName {
-                                                
-                                                // Set for old name
-                                                diffWrapper.object.entries[oldName] = diffEntry
-                                            }
-                                            
-                                            // Test new name
-                                            if let newName = diffEntry.newName {
-                                                
-                                                // Set for old name
-                                                diffWrapper.object.entries[newName] = diffEntry
-                                            }
-                                        }
-                                        
-                                        return 0
-                                        
-            }, nil, nil, nil, ptr)
+        let error = git_diff_foreach(self.pointer.pointee, gitDiffFileCB, nil, nil, nil, ptr)
         if (error != 0) {
             NSLog("Error login diff \(git_error_message())")
         }
         
-        return payload.entries
+        return paths
     } ()
     
     // Init with libgit2 diff pointer
@@ -93,6 +65,32 @@ public class Diff {
     
     /// Find diff entry by path
     public func find(byPath path: String) -> DiffEntry? {
-        return entries[path]
+        paths.removeAllObjects()
+        
+        return entries[path] as? DiffEntry
     }
+}
+
+
+
+private func gitDiffFileCB(_ delta: UnsafePointer<git_diff_delta>?, progress:Float, payload: UnsafeMutableRawPointer?) ->Int32 {
+    
+    if let delta = delta {
+        
+        // Create diff entry
+        let diffEntry = DiffEntry(delta: delta)
+        
+        // Test old name
+        if let oldName = diffEntry.oldName {
+            paths[oldName] = diffEntry
+        }
+        
+        // Test new name
+        if let newName = diffEntry.newName {
+            paths[newName] = diffEntry
+        }
+    }
+    
+    
+    return 0
 }
