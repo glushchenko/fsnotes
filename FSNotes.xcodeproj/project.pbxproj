@@ -1086,7 +1086,6 @@
 		D7EFAF6D278B310300175A2F /* HighlighterTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EFAF67278B310300175A2F /* HighlighterTheme.swift */; };
 		D7F1AEB2292177060088F473 /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
 		D7F1AEB32921774B0088F473 /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
-		D7F1AEB42921774B0088F473 /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
 		D7F2F19721C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
 		D7F2F19821C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
 		D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
@@ -1847,6 +1846,7 @@
 				D7A9C1DB29107A0800905619 /* Git in Frameworks */,
 				D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */,
 				4D263F6146A18C711DF30D7F /* Pods_FSNotes_iOS.framework in Frameworks */,
+                D7F1AEB42921774B0088F473 /* SoulverCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2860,6 +2860,7 @@
 			packageProductDependencies = (
 				D7A9C1DA29107A0800905619 /* Git */,
 				D7A9C1DD2910819C00905619 /* Shout */,
+                D7F1AEB1292177060088F473 /* SoulverCore */,
 			);
 			productName = "FSNotes iOS";
 			productReference = D7679386201F21F5000F7BBF /* FSNotes iOS.app */;
