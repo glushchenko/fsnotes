@@ -627,8 +627,6 @@
 		D76025C0204F078A000B9F59 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BD204F078A000B9F59 /* bold@2x.png */; };
 		D76025C1204F078A000B9F59 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BE204F078A000B9F59 /* bold.png */; };
 		D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
-		D767692C2328D23000304E15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; };
-		D767692D2328D9B500304E15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D7679376201F0BFD000F7BBF /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
 		D7679377201F0BFD000F7BBF /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
 		D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679388201F21F5000F7BBF /* AppDelegate.swift */; };
@@ -1001,8 +999,6 @@
 		D7D7CD3A232774BC0016AC15 /* ViewController+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */; };
 		D7D7CD3B232774BC0016AC15 /* ViewController+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */; };
 		D7D7CD3C232774BC0016AC15 /* ViewController+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */; };
-		D7D7CD5023278A2F0016AC15 /* Git.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D7CD4F23278A2F0016AC15 /* Git.bundle */; };
-		D7D7CD5223278A2F0016AC15 /* Git.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D7CD4F23278A2F0016AC15 /* Git.bundle */; };
 		D7D88192214AACF40054586C /* UINote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D88191214AACF40054586C /* UINote.swift */; };
 		D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9503C209D806F001FB60B /* SidebarTableView.swift */; };
@@ -1274,7 +1270,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				D767692D2328D9B500304E15 /* git in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1284,7 +1279,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				D767692C2328D23000304E15 /* git in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1552,7 +1546,6 @@
 		D76025BE204F078A000B9F59 /* bold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bold.png; sourceTree = "<group>"; };
 		D76025C2204F2820000B9F59 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIFont+.swift"; path = "../../FSNotes/Extensions/UIFont+.swift"; sourceTree = "<group>"; };
 		D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagement.swift; sourceTree = "<group>"; };
-		D76769282328D1F400304E15 /* git */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = git; sourceTree = "<group>"; };
 		D7679375201F0BFD000F7BBF /* SortBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBy.swift; sourceTree = "<group>"; };
 		D7679386201F21F5000F7BBF /* FSNotes iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FSNotes iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7679388201F21F5000F7BBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1739,7 +1732,6 @@
 		D7D79B0A24DE738D003C61AF /* settings-icons-format.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-format.png"; sourceTree = "<group>"; };
 		D7D79C27236798C300898A2D /* Welcome.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Welcome.bundle; sourceTree = "<group>"; };
 		D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Git.swift"; sourceTree = "<group>"; };
-		D7D7CD4F23278A2F0016AC15 /* Git.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Git.bundle; sourceTree = "<group>"; };
 		D7D88191214AACF40054586C /* UINote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINote.swift; sourceTree = "<group>"; };
 		D7D9503C209D806F001FB60B /* SidebarTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableView.swift; sourceTree = "<group>"; };
 		D7D9503E209D846E001FB60B /* SidebarTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableCellView.swift; sourceTree = "<group>"; };
@@ -2443,7 +2435,6 @@
 			isa = PBXGroup;
 			children = (
 				D7C52B8028C7A8C2001B2065 /* Git */,
-				D7D7CD48232783940016AC15 /* bin */,
 				D75C903C223EF727002A9CAD /* Preferences */,
 				D7CD5F6A1F51184A006AA35D /* Extensions */,
 				D7B6E59C20794B4C00FE0E20 /* Business */,
@@ -2539,7 +2530,6 @@
 				D7ED6891200F87BD00FF975A /* Initial */,
 				D71C4A4D1F520F0E00EBA30B /* MPreview.bundle */,
 				D7D79C27236798C300898A2D /* Welcome.bundle */,
-				D7D7CD4F23278A2F0016AC15 /* Git.bundle */,
 				D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */,
 				D70A727323944846006AF320 /* checkbox1012.png */,
 				D70A7277239467C1006AF320 /* checkbox_empty1012.png */,
@@ -2598,14 +2588,6 @@
 				D7BE112322DA2FE200435866 /* launch.png */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		D7D7CD48232783940016AC15 /* bin */ = {
-			isa = PBXGroup;
-			children = (
-				D76769282328D1F400304E15 /* git */,
-			);
-			path = bin;
 			sourceTree = "<group>";
 		};
 		D7E6D9D2208085BB003ECAFC /* View */ = {
@@ -3167,7 +3149,6 @@
 				D75E340222462442006AD1C1 /* pin.png in Resources */,
 				D7B15A1E28D76A9400643FA5 /* logo_editor.png in Resources */,
 				D7C690C022AAE16200BFBBD1 /* unindent.png in Resources */,
-				D7D7CD5223278A2F0016AC15 /* Git.bundle in Resources */,
 				D7C690D922AB075F00BFBBD1 /* bold@3x.png in Resources */,
 				D75E340322462442006AD1C1 /* makeNote.png in Resources */,
 				D7C690D822AB075F00BFBBD1 /* bold@2x.png in Resources */,
@@ -3428,7 +3409,6 @@
 				D7D3D51A1F4483F500D152FE /* pin.png in Resources */,
 				D7C690CC22AAE16500BFBBD1 /* unindent.png in Resources */,
 				D7C690DF22AB076000BFBBD1 /* bold@3x.png in Resources */,
-				D7D7CD5023278A2F0016AC15 /* Git.bundle in Resources */,
 				D7D3D5181F44799400D152FE /* makeNote.png in Resources */,
 				D7C690DE22AB076000BFBBD1 /* bold@2x.png in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
@@ -5258,7 +5238,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 551;
+				CURRENT_PROJECT_VERSION = 553;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -5296,7 +5276,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 551;
+				CURRENT_PROJECT_VERSION = 553;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;

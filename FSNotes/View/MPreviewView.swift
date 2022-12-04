@@ -822,7 +822,7 @@ class HandlerOpen: NSObject, WKScriptMessageHandler {
         guard let action = message.body as? String else { return }
         let cleanText = action.trim()
         
-        if cleanText.contains("wkPreview/index.html") {
+        if cleanText.contains("wkPreview/index.html") || cleanText.contains("MPreview.bundle/index.html") {
             return
         }
         
