@@ -3020,8 +3020,8 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </textField>
                             <pathControl verticalHuggingPriority="751" verticalCompressionResistancePriority="751" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKc-tc-Ouv">
-                                <rect key="frame" x="114" y="131" width="94" height="16"/>
-                                <pathCell key="cell" selectable="YES" editable="YES" alignment="left" placeholderString="~/.ssh/id_rsa" id="jce-O1-mzi">
+                                <rect key="frame" x="47" y="131" width="170" height="16"/>
+                                <pathCell key="cell" selectable="YES" editable="YES" alignment="left" placeholderString="id_rsa key is not selected" id="jce-O1-mzi">
                                     <font key="font" metaFont="system"/>
                                 </pathCell>
                             </pathControl>
@@ -3053,7 +3053,7 @@ Will Pazner (github.com/pazner)</string>
                             </textField>
                             <textField verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Jo4-zQ-htF">
                                 <rect key="frame" x="183" y="32" width="252" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="git@github.com:test/notes.git" placeholderString="https://github.com/glushchenko/fsnotes.git" drawsBackground="YES" id="4Sj-5v-Clo">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="git@github.com:username/repo.git" drawsBackground="YES" id="4Sj-5v-Clo">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3351,7 +3351,7 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="uMw-RH-Mnu" firstAttribute="baseline" secondItem="G5r-Ye-OQb" secondAttribute="baseline" id="N3g-qM-6ru"/>
                             <constraint firstItem="IcJ-Ga-eZF" firstAttribute="top" secondItem="G5r-Ye-OQb" secondAttribute="bottom" constant="10" symbolic="YES" id="O44-l2-WZO"/>
                             <constraint firstItem="N8Z-se-hEF" firstAttribute="top" secondItem="ffx-Mm-mqT" secondAttribute="top" constant="35" id="OPy-tZ-dmz"/>
-                            <constraint firstItem="TTi-gR-3SW" firstAttribute="leading" secondItem="zKc-tc-Ouv" secondAttribute="trailing" constant="17" id="Omq-mQ-cIW"/>
+                            <constraint firstItem="TTi-gR-3SW" firstAttribute="leading" secondItem="zKc-tc-Ouv" secondAttribute="trailing" constant="8" symbolic="YES" id="Omq-mQ-cIW"/>
                             <constraint firstAttribute="trailing" secondItem="bar-ZF-HRI" secondAttribute="trailing" constant="20" symbolic="YES" id="PCJ-WX-SdF"/>
                             <constraint firstItem="bqG-mw-WZF" firstAttribute="leading" secondItem="e0E-YB-Oq8" secondAttribute="trailing" constant="15" id="PEq-E8-ryQ"/>
                             <constraint firstItem="e0E-YB-Oq8" firstAttribute="centerY" secondItem="H46-qe-euU" secondAttribute="centerY" id="PI0-Xz-JFx"/>
@@ -3432,7 +3432,7 @@ Will Pazner (github.com/pazner)</string>
                 </viewController>
                 <customObject id="sHj-M9-56t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2993.5" y="729.5"/>
+            <point key="canvasLocation" x="2985" y="701"/>
         </scene>
         <!--Editor-->
         <scene sceneID="cwg-C1-p0s">
@@ -4485,8 +4485,8 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <pathControl verticalHuggingPriority="751" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sJC-70-IBX">
-                                <rect key="frame" x="125" y="123" width="94" height="16"/>
-                                <pathCell key="cell" selectable="YES" editable="YES" alignment="left" placeholderString="~/.ssh/id_rsa" id="wDP-Yg-13R">
+                                <rect key="frame" x="49" y="123" width="170" height="16"/>
+                                <pathCell key="cell" selectable="YES" editable="YES" alignment="left" placeholderString="id_rsa key is not selected" id="wDP-Yg-13R">
                                     <font key="font" metaFont="system"/>
                                 </pathCell>
                             </pathControl>

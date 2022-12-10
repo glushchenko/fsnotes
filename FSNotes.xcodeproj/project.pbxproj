@@ -146,6 +146,8 @@
 		D7169A5E2077BA140025D2C9 /* StorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7169A5C2077BA140025D2C9 /* StorageView.swift */; };
 		D7170C1D20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */; };
 		D7170C1E20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */; };
+		D717461B293D2929005951EE /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
+		D717461C293D2929005951EE /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
 		D71760932826CAC4009794D8 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
 		D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
 		D71AA01A2143948A004AFD2A /* archive.png in Resources */ = {isa = PBXBuildFile; fileRef = D77B9E9A20DE53E0003FAA27 /* archive.png */; };
@@ -1824,7 +1826,7 @@
 			files = (
 				D7C52B7828C7A3D2001B2065 /* Shout in Frameworks */,
 				D75E33C622462442006AD1C1 /* FSNotesCore_macOS.framework in Frameworks */,
-				D7F1AEB42921774B0088F473 /* SoulverCore in Frameworks */,
+				D717461B293D2929005951EE /* SoulverCore in Frameworks */,
 				1F71DF18B03F507DAC3877F5 /* Pods_FSNotes__Notarized_.framework in Frameworks */,
 				D7B4CC5628C7B8860046A25F /* Git in Frameworks */,
 			);
@@ -1844,9 +1846,9 @@
 			files = (
 				D7A9C1DE2910819C00905619 /* Shout in Frameworks */,
 				D7A9C1DB29107A0800905619 /* Git in Frameworks */,
+				D717461C293D2929005951EE /* SoulverCore in Frameworks */,
 				D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */,
 				4D263F6146A18C711DF30D7F /* Pods_FSNotes_iOS.framework in Frameworks */,
-                D7F1AEB42921774B0088F473 /* SoulverCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2860,7 +2862,7 @@
 			packageProductDependencies = (
 				D7A9C1DA29107A0800905619 /* Git */,
 				D7A9C1DD2910819C00905619 /* Shout */,
-                D7F1AEB1292177060088F473 /* SoulverCore */,
+				D7F1AEB1292177060088F473 /* SoulverCore */,
 			);
 			productName = "FSNotes iOS";
 			productReference = D7679386201F21F5000F7BBF /* FSNotes iOS.app */;
@@ -4841,7 +4843,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 551;
+				CURRENT_PROJECT_VERSION = 553;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4858,7 +4860,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.0.4;
+				MARKETING_VERSION = 6.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4880,7 +4882,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 551;
+				CURRENT_PROJECT_VERSION = 553;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4898,7 +4900,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.0.4;
+				MARKETING_VERSION = 6.0.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -5255,7 +5257,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.0.4;
+				MARKETING_VERSION = 6.0.5;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -5294,7 +5296,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.0.4;
+				MARKETING_VERSION = 6.0.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
