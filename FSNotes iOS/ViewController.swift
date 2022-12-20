@@ -286,6 +286,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")
         searchController.searchBar.mixedBackgroundColor = Colors.Header
         searchController.searchBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0xffffff)
+        
+        if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string: textFieldInsideSearchBar.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
+        }
+        
         searchController.searchBar.returnKeyType = .go
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.autocapitalizationType = .none
@@ -1530,5 +1535,14 @@ extension UIApplication {
             closure()
         }
         self.endBackgroundTask(taskID)
+    }
+}
+
+extension UISearchBar {
+    func setPlaceholderTextColorTo(color: UIColor) {
+        let textFieldInsideSearchBar = self.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = color
+        let textFieldInsideSearchBarLabel = textFieldInsideSearchBar!.value(forKey: "placeholderLabel") as? UILabel
+        textFieldInsideSearchBarLabel?.textColor = color
     }
 }

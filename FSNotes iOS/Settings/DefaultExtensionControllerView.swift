@@ -16,9 +16,9 @@ class DefaultExtensionViewController: UITableViewController {
         NSLocalizedString("Files Naming", comment: "Settings"),
     ]
 
-    private var rowsInSection = [1, 4, 4]
+    private var rowsInSection = [1, 3, 4]
 
-    private var extensions = ["markdown", "md", "txt", "rtf"]
+    private var extensions = ["markdown", "md", "txt"]
 
     private var naming = [
         NSLocalizedString("Auto Rename By Title", comment: "Settings"),
