@@ -67,16 +67,41 @@ extension Project {
         let repositoryManager = RepositoryManager()
         let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git")
         
+        // Open
         do {
             let repository = try repositoryManager.openRepository(at: repoURL)
             return repository
-        } catch {
-            guard let originString = getGitOrigin(), let origin = URL(string: originString) else { return nil }
-            
+        } catch {/*_*/}
+        
+        // Clone
+        if let originString = getGitOrigin(), let origin = URL(string: originString) {
             let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
             try? FileManager.default.removeItem(at: cloneURL)
             
-            let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
+            do {
+                let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
+                
+                repository.setWorkTree(path: url.path)
+                
+                let dotGit = cloneURL.appendingPathComponent(".git")
+                
+                if FileManager.default.directoryExists(atUrl: dotGit) {
+                    try? FileManager.default.moveItem(at: dotGit, to: repoURL)
+                    
+                    return try repositoryManager.openRepository(at: repoURL)
+                }
+            } catch {/*_*/}
+            
+            return nil
+        }
+        
+        // Init
+        do {
+            let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+            try? FileManager.default.createDirectory(at: cloneURL, withIntermediateDirectories: true)
+            
+            let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
+            let repository = try repositoryManager.initRepository(at: cloneURL, signature: signature)
             
             repository.setWorkTree(path: url.path)
             
@@ -87,6 +112,8 @@ extension Project {
                 
                 return try repositoryManager.openRepository(at: repoURL)
             }
+        } catch {
+            print("Repo init error: \(error)")
         }
         
         return nil

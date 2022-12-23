@@ -90,7 +90,7 @@ class ProjectSettingsViewController: NSViewController {
         project.gitOrigin = sender.stringValue
         project.saveSettings()
 
-        if project.isCloudProject() {
+        if project.isDefault {
             UserDefaultsManagement.gitOrigin = sender.stringValue
         }
     }
@@ -204,7 +204,7 @@ class ProjectSettingsViewController: NSViewController {
         directionASC.state = project.sortDirection == .asc ? .on : .off
         directionDESC.state = project.sortDirection == .desc ? .on : .off
 
-        if project.isCloudProject(), let masterOrigin = UserDefaultsManagement.gitOrigin {
+        if project.isDefault, let masterOrigin = UserDefaultsManagement.gitOrigin {
             origin.stringValue = masterOrigin
         } else {
             origin.stringValue = project.gitOrigin ?? ""
