@@ -14,7 +14,7 @@ extension Project {
             return nil
         }
 
-        let parentURL = getGitProject().url
+        let parentURL = getRepositoryProject().url
         let relative = url.path.replacingOccurrences(of: parentURL.path, with: "")
         
         if relative.first == "/" {
@@ -29,43 +29,67 @@ extension Project {
     }
     
     public func getGitOrigin() -> String? {
-        if let origin = gitOrigin, origin.count > 0 {
+        if let origin = getRepositoryProject().gitOrigin, origin.count > 0 {
             return origin
-        }
-        
-        let parentProject = getParent()
-        
-        if parentProject.isDefault, let origin = UserDefaultsManagement.gitOrigin, origin.count > 0  {
-            return UserDefaultsManagement.gitOrigin
-        }
-        
-        if let gitOrigin = parentProject.gitOrigin, gitOrigin.count > 0 {
-            return gitOrigin
         }
         
         return nil
     }
-    
-    public func getGitRepositoryUrl() -> URL {
-        if UserDefaultsManagement.separateRepo && !isCloudProject() {
-            return url.appendingPathComponent(".git", isDirectory: true)
+            
+    public func isRepositoryRoot(project: Project) -> Bool {
+        if project.isRoot {
+            return true
         }
         
-        return UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git", isDirectory: true)
+        if project.isDefault {
+            return true
+        }
+        
+        if project.isArchive {
+            return true
+        }
+        
+        if let origin = project.gitOrigin, origin.count > 0 {
+            return true
+        }
+        
+        return false
     }
     
-    public func isRepoExist() -> Bool {
-        let url = getGitRepositoryUrl()
-        return FileManager.default.directoryExists(atUrl: url)
+    public func getRepositoryProject() -> Project {
+        if isRepositoryRoot(project: self) {
+            return self
+        }
+        
+        var parent = self.parent
+        
+        while let unwrapedParent = parent {
+            if isRepositoryRoot(project: unwrapedParent) {
+                return unwrapedParent
+            }
+            
+            parent = unwrapedParent.parent
+        }
+        
+        return self
+    }
+    
+    public func getRepositoryUrl() -> URL {
+        let rootProject = getRepositoryProject()
+        
+        if UserDefaultsManagement.separateRepo && !rootProject.isCloudProject() {
+            return rootProject.url.appendingPathComponent(".git", isDirectory: true)
+        }
+        
+        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + rootProject.label + ".git")
+        
+        return repoURL
     }
     
     public func getRepository() throws -> Repository? {
-        if UserDefaultsManagement.separateRepo && !isCloudProject() {
-            return getSeparateRepository()
-        }
-        
         let repositoryManager = RepositoryManager()
-        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + label + ".git")
+        let repositoryProject = getRepositoryProject()
+        let repoURL = getRepositoryUrl()
         
         // Open
         do {
@@ -73,16 +97,18 @@ extension Project {
             return repository
         } catch {/*_*/}
         
+        // Prepare temporary dir
+        let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+        
+        try? FileManager.default.removeItem(at: cloneURL)
+        try? FileManager.default.createDirectory(at: cloneURL, withIntermediateDirectories: true)
+        
         // Clone
         if let originString = getGitOrigin(), let origin = URL(string: originString) {
-            let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
-            try? FileManager.default.removeItem(at: cloneURL)
-            
             do {
                 let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
                 
-                repository.setWorkTree(path: url.path)
-                
+                repository.setWorkTree(path: repositoryProject.url.path)
                 let dotGit = cloneURL.appendingPathComponent(".git")
                 
                 if FileManager.default.directoryExists(atUrl: dotGit) {
@@ -90,20 +116,18 @@ extension Project {
                     
                     return try repositoryManager.openRepository(at: repoURL)
                 }
-            } catch {/*_*/}
+            } catch {
+                print("Repo clone error: \(error)")
+            }
             
             return nil
         }
         
         // Init
         do {
-            let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
-            try? FileManager.default.createDirectory(at: cloneURL, withIntermediateDirectories: true)
-            
             let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
             let repository = try repositoryManager.initRepository(at: cloneURL, signature: signature)
-            
-            repository.setWorkTree(path: url.path)
+            repository.setWorkTree(path: repositoryProject.url.path)
             
             let dotGit = cloneURL.appendingPathComponent(".git")
             
@@ -119,43 +143,22 @@ extension Project {
         return nil
     }
     
-    public func getSeparateRepository() -> Repository? {
-        let repositoryManager = RepositoryManager()
-        let repoURL = url.appendingPathComponent(".git", isDirectory: true)
-        
-        do {
-            let repository = try repositoryManager.openRepository(at: repoURL)
-            return repository
-        } catch {/*_*/}
-        
-        guard let originString = getGitOrigin(), let origin = URL(string: originString) else { return nil }
-        
-        let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
-        try? FileManager.default.removeItem(at: cloneURL)
-        
-        do {
-            _ = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
-            let dotGit = cloneURL.appendingPathComponent(".git")
-            
-            if FileManager.default.directoryExists(atUrl: dotGit) {
-                try FileManager.default.moveItem(at: dotGit, to: repoURL)
-                
-                return try repositoryManager.openRepository(at: repoURL)
-            }
-        } catch {
-            print("Clone error: \(error)")
-        }
-        
-        return nil
-    }
-    
-    public func isUseSeparateRepo() -> Bool {
+    public func useSeparateRepo() -> Bool {
         return UserDefaultsManagement.separateRepo && !isCloudProject()
     }
     
     public func isCloudProject() -> Bool {
-        return UserDefaultsManagement.storagePath == UserDefaultsManagement.iCloudDocumentsContainer?.path
-            && url.path == UserDefaultsManagement.storagePath
+        if UserDefaultsManagement.storagePath == UserDefaultsManagement.iCloudDocumentsContainer?.path {
+            if url.path == UserDefaultsManagement.storagePath {
+                return true
+            }
+            
+            if getParent().isCloudDrive {
+                return true
+            }
+        }
+        
+        return false
     }
     
     public func getHandler() -> SshKeyHandler? {
@@ -241,9 +244,10 @@ extension Project {
     
     public func pull() throws {
         guard let repository = try getRepository() else { return }
+        let repositoryProject = getRepositoryProject()
                 
         if !UserDefaultsManagement.separateRepo || isCloudProject() {
-            repository.setWorkTree(path: url.path)
+            repository.setWorkTree(path: repositoryProject.url.path)
         }
                 
         let handler = getHandler()
@@ -252,17 +256,9 @@ extension Project {
         let remote = repository.remotes
         let origin = try remote.get(remoteName: "origin")
         
-        _ = try origin.pull(signature: sign, authentication: handler, project: self)
+        _ = try origin.pull(signature: sign, authentication: handler, project: repositoryProject)
     }
-    
-    public func getGitProject() -> Project {
-        if isGitOriginExist() {
-            return self
-        } else {
-            return getParent()
-        }
-    }
-    
+        
     public func isGitOriginExist() -> Bool {
         if let origin = gitOrigin, origin.count > 0 {
             return true

@@ -49,7 +49,7 @@ extension EditorViewController {
         guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
         
         ViewController.shared()?.gitQueue.addOperation({
-            let project = note.project.getGitProject()
+            let project = note.project.getRepositoryProject()
             try? project.commit(message: commitMessage)
 
             // No hands – no mults

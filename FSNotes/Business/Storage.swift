@@ -555,15 +555,7 @@ class Storage {
             && $0.showInSidebar
         })
     }
-    
-    public func getCloudDriveProjects() -> [Project] {
-        return projects.filter({$0.isCloudDrive == true})
-    }
-    
-    public func getLocalProjects() -> [Project] {
-        return projects.filter({$0.isCloudDrive == false})
-    }
-    
+        
     public func getProjectPaths() -> [String] {
         var pathList: [String] = []
         let projects = getProjects()

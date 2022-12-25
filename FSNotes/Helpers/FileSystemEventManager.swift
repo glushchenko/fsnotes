@@ -90,6 +90,10 @@ class FileSystemEventManager {
         let dirURL = URL(fileURLWithPath: event.path, isDirectory: true)
         let project = self.storage.getProjectBy(url: dirURL)
 
+        guard dirURL.lastPathComponent != ".git" else {
+            return
+        }
+        
         guard !dirURL.isHidden() else {
             // hide if exist and hidden (xattr "es.fsnot.hidden.dir")
             if event.dirChange {

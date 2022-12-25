@@ -140,6 +140,7 @@ class PreferencesGitViewController: NSViewController {
     @IBAction func origin(_ sender: NSTextField) {
         let project = Storage.sharedInstance().getDefault()
         project?.gitOrigin = sender.stringValue
+        project?.saveSettings()
         
         UserDefaultsManagement.gitOrigin = sender.stringValue
     }

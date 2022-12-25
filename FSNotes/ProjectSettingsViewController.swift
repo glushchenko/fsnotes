@@ -116,7 +116,7 @@ class ProjectSettingsViewController: NSViewController {
             return
         }
         
-        if project.isRepoExist() {
+        if FileManager.default.directoryExists(atUrl: project.getRepositoryUrl()) {
             let alert = NSAlert()
             alert.messageText = NSLocalizedString("Git repository already exists, delete it and clone again??", comment: "")
             alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
@@ -125,7 +125,7 @@ class ProjectSettingsViewController: NSViewController {
             alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     do {
-                        try FileManager.default.removeItem(at: project.getGitRepositoryUrl())
+                        try FileManager.default.removeItem(at: project.getRepositoryUrl())
                         
                         ProjectSettingsViewController.cloneAndPull(project: project)
                     } catch {/*_*/}
