@@ -897,6 +897,7 @@ class ViewController: EditorViewController,
             )
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
             && UserDefaultsManagement.shouldFocusSearchOnESCKeyDown
+            && !editor.hasMarkedText()
         ) {
             self.view.window?.orderFront(nil)
             self.view.window?.makeKey()
