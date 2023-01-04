@@ -50,7 +50,13 @@ extension EditorViewController {
         
         ViewController.shared()?.gitQueue.addOperation({
             let project = note.project.getRepositoryProject()
-            try? project.commit(message: commitMessage)
+            
+            do {
+                try project.commit(message: commitMessage)
+            } catch {
+                print("Commit error: \(error)")
+                return
+            }
 
             // No hands – no mults
             guard project.getGitOrigin() != nil else { return }
@@ -80,7 +86,6 @@ extension EditorViewController {
 
         UserDataService.instance.fsUpdatesDisabled = true
 
-        
         if vc.prevCommit == nil {
             saveRevision(commitMessage: "Auto save on history checkout")
         }
@@ -136,13 +141,17 @@ extension EditorViewController {
                     continue
                 }
 
-                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    try? project.commit()
-                    
-                    if project.isGitOriginExist() {
-                        try? project.pull()
-                        try? project.push()
+                do {
+                    if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                        try project.commit()
+                        
+                        if project.isGitOriginExist() {
+                            try project.pull()
+                            try project.push()
+                        }
                     }
+                } catch {
+                    print(error)
                 }
             }
         })
@@ -156,6 +165,7 @@ extension EditorViewController {
 
         // Skip on high load
         if vc.gitQueue.operationCount > 5 {
+            print("Pull skipped")
             return
         }
         
@@ -166,7 +176,11 @@ extension EditorViewController {
                 }
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    try? project.pull()
+                    do {
+                        try project.pull()
+                    } catch {
+                        print(error)
+                    }
                 }
             }
         })

@@ -105,30 +105,9 @@ extension Project {
         
         // Clone
         if let originString = getGitOrigin(), let origin = URL(string: originString) {
-            do {
-                let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
-                
-                repository.setWorkTree(path: repositoryProject.url.path)
-                let dotGit = cloneURL.appendingPathComponent(".git")
-                
-                if FileManager.default.directoryExists(atUrl: dotGit) {
-                    try? FileManager.default.moveItem(at: dotGit, to: repoURL)
-                    
-                    return try repositoryManager.openRepository(at: repoURL)
-                }
-            } catch {
-                print("Repo clone error: \(error)")
-            }
+            let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
             
-            return nil
-        }
-        
-        // Init
-        do {
-            let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
-            let repository = try repositoryManager.initRepository(at: cloneURL, signature: signature)
             repository.setWorkTree(path: repositoryProject.url.path)
-            
             let dotGit = cloneURL.appendingPathComponent(".git")
             
             if FileManager.default.directoryExists(atUrl: dotGit) {
@@ -136,8 +115,21 @@ extension Project {
                 
                 return try repositoryManager.openRepository(at: repoURL)
             }
-        } catch {
-            print("Repo init error: \(error)")
+            
+            return nil
+        }
+        
+        // Init
+        let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
+        let repository = try repositoryManager.initRepository(at: cloneURL, signature: signature)
+        repository.setWorkTree(path: repositoryProject.url.path)
+        
+        let dotGit = cloneURL.appendingPathComponent(".git")
+        
+        if FileManager.default.directoryExists(atUrl: dotGit) {
+            try? FileManager.default.moveItem(at: dotGit, to: repoURL)
+            
+            return try repositoryManager.openRepository(at: repoURL)
         }
         
         return nil
@@ -207,6 +199,8 @@ extension Project {
             } catch {
                 print("Commit error: \(error)")
             }
+        } else {
+            print("Commit skipped")
         }
     }
     
