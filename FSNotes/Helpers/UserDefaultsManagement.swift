@@ -1735,7 +1735,12 @@ public class UserDefaultsManagement {
             if let highlight = shared?.object(forKey: Constants.ClickableLinks) {
                 return highlight as! Bool
             }
-            return false
+            
+            #if os(iOS)
+                return true
+            #else
+                return false
+            #endif
         }
         set {
             shared?.set(newValue, forKey: Constants.ClickableLinks)
