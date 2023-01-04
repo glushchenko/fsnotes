@@ -1340,6 +1340,7 @@
 		D70255FE2333CFA0003857AF /* quote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quote.png; sourceTree = "<group>"; };
 		D7038E1F20FA957300A54E69 /* copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy.png; sourceTree = "<group>"; };
 		D7038E2520FB24E000A54E69 /* NoteAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttachment.swift; sourceTree = "<group>"; };
+		D7039E1029660056007B1188 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7063969202230BB00BC8446 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		D708AC662000EF5800A1760F /* NoteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteType.swift; sourceTree = "<group>"; };
@@ -1352,7 +1353,6 @@
 		D70E8D6623705C6200E64D62 /* tag2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag2@2x.png"; sourceTree = "<group>"; };
 		D70E8D6723705C6200E64D62 /* tag2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag2@3x.png"; sourceTree = "<group>"; };
 		D70E8D6823705C6200E64D62 /* tag2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag2.png; sourceTree = "<group>"; };
-		D70FE12C20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7104A63230BD8C500B6D8EE /* SortDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDirection.swift; sourceTree = "<group>"; };
 		D7122F3C2790EBB400B238A4 /* SmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallButton.swift; sourceTree = "<group>"; };
 		D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightModeViewController.swift; sourceTree = "<group>"; };
@@ -1371,7 +1371,6 @@
 		D7163D2E24E81B5C00B1FC05 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D7163D3024E81D0100B1FC05 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D7163D3324E81D9900B1FC05 /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		D7163D3524E827B500B1FC05 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7163D3624E827B600B1FC05 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7163D3724E827B900B1FC05 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7163D3824E82C2F00B1FC05 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1642,7 +1641,6 @@
 		D7A7F782241D12D6003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7A7F786241D12D8003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7A7F789241D1395003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
-		D7A7F7A1241E2E1A003AC0AD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7A9C1D52910784400905619 /* Project+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Git.swift"; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
@@ -1794,8 +1792,6 @@
 		D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextProcessor.swift; sourceTree = "<group>"; };
 		D7FAE29922DDDCF2003874D1 /* inbox_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox_white.png; sourceTree = "<group>"; };
 		D7FAE29A22DDDCF2003874D1 /* inbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox.png; sourceTree = "<group>"; };
-		D7FBBC2120F151530014EC5B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
-		D7FBBC2720F151F80014EC5B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		DC3C71C32975A08E1802EC01 /* Pods-FSNotesCore macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.release.xcconfig"; sourceTree = "<group>"; };
 		DD3B0F49CF148812BE2BDE8E /* Pods-FSNotes iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -3029,7 +3025,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ru,
 				de,
 				es,
 				"ar-IQ",
@@ -4617,7 +4612,6 @@
 		D70FE12B20FE198200813F9E /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D70FE12C20FE198200813F9E /* ru */,
 				D7A7F789241D1395003AC0AD /* uk */,
 				D7573D3B24465AE4005C0112 /* fr */,
 				D7B1F6A72468718F00593001 /* nl-NL */,
@@ -4626,6 +4620,7 @@
 				D7163D4B24E92E7B00B1FC05 /* en */,
 				D7A5B5B224F3D281007AE746 /* de */,
 				99EAC03A2784372E0047A11C /* ja */,
+				D7039E1029660056007B1188 /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4635,7 +4630,6 @@
 			children = (
 				D7B1F6A42468718F00593001 /* nl-NL */,
 				D774761024ACC814003E43D1 /* pt-PT */,
-				D7163D3524E827B500B1FC05 /* ru */,
 				D7163D3624E827B600B1FC05 /* uk */,
 				D7163D3724E827B900B1FC05 /* fr */,
 				D7163D3824E82C2F00B1FC05 /* it */,
@@ -4651,7 +4645,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				D7A7F786241D12D8003AC0AD /* uk */,
-				D7A7F7A1241E2E1A003AC0AD /* ru */,
 				D7573D3A24465AE4005C0112 /* fr */,
 				D7B1F6A32468718E00593001 /* nl-NL */,
 				D774760E24ACC814003E43D1 /* pt-PT */,
@@ -4668,7 +4661,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				D7793C791F211C6000CA39B7 /* Base */,
-				D7FBBC2120F151530014EC5B /* ru */,
 				D735BF2C227EC4C8004C0B31 /* de */,
 				D7F272F7228C96C300974FE2 /* es */,
 				D74B56CF230C0A8700A07AF5 /* ar-IQ */,
@@ -4688,7 +4680,6 @@
 		D7FBBC2820F151F80014EC5B /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D7FBBC2720F151F80014EC5B /* ru */,
 				D735BF2E227EC4C8004C0B31 /* de */,
 				D7F272F9228C96C300974FE2 /* es */,
 				D74B56CD230C0A8700A07AF5 /* ar-IQ */,
@@ -4985,6 +4976,7 @@
 				CURRENT_PROJECT_VERSION = 245;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5019,6 +5011,7 @@
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

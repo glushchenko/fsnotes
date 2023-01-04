@@ -20,7 +20,6 @@ import Foundation
 
 enum LanguageType: Int {
     case English = 0x00
-    case Russian = 0x01
     case Ukrainian = 0x02
     case Deutsch = 0x03
     case Spanish = 0x04
@@ -37,7 +36,6 @@ enum LanguageType: Int {
     var description: String {
         switch rawValue {
         case 0x00: return "English"
-        case 0x01: return "Русский"
         case 0x02: return "Українська"
         case 0x03: return "Deutsch"
         case 0x04: return "Spanish"
@@ -57,7 +55,6 @@ enum LanguageType: Int {
     var code: String {
         switch rawValue {
         case 0x00: return "en"
-        case 0x01: return "ru"
         case 0x02: return "uk"
         case 0x03: return "de"
         case 0x04: return "es"
@@ -77,7 +74,6 @@ enum LanguageType: Int {
     static func withName(rawValue: String) -> LanguageType {
         switch rawValue {
         case "English": return LanguageType.English
-        case "Русский": return LanguageType.Russian
         case "Українська": return LanguageType.Ukrainian
         case "Deutsch": return LanguageType.Deutsch
         case "Spanish": return LanguageType.Spanish
@@ -97,7 +93,6 @@ enum LanguageType: Int {
     static func withCode(rawValue: String) -> Int {
         switch rawValue {
         case "en": return 0x00
-        case "ru": return 0x01
         case "uk": return 0x02
         case "de": return 0x03
         case "es": return 0x04
