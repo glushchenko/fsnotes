@@ -18,6 +18,7 @@ public class FileHistoryIterator : RevisionIterator {
     
     // Previous commit oid
     private var previousOid: OID? = nil
+    private var lastFetchedOid: OID? = nil
     
     public init(repository: Repository, path: String, refspec: String = "HEAD") throws {
         
@@ -56,8 +57,9 @@ public class FileHistoryIterator : RevisionIterator {
             return nil
         }
         
+        lastFetchedOid = oid
+        
         do {
-            
             // Find commit
             let currentCommit = try repository.commitLookup(oid: oid)
             
@@ -67,15 +69,8 @@ public class FileHistoryIterator : RevisionIterator {
             // Find current entry
             let entry = try tree.entry(byPath: path)
             if (entry == nil) {
-                // No entry so no next
-                
-                // Save previousOid
-                let validOid = previousOid
-                
-                // Reset previousOid
-                previousOid = nil
-                
-                return validOid;
+                previousOid = oid
+                return next();
             }
             
             // Test previous
@@ -121,5 +116,24 @@ public class FileHistoryIterator : RevisionIterator {
         }
         
         return nil
+    }
+    
+    public func getLast() -> OID? {
+        return lastFetchedOid
+    }
+    
+    public func checkFirstCommit() -> Bool {
+        guard let oid = lastFetchedOid else { return false }
+        
+        do {
+            let currentCommit = try repository.commitLookup(oid: oid)
+            let tree = try currentCommit.tree()
+            let entry = try tree.entry(byPath: path)
+            if entry != nil {
+                return true
+            }
+        } catch {/*_*/}
+        
+        return false
     }
 }

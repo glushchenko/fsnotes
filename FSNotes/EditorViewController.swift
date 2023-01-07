@@ -449,14 +449,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         do {
             if let repository = try note.project.getRepository() {
-                let path = note.getGitPath().recode4byteString()
-                let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
-                var commits = [Commit]()
-                while let rev = fileRevLog.next() {
-                    if let commit = try? repository.commitLookup(oid: rev) {
-                        commits.append(commit)
-                    }
-                }
+                let commits = getCommits(from: repository, by: note)
                 
                 // Port
                 if commits.count == 0 {
@@ -490,6 +483,29 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         } catch {
             print(error)
         }
+    }
+    
+    public func getCommits(from repository: Repository, by note: Note) -> [Commit] {
+        let path = note.getGitPath().recode4byteString()
+        var commits = [Commit]()
+        
+        do {
+            let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
+            
+            while let rev = fileRevLog.next() {
+                if let commit = try? repository.commitLookup(oid: rev) {
+                    commits.append(commit)
+                }
+            }
+            
+            if fileRevLog.checkFirstCommit() {
+                if let oid = fileRevLog.getLast(), let commit = try? repository.commitLookup(oid: oid) {
+                    commits.append(commit)
+                }
+            }
+        } catch {/*_*/}
+        
+        return commits
     }
     
     

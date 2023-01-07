@@ -67,7 +67,19 @@ public class Diff {
     public func find(byPath path: String) -> DiffEntry? {
         paths.removeAllObjects()
         
-        return entries[path] as? DiffEntry
+        // Create internal object to convert in C pointer
+        let payload = InternalDiffWrapper(self)
+        
+        // COnvert in C pointer
+        let ptr = Unmanaged.passRetained(CWrapper(payload)).toOpaque()
+        
+        // Foreach on all diff entries
+        let error = git_diff_foreach(self.pointer.pointee, gitDiffFileCB, nil, nil, nil, ptr)
+        if (error != 0) {
+            NSLog("Error login diff \(git_error_message())")
+        }
+        
+        return paths[path] as? DiffEntry
     }
 }
 
