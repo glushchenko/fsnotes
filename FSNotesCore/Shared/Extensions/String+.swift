@@ -183,7 +183,7 @@ public extension String {
         let range = from..<to
         return replacingCharacters(in: range, with: new)
     }
-    
+
     static func random(length: Int = 20) -> String {
          let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
          var randomString: String = ""
@@ -194,6 +194,15 @@ public extension String {
          }
          return randomString
      }
+
+    // Join multibyte chars 1081 774 (и  ̆) to 1081 (й), important for proper length (git integration fn: git_tree_entry_bypath)
+    func recode4byteString() -> String {
+        if let decodedString = self.applyingTransform(.stripCombiningMarks, reverse: true) {
+            return decodedString
+        }
+
+        return self
+    }
 }
 
 extension StringProtocol where Index == String.Index {

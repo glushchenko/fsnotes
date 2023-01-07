@@ -1978,7 +1978,7 @@ class ViewController: EditorViewController,
         DispatchQueue.global().async {
             do {
                 if let repository = try note.project.getRepository() {
-                    let path = note.getGitPath()
+                    let path = note.getGitPath().recode4byteString()
                     let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
                     
                     var commits = [Commit]()

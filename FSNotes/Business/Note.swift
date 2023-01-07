@@ -2075,7 +2075,7 @@ public class Note: NSObject  {
     }
     
     public func getGitCheckoutPath() -> String {
-        var path = name
+        var path = name.recode4byteString()
 
     #if NOT_EXTENSION || os(OSX)
         if let gitPath = project.getGitPath() {
