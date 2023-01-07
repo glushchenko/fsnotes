@@ -145,10 +145,10 @@ extension EditorViewController {
                     if project.isRoot || project.isArchive || project.isGitOriginExist()  {
                         try project.commit()
                         
-                        if project.isGitOriginExist() {
-                            try project.pull()
-                            try project.push()
-                        }
+                        guard project.getGitOrigin() != nil else { continue }
+                        
+                        try project.pull()
+                        try project.push()
                     }
                 } catch {
                     print(error)
@@ -177,9 +177,11 @@ extension EditorViewController {
 
                 if project.isRoot || project.isArchive || project.isGitOriginExist()  {
                     do {
+                        guard project.getGitOrigin() != nil else { continue }
+                        
                         try project.pull()
                     } catch {
-                        print(error)
+                        print("Scheduled pull error: \(error)")
                     }
                 }
             }
