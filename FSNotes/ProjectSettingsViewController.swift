@@ -116,6 +116,27 @@ class ProjectSettingsViewController: NSViewController {
             return
         }
         
+        let password = UserDefaultsManagement.gitPassword ?? ""
+        let username = UserDefaultsManagement.gitUsername ?? ""
+        
+        if origin.startsWith(string: "git") && (password.count > 0 || username.count > 0) {
+            let alert = NSAlert()
+            alert.messageText = "Wrong configuration"
+            alert.alertStyle = .critical
+            alert.informativeText = "You cannot use Username and Password with git@ origin, please use private key"
+            alert.runModal()
+            return
+        }
+        
+        if origin.startsWith(string: "https") && (password.count == 0 || username.count == 0) {
+            let alert = NSAlert()
+            alert.messageText = "Wrong configuration"
+            alert.alertStyle = .critical
+            alert.informativeText = "Please fill Username and Password for https:// origin"
+            alert.runModal()
+            return
+        }
+        
         if FileManager.default.directoryExists(atUrl: project.getRepositoryUrl()) {
             let alert = NSAlert()
             alert.messageText = NSLocalizedString("Git repository already exists, delete it and clone again??", comment: "")
