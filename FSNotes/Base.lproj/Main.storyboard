@@ -2511,13 +2511,13 @@ Hebrew 🇮🇱</string>
                                     <fragment content="#bc-ignore!"/>
                                 </attributedString>
                             </textField>
-                            <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs">
+                            <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs" customClass="AboutImageView" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="192" y="577" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="friend" id="FCd-Ar-efh"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="dockIcon4" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
                                 <rect key="frame" x="192" y="516" width="67" height="17"/>
@@ -2534,7 +2534,7 @@ Hebrew 🇮🇱</string>
                                 <rect key="frame" x="73" y="416" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
-                                    <string key="title">Copyright © 2017-2022 Oleksandr Hlushchenko.
+                                    <string key="title">Copyright © 2017-2023 Oleksandr Hlushchenko.
 All rights reserved.</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -4793,7 +4793,6 @@ Will Pazner (github.com/pazner)</string>
         <image name="NSShareTemplate" width="19" height="22"/>
         <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
-        <image name="friend" width="210" height="250"/>
         <image name="lock-closed" width="128" height="128"/>
         <image name="logo_editor" width="800" height="792"/>
         <image name="new_note_button" width="76" height="76"/>

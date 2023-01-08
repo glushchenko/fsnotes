@@ -827,6 +827,9 @@
 		D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA78208C749F002CE3C3 /* repository.png */; };
 		D7BBCA7C208C7523002CE3C3 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA7B208C7523002CE3C3 /* tag.png */; };
 		D7BBCA7D208C7523002CE3C3 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA7B208C7523002CE3C3 /* tag.png */; };
+		D7BCF035296B0DAA00F72A4F /* AboutImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */; };
+		D7BCF036296B0DAA00F72A4F /* AboutImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */; };
+		D7BCF037296B0DAA00F72A4F /* AboutImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */; };
 		D7BDFE59201F671900897A58 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
 		D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
@@ -1665,6 +1668,7 @@
 		D7BAC64C24A360E1008D29AA /* home_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_white.png; sourceTree = "<group>"; };
 		D7BBCA78208C749F002CE3C3 /* repository.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repository.png; sourceTree = "<group>"; };
 		D7BBCA7B208C7523002CE3C3 /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
+		D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutImageView.swift; sourceTree = "<group>"; };
 		D7BDFE66201F679B00897A58 /* FSNotes iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOS.entitlements"; sourceTree = "<group>"; };
 		D7BDFE69201F68B700897A58 /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7BDFE6B201F6DC200897A58 /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
@@ -2614,6 +2618,7 @@
 				D768D75B245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift */,
 				D730829123084340003185D1 /* MPreviewView.swift */,
 				D70B1FAA29213EDF003923DC /* HyperlinkTextField.swift */,
+				D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3951,6 +3956,7 @@
 				D75E33AF22462442006AD1C1 /* SortBy.swift in Sources */,
 				D75E33B022462442006AD1C1 /* NotesTableView.swift in Sources */,
 				D7D7CD3C232774BC0016AC15 /* ViewController+Git.swift in Sources */,
+				D7BCF037296B0DAA00F72A4F /* AboutImageView.swift in Sources */,
 				D792DD9227A6D3BE006ADC01 /* Colors.swift in Sources */,
 				D7013E0226C3B116006F58E3 /* NSColor+.swift in Sources */,
 				D75E33B122462442006AD1C1 /* EditorView.swift in Sources */,
@@ -4341,6 +4347,7 @@
 				D7679376201F0BFD000F7BBF /* SortBy.swift in Sources */,
 				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
 				D7D7CD3A232774BC0016AC15 /* ViewController+Git.swift in Sources */,
+				D7BCF035296B0DAA00F72A4F /* AboutImageView.swift in Sources */,
 				D792DD9027A6D3BE006ADC01 /* Colors.swift in Sources */,
 				D7013E0026C3B116006F58E3 /* NSColor+.swift in Sources */,
 				D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */,
@@ -4512,6 +4519,7 @@
 				D73BCCEA28EB5EC4008B3BBC /* Head+Checkout.swift in Sources */,
 				D73BCCCF28EB5EC4008B3BBC /* PasswordAuthentication.swift in Sources */,
 				D7D7CD3B232774BC0016AC15 /* ViewController+Git.swift in Sources */,
+				D7BCF036296B0DAA00F72A4F /* AboutImageView.swift in Sources */,
 				D792DD9127A6D3BE006ADC01 /* Colors.swift in Sources */,
 				D7013E0126C3B116006F58E3 /* NSColor+.swift in Sources */,
 				D7315ED0215ECF3000AB49D4 /* EditorView.swift in Sources */,
