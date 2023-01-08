@@ -125,7 +125,12 @@ extension AppDelegate {
         var lastPath = url.lastPathComponent
 
         if let wikiURL = url["id"] {
-            if let note = Storage.sharedInstance().getBy(title: wikiURL) {
+            var note = Storage.sharedInstance().getBy(fileName: wikiURL)
+            if note == nil {
+                note = Storage.sharedInstance().getBy(title: wikiURL)
+            }
+            
+            if let note = note {
                 vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
                     NSApp.mainWindow?.makeFirstResponder(vc.editor)

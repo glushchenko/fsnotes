@@ -143,6 +143,8 @@ class PreferencesGitViewController: NSViewController {
         project?.saveSettings()
         
         UserDefaultsManagement.gitOrigin = sender.stringValue
+        
+        ViewController.shared()?.gitQueue.cancelAllOperations()
     }
     
     @IBAction func username(_ sender: NSTextField) {
@@ -191,6 +193,8 @@ class PreferencesGitViewController: NSViewController {
     }
     
     @IBAction func pullInterval(_ sender: NSTextField) {
+        ViewController.shared()?.gitQueue.cancelAllOperations()
+        
         if var interval = Int(sender.stringValue) {
             if interval < 10 {
                 interval = 10
@@ -213,8 +217,10 @@ class PreferencesGitViewController: NSViewController {
     }
     
     @IBAction func clonePull(_ sender: Any) {
-        guard let project = Storage.shared().getDefault() else { return }
+        guard let project = Storage.sharedInstance().getDefault() else { return }
         guard let window = view.window else { return }
+        
+        ViewController.shared()?.gitQueue.cancelAllOperations()
         
         let origin = self.origin.stringValue
         project.gitOrigin = origin

@@ -238,6 +238,11 @@ extension Project {
     
     public func pull() throws {
         guard let repository = try getRepository() else { return }
+        
+        if let origin = getGitOrigin() {
+            repository.addRemoteOrigin(path: origin)
+        }
+        
         let repositoryProject = getRepositoryProject()
                 
         if !UserDefaultsManagement.separateRepo || isCloudProject() {

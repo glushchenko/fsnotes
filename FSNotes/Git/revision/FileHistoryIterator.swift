@@ -56,7 +56,7 @@ public class FileHistoryIterator : RevisionIterator {
         guard let oid = super.next() else {
             return nil
         }
-        
+                
         lastFetchedOid = oid
         
         do {
@@ -69,46 +69,16 @@ public class FileHistoryIterator : RevisionIterator {
             // Find current entry
             let entry = try tree.entry(byPath: path)
             if (entry == nil) {
-                previousOid = oid
-                return next();
+                return diffPrev(tree: tree, oid: oid)
             }
             
             // Test previous
             if (previousOid == nil) {
-                
-                // Set previous and find next
                 previousOid = oid
                 
                 return next()
-                
             } else {
-                
-                // Find commit
-                let previousCommit = try repository.commitLookup(oid: previousOid!)
-                
-                // Find parent entry
-                let previousTree = try previousCommit.tree()
-                
-                // Find diff
-                let diff = try previousTree.diff(other: tree)
-                
-                // Find
-                if diff.find(byPath: path) == nil {
-                    
-                    // Set previous and find next
-                    previousOid = oid
-                    
-                    return next()
-                } else {
-                    
-                    // Save previousOid
-                    let validOid = previousOid
-                    
-                    // Set previousOid
-                    previousOid = oid
-                    
-                    return validOid;
-                }
+                return diffPrev(tree: tree, oid: oid)
             }
             
         } catch {
@@ -116,6 +86,41 @@ public class FileHistoryIterator : RevisionIterator {
         }
         
         return nil
+    }
+    
+    private func diffPrev(tree: Tree, oid: OID) -> OID? {
+        guard let pOid = previousOid else { return next() }
+        
+        do {
+            // Find commit
+            let previousCommit = try repository.commitLookup(oid: pOid)
+            
+            // Find parent entry
+            let previousTree = try previousCommit.tree()
+            
+            // Find diff
+            let diff = try previousTree.diff(other: tree)
+            
+            // Find
+            if diff.find(byPath: path) == nil {
+                
+                // Set previous and find next
+                previousOid = oid
+                
+                return next()
+            } else {
+                
+                // Save previousOid
+                let validOid = previousOid
+                
+                // Set previousOid
+                previousOid = oid
+                
+                return validOid;
+            }
+        } catch {
+            return nil
+        }
     }
     
     public func getLast() -> OID? {
