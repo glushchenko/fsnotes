@@ -1,0 +1,380 @@
+/* Settings */
+"+" = "+";
+
+/* Settings */
+"Add External Folder" = "添加外部文件夹";
+
+/* Archive in sidebar */
+"Archive" = "档案";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete all versions of this note?" = "是否确定要删除此注释的所有版本?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the history of all notes?" = "是否确定要删除所有笔记的历史版本?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this image?" = "是否确定要删除此图像?";
+
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "按屏幕亮度自动";
+
+/* Naming controller */
+"Auto rename by title" = "按内容第一行自动重命名";
+
+/* Settings */
+"Auto Rename By Title" = "按内容第一行自动重命名";
+
+/* No comment provided by engineer. */
+"Auto versioning" = "自动版本控制";
+
+/* Settings */
+"Autocorrection" = "自动校正";
+
+/* No comment provided by engineer. */
+"Brightness level" = "亮度级别";
+
+/* Settings */
+"build" = "构建";
+
+/* No comment provided by engineer. */
+"Cancel" = "取消";
+
+/* No comment provided by engineer. */
+"Code" = "代码字体";
+
+/* Settings */
+"Code block live highlighting" = "代码块实时高亮显示";
+
+/* Settings */
+"Code Theme" = "代码主题";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "兼容 DayOne JSON (zip), Bear(熊掌记) and Ulysses (textbundle),markdown,txt,rtf.";
+
+/* Settings */
+"Container" = "容器";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "复制纯文本";
+
+/* Main view popover table */
+"Create folder" = "创建文件夹";
+
+/* No comment provided by engineer. */
+"Create folder:" = "创建文件夹:";
+
+/* No comment provided by engineer. */
+"Creation date" = "生成日期";
+
+/* No comment provided by engineer. */
+"Date created" = "创建日期";
+
+/* Settings */
+"Default Container" = "默认容器";
+
+/* No comment provided by engineer. */
+"Default keyboard in editor" = "编辑中的默认键盘";
+
+/* Table row action */
+"Delete" = "删除";
+
+/* No comment provided by engineer. */
+"Disabled" = "禁用";
+
+/* No comment provided by engineer. */
+"Documents" = "文件";
+
+/* No comment provided by engineer. */
+"Duplicate" = "重复";
+
+/* Settings */
+"Dynamic Type" = "动态类型";
+
+/* Settings */
+"Editor" = "编辑";
+
+/* Main view popover table */
+"Empty Bin" = "清空回收站";
+
+/* No comment provided by engineer. */
+"Enabled" = "启用";
+
+/* No comment provided by engineer. */
+"Enter folder name" = "输入文件夹名称";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "输入主密码";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "输入新标签名称";
+
+/* No comment provided by engineer. */
+"Enter note name" = "输入备注名称";
+
+/* Settings */
+"Extension" = "文件后缀格式";
+
+/* Settings */
+"Family" = "字体册";
+
+/* Settings */
+"File format" = "文件格式";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "具有此名称的文件已存在";
+
+/* Settings */
+"Files Naming" = "文件命名";
+
+/* No comment provided by engineer. */
+"Focus in search field" = "搜索字段中的焦点";
+
+/* No comment provided by engineer. */
+"Folder name:" = "文件夹名称:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "具有此名称的文件夹已存在";
+
+/* Settings */
+"Font" = "字体";
+
+/* Settings */
+"Font Family" = "字体册";
+
+/* Settings */
+"Font size" = "字体大小";
+
+/* Settings */
+"Format: Untitled Note" = "格式:无标题笔记";
+
+/* Settings */
+"Format: yyyy-MM-dd hh.mm.ss a" = "格式: yyyy-MM-dd hh.mm.ss a";
+
+/* Settings */
+"Format: yyyyMMddHHmmss" = "格式: yyyyMMddHHmmss";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
+"General" = "常规";
+
+/* No comment provided by engineer. */
+"History" = "笔记历史版本";
+
+/* Settings */
+"Homepage" = "主页";
+
+/* Settings */
+"iCloud Drive" = "iCloud 同步";
+
+/* No comment provided by engineer. */
+"Images source:" = "图片来源:";
+
+/* Main view popover table
+   Settings */
+"Import notes" = "导入笔记";
+
+/* Inbox in sidebar */
+"Inbox" = "收集箱";
+
+/* No comment provided by engineer. */
+"Invalid Password" = "密码无效";
+
+/* Settings */
+"Line Spacing" = "行距";
+
+/* Settings */
+"Live images preview" = "实时图像预览";
+
+/* No comment provided by engineer. */
+"Lock" = "上锁";
+
+/* No comment provided by engineer. */
+"Master password:" = "主密码:";
+
+/* No comment provided by engineer. */
+"Modification date" = "修改日期";
+
+/* Table row action */
+"More" = "更多";
+
+/* Move view */
+"Move" = "移动";
+
+/* No comment provided by engineer. */
+"New document" = "新建笔记文件";
+
+/* Settings */
+"Night Mode" = "夜间模式";
+
+/* No comment provided by engineer. */
+"None" = "无";
+
+/* Notes in sidebar
+   Sidebar items */
+"Notes" = "所有笔记";
+
+/* No comment provided by engineer. */
+"Notes list" = "笔记列表";
+
+/* Main view popover table */
+"Open in Files.app" = "在文件应用打开所在位置";
+
+/* Document opened */
+"Open note" = "打开笔记";
+
+/* No comment provided by engineer. */
+"Photos" = "照片";
+
+/* No comment provided by engineer. */
+"Picture removing" = "图片删除";
+
+/* Table row action */
+"Pin" = "笔记置顶";
+
+/* No comment provided by engineer. */
+"Please enter valid password" = "请输入有效密码";
+
+/* No comment provided by engineer. */
+"Preview" = "预览";
+
+/* Settings */
+"Pro" = "高级";
+
+/* Settings */
+"Project" = "项目";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "项目删除 ❌";
+
+/* Settings */
+"Projects" = "项目";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "删除加密";
+
+/* Main view popover table */
+"Remove folder" = "删除文件夹";
+
+/* Main view popover table */
+"Remove tag" = "移除标记";
+
+/* No comment provided by engineer. */
+"Rename" = "重命名";
+
+/* Main view popover table */
+"Rename folder" = "重命名文件夹";
+
+/* Popover table */
+"Rename folder:" = "重命名文件夹:";
+
+/* No comment provided by engineer. */
+"Rename note:" = "重命名笔记:";
+
+/* Main view popover table */
+"Rename tag" = "重命名标签";
+
+/* Popover table */
+"Rename tag:" = "重命名标签:";
+
+/* No comment provided by engineer. */
+"Save clipboard" = "保存剪贴板";
+
+/* No comment provided by engineer. */
+"Saved versions" = "保存版本";
+
+/* No comment provided by engineer. */
+"Search" = "搜索";
+
+/* No comment provided by engineer. */
+"Search or create" = "搜索或创建";
+
+/* Main view popover table */
+"Select" = "选择";
+
+/* Sidebar settings */
+"Settings" = "设置";
+
+/* No comment provided by engineer. */
+"Share" = "分享";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "在侧边栏中显示文件夹";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "在“备注”和“待办事项”列表中显示预览";
+
+/* Settings */
+"Sidebar" = "侧栏";
+
+/* No comment provided by engineer. */
+"Sort by" = "排序方式";
+
+/* Settings */
+"Spell Checking" = "拼写检查";
+
+/* Settings */
+"Storage" = "存储";
+
+/* Settings */
+"Support" = "支持";
+
+/* No comment provided by engineer. */
+"System" = "跟随系统";
+
+/* Settings */
+"Thanks to" = "感谢于";
+
+/* Settings */
+"Theme" = "主题";
+
+/* No comment provided by engineer. */
+"Title" = "标题";
+
+/* Sidebar items
+   Todo in sidebar */
+"Todo" = "待办事项";
+
+/* Trash in sidebar */
+"Trash" = "回收站";
+
+/* Settings */
+"Twitter" = "推特";
+
+/* No comment provided by engineer. */
+"Type" = "类型";
+
+/* No comment provided by engineer. */
+"Unlock" = "开锁";
+
+/* Table row action */
+"UnPin" = "取消置顶";
+
+/* No comment provided by engineer. */
+"Untagged" = "未标记";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "使用第一行作为标题";
+
+/* Settings */
+"Use inline tags" = "使用内联标签";
+
+/* Settings */
+"Version" = "版本";
+
+/* No comment provided by engineer. */
+"View" = "视图";
+
+/* Main view popover table */
+"View settings" = "视图设置";
+
+/* No comment provided by engineer. */
+"Visibility" = "Visibility";
+
+/* No comment provided by engineer. */
+"Сlearing history" = "清空笔记历史版本";
+
+/* No comment provided by engineer. */
+"Preview MathJax" = "预览 MathJax";
