@@ -8,22 +8,22 @@
 "Archive" = "档案";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete all versions of this note?" = "是否确实要删除此注释的所有版本?";
+"Are you sure you want to delete all versions of this note?" = "是否确定要删除此注释的所有版本?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete the history of all notes?" = "是否确实要删除所有笔记的历史记录?";
+"Are you sure you want to delete the history of all notes?" = "是否确定要删除所有笔记的历史版本?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete this image?" = "是否确实要删除此图像?";
+"Are you sure you want to delete this image?" = "是否确定要删除此图像?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "按屏幕亮度自动";
 
 /* Naming controller */
-"Auto rename by title" = "按标题自动重命名";
+"Auto rename by title" = "按内容第一行自动重命名";
 
 /* Settings */
-"Auto Rename By Title" = "按标题自动重命名";
+"Auto Rename By Title" = "按内容第一行自动重命名";
 
 /* No comment provided by engineer. */
 "Auto versioning" = "自动版本控制";
@@ -41,7 +41,7 @@
 "Cancel" = "取消";
 
 /* No comment provided by engineer. */
-"Code" = "代码";
+"Code" = "代码字体";
 
 /* Settings */
 "Code block live highlighting" = "代码块实时高亮显示";
@@ -113,7 +113,7 @@
 "Enter note name" = "输入备注名称";
 
 /* Settings */
-"Extension" = "文件格式";
+"Extension" = "文件后缀格式";
 
 /* Settings */
 "Family" = "字体册";
