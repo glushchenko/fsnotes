@@ -113,10 +113,10 @@
 "Enter note name" = "输入备注名称";
 
 /* Settings */
-"Extension" = "扩展";
+"Extension" = "文件格式";
 
 /* Settings */
-"Family" = "系列";
+"Family" = "字体册";
 
 /* Settings */
 "File format" = "文件格式";
@@ -140,7 +140,7 @@
 "Font" = "字体";
 
 /* Settings */
-"Font Family" = "字体系列";
+"Font Family" = "字体册";
 
 /* Settings */
 "Font size" = "字体大小";
@@ -161,7 +161,7 @@
 "General" = "常规";
 
 /* No comment provided by engineer. */
-"History" = "历史";
+"History" = "笔记历史版本";
 
 /* Settings */
 "Homepage" = "主页";
@@ -177,7 +177,7 @@
 "Import notes" = "导入笔记";
 
 /* Inbox in sidebar */
-"Inbox" = "所有笔记";
+"Inbox" = "Inbox";
 
 /* No comment provided by engineer. */
 "Invalid Password" = "密码无效";
@@ -204,7 +204,7 @@
 "Move" = "移动";
 
 /* No comment provided by engineer. */
-"New document" = "新文档";
+"New document" = "新建笔记";
 
 /* Settings */
 "Night Mode" = "夜间模式";
@@ -214,13 +214,13 @@
 
 /* Notes in sidebar
    Sidebar items */
-"Notes" = "笔记";
+"Notes" = "所有笔记";
 
 /* No comment provided by engineer. */
 "Notes list" = "笔记列表";
 
 /* Main view popover table */
-"Open in Files.app" = "在其他应用打开";
+"Open in Files.app" = "在文件应用打开所在位置";
 
 /* Document opened */
 "Open note" = "打开笔记";
@@ -232,7 +232,7 @@
 "Picture removing" = "图片删除";
 
 /* Table row action */
-"Pin" = "固定";
+"Pin" = "笔记置顶";
 
 /* No comment provided by engineer. */
 "Please enter valid password" = "请输入有效密码";
@@ -298,7 +298,7 @@
 "Settings" = "设置";
 
 /* No comment provided by engineer. */
-"Share" = "共享";
+"Share" = "分享";
 
 /* No comment provided by engineer. */
 "Show folder in sidebar" = "在侧边栏中显示文件夹";
@@ -350,7 +350,7 @@
 "Unlock" = "开锁";
 
 /* Table row action */
-"UnPin" = "取消固定";
+"UnPin" = "取消置顶";
 
 /* No comment provided by engineer. */
 "Untagged" = "未标记";
@@ -374,7 +374,7 @@
 "Visibility" = "Visibility";
 
 /* No comment provided by engineer. */
-"Сlearing history" = "Сlearing 历史";
+"Сlearing history" = "清空笔记历史版本";
 
 /* No comment provided by engineer. */
 "Preview MathJax" = "预览 MathJax";
