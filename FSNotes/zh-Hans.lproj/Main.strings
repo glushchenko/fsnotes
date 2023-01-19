@@ -14,7 +14,7 @@
 "1b7-l0-nxx.title" = "查找";
 
 /* Class = "NSMenuItem"; title = "2 Spaces"; ObjectID = "1HB-X5-pmA"; */
-"1HB-X5-pmA.title" = "2 Spaces";
+"1HB-X5-pmA.title" = "缩进 2 个空格";
 
 /* Class = "NSMenuItem"; title = "Title"; ObjectID = "1qV-pJ-ZQT"; */
 "1qV-pJ-ZQT.title" = "标题";
@@ -146,7 +146,7 @@
 "7MT-fy-lXN.title" = "打开外部";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "7od-TM-cUB"; */
-"7od-TM-cUB.title" = "Set";
+"7od-TM-cUB.title" = "设置";
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "7xA-9l-dja"; */
 "7xA-9l-dja.title" = "更改";
@@ -173,7 +173,7 @@
 "9Nw-oE-QJe.title" = "solarized-dark";
 
 /* Class = "NSTextFieldCell"; title = "Port:"; ObjectID = "9pM-sd-qhm"; */
-"9pM-sd-qhm.title" = "Port:";
+"9pM-sd-qhm.title" = "端口:";
 
 /* Class = "NSMenuItem"; title = "Smart Copy/Paste"; ObjectID = "9yt-4B-nSM"; */
 "9yt-4B-nSM.title" = "智能拷贝/粘贴";
@@ -185,7 +185,7 @@
 "a6n-hz-V8D.title" = "搜索快捷方式：";
 
 /* Class = "NSTextFieldCell"; title = "Host:"; ObjectID = "a9t-hD-WYR"; */
-"a9t-hD-WYR.title" = "Host:";
+"a9t-hD-WYR.title" = "主机Host:";
 
 /* Class = "NSMenuItem"; title = "monokai-sublime"; ObjectID = "AaQ-hp-VpR"; */
 "AaQ-hp-VpR.title" = "monokai-sublime";
@@ -194,16 +194,16 @@
 "AEC-HT-Gd6.placeholderString" = "ghp_if6C09slkds893klssd9032sdklCC";
 
 /* Class = "NSButtonCell"; title = "Upload and test initial data"; ObjectID = "aGv-BR-Oc8"; */
-"aGv-BR-Oc8.title" = "Upload and test initial data";
+"aGv-BR-Oc8.title" = "上传和测试初始数据";
 
 /* Class = "NSTextFieldCell"; title = "Frameworks and dependencies:"; ObjectID = "As2-xC-mka"; */
-"As2-xC-mka.title" = "Frameworks and dependencies:";
+"As2-xC-mka.title" = "框架和依赖项:";
 
 /* Class = "NSTextFieldCell"; title = "Repositories:"; ObjectID = "ASf-hd-2fT"; */
 "ASf-hd-2fT.title" = "存储库：";
 
 /* Class = "NSTextFieldCell"; title = "Git origin:"; ObjectID = "Atd-Fs-Chq"; */
-"Atd-Fs-Chq.title" = "Git origin:";
+"Atd-Fs-Chq.title" = "Git 起源:";
 
 /* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
 "auW-wa-jbc.title" = "历史";
@@ -212,7 +212,7 @@
 "aVa-yH-IpC.title" = "格式: yyyyMMddHHmmss";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "axA-pN-Zf2"; */
-"axA-pN-Zf2.title" = "放";
+"axA-pN-Zf2.title" = "设置";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "主菜单";
@@ -269,7 +269,7 @@
 "cmH-fQ-bVK.title" = "UUID";
 
 /* Class = "NSMenuItem"; title = "Header 6"; ObjectID = "cq7-SM-dez"; */
-"cq7-SM-dez.title" = "Header 6";
+"cq7-SM-dez.title" = "6级标题";
 
 /* Class = "NSTextFieldCell"; title = "Format:"; ObjectID = "ctD-Qn-kDS"; */
 "ctD-Qn-kDS.title" = "编辑器格式：";
@@ -287,7 +287,7 @@
 "cwL-P1-jid.title" = "智能链接";
 
 /* Class = "NSMenuItem"; title = "Header 2"; ObjectID = "cYB-6U-8ac"; */
-"cYB-6U-8ac.title" = "Header 2";
+"cYB-6U-8ac.title" = "2级标题";
 
 /* Class = "NSMenuItem"; title = "Make Lower Case"; ObjectID = "d9M-CD-aMd"; */
 "d9M-CD-aMd.title" = "转换为小写";
@@ -305,7 +305,7 @@
 "DeU-hy-pvi.title" = "左移";
 
 /* Class = "NSButtonCell"; title = "Separate .git in project dir (except iCloud Drive)"; ObjectID = "dop-ho-N26"; */
-"dop-ho-N26.title" = "Separate .git in project dir (except iCloud Drive)";
+"dop-ho-N26.title" = "在项目目录中分隔.git (iCloud 除外)";
 
 /* Class = "NSButtonCell"; title = "Custom Server"; ObjectID = "Dp7-4n-ilt"; */
 "Dp7-4n-ilt.title" = "自定义服务器";
@@ -320,7 +320,7 @@
 "Dv1-io-Yv7.title" = "拼写和语法";
 
 /* Class = "NSMenuItem"; title = "Header 5"; ObjectID = "DWe-bx-jfM"; */
-"DWe-bx-jfM.title" = "Header 5";
+"DWe-bx-jfM.title" = "5级标题";
 
 /* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "DXE-kd-1X3"; */
 "DXE-kd-1X3.title" = "密码";
@@ -344,10 +344,10 @@
 "E6I-n5-dsi.title" = "副本";
 
 /* Class = "NSTextFieldCell"; title = "Path:"; ObjectID = "egX-yM-Suq"; */
-"egX-yM-Suq.title" = "Path:";
+"egX-yM-Suq.title" = "路径:";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "Ehk-CU-fbX"; */
-"Ehk-CU-fbX.title" = "Set";
+"Ehk-CU-fbX.title" = "设置";
 
 /* Class = "NSMenuItem"; title = "Strikethrough"; ObjectID = "EK1-kN-kK3"; */
 "EK1-kN-kK3.title" = "删除线";
@@ -359,13 +359,13 @@
 "ELw-Y4-DV0.title" = "版本";
 
 /* Class = "NSMenuItem"; title = "Encrypt"; ObjectID = "epi-YA-nEi"; */
-"epi-YA-nEi.title" = "Encrypt";
+"epi-YA-nEi.title" = "加密";
 
 /* Class = "NSMenuItem"; title = "Creation Date"; ObjectID = "eTL-dh-GvM"; */
 "eTL-dh-GvM.title" = "创建日期";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "eUy-cc-RjG"; */
-"eUy-cc-RjG.title" = "Window";
+"eUy-cc-RjG.title" = "窗口";
 
 /* Class = "NSButtonCell"; title = "Ascending"; ObjectID = "EYG-WM-BFN"; */
 "EYG-WM-BFN.title" = "升序";
@@ -419,7 +419,7 @@
 "FS0-ZJ-WvJ.title" = "文件命名中:";
 
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
-"fsF-5N-tWg.title" = "Made with ❤️ in Ukraine 🇺🇦 ";
+"fsF-5N-tWg.title" = "乌克兰 ❤️ 制造 🇺🇦 ";
 
 /* Class = "NSMenuItem"; title = "Sidebar"; ObjectID = "Fuh-qO-nt2"; */
 "Fuh-qO-nt2.title" = "文件夹";
@@ -443,7 +443,7 @@
 "gbE-yH-ECm.title" = "保存剪贴板快捷方式：";
 
 /* Class = "NSTextFieldCell"; title = "seconds"; ObjectID = "Gbf-V7-5Ra"; */
-"Gbf-V7-5Ra.title" = "seconds";
+"Gbf-V7-5Ra.title" = "秒";
 
 /* Class = "NSButtonCell"; title = "Modification date"; ObjectID = "GCG-C6-9cg"; */
 "GCG-C6-9cg.title" = "修改日期";
@@ -458,10 +458,10 @@
 "gFA-SA-v9T.title" = "FSNotes 服务器";
 
 /* Class = "NSTextFieldCell"; title = "Web:"; ObjectID = "ghI-ln-bql"; */
-"ghI-ln-bql.title" = "Web:";
+"ghI-ln-bql.title" = "主页:";
 
 /* Class = "NSMenuItem"; title = "Header 4"; ObjectID = "GhL-6I-558"; */
-"GhL-6I-558.title" = "Header 4";
+"GhL-6I-558.title" = "4级标题";
 
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "goN-LO-L7l"; */
 "goN-LO-L7l.title" = "在访达中显示";
@@ -578,10 +578,10 @@
 "jrj-ea-xmm.title" = "可见性：";
 
 /* Class = "NSMenuItem"; title = "Header 1"; ObjectID = "jRm-BN-BNK"; */
-"jRm-BN-BNK.title" = "Header 1";
+"jRm-BN-BNK.title" = "1级标题";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "juB-By-EsE"; */
-"juB-By-EsE.title" = "Set";
+"juB-By-EsE.title" = "设置";
 
 /* Class = "NSMenuItem"; title = "Format"; ObjectID = "jxT-CU-nIS"; */
 "jxT-CU-nIS.title" = "格式";
@@ -608,7 +608,7 @@
 "Kd2-mp-pUS.title" = "显示全部";
 
 /* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "kFX-as-1oC"; */
-"kFX-as-1oC.title" = "Password:";
+"kFX-as-1oC.title" = "密码:";
 
 /* Class = "NSMenuItem"; title = "Lock/Unlock"; ObjectID = "kg2-3u-V99"; */
 "kg2-3u-V99.title" = "锁定/解锁";
@@ -629,13 +629,13 @@
 "L20-FT-VZz.title" = "Origin 主要项目:";
 
 /* Class = "NSButtonCell"; title = "Custom worktree"; ObjectID = "l5q-h8-hfU"; */
-"l5q-h8-hfU.title" = "Custom worktree";
+"l5q-h8-hfU.title" = "自定义工作目录";
 
 /* Class = "NSWindow"; title = "Preferences"; ObjectID = "ldu-U8-PD1"; */
 "ldu-U8-PD1.title" = "偏好设置";
 
 /* Class = "NSMenuItem"; title = "Header 3"; ObjectID = "Lmy-lE-9MZ"; */
-"Lmy-lE-9MZ.title" = "Header 3";
+"Lmy-lE-9MZ.title" = "3级标题";
 
 /* Class = "NSButtonCell"; title = "Title"; ObjectID = "LPT-uW-BtF"; */
 "LPT-uW-BtF.title" = "标题";
@@ -656,7 +656,7 @@
 "ME1-My-h4q.title" = "atom-one-light";
 
 /* Class = "NSMenuItem"; title = "4 Spaces"; ObjectID = "mK0-16-Mxo"; */
-"mK0-16-Mxo.title" = "4 Spaces";
+"mK0-16-Mxo.title" = "缩紧 4 个空格";
 
 /* Class = "NSMenuItem"; title = "Check Grammar With Spelling"; ObjectID = "mK6-2p-4JG"; */
 "mK6-2p-4JG.title" = "检查拼写和语法";
@@ -677,7 +677,7 @@
 "n0M-SN-fzg.title" = "切换待办事项";
 
 /* Class = "NSMenuItem"; title = "Preview Soulver Calculator"; ObjectID = "n3J-UC-Kdr"; */
-"n3J-UC-Kdr.title" = "Preview Soulver Calculator";
+"n3J-UC-Kdr.title" = "预览 Soulver 计算器";
 
 /* Class = "NSButtonCell"; title = "Clickable links"; ObjectID = "N8h-ep-HFG"; */
 "N8h-ep-HFG.title" = "可点击的链接";
@@ -695,7 +695,7 @@
 "nCW-CZ-qC7.title" = "打印";
 
 /* Class = "NSTabViewItem"; label = "Web"; ObjectID = "Ng2-HH-bmY"; */
-"Ng2-HH-bmY.label" = "Web";
+"Ng2-HH-bmY.label" = "主页";
 
 /* Class = "NSMenuItem"; title = "Save Revision"; ObjectID = "Nhf-c1-VJ6"; */
 "Nhf-c1-VJ6.title" = "保存修订";
@@ -704,7 +704,7 @@
 "NHv-lG-vxt.title" = "基本";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "NiN-n8-Y4W"; */
-"NiN-n8-Y4W.title" = "Text Cell";
+"NiN-n8-Y4W.title" = "文本单元格";
 
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
 "NMo-om-nkz.title" = "服务";
@@ -731,7 +731,7 @@
 "oer-ZB-VOx.title" = "无（使用全局设置）";
 
 /* Class = "NSMenuItem"; title = "Create Web Page"; ObjectID = "oL6-fG-vHv"; */
-"oL6-fG-vHv.title" = "Create Web Page";
+"oL6-fG-vHv.title" = "创建为网页";
 
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "隐藏 FSNotes";
@@ -806,13 +806,13 @@
 "qn1-vy-8oB.title" = "Format: yyyy-MM-dd hh.mm.ss a";
 
 /* Class = "NSMenuItem"; title = "Back"; ObjectID = "qNE-oZ-zJr"; */
-"qNE-oZ-zJr.title" = "Back";
+"qNE-oZ-zJr.title" = "返回";
 
 /* Class = "NSMenuItem"; title = "Show Options"; ObjectID = "qs2-5J-Q3n"; */
 "qs2-5J-Q3n.title" = "显示视图选项";
 
 /* Class = "NSButtonCell"; title = "Open in Finder"; ObjectID = "qwS-gG-am3"; */
-"qwS-gG-am3.title" = "Open in Finder";
+"qwS-gG-am3.title" = "在“访达”中打开";
 
 /* Class = "NSTextFieldCell"; title = "Direction:"; ObjectID = "QxK-39-9yF"; */
 "QxK-39-9yF.title" = "方向:";
@@ -845,7 +845,7 @@
 "rHB-xF-GgG.title" = "排序方式";
 
 /* Class = "NSButtonCell"; title = "Clone"; ObjectID = "Ri7-Yr-qyB"; */
-"Ri7-Yr-qyB.title" = "Clone";
+"Ri7-Yr-qyB.title" = "克隆";
 
 /* Class = "NSMenuItem"; title = "atom-one-dark"; ObjectID = "Rog-4H-qth"; */
 "Rog-4H-qth.title" = "atom-one-dark";
@@ -950,7 +950,7 @@
 "u88-5C-vTe.title" = "在新窗口中打开";
 
 /* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "UdE-8N-Qit"; */
-"UdE-8N-Qit.title" = "Label";
+"UdE-8N-Qit.title" = "标签";
 
 /* Class = "NSMenuItem"; title = "Capitalize"; ObjectID = "UEZ-Bs-lqG"; */
 "UEZ-Bs-lqG.title" = "首字母大写";
@@ -989,7 +989,7 @@
 "vfT-nF-vst.title" = "或使用 .ssh 私钥:";
 
 /* Class = "NSButtonCell"; title = "Ask commit message on note save"; ObjectID = "VJs-0B-jGe"; */
-"VJs-0B-jGe.title" = "Ask commit message on note save";
+"VJs-0B-jGe.title" = "在笔记保存时询问提交消息";
 
 /* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "vmV-6d-7jI"; */
 "vmV-6d-7jI.title" = "变为大写";
@@ -998,13 +998,13 @@
 "vrs-XL-lyE.title" = "在侧边栏中向下移动";
 
 /* Class = "NSMenuItem"; title = "Toggle Container"; ObjectID = "VwE-w2-fAG"; */
-"VwE-w2-fAG.title" = "Toggle Container";
+"VwE-w2-fAG.title" = "切换容器";
 
 /* Class = "NSButtonCell"; title = "Focus on search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
 "Vwq-Ek-K2v.title" = "按下 ESC 时聚焦于搜索栏";
 
 /* Class = "NSMenuItem"; title = "Create Web Page"; ObjectID = "vZO-Tx-X1j"; */
-"vZO-Tx-X1j.title" = "创建网页";
+"vZO-Tx-X1j.title" = "创建为网页";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "编辑";
@@ -1091,7 +1091,7 @@
 "Xz5-n4-O0W.title" = "查找…";
 
 /* Class = "NSMenuItem"; title = "Toggle Container"; ObjectID = "y4W-TV-iZ3"; */
-"y4W-TV-iZ3.title" = "Toggle Container";
+"y4W-TV-iZ3.title" = "切换容器";
 
 /* Class = "NSMenuItem"; title = "Find and Replace…"; ObjectID = "YEy-JH-Tfz"; */
 "YEy-JH-Tfz.title" = "查找和替换…";
