@@ -177,7 +177,7 @@
 "Import notes" = "导入笔记";
 
 /* Inbox in sidebar */
-"Inbox" = "Inbox";
+"Inbox" = "收集箱";
 
 /* No comment provided by engineer. */
 "Invalid Password" = "密码无效";
@@ -204,7 +204,7 @@
 "Move" = "移动";
 
 /* No comment provided by engineer. */
-"New document" = "新建笔记";
+"New document" = "新建笔记文件";
 
 /* Settings */
 "Night Mode" = "夜间模式";
