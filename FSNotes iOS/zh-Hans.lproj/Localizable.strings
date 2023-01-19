@@ -304,7 +304,7 @@
 "Show folder in sidebar" = "在侧边栏中显示文件夹";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "在“备注”和“待办事项”列表中显示预览";
+"Show notes in \"Notes\" and \"Todo\" lists" = "在\"所有笔记\"和\"待办事项\"列表中显示预览";
 
 /* Settings */
 "Sidebar" = "侧栏";
