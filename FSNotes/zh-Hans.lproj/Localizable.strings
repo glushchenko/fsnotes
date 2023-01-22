@@ -38,13 +38,13 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
-"Commit message:" = "Commit message:";
+"Commit message:" = "提交消息:";
 
 /* No comment provided by engineer. */
 "Connection established successfully 🤟" = "连接建立成功🤟";
 
 /* No comment provided by engineer. */
-"Convert to Plain" = "转换成 Plain";
+"Convert to Plain" = "转换成纯文本";
 
 /* No comment provided by engineer. */
 "Convert to TextBundle" = "转换成 TextBundle";
@@ -62,10 +62,10 @@
 "Correct Spelling Automatically" = "拼写正确";
 
 /* No comment provided by engineer. */
-"Create Web Page" = "Create Web Page";
+"Create Web Page" = "创建为网页URL";
 
 /* Menu */
-"Creation date:" = "Creation date:";
+"Creation date:" = "创建日期:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "当前密码与钥匙串中的密码不匹配";
@@ -74,7 +74,7 @@
 "Data Detectors" = "数据检测器";
 
 /* No comment provided by engineer. */
-"Decrypt" = "Decrypt";
+"Decrypt" = "解密";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "默认存储路径不允许和 Git 路径相同。";
@@ -92,7 +92,7 @@
 "Detach storage" = "分离存储";
 
 /* No comment provided by engineer. */
-"Do you want force checkout?" = "Do you want force checkout?";
+"Do you want force checkout?" = "是否要强制检查?";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "您想将当前笔记移动到目标处吗？";
@@ -107,7 +107,7 @@
 "Empty password" = "空密码";
 
 /* No comment provided by engineer. */
-"Encrypt" = "Encrypt";
+"Encrypt" = "加密";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "输入管理员密码";
@@ -119,7 +119,7 @@
 "Folder with name '%@' already exist" = "文件夹名称 '%@' 已存在";
 
 /* No comment provided by engineer. */
-"Font" = "Font";
+"Font" = "字体";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [编辑]";
@@ -128,13 +128,13 @@
 "FSNotes [preview]" = "FSNotes [预览]";
 
 /* No comment provided by engineer. */
-"Git error" = "Git error";
+"Git error" = "Git 错误";
 
 /* No comment provided by engineer. */
-"Git push error" = "Git push 错误";
+"Git push error" = "Git 推送错误";
 
 /* No comment provided by engineer. */
-"Git repository already exists, delete it and clone again??" = "Git repository already exists, delete it and clone again??";
+"Git repository already exists, delete it and clone again??" = "Git 存储库已存在，请将其删除并再次克隆??";
 
 /* No comment provided by engineer. */
 "Hide Note List" = "隐藏笔记列表";
@@ -143,16 +143,16 @@
 "Hide Sidebar" = "隐藏边栏";
 
 /* No comment provided by engineer. */
-"History" = "历史";
+"History" = "笔记历史版本";
 
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud 云盘";
 
 /* No comment provided by engineer. */
-"Inbox" = "收件箱";
+"Inbox" = "收集箱";
 
 /* No comment provided by engineer. */
-"Libgit2 error" = "Libgit2 error";
+"Libgit2 error" = "Libgit2 错误";
 
 /* No comment provided by engineer. */
 "Libgit2 error: \(code)" = "Libgit2 错误: \(code)";
@@ -161,13 +161,13 @@
 "Link" = "链接";
 
 /* No comment provided by engineer. */
-"Lock" = "锁定";
+"Lock" = "上锁";
 
 /* No comment provided by engineer. */
 "Lock All Encrypted" = "锁定所有加密的笔记";
 
 /* No comment provided by engineer. */
-"Make Link" = "Make Link";
+"Make Link" = "建立链接";
 
 /* No comment provided by engineer. */
 "Master password:" = "管理员密码：";
@@ -188,16 +188,16 @@
 "New RTF" = "新建RTF文件";
 
 /* No comment provided by engineer. */
-"New Window" = "New Window";
+"New Window" = "新窗口";
 
 /* No comment provided by engineer. */
-"No" = "No";
+"No" = "否";
 
 /* No comment provided by engineer. */
 "Note with name \"%@\" already exists in selected directory." = "名称为 \"%@\" 的笔记已存在于所选目录中。";
 
 /* Sidebar label */
-"Notes" = "笔记";
+"Notes" = "所有笔记";
 
 /* No comment provided by engineer. */
 "OK" = "好的";
@@ -327,7 +327,7 @@
 "Toggle preview" = "切换预览";
 
 /* Sidebar label */
-"Trash" = "垃圾箱";
+"Trash" = "回收站";
 
 /* No comment provided by engineer. */
 "Underline" = "下划线";
@@ -348,7 +348,7 @@
 "Update Web Page" = "更新网页";
 
 /* No comment provided by engineer. */
-"Upload error" = "Upload error";
+"Upload error" = "上传错误";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL已复制到剪贴板";
@@ -363,7 +363,7 @@
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "我们不能移动 \"{DST_PATH}\"，因为这个项目已经存在于选定的目标处。";
 
 /* No comment provided by engineer. */
-"Web" = "Web";
+"Web" = "创建网页URL并打开";
 
 /* No comment provided by engineer. */
 "Web publishing error" = "网络发布错误";
