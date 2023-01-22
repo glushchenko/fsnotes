@@ -8,7 +8,40 @@
 
 import Cocoa
 
-class AboutViewController: NSViewController {
+class AboutViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+    
+    @IBOutlet weak var translatorsList: NSTableView!
+    
+    private var languages = [
+        "Deutsch 🇩🇪",
+        "Ukrainian🇺🇦",
+        "Spanish 🇪🇸",
+        "Arabic 🇮🇶",
+        "Chinese 🇨🇳",
+        "Korean 🇰🇷",
+        "French 🇫🇷",
+        "Dutch 🇳🇱",
+        "Portuguese 🇵🇹",
+        "Italian 🇮🇹",
+        "Hebrew 🇮🇱",
+        "Chinese 🇨🇳",
+    ]
+    
+    private var authors = [
+        "Michael Barzmann",
+        "Olena Hlushchenko ♥️",
+        "aonez (aone@keka.io)",
+        "Ayad (@ayad0net)",
+        "Pertim (macwk.com@gmail.com)",
+        "Wonsup Yoon (pusnow@kaist.ac.kr)",
+        "Simon Jornet (github.com/jornetsimon)",
+        "Chris Hendriks (github.com/olikilo)",
+        "reddit.com/user/endallbeallknowitall",
+        "Leonardo Bartoletti - leodmc88@gmail.com",
+        "Will Pazner (github.com/pazner)",
+        "Holton Jiang (github.com/holton-jiang)"
+    ]
+    
     override func viewDidLoad() {
         if let dictionary = Bundle.main.infoDictionary,
             let ver = dictionary["CFBundleShortVersionString"] as? String,
@@ -16,6 +49,9 @@ class AboutViewController: NSViewController {
             versionLabel.stringValue = "Version \(ver) (\(build))"
             versionLabel.isSelectable = true
         }
+        
+        translatorsList.delegate = self
+        translatorsList.dataSource = self
     }
 
     @IBOutlet weak var versionLabel: NSTextField!
@@ -23,5 +59,19 @@ class AboutViewController: NSViewController {
     @IBAction func openContributorsPage(_ sender: Any) {
         let url = URL(string: "https://github.com/glushchenko/fsnotes/graphs/contributors")!
         NSWorkspace.shared.open(url)
+    }
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return languages.count
+    }
+        
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let result  = tableView.makeView(withIdentifier: (tableColumn?.identifier)!, owner: self) as! NSTableCellView
+        if  tableColumn?.identifier.rawValue == "table.about.0" {
+            result.textField?.stringValue = languages[row]
+        } else {
+            result.textField?.stringValue = authors[row]
+        }
+        return result
     }
 }
