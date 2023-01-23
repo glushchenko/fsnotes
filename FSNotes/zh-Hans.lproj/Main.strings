@@ -206,7 +206,7 @@
 "Atd-Fs-Chq.title" = "Git 起源:";
 
 /* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
-"auW-wa-jbc.title" = "历史";
+"auW-wa-jbc.title" = "笔记历史版本";
 
 /* Class = "NSMenuItem"; title = "Format: yyyyMMddHHmmss"; ObjectID = "aVa-yH-IpC"; */
 "aVa-yH-IpC.title" = "格式: yyyyMMddHHmmss";
@@ -899,7 +899,7 @@
 "Shc-VO-eTc.title" = "代码字体";
 
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "Snd-dJ-uj5"; */
-"Snd-dJ-uj5.title" = "历史";
+"Snd-dJ-uj5.title" = "笔记历史版本";
 
 /* Class = "NSMenuItem"; title = "solarized-light"; ObjectID = "SpX-N8-9td"; */
 "SpX-N8-9td.title" = "solarized-light";
@@ -1064,7 +1064,7 @@
 "xJQ-ch-Xlp.title" = "预览字号:";
 
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "xPh-BC-Xxl"; */
-"xPh-BC-Xxl.title" = "历史";
+"xPh-BC-Xxl.title" = "笔记历史版本";
 
 /* Class = "NSMenuItem"; title = "agate"; ObjectID = "xpl-3U-eFW"; */
 "xpl-3U-eFW.title" = "agate";
