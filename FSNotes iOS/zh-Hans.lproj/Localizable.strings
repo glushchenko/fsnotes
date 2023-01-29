@@ -8,7 +8,7 @@
 "Archive" = "存档";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete all versions of this note?" = "是否确定要删除此注释的所有版本?";
+"Are you sure you want to delete all versions of this note?" = "是否确定要删除此笔记的所有历史版本?";
 
 /* No comment provided by engineer. */
 "Are you sure you want to delete the history of all notes?" = "是否确定要删除所有笔记的历史版本?";
@@ -26,7 +26,7 @@
 "Auto Rename By Title" = "按内容第一行自动重命名";
 
 /* No comment provided by engineer. */
-"Auto versioning" = "自动版本控制";
+"Auto versioning" = "自动保存历史版本";
 
 /* Settings */
 "Autocorrection" = "自动校正";
@@ -86,7 +86,7 @@
 "Documents" = "文件";
 
 /* No comment provided by engineer. */
-"Duplicate" = "重复";
+"Duplicate" = "生成副本";
 
 /* Settings */
 "Dynamic Type" = "动态类型";
@@ -283,7 +283,7 @@
 "Save clipboard" = "保存剪贴板";
 
 /* No comment provided by engineer. */
-"Saved versions" = "保存版本";
+"Saved versions" = "保存的版本";
 
 /* No comment provided by engineer. */
 "Search" = "搜索";
@@ -371,10 +371,10 @@
 "View settings" = "视图设置";
 
 /* No comment provided by engineer. */
-"Visibility" = "Visibility";
+"Visibility" = "能见度";
 
 /* No comment provided by engineer. */
-"Сlearing history" = "清空笔记历史版本";
+"Сlearing history" = "清空此笔记的历史版本";
 
 /* No comment provided by engineer. */
 "Preview MathJax" = "预览 MathJax";
