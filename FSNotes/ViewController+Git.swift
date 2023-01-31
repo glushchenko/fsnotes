@@ -158,18 +158,16 @@ extension EditorViewController {
     }
     
     @IBAction private func pull(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        
         let storage = Storage.sharedInstance()
         let projects = storage.getProjects()
 
         // Skip on high load
-        if vc.gitQueue.operationCount > 5 {
+        if let qty = ViewController.shared()?.gitQueue.operationCount, qty > 5 {
             print("Pull skipped")
             return
         }
         
-        vc.gitQueue.addOperation({
+        ViewController.shared()?.gitQueue.addOperation({
             for project in projects {
                 if project.isTrash {
                     continue
