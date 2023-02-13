@@ -14,6 +14,7 @@ class GitViewController: UITableViewController {
     private var sections = [
         NSLocalizedString("Credentials", comment: "Settings"),
         NSLocalizedString("Origin", comment: "Settings"),
+        NSLocalizedString("Repositores", comment: "Settings"),
     ]
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -25,7 +26,7 @@ class GitViewController: UITableViewController {
             NSLocalizedString("Private key", comment: ""),
             NSLocalizedString("Passphrase", comment: ""),
         ], [
-            NSLocalizedString("Root", comment: ""),
+            NSLocalizedString("", comment: ""),
             NSLocalizedString("", comment: ""),
         ]
     ]
@@ -111,6 +112,15 @@ class GitViewController: UITableViewController {
             return cell
         }
         
+        // Repositories list
+        if indexPath.section == 2 {
+            let names = getRepoNames()
+            
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+            cell.textLabel?.text = names![indexPath.row]
+            return cell
+        }
+        
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
         
@@ -132,45 +142,46 @@ class GitViewController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return rows.count
+        return sections.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 2 {
+            let names = getRepoNames()
+            return names?.count ?? 0
+        }
+        
         return rows[section].count
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
-//        if indexPath.row == 0 {
-//            cell.accessoryType = .disclosureIndicator
-//        }
-    }
-
-    private func autoVersioningPrompt() {
-        let title = NSLocalizedString("Сlearing history", comment: "")
-        let message = NSLocalizedString("Are you sure you want to delete the history of all notes?", comment: "")
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
-            let revisions = Storage.shared().getRevisionsHistory()
-            do {
-                try FileManager.default.removeItem(at: revisions)
-            } catch {
-                print("History clear: \(error)")
-            }
-
-            self.dismiss(animated: true)
-        })
-
-        let cancel = NSLocalizedString("Cancel", comment: "")
-        alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { (action: UIAlertAction!) in
-        }))
-
-        self.present(alert, animated: true, completion: nil)
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 2 {
+            return true
+        }
+        
+        return false
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let names = getRepoNames()
+            let folderName = names![indexPath.row]
+            
+            let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            guard let repoURL = documentDir?
+                .appendingPathComponent("Repositories")
+                .appendingPathComponent(folderName) else { return }
+            
+            try? FileManager.default.removeItem(at: repoURL)
+            tableView.reloadData()
+        }
+    }
+
     private func changePrivateKey(tableView: UITableView, indexPath: IndexPath) {
         let types: [String] = ["public.data"]
         let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
@@ -222,14 +233,8 @@ class GitViewController: UITableViewController {
             }
             return
         } catch GitError.unknownError(let errorMessage, _, let desc){
-            print(errorMessage)
-            print(desc)
-            
-//            let alert = NSAlert()
-//            alert.messageText = "Git clone/pull error"
-//            alert.alertStyle = .critical
-//            alert.informativeText = String("\(errorMessage) –  \(desc)")
-//            alert.runModal()
+            let message = errorMessage + " – " + desc
+            errorAlert(title: "Git clone/pull error", message: message)
         } catch GitError.notFound(let ref) {
             print(ref)
             
@@ -239,14 +244,18 @@ class GitViewController: UITableViewController {
                 try? project.push()
             }
         } catch {
-            print(error)
-            
-//            let alert = NSAlert()
-//            alert.alertStyle = .critical
-//            alert.informativeText = NSLocalizedString("Git error", comment: "")
-//            alert.messageText = error.localizedDescription
-//            alert.runModal()
+            let message = error.localizedDescription
+            errorAlert(title: "Git error", message: message)
         }
+    }
+    
+    public func errorAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }
+        alertController.addAction(okAction)
+
+        self.present(alertController, animated: true, completion: nil)
     }
     
     public static func installGitKey() {
@@ -265,6 +274,16 @@ class GitViewController: UITableViewController {
             return rsaKey
         }
         return nil
+    }
+    
+    public func getRepoNames() -> [String]? {
+        let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+        guard let repoURL = documentDir?.appendingPathComponent("Repositories") else { return nil }
+        
+        guard var names = try? FileManager.default.contentsOfDirectory(atPath: repoURL.path) else { return nil }
+        names.removeAll(where: { $0 == "tmp" })
+        
+        return names
     }
 }
 
