@@ -35,6 +35,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     private let searchQueue = OperationQueue()
     private let metadataQueue = OperationQueue()
+    
+    public let gitQueue = OperationQueue()
     private var delayedInsert: Note?
 
     private var maxSidebarWidth = CGFloat(0)
@@ -96,6 +98,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureNotifications()
         configureGestures()
         configureSearchController()
+        
+        GitViewController.installGitKey()
 
         loadNotesTable()
         loadSidebar()

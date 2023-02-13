@@ -156,11 +156,17 @@ extension Project {
     public func getHandler() -> SshKeyHandler? {
         var rsa: URL?
 
+#if os(iOS)
+        if UserDefaultsManagement.gitPrivateKeyData != nil, let rsaURL = GitViewController.getRsaUrl() {
+            rsa = rsaURL
+        }
+#else
         if let accessData = UserDefaultsManagement.gitPrivateKeyData,
             let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data],
             let url = bookmarks.first?.key {
             rsa = url
         }
+#endif
         
         guard let rsaURL = rsa else { return nil }
         

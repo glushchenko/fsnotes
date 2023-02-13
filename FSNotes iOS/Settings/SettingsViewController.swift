@@ -25,6 +25,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             NSLocalizedString("Editor", comment: "Settings"),
             NSLocalizedString("Night Mode", comment: "Settings"),
             NSLocalizedString("Pro", comment: "Settings"),
+            NSLocalizedString("Git", comment: "Settings"),
         ], [
             NSLocalizedString("iCloud Drive", comment: "Settings"),
             NSLocalizedString("Add External Folder", comment: "Settings"),
@@ -44,6 +45,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             "settings-icons-editor",
             "settings-icons-night",
             "settings-icons-pro",
+            "settings-icons-git"
         ], [
             "settings-icons-cloud",
             "settings-icons-external",
@@ -57,7 +59,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [4, 4, 4]
+    var rowsInSection = [5, 4, 4]
 
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -179,6 +181,8 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 lvc = NightModeViewController(style: .grouped)
             case 3:
                 lvc = ProViewController()
+            case 4:
+                lvc = GitViewController()
             default:
                 return
             }

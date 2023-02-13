@@ -106,7 +106,7 @@ extension Head {
         // Checkout new tree
         let error = git_checkout_tree(repository.pointer.pointee, tree.tree.pointee, &opts);
         if (error != 0) {
-            throw gitUnknownError("Unable to chekcout to tree", code: error)
+            throw gitUnknownError("Unable to checkout to tree", code: error)
         }
     }
     

@@ -268,6 +268,8 @@
 		D73A996F22FEC78A002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
 		D73A997022FEC78A002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
 		D73B121023659CAA00AAE610 /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
+		D73B3135298FBF4400F46144 /* GitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73B3134298FBF4400F46144 /* GitViewController.swift */; };
+		D73B313B298FC4C900F46144 /* settings-icons-git.png in Resources */ = {isa = PBXBuildFile; fileRef = D73B313A298FC4C900F46144 /* settings-icons-git.png */; };
 		D73BCC8C28EB5EC3008B3BBC /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5428EB5EBE008B3BBC /* Commit.swift */; };
 		D73BCC8D28EB5EC3008B3BBC /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5428EB5EBE008B3BBC /* Commit.swift */; };
 		D73BCC8E28EB5EC3008B3BBC /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5428EB5EBE008B3BBC /* Commit.swift */; };
@@ -1440,6 +1442,8 @@
 		D739955C2051D1AA009017EE /* italic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "italic@2x.png"; sourceTree = "<group>"; };
 		D739955D2051D1AB009017EE /* italic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = italic.png; sourceTree = "<group>"; };
 		D73A1FFC249941A200CFC376 /* NamingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamingViewController.swift; sourceTree = "<group>"; };
+		D73B3134298FBF4400F46144 /* GitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitViewController.swift; sourceTree = "<group>"; };
+		D73B313A298FC4C900F46144 /* settings-icons-git.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-git.png"; sourceTree = "<group>"; };
 		D73BCC5428EB5EBE008B3BBC /* Commit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commit.swift; sourceTree = "<group>"; };
 		D73BCC5628EB5EBE008B3BBC /* Branch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Branch.swift; sourceTree = "<group>"; };
 		D73BCC5728EB5EBE008B3BBC /* Branches.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Branches.swift; sourceTree = "<group>"; };
@@ -2256,6 +2260,7 @@
 				D7A549BF24DD9BDA00537544 /* settings-icons-night.png */,
 				D7D79AFE24DE727E003C61AF /* settings-icons-rate.png */,
 				D7D79AFC24DE71FA003C61AF /* settings-icons-support.png */,
+				D73B313A298FC4C900F46144 /* settings-icons-git.png */,
 				D7BE112822DB1C8600435866 /* padlock-locked-ios.png */,
 				D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */,
 				D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */,
@@ -2720,6 +2725,7 @@
 				D75629B427D5036D00F55588 /* SortByViewController.swift */,
 				D75629B627D53EB100F55588 /* ThanksViewController.swift */,
 				D75A34E427D7CD440085438F /* SidebarViewController.swift */,
+				D73B3134298FBF4400F46144 /* GitViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3219,6 +3225,7 @@
 				D7D03BBB205C6D1A00D96A6D /* redo@2x.png in Resources */,
 				D70FE12D20FE198200813F9E /* Localizable.strings in Resources */,
 				D7F2F1BD21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
+				D73B313B298FC4C900F46144 /* settings-icons-git.png in Resources */,
 				D75DF64321319994003C3059 /* todo@3x.png in Resources */,
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
@@ -4217,6 +4224,7 @@
 				D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
 				D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */,
+				D73B3135298FBF4400F46144 /* GitViewController.swift in Sources */,
 				D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */,
 				D7D88192214AACF40054586C /* UINote.swift in Sources */,
