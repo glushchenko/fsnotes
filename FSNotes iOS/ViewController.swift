@@ -99,6 +99,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureGestures()
         configureSearchController()
         
+        gitQueue.qualityOfService = .userInteractive
+        gitQueue.maxConcurrentOperationCount = 1
+        
         GitViewController.installGitKey()
 
         loadNotesTable()

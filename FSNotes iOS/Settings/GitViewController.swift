@@ -11,6 +11,18 @@ import NightNight
 import CoreServices
 
 class GitViewController: UITableViewController {
+    public var button = UIButton()
+    
+    lazy public var repositoriesNames: [String]? = {
+        let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+        guard let repoURL = documentDir?.appendingPathComponent("Repositories") else { return nil }
+        
+        guard var names = try? FileManager.default.contentsOfDirectory(atPath: repoURL.path) else { return nil }
+        names.removeAll(where: { $0 == "tmp" })
+        
+        return names
+    }()
+    
     private var sections = [
         NSLocalizedString("Credentials", comment: "Settings"),
         NSLocalizedString("Origin", comment: "Settings"),
@@ -18,6 +30,10 @@ class GitViewController: UITableViewController {
     ]
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 2 && repositoriesNames?.count == 0 {
+            return nil
+        }
+        
         return sections[section]
     }
 
@@ -38,6 +54,12 @@ class GitViewController: UITableViewController {
 
         self.title = NSLocalizedString("Git", comment: "Settings")
         super.viewDidLoad()
+        
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: button.titleLabel!.font.pointSize)
+        button.setTitle("Clone", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
     }
 
     @objc func cancel() {
@@ -96,13 +118,6 @@ class GitViewController: UITableViewController {
         // Clone button
         if indexPath.section == 1 && indexPath.row == 1 {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            let button = UIButton()
-            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: button.titleLabel!.font.pointSize)
-            button.setTitle("Clone", for: .normal)
-            button.setTitleColor(.red, for: .normal)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
-            
             cell.contentView.addSubview(button)
             cell.addConstraint(NSLayoutConstraint(item: button, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leading, multiplier: 1, constant: 8))
             cell.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: cell.contentView, attribute: .top, multiplier: 1, constant: 8))
@@ -114,7 +129,7 @@ class GitViewController: UITableViewController {
         
         // Repositories list
         if indexPath.section == 2 {
-            let names = getRepoNames()
+            let names = repositoriesNames
             
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = names![indexPath.row]
@@ -147,8 +162,7 @@ class GitViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 2 {
-            let names = getRepoNames()
-            return names?.count ?? 0
+            return repositoriesNames?.count ?? 0
         }
         
         return rows[section].count
@@ -169,8 +183,7 @@ class GitViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let names = getRepoNames()
-            let folderName = names![indexPath.row]
+            let folderName = repositoriesNames![indexPath.row]
             
             let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             guard let repoURL = documentDir?
@@ -218,6 +231,9 @@ class GitViewController: UITableViewController {
     }
     
     @objc func clonePressed(sender: UIButton) {
+        sender.loadingIndicator(show: true)
+        sender.isEnabled = false
+        
         guard let project = Storage.shared().getDefault() else { return }
         
         UIApplication.getVC().gitQueue.cancelAllOperations()
@@ -225,37 +241,48 @@ class GitViewController: UITableViewController {
         project.gitOrigin = UserDefaultsManagement.gitOrigin
         project.saveSettings()
         
-        do {
-            try project.pull()
-                
-            if let repo = try project.getRepository(), let local = project.getLocalBranch(repository: repo) {
-                try repo.head().forceCheckout(branch: local)
+        UIApplication.getVC().gitQueue.addOperation({
+            defer {
+                DispatchQueue.main.async {
+                    sender.isEnabled = true
+                    sender.loadingIndicator(show: false)
+                }
             }
-            return
-        } catch GitError.unknownError(let errorMessage, _, let desc){
-            let message = errorMessage + " – " + desc
-            errorAlert(title: "Git clone/pull error", message: message)
-        } catch GitError.notFound(let ref) {
-            print(ref)
             
-            // Empty repository – commit and push
-            if ref == "refs/heads/master" {
-                try? project.commit()
-                try? project.push()
+            do {
+                try project.pull()
+                    
+                if let repo = try project.getRepository(), let local = project.getLocalBranch(repository: repo) {
+                    try repo.head().forceCheckout(branch: local)
+                }
+                return
+            } catch GitError.unknownError(let errorMessage, _, let desc) {
+                let message = errorMessage + " – " + desc
+                self.errorAlert(title: "Git clone/pull error", message: message)
+            } catch GitError.notFound(let ref) {
+                print(ref)
+                
+                // Empty repository – commit and push
+                if ref == "refs/heads/master" {
+                    try? project.commit()
+                    try? project.push()
+                }
+            } catch {
+                let message = error.localizedDescription
+                self.errorAlert(title: "Git error", message: message)
             }
-        } catch {
-            let message = error.localizedDescription
-            errorAlert(title: "Git error", message: message)
-        }
+        })
     }
     
     public func errorAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-        let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }
-        alertController.addAction(okAction)
-
-        self.present(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }
+            alertController.addAction(okAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     public static func installGitKey() {
@@ -275,16 +302,6 @@ class GitViewController: UITableViewController {
         }
         return nil
     }
-    
-    public func getRepoNames() -> [String]? {
-        let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-        guard let repoURL = documentDir?.appendingPathComponent("Repositories") else { return nil }
-        
-        guard var names = try? FileManager.default.contentsOfDirectory(atPath: repoURL.path) else { return nil }
-        names.removeAll(where: { $0 == "tmp" })
-        
-        return names
-    }
 }
 
 extension GitViewController: UIDocumentPickerDelegate, UINavigationControllerDelegate {
@@ -300,5 +317,25 @@ extension GitViewController: UIDocumentPickerDelegate, UINavigationControllerDel
 
      func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension UIButton {
+    func loadingIndicator(show: Bool) {
+        let tag = 9876
+        if show {
+            let indicator = UIActivityIndicatorView()
+            let buttonHeight = self.bounds.size.height
+            let buttonWidth = self.bounds.size.width
+            indicator.center = CGPointMake(buttonWidth/2 + 50, buttonHeight/2)
+            indicator.tag = tag
+            self.addSubview(indicator)
+            indicator.startAnimating()
+        } else {
+            if let indicator = self.viewWithTag(tag) as? UIActivityIndicatorView {
+                indicator.stopAnimating()
+                indicator.removeFromSuperview()
+            }
+        }
     }
 }
