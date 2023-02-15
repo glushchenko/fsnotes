@@ -370,7 +370,7 @@ public class Note: NSObject  {
                 self.url = dst
                 parseURL()
 
-                #if os(iOS)
+                #if IOS_APP
                     moveHistory(src: src, dst: dst)
                 #endif
             }
@@ -381,7 +381,7 @@ public class Note: NSObject  {
                 removePin()
             }
 
-            #if os(iOS)
+            #if IOS_APP
                 dropRevisions()
             #endif
         }
@@ -824,7 +824,7 @@ public class Note: NSObject  {
     }
     
     func getPrettifiedContent() -> String {
-        #if NOT_EXTENSION || os(OSX)
+        #if IOS_APP || os(OSX)
             let mutable = NotesTextProcessor.convertAppTags(in: self.content)
             let content = NotesTextProcessor.convertAppLinks(in: mutable)
             let result = cleanMetaData(content: content.string)
@@ -2061,7 +2061,7 @@ public class Note: NSObject  {
     public func getGitPath() -> String {
         var path = name
 
-    #if NOT_EXTENSION || os(OSX)
+    #if IOS_APP || os(OSX)
         if let gitPath = project.getGitPath() {
             path = gitPath + "/" + name
         }
@@ -2077,7 +2077,7 @@ public class Note: NSObject  {
     public func getGitCheckoutPath() -> String {
         var path = name.recode4byteString()
 
-    #if NOT_EXTENSION || os(OSX)
+    #if IOS_APP || os(OSX)
         if let gitPath = project.getGitPath() {
             path = gitPath + "/" + name
         }

@@ -129,7 +129,7 @@ extension NSMutableAttributedString {
     #endif
 
     public func replaceCheckboxes() {
-        #if NOT_EXTENSION || os(OSX)
+        #if IOS_APP || os(OSX)
         while mutableString.contains("- [ ] ") {
             let range = mutableString.range(of: "- [ ] ")
             if length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {

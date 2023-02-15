@@ -23,7 +23,7 @@ class ProViewController: UITableViewController {
         [
             NSLocalizedString("Default keyboard in editor", comment: ""),
             NSLocalizedString("Use inline tags", comment: ""),
-            NSLocalizedString("Auto versioning", comment: "")
+            NSLocalizedString("Use Git versioning", comment: "")
         ], [
             NSLocalizedString("Sort by", comment: ""),
             NSLocalizedString("Sidebar", comment: "")
@@ -78,7 +78,7 @@ class ProViewController: UITableViewController {
                 break
             case 2:
                 cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.autoVersioning
+                uiSwitch.isOn = UserDefaultsManagement.gitVersioning
                 break
             default:
                 break
@@ -132,11 +132,11 @@ class ProViewController: UITableViewController {
             UIApplication.getEVC().resetToolbar()
         case 2:
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-             UserDefaultsManagement.autoVersioning = uiSwitch.isOn
+             UserDefaultsManagement.gitVersioning = uiSwitch.isOn
 
-             if !uiSwitch.isOn {
-                 autoVersioningPrompt()
-             }
+             //if !uiSwitch.isOn {
+             //    autoVersioningPrompt()
+             //}
         default:
             return
         }

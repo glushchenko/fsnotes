@@ -730,7 +730,7 @@ public class NotesTextProcessor {
             }
         }
 
-        #if NOT_EXTENSION || os(OSX)
+        #if IOS_APP || os(OSX)
         // We detect and process inline anchors (links)
         NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }

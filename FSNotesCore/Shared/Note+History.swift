@@ -10,7 +10,12 @@ import Foundation
 import Compression
 
 extension Note {
-    public func saveRevision() {
+    public func saveRevision() throws {
+        if UserDefaultsManagement.gitVersioning {
+            try saveRevision(commitMessage: nil)
+            return
+        }
+        
         guard
             !isEncrypted(),
             let versionUrl = createVersionUrl(),
@@ -61,7 +66,9 @@ extension Note {
         dropImagesCache()
 
         if !isVersionExist(checkSum: countCheckSum()) {
-            saveRevision()
+            do {
+                try saveRevision()
+            } catch {/*_*/}
         }
 
         if isTextBundle() {
@@ -104,7 +111,17 @@ extension Note {
         forceLoad()
     }
 
-    public func listRevisions() -> [TimestampUrl] {
+    public func listRevisions() -> [Revision] {
+        if UserDefaultsManagement.gitVersioning {
+            var result = [Revision]()
+            let commits = getCommits()
+            for commit in commits {
+                let timestamp = commit.date.timeIntervalSince1970
+                result.append(Revision(timestamp: timestamp, commit: commit))
+            }
+            return result
+        }
+
         guard let revisions = getRepositoryUrl(),
               let dirs = try? FileManager.default.contentsOfDirectory(atPath: revisions.path) else { return [] }
 
@@ -121,10 +138,10 @@ extension Note {
         var timestamps = dirs.map({ Double( $0.split(separator: "-")[0] )! })
         timestamps.sort(by: {$0 > $1})
 
-        var result = [TimestampUrl]()
+        var result = [Revision]()
         for timestamp in timestamps {
             if let url = dict[timestamp] {
-                result.append(TimestampUrl(timestamp: timestamp, url: url))
+                result.append(Revision(timestamp: timestamp, url: url))
             }
         }
 
@@ -282,9 +299,62 @@ extension Note {
             }
         })
     }
+    
+    public func getCommits() -> [Commit] {
+        var commits = [Commit]()
+        
+        do {
+            if let repository = try project.getRepository() {
+                let path = getGitPath().recode4byteString()
+                
+                do {
+                    let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
+                    
+                    while let rev = fileRevLog.next() {
+                        if let commit = try? repository.commitLookup(oid: rev) {
+                            commits.append(commit)
+                        }
+                    }
+                    
+                    if fileRevLog.checkFirstCommit() {
+                        if let oid = fileRevLog.getLast(), let commit = try? repository.commitLookup(oid: oid) {
+                            commits.append(commit)
+                        }
+                    }
+                } catch {/*_*/}
+                
+                return commits
+            }
+        } catch {
+            print(error)
+        }
+        
+        return commits
+    }
+    
+    public func saveRevision(commitMessage: String? = nil) throws {
+        let project = project.getRepositoryProject()
+        
+        do {
+            try project.commit(message: commitMessage)
+        } catch {
+            print("Commit error: \(error)")
+            return
+        }
+
+        // No hands – no mults
+        guard project.getGitOrigin() != nil else { return }
+        
+        try project.pull()
+        print("Pull successful")
+        
+        try project.push()
+        print("Push successful")
+    }
 }
 
-public struct TimestampUrl {
+public struct Revision {
     var timestamp: Double
-    var url: URL
+    var url: URL?
+    var commit: Commit?
 }

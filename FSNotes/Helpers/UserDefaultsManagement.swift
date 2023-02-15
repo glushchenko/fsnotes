@@ -78,6 +78,7 @@ public class UserDefaultsManagement {
         static let NoteType = "noteType"
         static let NoteExtension = "noteExtension"
         static let GrammarChecking = "grammarChecking"
+        static let GitVersioning = "gitVersioning"
         static let GitStorage = "gitStorage"
         static let GitUsername = "gitUsername"
         static let GitPassword = "gitPassword"
@@ -1534,6 +1535,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.AutoVersioning)
+        }
+    }
+    
+    static var gitVersioning: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.GitVersioning) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.GitVersioning)
         }
     }
 

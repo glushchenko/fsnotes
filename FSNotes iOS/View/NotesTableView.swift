@@ -124,9 +124,11 @@ class NotesTableView: UITableView,
 
         fill(note: note, indexPath: indexPath)
 
-        if UserDefaultsManagement.autoVersioning {
+        if UserDefaultsManagement.autoVersioning && !UserDefaultsManagement.gitVersioning {
             DispatchQueue.global().async {
-                note.saveRevision()
+                do {
+                    try note.saveRevision()
+                } catch {/*_*/}
             }
         }
     }

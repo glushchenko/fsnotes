@@ -666,7 +666,7 @@ class Storage {
     func loadNotes(_ item: Project, loadContent: Bool = false) {
         var currentUrl: URL?
                 
-        #if NOT_EXTENSION
+        #if IOS_APP
             currentUrl = UIApplication.getEVC().editArea.note?.url
         #endif
         

@@ -18,7 +18,7 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var revisionsTable: UITableView!
 
     public var note: Note?
-    private var revisions = [TimestampUrl]()
+    private var revisions = [Revision]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +74,15 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     @IBAction func saveRevision() {
-        note?.saveRevision()
+        do {
+            try note?.saveRevision()
+        } catch {
+            let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
 
         dismiss(animated: true)
     }
@@ -133,9 +141,9 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let url = revisions[indexPath.row].url
-
-        note?.restoreRevision(url: url)
+        if let url = revisions[indexPath.row].url {
+            note?.restoreRevision(url: url)
+        }
 
         UIApplication.getEVC().refill()
 

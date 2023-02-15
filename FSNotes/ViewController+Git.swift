@@ -49,24 +49,8 @@ extension EditorViewController {
         guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
         
         ViewController.shared()?.gitQueue.addOperation({
-            let project = note.project.getRepositoryProject()
-            
             do {
-                try project.commit(message: commitMessage)
-            } catch {
-                print("Commit error: \(error)")
-                return
-            }
-
-            // No hands – no mults
-            guard project.getGitOrigin() != nil else { return }
-            
-            do {
-                try project.pull()
-                print("Pull successful")
-                
-                try project.push()
-                print("Push successful")
+                try note.saveRevision(commitMessage: commitMessage)
             } catch {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
