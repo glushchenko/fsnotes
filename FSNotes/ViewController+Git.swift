@@ -76,15 +76,7 @@ extension EditorViewController {
 
         vc.prevCommit = commit
         
-        do {
-            if let repository = try note.project.getRepository() {
-                let commit = try repository.commitLookup(oid: commit.oid)
-                try repository.checkout(commit: commit, path: note.getGitCheckoutPath())
-                print("Successful checkout")
-            }
-        } catch {
-            print(error)
-        }
+        note.checkout(commit: commit)
 
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)

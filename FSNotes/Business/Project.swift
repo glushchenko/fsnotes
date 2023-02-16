@@ -502,6 +502,10 @@ public class Project: Equatable {
             } else {
                 self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
             }
+            
+            if let originString = settings.value(forKey: "gitOrigin") as? String {
+                gitOrigin = originString
+            }
 
             return
         }

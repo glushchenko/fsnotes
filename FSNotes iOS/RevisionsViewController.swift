@@ -83,7 +83,11 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
             self.present(alert, animated: true, completion: nil)
             return
         }
-
+        
+        UIApplication.getVC().gitQueue.addOperation({
+            try? self.note?.pullPush()
+        })
+        
         dismiss(animated: true)
     }
 
@@ -141,9 +145,8 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let url = revisions[indexPath.row].url {
-            note?.restoreRevision(url: url)
-        }
+        let revision = revisions[indexPath.row]
+        note?.restoreRevision(revision: revision)
 
         UIApplication.getEVC().refill()
 

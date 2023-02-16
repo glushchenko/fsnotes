@@ -12,7 +12,7 @@ import Compression
 extension Note {
     public func saveRevision() throws {
         if UserDefaultsManagement.gitVersioning {
-            try saveRevision(commitMessage: nil)
+            try saveRevision(commitMessage: nil, pull: false)
             return
         }
         
@@ -60,8 +60,14 @@ extension Note {
         }
     }
 
-    public func restoreRevision(url: URL) {
-        guard !isEncrypted() else { return }
+    public func restoreRevision(revision: Revision) {
+        if UserDefaultsManagement.gitVersioning {
+            checkout(commit: revision.commit!)
+            forceLoad()
+            return
+        }
+        
+        guard let url = revision.url, !isEncrypted() else { return }
 
         dropImagesCache()
 
@@ -332,7 +338,7 @@ extension Note {
         return commits
     }
     
-    public func saveRevision(commitMessage: String? = nil) throws {
+    public func saveRevision(commitMessage: String? = nil, pull: Bool = true) throws {
         let project = project.getRepositoryProject()
         
         do {
@@ -341,7 +347,15 @@ extension Note {
             print("Commit error: \(error)")
             return
         }
-
+        
+        if pull {
+            try pullPush()
+        }
+    }
+    
+    public func pullPush() throws {
+        let project = project.getRepositoryProject()
+        
         // No hands – no mults
         guard project.getGitOrigin() != nil else { return }
         
@@ -350,6 +364,18 @@ extension Note {
         
         try project.push()
         print("Push successful")
+    }
+    
+    public func checkout(commit: Commit) {
+        do {
+            if let repository = try project.getRepository() {
+                let commit = try repository.commitLookup(oid: commit.oid)
+                try repository.checkout(commit: commit, path: getGitCheckoutPath())
+                print("Successful checkout")
+            }
+        } catch {
+            print(error)
+        }
     }
 }
 

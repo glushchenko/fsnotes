@@ -649,7 +649,29 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func toggleSearch(refreshControl: UIRefreshControl) {
-        self.toggleSearchView()
+        //self.toggleSearchView()
+        
+        UIApplication.getVC().gitQueue.addOperation({
+            let projects = Storage.shared().getProjects()
+            for project in projects {
+                if project.isTrash {
+                    continue
+                }
+
+                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                    do {
+                        guard project.getGitOrigin() != nil else { continue }
+                        
+                        try project.pull()
+                        
+                        print("Pull \(project.label)")
+                    } catch {
+                        print("Scheduled pull error: \(error)")
+                    }
+                }
+            }
+        })
+        
         refreshControl.endRefreshing()
     }
 
