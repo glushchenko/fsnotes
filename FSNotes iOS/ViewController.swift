@@ -67,6 +67,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     // Pass for access from CloudDriveManager
     public var editorViewController: EditorViewController?
+    
+    private var gitClean: Bool = false
+    private var gitPullTimer: Timer?
 
     override func viewDidAppear(_ animated: Bool) {
         if nil == Storage.shared().getRoot() {
@@ -103,6 +106,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         gitQueue.maxConcurrentOperationCount = 1
         
         GitViewController.installGitKey()
+        scheduledGitPull()
 
         loadNotesTable()
         loadSidebar()
@@ -117,6 +121,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         super.viewDidLoad()
     }
 
+    public func scheduledGitPull() {
+        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+        gitPullTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.addPullTask), userInfo: nil, repeats: true)
+    }
+    
+    public func stopGitPull() {
+        gitPullTimer?.invalidate()
+        gitPullTimer = nil
+    }
+    
     public func loadInbox() {
         guard let project = storage.getDefault() else { return }
 
@@ -230,7 +244,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         let folder = currentFolder ?? ""
-        let qty = folderCapacity ?? "∞"
+        var qty = folderCapacity ?? "∞"
+        
+        if gitClean {
+            qty += " | git ✓"
+        }
 
         let titleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white]
         let subtitleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white, .font: UIFont(name: "Source Code Pro", size: 10)]
@@ -649,30 +667,24 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func toggleSearch(refreshControl: UIRefreshControl) {
-        //self.toggleSearchView()
-        
-        UIApplication.getVC().gitQueue.addOperation({
-            let projects = Storage.shared().getProjects()
-            for project in projects {
-                if project.isTrash {
-                    continue
-                }
-
-                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    do {
-                        guard project.getGitOrigin() != nil else { continue }
-                        
-                        try project.pull()
-                        
-                        print("Pull \(project.label)")
-                    } catch {
-                        print("Scheduled pull error: \(error)")
-                    }
-                }
-            }
-        })
+        if UserDefaultsManagement.gitVersioning {
+            addPullTask()
+        } else {
+            toggleSearchView()
+        }
         
         refreshControl.endRefreshing()
+    }
+    
+    @objc func addPullTask() {
+        guard UserDefaultsManagement.gitVersioning else { return }
+        
+        UIApplication.getVC().gitQueue.addOperation({
+            Storage.shared().pullAll()
+            
+            self.gitClean = Storage.shared().getDefault()?.isCleanRepo() == true
+            self.updateNotesCounter()
+        })
     }
 
     public func loadSearchController(query: String? = nil) {

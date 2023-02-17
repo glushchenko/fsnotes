@@ -210,6 +210,13 @@ extension Project {
         }
     }
     
+    public func isCleanRepo() -> Bool {
+        guard let repository = try? getRepository() else { return false }
+        let statuses = Statuses(repository: repository)
+        
+        return statuses.workingDirectoryClean
+    }
+    
     public func getLocalBranch(repository: Repository) -> Branch?  {
         do {
             let names = try Branches(repository: repository).names(type: .local)

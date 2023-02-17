@@ -134,9 +134,6 @@ extension EditorViewController {
     }
     
     @IBAction private func pull(_ sender: Any) {
-        let storage = Storage.shared()
-        let projects = storage.getProjects()
-
         // Skip on high load
         if let qty = ViewController.shared()?.gitQueue.operationCount, qty > 5 {
             print("Pull skipped")
@@ -144,21 +141,7 @@ extension EditorViewController {
         }
         
         ViewController.shared()?.gitQueue.addOperation({
-            for project in projects {
-                if project.isTrash {
-                    continue
-                }
-
-                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    do {
-                        guard project.getGitOrigin() != nil else { continue }
-                        
-                        try project.pull()
-                    } catch {
-                        print("Scheduled pull error: \(error)")
-                    }
-                }
-            }
+            Storage.shared().pullAll()
         })
     }
 

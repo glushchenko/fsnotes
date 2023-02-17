@@ -192,6 +192,9 @@ class GitViewController: UITableViewController {
             
             try? FileManager.default.removeItem(at: repoURL)
             tableView.reloadData()
+            
+            UIApplication.getVC().gitQueue.cancelAllOperations()
+            UIApplication.getVC().stopGitPull()
         }
     }
 
@@ -241,12 +244,16 @@ class GitViewController: UITableViewController {
         project.gitOrigin = UserDefaultsManagement.gitOrigin
         project.saveSettings()
         
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         UIApplication.getVC().gitQueue.addOperation({
             defer {
                 DispatchQueue.main.async {
                     sender.isEnabled = true
                     sender.loadingIndicator(show: false)
                 }
+                
+                UIApplication.shared.isIdleTimerDisabled = false
             }
             
             do {
@@ -255,6 +262,8 @@ class GitViewController: UITableViewController {
                 if let repo = try project.getRepository(), let local = project.getLocalBranch(repository: repo) {
                     try repo.head().forceCheckout(branch: local)
                 }
+                
+                UIApplication.getVC().scheduledGitPull()
                 return
             } catch GitError.unknownError(let errorMessage, _, let desc) {
                 let message = errorMessage + " – " + desc

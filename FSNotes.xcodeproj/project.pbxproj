@@ -825,6 +825,10 @@
 		D7BAC64E24A360E1008D29AA /* home_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC64C24A360E1008D29AA /* home_white.png */; };
 		D7BAC64F24A360E1008D29AA /* home_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC64C24A360E1008D29AA /* home_white.png */; };
 		D7BAC65024A360E1008D29AA /* home_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC64C24A360E1008D29AA /* home_white.png */; };
+		D7BB2DFE29A0157700D5055A /* Storage+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BB2DFD29A0157700D5055A /* Storage+Git.swift */; };
+		D7BB2DFF29A0157700D5055A /* Storage+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BB2DFD29A0157700D5055A /* Storage+Git.swift */; };
+		D7BB2E0029A0157700D5055A /* Storage+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BB2DFD29A0157700D5055A /* Storage+Git.swift */; };
+		D7BB2E0129A0157700D5055A /* Storage+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BB2DFD29A0157700D5055A /* Storage+Git.swift */; };
 		D7BBCA79208C74A0002CE3C3 /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA78208C749F002CE3C3 /* repository.png */; };
 		D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA78208C749F002CE3C3 /* repository.png */; };
 		D7BBCA7C208C7523002CE3C3 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA7B208C7523002CE3C3 /* tag.png */; };
@@ -1669,6 +1673,7 @@
 		D7BAC63924A35EB0008D29AA /* trash_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash_white.png; sourceTree = "<group>"; };
 		D7BAC63B24A35F72008D29AA /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		D7BAC64C24A360E1008D29AA /* home_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_white.png; sourceTree = "<group>"; };
+		D7BB2DFD29A0157700D5055A /* Storage+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+Git.swift"; sourceTree = "<group>"; };
 		D7BBCA78208C749F002CE3C3 /* repository.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repository.png; sourceTree = "<group>"; };
 		D7BBCA7B208C7523002CE3C3 /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
 		D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutImageView.swift; sourceTree = "<group>"; };
@@ -1946,6 +1951,8 @@
 				D7680FB125D02B2C00810DA8 /* FileManager+.swift */,
 				D792DD9527A6D71C006ADC01 /* String+Punycode.swift */,
 				D77AD7FB27F9D1C90077BD45 /* Data+.swift */,
+				D7A9C1D52910784400905619 /* Project+Git.swift */,
+				D7BB2DFD29A0157700D5055A /* Storage+Git.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2490,7 +2497,6 @@
 				D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */,
 				D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */,
 				8F7136ED23490CBF004DFA6E /* Markdown.swift */,
-				D7A9C1D52910784400905619 /* Project+Git.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -3902,6 +3908,7 @@
 				D75E338C22462442006AD1C1 /* SidebarCellView.swift in Sources */,
 				D75E338D22462442006AD1C1 /* EditTextView.swift in Sources */,
 				D73BCCC428EB5EC4008B3BBC /* DiffEntry.swift in Sources */,
+				D7BB2E0029A0157700D5055A /* Storage+Git.swift in Sources */,
 				D77E0535246312B100AD7772 /* StorageType.swift in Sources */,
 				D75E338E22462442006AD1C1 /* NoteCellView+.swift in Sources */,
 				D75E339022462442006AD1C1 /* LanguageType.swift in Sources */,
@@ -4194,6 +4201,7 @@
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
 				D70E9DF62901AEAF00A3C634 /* Error.swift in Sources */,
 				D70E9E182901AEF300A3C634 /* Tag.swift in Sources */,
+				D7BB2E0129A0157700D5055A /* Storage+Git.swift in Sources */,
 				D70E9E002901AEB600A3C634 /* Diff.swift in Sources */,
 				D7B4AC612471253100F3888A /* NoteMeta.swift in Sources */,
 				D70E9DFD2901AEAF00A3C634 /* OID.swift in Sources */,
@@ -4293,6 +4301,7 @@
 				D75EE7FD2078C5460055F159 /* SidebarCellView.swift in Sources */,
 				D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */,
 				D73BCCC228EB5EC3008B3BBC /* DiffEntry.swift in Sources */,
+				D7BB2DFE29A0157700D5055A /* Storage+Git.swift in Sources */,
 				D77E0537246312B300AD7772 /* StorageType.swift in Sources */,
 				D7EDEDFB219203C9000B8C1A /* NoteCellView+.swift in Sources */,
 				D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */,
@@ -4465,6 +4474,7 @@
 				D73BCCC328EB5EC3008B3BBC /* DiffEntry.swift in Sources */,
 				D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D77E0536246312B200AD7772 /* StorageType.swift in Sources */,
+				D7BB2DFF29A0157700D5055A /* Storage+Git.swift in Sources */,
 				D7EDEDFC219203C9000B8C1A /* NoteCellView+.swift in Sources */,
 				D75EE8012078E0C60055F159 /* SidebarItemType.swift in Sources */,
 				D73BCCF028EB5EC4008B3BBC /* Head+Merge.swift in Sources */,
