@@ -38,6 +38,9 @@ public enum StatusType : UInt32 {
     case wtNew           = 128
     case wtModified      = 256
     case wtDeleted       = 512
+    
+    // TODO: Unknown status
+    case wtDeletedU      = 513
     case wtTypeChange    = 1024
     case wtRenamed       = 2048
     case wtUnreadable    = 4096
