@@ -20,7 +20,7 @@ class SidebarOutlineView: NSOutlineView,
     public var sidebarItems: [Any]? = nil
     public var viewDelegate: ViewController? = nil
     
-    public var storage = Storage.sharedInstance()
+    public var storage = Storage.shared()
     public var isFirstLaunch = true
     public var selectNote: Note? = nil
 
@@ -316,7 +316,7 @@ class SidebarOutlineView: NSOutlineView,
         if let data = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
             let url = URL(fileURLWithPath: data)
             
-            guard let project = Storage.sharedInstance().getProjectBy(url: url) else { return false }
+            guard let project = Storage.shared().getProjectBy(url: url) else { return false }
             
             // Get src index for child and root folders
             var srcIndex: Int?
@@ -377,9 +377,9 @@ class SidebarOutlineView: NSOutlineView,
 
         // tags
         if let tag = item as? FSTag {
-            if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
+            if urls.count > 0, Storage.shared().getBy(url: urls.first!) != nil {
                 for url in urls {
-                    if let note = Storage.sharedInstance().getBy(url: url) {
+                    if let note = Storage.shared().getBy(url: url) {
                         note.addTag(tag.getFullName())
                         _ = note.scanContentTags()
                         viewDelegate?.notesTableView.reloadRow(note: note)
@@ -407,10 +407,10 @@ class SidebarOutlineView: NSOutlineView,
 
         guard let project = maybeProject else { return false }
 
-        if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
+        if urls.count > 0, Storage.shared().getBy(url: urls.first!) != nil {
             var notes = [Note]()
             for url in urls {
-                if let note = Storage.sharedInstance().getBy(url: url) {
+                if let note = Storage.shared().getBy(url: url) {
                     notes.append(note)
                 }
             }
@@ -471,7 +471,7 @@ class SidebarOutlineView: NSOutlineView,
         if let archivedData = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
             let url = URL(fileURLWithPath: archivedData)
             
-            guard let project = Storage.sharedInstance().getProjectBy(url: url) else {
+            guard let project = Storage.shared().getProjectBy(url: url) else {
                 return NSDragOperation()
             }
             
@@ -492,7 +492,7 @@ class SidebarOutlineView: NSOutlineView,
            let urlsUnarchived = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL] {
             urls = urlsUnarchived
 
-            if let url = urls.first, Storage.sharedInstance().getBy(url: url) != nil {
+            if let url = urls.first, Storage.shared().getBy(url: url) != nil {
                 isLocalNote = true
             }
             

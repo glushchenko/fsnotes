@@ -207,7 +207,7 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard var projectURL = Storage.sharedInstance().getCurrentProject()?.url else { return }
+        guard var projectURL = Storage.shared().getCurrentProject()?.url else { return }
 
         let mvc = UIApplication.getVC()
         if let pURL = mvc.sidebarTableView.getSidebarItem()?.project?.url {

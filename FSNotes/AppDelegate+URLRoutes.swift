@@ -71,13 +71,13 @@ extension AppDelegate {
         var sidebarIndex: Int? = nil
 
         for url in urls {
-            if let items = vc.sidebarOutlineView.sidebarItems, let note = Storage.sharedInstance().getBy(url: url) {
+            if let items = vc.sidebarOutlineView.sidebarItems, let note = Storage.shared().getBy(url: url) {
                 if let sidebarItem = items.first(where: { ($0 as? SidebarItem)?.project == note.project || $0 as? Project == note.project }) {
                     sidebarIndex = vc.sidebarOutlineView.row(forItem: sidebarItem)
                     importedNote = note
                 }
             } else {
-                let project = Storage.sharedInstance().getMainProject()
+                let project = Storage.shared().getMainProject()
                 let newUrl = vc.copy(project: project, url: url)
 
                 UserDataService.instance.focusOnImport = newUrl
@@ -125,9 +125,9 @@ extension AppDelegate {
         var lastPath = url.lastPathComponent
 
         if let wikiURL = url["id"] {
-            var note = Storage.sharedInstance().getBy(fileName: wikiURL)
+            var note = Storage.shared().getBy(fileName: wikiURL)
             if note == nil {
-                note = Storage.sharedInstance().getBy(title: wikiURL)
+                note = Storage.shared().getBy(title: wikiURL)
             }
             
             if let note = note {

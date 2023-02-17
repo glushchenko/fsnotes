@@ -61,7 +61,7 @@ class ProjectSettingsViewController: NSViewController {
         project.firstLineAsTitle = sender.state == .on
         project.saveSettings()
         
-        let notes = Storage.sharedInstance().getNotesBy(project: project)
+        let notes = Storage.shared().getNotesBy(project: project)
         for note in notes {
             note.invalidateCache()
         }
@@ -239,7 +239,7 @@ class ProjectSettingsViewController: NSViewController {
     public static func saveSettings() {
         var result = [URL: Data]()
         
-        let projects = Storage.sharedInstance().getProjects()
+        let projects = Storage.shared().getProjects()
         for project in projects {
             if let data = project.settingsList {
                 result[project.url] = data
@@ -263,7 +263,7 @@ class ProjectSettingsViewController: NSViewController {
         guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: Data] else { return }
         
         for item in unarchivedData {
-            if let project = Storage.sharedInstance().getProjectBy(url: item.key) {
+            if let project = Storage.shared().getProjectBy(url: item.key) {
                 project.settingsList = item.value
                 project.loadSettings()
             }

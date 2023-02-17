@@ -1017,7 +1017,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             savePasteboard(note: note)
         }
 
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         storage.add(note)
 
         let evc = UIApplication.getEVC()
@@ -1274,7 +1274,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         sidebarItems = sidebarItems
-            + Storage.sharedInstance().getProjects().map({ $0.label })
+            + Storage.shared().getProjects().map({ $0.label })
             + [settings, inbox, notes, todo, archive, trash]
 
         for item in sidebarItems {

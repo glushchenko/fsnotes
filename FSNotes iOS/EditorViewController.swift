@@ -1023,7 +1023,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let range = NSRange(location: location, length: 0)
         editArea.selectedRange = range
 
-        guard let titles = Storage.sharedInstance().getTitles() else { return }
+        guard let titles = Storage.shared().getTitles() else { return }
 
         self.dropDown.dataSource = titles
         self.complete(offset: location, replacementRange: range)
@@ -1694,7 +1694,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         guard let name = activity.userInfo?["note-file-name"] as? String,
             let position = activity.userInfo?["position"] as? String,
-            let note = Storage.sharedInstance().getBy(name: name)
+            let note = Storage.shared().getBy(name: name)
         else { return }
 
         let evc = UIApplication.getEVC()

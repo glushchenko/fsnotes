@@ -21,7 +21,7 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
 
             SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
-            let storage = Storage.sharedInstance()
+            let storage = Storage.shared()
             if storage.projectExist(url: url) {
                 return
             }

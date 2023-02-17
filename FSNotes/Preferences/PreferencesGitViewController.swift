@@ -138,7 +138,7 @@ class PreferencesGitViewController: NSViewController {
     }
     
     @IBAction func origin(_ sender: NSTextField) {
-        let project = Storage.sharedInstance().getDefault()
+        let project = Storage.shared().getDefault()
         project?.gitOrigin = sender.stringValue
         project?.saveSettings()
         
@@ -217,7 +217,7 @@ class PreferencesGitViewController: NSViewController {
     }
     
     @IBAction func clonePull(_ sender: Any) {
-        guard let project = Storage.sharedInstance().getDefault() else { return }
+        guard let project = Storage.shared().getDefault() else { return }
         guard let window = view.window else { return }
         
         ViewController.shared()?.gitQueue.cancelAllOperations()

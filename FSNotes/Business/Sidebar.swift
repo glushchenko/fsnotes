@@ -11,7 +11,7 @@ typealias Image = NSImage
 
 class Sidebar {
     var list = [Any]()
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
     public var items = [[SidebarItem]]()
     
     init() {
@@ -43,7 +43,7 @@ class Sidebar {
         }
 
         if UserDefaultsManagement.sidebarVisibilityTrash {
-            let trashProject = Storage.sharedInstance().getDefaultTrash()
+            let trashProject = Storage.shared().getDefaultTrash()
             let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), project: trashProject, type: .Trash)
             system.append(trash)
         }

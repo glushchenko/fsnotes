@@ -124,7 +124,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
     }
 
     @IBAction func setFontColor(_ sender: NSColorWell) {
-        Storage.sharedInstance().resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
         
         UserDefaultsManagement.appearanceType = .Custom
         UserDefaultsManagement.fontColor = sender.color
@@ -191,7 +191,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBAction func firstLineAsTitle(_ sender: NSButton) {
         UserDefaultsManagement.firstLineAsTitle = (sender.state == .on)
 
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         let projects = storage.getProjects()
         for project in projects {
             project.loadSettings()
@@ -223,7 +223,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
-        Storage.sharedInstance().resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {

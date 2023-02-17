@@ -66,7 +66,7 @@ class PreferencesEditorViewController: NSViewController {
 
     //MARK: global variables
 
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
 
     @IBAction func liveImagesPreview(_ sender: NSButton) {
         let editors = AppDelegate.getEditTextViews()
@@ -89,7 +89,7 @@ class PreferencesEditorViewController: NSViewController {
 
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
-        Storage.sharedInstance().resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
 
         let editors = AppDelegate.getEditTextViews()
         
@@ -105,7 +105,7 @@ class PreferencesEditorViewController: NSViewController {
             return
         }
 
-        Storage.sharedInstance().resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
         UserDefaultsManagement.codeTheme = item.title
 
         let editors = AppDelegate.getEditTextViews()
@@ -230,7 +230,7 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.codeFont = newFont
         NotesTextProcessor.codeFont = newFont
 
-        Storage.sharedInstance().resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
@@ -249,9 +249,9 @@ class PreferencesEditorViewController: NSViewController {
 
         guard let vc = ViewController.shared() else { return }
 
-        Storage.sharedInstance().tags = []
+        Storage.shared().tags = []
 
-        for note in Storage.sharedInstance().noteList {
+        for note in Storage.shared().noteList {
             note.tags = []
 
             if UserDefaultsManagement.inlineTags {
@@ -265,7 +265,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBAction func highlightIndentedCodeBlocks(_ sender: NSButton) {
         UserDefaultsManagement.indentedCodeBlockHighlighting = (sender.state == NSControl.StateValue.on)
 
-        Storage.sharedInstance().resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
         
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
@@ -278,7 +278,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBAction func highlightLinks(_ sender: NSButton) {
         UserDefaultsManagement.clickableLinks = (sender.state == NSControl.StateValue.on)
 
-        Storage.sharedInstance().resetCacheAttributes()
+        Storage.shared().resetCacheAttributes()
         
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {

@@ -129,7 +129,7 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [Any]! {
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         var urls = [URL]()
 
         if let inbox = UserDefaultsManagement.storageUrl {
@@ -200,7 +200,7 @@ class ShareViewController: SLComposeServiceViewController {
             let input = context.inputItems as? [NSExtensionItem] else { return }
 
         let note = note ?? Note(project: self.currentProject)
-        Storage.sharedInstance().add(note)
+        Storage.shared().add(note)
 
         var started = 0
         var finished = 0
@@ -312,7 +312,7 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     public func loadNotesFrom(project: Project) {
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
 
         if storage.getNotesBy(project: project).count == 0 {
             storage.loadNotes(project)

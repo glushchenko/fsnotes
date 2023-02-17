@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             NSApp.setActivationPolicy(.accessory)
         }
 
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         storage.loadNotesSettings()
         storage.loadDocuments()
         
@@ -108,9 +108,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         AppDelegate.saveWindowsState()
         
-        Storage.sharedInstance().saveNotesSettings()
-        Storage.sharedInstance().saveAPIIds()
-        Storage.sharedInstance().saveUploadPaths()
+        Storage.shared().saveNotesSettings()
+        Storage.shared().saveAPIIds()
+        Storage.shared().saveUploadPaths()
         
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
@@ -405,7 +405,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func checkStorageChanges() {
-        if Storage.sharedInstance().shouldMovePrompt,
+        if Storage.shared().shouldMovePrompt,
             let local = UserDefaultsManagement.localDocumentsContainer,
             let iCloudDrive = UserDefaultsManagement.iCloudDocumentsContainer
         {

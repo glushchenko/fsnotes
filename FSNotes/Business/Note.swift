@@ -84,7 +84,7 @@ public class Note: NSObject  {
     // Make new
     
     init(name: String? = nil, project: Project? = nil, type: NoteType? = nil, cont: NoteContainer? = nil) {
-        let project = project ?? Storage.sharedInstance().getMainProject()
+        let project = project ?? Storage.shared().getMainProject()
         let name = name ?? String()
 
         self.project = project
@@ -157,7 +157,7 @@ public class Note: NSObject  {
     }
     
     public func loadProject() {
-        let sharedStorage = Storage.sharedInstance()
+        let sharedStorage = Storage.shared()
         
         if let project = sharedStorage.getProjectByNote(url: url) {
             self.project = project
@@ -315,7 +315,7 @@ public class Note: NSObject  {
     }
     
     func move(to: URL, project: Project? = nil, forceRewrite: Bool = false) -> Bool {
-        let sharedStorage = Storage.sharedInstance()
+        let sharedStorage = Storage.shared()
 
         do {
             var destination = to
@@ -413,7 +413,7 @@ public class Note: NSObject  {
 
                 var resultingItemUrl: NSURL?
                 if #available(iOS 11.0, *) {
-                    if let trash = Storage.sharedInstance().getDefaultTrash() {
+                    if let trash = Storage.shared().getDefaultTrash() {
                         moveImages(to: trash)
                     }
 
@@ -436,7 +436,7 @@ public class Note: NSObject  {
 
             print("Note moved in custom Trash folder")
 
-            if let trash = Storage.sharedInstance().getDefaultTrash() {
+            if let trash = Storage.shared().getDefaultTrash() {
                 moveImages(to: trash)
             }
             
@@ -467,7 +467,7 @@ public class Note: NSObject  {
         }
 
         do {
-            guard let dst = Storage.sharedInstance().trashItem(url: url) else {
+            guard let dst = Storage.shared().trashItem(url: url) else {
                 var resultingItemUrl: NSURL?
                 try FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
 
@@ -480,7 +480,7 @@ public class Note: NSObject  {
                 return [self.url, originalURL]
             }
 
-            if let trash = Storage.sharedInstance().getDefaultTrash() {
+            if let trash = Storage.shared().getDefaultTrash() {
                 moveImages(to: trash)
             }
 
@@ -571,7 +571,7 @@ public class Note: NSObject  {
     }
     
     private func getDefaultTrashURL() -> URL? {
-        if let url = Storage.sharedInstance().getDefaultTrash()?.url {
+        if let url = Storage.shared().getDefaultTrash()?.url {
             return url
         }
 
@@ -703,7 +703,7 @@ public class Note: NSObject  {
         
     #if CLOUDKIT || os(iOS)
         if cloudSave {
-            Storage.sharedInstance().saveCloudPins()
+            Storage.shared().saveCloudPins()
         }
     #elseif os(OSX)
         addLocalPin(url: url)
@@ -717,7 +717,7 @@ public class Note: NSObject  {
             
             #if CLOUDKIT || os(iOS)
             if cloudSave {
-                Storage.sharedInstance().saveCloudPins()
+                Storage.shared().saveCloudPins()
             }
             #elseif os(OSX)
                 removeLocalPin(url: url)
@@ -896,8 +896,8 @@ public class Note: NSObject  {
     }
 
     public func save(attributed: NSAttributedString) {
-        Storage.sharedInstance().plainWriter.cancelAllOperations()
-        Storage.sharedInstance().plainWriter.addOperation {
+        Storage.shared().plainWriter.cancelAllOperations()
+        Storage.shared().plainWriter.addOperation {
             if let copy = attributed.copy() as? NSAttributedString {
                 let mutable = NSMutableAttributedString(attributedString: copy)
                 self.save(content: mutable)
@@ -985,9 +985,9 @@ public class Note: NSObject  {
             try FileManager.default.setAttributes(attributes, ofItemAtPath: dst.path)
 
             if decryptedTemporarySrc != nil {
-                Storage.sharedInstance().ciphertextWriter.cancelAllOperations()
-                Storage.sharedInstance().ciphertextWriter.addOperation {
-                    guard Storage.sharedInstance().ciphertextWriter.operationCount == 1 else { return }
+                Storage.shared().ciphertextWriter.cancelAllOperations()
+                Storage.shared().ciphertextWriter.addOperation {
+                    guard Storage.shared().ciphertextWriter.operationCount == 1 else { return }
                     self.writeEncrypted()
                 }
             } else {
@@ -1000,7 +1000,7 @@ public class Note: NSObject  {
         }
 
         if globalStorage {
-            Storage.sharedInstance().add(self)
+            Storage.shared().add(self)
         }
     }
 
@@ -1218,7 +1218,7 @@ public class Note: NSObject  {
     }
 #else
     public func loadTags() -> Bool {
-        _ = Storage.sharedInstance()
+        _ = Storage.shared()
 
         if UserDefaultsManagement.inlineTags {
             let changes = scanContentTags()
@@ -1796,7 +1796,7 @@ public class Note: NSObject  {
     }
 
     public func unLock(password: String) -> Bool {
-        let sharedStorage = Storage.sharedInstance()
+        let sharedStorage = Storage.shared()
 
         do {
             let name = url.deletingPathExtension().lastPathComponent
@@ -1992,7 +1992,7 @@ public class Note: NSObject  {
         guard let temporaryURL = self.decryptedTemporarySrc else { return false }
 
         while true {
-            if Storage.sharedInstance().ciphertextWriter.operationCount == 0 {
+            if Storage.shared().ciphertextWriter.operationCount == 0 {
                 print("Note \"\(title)\" successfully locked.")
 
                 container = .encryptedTextPack

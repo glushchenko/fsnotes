@@ -152,7 +152,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         vcEditor?.userActivity?.needsSave = true
         
-        Storage.sharedInstance().saveNotesSettings()
+        Storage.shared().saveNotesSettings()
     }
     
     @IBAction func toggleMathJax(_ sender: NSMenuItem) {
@@ -404,7 +404,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         guard let vc = ViewController.shared() else { return }
         guard let notes = getSelectedNotes() else { return }
         
-        if let project = Storage.sharedInstance().getArchive() {
+        if let project = Storage.shared().getArchive() {
             vc.moveReq(notes: notes, project: project) { success in
                 guard success else { return }
                 
@@ -536,7 +536,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
             noteDupe.save()
 
-            Storage.sharedInstance().add(noteDupe)
+            Storage.shared().add(noteDupe)
             ViewController.shared()?.notesTableView.insertNew(note: noteDupe)
         }
     }
@@ -552,7 +552,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         panel.begin { (result) -> Void in
             if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
-                let project = vc.getSidebarProject() ?? Storage.sharedInstance().getMainProject()
+                let project = vc.getSidebarProject() ?? Storage.shared().getMainProject()
 
                 for url in urls {
                     _ = vc.copy(project: project, url: url)
@@ -910,7 +910,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
         
         if sidebarProject == nil {
-            sidebarProject = Storage.sharedInstance().getRootProject()
+            sidebarProject = Storage.shared().getRootProject()
         }
         
         guard let project = sidebarProject else { return nil }

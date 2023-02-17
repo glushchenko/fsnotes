@@ -556,7 +556,7 @@ public class Project: Equatable {
     }
 
     public func getAllTags() -> [String] {
-        let notes = Storage.sharedInstance().noteList.filter({ $0.project == self })
+        let notes = Storage.shared().noteList.filter({ $0.project == self })
 
         var tags: Set<String> = []
         for note in notes {

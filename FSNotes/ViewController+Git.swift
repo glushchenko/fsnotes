@@ -108,7 +108,7 @@ extension EditorViewController {
 
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
 
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         let projects = storage.getProjects()
 
         ViewController.shared()?.gitQueue.addOperation({
@@ -134,7 +134,7 @@ extension EditorViewController {
     }
     
     @IBAction private func pull(_ sender: Any) {
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         let projects = storage.getProjects()
 
         // Skip on high load

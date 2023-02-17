@@ -14,7 +14,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     private var projects: [Project]
 
     init() {
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         self.projects = storage.getProjects()
 
         super.init(style: .plain)
@@ -42,7 +42,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         self.navigationItem.rightBarButtonItems = buttons
 
-        self.projects = Storage.sharedInstance().getProjects()
+        self.projects = Storage.shared().getProjects()
         self.title = NSLocalizedString("Projects", comment: "Settings")
 
         super.viewDidLoad()
@@ -206,7 +206,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         }
 
         self.tableView.reloadData()
-        Storage.sharedInstance().removeBy(project: project)
+        Storage.shared().removeBy(project: project)
 
         let vc = UIApplication.getVC()
         vc.reloadNotesTable() {
@@ -227,7 +227,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
             SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
-            let storage = Storage.sharedInstance()
+            let storage = Storage.shared()
             let project = Project(
                 storage: storage,
                 url: url,

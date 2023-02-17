@@ -25,7 +25,7 @@ class ViewController: EditorViewController,
     public var fsManager: FileSystemEventManager?
     public var projectSettingsViewController: ProjectSettingsViewController?
 
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
     var timer = Timer()
     var sidebarTimer = Timer()
     
@@ -1108,7 +1108,7 @@ class ViewController: EditorViewController,
             editor.clear()
             var content = String()
 
-            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.sharedInstance().getRootProject()
+            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getRootProject()
 
             if UserDefaultsManagement.fileFormat == .Markdown,
                 UserDefaultsManagement.naming == .autoRename,
@@ -1751,7 +1751,7 @@ class ViewController: EditorViewController,
     func makeNoteShortcut() {
         let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string)
         if (clipboard != nil) {
-            let project = Storage.sharedInstance().getMainProject()
+            let project = Storage.shared().getMainProject()
             _ = createNote(content: clipboard!, project: project)
             
             let notification = NSUserNotification()
@@ -2125,7 +2125,7 @@ class ViewController: EditorViewController,
             let prev = vc.notesTableView.historyPosition - 1
             let prevUrl = vc.notesTableView.history[prev]
 
-            if let note = Storage.sharedInstance().getBy(url: prevUrl) {
+            if let note = Storage.shared().getBy(url: prevUrl) {
                 vc.notesTableView.saveNavigationHistory(note: note)
                 vc.cleanSearchAndEditArea(completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
@@ -2143,7 +2143,7 @@ class ViewController: EditorViewController,
             let next = vc.notesTableView.historyPosition + 1
             let nextUrl = vc.notesTableView.history[next]
 
-            if let note = Storage.sharedInstance().getBy(url: nextUrl) {
+            if let note = Storage.shared().getBy(url: nextUrl) {
                 vc.cleanSearchAndEditArea(completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
                 })
@@ -2219,7 +2219,7 @@ class ViewController: EditorViewController,
         guard let name = userActivity.userInfo?["note-file-name"] as? String,
             let position = userActivity.userInfo?["position"] as? String,
             let state = userActivity.userInfo?["state"] as? String,
-            let note = Storage.sharedInstance().getBy(name: name)
+            let note = Storage.shared().getBy(name: name)
         else { return }
 
         vcEditor?.changePreviewState(state == "preview")

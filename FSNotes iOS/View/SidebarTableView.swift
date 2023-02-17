@@ -314,7 +314,7 @@ class SidebarTableView: UITableView,
             let pathList = item as [URL]
 
             for url in pathList {
-                guard let note = Storage.sharedInstance().getBy(url: url) else { continue }
+                guard let note = Storage.shared().getBy(url: url) else { continue }
 
                 switch sidebarItem.type {
                 case .Category, .Archive, .Inbox:
@@ -399,7 +399,7 @@ class SidebarTableView: UITableView,
             return projects
         }
 
-        if let root = Storage.sharedInstance().getRootProject() {
+        if let root = Storage.shared().getRootProject() {
             return [root]
         }
 

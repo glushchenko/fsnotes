@@ -149,7 +149,11 @@ class Storage {
 
     public static func shared() -> Storage {
         guard let storage = self.instance else {
+        #if os(OSX)
+            self.instance = Storage()
+        #else
             self.instance = Storage(micro: true)
+        #endif
             return self.instance!
         }
         return storage
@@ -488,15 +492,6 @@ class Storage {
     
     public func getBookmarks() -> [URL] {
         return bookmarks
-    }
-    
-    // macOS
-    public static func sharedInstance() -> Storage {
-        guard let storage = self.instance else {
-            self.instance = Storage()
-            return self.instance!
-        }
-        return storage
     }
 
     public func loadDocuments() {
@@ -1242,7 +1237,7 @@ class Storage {
     }
 
     public func trashItem(url: URL) -> URL? {
-        guard let trashURL = Storage.sharedInstance().getDefaultTrash()?.url else { return nil }
+        guard let trashURL = Storage.shared().getDefaultTrash()?.url else { return nil }
 
         let fileName = url.deletingPathExtension().lastPathComponent
         let fileExtension = url.pathExtension

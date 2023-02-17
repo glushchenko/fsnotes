@@ -34,7 +34,7 @@ class MoveViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(newAlert))
 
-        self.projects = Storage.sharedInstance().getProjects()
+        self.projects = Storage.shared().getProjects()
         self.title = NSLocalizedString("Move", comment: "Move view")
 
         super.viewDidLoad()

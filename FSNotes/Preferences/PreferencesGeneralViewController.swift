@@ -31,7 +31,7 @@ class PreferencesGeneralViewController: NSViewController {
 
     //MARK: global variables
 
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -16,7 +16,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     var noteList = [Note]()
     var defaultCell = NoteCellView()
     var pinnedCell = NoteCellView()
-    var storage = Storage.sharedInstance()
+    var storage = Storage.shared()
 
     public var history = [URL]()
     public var historyPosition = 0
@@ -496,7 +496,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 if let note = storage.getBy(url: src) {
                     storage.removeBy(note: note)
 
-                    if let destination = Storage.sharedInstance().getProjectByNote(url: dst) {
+                    if let destination = Storage.shared().getProjectByNote(url: dst) {
                         note.moveImages(to: destination)
                     }
                 }

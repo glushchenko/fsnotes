@@ -19,7 +19,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var viewDelegate: ViewController?
     
     var isHighlighted: Bool = false
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
     let caretWidth: CGFloat = 2
     var downView: MPreviewView?
     
@@ -1666,7 +1666,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if let archivedData = board.data(forType: NSPasteboard.noteType),
            let urls = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL],
            let url = urls.first,
-           let draggableNote = Storage.sharedInstance().getBy(url: url) {
+           let draggableNote = Storage.shared().getBy(url: url) {
 
             let replacementRange = NSRange(location: caretLocation, length: 0)
             let title = "[[" + draggableNote.title + "]]"
@@ -2230,7 +2230,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                         guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
 
                         do {
-                            guard let resultingItemUrl = Storage.sharedInstance().trashItem(url: imageURL) else { return }
+                            guard let resultingItemUrl = Storage.shared().trashItem(url: imageURL) else { return }
 
                             try FileManager.default.moveItem(at: imageURL, to: resultingItemUrl)
 

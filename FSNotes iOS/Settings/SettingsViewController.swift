@@ -268,7 +268,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         guard let storageUrl = UserDefaultsManagement.storageUrl else { return }
 
         if let url = urls.first, url.pathExtension == "zip" {
-            let storage = Storage.sharedInstance()
+            let storage = Storage.shared()
             let viewController = UIApplication.getVC()
 
             let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)

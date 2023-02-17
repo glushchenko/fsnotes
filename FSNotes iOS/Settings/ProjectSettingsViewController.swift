@@ -209,7 +209,7 @@ class ProjectSettingsViewController: UITableViewController {
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
             project.firstLineAsTitle = uiSwitch.isOn
 
-            let notes = Storage.sharedInstance().getNotesBy(project: project)
+            let notes = Storage.shared().getNotesBy(project: project)
             for note in notes {
                 note.invalidateCache()
             }
