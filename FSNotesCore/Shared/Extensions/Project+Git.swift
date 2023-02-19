@@ -77,6 +77,12 @@ extension Project {
     public func getRepositoryUrl() -> URL {
         let rootProject = getRepositoryProject()
         
+    #if os(iOS)
+        if !UserDefaultsManagement.iCloudDrive {
+            return UserDefaultsManagement.gitStorage.appendingPathComponent("Local - FSNotes.git")
+        }
+    #endif
+        
         if UserDefaultsManagement.separateRepo && !rootProject.isCloudProject() {
             return rootProject.url.appendingPathComponent(".git", isDirectory: true)
         }
@@ -212,7 +218,7 @@ extension Project {
                     _ = try head.createCommit(msg: commitMessage, signature: sign)
                 }
             } catch {
-                print("Commit error: \(error)")
+                AppDelegate.gitProgress.log(message: "Commit error: \(error)")
             }
         } else {
             print("Commit skipped")
@@ -256,6 +262,8 @@ extension Project {
         
         let localMaster = try repository.branches.get(name: branchName)
         try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
+        
+        AppDelegate.gitProgress.log(message: "Successful git push 👌")
     }
     
     public func pull() throws {
@@ -267,7 +275,7 @@ extension Project {
         
         let repositoryProject = getRepositoryProject()
                 
-        if !UserDefaultsManagement.separateRepo || isCloudProject() {
+        if isUseWorkTree() {
             repository.setWorkTree(path: repositoryProject.url.path)
         }
                 
@@ -278,6 +286,16 @@ extension Project {
         let origin = try remote.get(remoteName: "origin")
         
         _ = try origin.pull(signature: sign, authentication: authHandler, project: repositoryProject)
+        
+        AppDelegate.gitProgress.log(message: "Successful git pull 👌")
+    }
+    
+    public func isUseWorkTree() -> Bool {
+        #if os(iOS)
+            return !UserDefaultsManagement.iCloudDrive
+        #else
+            return !UserDefaultsManagement.separateRepo || isCloudProject()
+        #endif
     }
         
     public func isGitOriginExist() -> Bool {

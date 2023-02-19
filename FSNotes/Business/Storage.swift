@@ -1586,6 +1586,13 @@ class Storage {
             }
         }
     }
+    
+    public func updateDefaultOrigin() {
+        guard let project = Storage.shared().getDefault() else { return }
+        
+        project.gitOrigin = UserDefaultsManagement.gitOrigin
+        project.saveSettings()
+    }
 }
 
 extension String: Error {}

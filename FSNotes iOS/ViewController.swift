@@ -127,6 +127,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     public func stopGitPull() {
+        gitQueue.cancelAllOperations()
+        
         gitPullTimer?.invalidate()
         gitPullTimer = nil
     }

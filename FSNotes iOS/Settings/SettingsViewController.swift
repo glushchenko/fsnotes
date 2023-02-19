@@ -318,6 +318,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         Storage.instance = nil
 
         vc.storage = Storage.shared()
+        
+        // git origin
+        vc.storage.updateDefaultOrigin()
+        
         vc.sidebarTableView.reloadSidebar()
         vc.viewDidLoad()
 

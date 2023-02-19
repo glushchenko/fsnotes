@@ -221,7 +221,6 @@ class GitViewController: UITableViewController {
 
             try? FileManager.default.removeItem(at: repoURL)
             
-            UIApplication.getVC().gitQueue.cancelAllOperations()
             UIApplication.getVC().stopGitPull()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -263,6 +262,8 @@ class GitViewController: UITableViewController {
         guard let text = sender.text else { return }
         
         UserDefaultsManagement.gitOrigin = text
+        
+        Storage.shared().updateDefaultOrigin()
     }
     
     @objc func clonePressed(sender: UIButton) {
@@ -271,14 +272,8 @@ class GitViewController: UITableViewController {
         
         guard let project = Storage.shared().getDefault() else { return }
         
-        UIApplication.getVC().gitQueue.cancelAllOperations()
-        
-        project.gitOrigin = UserDefaultsManagement.gitOrigin
-        project.saveSettings()
-        
         UIApplication.getVC().stopGitPull()
         UIApplication.shared.isIdleTimerDisabled = true
-        
         UIApplication.getVC().gitQueue.addOperation({
             defer {
                 DispatchQueue.main.async {

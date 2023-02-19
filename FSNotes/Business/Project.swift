@@ -406,8 +406,8 @@ public class Project: Equatable {
             return
         }
     #endif
-
-        UserDefaultsManagement.shared?.set(data, forKey: url.path.md5)
+        
+        UserDefaultsManagement.shared?.set(data, forKey: getPathChecksum())
     }
 
     public func loadSettings() {
@@ -471,7 +471,7 @@ public class Project: Equatable {
         return
     #endif
 
-        if let settings = UserDefaultsManagement.shared?.object(forKey: url.path.md5) as? NSObject {
+        if let settings = UserDefaultsManagement.shared?.object(forKey: getPathChecksum()) as? NSObject {
             if let common = settings.value(forKey: "showInCommon") as? Bool {
                 self.showInCommon = common
             }
@@ -521,6 +521,20 @@ public class Project: Equatable {
         }
 
         return nil
+    }
+    
+    public func getPathChecksum() -> String {
+        if !UserDefaultsManagement.iCloudDrive, let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            var path = url.path.replacingOccurrences(of: documentDir.path, with: "")
+            
+            if path == "" {
+                path = "Local"
+            }
+            
+            return path.md5
+        } else {
+            return url.path.md5
+        }
     }
 
     public func getMd5CheckSum() -> String {
