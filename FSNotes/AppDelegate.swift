@@ -27,6 +27,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
     }
+    
+    public static var gitProgress = Progress()
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         checkStorageChanges()

@@ -683,7 +683,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             Storage.shared().pullAll()
             
             self.gitClean = Storage.shared().getDefault()?.isCleanRepo() == true
-            self.updateNotesCounter()
+            
+            DispatchQueue.main.async {
+                self.updateNotesCounter()
+            }
         })
     }
 

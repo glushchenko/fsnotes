@@ -57,7 +57,7 @@ public class Remote {
 //        fetchOptions.update_fetchhead = 1
         
         // Set progress
-        setTransfertProgressHandler(options: &fetchOptions.callbacks, progress: progress)
+        fetchOptions.callbacks.transfer_progress = ProgressDelegate.fetchProgressCallback
         
         
         // test authentication
@@ -133,7 +133,8 @@ public class Remote {
 //        opts.callbacks.version = 1
         
         // Set progress
-        //setTransfertProgressHandler(options: &opts.callbacks, progress: progress)
+        pushOptions.callbacks.push_transfer_progress = ProgressDelegate.pushProgressCallback
+        pushOptions.callbacks.pack_progress = ProgressDelegate.packBuilderCallback
         
         // test authentication
         if (authentication != nil) {

@@ -11,7 +11,7 @@ import Foundation
 import Cgit2
 
 /// Define progress protocol
-public class Progress : Any {
+public class Progress {
     
     /// Progress
     ///
@@ -20,80 +20,35 @@ public class Progress : Any {
     /// - parameter action:  action (transfert, checkout, ...)
     /// - parameter info:    info (Path, ...)
     func progress(current: Int, total: Int, action: String?, info: String?) {
-        NSLog(" - \(current) / \(total) -> \(action) : \(info)")
+        guard let action = action else { return }
+        
+    #if os(iOS)
+        DispatchQueue.main.async {
+            GitViewController.logTextField?.text = "git \(action): chunk \(current) from \(total)"
+        }
+    #endif
     }
 }
 
-/// Set transfert handler
-///
-/// - parameter options:  git_remote_callbacks
-/// - parameter progress: Progress may be nil
-func setTransfertProgressHandler(options: inout git_remote_callbacks, progress: Progress?) {
-    
-    if let progress = progress {
-        
-        // Convert handler to payload pointer
-        options.payload = Unmanaged<Progress>
-            .passUnretained(progress)
-            .toOpaque()
-        
-        // Create lambda
-        options.transfer_progress = { stats, payload in
-            
-            // Find payload
-            if let payload = payload {
-                
-                // Transformation du pointer en wrapper
-                let progress = Unmanaged<Progress>
-                    .fromOpaque(payload)
-                    .takeUnretainedValue()
-                
-                if let stats = stats {
-                    // Call handler
-                    progress.progress(current: Int(stats.pointee.received_objects),
-                                      total: Int(stats.pointee.total_objects),
-                                      action: "transfert",
-                                      info: nil)
-                }
-            }
-            
-            
-            return 0
+final class ProgressDelegate {
+    static let fetchProgressCallback: git_transfer_progress_cb = { stats, payload in
+        if let stats = stats {
+            AppDelegate.gitProgress.progress(current: Int(stats.pointee.received_objects), total: Int(stats.pointee.total_objects), action: "fetch", info: nil)
         }
+        return 0
     }
-}
-
-/// Set checkout handler
-///
-/// - parameter options:  git_checkout_options
-/// - parameter progress: Progress may be nil
-func setCheckoutProgressHandler(options: inout git_checkout_options, progress: Progress?) {
     
-    if let progress = progress {
-        
-        // Convert handler to payload pointer
-        options.progress_payload = Unmanaged<Progress>
-            .passUnretained(progress)
-            .toOpaque()
-        
-        // Create lambda
-        options.progress_cb = { path, cur, tot, payload in
-            
-            // Find payload
-            if let payload = payload {
-                
-                // Transformation du pointer en wrapper
-                let progress = Unmanaged<Progress>
-                    .fromOpaque(payload)
-                    .takeUnretainedValue()
-                
-                // Call handler
-                progress.progress(current: cur,
-                                  total: tot,
-                                  action: "transfert",
-                                  info: path == nil ? nil : git_string_converter(path!))
-            }
-        }
+    static let pushProgressCallback: git_push_transfer_progress_cb = { current, total, bytes, payload in
+        AppDelegate.gitProgress.progress(current: Int(current), total: Int(total), action: "push", info: nil)
+        return 0
+    }
+    
+    static let packBuilderCallback: git_packbuilder_progress = { stage, current, total, payload in
+        AppDelegate.gitProgress.progress(current: Int(current), total: Int(total), action: "pack", info: nil)
+        return 0
+    }
 
+    static let checkoutProgressCallback: git_checkout_progress_cb = { path, completed, total, payload in
+        AppDelegate.gitProgress.progress(current: Int(completed), total: Int(total), action: "checkout", info: nil)
     }
 }

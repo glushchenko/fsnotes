@@ -196,7 +196,7 @@ extension Head {
             checkout_opts.checkout_strategy = GIT_CHECKOUT_ALLOW_CONFLICTS.rawValue
             
             // Set progress
-            setCheckoutProgressHandler(options: &checkout_opts, progress: progress)
+            checkout_opts.progress_cb = ProgressDelegate.checkoutProgressCallback
             
             // Merge
             error = git_merge(repository.pointer.pointee, annotatedCommit, 1, &merge_opts, &checkout_opts)

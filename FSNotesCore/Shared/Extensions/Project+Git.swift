@@ -105,7 +105,7 @@ extension Project {
         
         // Clone
         if let originString = getGitOrigin(), let origin = URL(string: originString) {
-            let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getHandler())
+            let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getAuthHandler())
             
             repository.setWorkTree(path: repositoryProject.url.path)
             let dotGit = cloneURL.appendingPathComponent(".git")
@@ -152,8 +152,8 @@ extension Project {
         
         return false
     }
-    
-    public func getHandler() -> SshKeyHandler? {
+
+    public func getAuthHandler() -> SshKeyHandler? {
         var rsa: URL?
 
 #if os(iOS)
@@ -238,7 +238,7 @@ extension Project {
             repository.addRemoteOrigin(path: origin)
         }
         
-        let handler = getHandler()
+        let handler = getAuthHandler()
         
         let names = try Branches(repository: repository).names(type: .local)
         guard names.count > 0 else { return }
@@ -262,13 +262,13 @@ extension Project {
             repository.setWorkTree(path: repositoryProject.url.path)
         }
                 
-        let handler = getHandler()
+        let authHandler = getAuthHandler()
         let sign = getSign()
         
         let remote = repository.remotes
         let origin = try remote.get(remoteName: "origin")
         
-        _ = try origin.pull(signature: sign, authentication: handler, project: repositoryProject)
+        _ = try origin.pull(signature: sign, authentication: authHandler, project: repositoryProject)
     }
         
     public func isGitOriginExist() -> Bool {

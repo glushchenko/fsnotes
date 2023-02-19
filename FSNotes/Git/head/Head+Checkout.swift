@@ -89,8 +89,7 @@ extension Head {
         var opts = git_checkout_options()
         opts.version = 1
         
-        // Set progress
-        setCheckoutProgressHandler(options: &opts, progress: progress)
+        opts.progress_cb = ProgressDelegate.checkoutProgressCallback
         
         switch type {
         case .none:
@@ -123,7 +122,8 @@ extension Head {
         opts.version = 1
         
         // Set progress
-        setCheckoutProgressHandler(options: &opts, progress: progress)
+        opts.progress_cb = ProgressDelegate.checkoutProgressCallback
+        //setCheckoutProgressHandler(options: &opts, progress: progress)
         
         let gType : git_reset_t
         

@@ -11,9 +11,27 @@ import NightNight
 import CoreServices
 
 class GitViewController: UITableViewController {
-    public var button = UIButton()
     
-    lazy public var repositoriesNames: [String]? = {
+    enum GitSection: Int, CaseIterable {
+        case credentials
+        case origin
+        case logs
+        case repositories
+
+        var title: String {
+            switch self {
+            case .credentials: return "Credentials"
+            case .origin: return "Origin"
+            case .logs: return "Logs"
+            case .repositories: return "Repositories"
+            }
+        }
+    }
+    
+    public var button = UIButton()
+    public static var logTextField: UITextField?
+    
+    public func repositoriesNames() -> [String]? {
         let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
         guard let repoURL = documentDir?.appendingPathComponent("Repositories") else { return nil }
         
@@ -21,20 +39,14 @@ class GitViewController: UITableViewController {
         names.removeAll(where: { $0 == "tmp" })
         
         return names
-    }()
+    }
     
-    private var sections = [
-        NSLocalizedString("Credentials", comment: "Settings"),
-        NSLocalizedString("Origin", comment: "Settings"),
-        NSLocalizedString("Repositores", comment: "Settings"),
-    ]
-
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 2 && repositoriesNames?.count == 0 {
+        if section == GitSection.repositories.rawValue && repositoriesNames()?.count == 0 {
             return nil
         }
         
-        return sections[section]
+        return GitSection(rawValue: section)?.title
     }
 
     private var rows = [
@@ -44,6 +56,8 @@ class GitViewController: UITableViewController {
         ], [
             NSLocalizedString("", comment: ""),
             NSLocalizedString("", comment: ""),
+        ], [
+            "",
         ]
     ]
 
@@ -67,7 +81,7 @@ class GitViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 && indexPath.row == 0 {
+        if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 0 {
             changePrivateKey(tableView: tableView, indexPath: indexPath)
         }
 
@@ -77,8 +91,9 @@ class GitViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Passphrase and origin
-        if indexPath.section == 0 && indexPath.row == 1 || (
-            indexPath.section == 1 && indexPath.row == 0
+        if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 || (
+            indexPath.section == GitSection.origin.rawValue && indexPath.row == 0 ||
+            indexPath.section == GitSection.logs.rawValue && indexPath.row == 0
         ) {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = rows[indexPath.section][indexPath.row]
@@ -86,7 +101,7 @@ class GitViewController: UITableViewController {
             let textField = UITextField()
             
             // Passphrase
-            if indexPath.section == 0 && indexPath.row == 1 {
+            if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 {
                 textField.isSecureTextEntry = true
                 textField.addTarget(self, action: #selector(passphraseDidChange), for: .editingChanged)
                 textField.placeholder = "(optional)"
@@ -94,13 +109,21 @@ class GitViewController: UITableViewController {
             }
             
             // Origin
-            if indexPath.section == 1 && indexPath.row == 0 {
+            if indexPath.section == GitSection.origin.rawValue && indexPath.row == 0 {
                 textField.addTarget(self, action: #selector(originDidChange), for: .editingChanged)
                 textField.placeholder = "git@github.com:username/example.git"
                 
                 if let origin = UserDefaultsManagement.gitOrigin {
                     textField.text = origin
                 }
+            }
+            
+            // Logs
+            if indexPath.section == GitSection.logs.rawValue && indexPath.row == 0 {
+                textField.placeholder = "Git log ... "
+                textField.isEnabled = false
+                
+                GitViewController.logTextField = textField
             }
             
             textField.translatesAutoresizingMaskIntoConstraints = false
@@ -116,7 +139,7 @@ class GitViewController: UITableViewController {
         }
         
         // Clone button
-        if indexPath.section == 1 && indexPath.row == 1 {
+        if indexPath.section == GitSection.origin.rawValue && indexPath.row == 1 {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.contentView.addSubview(button)
             cell.addConstraint(NSLayoutConstraint(item: button, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leading, multiplier: 1, constant: 8))
@@ -128,8 +151,8 @@ class GitViewController: UITableViewController {
         }
         
         // Repositories list
-        if indexPath.section == 2 {
-            let names = repositoriesNames
+        if indexPath.section == GitSection.repositories.rawValue {
+            let names = repositoriesNames()
             
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = names![indexPath.row]
@@ -140,7 +163,7 @@ class GitViewController: UITableViewController {
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
         
         // Private key
-        if indexPath.section == 0 && indexPath.row == 0 {
+        if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 0 {
             if UserDefaultsManagement.gitPrivateKeyData != nil {
                 cell.detailTextLabel?.text = "id_rsa"
                 
@@ -157,12 +180,12 @@ class GitViewController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return GitSection.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 2 {
-            return repositoriesNames?.count ?? 0
+        if section == GitSection.repositories.rawValue {
+            return repositoriesNames()?.count ?? 0
         }
         
         return rows[section].count
@@ -174,7 +197,7 @@ class GitViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == 2 {
+        if indexPath.section == GitSection.repositories.rawValue {
             return true
         }
         
@@ -183,18 +206,21 @@ class GitViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let folderName = repositoriesNames![indexPath.row]
-            
+            let folderName = repositoriesNames()![indexPath.row]
+
             let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             guard let repoURL = documentDir?
                 .appendingPathComponent("Repositories")
                 .appendingPathComponent(folderName) else { return }
-            
+
             try? FileManager.default.removeItem(at: repoURL)
-            tableView.reloadData()
             
             UIApplication.getVC().gitQueue.cancelAllOperations()
             UIApplication.getVC().stopGitPull()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                tableView.reloadSections([GitSection.repositories.rawValue], with: .fade)
+            })
         }
     }
 
@@ -244,16 +270,23 @@ class GitViewController: UITableViewController {
         project.gitOrigin = UserDefaultsManagement.gitOrigin
         project.saveSettings()
         
+        UIApplication.getVC().stopGitPull()
         UIApplication.shared.isIdleTimerDisabled = true
+        let progress = AppDelegate.gitProgress
         
         UIApplication.getVC().gitQueue.addOperation({
             defer {
                 DispatchQueue.main.async {
                     sender.isEnabled = true
                     sender.loadingIndicator(show: false)
+                    
+                    UIApplication.shared.isIdleTimerDisabled = false
+                    UIApplication.getVC().scheduledGitPull()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                        self.tableView?.reloadSections([GitSection.repositories.rawValue], with: .fade)
+                    })
                 }
-                
-                UIApplication.shared.isIdleTimerDisabled = false
             }
             
             do {
@@ -263,11 +296,12 @@ class GitViewController: UITableViewController {
                     try repo.head().forceCheckout(branch: local)
                 }
                 
-                UIApplication.getVC().scheduledGitPull()
                 return
             } catch GitError.unknownError(let errorMessage, _, let desc) {
-                let message = errorMessage + " – " + desc
-                self.errorAlert(title: "Git clone/pull error", message: message)
+                DispatchQueue.main.async {
+                    let message = errorMessage + " – " + desc
+                    self.errorAlert(title: "Git clone/pull error", message: message)
+                }
             } catch GitError.notFound(let ref) {
                 print(ref)
                 
@@ -277,8 +311,10 @@ class GitViewController: UITableViewController {
                     try? project.push()
                 }
             } catch {
-                let message = error.localizedDescription
-                self.errorAlert(title: "Git error", message: message)
+                DispatchQueue.main.async {
+                    let message = error.localizedDescription
+                    self.errorAlert(title: "Git error", message: message)
+                }
             }
         })
     }

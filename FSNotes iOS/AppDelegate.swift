@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var editorController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "editorViewController") as! EditorViewController
 
     public var mainController: MainNavigationController?
+    public static var gitProgress = Progress()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
