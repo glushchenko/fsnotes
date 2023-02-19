@@ -23,6 +23,10 @@ extension Storage {
                     
                     print("Pull \(project.label)")
                 } catch {
+                    if let error = error as? GitError {
+                        AppDelegate.gitProgress.log(message: error.associatedValue())
+                    }
+                    
                     print("Scheduled pull error: \(error)")
                 }
             }

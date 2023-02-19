@@ -22,7 +22,7 @@ class GitViewController: UITableViewController {
             switch self {
             case .credentials: return "Credentials"
             case .origin: return "Origin"
-            case .logs: return "Logs"
+            case .logs: return "Status"
             case .repositories: return "Repositories"
             }
         }
@@ -74,6 +74,12 @@ class GitViewController: UITableViewController {
         button.setTitleColor(.red, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            GitViewController.logTextField?.text = Progress.bufferedMessage
+        })
     }
 
     @objc func cancel() {
@@ -272,7 +278,6 @@ class GitViewController: UITableViewController {
         
         UIApplication.getVC().stopGitPull()
         UIApplication.shared.isIdleTimerDisabled = true
-        let progress = AppDelegate.gitProgress
         
         UIApplication.getVC().gitQueue.addOperation({
             defer {
@@ -303,11 +308,17 @@ class GitViewController: UITableViewController {
                     self.errorAlert(title: "Git clone/pull error", message: message)
                 }
             } catch GitError.notFound(let ref) {
-                print(ref)
-                
                 // Empty repository – commit and push
                 if ref == "refs/heads/master" {
-                    try? project.commit()
+                    let completionPreAdd = {
+                        AppDelegate.gitProgress.log(message: "Empty repo, git add -A")
+                    }
+                    
+                    let completionPreCommit = {
+                        AppDelegate.gitProgress.log(message: "git commit")
+                    }
+                    
+                    try? project.commit(completionPreAdd: completionPreAdd, completionPreCommit: completionPreCommit)
                     try? project.push()
                 }
             } catch {

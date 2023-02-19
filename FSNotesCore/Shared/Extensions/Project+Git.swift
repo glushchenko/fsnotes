@@ -181,7 +181,7 @@ extension Project {
         return Signature(name: "FSNotes App", email: "support@fsnot.es")
     }
     
-    public func commit(message: String? = nil) throws {
+    public func commit(message: String? = nil, completionPreAdd:(() -> (Void))? = nil, completionPreCommit:(() -> (Void))? = nil) throws {
         guard let repository = try getRepository() else { return }
         
         let statuses = Statuses(repository: repository)
@@ -192,10 +192,19 @@ extension Project {
                 let sign = getSign()
                 let head = try repository.head().index()
                 
+                if let completionPreAdd = completionPreAdd {
+                    completionPreAdd()
+                }
+                
                 head.add(path: ".")
+                
                 try head.save()
                 
                 if lastCommit == nil {
+                    if let completionPreCommit = completionPreCommit {
+                        completionPreCommit()
+                    }
+                    
                     let commitMessage = message ?? "FSNotes Init"
                     _ = try head.createInitialCommit(msg: commitMessage, signature: sign)
                 } else {

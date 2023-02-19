@@ -24,6 +24,33 @@ public enum GitError : Error {
     case modifiedElsewhere(ref: String)
     
     case notImplemented(msg: String)
+    
+    func associatedValue() -> String {
+        switch self {
+        case .invalidSHA(sha: let sha):
+            return "Invalid sha \(sha)"
+        case .notFound(ref: let ref):
+            return "Not found ref \(ref)"
+        case .invalidSpec(spec: let spec):
+            return "Invalid spec \(spec)"
+        case .alreadyExists(ref: let ref):
+            return "Already exist ref \(ref)"
+        case .ambiguous(msg: let msg):
+            return "Ambiguous \(msg)"
+        case .invalidReference(msg: let msg, type: let type):
+            return "Invalid ref \(msg)"
+        case .unknownReference(msg: let msg):
+            return "Unknown ref \(msg)"
+        case .unknownError(msg: let msg, code: let code, desc: let desc):
+            return "Code: \(code) \(desc)"
+        case .unableToMerge(msg: let msg):
+            return "Unable to merge \(msg)"
+        case .modifiedElsewhere(ref: let ref):
+            return "Modified error \(ref)"
+        case .notImplemented(msg: let msg):
+            return "Not implemented \(msg)"
+        }
+    }
 }
 
 func gitUnknownError(_ msg: String, code: Int32) -> GitError {
