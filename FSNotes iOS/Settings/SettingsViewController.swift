@@ -314,19 +314,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         UserDefaultsManagement.iCloudDrive = uiSwitch.isOn
 
-        let vc = UIApplication.getVC()
-        Storage.instance = nil
-
-        vc.storage = Storage.shared()
-        
-        // git origin
-        vc.storage.updateDefaultOrigin()
-        
-        vc.sidebarTableView.reloadSidebar()
-        vc.viewDidLoad()
+        UIApplication.getVC().reloadDatabase()
 
         if !uiSwitch.isOn {
-            vc.stopCloudDriveSyncEngine()
+            UIApplication.getVC().stopCloudDriveSyncEngine()
         }
     }
 }

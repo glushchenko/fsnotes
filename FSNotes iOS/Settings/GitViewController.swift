@@ -290,10 +290,17 @@ class GitViewController: UITableViewController {
             }
             
             do {
+                try? FileManager.default.removeItem(at: project.getRepositoryUrl()) 
+                
                 try project.pull()
                     
                 if let repo = try project.getRepository(), let local = project.getLocalBranch(repository: repo) {
                     try repo.head().forceCheckout(branch: local)
+                }
+                
+                DispatchQueue.main.async {
+                    // Reload all files and tables
+                    UIApplication.getVC().reloadDatabase()
                 }
                 
                 return

@@ -683,9 +683,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         UIApplication.getVC().gitQueue.addOperation({
             Storage.shared().pullAll()
-            
+
             self.gitClean = Storage.shared().getDefault()?.isCleanRepo() == true
-            
+
             DispatchQueue.main.async {
                 self.updateNotesCounter()
             }
@@ -1559,6 +1559,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
         }
+    }
+    
+    public func reloadDatabase() {
+        Storage.instance = nil
+
+        storage = Storage.shared()
+        
+        // git origin
+        storage.updateDefaultOrigin()
+        
+        sidebarTableView.reloadSidebar()
+        viewDidLoad()
     }
 }
 

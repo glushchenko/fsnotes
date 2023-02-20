@@ -79,7 +79,7 @@ extension Project {
         
     #if os(iOS)
         if !UserDefaultsManagement.iCloudDrive {
-            return UserDefaultsManagement.gitStorage.appendingPathComponent("Local - FSNotes.git")
+            return rootProject.url.appendingPathComponent(".git", isDirectory: true)
         }
     #endif
         
@@ -101,7 +101,9 @@ extension Project {
         do {
             let repository = try repositoryManager.openRepository(at: repoURL)
             return repository
-        } catch {/*_*/}
+        } catch {
+            print(error)
+        }
         
         // Prepare temporary dir
         let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
@@ -113,7 +115,10 @@ extension Project {
         if let originString = getGitOrigin(), let origin = URL(string: originString) {
             let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getAuthHandler())
             
-            repository.setWorkTree(path: repositoryProject.url.path)
+            if isUseWorkTree() {
+                repository.setWorkTree(path: repositoryProject.url.path)
+            }
+            
             let dotGit = cloneURL.appendingPathComponent(".git")
             
             if FileManager.default.directoryExists(atUrl: dotGit) {
@@ -128,7 +133,10 @@ extension Project {
         // Init
         let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
         let repository = try repositoryManager.initRepository(at: cloneURL, signature: signature)
-        repository.setWorkTree(path: repositoryProject.url.path)
+        
+        if isUseWorkTree() {
+            repository.setWorkTree(path: repositoryProject.url.path)
+        }
         
         let dotGit = cloneURL.appendingPathComponent(".git")
         
@@ -291,11 +299,11 @@ extension Project {
     }
     
     public func isUseWorkTree() -> Bool {
-        #if os(iOS)
-            return !UserDefaultsManagement.iCloudDrive
-        #else
-            return !UserDefaultsManagement.separateRepo || isCloudProject()
-        #endif
+    #if os(iOS)
+        return UserDefaultsManagement.iCloudDrive
+    #endif
+        
+        return !UserDefaultsManagement.separateRepo || isCloudProject()
     }
         
     public func isGitOriginExist() -> Bool {
