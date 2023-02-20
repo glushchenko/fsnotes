@@ -102,7 +102,7 @@ public class FileHistoryIterator : RevisionIterator {
             let diff = try previousTree.diff(other: tree)
             
             // Find
-            if diff.find(byPath: path) == nil {
+            if !diff.find(byPath: path, oid: oid) {
                 
                 // Set previous and find next
                 previousOid = oid

@@ -19,7 +19,7 @@ class InternalDiffWrapper {
     var diff : Diff
     
     /// Entries parsed
-    var entries = Dictionary<String, DiffEntry>()
+    var entries = Dictionary<String, Bool>()
     
     init(_ diff: Diff) {
         self.diff = diff
@@ -31,24 +31,6 @@ public class Diff {
 
     /// Internal Diff pointer
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
-    
-    /// All Diff entries
-    lazy private var entries : NSMutableDictionary = {
-        
-        // Create internal object to convert in C pointer
-        var payload = InternalDiffWrapper(self)
-        
-        // COnvert in C pointer
-        let ptr = Unmanaged.passRetained(CWrapper(payload)).toOpaque()
-        
-        // Foreach on all diff entries
-        let error = git_diff_foreach(self.pointer.pointee, gitDiffFileCB, nil, nil, nil, ptr)
-        if (error != 0) {
-            NSLog("Error login diff \(git_error_message())")
-        }
-        
-        return paths
-    } ()
     
     // Init with libgit2 diff pointer
     init(pointer: UnsafeMutablePointer<OpaquePointer?>) {
@@ -64,7 +46,7 @@ public class Diff {
     }
     
     /// Find diff entry by path
-    public func find(byPath path: String) -> DiffEntry? {
+    public func find(byPath path: String, oid: OID) -> Bool {
         paths.removeAllObjects()
         
         // Create internal object to convert in C pointer
@@ -74,35 +56,37 @@ public class Diff {
         let ptr = Unmanaged.passRetained(CWrapper(payload)).toOpaque()
         
         // Foreach on all diff entries
-        let error = git_diff_foreach(self.pointer.pointee, gitDiffFileCB, nil, nil, nil, ptr)
+        let error = git_diff_foreach(self.pointer.pointee, DiffFile.callback, nil, nil, nil, ptr)
         if (error != 0) {
             NSLog("Error login diff \(git_error_message())")
         }
         
-        return paths[path] as? DiffEntry
+        return paths[path] != nil
     }
 }
 
-
-
-private func gitDiffFileCB(_ delta: UnsafePointer<git_diff_delta>?, progress:Float, payload: UnsafeMutableRawPointer?) ->Int32 {
-    
-    if let delta = delta {
-        
-        // Create diff entry
-        let diffEntry = DiffEntry(delta: delta)
-        
-        // Test old name
-        if let oldName = diffEntry.oldName {
-            paths[oldName] = diffEntry
+final class DiffFile{
+    static let callback: git_diff_file_cb = { delta, progress, payload in
+        if paths.count > 50 {
+            return -1
         }
         
-        // Test new name
-        if let newName = diffEntry.newName {
-            paths[newName] = diffEntry
+        if let delta = delta {
+            
+            // Create diff entry
+            let diffEntry = DiffEntry(delta: delta)
+            
+            // Test old name
+            if let oldName = diffEntry.oldName {
+                paths[oldName] = true
+            }
+            
+            // Test new name
+            if let newName = diffEntry.newName {
+                paths[newName] = true
+            }
         }
+        
+        return 0
     }
-    
-    
-    return 0
 }
