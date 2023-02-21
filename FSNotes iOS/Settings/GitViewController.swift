@@ -32,11 +32,25 @@ class GitViewController: UITableViewController {
     public static var logTextField: UITextField?
     
     public func repositoriesNames() -> [String]? {
-        let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-        guard let repoURL = documentDir?.appendingPathComponent("Repositories") else { return nil }
+        var names = [String]()
         
-        guard var names = try? FileManager.default.contentsOfDirectory(atPath: repoURL.path) else { return nil }
-        names.removeAll(where: { $0 == "tmp" })
+        if !UserDefaultsManagement.iCloudDrive {
+            let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            if let dotGit = documentDir?.appendingPathComponent(".git", isDirectory: true) {
+                if FileManager.default.fileExists(atPath: dotGit.path, isDirectory: nil) {
+                    names.append("Documents.git")
+                }
+            }
+        } else {
+            let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            guard let repoURL = documentDir?.appendingPathComponent("Repositories") else { return nil }
+            
+            if let result = try? FileManager.default.contentsOfDirectory(atPath: repoURL.path) {
+                names = result
+            }
+            
+            names.removeAll(where: { $0 == "tmp" })
+        }
         
         return names
     }
@@ -212,15 +226,23 @@ class GitViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            var repoURL: URL?
             let folderName = repositoriesNames()![indexPath.row]
 
-            let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-            guard let repoURL = documentDir?
-                .appendingPathComponent("Repositories")
-                .appendingPathComponent(folderName) else { return }
-
-            try? FileManager.default.removeItem(at: repoURL)
+            if UserDefaultsManagement.iCloudDrive {
+                let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+                repoURL = documentDir?
+                    .appendingPathComponent("Repositories")
+                    .appendingPathComponent(folderName)
+            } else {
+                let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+                repoURL = documentDir?.appendingPathComponent(".git", isDirectory: true)
+            }
             
+            if let repoURL = repoURL {
+                try? FileManager.default.removeItem(at: repoURL)
+            }
+
             UIApplication.getVC().stopGitPull()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {

@@ -240,6 +240,17 @@ class NotesTableView: UITableView,
         }
         actionSheet.addAction(remove)
 
+        if showAll && UserDefaultsManagement.gitVersioning && !note.isEncrypted() {
+            let history = UIAlertAction(title: NSLocalizedString("Save revision", comment: ""), style: .default, handler: { _ in
+                self.saveRevisionAction(note: notes.first!, presentController: presentController)
+            })
+            history.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "saveButton")?.resize(maxWidthHeight: 25) {
+                history.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(history)
+        }
+        
         if showAll && UserDefaultsManagement.autoVersioning && !note.isEncrypted() {
             let history = UIAlertAction(title: NSLocalizedString("History", comment: ""), style: .default, handler: { _ in
                 self.historyAction(note: notes.first!, presentController: presentController)
@@ -582,6 +593,23 @@ class NotesTableView: UITableView,
 
         let nvc = UIApplication.getNC()
         nvc?.present(datePickerViewController, animated: true )
+    }
+    
+    private func saveRevisionAction(note: Note, presentController: UIViewController) {
+        do {
+            try note.saveRevision()
+        } catch {
+            let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+            let nvc = UIApplication.getNC()
+            nvc?.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        UIApplication.getVC().gitQueue.addOperation({
+            try? note.pullPush()
+        })
     }
 
     private func historyAction(note: Note, presentController: UIViewController) {

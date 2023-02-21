@@ -341,12 +341,7 @@ extension Note {
     public func saveRevision(commitMessage: String? = nil, pull: Bool = true) throws {
         let project = project.getRepositoryProject()
         
-        do {
-            try project.commit(message: commitMessage)
-        } catch {
-            print("Commit error: \(error)")
-            return
-        }
+        try project.commit(message: commitMessage)
         
         if pull {
             try pullPush()
