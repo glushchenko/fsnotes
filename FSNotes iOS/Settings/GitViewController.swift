@@ -31,6 +31,14 @@ class GitViewController: UITableViewController {
     public var button = UIButton()
     public static var logTextField: UITextField?
     
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.isIdleTimerDisabled = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.isIdleTimerDisabled = false
+    }
+    
     public func repositoriesNames() -> [String]? {
         var names = [String]()
         
@@ -140,7 +148,7 @@ class GitViewController: UITableViewController {
             
             // Logs
             if indexPath.section == GitSection.logs.rawValue && indexPath.row == 0 {
-                textField.placeholder = "Git log ... "
+                textField.placeholder = "No data yet"
                 textField.isEnabled = false
                 
                 GitViewController.logTextField = textField
@@ -313,10 +321,10 @@ class GitViewController: UITableViewController {
             
             do {
                 try? FileManager.default.removeItem(at: project.getRepositoryUrl()) 
-                
-                try project.pull()
-                    
-                if let repo = try project.getRepository(), let local = project.getLocalBranch(repository: repo) {
+                                    
+                if let repo = try project.getRepository(clone: true),
+                    let local = project.getLocalBranch(repository: repo)
+                {
                     try repo.head().forceCheckout(branch: local)
                 }
                 
@@ -334,13 +342,8 @@ class GitViewController: UITableViewController {
             } catch GitError.notFound(let ref) {
                 // Empty repository – commit and push
                 if ref == "refs/heads/master" {
-                    let completionPreAdd = {
-                        AppDelegate.gitProgress.log(message: "Empty repo, git add -A")
-                    }
-                    
-                    let completionPreCommit = {
-                        AppDelegate.gitProgress.log(message: "git commit")
-                    }
+                    let completionPreAdd = { AppDelegate.gitProgress.log(message: "Empty repo, git add -A") }
+                    let completionPreCommit = { AppDelegate.gitProgress.log(message: "git commit") }
                     
                     try? project.commit(completionPreAdd: completionPreAdd, completionPreCommit: completionPreCommit)
                     try? project.push()

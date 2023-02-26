@@ -681,15 +681,31 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func addPullTask() {
         guard UserDefaultsManagement.gitVersioning else { return }
         
-        UIApplication.getVC().gitQueue.addOperation({
-            Storage.shared().pullAll()
+        let operation = BlockOperation()
+        operation.addExecutionBlock {
+            Storage.shared().pullAll(errorCompletion: { message in
+                DispatchQueue.main.async {
+                    self.stopGitPull()
+                    
+                    let alertController = UIAlertController(title: "Git pull stopped", message: message, preferredStyle: .alert)
+
+                    let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }
+                    alertController.addAction(okAction)
+
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            })
+            
+            if operation.isCancelled { return }
 
             self.gitClean = Storage.shared().getDefault()?.isCleanRepo() == true
 
             DispatchQueue.main.async {
                 self.updateNotesCounter()
             }
-        })
+        }
+        
+        UIApplication.getVC().gitQueue.addOperation(operation)
     }
 
     public func loadSearchController(query: String? = nil) {

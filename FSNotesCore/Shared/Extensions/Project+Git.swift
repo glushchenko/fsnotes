@@ -92,7 +92,7 @@ extension Project {
         return repoURL
     }
     
-    public func getRepository() throws -> Repository? {
+    public func getRepository(clone: Bool = false) throws -> Repository? {
         let repositoryManager = RepositoryManager()
         let repositoryProject = getRepositoryProject()
         let repoURL = getRepositoryUrl()
@@ -106,20 +106,20 @@ extension Project {
         }
         
         // Prepare temporary dir
-        let cloneURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+        let tempURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
         
-        try? FileManager.default.removeItem(at: cloneURL)
-        try? FileManager.default.createDirectory(at: cloneURL, withIntermediateDirectories: true)
+        try? FileManager.default.removeItem(at: tempURL)
+        try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true)
         
         // Clone
-        if let originString = getGitOrigin(), let origin = URL(string: originString) {
-            let repository = try repositoryManager.cloneRepository(from: origin, at: cloneURL, authentication: getAuthHandler())
+        if clone, let originString = getGitOrigin(), let origin = URL(string: originString) {
+            let repository = try repositoryManager.cloneRepository(from: origin, at: tempURL, authentication: getAuthHandler())
             
             if isUseWorkTree() {
                 repository.setWorkTree(path: repositoryProject.url.path)
             }
             
-            let dotGit = cloneURL.appendingPathComponent(".git")
+            let dotGit = tempURL.appendingPathComponent(".git")
             
             if FileManager.default.directoryExists(atUrl: dotGit) {
                 try? FileManager.default.moveItem(at: dotGit, to: repoURL)
@@ -132,13 +132,13 @@ extension Project {
         
         // Init
         let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
-        let repository = try repositoryManager.initRepository(at: cloneURL, signature: signature)
+        let repository = try repositoryManager.initRepository(at: tempURL, signature: signature)
         
         if isUseWorkTree() {
             repository.setWorkTree(path: repositoryProject.url.path)
         }
         
-        let dotGit = cloneURL.appendingPathComponent(".git")
+        let dotGit = tempURL.appendingPathComponent(".git")
         
         if FileManager.default.directoryExists(atUrl: dotGit) {
             try? FileManager.default.moveItem(at: dotGit, to: repoURL)

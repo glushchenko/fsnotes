@@ -162,7 +162,9 @@ class ProjectSettingsViewController: NSViewController {
         do {
             try project.pull()
                 
-            if let repo = try project.getRepository(), let local = project.getLocalBranch(repository: repo) {
+            if let repo = try project.getRepository(clone: true),
+                let local = project.getLocalBranch(repository: repo)
+            {
                 try repo.head().forceCheckout(branch: local)
             }
             return

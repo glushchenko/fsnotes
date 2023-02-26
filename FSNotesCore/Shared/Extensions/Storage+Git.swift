@@ -9,7 +9,7 @@
 import Foundation
 
 extension Storage {
-    public func pullAll() {
+    public func pullAll(errorCompletion: ((String) -> ())? = nil) {
         let projects = getProjects()
         for project in projects {
             if project.isTrash {
@@ -24,10 +24,11 @@ extension Storage {
                     print("Pull \(project.label)")
                 } catch {
                     if let error = error as? GitError {
-                        AppDelegate.gitProgress.log(message: error.associatedValue())
+                        let message = error.associatedValue()
+                        AppDelegate.gitProgress.log(message: message)
+                        errorCompletion?(message)
+                        return
                     }
-                    
-                    print("Scheduled pull error: \(error)")
                 }
             }
         }

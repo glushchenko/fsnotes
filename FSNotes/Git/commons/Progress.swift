@@ -40,6 +40,8 @@ public class Progress {
                 GitViewController.logTextField?.text = message
             }
         #endif
+        
+        print("\(message)")
     }
 }
 
