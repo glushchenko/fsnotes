@@ -305,69 +305,67 @@ extension Note {
             }
         })
     }
-    
+
     public func getCommits() -> [Commit] {
         var commits = [Commit]()
-        
+
         do {
-            if let repository = try project.getRepository() {
-                let path = getGitPath().recode4byteString()
-                
-                do {
-                    let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
-                    
-                    while let rev = fileRevLog.next() {
-                        if let commit = try? repository.commitLookup(oid: rev) {
-                            commits.append(commit)
-                        }
+            let repository = try project.getRepository()
+            let path = getGitPath().recode4byteString()
+
+            do {
+                let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
+
+                while let rev = fileRevLog.next() {
+                    if let commit = try? repository.commitLookup(oid: rev) {
+                        commits.append(commit)
                     }
-                    
-                    if fileRevLog.checkFirstCommit() {
-                        if let oid = fileRevLog.getLast(), let commit = try? repository.commitLookup(oid: oid) {
-                            commits.append(commit)
-                        }
+                }
+
+                if fileRevLog.checkFirstCommit() {
+                    if let oid = fileRevLog.getLast(), let commit = try? repository.commitLookup(oid: oid) {
+                        commits.append(commit)
                     }
-                } catch {/*_*/}
-                
-                return commits
-            }
+                }
+            } catch {/*_*/}
+
+            return commits
         } catch {
             print(error)
         }
-        
+
         return commits
     }
-    
+
     public func saveRevision(commitMessage: String? = nil, pull: Bool = true) throws {
         let project = project.getRepositoryProject()
-        
+
         try project.commit(message: commitMessage)
-        
+
         if pull {
             try pullPush()
         }
     }
-    
+
     public func pullPush() throws {
         let project = project.getRepositoryProject()
-        
+
         // No hands – no mults
         guard project.getGitOrigin() != nil else { return }
-        
+
         try project.pull()
         print("Pull successful")
-        
+
         try project.push()
         print("Push successful")
     }
-    
+
     public func checkout(commit: Commit) {
         do {
-            if let repository = try project.getRepository() {
-                let commit = try repository.commitLookup(oid: commit.oid)
-                try repository.checkout(commit: commit, path: getGitCheckoutPath())
-                print("Successful checkout")
-            }
+            let repository = try project.getRepository()
+            let commit = try repository.commitLookup(oid: commit.oid)
+            try repository.checkout(commit: commit, path: getGitCheckoutPath())
+            print("Successful checkout")
         } catch {
             print(error)
         }

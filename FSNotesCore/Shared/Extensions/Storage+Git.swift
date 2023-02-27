@@ -20,8 +20,6 @@ extension Storage {
                 do {
                     guard project.getGitOrigin() != nil else { continue }
                     try project.pull()
-                    
-                    print("Pull \(project.label)")
                 } catch {
                     if let error = error as? GitError {
                         let message = error.associatedValue()

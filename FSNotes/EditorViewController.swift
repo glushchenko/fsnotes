@@ -448,37 +448,36 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         let moveMenu = NSMenu()
 
         do {
-            if let repository = try note.project.getRepository() {
-                let commits = getCommits(from: repository, by: note)
-                
-                // Port
-                if commits.count == 0 {
-                    return
-                }
+            let repository = try note.project.getRepository()
+            let commits = getCommits(from: repository, by: note)
+            
+            // Port
+            if commits.count == 0 {
+                return
+            }
 
-                for commit in commits {
-                    let menuItem = NSMenuItem()
-                    menuItem.title = commit.getDate()
-                    menuItem.representedObject = commit
-                    menuItem.action = #selector(vc.checkoutRevision(_:))
-                    moveMenu.addItem(menuItem)
-                }
-                
-                let general = moveMenu.item(at: 0)
-                
-                // Main window
-                if cvc.isKind(of: ViewController.self),
-                   vc.notesTableView.selectedRow >= 0 {
-                    let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
-                    let x = vc.splitView.subviews[0].frame.width + 5
-                    moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
-                    return
-                }
-                
-                // Opened in new window
-                if cvc.isKind(of: NoteViewController.self) {
-                    moveMenu.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
-                }
+            for commit in commits {
+                let menuItem = NSMenuItem()
+                menuItem.title = commit.getDate()
+                menuItem.representedObject = commit
+                menuItem.action = #selector(vc.checkoutRevision(_:))
+                moveMenu.addItem(menuItem)
+            }
+            
+            let general = moveMenu.item(at: 0)
+            
+            // Main window
+            if cvc.isKind(of: ViewController.self),
+               vc.notesTableView.selectedRow >= 0 {
+                let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
+                let x = vc.splitView.subviews[0].frame.width + 5
+                moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
+                return
+            }
+            
+            // Opened in new window
+            if cvc.isKind(of: NoteViewController.self) {
+                moveMenu.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
             }
         } catch {
             print(error)

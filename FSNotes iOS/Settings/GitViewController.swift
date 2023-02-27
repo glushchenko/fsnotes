@@ -28,15 +28,56 @@ class GitViewController: UITableViewController {
         }
     }
     
+    private var rows = [
+        [
+            NSLocalizedString("Private key", comment: ""),
+            NSLocalizedString("Passphrase", comment: ""),
+        ], [
+            NSLocalizedString("", comment: ""),
+            NSLocalizedString("", comment: ""),
+        ], [
+            "",
+        ]
+    ]
+    
+    // Clone
     public var button = UIButton()
+    
     public static var logTextField: UITextField?
+    
+    override func viewDidLoad() {
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+
+        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
+
+        self.title = NSLocalizedString("Git", comment: "Settings")
+        super.viewDidLoad()
+        
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: button.titleLabel!.font.pointSize)
+        button.setTitle("Clone", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        DispatchQueue.main.async {
+            GitViewController.logTextField?.text = Progress.bufferedMessage
+        }
+        
+        if UIApplication.getVC().isActiveClone {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                self.button.loadingIndicator(show: true)
+            })
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.isIdleTimerDisabled = false
+        
+        self.button.loadingIndicator(show: false)
     }
     
     public func repositoriesNames() -> [String]? {
@@ -69,39 +110,6 @@ class GitViewController: UITableViewController {
         }
         
         return GitSection(rawValue: section)?.title
-    }
-
-    private var rows = [
-        [
-            NSLocalizedString("Private key", comment: ""),
-            NSLocalizedString("Passphrase", comment: ""),
-        ], [
-            NSLocalizedString("", comment: ""),
-            NSLocalizedString("", comment: ""),
-        ], [
-            "",
-        ]
-    ]
-
-    override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
-        self.title = NSLocalizedString("Git", comment: "Settings")
-        super.viewDidLoad()
-        
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: button.titleLabel!.font.pointSize)
-        button.setTitle("Clone", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            GitViewController.logTextField?.text = Progress.bufferedMessage
-        })
     }
 
     @objc func cancel() {
@@ -148,7 +156,7 @@ class GitViewController: UITableViewController {
             
             // Logs
             if indexPath.section == GitSection.logs.rawValue && indexPath.row == 0 {
-                textField.placeholder = "No data yet"
+                textField.placeholder = "No data"
                 textField.isEnabled = false
                 
                 GitViewController.logTextField = textField
@@ -251,6 +259,8 @@ class GitViewController: UITableViewController {
                 try? FileManager.default.removeItem(at: repoURL)
             }
 
+            AppDelegate.gitProgress.log(message: "git repository removed")
+            
             UIApplication.getVC().stopGitPull()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
@@ -297,47 +307,52 @@ class GitViewController: UITableViewController {
     }
     
     @objc func clonePressed(sender: UIButton) {
-        sender.loadingIndicator(show: true)
-        sender.isEnabled = false
+        button.loadingIndicator(show: true)
+        button.isEnabled = false
         
         guard let project = Storage.shared().getDefault() else { return }
         
-        UIApplication.getVC().stopGitPull()
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        UIApplication.getVC().isActiveClone = true
+        UIApplication.getVC().stopGitPull()
         UIApplication.getVC().gitQueue.addOperation({
             defer {
                 DispatchQueue.main.async {
-                    sender.isEnabled = true
-                    sender.loadingIndicator(show: false)
+                    self.button.isEnabled = true
                     
                     UIApplication.shared.isIdleTimerDisabled = false
-                    UIApplication.getVC().scheduledGitPull()
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-                        self.tableView?.reloadSections([GitSection.repositories.rawValue], with: .fade)
-                    })
+                    UIApplication.getVC().scheduledGitPull()
+                    UIApplication.getVC().isActiveClone = false
+                    
+                    self.button.loadingIndicator(show: false)
+                    self.tableView.reloadData()
                 }
             }
             
             do {
                 try? FileManager.default.removeItem(at: project.getRepositoryUrl()) 
                                     
-                if let repo = try project.getRepository(clone: true),
+                self.reloadRepositoriesSection()
+                
+                if let repo = try project.initRepository(),
                     let local = project.getLocalBranch(repository: repo)
                 {
                     try repo.head().forceCheckout(branch: local)
+                    
+                    DispatchQueue.main.async {
+                        // Reload all files and tables
+                        UIApplication.getVC().reloadDatabase()
+                        UIApplication.getVC().gitPull = true
+                    }
                 }
-                
-                DispatchQueue.main.async {
-                    // Reload all files and tables
-                    UIApplication.getVC().reloadDatabase()
-                }
-                
+
                 return
             } catch GitError.unknownError(let errorMessage, _, let desc) {
                 DispatchQueue.main.async {
                     let message = errorMessage + " – " + desc
-                    self.errorAlert(title: "Git clone/pull error", message: message)
+                    self.errorAlert(title: "git clone/pull error", message: message)
                 }
             } catch GitError.notFound(let ref) {
                 // Empty repository – commit and push
@@ -347,6 +362,10 @@ class GitViewController: UITableViewController {
                     
                     try? project.commit(completionPreAdd: completionPreAdd, completionPreCommit: completionPreCommit)
                     try? project.push()
+                    
+                    DispatchQueue.main.async {
+                        UIApplication.getVC().gitPull = true
+                    }
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -384,6 +403,12 @@ class GitViewController: UITableViewController {
             return rsaKey
         }
         return nil
+    }
+    
+    private func reloadRepositoriesSection() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.tableView?.reloadSections([GitSection.repositories.rawValue], with: .fade)
+        })
     }
 }
 

@@ -1977,24 +1977,23 @@ class ViewController: EditorViewController,
 
         DispatchQueue.main.async {
             do {
-                if let repository = try note.project.getRepository() {
-                    let commits = self.getCommits(from: repository, by: note)
-                    
-                    guard commits.count > 0 else {
-                        historyMenu?.isEnabled = false
-                        return
-                    }
-    
-                    for commit in commits {
-                        let menuItem = NSMenuItem()
-                        menuItem.title = commit.getDate()
-                        menuItem.representedObject = commit
-                        menuItem.action = #selector(vc.checkoutRevision(_:))
-                        historyMenu?.submenu?.addItem(menuItem)
-                    }
-    
-                    historyMenu?.isEnabled = true
+                let repository = try note.project.getRepository()
+                let commits = self.getCommits(from: repository, by: note)
+                
+                guard commits.count > 0 else {
+                    historyMenu?.isEnabled = false
+                    return
                 }
+
+                for commit in commits {
+                    let menuItem = NSMenuItem()
+                    menuItem.title = commit.getDate()
+                    menuItem.representedObject = commit
+                    menuItem.action = #selector(vc.checkoutRevision(_:))
+                    historyMenu?.submenu?.addItem(menuItem)
+                }
+
+                historyMenu?.isEnabled = true
             } catch {
                 print(error)
             }

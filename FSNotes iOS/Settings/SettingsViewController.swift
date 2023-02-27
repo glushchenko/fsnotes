@@ -182,7 +182,13 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 3:
                 lvc = ProViewController()
             case 4:
-                lvc = GitViewController()
+                if let gitVC = ViewController.gitViewController {
+                    lvc = gitVC
+                } else {
+                    ViewController.gitViewController = GitViewController()
+                    
+                    lvc = ViewController.gitViewController
+                }
             default:
                 return
             }

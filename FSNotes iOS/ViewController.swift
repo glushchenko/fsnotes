@@ -37,6 +37,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private let metadataQueue = OperationQueue()
     
     public let gitQueue = OperationQueue()
+    public var isActiveClone = false
     private var delayedInsert: Note?
 
     private var maxSidebarWidth = CGFloat(0)
@@ -67,7 +68,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     // Pass for access from CloudDriveManager
     public var editorViewController: EditorViewController?
+    public static var gitViewController: GitViewController?
     
+    public var gitPull: Bool = true
     private var gitClean: Bool = false
     private var gitPullTimer: Timer?
 
@@ -131,6 +134,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         gitPullTimer?.invalidate()
         gitPullTimer = nil
+        
+        gitPull = false
     }
     
     public func loadInbox() {
@@ -679,7 +684,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     @objc func addPullTask() {
-        guard UserDefaultsManagement.gitVersioning else { return }
+        guard UserDefaultsManagement.gitVersioning, gitPull else { return }
         
         let operation = BlockOperation()
         operation.addExecutionBlock {
@@ -687,7 +692,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 DispatchQueue.main.async {
                     self.stopGitPull()
                     
-                    let alertController = UIAlertController(title: "Git pull stopped", message: message, preferredStyle: .alert)
+                    let alertController = UIAlertController(title: "Automatic git pull stopped", message: message, preferredStyle: .alert)
 
                     let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }
                     alertController.addAction(okAction)
