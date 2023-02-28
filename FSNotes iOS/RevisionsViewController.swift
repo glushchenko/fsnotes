@@ -84,9 +84,11 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
             return
         }
         
-        UIApplication.getVC().gitQueue.addOperation({
-            try? self.note?.pullPush()
-        })
+        if UserDefaultsManagement.successGitOrigin {
+            UIApplication.getVC().gitQueue.addOperation({
+                try? self.note?.pullPush()
+            })
+        }
         
         dismiss(animated: true)
     }

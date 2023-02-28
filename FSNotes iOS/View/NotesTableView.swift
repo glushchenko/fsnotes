@@ -607,9 +607,11 @@ class NotesTableView: UITableView,
             return
         }
         
-        UIApplication.getVC().gitQueue.addOperation({
-            try? note.pullPush()
-        })
+        if UserDefaultsManagement.successGitOrigin {
+            UIApplication.getVC().gitQueue.addOperation({
+                try? note.pullPush()
+            })
+        }
     }
 
     private func historyAction(note: Note, presentController: UIViewController) {

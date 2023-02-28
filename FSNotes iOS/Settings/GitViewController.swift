@@ -318,6 +318,8 @@ class GitViewController: UITableViewController {
         UIApplication.getVC().stopGitPull()
         UIApplication.getVC().gitQueue.addOperation({
             defer {
+                Storage.shared().cacheGitHistory(force: true)
+                
                 DispatchQueue.main.async {
                     self.button.isEnabled = true
                     
@@ -336,15 +338,16 @@ class GitViewController: UITableViewController {
                                     
                 self.reloadRepositoriesSection()
                 
-                if let repo = try project.initRepository(),
+                if let repo = try project.cloneRepository(),
                     let local = project.getLocalBranch(repository: repo)
                 {
                     try repo.head().forceCheckout(branch: local)
                     
+                    UserDefaultsManagement.successGitOrigin = true
+                    
                     DispatchQueue.main.async {
                         // Reload all files and tables
                         UIApplication.getVC().reloadDatabase()
-                        UIApplication.getVC().gitPull = true
                     }
                 }
 
@@ -357,23 +360,30 @@ class GitViewController: UITableViewController {
             } catch GitError.notFound(let ref) {
                 // Empty repository – commit and push
                 if ref == "refs/heads/master" {
-                    let completionPreAdd = { AppDelegate.gitProgress.log(message: "Empty repo, git add -A") }
-                    let completionPreCommit = { AppDelegate.gitProgress.log(message: "git commit") }
-                    
-                    try? project.commit(completionPreAdd: completionPreAdd, completionPreCommit: completionPreCommit)
-                    try? project.push()
-                    
-                    DispatchQueue.main.async {
-                        UIApplication.getVC().gitPull = true
-                    }
+                    self.commitAndPush(project: project)
                 }
             } catch {
                 DispatchQueue.main.async {
                     let message = error.localizedDescription
-                    self.errorAlert(title: "Git error", message: message)
+                    self.errorAlert(title: "git error", message: message)
                 }
             }
         })
+    }
+    
+    public func commitAndPush(project: Project) {
+        let completionPreAdd = { AppDelegate.gitProgress.log(message: "Empty repo, git add -A") }
+        let completionPreCommit = { AppDelegate.gitProgress.log(message: "git commit") }
+        
+        do {
+            try project.commit(completionPreAdd: completionPreAdd, completionPreCommit: completionPreCommit)
+            try project.push()
+            
+            UserDefaultsManagement.successGitOrigin = true
+        } catch {
+            let message = error.localizedDescription
+            self.errorAlert(title: "git clone/pull error", message: message)
+        }
     }
     
     public func errorAlert(title: String, message: String) {

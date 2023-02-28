@@ -31,4 +31,27 @@ extension Storage {
             }
         }
     }
+    
+    public func cacheGitHistory(force: Bool = false) {
+        AppDelegate.gitProgress.log(message: "git history caching started")
+        
+        let projects = getProjects()
+        for project in projects {
+            if project.isTrash { continue }
+
+            if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                do {
+                    let repository = try project.getRepository()
+                    
+                    if force, let url = repository.getCommitsDiffsCache() {
+                        try? FileManager.default.removeItem(at: url)
+                    }
+                    
+                    repository.cacheHistory()
+                } catch {/*_*/}
+            }
+        }
+        
+        AppDelegate.gitProgress.log(message: "git history caching finished")
+    }
 }

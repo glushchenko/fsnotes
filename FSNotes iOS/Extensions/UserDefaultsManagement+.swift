@@ -22,6 +22,7 @@ extension UserDefaultsManagement {
         static let IsFirstLaunch = "isFirstLaunch"
         static let ImportURLsKey = "ImportURLs"
         static let ProjectsKeyNew = "ProjectsKeyNew"
+        static let SuccessGitConfiguration = "SuccessGitConfiguration"
     }
 
     static var codeTheme: String {
@@ -261,6 +262,18 @@ extension UserDefaultsManagement {
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
                 defaults.set(data, forKey: Constants.ProjectsKeyNew)
             }
+        }
+    }
+    
+    static var successGitOrigin: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.SuccessGitConfiguration) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SuccessGitConfiguration)
         }
     }
 }

@@ -92,36 +92,17 @@ extension Project {
         return repoURL
     }
 
-    public func initRepository() throws -> Repository? {
+    public func initBareRepository() throws -> Repository? {
         let repositoryManager = RepositoryManager()
         let repositoryProject = getRepositoryProject()
         let repoURL = getRepositoryUrl()
-
+        
         // Prepare temporary dir
         let tempURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
 
         try? FileManager.default.removeItem(at: tempURL)
         try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true)
-
-        // Clone
-        if let originString = getGitOrigin(), let origin = URL(string: originString) {
-            let repository = try repositoryManager.cloneRepository(from: origin, at: tempURL, authentication: getAuthHandler())
-
-            if isUseWorkTree() {
-                repository.setWorkTree(path: repositoryProject.url.path)
-            }
-
-            let dotGit = tempURL.appendingPathComponent(".git")
-
-            if FileManager.default.directoryExists(atUrl: dotGit) {
-                try? FileManager.default.moveItem(at: dotGit, to: repoURL)
-
-                return try repositoryManager.openRepository(at: repoURL)
-            }
-
-            return nil
-        }
-
+        
         // Init
         let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
         let repository = try repositoryManager.initRepository(at: tempURL, signature: signature)
@@ -136,6 +117,39 @@ extension Project {
             try? FileManager.default.moveItem(at: dotGit, to: repoURL)
 
             return try repositoryManager.openRepository(at: repoURL)
+        }
+
+        return nil
+    }
+    
+    public func cloneRepository() throws -> Repository? {
+        let repositoryManager = RepositoryManager()
+        let repositoryProject = getRepositoryProject()
+        let repoURL = getRepositoryUrl()
+
+        // Prepare temporary dir
+        let tempURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+
+        try? FileManager.default.removeItem(at: tempURL)
+        try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true)
+
+        // Clone
+        if let originString = getGitOrigin(), let origin = URL(string: originString) {
+            let repository = try repositoryManager.cloneRepository(from: origin, at: tempURL, authentication: getAuthHandler())
+            
+            if isUseWorkTree() {
+                repository.setWorkTree(path: repositoryProject.url.path)
+            }
+            
+            let dotGit = tempURL.appendingPathComponent(".git")
+            
+            if FileManager.default.directoryExists(atUrl: dotGit) {
+                try? FileManager.default.moveItem(at: dotGit, to: repoURL)
+                
+                return try repositoryManager.openRepository(at: repoURL)
+            }
+            
+            return nil
         }
 
         return nil
@@ -195,7 +209,17 @@ extension Project {
     }
 
     public func commit(message: String? = nil, completionPreAdd:(() -> (Void))? = nil, completionPreCommit:(() -> (Void))? = nil) throws {
-        let repository = try getRepository()
+        var repository: Repository?
+        
+        do {
+            repository = try getRepository()
+        } catch {
+            repository = try initBareRepository()
+        }
+        
+        guard let repository = repository else {
+            throw GitError.unknownError(msg: "Repository not found", code: 0, desc: "")
+        }
 
         let statuses = Statuses(repository: repository)
         let lastCommit = try? repository.head().targetCommit()

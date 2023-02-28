@@ -12,6 +12,7 @@ import Cgit2
 
 var paths = NSMutableDictionary()
 
+
 /// Define internal object to cast and use with C hander
 class InternalDiffWrapper {
     
@@ -28,6 +29,8 @@ class InternalDiffWrapper {
 
 /// Diff
 public class Diff {
+    
+    public static var commitsDict = ["sha": [String]()]
 
     /// Internal Diff pointer
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
@@ -47,7 +50,12 @@ public class Diff {
     
     /// Find diff entry by path
     public func find(byPath path: String, oid: OID) -> Bool {
+        guard let sha = oid.sha() else { return false }
         paths.removeAllObjects()
+        
+        if let paths = Diff.commitsDict[sha] {
+            return paths.contains(path)
+        }
         
         // Create internal object to convert in C pointer
         let payload = InternalDiffWrapper(self)
@@ -58,7 +66,11 @@ public class Diff {
         // Foreach on all diff entries
         let error = git_diff_foreach(self.pointer.pointee, DiffFile.callback, nil, nil, nil, ptr)
         if (error != 0) {
-            NSLog("Error login diff \(git_error_message())")
+            NSLog("git diff error \(git_error_message())")
+        }
+        
+        if let sha = oid.sha(), let keys = paths.allKeys as? [String] {
+            Diff.commitsDict[sha] = keys
         }
         
         return paths[path] != nil
@@ -66,11 +78,7 @@ public class Diff {
 }
 
 final class DiffFile{
-    static let callback: git_diff_file_cb = { delta, progress, payload in
-        if paths.count > 50 {
-            return -1
-        }
-        
+    static let callback: git_diff_file_cb = { delta, progress, payload in 
         if let delta = delta {
             
             // Create diff entry

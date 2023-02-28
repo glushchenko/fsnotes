@@ -70,7 +70,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var editorViewController: EditorViewController?
     public static var gitViewController: GitViewController?
     
-    public var gitPull: Bool = true
     private var gitClean: Bool = false
     private var gitPullTimer: Timer?
 
@@ -135,7 +134,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         gitPullTimer?.invalidate()
         gitPullTimer = nil
         
-        gitPull = false
+        UserDefaultsManagement.successGitOrigin = false
     }
     
     public func loadInbox() {
@@ -473,6 +472,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.reIndexSpotlight()
             print("4. Spotlight indexation finished in \(spotlightPoint.timeIntervalSinceNow * -1) seconds")
             
+            let gitPoint = Date()
+            Storage.shared().cacheGitHistory()
+            print("5. git history loading finished in \(gitPoint.timeIntervalSinceNow * -1) seconds")
+            
             self.isLoadedDB = true
         }
     }
@@ -684,7 +687,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     @objc func addPullTask() {
-        guard UserDefaultsManagement.gitVersioning, gitPull else { return }
+        guard UserDefaultsManagement.gitVersioning, UserDefaultsManagement.successGitOrigin else { return }
         
         let operation = BlockOperation()
         operation.addExecutionBlock {

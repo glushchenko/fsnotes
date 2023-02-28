@@ -11,7 +11,7 @@ import Foundation
 import Cgit2
 
 /// Iterate to file history
-public class FileHistoryIterator : RevisionIterator {
+public class FileHistoryIterator: RevisionIterator {
     
     // File path
     private let path: String
@@ -86,6 +86,32 @@ public class FileHistoryIterator : RevisionIterator {
         }
         
         return nil
+    }
+    
+    public func cacheDiff() -> OID? {
+        guard let oid = super.next() else {
+            return nil
+        }
+        
+        guard let pOid = previousOid else {
+            previousOid = oid
+            return oid
+        }
+        
+        do {
+            let currentCommit = try repository.commitLookup(oid: oid)
+            let tree = try currentCommit.tree()
+            
+            let previousCommit = try repository.commitLookup(oid: pOid)
+            let previousTree = try previousCommit.tree()
+            
+            let diff = try previousTree.diff(other: tree)
+            _ = diff.find(byPath: path, oid: oid)
+        } catch {/*_*/}
+        
+        previousOid = oid
+        
+        return oid
     }
     
     private func diffPrev(tree: Tree, oid: OID) -> OID? {
