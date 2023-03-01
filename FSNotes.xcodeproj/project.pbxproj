@@ -45,6 +45,7 @@
 		D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */; };
 		D708AC672000EF5800A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D708AC682000F0E100A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
+		D709C9E229AFD9E0006EF9A8 /* GitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D709C9E129AFD9E0006EF9A8 /* GitTableViewCell.swift */; };
 		D70A727423944847006AF320 /* checkbox1012.png in Resources */ = {isa = PBXBuildFile; fileRef = D70A727323944846006AF320 /* checkbox1012.png */; };
 		D70A727523944847006AF320 /* checkbox1012.png in Resources */ = {isa = PBXBuildFile; fileRef = D70A727323944846006AF320 /* checkbox1012.png */; };
 		D70A727623944847006AF320 /* checkbox1012.png in Resources */ = {isa = PBXBuildFile; fileRef = D70A727323944846006AF320 /* checkbox1012.png */; };
@@ -1352,6 +1353,7 @@
 		D7063969202230BB00BC8446 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		D708AC662000EF5800A1760F /* NoteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteType.swift; sourceTree = "<group>"; };
+		D709C9E129AFD9E0006EF9A8 /* GitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTableViewCell.swift; sourceTree = "<group>"; };
 		D70A727323944846006AF320 /* checkbox1012.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox1012.png; sourceTree = "<group>"; };
 		D70A7277239467C1006AF320 /* checkbox_empty1012.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_empty1012.png; sourceTree = "<group>"; };
 		D70B1FAA29213EDF003923DC /* HyperlinkTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperlinkTextField.swift; sourceTree = "<group>"; };
@@ -2731,6 +2733,7 @@
 				D75629B627D53EB100F55588 /* ThanksViewController.swift */,
 				D75A34E427D7CD440085438F /* SidebarViewController.swift */,
 				D73B3134298FBF4400F46144 /* GitViewController.swift */,
+				D709C9E129AFD9E0006EF9A8 /* GitTableViewCell.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -4188,6 +4191,7 @@
 				D78115672153D4D9004FA1CA /* ProjectsViewController.swift in Sources */,
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
 				D792DD9927A6D71C006ADC01 /* String+Punycode.swift in Sources */,
+				D709C9E229AFD9E0006EF9A8 /* GitTableViewCell.swift in Sources */,
 				D7CD5CDE218330100009D63B /* Note+.swift in Sources */,
 				D70E9E032901AEBF00A3C634 /* Head+Checkout.swift in Sources */,
 				D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */,

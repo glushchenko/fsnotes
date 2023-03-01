@@ -12,18 +12,22 @@ import CoreServices
 
 class GitViewController: UITableViewController {
     
+    private var project: Project?
+    
+    public func setProject(_ project: Project) {
+        self.project = project
+    }
+    
     enum GitSection: Int, CaseIterable {
         case credentials
         case origin
         case logs
-        case repositories
 
         var title: String {
             switch self {
             case .credentials: return "Credentials"
             case .origin: return "Origin"
             case .logs: return "Status"
-            case .repositories: return "Repositories"
             }
         }
     }
@@ -80,35 +84,14 @@ class GitViewController: UITableViewController {
         self.button.loadingIndicator(show: false)
     }
     
-    public func repositoriesNames() -> [String]? {
-        var names = [String]()
-        
-        if !UserDefaultsManagement.iCloudDrive {
-            let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-            if let dotGit = documentDir?.appendingPathComponent(".git", isDirectory: true) {
-                if FileManager.default.fileExists(atPath: dotGit.path, isDirectory: nil) {
-                    names.append("Documents.git")
-                }
-            }
-        } else {
-            let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-            guard let repoURL = documentDir?.appendingPathComponent("Repositories") else { return nil }
-            
-            if let result = try? FileManager.default.contentsOfDirectory(atPath: repoURL.path) {
-                names = result
-            }
-            
-            names.removeAll(where: { $0 == "tmp" })
+    override func viewDidLayoutSubviews() {
+        if let rect = self.navigationController?.navigationBar.frame {
+            let y = rect.size.height
+            self.tableView.contentInset = UIEdgeInsets( top: y, left: 0, bottom: 0, right: 0)
         }
-        
-        return names
     }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == GitSection.repositories.rawValue && repositoriesNames()?.count == 0 {
-            return nil
-        }
         
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return GitSection(rawValue: section)?.title
     }
 
@@ -176,25 +159,14 @@ class GitViewController: UITableViewController {
         
         // Clone button
         if indexPath.section == GitSection.origin.rawValue && indexPath.row == 1 {
-            let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            cell.contentView.addSubview(button)
-            cell.addConstraint(NSLayoutConstraint(item: button, attribute: .leading, relatedBy: .equal, toItem: cell.contentView, attribute: .leading, multiplier: 1, constant: 8))
-            cell.addConstraint(NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: cell.contentView, attribute: .top, multiplier: 1, constant: 8))
-            cell.addConstraint(NSLayoutConstraint(item: button, attribute: .bottom, relatedBy: .equal, toItem: cell.contentView, attribute: .bottom, multiplier: 1, constant: -8))
-            cell.addConstraint(NSLayoutConstraint(item: button, attribute: .trailing, relatedBy: .equal, toItem: cell.contentView, attribute: .trailing, multiplier: 1, constant: -8))
+            let cell = tableView.dequeueReusableCell(withIdentifier: "gitTableViewCell", for: indexPath) as! GitTableViewCell
+            
+            cell.cloneButton.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
+            cell.removeButton.addTarget(self, action: #selector(removePressed), for: .touchUpInside)
             
             return cell
         }
-        
-        // Repositories list
-        if indexPath.section == GitSection.repositories.rawValue {
-            let names = repositoriesNames()
-            
-            let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            cell.textLabel?.text = names![indexPath.row]
-            return cell
-        }
-        
+                
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
         
@@ -220,53 +192,12 @@ class GitViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == GitSection.repositories.rawValue {
-            return repositoriesNames()?.count ?? 0
-        }
-        
         return rows[section].count
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-    }
-    
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == GitSection.repositories.rawValue {
-            return true
-        }
-        
-        return false
-    }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            var repoURL: URL?
-            let folderName = repositoriesNames()![indexPath.row]
-
-            if UserDefaultsManagement.iCloudDrive {
-                let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-                repoURL = documentDir?
-                    .appendingPathComponent("Repositories")
-                    .appendingPathComponent(folderName)
-            } else {
-                let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-                repoURL = documentDir?.appendingPathComponent(".git", isDirectory: true)
-            }
-            
-            if let repoURL = repoURL {
-                try? FileManager.default.removeItem(at: repoURL)
-            }
-
-            AppDelegate.gitProgress.log(message: "git repository removed")
-            
-            UIApplication.getVC().stopGitPull()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-                tableView.reloadSections([GitSection.repositories.rawValue], with: .fade)
-            })
-        }
     }
 
     private func changePrivateKey(tableView: UITableView, indexPath: IndexPath) {
@@ -306,11 +237,22 @@ class GitViewController: UITableViewController {
         Storage.shared().updateDefaultOrigin()
     }
     
+    @objc func removePressed(sender: UIButton) {
+        guard let project = project else { return }
+        let repoURL = project.getRepositoryUrl()
+        
+        try? FileManager.default.removeItem(at: repoURL)
+        
+        AppDelegate.gitProgress.log(message: "git repository removed")
+        
+        UIApplication.getVC().stopGitPull()
+    }
+    
     @objc func clonePressed(sender: UIButton) {
+        guard let project = project else { return }
+        
         button.loadingIndicator(show: true)
         button.isEnabled = false
-        
-        guard let project = Storage.shared().getDefault() else { return }
         
         UIApplication.shared.isIdleTimerDisabled = true
         
@@ -334,12 +276,10 @@ class GitViewController: UITableViewController {
             }
             
             do {
-                try? FileManager.default.removeItem(at: project.getRepositoryUrl()) 
-                                    
-                self.reloadRepositoriesSection()
+                try? FileManager.default.removeItem(at: project.getRepositoryUrl())
                 
                 if let repo = try project.cloneRepository(),
-                    let local = project.getLocalBranch(repository: repo)
+                   let local = project.getLocalBranch(repository: repo)
                 {
                     try repo.head().forceCheckout(branch: local)
                     
@@ -413,12 +353,6 @@ class GitViewController: UITableViewController {
             return rsaKey
         }
         return nil
-    }
-    
-    private func reloadRepositoriesSection() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            self.tableView?.reloadSections([GitSection.repositories.rawValue], with: .fade)
-        })
     }
 }
 

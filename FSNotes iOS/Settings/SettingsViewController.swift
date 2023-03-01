@@ -185,7 +185,11 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 if let gitVC = ViewController.gitViewController {
                     lvc = gitVC
                 } else {
-                    ViewController.gitViewController = GitViewController()
+                    guard let project = Storage.shared().getDefault() else { return }
+
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                    ViewController.gitViewController = storyBoard.instantiateViewController(withIdentifier: "gitSettingsViewController") as! GitViewController
+                    ViewController.gitViewController!.setProject(project)
                     
                     lvc = ViewController.gitViewController
                 }
