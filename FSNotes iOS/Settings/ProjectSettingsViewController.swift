@@ -58,7 +58,7 @@ class ProjectSettingsViewController: UITableViewController {
                 }
 
                 if let sort = SortBy(rawValue: cell.reuseIdentifier!) {
-                    self.project.sortBy = sort
+                    self.project.settings.sortBy = sort
                     vc.reloadNotesTable()
                 }
 
@@ -105,14 +105,14 @@ class ProjectSettingsViewController: UITableViewController {
             case 0:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "none")
                 cell.textLabel?.text = NSLocalizedString("None", comment: "")
-                if project.sortBy.rawValue == "none" {
+                if project.settings.sortBy.rawValue == "none" {
                     cell.accessoryType = .checkmark
                 }
                 break
             case 1:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "modificationDate")
                 cell.textLabel?.text = NSLocalizedString("Modification date", comment: "")
-                if project.sortBy.rawValue == "modificationDate" {
+                if project.settings.sortBy.rawValue == "modificationDate" {
                     cell.accessoryType = .checkmark
                 }
                 break
@@ -120,7 +120,7 @@ class ProjectSettingsViewController: UITableViewController {
                 cell = UITableViewCell(style: .default, reuseIdentifier: "creationDate")
                 cell.textLabel?.text = NSLocalizedString("Creation date", comment: "")
 
-                if project.sortBy.rawValue == "creationDate" {
+                if project.settings.sortBy.rawValue == "creationDate" {
                     cell.accessoryType = .checkmark
                 }
                 break
@@ -128,7 +128,7 @@ class ProjectSettingsViewController: UITableViewController {
                 cell = UITableViewCell(style: .default, reuseIdentifier: "title")
                 cell.textLabel?.text = NSLocalizedString("Title", comment: "")
 
-                if project.sortBy.rawValue == "title" {
+                if project.settings.sortBy.rawValue == "title" {
                     cell.accessoryType = .checkmark
                 }
                 break
@@ -145,7 +145,7 @@ class ProjectSettingsViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 cell.accessoryView = uiSwitch
-                uiSwitch.isOn = project.showInCommon
+                uiSwitch.isOn = project.settings.showInCommon
                 uiSwitch.isEnabled =
                     !project.isDefault
                     && !project.isArchive
@@ -155,7 +155,7 @@ class ProjectSettingsViewController: UITableViewController {
                 cell.textLabel?.text = NSLocalizedString("Show notes in \"Notes\" and \"Todo\" lists", comment: "")
             case 1:
                 cell.accessoryView = uiSwitch
-                uiSwitch.isOn = project.showInSidebar
+                uiSwitch.isOn = project.settings.showInSidebar
                 uiSwitch.isEnabled =
                     !project.isDefault
                     && !project.isArchive
@@ -170,7 +170,7 @@ class ProjectSettingsViewController: UITableViewController {
 
         if indexPath.section == 0x02 {
             cell.accessoryView = uiSwitch
-            uiSwitch.isOn = project.firstLineAsTitle
+            uiSwitch.isOn = project.settings.firstLineAsTitle
             uiSwitch.isEnabled = !project.isVirtual
 
             cell.textLabel?.text = NSLocalizedString("Use first line as title", comment: "")
@@ -189,13 +189,13 @@ class ProjectSettingsViewController: UITableViewController {
         if indexPath.section == 0x01 {
             if indexPath.row == 0x00 {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                self.project.showInCommon = uiSwitch.isOn
+                self.project.settings.showInCommon = uiSwitch.isOn
 
                 vc.reloadNotesTable()
             } else {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
 
-                project.showInSidebar = uiSwitch.isOn
+                project.settings.showInSidebar = uiSwitch.isOn
 
                 if !uiSwitch.isOn {
                     let at = IndexPath(row: 0, section: 0)
@@ -207,7 +207,7 @@ class ProjectSettingsViewController: UITableViewController {
             }
         } else if indexPath.section == 0x02 {
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            project.firstLineAsTitle = uiSwitch.isOn
+            project.settings.firstLineAsTitle = uiSwitch.isOn
 
             let notes = Storage.shared().getNotesBy(project: project)
             for note in notes {

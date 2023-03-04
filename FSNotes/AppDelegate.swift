@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
     }
     
-    public static var gitProgress = Progress()
+    public static var gitProgress: GitProgress?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         checkStorageChanges()
@@ -50,9 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         storage.loadNotesSettings()
         storage.loadDocuments()
         
-        // For notarized app
-        ProjectSettingsViewController.restoreSettings()
-
         // Cache
         DispatchQueue.global(qos: .background).async {
             for note in storage.noteList {

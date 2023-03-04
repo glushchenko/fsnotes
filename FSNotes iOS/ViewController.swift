@@ -484,7 +484,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         var spotlightItems = [CSSearchableItem]()
         for note in storage.noteList {
-            if note.project.isTrash || !note.project.showInCommon {
+            if note.project.isTrash || !note.project.settings.showInCommon {
                 continue
             }
 
@@ -947,9 +947,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             searchQuery.type == .Trash
                 && note.isTrash()
             || searchQuery.terms != nil
-                && note.project.showInCommon
+                && note.project.settings.showInCommon
             || searchQuery.type == .All
-                && note.project.showInCommon
+                && note.project.settings.showInCommon
             || searchQuery.type == .Category
                 && searchQuery.project != nil
                 && note.project == searchQuery.project
@@ -960,7 +960,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 && note.project.isArchive
             || searchQuery.type == .Todo
                 && !note.project.isArchive
-                && note.project.showInCommon
+                && note.project.settings.showInCommon
             || searchQuery.type == .Inbox
                 && note.project.isRoot
                 && note.project.isDefault

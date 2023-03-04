@@ -23,7 +23,7 @@ extension Storage {
                 } catch {
                     if let error = error as? GitError {
                         let message = error.associatedValue()
-                        AppDelegate.gitProgress.log(message: message)
+                        //AppDelegate.gitProgress.log(message: message)
                         errorCompletion?(message)
                         return
                     }

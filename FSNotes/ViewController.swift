@@ -1113,7 +1113,7 @@ class ViewController: EditorViewController,
             if UserDefaultsManagement.fileFormat == .Markdown,
                 UserDefaultsManagement.naming == .autoRename,
                 UserDefaultsManagement.autoInsertHeader,
-                UserDefaultsManagement.firstLineAsTitle || selectedProject?.firstLineAsTitle == true {
+                UserDefaultsManagement.firstLineAsTitle || selectedProject?.settings.firstLineAsTitle == true {
                 content.append("# \(value)\n\n")
             }
 
@@ -1453,7 +1453,7 @@ class ViewController: EditorViewController,
             if search.stringValue.count == 0 {
                 if UserDefaultsManagement.sort == .modificationDate
                     && UserDefaultsManagement.sortDirection == true
-                    && note.project.sortBy == .none {
+                    && note.project.settings.sortBy == .none {
 
                     if let index = notesTableView.noteList.firstIndex(of: note) {
                         moveNoteToTop(note: index)
@@ -1613,7 +1613,7 @@ class ViewController: EditorViewController,
      Load titles in cases sort by Title
      */
     private func preLoadNoteTitles(in project: Project) {
-        if (UserDefaultsManagement.sort == .title || project.sortBy == .title) && (UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+        if (UserDefaultsManagement.sort == .title || project.settings.sortBy == .title) && (UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle) {
             let notes = storage.noteList.filter({ $0.project == project })
             for note in notes {
                 note.loadPreviewInfo()
@@ -1670,7 +1670,7 @@ class ViewController: EditorViewController,
                 || type == .Inbox && note.project.isDefault
                 || type == .Trash
                 || type == .Untagged && note.tags.count == 0
-                || type == .Todo && note.project.showInCommon
+                || type == .Todo && note.project.settings.showInCommon
                 || type == .Archive && note.project.isArchive
                 || !UserDefaultsManagement.inlineTags && tags != nil
                 || projects?.contains(note.project) == true

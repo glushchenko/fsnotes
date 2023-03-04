@@ -763,7 +763,7 @@ class NotesTableView: UITableView,
 
         var to = 0
 
-        if note.project.sortBy == .modificationDate {
+        if note.project.settings.sortBy == .modificationDate {
             to = note.isPinned ? 0 : notes.filter({ $0.isPinned }).count
         } else {
             let sorted = vc.storage.sortNotes(

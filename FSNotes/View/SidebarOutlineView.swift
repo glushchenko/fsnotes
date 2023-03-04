@@ -1273,7 +1273,7 @@ class SidebarOutlineView: NSOutlineView,
     private func saveOrderFor(projects: [Project]) {
         var i = 0
         for project in projects {
-            project.priority = i
+            project.settings.priority = i
             i += 1
             
             project.saveSettings()
@@ -1528,7 +1528,7 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         for project in projects {
-            if project.showNestedFoldersContent, !project.isEncrypted, let child = project.getAllChild() {
+            if project.settings.showNestedFoldersContent, !project.isEncrypted, let child = project.getAllChild() {
                 for item in child {
                     if !projects.contains(item) {
                         projects.append(item)
@@ -1861,7 +1861,7 @@ class SidebarOutlineView: NSOutlineView,
 
 
         if selectedItem?.type == .All || projects == nil {
-            projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive && $0.showInCommon })
+            projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive && $0.settings.showInCommon })
         }
 
         if let projects = projects {

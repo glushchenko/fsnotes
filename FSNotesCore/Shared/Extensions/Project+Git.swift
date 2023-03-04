@@ -239,7 +239,7 @@ extension Project {
         return Signature(name: "FSNotes App", email: "support@fsnot.es")
     }
 
-    public func commit(message: String? = nil, completionPreAdd:(() -> (Void))? = nil, completionPreCommit:(() -> (Void))? = nil) throws {
+    public func commit(message: String? = nil, progress: GitProgress? = nil) throws {
         var repository: Repository?
         
         do {
@@ -260,19 +260,16 @@ extension Project {
                 let sign = getSign()
                 let head = try repository.head().index()
 
-                if let completionPreAdd = completionPreAdd {
-                    completionPreAdd()
+                if let progress = progress {
+                    progress.log(message: "git add .")
                 }
 
                 head.add(path: ".")
-
                 try head.save()
 
+                progress?.log(message: "git commit")
+                
                 if lastCommit == nil {
-                    if let completionPreCommit = completionPreCommit {
-                        completionPreCommit()
-                    }
-
                     let commitMessage = message ?? "FSNotes Init"
                     _ = try head.createInitialCommit(msg: commitMessage, signature: sign)
                 } else {
@@ -280,12 +277,12 @@ extension Project {
                     _ = try head.createCommit(msg: commitMessage, signature: sign)
                 }
                 
-                AppDelegate.gitProgress.log(message: "git commit done")
+                progress?.log(message: "git commit done 🤟")
             } catch {
-                AppDelegate.gitProgress.log(message: "Commit error: \(error)")
+                progress?.log(message: "commit error: \(error)")
             }
         } else {
-            print("Commit skipped")
+            progress?.log(message: "commit error: no new data")
         }
     }
 
@@ -325,8 +322,6 @@ extension Project {
 
         let localMaster = try repository.branches.get(name: branchName)
         try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
-
-        AppDelegate.gitProgress.log(message: "Successful git push 👌")
     }
 
     public func pull() throws {
@@ -349,8 +344,6 @@ extension Project {
         let origin = try remote.get(remoteName: "origin")
 
         _ = try origin.pull(signature: sign, authentication: authHandler, project: repositoryProject)
-
-        AppDelegate.gitProgress.log(message: "\(label) – successful git pull 👌")
     }
 
     public func isUseWorkTree() -> Bool {
@@ -395,7 +388,7 @@ extension Project {
         }
     }
     
-    public func cacheHistory() {
+    public func cacheHistory(progress: GitProgress? = nil) {
         guard let repository = try? getRepository() else { return }
         
         
@@ -404,8 +397,8 @@ extension Project {
             while let _ = fileRevLog.cacheDiff() {/*_*/}
             
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: commitsCache, requiringSecureCoding: false),
-                let writeTo = getCommitsDiffsCache()
-            {
+                let writeTo = getCommitsDiffsCache() {
+                
                 do {
                     try data.write(to: writeTo)
                 } catch {
@@ -416,7 +409,7 @@ extension Project {
             print(error)
         }
         
-        AppDelegate.gitProgress.log(message: "git history caching finished")
+       progress?.log(message: "git history caching finished")
     }
     
     public func getCommitsDiffsCache() -> URL? {

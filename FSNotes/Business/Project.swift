@@ -29,17 +29,6 @@ public class Project: Equatable {
     public var isExternal: Bool = false
 
     public var settings: ProjectSettings
-    
-    // Settings
-    
-    public var sortBy: SortBy = .none
-    public var sortDirection: SortDirection = .desc
-    public var showInCommon: Bool
-    public var showInSidebar: Bool = true
-    public var showNestedFoldersContent: Bool = true
-    public var firstLineAsTitle: Bool = true
-    public var priority: Int = 0
-    
     public var metaCache = [NoteMeta]()
     
     // all notes loaded with cache diff comparsion
@@ -86,12 +75,9 @@ public class Project: Equatable {
             settings.showInCommon = false
         }
         
-        // temp
-        showInCommon = !(isTrash || isArchive)
-
         #if os(iOS)
         if isRoot && isDefault {
-            showInSidebar = false
+            settings.showInSidebar = false
         }
         #endif
 
@@ -103,12 +89,17 @@ public class Project: Equatable {
         
         // Init sort for default project
         if self.label == "Welcome" {
-            sortBy = .title
-            sortDirection = .asc
+            settings.sortBy = .title
+            settings.sortDirection = .asc
         }
         
         if let settings = getSettings() {
             self.settings = settings
+        }
+        
+        // Backward compatibility
+        if settings.gitOrigin == nil, self.isDefault, let origin = UserDefaultsManagement.gitOrigin {
+            settings.gitOrigin = origin
         }
     }
     
@@ -414,7 +405,7 @@ public class Project: Equatable {
     }
     
     public func isVisibleInCommon() -> Bool {
-        if !showInCommon {
+        if !settings.showInCommon {
             return false
         }
         
@@ -422,7 +413,7 @@ public class Project: Equatable {
                 
         while parent != nil {
             if let unwrapped = parent?.parent {
-                if !unwrapped.showInCommon {
+                if !unwrapped.settings.showInCommon {
                     return false
                 }
                 
@@ -430,10 +421,10 @@ public class Project: Equatable {
                 continue
             }
             
-            return parent?.showInCommon == true
+            return parent?.settings.showInCommon == true
         }
         
-        return showInCommon
+        return settings.showInCommon
     }
 
     public func getNestedLabel() -> String {

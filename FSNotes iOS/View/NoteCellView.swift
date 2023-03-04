@@ -89,7 +89,7 @@ class NoteCellView: SwipeTableViewCell {
     }
 
     public func getDate() -> String {
-        if let sort = note?.project.sortBy,
+        if let sort = note?.project.settings.sortBy,
             sort == .creationDate,
             let date = note?.getCreationDateForLabel()
         {

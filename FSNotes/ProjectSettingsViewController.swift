@@ -29,10 +29,10 @@ class ProjectSettingsViewController: NSViewController {
         
         let sortBy = SortBy(rawValue: sender.identifier!.rawValue)!
         if sortBy != .none {
-            project.sortBy = sortBy
+            project.settings.sortBy = sortBy
         }
         
-        project.sortBy = sortBy
+        project.settings.sortBy = sortBy
         project.saveSettings()
         
         guard let vc = ViewController.shared() else { return }
@@ -42,7 +42,7 @@ class ProjectSettingsViewController: NSViewController {
     @IBAction func sortDirection(_ sender: NSButton) {
         guard let project = project else { return }
         
-        project.sortDirection = SortDirection(rawValue: sender.identifier!.rawValue)!
+        project.settings.sortDirection = SortDirection(rawValue: sender.identifier!.rawValue)!
         project.saveSettings()
         
         guard let vc = ViewController.shared() else { return }
@@ -51,14 +51,14 @@ class ProjectSettingsViewController: NSViewController {
     
     
     @IBAction func showNotesInMainList(_ sender: NSButton) {
-        project?.showInCommon = sender.state == .on
+        project?.settings.showInCommon = sender.state == .on
         project?.saveSettings()
     }
     
     @IBAction func firstLineAsTitle(_ sender: NSButton) {
         guard let project = self.project else { return }
         
-        project.firstLineAsTitle = sender.state == .on
+        project.settings.firstLineAsTitle = sender.state == .on
         project.saveSettings()
         
         let notes = Storage.shared().getNotesBy(project: project)
@@ -77,7 +77,7 @@ class ProjectSettingsViewController: NSViewController {
     @IBAction func showNestedFoldersContent(_ sender: NSButton) {
         guard let project = self.project else { return }
         
-        project.showNestedFoldersContent = sender.state == .on
+        project.settings.showNestedFoldersContent = sender.state == .on
         project.saveSettings()
         
         guard let vc = ViewController.shared() else { return }
@@ -146,7 +146,7 @@ class ProjectSettingsViewController: NSViewController {
             alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     do {
-                        try FileManager.default.removeItem(at: project.getRepositoryUrl())
+                        project.removeRepository()
                         
                         ProjectSettingsViewController.cloneAndPull(project: project)
                     } catch {/*_*/}
@@ -160,9 +160,7 @@ class ProjectSettingsViewController: NSViewController {
     
     public static func cloneAndPull(project: Project) {
         do {
-            try project.pull()
-                
-            if let repo = try project.initRepository(),
+            if let repo = try project.cloneRepository(),
                 let local = project.getLocalBranch(repository: repo)
             {
                 try repo.head().forceCheckout(branch: local)
@@ -215,60 +213,53 @@ class ProjectSettingsViewController: NSViewController {
     }
 
     public func load(project: Project) {
-        showInAll.state = project.showInCommon ? .on : .off
-        firstLineAsTitle.state = project.firstLineAsTitle ? .on : .off
-        nestedFoldersContent.state = project.showNestedFoldersContent ? .on : .off
+        showInAll.state = project.settings.showInCommon ? .on : .off
+        firstLineAsTitle.state = project.settings.firstLineAsTitle ? .on : .off
+        nestedFoldersContent.state = project.settings.showNestedFoldersContent ? .on : .off
 
-        modificationDate.state = project.sortBy == .modificationDate ? .on : .off
-        creationDate.state = project.sortBy == .creationDate ? .on : .off
-        titleButton.state = project.sortBy == .title ? .on : .off
-        sortByGlobal.state = project.sortBy == .none ? .on : .off
+        modificationDate.state = project.settings.sortBy == .modificationDate ? .on : .off
+        creationDate.state = project.settings.sortBy == .creationDate ? .on : .off
+        titleButton.state = project.settings.sortBy == .title ? .on : .off
+        sortByGlobal.state = project.settings.sortBy == .none ? .on : .off
 
-        directionASC.state = project.sortDirection == .asc ? .on : .off
-        directionDESC.state = project.sortDirection == .desc ? .on : .off
-
-        if project.isDefault, let masterOrigin = UserDefaultsManagement.gitOrigin {
-            origin.stringValue = masterOrigin
-        } else {
-            origin.stringValue = project.gitOrigin ?? ""
-        }
+        directionASC.state = project.settings.sortDirection == .asc ? .on : .off
+        directionDESC.state = project.settings.sortDirection == .desc ? .on : .off
         
+        origin.stringValue = project.settings.gitOrigin ?? ""
         self.project = project
-        
-        project.loadSettings()
     }
     
-    public static func saveSettings() {
-        var result = [URL: Data]()
-        
-        let projects = Storage.shared().getProjects()
-        for project in projects {
-            if let data = project.settingsList {
-                result[project.url] = data
-            }
-        }
-        
-        if result.count > 0 {
-            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
-            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-                try? projectsData?.write(to: documentDir.appendingPathComponent("projects.settings"))
-            }
-        }
-    }
+//    public static func saveSettings() {
+//        var result = [URL: Data]()
+//
+//        let projects = Storage.shared().getProjects()
+//        for project in projects {
+//            if let data = project.settingsList {
+//                result[project.url] = data
+//            }
+//        }
+//
+//        if result.count > 0 {
+//            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
+//            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+//                try? projectsData?.write(to: documentDir.appendingPathComponent("projects.settings"))
+//            }
+//        }
+//    }
     
-    public static func restoreSettings() {
-        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
- 
-        let projectsDataUrl = documentDir.appendingPathComponent("projects.settings")
-        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
-        
-        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: Data] else { return }
-        
-        for item in unarchivedData {
-            if let project = Storage.shared().getProjectBy(url: item.key) {
-                project.settingsList = item.value
-                project.loadSettings()
-            }
-        }
-    }
+//    public static func restoreSettings() {
+//        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
+//
+//        let projectsDataUrl = documentDir.appendingPathComponent("projects.settings")
+//        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
+//
+//        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: Data] else { return }
+//
+//        for item in unarchivedData {
+//            if let project = Storage.shared().getProjectBy(url: item.key) {
+//                project.settingsList = item.value
+//                project.loadSettings()
+//            }
+//        }
+//    }
 }

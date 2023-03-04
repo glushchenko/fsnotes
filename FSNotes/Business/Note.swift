@@ -613,7 +613,7 @@ public class Note: NSObject  {
     }
 
     @objc public func getPreviewForLabel() -> String {
-        if project.firstLineAsTitle {
+        if project.settings.firstLineAsTitle {
             return preview
         }
 
@@ -623,7 +623,7 @@ public class Note: NSObject  {
     @objc func getDateForLabel() -> String {
         guard !UserDefaultsManagement.hideDate else { return String() }
 
-        guard let date = (project.sortBy == .creationDate || UserDefaultsManagement.sort == .creationDate)
+        guard let date = (project.settings.sortBy == .creationDate || UserDefaultsManagement.sort == .creationDate)
             ? creationDate
             : modifiedLocalAt
         else { return String() }
@@ -878,7 +878,7 @@ public class Note: NSObject  {
     }
 
     private func loadTitle() {
-        if !(UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+        if !(UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle) {
             title = url
                 .deletingPathExtension()
                 .pathComponents
@@ -1476,7 +1476,7 @@ public class Note: NSObject  {
         let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
 
         if let first = components.first {
-            if UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle {
+            if UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle {
                 loadYaml(components: components)
 
                 if title.count == 0 {
@@ -1489,7 +1489,7 @@ public class Note: NSObject  {
                 self.preview = getPreviewLabel(with: components.joined(separator: " "))
             }
         } else {
-            if !(UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+            if !(UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle) {
                 loadTitleFromFileName()
             } else {
                 firstLineAsTitle = false
@@ -2029,14 +2029,14 @@ public class Note: NSObject  {
         }
 
         #if os(iOS)
-        if !project.firstLineAsTitle {
+        if !project.settings.firstLineAsTitle {
             return getFileName()
         }
         #endif
 
         if title.count > 0 {
             if title.isValidUUID && (
-                UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle
+                UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle
             ) {
                 return nil
             }

@@ -334,7 +334,7 @@ class Storage {
         projects.append(project)
         parent?.child.append(project)
         
-        if let sorted = parent?.child.sorted(by: { $0.priority < $1.priority }) {
+        if let sorted = parent?.child.sorted(by: { $0.settings.priority < $1.settings.priority }) {
             parent?.child = sorted
         }
 
@@ -547,7 +547,7 @@ class Storage {
             !$0.isDefault
             && !$0.isTrash
             && !$0.isArchive
-            && $0.showInSidebar
+            && $0.settings.showInSidebar
         })
     }
         
@@ -617,13 +617,13 @@ class Storage {
         var sortDirection: SortDirection
         var sort: SortBy
 
-        if let project = project, project.sortBy != .none {
-            sortDirection = project.sortDirection
+        if let project = project, project.settings.sortBy != .none {
+            sortDirection = project.settings.sortDirection
         } else {
             sortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
         }
         
-        if let sortBy = project?.sortBy, sortBy != .none {
+        if let sortBy = project?.settings.sortBy, sortBy != .none {
             sort = sortBy
         } else {
             sort = UserDefaultsManagement.sort
@@ -883,15 +883,15 @@ class Storage {
         if let word = word {
             notes = notes
                 .filter{
-                    $0.title.contains(word) && $0.project.firstLineAsTitle
-                        || $0.fileName.contains(word) && !$0.project.firstLineAsTitle
+                    $0.title.contains(word) && $0.project.settings.firstLineAsTitle
+                    || $0.fileName.contains(word) && !$0.project.settings.firstLineAsTitle
 
                 }
                 .filter({ !$0.isTrash() })
 
             guard notes.count > 0 else { return nil }
 
-            var titles = notes.map{ String($0.project.firstLineAsTitle ? $0.title : $0.fileName) }
+            var titles = notes.map{ String($0.project.settings.firstLineAsTitle ? $0.title : $0.fileName) }
 
             titles = Array(Set(titles))
             titles = titles
@@ -921,7 +921,7 @@ class Storage {
 
         let titles = notes
             .filter({ !$0.isTrash() })
-            .map{ String($0.project.firstLineAsTitle ? $0.title : $0.fileName ) }
+            .map{ String($0.project.settings.firstLineAsTitle ? $0.title : $0.fileName ) }
             .filter({ $0.count > 0 })
             .filter({ !$0.starts(with: "![](") })
             .prefix(100)

@@ -43,6 +43,7 @@ class GitViewController: UITableViewController {
         }
     }
     
+    private var progress: GitProgress?
     private var project: Project?
     
     public func setProject(_ project: Project) {
@@ -70,11 +71,7 @@ class GitViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.isIdleTimerDisabled = true
-        
-        DispatchQueue.main.async {
-            GitViewController.logTextField?.text = Progress.bufferedMessage
-        }
-        
+                
         if UIApplication.getVC().isActiveClone {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                 self.activity?.isHidden = false
@@ -160,7 +157,10 @@ class GitViewController: UITableViewController {
                 textField.placeholder = "No data"
                 textField.isEnabled = false
                 
-                GitViewController.logTextField = textField
+                progress = GitProgress(statusTextField: textField)
+                
+                // Global instance
+                AppDelegate.gitProgress = progress
             }
             
             textField.translatesAutoresizingMaskIntoConstraints = false
@@ -280,7 +280,7 @@ class GitViewController: UITableViewController {
         project.removeRepository()
         removeButton?.isEnabled = false
         
-        AppDelegate.gitProgress.log(message: "git repository removed")
+        progress?.log(message: "git repository removed")
         
         UIApplication.getVC().stopGitPull()
         
@@ -352,6 +352,7 @@ class GitViewController: UITableViewController {
         
         do {
             try project.pull()
+            progress?.log(message: "\(project.label) – successful git pull 👌")
         } catch {
             DispatchQueue.main.async {
                 let message = error.localizedDescription
@@ -371,7 +372,7 @@ class GitViewController: UITableViewController {
                 
                 UserDefaultsManagement.successGitOrigin = true
                 
-                project.cacheHistory()
+                project.cacheHistory(progress: progress)
                 
                 DispatchQueue.main.async {
                     // Reload all files and tables
@@ -390,6 +391,8 @@ class GitViewController: UITableViewController {
             if ref == "refs/heads/master" {
                 self.addCommit()
                 self.push()
+                
+                progress?.log(message: "Successful git push 👌")
             }
         } catch {
             DispatchQueue.main.async {
@@ -415,13 +418,10 @@ class GitViewController: UITableViewController {
     public func addCommit() {
         guard let project = project else { return }
         
-        let completionPreAdd = { AppDelegate.gitProgress.log(message: "Empty repo, git add -A") }
-        let completionPreCommit = { AppDelegate.gitProgress.log(message: "git commit") }
-        
         do {
-            try project.commit(completionPreAdd: completionPreAdd, completionPreCommit: completionPreCommit)
+            try project.commit()
             
-            project.cacheHistory()
+            project.cacheHistory(progress: progress)
         } catch {
             let message = error.localizedDescription
             self.errorAlert(title: "git clone/pull error", message: message)

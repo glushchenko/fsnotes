@@ -192,11 +192,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         UserDefaultsManagement.firstLineAsTitle = (sender.state == .on)
 
         let storage = Storage.shared()
-        let projects = storage.getProjects()
-        for project in projects {
-            project.loadSettings()
-        }
-
         for note in storage.noteList {
             note.invalidateCache()
         }

@@ -698,7 +698,7 @@ class SidebarTableView: UITableView,
                 continue
             }
 
-            if !project.showInSidebar {
+            if !project.settings.showInSidebar {
                 continue
             }
             
