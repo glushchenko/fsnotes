@@ -205,6 +205,11 @@
 		D7271FAE2052803500033D0C /* unindent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA82052803400033D0C /* unindent@3x.png */; };
 		D7271FAF2052803500033D0C /* indent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA92052803500033D0C /* indent@3x.png */; };
 		D7271FB02052C77600033D0C /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
+		D72DAF0829B27D75001243BB /* ProjectSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72DAF0729B27D75001243BB /* ProjectSettings.swift */; };
+		D72DAF0929B27D75001243BB /* ProjectSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72DAF0729B27D75001243BB /* ProjectSettings.swift */; };
+		D72DAF0A29B27D75001243BB /* ProjectSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72DAF0729B27D75001243BB /* ProjectSettings.swift */; };
+		D72DAF0B29B27D75001243BB /* ProjectSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72DAF0729B27D75001243BB /* ProjectSettings.swift */; };
+		D72DAF0C29B27D75001243BB /* ProjectSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72DAF0729B27D75001243BB /* ProjectSettings.swift */; };
 		D730829223084340003185D1 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
 		D730829323084340003185D1 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
 		D730829423084340003185D1 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
@@ -1417,6 +1422,7 @@
 		D7271FA72052803400033D0C /* unindent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unindent@2x.png"; sourceTree = "<group>"; };
 		D7271FA82052803400033D0C /* unindent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unindent@3x.png"; sourceTree = "<group>"; };
 		D7271FA92052803500033D0C /* indent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indent@3x.png"; sourceTree = "<group>"; };
+		D72DAF0729B27D75001243BB /* ProjectSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSettings.swift; sourceTree = "<group>"; };
 		D72E05861F5220D300977D02 /* Down.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Down.framework; sourceTree = "<group>"; };
 		D730829123084340003185D1 /* MPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPreviewView.swift; sourceTree = "<group>"; };
 		D730BD23222AA6B200E69C93 /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locked.png; sourceTree = "<group>"; };
@@ -2499,6 +2505,7 @@
 				D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */,
 				D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */,
 				8F7136ED23490CBF004DFA6E /* Markdown.swift */,
+				D72DAF0729B27D75001243BB /* ProjectSettings.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -4002,6 +4009,7 @@
 				D77A6F8128B11496006A0353 /* PreferencesWebViewController.swift in Sources */,
 				D73BCCEE28EB5EC4008B3BBC /* Head.swift in Sources */,
 				D73BCCD928EB5EC4008B3BBC /* Statuses.swift in Sources */,
+				D72DAF0A29B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D75E33BC22462442006AD1C1 /* PreferencesEditorViewController.swift in Sources */,
 				D75E33BD22462442006AD1C1 /* MasterPasswordViewController.swift in Sources */,
 				D73BCCA628EB5EC3008B3BBC /* Progress.swift in Sources */,
@@ -4034,6 +4042,7 @@
 				D730BD38222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7503459285F7F9700086424 /* Colors.swift in Sources */,
 				D792DD9427A6D6F5006ADC01 /* String+.swift in Sources */,
+				D72DAF0C29B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D750345A285F7F9C00086424 /* NightMode.swift in Sources */,
 				D7CD5CE321836A230009D63B /* UIFont+.swift in Sources */,
 				D79651B52517741400333AD4 /* ProgressState.swift in Sources */,
@@ -4230,6 +4239,7 @@
 				D7E7DB3327A9B17000408725 /* DatePickerViewController.swift in Sources */,
 				D71B9D892868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
 				D7CD5CDB21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
+				D72DAF0B29B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
@@ -4396,6 +4406,7 @@
 				D77A6F7F28B11496006A0353 /* PreferencesWebViewController.swift in Sources */,
 				D73BCCEC28EB5EC4008B3BBC /* Head.swift in Sources */,
 				D73BCCD728EB5EC4008B3BBC /* Statuses.swift in Sources */,
+				D72DAF0829B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7F5C0F5223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
 				D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
 				D73BCCA428EB5EC3008B3BBC /* Progress.swift in Sources */,
@@ -4569,6 +4580,7 @@
 				D73BCCED28EB5EC4008B3BBC /* Head.swift in Sources */,
 				D73BCCD828EB5EC4008B3BBC /* Statuses.swift in Sources */,
 				D77A6F8028B11496006A0353 /* PreferencesWebViewController.swift in Sources */,
+				D72DAF0929B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7F5C0F6223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
 				D73BCCA528EB5EC3008B3BBC /* Progress.swift in Sources */,
 				D73BCCB728EB5EC3008B3BBC /* Tags.swift in Sources */,

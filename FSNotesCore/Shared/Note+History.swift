@@ -314,7 +314,7 @@ extension Note {
             let path = getGitPath().recode4byteString()
 
             do {
-                let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
+                let fileRevLog = try FileHistoryIterator(repository: repository, path: path, project: project)
 
                 while let rev = fileRevLog.next() {
                     if let commit = try? repository.commitLookup(oid: rev) {

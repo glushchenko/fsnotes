@@ -145,36 +145,4 @@ public class Repository {
             throw gitUnknownError("Unable to checkout commit path", code: error)
         }
     }
-    
-    public func getCommitsDiffsCache() -> URL? {
-        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
-        
-        return documentDir.appendingPathComponent("commitsDiff.cache", isDirectory: false)
-    }
-    
-    public func cacheHistory() {
-        if let commitsDiffCache = getCommitsDiffsCache(),
-            let data = try? Data(contentsOf: commitsDiffCache),
-            let result = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: [String]]
-        {
-            Diff.commitsDict = result
-        }
-        
-        do {
-            let fileRevLog = try FileHistoryIterator(repository: self, path: "Test")
-            while let _ = fileRevLog.cacheDiff() {/*_*/}
-            
-            if let data = try? NSKeyedArchiver.archivedData(withRootObject: Diff.commitsDict, requiringSecureCoding: false),
-                let writeTo = getCommitsDiffsCache()
-            {
-                do {
-                    try data.write(to: writeTo)
-                } catch {
-                    print("Caching error: " + error.localizedDescription)
-                }
-            }
-        } catch {
-            print(error)
-        }
-    }
 }

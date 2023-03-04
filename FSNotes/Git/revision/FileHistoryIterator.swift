@@ -15,12 +15,14 @@ public class FileHistoryIterator: RevisionIterator {
     
     // File path
     private let path: String
+    private let project: Project?
     
     // Previous commit oid
     private var previousOid: OID? = nil
     private var lastFetchedOid: OID? = nil
     
-    public init(repository: Repository, path: String, refspec: String = "HEAD") throws {
+    public init(repository: Repository, path: String, refspec: String = "HEAD", project: Project? = nil) throws {
+        self.project = project
         
         // Set path
         self.path = path
@@ -106,7 +108,7 @@ public class FileHistoryIterator: RevisionIterator {
             let previousTree = try previousCommit.tree()
             
             let diff = try previousTree.diff(other: tree)
-            _ = diff.find(byPath: path, oid: oid)
+            _ = diff.find(byPath: path, oid: oid, project: project)
         } catch {/*_*/}
         
         previousOid = oid
@@ -128,7 +130,7 @@ public class FileHistoryIterator: RevisionIterator {
             let diff = try previousTree.diff(other: tree)
             
             // Find
-            if !diff.find(byPath: path, oid: oid) {
+            if !diff.find(byPath: path, oid: oid, project: project) {
                 
                 // Set previous and find next
                 previousOid = oid

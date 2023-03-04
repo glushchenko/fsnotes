@@ -447,37 +447,43 @@
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zz2-R4-zDV">
-                                            <rect key="frame" x="64" y="4.3333333333333321" width="150" height="35"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="150" id="7fB-fQ-4Es"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="tinted" title="Init"/>
-                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="cancel" translatesAutoresizingMaskIntoConstraints="NO" id="2L9-ws-4au">
-                                            <rect key="frame" x="214" y="5" width="150" height="33.666666666666657"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="150" id="UtS-fS-wFL"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <rect key="frame" x="243.99999999999997" y="4.6666666666666679" width="87.666666666666657" height="34.333333333333329"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Remove">
                                                 <color key="titleColor" systemColor="systemRedColor"/>
                                             </state>
                                             <buttonConfiguration key="configuration" style="gray" title="Remove">
+                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <color key="baseForegroundColor" systemColor="systemRedColor"/>
+                                            </buttonConfiguration>
+                                        </button>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Ssq-3E-vWD">
+                                            <rect key="frame" x="204" y="12" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zz2-R4-zDV">
+                                            <rect key="frame" x="96.333333333333314" y="4.6666666666666679" width="87.666666666666686" height="34.333333333333329"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="Init"/>
+                                            <buttonConfiguration key="configuration" style="filled" title="Init">
+                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
                                             </buttonConfiguration>
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="zz2-R4-zDV" firstAttribute="trailing" secondItem="L8C-L6-AT1" secondAttribute="centerX" id="6oP-sH-LpU"/>
-                                        <constraint firstItem="2L9-ws-4au" firstAttribute="leading" secondItem="zz2-R4-zDV" secondAttribute="trailing" id="K8c-DS-KPp"/>
-                                        <constraint firstItem="2L9-ws-4au" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="ald-LB-s7V"/>
-                                        <constraint firstItem="zz2-R4-zDV" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="h3g-G0-3pc"/>
+                                        <constraint firstItem="Ssq-3E-vWD" firstAttribute="leading" secondItem="zz2-R4-zDV" secondAttribute="trailing" constant="20" id="2rY-h3-c4f"/>
+                                        <constraint firstItem="2L9-ws-4au" firstAttribute="centerY" secondItem="zz2-R4-zDV" secondAttribute="centerY" id="3KN-eT-nH9"/>
+                                        <constraint firstItem="Ssq-3E-vWD" firstAttribute="centerX" secondItem="L8C-L6-AT1" secondAttribute="centerX" id="5ij-TU-4I4"/>
+                                        <constraint firstItem="Ssq-3E-vWD" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="DhW-tf-ogF"/>
+                                        <constraint firstItem="zz2-R4-zDV" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="SAh-w7-0gI"/>
+                                        <constraint firstItem="2L9-ws-4au" firstAttribute="width" secondItem="zz2-R4-zDV" secondAttribute="width" id="Saa-7b-7ac"/>
+                                        <constraint firstItem="2L9-ws-4au" firstAttribute="leading" secondItem="Ssq-3E-vWD" secondAttribute="trailing" constant="20" id="hHm-YV-mVC"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="activity" destination="Ssq-3E-vWD" id="n9Y-id-UOC"/>
                                     <outlet property="cloneButton" destination="zz2-R4-zDV" id="DnY-AP-Ogr"/>
                                     <outlet property="removeButton" destination="2L9-ws-4au" id="DAa-BV-ckA"/>
                                 </connections>

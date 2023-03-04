@@ -11,11 +11,22 @@ import NightNight
 import CoreServices
 
 class GitViewController: UITableViewController {
-    
-    private var project: Project?
-    
-    public func setProject(_ project: Project) {
-        self.project = project
+    enum ButtonAction: Int, CaseIterable {
+        case initCommit
+        case clonePush
+        case commit
+        case pull
+        case push
+
+        var title: String {
+            switch self {
+            case .initCommit: return "Init/commit"
+            case .clonePush: return "Clone/push"
+            case .pull: return "Pull"
+            case .commit: return "Add/commit"
+            case .push: return "Push"
+            }
+        }
     }
     
     enum GitSection: Int, CaseIterable {
@@ -32,21 +43,16 @@ class GitViewController: UITableViewController {
         }
     }
     
-    private var rows = [
-        [
-            NSLocalizedString("Private key", comment: ""),
-            NSLocalizedString("Passphrase", comment: ""),
-        ], [
-            NSLocalizedString("", comment: ""),
-            NSLocalizedString("", comment: ""),
-        ], [
-            "",
-        ]
-    ]
+    private var project: Project?
     
-    // Clone
-    public var button = UIButton()
-    
+    public func setProject(_ project: Project) {
+        self.project = project
+    }
+        
+    public var activity: UIActivityIndicatorView?
+    public var cloneButton: UIButton?
+    public var removeButton: UIButton?
+        
     public static var logTextField: UITextField?
     
     override func viewDidLoad() {
@@ -57,11 +63,9 @@ class GitViewController: UITableViewController {
         self.title = NSLocalizedString("Git", comment: "Settings")
         super.viewDidLoad()
         
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: button.titleLabel!.font.pointSize)
-        button.setTitle("Clone", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
+        DispatchQueue.main.async {
+            self.updateButtons()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,15 +77,21 @@ class GitViewController: UITableViewController {
         
         if UIApplication.getVC().isActiveClone {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-                self.button.loadingIndicator(show: true)
+                self.activity?.isHidden = false
             })
         }
+        
+        if let project = project {
+            removeButton?.isEnabled = project.hasRepository()
+        }
+        
+        updateButtons()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.isIdleTimerDisabled = false
         
-        self.button.loadingIndicator(show: false)
+        self.activity?.isHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -108,6 +118,7 @@ class GitViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let project = project else { return UITableViewCell() }
         
         // Passphrase and origin
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 || (
@@ -115,7 +126,12 @@ class GitViewController: UITableViewController {
             indexPath.section == GitSection.logs.rawValue && indexPath.row == 0
         ) {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            cell.textLabel?.text = rows[indexPath.section][indexPath.row]
+            
+            if indexPath.section == 0 {
+                cell.textLabel?.text = indexPath.row == 0
+                    ? NSLocalizedString("Private key", comment: "")
+                    : NSLocalizedString("Passphrase", comment: "")
+            }
         
             let textField = UITextField()
             
@@ -124,7 +140,7 @@ class GitViewController: UITableViewController {
                 textField.isSecureTextEntry = true
                 textField.addTarget(self, action: #selector(passphraseDidChange), for: .editingChanged)
                 textField.placeholder = "(optional)"
-                textField.text = UserDefaultsManagement.gitPassphrase
+                textField.text = project.settings.gitPrivateKeyPassphrase
             }
             
             // Origin
@@ -132,8 +148,10 @@ class GitViewController: UITableViewController {
                 textField.addTarget(self, action: #selector(originDidChange), for: .editingChanged)
                 textField.placeholder = "git@github.com:username/example.git"
                 
-                if let origin = UserDefaultsManagement.gitOrigin {
+                if let origin = project.settings.gitOrigin {
                     textField.text = origin
+                } else {
+                    textField.text = ""
                 }
             }
             
@@ -160,19 +178,25 @@ class GitViewController: UITableViewController {
         // Clone button
         if indexPath.section == GitSection.origin.rawValue && indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "gitTableViewCell", for: indexPath) as! GitTableViewCell
-            
-            cell.cloneButton.addTarget(self, action: #selector(clonePressed), for: .touchUpInside)
+            cell.selectionStyle = .none
+            cell.cloneButton.addTarget(self, action: #selector(repoPressed), for: .touchUpInside)
             cell.removeButton.addTarget(self, action: #selector(removePressed), for: .touchUpInside)
+            
+            cloneButton = cell.cloneButton
+            removeButton = cell.removeButton
+            activity = cell.activity
+            
+            activity?.isHidden = true
+            activity?.startAnimating()
             
             return cell
         }
                 
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.textLabel?.text = rows[indexPath.section][indexPath.row]
         
         // Private key
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 0 {
-            if UserDefaultsManagement.gitPrivateKeyData != nil {
+            if project.settings.gitPrivateKey != nil {
                 cell.detailTextLabel?.text = "id_rsa"
                 
                 let accessoryButton = UIButton(type: .custom)
@@ -192,7 +216,10 @@ class GitViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rows[section].count
+        if section == 0 || section == 1 {
+            return 2
+        }
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -210,7 +237,10 @@ class GitViewController: UITableViewController {
     }
     
     @objc func deletePrivateKey(sender: UIButton) {
-        UserDefaultsManagement.gitPrivateKeyData = nil
+        guard let project = project else { return }
+        
+        project.settings.gitPrivateKey = nil
+        project.saveSettings()
         
         if let rsaURL = GitViewController.getRsaUrl() {
             try? FileManager.default.removeItem(at: rsaURL)
@@ -225,34 +255,44 @@ class GitViewController: UITableViewController {
     
     @objc func passphraseDidChange(sender: UITextField) {
         guard let text = sender.text else { return }
+        guard let project = project else { return }
         
-        UserDefaultsManagement.gitPassphrase = text
+        project.settings.gitPrivateKeyPassphrase = text
+        project.saveSettings()
     }
     
     @objc func originDidChange(sender: UITextField) {
-        guard let text = sender.text else { return }
+        guard let project = project, let text = sender.text else { return }
         
-        UserDefaultsManagement.gitOrigin = text
+        if text.count > 0 {
+            project.settings.gitOrigin = text
+        } else {
+            project.settings.gitOrigin = nil
+        }
         
-        Storage.shared().updateDefaultOrigin()
+        project.saveSettings()
+        updateButtons()
     }
     
     @objc func removePressed(sender: UIButton) {
         guard let project = project else { return }
-        let repoURL = project.getRepositoryUrl()
         
-        try? FileManager.default.removeItem(at: repoURL)
+        project.removeRepository()
+        removeButton?.isEnabled = false
         
         AppDelegate.gitProgress.log(message: "git repository removed")
         
         UIApplication.getVC().stopGitPull()
+        
+        UserDefaultsManagement.successGitOrigin = false
+        updateButtons()
     }
     
-    @objc func clonePressed(sender: UIButton) {
-        guard let project = project else { return }
+    @objc func repoPressed(sender: UIButton) {
+        let action = getButtonAction()
         
-        button.loadingIndicator(show: true)
-        button.isEnabled = false
+        activity?.isHidden = false
+        cloneButton?.isEnabled = false
         
         UIApplication.shared.isIdleTimerDisabled = true
         
@@ -260,66 +300,128 @@ class GitViewController: UITableViewController {
         UIApplication.getVC().stopGitPull()
         UIApplication.getVC().gitQueue.addOperation({
             defer {
-                Storage.shared().cacheGitHistory(force: true)
-                
                 DispatchQueue.main.async {
-                    self.button.isEnabled = true
+                    self.cloneButton?.isEnabled = true
                     
                     UIApplication.shared.isIdleTimerDisabled = false
                     
                     UIApplication.getVC().scheduledGitPull()
                     UIApplication.getVC().isActiveClone = false
                     
-                    self.button.loadingIndicator(show: false)
-                    self.tableView.reloadData()
+                    self.activity?.isHidden = true
+                    self.updateButtons()
                 }
             }
             
-            do {
-                try? FileManager.default.removeItem(at: project.getRepositoryUrl())
-                
-                if let repo = try project.cloneRepository(),
-                   let local = project.getLocalBranch(repository: repo)
-                {
-                    try repo.head().forceCheckout(branch: local)
-                    
-                    UserDefaultsManagement.successGitOrigin = true
-                    
-                    DispatchQueue.main.async {
-                        // Reload all files and tables
-                        UIApplication.getVC().reloadDatabase()
-                    }
-                }
-
-                return
-            } catch GitError.unknownError(let errorMessage, _, let desc) {
-                DispatchQueue.main.async {
-                    let message = errorMessage + " – " + desc
-                    self.errorAlert(title: "git clone/pull error", message: message)
-                }
-            } catch GitError.notFound(let ref) {
-                // Empty repository – commit and push
-                if ref == "refs/heads/master" {
-                    self.commitAndPush(project: project)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    let message = error.localizedDescription
-                    self.errorAlert(title: "git error", message: message)
-                }
+            switch action {
+            case .initCommit:
+                self.initRepository()
+                self.addCommit()
+                break
+            case .clonePush:
+                self.clonePush()
+                break
+            case .commit:
+                self.addCommit()
+                break
+            case .pull:
+                self.pull()
+                break
+            case .push:
+                self.push()
+                break
             }
         })
     }
     
-    public func commitAndPush(project: Project) {
+    public func initRepository() {
+        guard let project = project else { return }
+        
+        do {
+            _ = try project.initBareRepository()
+        } catch {
+            DispatchQueue.main.async {
+                let message = error.localizedDescription
+                self.errorAlert(title: "git init error", message: message)
+            }
+        }
+    }
+    
+    public func pull() {
+        guard let project = project else { return }
+        
+        do {
+            try project.pull()
+        } catch {
+            DispatchQueue.main.async {
+                let message = error.localizedDescription
+                self.errorAlert(title: "git init error", message: message)
+            }
+        }
+    }
+    
+    public func clonePush() {
+        guard let project = project else { return }
+                
+        do {
+            if let repo = try project.cloneRepository(),
+               let local = project.getLocalBranch(repository: repo)
+            {
+                try repo.head().forceCheckout(branch: local)
+                
+                UserDefaultsManagement.successGitOrigin = true
+                
+                project.cacheHistory()
+                
+                DispatchQueue.main.async {
+                    // Reload all files and tables
+                    UIApplication.getVC().reloadDatabase()
+                }
+            }
+
+            return
+        } catch GitError.unknownError(let errorMessage, _, let desc) {
+            DispatchQueue.main.async {
+                let message = errorMessage + " – " + desc
+                self.errorAlert(title: "git clone/pull error", message: message)
+            }
+        } catch GitError.notFound(let ref) {
+            // Empty repository – commit and push
+            if ref == "refs/heads/master" {
+                self.addCommit()
+                self.push()
+            }
+        } catch {
+            DispatchQueue.main.async {
+                let message = error.localizedDescription
+                self.errorAlert(title: "git error", message: message)
+            }
+        }
+    }
+        
+    public func push() {
+        guard let project = project else { return }
+        
+        do {
+            try project.push()
+            
+            UserDefaultsManagement.successGitOrigin = true
+        } catch {
+            let message = error.localizedDescription
+            self.errorAlert(title: "git clone/pull error", message: message)
+        }
+    }
+    
+    public func addCommit() {
+        guard let project = project else { return }
+        
         let completionPreAdd = { AppDelegate.gitProgress.log(message: "Empty repo, git add -A") }
         let completionPreCommit = { AppDelegate.gitProgress.log(message: "git commit") }
         
         do {
             try project.commit(completionPreAdd: completionPreAdd, completionPreCommit: completionPreCommit)
-            try project.push()
             
-            UserDefaultsManagement.successGitOrigin = true
+            project.cacheHistory()
         } catch {
             let message = error.localizedDescription
             self.errorAlert(title: "git clone/pull error", message: message)
@@ -336,17 +438,7 @@ class GitViewController: UITableViewController {
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    
-    public static func installGitKey() {
-        if let keyData = UserDefaultsManagement.gitPrivateKeyData, let rsaURL = getRsaUrl() {
-            do {
-                try keyData.write(to: rsaURL)
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
+        
     public static func getRsaUrl() -> URL? {
         let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
         if let rsaKey = documentDir?.appendingPathComponent("id_rsa", isDirectory: false) {
@@ -354,40 +446,47 @@ class GitViewController: UITableViewController {
         }
         return nil
     }
+    
+    public func updateButtons() {
+        guard let project = project else { return }
+        removeButton?.isEnabled = project.hasRepository()
+        
+        let state = getButtonAction()
+        cloneButton?.setTitle(state.title, for: .normal)
+    }
+    
+    public func getButtonAction() -> ButtonAction {
+        guard let project = project else { return .initCommit }
+        
+        if project.hasRepository() {
+            if project.settings.gitOrigin != nil {
+                return .pull
+            } else {
+                return .commit
+            }
+        } else {
+            if project.settings.gitOrigin != nil {
+                return .clonePush
+            } else {
+                return .initCommit
+            }
+        }
+    }
 }
 
 extension GitViewController: UIDocumentPickerDelegate, UINavigationControllerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
         guard let data = try? Data(contentsOf: url) else { return }
+        guard let project = project else { return }
         
-        UserDefaultsManagement.gitPrivateKeyData = data
-        GitViewController.installGitKey()
+        project.settings.gitPrivateKey = data
+        project.saveSettings()
         
         tableView.reloadData()
     }
 
      func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         controller.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension UIButton {
-    func loadingIndicator(show: Bool) {
-        let tag = 9876
-        if show {
-            let indicator = UIActivityIndicatorView()
-            let buttonHeight = self.bounds.size.height
-            let buttonWidth = self.bounds.size.width
-            indicator.center = CGPointMake(buttonWidth/2 + 50, buttonHeight/2)
-            indicator.tag = tag
-            self.addSubview(indicator)
-            indicator.startAnimating()
-        } else {
-            if let indicator = self.viewWithTag(tag) as? UIActivityIndicatorView {
-                indicator.stopAnimating()
-                indicator.removeFromSuperview()
-            }
-        }
     }
 }

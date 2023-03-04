@@ -106,8 +106,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         gitQueue.qualityOfService = .userInteractive
         gitQueue.maxConcurrentOperationCount = 1
-        
-        GitViewController.installGitKey()
+                
         scheduledGitPull()
 
         loadNotesTable()
@@ -471,10 +470,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let spotlightPoint = Date()
             self.reIndexSpotlight()
             print("4. Spotlight indexation finished in \(spotlightPoint.timeIntervalSinceNow * -1) seconds")
-            
-            let gitPoint = Date()
-            Storage.shared().cacheGitHistory()
-            print("5. git history loading finished in \(gitPoint.timeIntervalSinceNow * -1) seconds")
             
             self.isLoadedDB = true
         }
@@ -1589,10 +1584,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         Storage.instance = nil
 
         storage = Storage.shared()
-        
-        // git origin
-        storage.updateDefaultOrigin()
-        
         sidebarTableView.reloadSidebar()
         viewDidLoad()
     }

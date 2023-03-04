@@ -1586,12 +1586,17 @@ class Storage {
             }
         }
     }
-    
-    public func updateDefaultOrigin() {
-        guard let project = Storage.shared().getDefault() else { return }
         
-        project.gitOrigin = UserDefaultsManagement.gitOrigin
-        project.saveSettings()
+    public func getGitKeysDir() -> URL? {
+        guard let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first?
+            .appendingPathComponent("Keys", isDirectory: true) else { return nil }
+        
+        if !FileManager.default.fileExists(atPath: url.path) {
+            try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        }
+        
+        return url
     }
 }
 

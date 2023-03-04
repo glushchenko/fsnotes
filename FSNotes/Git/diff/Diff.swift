@@ -49,11 +49,13 @@ public class Diff {
     }
     
     /// Find diff entry by path
-    public func find(byPath path: String, oid: OID) -> Bool {
+    public func find(byPath path: String, oid: OID, project: Project? = nil) -> Bool {
+        project?.loadCommitsCache()
+        
         guard let sha = oid.sha() else { return false }
         paths.removeAllObjects()
         
-        if let paths = Diff.commitsDict[sha] {
+        if let project = project, let paths = project.commitsCache[sha] {
             return paths.contains(path)
         }
         
@@ -69,8 +71,8 @@ public class Diff {
             NSLog("git diff error \(git_error_message())")
         }
         
-        if let sha = oid.sha(), let keys = paths.allKeys as? [String] {
-            Diff.commitsDict[sha] = keys
+        if let sha = oid.sha(), let keys = paths.allKeys as? [String], let project = project {
+            project.commitsCache[sha] = keys
         }
         
         return paths[path] != nil

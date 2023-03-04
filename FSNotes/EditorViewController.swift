@@ -489,7 +489,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         var commits = [Commit]()
         
         do {
-            let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
+            let fileRevLog = try FileHistoryIterator(repository: repository, path: path, project: note.project)
             
             while let rev = fileRevLog.next() {
                 if let commit = try? repository.commitLookup(oid: rev) {
