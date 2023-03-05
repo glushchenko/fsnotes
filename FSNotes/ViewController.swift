@@ -2054,6 +2054,13 @@ class ViewController: EditorViewController,
                         }
                     }
                 }
+                
+                if key.startsWith(string: "es.fsnot.project-settings") {
+                    let settingsKey = key.replacingOccurrences(of: "es.fsnot.project-settings", with: "")
+                    if let project = storage.getProjectBy(settingsKey: settingsKey) {
+                        project.reloadSettings()
+                    }
+                }
             }
         }
     }

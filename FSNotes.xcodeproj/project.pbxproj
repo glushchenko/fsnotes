@@ -446,6 +446,7 @@
 		D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D7487FEC2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D7487FED2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
+		D74A254D29B4F8D600512912 /* ProjectSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72DAF0729B27D75001243BB /* ProjectSettings.swift */; };
 		D74B56CB230C0A8700A07AF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D74B56C9230C0A8700A07AF5 /* Localizable.strings */; };
 		D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */; };
@@ -3847,6 +3848,7 @@
 				D792DD9327A6D3BE006ADC01 /* Colors.swift in Sources */,
 				D792DD8727A6C980006ADC01 /* FSParser.swift in Sources */,
 				D7EFAF6D278B310300175A2F /* HighlighterTheme.swift in Sources */,
+				D74A254D29B4F8D600512912 /* ProjectSettings.swift in Sources */,
 				D7B34F9C25195D7E0007877E /* PreviewState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

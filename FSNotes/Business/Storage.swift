@@ -1598,6 +1598,15 @@ class Storage {
         
         return url
     }
+    
+    public func getProjectBy(settingsKey: String) -> Project? {
+        return
+            projects.first(where: {
+                return (
+                    $0.settingsKey == settingsKey
+                )
+            })
+    }
 }
 
 extension String: Error {}

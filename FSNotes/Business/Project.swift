@@ -68,20 +68,16 @@ public class Project: Equatable {
         self.isArchive = isArchive
         self.isExternal = isExternal
         self.isVirtual = isVirtual
+        self.label = String()
 
         settings = ProjectSettings()
-    
-        if isTrash || isArchive {
-            settings.showInCommon = false
-        }
-        
+            
         #if os(iOS)
         if isRoot && isDefault {
             settings.showInSidebar = false
         }
         #endif
 
-        self.label = String()
         settingsKey = getSettingsKey()
         
         loadLabel(label)
@@ -97,33 +93,45 @@ public class Project: Equatable {
             self.settings = settings
         }
         
+        if isTrash || isArchive {
+            settings.showInCommon = false
+        }
+        
         // Backward compatibility
         if settings.gitOrigin == nil, self.isDefault, let origin = UserDefaultsManagement.gitOrigin {
             settings.gitOrigin = origin
         }
     }
     
-    public func saveSettings() {
-        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: settings, requiringSecureCoding: false) else { return }
-        
-        let key = "es.fsnot.project-settings-\(getSettingsKey())"
-        
-        #if CLOUDKIT || os(iOS)
-            let keyStore = NSUbiquitousKeyValueStore()
-            keyStore.set(data, forKey: key)
-            keyStore.synchronize()
-        #else
-            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first,
-               let url = documentDir.appendingPathComponent(key) {
-                data.write(to: url)
-            }
-        #endif
+    public func getLongSettingsKey() -> String {
+        return "es.fsnot.project-settings\(settingsKey)"
     }
     
-    public func getSettings() -> ProjectSettings? {
-        let key = "es.fsnot.project-settings-\(getSettingsKey())"
-        var data: Data?
+    public func saveSettings() {
+        do {
+            NSKeyedArchiver.setClassName("ProjectSettings", for: ProjectSettings.self)
+            let data = try NSKeyedArchiver.archivedData(withRootObject: settings, requiringSecureCoding: true)
+            let key = getLongSettingsKey()
+            
+            #if CLOUDKIT || os(iOS)
+                let keyStore = NSUbiquitousKeyValueStore()
+                keyStore.set(data, forKey: key)
+                keyStore.synchronize()
+            #else
+                if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first,
+                   let url = documentDir.appendingPathComponent(key) {
+                    data.write(to: url)
+                }
+            #endif
+        } catch {
+            print("Settings arc error: \(error.localizedDescription)")
+        }
+    }
         
+    public func getSettings() -> ProjectSettings? {
+        let key = getLongSettingsKey()
+        var data: Data?
+                
         #if CLOUDKIT || os(iOS)
             let keyStore = NSUbiquitousKeyValueStore()
             data = keyStore.data(forKey: key)
@@ -134,6 +142,7 @@ public class Project: Equatable {
             }
         #endif
         
+        NSKeyedUnarchiver.setClass(ProjectSettings.self, forClassName: "ProjectSettings")
         if let data = data, let settings = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ProjectSettings.self, from: data) {
             return settings
         }
@@ -141,11 +150,18 @@ public class Project: Equatable {
         return nil
     }
     
+    public func reloadSettings() {
+        if let settings = getSettings() {
+            self.settings = settings
+        }
+    }
+    
     public func getSettingsKey() -> String {
         var prefix = String()
         
         // iCloud Documents
         if let path = getCloudDriveRelativePath() {
+            print(path)
             prefix = "i\(path)"
             
         // Local documents

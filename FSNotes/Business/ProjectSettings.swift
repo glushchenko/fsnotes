@@ -22,32 +22,32 @@ public class ProjectSettings: NSObject, NSSecureCoding {
     public var gitPrivateKey: Data?
     public var gitPrivateKeyPassphrase: String?
     
-    override init() {}
-
-    public required init?(coder aDecoder: NSCoder) {
-        if let value = aDecoder.decodeObject(forKey: "sortBy") as? String, let sort = SortBy(rawValue: value) {
+    public override init() {/*_*/}
+    
+    public required init(coder aDecoder: NSCoder) {
+        if let value = aDecoder.decodeObject(of: NSString.self, forKey: "sortBy") as? String, let sort = SortBy(rawValue: value) {
             sortBy = sort
         }
-        
-        if let value = aDecoder.decodeObject(forKey: "sortDirection") as? String, let direction = SortDirection(rawValue: value) {
+
+        if let value =  aDecoder.decodeObject(of: NSString.self, forKey: "sortDirection") as? String, let direction = SortDirection(rawValue: value) {
             sortDirection = direction
         }
         
-        showInCommon = aDecoder.decodeBool(forKey: "showInCommon")
+        showInCommon =  aDecoder.decodeBool(forKey: "showInCommon")
         showInSidebar = aDecoder.decodeBool(forKey: "showInSidebar")
         showNestedFoldersContent = aDecoder.decodeBool(forKey: "showNestedFoldersContent")
         firstLineAsTitle = aDecoder.decodeBool(forKey: "firstLineAsTitle")
         priority = aDecoder.decodeInteger(forKey: "priority")
-        
-        if let value = aDecoder.decodeObject(forKey: "gitOrigin") as? String {
+
+        if let value = aDecoder.decodeObject(of: NSString.self, forKey: "gitOrigin") as? String {
             gitOrigin = value
         }
-        
-        if let value = aDecoder.decodeObject(forKey: "gitPrivateKey") as? Data {
+
+        if let value = aDecoder.decodeObject(of: NSData.self, forKey: "gitPrivateKey") as? Data {
             gitPrivateKey = value
         }
-        
-        if let value = aDecoder.decodeObject(forKey: "gitPrivateKeyPassphrase") as? String {
+
+        if let value = aDecoder.decodeObject(of: NSString.self, forKey: "gitPrivateKeyPassphrase") as? String {
             gitPrivateKeyPassphrase = value
         }
     }
