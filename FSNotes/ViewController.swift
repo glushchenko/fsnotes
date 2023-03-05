@@ -167,6 +167,7 @@ class ViewController: EditorViewController,
         
         loadBookmarks(data: UserDefaultsManagement.sftpAccessData)
         loadBookmarks(data: UserDefaultsManagement.gitPrivateKeyData)
+        settingsMigation()
         
         loadMoveMenu()
         loadSortBySetting()
@@ -2340,5 +2341,46 @@ class ViewController: EditorViewController,
             
             note.convertContainer(to: newContainer)
         }
+    }
+    
+    private func settingsMigation() {
+    #if os(macOS)
+        let project = storage.getDefault()
+    
+        // Transfer private git key to default project
+        if UserDefaultsManagement.gitPrivateKeyData != nil {
+            if let accessData = UserDefaultsManagement.gitPrivateKeyData,
+                let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+                for bookmark in bookmarks {
+                    if let data = try? Data(contentsOf: bookmark.key) {
+                        
+                        project?.settings.gitPrivateKey = data
+                        project?.saveSettings()
+                        
+                        UserDefaultsManagement.gitPrivateKeyData = nil
+                    }
+                    break
+                }
+            }
+        }
+        
+        // Transfer origin
+        if UserDefaultsManagement.gitOrigin != nil {
+            project?.settings.gitOrigin = UserDefaultsManagement.gitOrigin
+            project?.saveSettings()
+            
+            UserDefaultsManagement.gitOrigin = ""
+        }
+        
+        // Transfer passphrase
+        if UserDefaultsManagement.gitPassphrase.count > 0 {
+            project?.settings.gitPrivateKeyPassphrase = UserDefaultsManagement.gitPassphrase
+            project?.saveSettings()
+            
+            UserDefaultsManagement.gitPassphrase = ""
+        }
+        
+        
+    #endif
     }
 }

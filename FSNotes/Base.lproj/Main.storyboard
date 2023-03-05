@@ -3016,11 +3016,11 @@ Olena Hlushcneko</string>
             <objects>
                 <viewController title="Git" id="2un-du-hJz" customClass="PreferencesGitViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ffx-Mm-mqT">
-                        <rect key="frame" x="0.0" y="0.0" width="533" height="642"/>
+                        <rect key="frame" x="0.0" y="0.0" width="533" height="633"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="uMw-RH-Mnu">
-                                <rect key="frame" x="140" y="232" width="79" height="15"/>
+                                <rect key="frame" x="140" y="223" width="79" height="15"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Username:" id="ZEX-Eh-68T">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3028,7 +3028,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="32v-oF-7du">
-                                <rect key="frame" x="144" y="201" width="66" height="16"/>
+                                <rect key="frame" x="144" y="192" width="66" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Password:" id="kFX-as-1oC">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3036,7 +3036,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IcJ-Ga-eZF">
-                                <rect key="frame" x="225" y="198" width="273" height="21"/>
+                                <rect key="frame" x="225" y="189" width="273" height="21"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="ghp_if6C09slkds893klssd9032sdklCC" drawsBackground="YES" usesSingleLineMode="YES" id="AEC-HT-Gd6">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3050,7 +3050,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </secureTextField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G5r-Ye-OQb">
-                                <rect key="frame" x="225" y="229" width="273" height="21"/>
+                                <rect key="frame" x="225" y="220" width="273" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="glushchenko" drawsBackground="YES" id="fqf-qt-2y7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3060,14 +3060,8 @@ Olena Hlushcneko</string>
                                     <action selector="username:" target="2un-du-hJz" id="4un-KP-iqv"/>
                                 </connections>
                             </textField>
-                            <pathControl verticalHuggingPriority="751" verticalCompressionResistancePriority="751" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKc-tc-Ouv">
-                                <rect key="frame" x="47" y="131" width="170" height="16"/>
-                                <pathCell key="cell" selectable="YES" editable="YES" alignment="left" placeholderString="id_rsa key is not selected" id="jce-O1-mzi">
-                                    <font key="font" metaFont="system"/>
-                                </pathCell>
-                            </pathControl>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="6jj-hR-ROP">
-                                <rect key="frame" x="33" y="162" width="250" height="16"/>
+                                <rect key="frame" x="33" y="153" width="250" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Or use .ssh private key (Recommended):" id="Qkz-nR-Fh5">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3075,7 +3069,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TTi-gR-3SW">
-                                <rect key="frame" x="218" y="122" width="55" height="32"/>
+                                <rect key="frame" x="218" y="120" width="55" height="32"/>
                                 <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="juB-By-EsE">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3132,7 +3126,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <pathControl verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Su7-am-ZzF">
-                                <rect key="frame" x="35" y="537" width="388" height="22"/>
+                                <rect key="frame" x="35" y="528" width="388" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ZGQ-Mi-Kvl"/>
                                 </constraints>
@@ -3143,7 +3137,7 @@ Olena Hlushcneko</string>
                                 </pathCell>
                             </pathControl>
                             <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nxs-E7-HiW">
-                                <rect key="frame" x="424" y="531" width="81" height="32"/>
+                                <rect key="frame" x="424" y="522" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7xA-9l-dja">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3153,7 +3147,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MJR-Nj-qpL">
-                                <rect key="frame" x="28" y="490" width="124" height="32"/>
+                                <rect key="frame" x="28" y="481" width="124" height="32"/>
                                 <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gra-E2-dYh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3163,7 +3157,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j6S-7D-dXz">
-                                <rect key="frame" x="150" y="490" width="137" height="32"/>
+                                <rect key="frame" x="150" y="481" width="137" height="32"/>
                                 <buttonCell key="cell" type="push" title="Show in Terminal" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="o6a-px-wp7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3173,10 +3167,10 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ey5-Rw-Svp">
-                                <rect key="frame" x="20" y="438" width="493" height="5"/>
+                                <rect key="frame" x="20" y="429" width="493" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jg2-oT-Bcf">
-                                <rect key="frame" x="33" y="404" width="137" height="16"/>
+                                <rect key="frame" x="33" y="395" width="137" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Automatic Snapshots:" id="P31-Ka-9HV">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3184,7 +3178,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xp9-26-JdA">
-                                <rect key="frame" x="192" y="341" width="48" height="21"/>
+                                <rect key="frame" x="192" y="332" width="48" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="nqr-NP-AFB"/>
                                 </constraints>
@@ -3201,7 +3195,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H46-qe-euU">
-                                <rect key="frame" x="253" y="344" width="47" height="16"/>
+                                <rect key="frame" x="253" y="335" width="47" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="hour at" id="2Iq-vN-V2w">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3209,7 +3203,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8Z-se-hEF">
-                                <rect key="frame" x="33" y="591" width="467" height="16"/>
+                                <rect key="frame" x="33" y="582" width="467" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repositories:" id="ASf-hd-2fT">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3217,7 +3211,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button identifier="manual" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dRB-iE-HKk">
-                                <rect key="frame" x="33" y="379" width="133" height="18"/>
+                                <rect key="frame" x="33" y="370" width="133" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Back up manually" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="Ze0-SZ-STw">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3227,7 +3221,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button identifier="schedule" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lK7-QU-fN2">
-                                <rect key="frame" x="33" y="343" width="144" height="18"/>
+                                <rect key="frame" x="33" y="334" width="144" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Commit/Push every" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="sAn-Wm-FfY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3237,7 +3231,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e0E-YB-Oq8">
-                                <rect key="frame" x="313" y="341" width="47" height="21"/>
+                                <rect key="frame" x="313" y="332" width="47" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="47" id="2nb-Ab-ZEA"/>
                                 </constraints>
@@ -3254,7 +3248,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bqG-mw-WZF">
-                                <rect key="frame" x="373" y="344" width="142" height="16"/>
+                                <rect key="frame" x="373" y="335" width="142" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="minutes" id="Bri-cl-z86">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3262,7 +3256,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7WC-IR-nhp">
-                                <rect key="frame" x="53" y="318" width="63" height="16"/>
+                                <rect key="frame" x="53" y="309" width="63" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Pull every" id="tZ6-GT-LxK">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3270,7 +3264,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mzn-Yp-WXt">
-                                <rect key="frame" x="129" y="315" width="50" height="21"/>
+                                <rect key="frame" x="129" y="306" width="50" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="xbT-za-yke"/>
                                 </constraints>
@@ -3284,7 +3278,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZU7-AI-4gb">
-                                <rect key="frame" x="192" y="318" width="56" height="16"/>
+                                <rect key="frame" x="192" y="309" width="56" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="seconds" id="Gbf-V7-5Ra">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3292,10 +3286,10 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="bar-ZF-HRI">
-                                <rect key="frame" x="20" y="292" width="493" height="5"/>
+                                <rect key="frame" x="20" y="283" width="493" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Aci-NI-V7k">
-                                <rect key="frame" x="33" y="258" width="467" height="16"/>
+                                <rect key="frame" x="33" y="249" width="467" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Push credentials:" id="0ZZ-AS-LlN">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3303,7 +3297,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="esF-2f-8xQ">
-                                <rect key="frame" x="33" y="566" width="144" height="18"/>
+                                <rect key="frame" x="33" y="557" width="144" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Custom worktree" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="l5q-h8-hfU">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3313,7 +3307,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="sW2-Jy-o1S">
-                                <rect key="frame" x="183" y="565" width="315" height="19"/>
+                                <rect key="frame" x="183" y="556" width="315" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="sW2-Jy-o1S" secondAttribute="height" multiplier="149:8" id="Ctm-Zt-vEh"/>
                                 </constraints>
@@ -3326,7 +3320,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uox-cj-0Ej">
-                                <rect key="frame" x="33" y="460" width="465" height="18"/>
+                                <rect key="frame" x="33" y="451" width="465" height="18"/>
                                 <buttonCell key="cell" type="check" title="Ask commit message on note save" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VJs-0B-jGe">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3346,7 +3340,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F32-gY-oeO">
-                                <rect key="frame" x="271" y="122" width="69" height="32"/>
+                                <rect key="frame" x="271" y="120" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HPa-9J-5dS">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3355,6 +3349,14 @@ Olena Hlushcneko</string>
                                     <action selector="resetGitKeys:" target="sHj-M9-56t" id="WIX-XT-dSP"/>
                                 </connections>
                             </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mdH-mJ-n7l">
+                                <rect key="frame" x="166" y="129" width="44" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="no key" id="doI-Mu-yZG">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="lK7-QU-fN2" firstAttribute="top" secondItem="dRB-iE-HKk" secondAttribute="bottom" constant="20" id="0EA-4j-pd0"/>
@@ -3385,6 +3387,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="lK7-QU-fN2" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="I2q-S0-61f"/>
                             <constraint firstItem="sW2-Jy-o1S" firstAttribute="leading" secondItem="esF-2f-8xQ" secondAttribute="trailing" constant="8" symbolic="YES" id="IZp-91-YWY"/>
                             <constraint firstItem="uMw-RH-Mnu" firstAttribute="baseline" secondItem="G5r-Ye-OQb" secondAttribute="firstBaseline" id="InA-Bp-zGv"/>
+                            <constraint firstItem="yPi-3d-3aE" firstAttribute="top" secondItem="mdH-mJ-n7l" secondAttribute="bottom" constant="8" symbolic="YES" id="JaI-Tt-KQc"/>
                             <constraint firstAttribute="trailing" secondItem="G5r-Ye-OQb" secondAttribute="trailing" constant="35" id="Km1-Xh-WYC"/>
                             <constraint firstItem="Jo4-zQ-htF" firstAttribute="baseline" secondItem="w1K-65-6eZ" secondAttribute="firstBaseline" id="L6x-j3-JUL"/>
                             <constraint firstItem="lK7-QU-fN2" firstAttribute="leading" secondItem="dRB-iE-HKk" secondAttribute="leading" id="L7L-JP-NZq"/>
@@ -3392,10 +3395,10 @@ Olena Hlushcneko</string>
                             <constraint firstItem="uMw-RH-Mnu" firstAttribute="baseline" secondItem="G5r-Ye-OQb" secondAttribute="baseline" id="N3g-qM-6ru"/>
                             <constraint firstItem="IcJ-Ga-eZF" firstAttribute="top" secondItem="G5r-Ye-OQb" secondAttribute="bottom" constant="10" symbolic="YES" id="O44-l2-WZO"/>
                             <constraint firstItem="N8Z-se-hEF" firstAttribute="top" secondItem="ffx-Mm-mqT" secondAttribute="top" constant="35" id="OPy-tZ-dmz"/>
-                            <constraint firstItem="TTi-gR-3SW" firstAttribute="leading" secondItem="zKc-tc-Ouv" secondAttribute="trailing" constant="8" symbolic="YES" id="Omq-mQ-cIW"/>
                             <constraint firstAttribute="trailing" secondItem="bar-ZF-HRI" secondAttribute="trailing" constant="20" symbolic="YES" id="PCJ-WX-SdF"/>
                             <constraint firstItem="bqG-mw-WZF" firstAttribute="leading" secondItem="e0E-YB-Oq8" secondAttribute="trailing" constant="15" id="PEq-E8-ryQ"/>
                             <constraint firstItem="e0E-YB-Oq8" firstAttribute="centerY" secondItem="H46-qe-euU" secondAttribute="centerY" id="PI0-Xz-JFx"/>
+                            <constraint firstItem="mdH-mJ-n7l" firstAttribute="top" secondItem="6jj-hR-ROP" secondAttribute="bottom" constant="8" symbolic="YES" id="PNi-wv-KXA"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6jj-hR-ROP" secondAttribute="trailing" constant="20" symbolic="YES" id="QhZ-5J-Kb5"/>
                             <constraint firstItem="mzn-Yp-WXt" firstAttribute="centerY" secondItem="7WC-IR-nhp" secondAttribute="centerY" id="RfM-zW-yj1"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="j6S-7D-dXz" secondAttribute="trailing" constant="20" symbolic="YES" id="SQr-vH-Jip"/>
@@ -3403,7 +3406,6 @@ Olena Hlushcneko</string>
                             <constraint firstItem="MJR-Nj-qpL" firstAttribute="leading" secondItem="Su7-am-ZzF" secondAttribute="leading" id="Tdg-VP-EgD"/>
                             <constraint firstItem="dRB-iE-HKk" firstAttribute="leading" secondItem="jg2-oT-Bcf" secondAttribute="leading" id="TuR-pT-rpL"/>
                             <constraint firstItem="j6S-7D-dXz" firstAttribute="centerY" secondItem="MJR-Nj-qpL" secondAttribute="centerY" id="UGF-dX-5dt"/>
-                            <constraint firstItem="yPi-3d-3aE" firstAttribute="top" secondItem="zKc-tc-Ouv" secondAttribute="bottom" constant="10" id="Vic-qB-yzp"/>
                             <constraint firstItem="G5r-Ye-OQb" firstAttribute="top" secondItem="Aci-NI-V7k" secondAttribute="bottom" constant="8" symbolic="YES" id="We1-cW-M1p"/>
                             <constraint firstItem="Su7-am-ZzF" firstAttribute="top" secondItem="esF-2f-8xQ" secondAttribute="bottom" constant="8" symbolic="YES" id="Wgb-SR-n0A"/>
                             <constraint firstItem="jg2-oT-Bcf" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="XpQ-j5-PVc"/>
@@ -3418,9 +3420,11 @@ Olena Hlushcneko</string>
                             <constraint firstItem="Jo4-zQ-htF" firstAttribute="leading" secondItem="w1K-65-6eZ" secondAttribute="trailing" constant="8" symbolic="YES" id="blx-oC-BwH"/>
                             <constraint firstItem="N8Z-se-hEF" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="cRz-qV-q6g"/>
                             <constraint firstItem="bqG-mw-WZF" firstAttribute="centerY" secondItem="e0E-YB-Oq8" secondAttribute="centerY" id="chD-4C-OmW"/>
+                            <constraint firstItem="yPi-3d-3aE" firstAttribute="trailing" secondItem="mdH-mJ-n7l" secondAttribute="trailing" id="dHV-FQ-60E"/>
                             <constraint firstAttribute="trailing" secondItem="uox-cj-0Ej" secondAttribute="trailing" constant="35" id="fHA-uo-1Nr"/>
                             <constraint firstItem="SVo-NP-Tq5" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="20" symbolic="YES" id="gER-rw-FI5"/>
                             <constraint firstItem="Aci-NI-V7k" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="gql-Vb-hEZ"/>
+                            <constraint firstItem="TTi-gR-3SW" firstAttribute="centerY" secondItem="mdH-mJ-n7l" secondAttribute="centerY" id="hcU-gh-Qq2"/>
                             <constraint firstItem="6jj-hR-ROP" firstAttribute="top" secondItem="IcJ-Ga-eZF" secondAttribute="bottom" constant="20" id="hgH-wQ-ccx"/>
                             <constraint firstItem="uox-cj-0Ej" firstAttribute="top" secondItem="MJR-Nj-qpL" secondAttribute="bottom" constant="20" id="jhp-lT-Ll8"/>
                             <constraint firstItem="F32-gY-oeO" firstAttribute="centerY" secondItem="TTi-gR-3SW" secondAttribute="centerY" id="kzz-Ye-uak"/>
@@ -3433,13 +3437,11 @@ Olena Hlushcneko</string>
                             <constraint firstItem="L90-ti-Wjx" firstAttribute="centerY" secondItem="Jo4-zQ-htF" secondAttribute="centerY" id="qfm-zF-GaN"/>
                             <constraint firstItem="ZU7-AI-4gb" firstAttribute="leading" secondItem="mzn-Yp-WXt" secondAttribute="trailing" constant="15" id="sPh-Qv-9DZ"/>
                             <constraint firstItem="Xp9-26-JdA" firstAttribute="leading" secondItem="lK7-QU-fN2" secondAttribute="trailing" constant="15" id="smq-zT-nAA"/>
-                            <constraint firstItem="TTi-gR-3SW" firstAttribute="centerY" secondItem="zKc-tc-Ouv" secondAttribute="centerY" id="tfu-KR-HeO"/>
                             <constraint firstItem="7WC-IR-nhp" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="55" id="ubR-YE-KY1"/>
                             <constraint firstItem="Y9p-ND-X8k" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yPi-3d-3aE" secondAttribute="trailing" constant="8" symbolic="YES" id="urf-jE-6D5"/>
                             <constraint firstItem="dRB-iE-HKk" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="usL-pA-PKw"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dRB-iE-HKk" secondAttribute="trailing" constant="20" symbolic="YES" id="uvT-ZY-JAo"/>
                             <constraint firstItem="F32-gY-oeO" firstAttribute="leading" secondItem="TTi-gR-3SW" secondAttribute="trailing" constant="12" symbolic="YES" id="v5B-if-XQ6"/>
-                            <constraint firstItem="zKc-tc-Ouv" firstAttribute="top" secondItem="6jj-hR-ROP" secondAttribute="bottom" constant="15" id="vOF-7B-UW0"/>
                             <constraint firstItem="TTi-gR-3SW" firstAttribute="leading" secondItem="IcJ-Ga-eZF" secondAttribute="leading" id="wHO-t7-5LI"/>
                             <constraint firstAttribute="trailing" secondItem="L90-ti-Wjx" secondAttribute="trailing" constant="35" id="wkW-UL-Q9s"/>
                             <constraint firstItem="w1K-65-6eZ" firstAttribute="leading" secondItem="ffx-Mm-mqT" secondAttribute="leading" constant="35" id="wwc-Vb-A6g"/>
@@ -3463,9 +3465,9 @@ Olena Hlushcneko</string>
                         <outlet property="origin" destination="Jo4-zQ-htF" id="aBu-xK-yMc"/>
                         <outlet property="passphrase" destination="Y9p-ND-X8k" id="dgU-CQ-6aH"/>
                         <outlet property="password" destination="IcJ-Ga-eZF" id="0d6-6B-nwX"/>
+                        <outlet property="privateKey" destination="mdH-mJ-n7l" id="qqB-MY-AxS"/>
                         <outlet property="pullInterval" destination="mzn-Yp-WXt" id="13K-4H-Vae"/>
                         <outlet property="repositoriesPath" destination="Su7-am-ZzF" id="4AZ-hI-VCx"/>
-                        <outlet property="rsaPath" destination="zKc-tc-Ouv" id="AIb-1P-YQn"/>
                         <outlet property="separateDotGit" destination="sW2-Jy-o1S" id="pdc-Qj-1Ig"/>
                         <outlet property="snapshotsTextField" destination="Xp9-26-JdA" id="MSe-y8-wYR"/>
                         <outlet property="username" destination="G5r-Ye-OQb" id="Rr6-gH-IDt"/>
@@ -3473,7 +3475,7 @@ Olena Hlushcneko</string>
                 </viewController>
                 <customObject id="sHj-M9-56t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2985" y="701"/>
+            <point key="canvasLocation" x="2984.5" y="700.5"/>
         </scene>
         <!--Editor-->
         <scene sceneID="cwg-C1-p0s">

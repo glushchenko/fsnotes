@@ -189,17 +189,9 @@ extension Project {
     public func getAuthHandler() -> SshKeyHandler? {
         var rsa: URL?
 
-#if os(iOS)
         if let rsaURL = installSSHKey() {
             rsa = rsaURL
         }
-#else
-        if let accessData = UserDefaultsManagement.gitPrivateKeyData,
-            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data],
-            let url = bookmarks.first?.key {
-            rsa = url
-        }
-#endif
 
         guard let rsaURL = rsa else { return nil }
 
@@ -209,29 +201,39 @@ extension Project {
 
         return handler
     }
-    
+
     public func getSSHKeyUrl() -> URL? {
         let keyName = getSettingsKey()
-        
+
         return storage
             .getGitKeysDir()?
             .appendingPathComponent(keyName)
     }
-    
+
+    public func isSSHKeyExist() -> Bool {
+        guard let sshKey = getSSHKeyUrl() else { return false }
+
+        if FileManager.default.fileExists(atPath: sshKey.path) {
+            return false
+        }
+
+        return true
+    }
+
     public func installSSHKey(force: Bool = false) -> URL? {
         guard let url = getSSHKeyUrl() else { return nil }
-        
+
         if !force, FileManager.default.fileExists(atPath: url.path) {
             return url
         }
-        
+
         if let key = settings.gitPrivateKey {
             do {
                 try key.write(to: url)
                 return url
             } catch {/*_*/}
         }
-        
+
         return nil
     }
 
@@ -241,13 +243,13 @@ extension Project {
 
     public func commit(message: String? = nil, progress: GitProgress? = nil) throws {
         var repository: Repository?
-        
+
         do {
             repository = try getRepository()
         } catch {
             repository = try initBareRepository()
         }
-        
+
         guard let repository = repository else {
             throw GitError.unknownError(msg: "Repository not found", code: 0, desc: "")
         }
@@ -268,7 +270,7 @@ extension Project {
                 try head.save()
 
                 progress?.log(message: "git commit")
-                
+
                 if lastCommit == nil {
                     let commitMessage = message ?? "FSNotes Init"
                     _ = try head.createInitialCommit(msg: commitMessage, signature: sign)
@@ -276,7 +278,7 @@ extension Project {
                     let commitMessage = message ?? "Usual commit"
                     _ = try head.createCommit(msg: commitMessage, signature: sign)
                 }
-                
+
                 progress?.log(message: "git commit done 🤟")
             } catch {
                 progress?.log(message: "commit error: \(error)")
@@ -361,25 +363,25 @@ extension Project {
 
         return false
     }
-    
+
     public func removeRepository() {
         let repoURL = getRepositoryUrl()
         try? FileManager.default.removeItem(at: repoURL)
-        
+
         removeCommitsCache()
     }
-    
+
     public func removeCommitsCache() {
         if let url = getCommitsDiffsCache() {
             try? FileManager.default.removeItem(at: url)
         }
     }
-    
+
     public func loadCommitsCache() {
         if !commitsCache.isEmpty {
             return
         }
-        
+
         if let commitsDiffCache = getCommitsDiffsCache(),
             let data = try? Data(contentsOf: commitsDiffCache),
             let result = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: [String]]
@@ -387,18 +389,18 @@ extension Project {
             commitsCache = result
         }
     }
-    
+
     public func cacheHistory(progress: GitProgress? = nil) {
         guard let repository = try? getRepository() else { return }
-        
-        
+
+
         do {
             let fileRevLog = try FileHistoryIterator(repository: repository, path: "Test", project: self)
             while let _ = fileRevLog.cacheDiff() {/*_*/}
-            
+
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: commitsCache, requiringSecureCoding: false),
                 let writeTo = getCommitsDiffsCache() {
-                
+
                 do {
                     try data.write(to: writeTo)
                 } catch {
@@ -414,7 +416,7 @@ extension Project {
     
     public func getCommitsDiffsCache() -> URL? {
         guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
-        
+
         return documentDir.appendingPathComponent("commitsDiff-\(settingsKey).cache", isDirectory: false)
     }
 }

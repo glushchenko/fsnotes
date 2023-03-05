@@ -19,17 +19,20 @@ class PreferencesGitViewController: NSViewController {
     @IBOutlet weak var origin: NSTextField!
     @IBOutlet weak var username: NSTextField!
     @IBOutlet weak var password: NSSecureTextField!
-    @IBOutlet weak var rsaPath: NSPathControl!
     @IBOutlet weak var passphrase: NSSecureTextField!
     @IBOutlet weak var pullInterval: NSTextField!
     @IBOutlet weak var customWorktree: NSButton!
     @IBOutlet weak var separateDotGit: NSButton!
     @IBOutlet weak var askCommitMessage: NSButton!
+    @IBOutlet weak var privateKey: NSTextField!
+    
+    private var project: Project?
     
     override func viewWillAppear() {
         super.viewWillAppear()
         //preferredContentSize = NSSize(width: 550, height: 612)
 
+        project = Storage.shared().getDefault()
         repositoriesPath.url = UserDefaultsManagement.gitStorage
 
         snapshotsTextField.stringValue = String(UserDefaultsManagement.snapshotsInterval)
@@ -39,25 +42,21 @@ class PreferencesGitViewController: NSViewController {
         backupManually.state = UserDefaultsManagement.backupManually ? .on : .off
         backupBySchedule.state = UserDefaultsManagement.backupManually ? .off : .on
         
-        origin.stringValue = UserDefaultsManagement.gitOrigin ?? ""
         username.stringValue = UserDefaultsManagement.gitUsername ?? ""
         password.stringValue = UserDefaultsManagement.gitPassword ?? ""
         
-        if let accessData = UserDefaultsManagement.gitPrivateKeyData,
-            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
-            
-            for bookmark in bookmarks {
-                rsaPath.url = bookmark.key
-                break
-            }
-        }
-        
-        passphrase.stringValue = UserDefaultsManagement.gitPassphrase
         pullInterval.stringValue = String(UserDefaultsManagement.pullInterval)
         
         customWorktree.state = UserDefaultsManagement.separateRepo ? .off : .on
         separateDotGit.state = UserDefaultsManagement.separateRepo ? .on : .off
         askCommitMessage.state = UserDefaultsManagement.askCommitMessage ? .on : .off
+        
+        if let project = project {
+            origin.stringValue = project.settings.gitOrigin ?? ""
+            passphrase.stringValue = project.settings.gitPrivateKeyPassphrase ?? ""
+        }
+        
+        loadPrivateKeyLabel()
     }
 
     @IBAction func changeGitStorage(_ sender: NSButton) {
@@ -118,7 +117,6 @@ class PreferencesGitViewController: NSViewController {
         }
     }
 
-
     @IBAction func changeSnapshotIntervalByHours(_ sender: NSTextField) {
         if let interval = Int(sender.stringValue) {
             UserDefaultsManagement.snapshotsInterval = interval
@@ -167,27 +165,17 @@ class PreferencesGitViewController: NSViewController {
                     return
                 }
                 
-                var bookmarks = [URL: Data]()
-                for url in openPanel.urls {
-                    do {
-                        let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
-                        
-                        bookmarks[url] = data
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
+                self.project?.settings.gitPrivateKey = try? Data(contentsOf: openPanel.urls[0])
+                self.project?.saveSettings()
                 
-                let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
-                UserDefaultsManagement.gitPrivateKeyData = data
-                
-                self.rsaPath.url = openPanel.urls[0]
+                self.loadPrivateKeyLabel()
             }
         }
     }
     
     @IBAction func passphrase(_ sender: NSSecureTextField) {
-        UserDefaultsManagement.gitPassphrase = sender.stringValue
+        project?.settings.gitPrivateKeyPassphrase = sender.stringValue
+        project?.saveSettings()
     }
     
     @IBAction func pullInterval(_ sender: NSTextField) {
@@ -228,7 +216,15 @@ class PreferencesGitViewController: NSViewController {
     }
     
     @IBAction func resetGitKeys(_ sender: NSButton) {
-        UserDefaultsManagement.gitPrivateKeyData = nil
-        rsaPath.url = nil
+        self.privateKey.stringValue = NSLocalizedString("no key", comment: "")
+        
+        self.project?.settings.gitPrivateKey = nil
+        self.project?.saveSettings()
+    }
+    
+    private func loadPrivateKeyLabel() {
+        if self.project?.settings.gitPrivateKey != nil {
+            self.privateKey.stringValue = NSLocalizedString("Found one private key 👍", comment: "")
+        }
     }
 }
