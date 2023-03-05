@@ -91,10 +91,10 @@ extension Project {
 
         return repoURL
     }
-    
+
     public func hasRepository() -> Bool {
         let url = getRepositoryUrl()
-        
+
         return FileManager.default.fileExists(atPath: url.path)
     }
 
@@ -102,13 +102,13 @@ extension Project {
         let repositoryManager = RepositoryManager()
         let repositoryProject = getRepositoryProject()
         let repoURL = getRepositoryUrl()
-        
+
         // Prepare temporary dir
         let tempURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
 
         try? FileManager.default.removeItem(at: tempURL)
         try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true)
-        
+
         // Init
         let signature = Signature(name: "FSNotes App", email: "support@fsnot.es")
         let repository = try repositoryManager.initRepository(at: tempURL, signature: signature)
@@ -127,7 +127,7 @@ extension Project {
 
         return nil
     }
-    
+
     public func cloneRepository() throws -> Repository? {
         let repositoryManager = RepositoryManager()
         let repositoryProject = getRepositoryProject()
@@ -142,19 +142,19 @@ extension Project {
         // Clone
         if let originString = getGitOrigin(), let origin = URL(string: originString) {
             let repository = try repositoryManager.cloneRepository(from: origin, at: tempURL, authentication: getAuthHandler())
-            
+
             if isUseWorkTree() {
                 repository.setWorkTree(path: repositoryProject.url.path)
             }
-            
+
             let dotGit = tempURL.appendingPathComponent(".git")
-            
+
             if FileManager.default.directoryExists(atUrl: dotGit) {
                 try? FileManager.default.moveItem(at: dotGit, to: repoURL)
-                
+
                 return try repositoryManager.openRepository(at: repoURL)
             }
-            
+
             return nil
         }
 
@@ -384,15 +384,15 @@ extension Project {
 
         if let commitsDiffCache = getCommitsDiffsCache(),
             let data = try? Data(contentsOf: commitsDiffCache),
-            let result = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: [String]]
-        {
+            let result = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: [String]] {
             commitsCache = result
         }
     }
 
     public func cacheHistory(progress: GitProgress? = nil) {
-        guard let repository = try? getRepository() else { return }
+        progress?.log(message: "git history caching ...")
 
+        guard let repository = try? getRepository() else { return }
 
         do {
             let fileRevLog = try FileHistoryIterator(repository: repository, path: "Test", project: self)
@@ -410,10 +410,10 @@ extension Project {
         } catch {
             print(error)
         }
-        
-       progress?.log(message: "git history caching finished")
+
+        progress?.log(message: "git history caching done 🤟")
     }
-    
+
     public func getCommitsDiffsCache() -> URL? {
         guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
 

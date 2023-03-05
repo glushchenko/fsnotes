@@ -679,7 +679,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func toggleSearch(refreshControl: UIRefreshControl) {
-        if UserDefaultsManagement.gitVersioning {
+        if storage.hasOrigins() {
             addPullTask()
         } else {
             toggleSearchView()
@@ -689,7 +689,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     @objc func addPullTask() {
-        guard UserDefaultsManagement.gitVersioning, UserDefaultsManagement.successGitOrigin else { return }
+        guard storage.hasOrigins() else { return }
         
         let operation = BlockOperation()
         operation.addExecutionBlock {

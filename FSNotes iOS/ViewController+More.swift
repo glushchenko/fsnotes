@@ -51,7 +51,7 @@ extension ViewController: UIDocumentPickerDelegate {
 
         switch type {
         case .Inbox:
-            actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles]
+            actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .All, .Todo:
             actions = [.settingsFolder, .multipleSelection]
         case .Archive:
@@ -59,7 +59,7 @@ extension ViewController: UIDocumentPickerDelegate {
         case .Trash:
             actions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Category:
-            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles]
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .Tag:
             actions = [.removeTag, .renameTag, .multipleSelection]
         case .Untagged:
@@ -123,6 +123,18 @@ extension ViewController: UIDocumentPickerDelegate {
                 settings.setValue(image, forKey: "image")
             }
             actionSheet.addAction(settings)
+        }
+
+        if actions.contains(.settingsRepository) {
+            let title = NSLocalizedString("Git settings", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.openGitSettings()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "gitSettings")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
         }
 
         if actions.contains(.multipleSelection) {
@@ -497,6 +509,28 @@ extension ViewController: UIDocumentPickerDelegate {
         if let projectUrl = URL(string: "shareddocuments://" + path) {
             UIApplication.shared.open(projectUrl, options: [:])
         }
+    }
+
+    private func openGitSettings() {
+        let vc = UIApplication.getVC()
+        guard let sidebarItem = vc.sidebarTableView.getSidebarItem() else { return }
+
+        let storage = Storage.shared()
+
+        // All projects
+
+        var currentProject = sidebarItem.project
+        if currentProject == nil {
+            currentProject = storage.getCurrentProject()
+        }
+
+        guard let project = currentProject else { return }
+
+        let projectController = AppDelegate.getGitVC(for: project)
+        let controller = UINavigationController(rootViewController: projectController)
+
+        self.dismiss(animated: true, completion: nil)
+        vc.present(controller, animated: true, completion: nil)
     }
 
     private func emptyBin() {

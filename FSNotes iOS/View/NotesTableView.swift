@@ -124,7 +124,7 @@ class NotesTableView: UITableView,
 
         fill(note: note, indexPath: indexPath)
 
-        if UserDefaultsManagement.autoVersioning && !UserDefaultsManagement.gitVersioning {
+        if UserDefaultsManagement.autoVersioning && !note.project.hasRepository() {
             DispatchQueue.global().async {
                 do {
                     try note.saveRevision()
@@ -240,7 +240,7 @@ class NotesTableView: UITableView,
         }
         actionSheet.addAction(remove)
 
-        if showAll && UserDefaultsManagement.gitVersioning && !note.isEncrypted() {
+        if showAll && note.project.hasRepository() && !note.isEncrypted() {
             let history = UIAlertAction(title: NSLocalizedString("Save revision", comment: ""), style: .default, handler: { _ in
                 self.saveRevisionAction(note: notes.first!, presentController: presentController)
             })

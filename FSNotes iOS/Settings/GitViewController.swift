@@ -70,6 +70,8 @@ class GitViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        initNavigationBackground()
+
         UIApplication.shared.isIdleTimerDisabled = true
                 
         if UIApplication.getVC().isActiveClone {
@@ -316,13 +318,13 @@ class GitViewController: UITableViewController {
             switch action {
             case .initCommit:
                 self.initRepository()
-                self.addCommit()
+                self.commit()
                 break
             case .clonePush:
                 self.clonePush()
                 break
             case .commit:
-                self.addCommit()
+                self.commit()
                 break
             case .pull:
                 self.pull()
@@ -378,6 +380,9 @@ class GitViewController: UITableViewController {
                     // Reload all files and tables
                     UIApplication.getVC().reloadDatabase()
                 }
+            } else {
+                commit()
+                push()
             }
 
             return
@@ -389,7 +394,7 @@ class GitViewController: UITableViewController {
         } catch GitError.notFound(let ref) {
             // Empty repository – commit and push
             if ref == "refs/heads/master" {
-                self.addCommit()
+                self.commit()
                 self.push()
                 
                 progress?.log(message: "Successful git push 👌")
@@ -400,6 +405,8 @@ class GitViewController: UITableViewController {
                 self.errorAlert(title: "git error", message: message)
             }
         }
+
+
     }
         
     public func push() {
@@ -415,7 +422,7 @@ class GitViewController: UITableViewController {
         }
     }
     
-    public func addCommit() {
+    public func commit() {
         guard let project = project else { return }
         
         do {

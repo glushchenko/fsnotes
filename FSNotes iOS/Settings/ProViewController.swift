@@ -22,8 +22,7 @@ class ProViewController: UITableViewController {
     private var rows = [
         [
             NSLocalizedString("Default keyboard in editor", comment: ""),
-            NSLocalizedString("Use inline tags", comment: ""),
-            NSLocalizedString("Use Git versioning", comment: "")
+            NSLocalizedString("Use inline tags", comment: "")
         ], [
             NSLocalizedString("Sort by", comment: ""),
             NSLocalizedString("Sidebar", comment: "")
@@ -76,10 +75,6 @@ class ProViewController: UITableViewController {
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.inlineTags
                 break
-            case 2:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.gitVersioning
-                break
             default:
                 break
             }
@@ -130,13 +125,6 @@ class ProViewController: UITableViewController {
             vc.resizeSidebar(withAnimation: true)
 
             UIApplication.getEVC().resetToolbar()
-        case 2:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-             UserDefaultsManagement.gitVersioning = uiSwitch.isOn
-
-             //if !uiSwitch.isOn {
-             //    autoVersioningPrompt()
-             //}
         default:
             return
         }

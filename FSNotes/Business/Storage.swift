@@ -1607,6 +1607,14 @@ class Storage {
                 )
             })
     }
+
+    public func hasOrigins() -> Bool {
+        return projects.first(where: {
+            return (
+                $0.settings.gitOrigin != nil && $0.settings.gitOrigin!.count > 0
+            )
+        }) != nil
+    }
 }
 
 extension String: Error {}

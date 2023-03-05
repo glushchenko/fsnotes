@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var editorController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "editorViewController") as! EditorViewController
 
     public var mainController: MainNavigationController?
-    
+
+    public static var gitVC = [String: GitViewController]()
     public static var gitProgress: GitProgress?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -259,6 +260,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             UserDefaultsManagement.currentNote = url
         }
+    }
+
+    public static func getGitVC(for project: Project) -> GitViewController {
+        if let gitVC = AppDelegate.gitVC[project.settingsKey] {
+            return gitVC
+        }
+
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let gvc = storyBoard.instantiateViewController(withIdentifier: "gitSettingsViewController") as! GitViewController
+        gvc.setProject(project)
+
+        AppDelegate.gitVC[project.settingsKey] = gvc
+
+        return gvc
     }
 }
 

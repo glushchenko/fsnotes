@@ -11,7 +11,7 @@ import Compression
 
 extension Note {
     public func saveRevision() throws {
-        if UserDefaultsManagement.gitVersioning {
+        if project.hasRepository() {
             try saveRevision(commitMessage: nil, pull: false)
             return
         }
@@ -61,7 +61,7 @@ extension Note {
     }
 
     public func restoreRevision(revision: Revision) {
-        if UserDefaultsManagement.gitVersioning {
+        if project.hasRepository() {
             checkout(commit: revision.commit!)
             forceLoad()
             return
@@ -118,7 +118,7 @@ extension Note {
     }
 
     public func listRevisions() -> [Revision] {
-        if UserDefaultsManagement.gitVersioning {
+        if project.hasRepository() {
             var result = [Revision]()
             let commits = getCommits()
             for commit in commits {

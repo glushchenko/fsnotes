@@ -12,6 +12,7 @@ enum FolderPopoverActions: Int {
     case importNote
     case multipleSelection
     case settingsFolder
+    case settingsRepository
     case createFolder
     case removeFolder
     case renameFolder
@@ -25,6 +26,7 @@ enum FolderPopoverActions: Int {
             NSLocalizedString("Import notes", comment: "Main view popover table"),
             NSLocalizedString("Select", comment: "Main view popover table"),
             NSLocalizedString("View settings", comment: "Main view popover table"),
+            NSLocalizedString("Git settings", comment: "Main view popover table"),
             NSLocalizedString("Create folder", comment: "Main view popover table"),
             NSLocalizedString("Remove folder", comment: "Main view popover table"),
             NSLocalizedString("Rename folder", comment: "Main view popover table"),
