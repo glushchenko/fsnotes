@@ -37,7 +37,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private let metadataQueue = OperationQueue()
     
     public let gitQueue = OperationQueue()
-    public var isActiveClone = false
     private var delayedInsert: Note?
 
     private var maxSidebarWidth = CGFloat(0)
@@ -124,18 +123,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func scheduledGitPull() {
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+
+        gitPullTimer?.invalidate()
         gitPullTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.addPullTask), userInfo: nil, repeats: true)
     }
-    
-    public func stopGitPull() {
-        gitQueue.cancelAllOperations()
         
-        gitPullTimer?.invalidate()
-        gitPullTimer = nil
-        
-        UserDefaultsManagement.successGitOrigin = false
-    }
-    
     public func loadInbox() {
         guard let project = storage.getDefault() else { return }
 
@@ -695,8 +687,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         operation.addExecutionBlock {
             Storage.shared().pullAll(errorCompletion: { message in
                 DispatchQueue.main.async {
-                    self.stopGitPull()
-                    
                     let alertController = UIAlertController(title: "Automatic git pull stopped", message: message, preferredStyle: .alert)
 
                     let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }

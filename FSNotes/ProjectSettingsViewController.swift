@@ -86,8 +86,8 @@ class ProjectSettingsViewController: NSViewController {
     
     @IBAction func origin(_ sender: NSTextField) {
         guard let project = self.project else { return }
-        
-        project.settings.gitOrigin = sender.stringValue
+
+        project.settings.setOrigin(sender.stringValue)
         project.saveSettings()
 
         if project.isDefault {
@@ -98,9 +98,9 @@ class ProjectSettingsViewController: NSViewController {
     @IBAction func clonePull(_ sender: Any) {
         guard let project = self.project else { return }
         guard let window = view.window else { return }
+
         let origin = self.origin.stringValue
-        
-        project.settings.gitOrigin = origin
+        project.settings.setOrigin(origin)
         project.saveSettings()
         
         ProjectSettingsViewController.cloneAndPull(origin: origin, project: project, window: window)

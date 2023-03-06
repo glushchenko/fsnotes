@@ -73,4 +73,13 @@ public class ProjectSettings: NSObject, NSSecureCoding {
             aCoder.encode(gitPrivateKeyPassphrase, forKey: "gitPrivateKeyPassphrase")
         }
     }
+
+    public func setOrigin(_ origin: String?) {
+        if let origin = origin, origin.count > 0 {
+            gitOrigin = origin
+            return
+        }
+
+        gitOrigin = nil
+    }
 }

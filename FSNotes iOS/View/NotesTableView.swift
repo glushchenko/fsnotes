@@ -607,7 +607,7 @@ class NotesTableView: UITableView,
             return
         }
         
-        if UserDefaultsManagement.successGitOrigin {
+        if note.project.hasRepository() {
             UIApplication.getVC().gitQueue.addOperation({
                 try? note.pullPush()
             })

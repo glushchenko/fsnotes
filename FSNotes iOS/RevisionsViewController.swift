@@ -84,7 +84,7 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
             return
         }
         
-        if UserDefaultsManagement.successGitOrigin {
+        if let project = note?.project, project.isValidRemoteRepository() {
             UIApplication.getVC().gitQueue.addOperation({
                 try? self.note?.pullPush()
             })

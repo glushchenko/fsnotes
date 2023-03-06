@@ -99,7 +99,7 @@ public class Project: Equatable {
         
         // Backward compatibility
         if settings.gitOrigin == nil, self.isDefault, let origin = UserDefaultsManagement.gitOrigin {
-            settings.gitOrigin = origin
+            settings.setOrigin(origin)
         }
     }
     

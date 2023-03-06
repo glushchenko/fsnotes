@@ -2366,7 +2366,7 @@ class ViewController: EditorViewController,
         
         // Transfer origin
         if UserDefaultsManagement.gitOrigin != nil {
-            project?.settings.gitOrigin = UserDefaultsManagement.gitOrigin
+            project?.settings.setOrigin(UserDefaultsManagement.gitOrigin)
             project?.saveSettings()
             
             UserDefaultsManagement.gitOrigin = ""

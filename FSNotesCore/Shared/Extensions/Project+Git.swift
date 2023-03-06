@@ -98,6 +98,10 @@ extension Project {
         return FileManager.default.fileExists(atPath: url.path)
     }
 
+    public func isValidRemoteRepository() -> Bool {
+        return settings.gitOrigin != nil && hasRepository()
+    }
+
     public func initBareRepository() throws -> Repository? {
         let repositoryManager = RepositoryManager()
         let repositoryProject = getRepositoryProject()

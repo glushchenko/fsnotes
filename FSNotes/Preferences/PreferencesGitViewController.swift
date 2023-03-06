@@ -137,7 +137,7 @@ class PreferencesGitViewController: NSViewController {
     
     @IBAction func origin(_ sender: NSTextField) {
         let project = Storage.shared().getDefault()
-        project?.settings.gitOrigin = sender.stringValue
+        project?.settings.setOrigin(sender.stringValue)
         project?.saveSettings()
         
         ViewController.shared()?.gitQueue.cancelAllOperations()
@@ -209,7 +209,7 @@ class PreferencesGitViewController: NSViewController {
         ViewController.shared()?.gitQueue.cancelAllOperations()
         
         let origin = self.origin.stringValue
-        project.settings.gitOrigin = origin
+        project.settings.setOrigin(origin)
         project.saveSettings()
         
         ProjectSettingsViewController.cloneAndPull(origin: origin, project: project, window: window)
