@@ -242,8 +242,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         let folder = currentFolder ?? ""
         var qty = folderCapacity ?? "∞"
-        
-        if gitClean {
+
+        if let item = sidebarTableView.getSidebarItem()?.project, item.isCleanGit {
             qty += " | git ✓"
         }
 
@@ -685,20 +685,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         let operation = BlockOperation()
         operation.addExecutionBlock {
-            Storage.shared().pullAll(errorCompletion: { message in
-                DispatchQueue.main.async {
-                    let alertController = UIAlertController(title: "Automatic git pull stopped", message: message, preferredStyle: .alert)
-
-                    let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }
-                    alertController.addAction(okAction)
-
-                    self.present(alertController, animated: true, completion: nil)
-                }
-            })
+            Storage.shared().pullAll()
             
             if operation.isCancelled { return }
-
-            self.gitClean = Storage.shared().getDefault()?.isCleanRepo() == true
+            Storage.shared().checkGitState()
 
             DispatchQueue.main.async {
                 self.updateNotesCounter()

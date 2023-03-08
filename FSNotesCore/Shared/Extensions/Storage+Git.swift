@@ -9,24 +9,34 @@
 import Foundation
 
 extension Storage {
-    public func pullAll(errorCompletion: ((String) -> ())? = nil) {
-        let projects = getProjects()
+    public func pullAll() {
+        guard let projects = getGitProjects() else { return }
         for project in projects {
-            if project.isTrash {
-                continue
-            }
+            do {
+                try project.pull()
 
-            if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                do {
-                    guard project.getGitOrigin() != nil else { continue }
-                    try project.pull()
-                } catch {
-                    if let error = error as? GitError {
-                        let message = error.associatedValue()
-                        //AppDelegate.gitProgress.log(message: message)
-                        errorCompletion?(message)
-                        return
-                    }
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+                let dateString = dateFormatter.string(from: currentDate)
+
+                project.gitStatus = "Successfull auto pull – \(dateString)"
+            } catch {
+                if let error = error as? GitError {
+                    project.gitStatus = error.associatedValue()
+                }
+            }
+        }
+    }
+
+    public func checkGitState() {
+        guard let projects = getGitProjects() else { return }
+        for project in projects {
+            do {
+                _ = try project.checkGitState()
+            } catch {
+                if let error = error as? GitError {
+                    project.gitStatus = error.associatedValue()
                 }
             }
         }

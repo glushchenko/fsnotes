@@ -292,11 +292,12 @@ extension Project {
         }
     }
 
-    public func isCleanRepo() -> Bool {
-        guard let repository = try? getRepository() else { return false }
+    public func checkGitState() throws -> Bool {
+        let repository = try getRepository()
         let statuses = Statuses(repository: repository)
 
-        return statuses.workingDirectoryClean
+        isCleanGit = statuses.workingDirectoryClean
+        return isCleanGit
     }
 
     public func getLocalBranch(repository: Repository) -> Branch?  {

@@ -15,24 +15,31 @@ import UIKit
 
 /// Define progress protocol
 public class GitProgress {
-    
+    public var project: Project
+
 #if os(iOS)
     public var statusTextField: UITextField
     
-    init(statusTextField: UITextField) {
+    init(statusTextField: UITextField, project: Project) {
         self.statusTextField = statusTextField
+        self.project = project
     }
 #endif
     
     func log(current: Int, total: Int, action: String) {
+        let message = "git \(action): chunk \(current) from \(total)"
+        project.gitStatus = message
+
         #if os(iOS)
             DispatchQueue.main.async {
-                self.statusTextField.text = "git \(action): chunk \(current) from \(total)"
+                self.statusTextField.text = message
             }
         #endif
     }
     
     func log(message: String) {
+        project.gitStatus = message
+
         #if os(iOS)
             DispatchQueue.main.async {
                 self.statusTextField.text = message

@@ -1615,6 +1615,14 @@ class Storage {
             )
         }) != nil
     }
+
+    public func getGitProjects() -> [Project]? {
+        return projects.filter({
+            return (
+                $0.settings.gitOrigin != nil && $0.settings.gitOrigin!.count > 0
+            )
+        })
+    }
 }
 
 extension String: Error {}

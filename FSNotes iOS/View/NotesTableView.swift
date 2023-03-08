@@ -596,22 +596,26 @@ class NotesTableView: UITableView,
     }
     
     private func saveRevisionAction(note: Note, presentController: UIViewController) {
-        do {
-            try note.saveRevision()
-        } catch {
-            let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        UIApplication.getVC().gitQueue.addOperation({
+            do {
+                try note.saveRevision()
+            } catch {
+                note.project.gitStatus = error.localizedDescription
 
-            let nvc = UIApplication.getNC()
-            nvc?.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        if note.project.hasRepository() {
-            UIApplication.getVC().gitQueue.addOperation({
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+                    let nvc = UIApplication.getNC()
+                    nvc?.present(alert, animated: true, completion: nil)
+                }
+                return
+            }
+
+            if note.project.hasRepository() {
                 try? note.pullPush()
-            })
-        }
+            }
+        })
     }
 
     private func historyAction(note: Note, presentController: UIViewController) {

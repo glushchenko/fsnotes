@@ -48,6 +48,9 @@ public class Project: Equatable {
     
     public var commitsCache = [String: [String]]()
 
+    public var isCleanGit = false
+    public var gitStatus: String?
+
     init(storage: Storage,
          url: URL,
          label: String? = nil,

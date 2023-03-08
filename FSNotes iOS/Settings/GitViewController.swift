@@ -50,8 +50,7 @@ class GitViewController: UITableViewController {
     public var activity: UIActivityIndicatorView?
     public var leftButton: UIButton?
     public var rightButton: UIButton?
-        
-    public static var logTextField: UITextField?
+    public var logTextField: UITextField?
 
     public func setProject(_ project: Project) {
         self.project = project
@@ -71,6 +70,10 @@ class GitViewController: UITableViewController {
 
         DispatchQueue.main.async {
             self.updateButtons(isActive: self.hasActiveGit)
+
+            if let status = self.project?.gitStatus {
+                self.logTextField?.text = status
+            }
         }
     }
     
@@ -138,8 +141,9 @@ class GitViewController: UITableViewController {
             if indexPath.section == GitSection.logs.rawValue && indexPath.row == 0 {
                 textField.placeholder = "No data"
                 textField.isEnabled = false
-                
-                progress = GitProgress(statusTextField: textField)
+
+                logTextField = textField
+                progress = GitProgress(statusTextField: textField, project: project)
                 
                 // Global instance
                 AppDelegate.gitProgress = progress
