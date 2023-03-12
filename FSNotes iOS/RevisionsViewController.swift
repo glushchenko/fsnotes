@@ -84,9 +84,10 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
             return
         }
         
-        if let project = note?.project, project.isValidRemoteRepository() {
+        if let project = note?.getGitProject(), project.isGitOriginExist() {
             UIApplication.getVC().gitQueue.addOperation({
-                try? self.note?.pullPush()
+                try? project.pull()
+                try? project.push()
             })
         }
         
@@ -148,7 +149,7 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let revision = revisions[indexPath.row]
-        note?.restoreRevision(revision: revision)
+        note?.restore(revision: revision)
 
         UIApplication.getEVC().refill()
 

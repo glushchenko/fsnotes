@@ -118,7 +118,7 @@ extension EditorViewController {
                 }
 
                 do {
-                    if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                    if project.isRoot || project.isGitOriginExist()  {
                         try project.commit()
                         
                         guard project.getGitOrigin() != nil else { continue }

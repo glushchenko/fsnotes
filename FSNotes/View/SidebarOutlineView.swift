@@ -989,7 +989,7 @@ class SidebarOutlineView: NSOutlineView,
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
         vc.gitQueue.addOperation({
-            let project = project.getRepositoryProject()
+            guard let project = project.getGitProject() else { return }
             
             do {
                 try project.commit()

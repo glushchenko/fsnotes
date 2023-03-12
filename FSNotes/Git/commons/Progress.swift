@@ -11,6 +11,8 @@ import Cgit2
 
 #if os(iOS)
 import UIKit
+#else
+import AppKit
 #endif
 
 /// Define progress protocol
@@ -21,6 +23,13 @@ public class GitProgress {
     public var statusTextField: UITextField
     
     init(statusTextField: UITextField, project: Project) {
+        self.statusTextField = statusTextField
+        self.project = project
+    }
+#else
+    public var statusTextField: NSTextField
+
+    init(statusTextField: NSTextField, project: Project) {
         self.statusTextField = statusTextField
         self.project = project
     }

@@ -164,7 +164,6 @@ public class Project: Equatable {
         
         // iCloud Documents
         if let path = getCloudDriveRelativePath() {
-            print(path)
             prefix = "i\(path)"
             
         // Local documents
@@ -644,10 +643,6 @@ public class Project: Equatable {
         }
     }
 
-    public func getShortSign() -> String {
-        return String(getParent().url.path.md5.prefix(4))
-    }
-
     public func getAllTags() -> [String] {
         let notes = Storage.shared().noteList.filter({ $0.project == self })
 
@@ -727,7 +722,7 @@ public class Project: Equatable {
     }
 
     public func getHistoryURL() -> URL? {
-        let url = storage.getRevisionsHistory()
+        let url = storage.getRevisionsHistoryDocumentsSupport()
 
         return url.appendingPathComponent(getMd5CheckSum())
     }

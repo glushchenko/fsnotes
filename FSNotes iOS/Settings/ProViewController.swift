@@ -136,7 +136,7 @@ class ProViewController: UITableViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
-            let revisions = Storage.shared().getRevisionsHistory()
+            let revisions = Storage.shared().getRevisionsHistoryDocumentsSupport()
             do {
                 try FileManager.default.removeItem(at: revisions)
             } catch {

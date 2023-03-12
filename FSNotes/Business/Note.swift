@@ -2058,34 +2058,6 @@ public class Note: NSObject  {
         return nil
     }
 
-    public func getGitPath() -> String {
-        var path = name
-
-    #if IOS_APP || os(OSX)
-        if let gitPath = project.getGitPath() {
-            path = gitPath + "/" + name
-        }
-        
-        if isTextBundle(), let text = getContentFileURL()?.lastPathComponent {
-            return path + "/" + text
-        }
-    #endif
-
-        return path
-    }
-    
-    public func getGitCheckoutPath() -> String {
-        var path = name.recode4byteString()
-
-    #if IOS_APP || os(OSX)
-        if let gitPath = project.getGitPath() {
-            path = gitPath + "/" + name
-        }
-    #endif
-
-        return path
-    }
-
     public func rename(to name: String) {
         var name = name
         var i = 1

@@ -124,7 +124,7 @@ class NotesTableView: UITableView,
 
         fill(note: note, indexPath: indexPath)
 
-        if UserDefaultsManagement.autoVersioning && !note.project.hasRepository() {
+        if UserDefaultsManagement.autoVersioning && !note.hasGitRepository() {
             DispatchQueue.global().async {
                 do {
                     try note.saveRevision()
@@ -240,7 +240,7 @@ class NotesTableView: UITableView,
         }
         actionSheet.addAction(remove)
 
-        if showAll && note.project.hasRepository() && !note.isEncrypted() {
+        if showAll && note.hasGitRepository() && !note.isEncrypted() {
             let history = UIAlertAction(title: NSLocalizedString("Save revision", comment: ""), style: .default, handler: { _ in
                 self.saveRevisionAction(note: notes.first!, presentController: presentController)
             })
@@ -600,7 +600,7 @@ class NotesTableView: UITableView,
             do {
                 try note.saveRevision()
             } catch {
-                note.project.gitStatus = error.localizedDescription
+                note.getGitProject()?.gitStatus = error.localizedDescription
 
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
@@ -610,10 +610,6 @@ class NotesTableView: UITableView,
                     nvc?.present(alert, animated: true, completion: nil)
                 }
                 return
-            }
-
-            if note.project.hasRepository() {
-                try? note.pullPush()
             }
         })
     }

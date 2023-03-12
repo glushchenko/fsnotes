@@ -167,7 +167,9 @@ class ViewController: EditorViewController,
         
         loadBookmarks(data: UserDefaultsManagement.sftpAccessData)
         loadBookmarks(data: UserDefaultsManagement.gitPrivateKeyData)
+
         settingsMigation()
+        cacheGitRepositories()
         
         loadMoveMenu()
         loadSortBySetting()
@@ -1977,27 +1979,22 @@ class ViewController: EditorViewController,
         guard notes.count == 0x01 else { return }
 
         DispatchQueue.main.async {
-            do {
-                let repository = try note.project.getRepository()
-                let commits = self.getCommits(from: repository, by: note)
-                
-                guard commits.count > 0 else {
-                    historyMenu?.isEnabled = false
-                    return
-                }
+            let commits = note.getCommits()
 
-                for commit in commits {
-                    let menuItem = NSMenuItem()
-                    menuItem.title = commit.getDate()
-                    menuItem.representedObject = commit
-                    menuItem.action = #selector(vc.checkoutRevision(_:))
-                    historyMenu?.submenu?.addItem(menuItem)
-                }
-
-                historyMenu?.isEnabled = true
-            } catch {
-                print(error)
+            guard commits.count > 0 else {
+                historyMenu?.isEnabled = false
+                return
             }
+
+            for commit in commits {
+                let menuItem = NSMenuItem()
+                menuItem.title = commit.getDate()
+                menuItem.representedObject = commit
+                menuItem.action = #selector(vc.checkoutRevision(_:))
+                historyMenu?.submenu?.addItem(menuItem)
+            }
+
+            historyMenu?.isEnabled = true
         }
     }
 
@@ -2342,9 +2339,10 @@ class ViewController: EditorViewController,
             note.convertContainer(to: newContainer)
         }
     }
-    
-    private func settingsMigation() {
+
     #if os(macOS)
+    private func settingsMigation() {
+
         let project = storage.getDefault()
     
         // Transfer private git key to default project
@@ -2379,8 +2377,14 @@ class ViewController: EditorViewController,
             
             UserDefaultsManagement.gitPassphrase = ""
         }
-        
-        
+    }
     #endif
+
+    private func cacheGitRepositories() {
+        DispatchQueue.global(qos: .background).async {
+            _ = Storage.shared().getProjects().filter({ $0.hasRepository() }).map({
+                $0.cacheHistory()
+            })
+        }
     }
 }

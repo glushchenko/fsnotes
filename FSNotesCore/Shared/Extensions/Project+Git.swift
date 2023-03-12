@@ -9,88 +9,33 @@
 import Foundation
 
 extension Project {
-    public func getGitPath() -> String? {
-        if isArchive || parent == nil {
-            return nil
-        }
-
-        let parentURL = getRepositoryProject().url
-        let relative = url.path.replacingOccurrences(of: parentURL.path, with: "")
-
-        if relative.first == "/" {
-            return String(relative.dropFirst())
-        }
-
-        if relative == "" {
-            return nil
-        }
-
-        return relative
-    }
-
     public func getGitOrigin() -> String? {
-        if let origin = getRepositoryProject().settings.gitOrigin, origin.count > 0 {
+        if let origin = settings.gitOrigin, origin.count > 0 {
             return origin
         }
 
         return nil
     }
 
-    public func isRepositoryRoot(project: Project) -> Bool {
-        if project.isRoot {
-            return true
-        }
-
-        if project.isDefault {
-            return true
-        }
-
-        if project.isArchive {
-            return true
-        }
-
-        if let origin = project.settings.gitOrigin, origin.count > 0 {
-            return true
-        }
-
-        return false
-    }
-
-    public func getRepositoryProject() -> Project {
-        if isRepositoryRoot(project: self) {
-            return self
-        }
-
-        var parent = self.parent
-
-        while let unwrapedParent = parent {
-            if isRepositoryRoot(project: unwrapedParent) {
-                return unwrapedParent
-            }
-
-            parent = unwrapedParent.parent
-        }
-
-        return self
-    }
-
+#if os(OSX)
     public func getRepositoryUrl() -> URL {
-        let rootProject = getRepositoryProject()
-
-    #if os(iOS)
-        if !UserDefaultsManagement.iCloudDrive {
-            return rootProject.url.appendingPathComponent(".git", isDirectory: true)
-        }
-    #endif
-
-        if UserDefaultsManagement.separateRepo && !rootProject.isCloudProject() {
-            return rootProject.url.appendingPathComponent(".git", isDirectory: true)
+        if UserDefaultsManagement.separateRepo && !isCloudProject() {
+            return url.appendingPathComponent(".git", isDirectory: true)
         }
 
-        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(getShortSign() + " - " + rootProject.label + ".git")
+        let key = String(url.path.md5.prefix(4))
+        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(key + " - " + label + ".git")
 
         return repoURL
     }
+#else
+    public func getRepositoryUrl() -> URL {
+        let key = settingsKey.md5.prefix(6)
+        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(key + " - " + label + ".git")
+
+        return repoURL
+    }
+#endif
 
     public func hasRepository() -> Bool {
         let url = getRepositoryUrl()
@@ -98,13 +43,20 @@ extension Project {
         return FileManager.default.fileExists(atPath: url.path)
     }
 
-    public func isValidRemoteRepository() -> Bool {
-        return settings.gitOrigin != nil && hasRepository()
+    public func getGitProject() -> Project? {
+        if hasRepository() {
+            return self
+        }
+
+        if let parent = parent, let root = parent.getGitProject() {
+            return root
+        }
+
+        return nil
     }
 
     public func initBareRepository() throws -> Repository? {
         let repositoryManager = RepositoryManager()
-        let repositoryProject = getRepositoryProject()
         let repoURL = getRepositoryUrl()
 
         // Prepare temporary dir
@@ -118,7 +70,7 @@ extension Project {
         let repository = try repositoryManager.initRepository(at: tempURL, signature: signature)
 
         if isUseWorkTree() {
-            repository.setWorkTree(path: repositoryProject.url.path)
+            repository.setWorkTree(path: url.path)
         }
 
         let dotGit = tempURL.appendingPathComponent(".git")
@@ -134,7 +86,6 @@ extension Project {
 
     public func cloneRepository() throws -> Repository? {
         let repositoryManager = RepositoryManager()
-        let repositoryProject = getRepositoryProject()
         let repoURL = getRepositoryUrl()
 
         // Prepare temporary dir
@@ -148,7 +99,7 @@ extension Project {
             let repository = try repositoryManager.cloneRepository(from: origin, at: tempURL, authentication: getAuthHandler())
 
             if isUseWorkTree() {
-                repository.setWorkTree(path: repositoryProject.url.path)
+                repository.setWorkTree(path: url.path)
             }
 
             let dotGit = tempURL.appendingPathComponent(".git")
@@ -177,14 +128,11 @@ extension Project {
     }
 
     public func isCloudProject() -> Bool {
-        if UserDefaultsManagement.storagePath == UserDefaultsManagement.iCloudDocumentsContainer?.path {
-            if url.path == UserDefaultsManagement.storagePath {
-                return true
-            }
+        guard let storagePath = UserDefaultsManagement.storagePath,
+              let documentsProject = UserDefaultsManagement.iCloudDocumentsContainer else { return false }
 
-            if getParent().isCloudDrive {
-                return true
-            }
+        if storagePath == documentsProject.path, url.path.contains(storagePath) {
+            return true
         }
 
         return false
@@ -246,35 +194,24 @@ extension Project {
     }
 
     public func commit(message: String? = nil, progress: GitProgress? = nil) throws {
-        var repository: Repository?
-
-        do {
-            repository = try getRepository()
-        } catch {
-            repository = try initBareRepository()
-        }
-
-        guard let repository = repository else {
-            throw GitError.unknownError(msg: "Repository not found", code: 0, desc: "")
-        }
-
+        let repository = try getRepository()
         let statuses = Statuses(repository: repository)
         let lastCommit = try? repository.head().targetCommit()
 
+        // Add all and save index
+        let head = try repository.head().index()
+        if let progress = progress {
+            progress.log(message: "git add .")
+        }
+        head.add(path: ".")
+        try head.save()
+
+        // Check directory is clean
         if statuses.workingDirectoryClean == false || lastCommit == nil {
             do {
-                let sign = getSign()
-                let head = try repository.head().index()
-
-                if let progress = progress {
-                    progress.log(message: "git add .")
-                }
-
-                head.add(path: ".")
-                try head.save()
-
                 progress?.log(message: "git commit")
 
+                let sign = getSign()
                 if lastCommit == nil {
                     let commitMessage = message ?? "FSNotes Init"
                     _ = try head.createInitialCommit(msg: commitMessage, signature: sign)
@@ -284,6 +221,8 @@ extension Project {
                 }
 
                 progress?.log(message: "git commit done 🤟")
+
+                cacheHistory(progress: progress)
             } catch {
                 progress?.log(message: "commit error: \(error)")
             }
@@ -300,7 +239,7 @@ extension Project {
         return isCleanGit
     }
 
-    public func getLocalBranch(repository: Repository) -> Branch?  {
+    public func getLocalBranch(repository: Repository) -> Branch? {
         do {
             let names = try Branches(repository: repository).names(type: .local)
 
@@ -315,11 +254,10 @@ extension Project {
     }
 
     public func push() throws {
-        let repository = try getRepository()
+        guard let origin = getGitOrigin() else { return }
 
-        if let origin = getGitOrigin() {
-            repository.addRemoteOrigin(path: origin)
-        }
+        let repository = try getRepository()
+        repository.addRemoteOrigin(path: origin)
 
         let handler = getAuthHandler()
 
@@ -329,28 +267,29 @@ extension Project {
 
         let localMaster = try repository.branches.get(name: branchName)
         try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
+
+        print("Push successful")
     }
 
     public func pull() throws {
+        guard let origin = getGitOrigin() else { return }
+
         let repository = try getRepository()
-
-        if let origin = getGitOrigin() {
-            repository.addRemoteOrigin(path: origin)
-        }
-
-        let repositoryProject = getRepositoryProject()
+        repository.addRemoteOrigin(path: origin)
 
         if isUseWorkTree() {
-            repository.setWorkTree(path: repositoryProject.url.path)
+            repository.setWorkTree(path: url.path)
         }
 
         let authHandler = getAuthHandler()
         let sign = getSign()
 
         let remote = repository.remotes
-        let origin = try remote.get(remoteName: "origin")
+        let remoteBranch = try remote.get(remoteName: "origin")
 
-        _ = try origin.pull(signature: sign, authentication: authHandler, project: repositoryProject)
+        _ = try remoteBranch.pull(signature: sign, authentication: authHandler, project: self)
+
+        print("Pull successful")
     }
 
     public func isUseWorkTree() -> Bool {
@@ -371,7 +310,10 @@ extension Project {
 
     public func removeRepository() {
         let repoURL = getRepositoryUrl()
-        try? FileManager.default.removeItem(at: repoURL)
+
+        if FileManager.default.fileExists(atPath: repoURL.path) {
+            try? FileManager.default.removeItem(at: repoURL)
+        }
 
         removeCommitsCache()
     }
@@ -403,9 +345,8 @@ extension Project {
             let fileRevLog = try FileHistoryIterator(repository: repository, path: "Test", project: self)
             while let _ = fileRevLog.cacheDiff() {/*_*/}
 
-            if let data = try? NSKeyedArchiver.archivedData(withRootObject: commitsCache, requiringSecureCoding: false),
-                let writeTo = getCommitsDiffsCache() {
-
+            let cacheData = try? NSKeyedArchiver.archivedData(withRootObject: commitsCache, requiringSecureCoding: false)
+            if let data = cacheData, let writeTo = getCommitsDiffsCache() {
                 do {
                     try data.write(to: writeTo)
                 } catch {
@@ -421,7 +362,7 @@ extension Project {
 
     public func getCommitsDiffsCache() -> URL? {
         guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
-
-        return documentDir.appendingPathComponent("commitsDiff-\(settingsKey).cache", isDirectory: false)
+        let fileName = "commitsDiff-\(settingsKey).cache"
+        return documentDir.appendingPathComponent(fileName, isDirectory: false)
     }
 }

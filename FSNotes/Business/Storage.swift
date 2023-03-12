@@ -142,8 +142,14 @@ class Storage {
         ciphertextWriter.qualityOfService = .userInteractive
 
         let revHistory = getRevisionsHistory()
-        if !FileManager.default.directoryExists(atUrl: revHistory) {
-            try? FileManager.default.createDirectory(at: revHistory, withIntermediateDirectories: true, attributes: nil)
+        let revHistoryDS = getRevisionsHistoryDocumentsSupport()
+
+        if FileManager.default.directoryExists(atUrl: revHistory) {
+            try? FileManager.default.moveItem(at: revHistory, to: revHistoryDS)
+        }
+
+        if !FileManager.default.directoryExists(atUrl: revHistoryDS) {
+            try? FileManager.default.createDirectory(at: revHistoryDS, withIntermediateDirectories: true, attributes: nil)
         }
     }
 
@@ -1506,6 +1512,13 @@ class Storage {
 
         return revisionsUrl
     }
+
+    public func getRevisionsHistoryDocumentsSupport() -> URL {
+        let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
+        let revisionsUrl = documentDir.appendingPathComponent(".revisions")
+
+        return revisionsUrl
+    }
     
     public func saveUploadPaths() {
         let notes = noteList.filter({ $0.uploadPath != nil })
@@ -1622,6 +1635,33 @@ class Storage {
                 $0.settings.gitOrigin != nil && $0.settings.gitOrigin!.count > 0
             )
         })
+    }
+
+    public func loadProjectParents() {
+        guard let rootURL = getDefault()?.url else { return }
+
+        let rootPath = rootURL.path
+        let projects = findAllProjectsExceptDefault()
+        var dirs = [String]()
+
+        for project in projects {
+            let projectPath = project.url.path
+            if projectPath.startsWith(string: rootPath) {
+                let result = projectPath.replacingOccurrences(of: rootPath + "/", with: "")
+                dirs.append(result)
+            }
+        }
+
+        let sortedDirs = dirs.sorted(by: { $0.filter{ $0 == "/" }.count < $1.filter{ $0 == "/" }.count })
+        for dir in sortedDirs {
+            let projectURL = rootURL.appendingPathComponent(dir, isDirectory: true)
+            let childProject = getProjectBy(url: projectURL)
+
+            let parentURL = projectURL.deletingLastPathComponent()
+            let parentProject = getProjectBy(url: parentURL)
+
+            childProject?.parent = parentProject
+        }
     }
 }
 

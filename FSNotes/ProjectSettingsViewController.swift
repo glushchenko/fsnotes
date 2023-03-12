@@ -137,7 +137,7 @@ class ProjectSettingsViewController: NSViewController {
             return
         }
         
-        if FileManager.default.directoryExists(atUrl: project.getRepositoryUrl()) {
+        if project.hasRepository() {
             let alert = NSAlert()
             alert.messageText = NSLocalizedString("Git repository already exists, delete it and clone again??", comment: "")
             alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")

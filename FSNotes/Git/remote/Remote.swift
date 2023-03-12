@@ -51,10 +51,10 @@ public class Remote {
 //        
 //        // Define fetch options
 //        var fetchOptions = git_fetch_options()
-//        fetchOptions.version = 1
-//        fetchOptions.callbacks.version = 1
-//        fetchOptions.prune = GIT_FETCH_PRUNE_UNSPECIFIED
-//        fetchOptions.update_fetchhead = 1
+        fetchOptions.version = 1
+        fetchOptions.callbacks.version = 1
+        fetchOptions.prune = GIT_FETCH_PRUNE_UNSPECIFIED
+        fetchOptions.update_fetchhead = 1
         
         // Set progress
         fetchOptions.callbacks.transfer_progress = ProgressDelegate.fetchProgressCallback

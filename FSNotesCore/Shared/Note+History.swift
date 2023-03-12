@@ -10,12 +10,47 @@ import Foundation
 import Compression
 
 extension Note {
+
+    public func getGitPath() -> String {
+        var path = name
+
+        if let gitPath = getGitPathPrefix() {
+            path = gitPath
+        }
+
+        return path.recode4byteString()
+    }
+
+    public func getGitPathPrefix() -> String? {
+        guard let project = getGitProject() else { return nil }
+
+        let relative = url.path.replacingOccurrences(of: project.url.path, with: "")
+
+        if relative.first == "/" {
+            return String(relative.dropFirst())
+        }
+
+        if relative == "" {
+            return nil
+        }
+
+        return relative
+    }
+
+    public func hasGitRepository() -> Bool {
+        return project.getGitProject() != nil
+    }
+
+    public func getGitProject() -> Project? {
+        return project.getGitProject()
+    }
+
     public func saveRevision() throws {
-        if project.hasRepository() {
-            try saveRevision(commitMessage: nil, pull: false)
+        if hasGitRepository() {
+            try saveRevision(commitMessage: nil)
             return
         }
-        
+
         guard
             !isEncrypted(),
             let versionUrl = createVersionUrl(),
@@ -60,13 +95,13 @@ extension Note {
         }
     }
 
-    public func restoreRevision(revision: Revision) {
-        if project.hasRepository() {
+    public func restore(revision: Revision) {
+        if hasGitRepository() {
             checkout(commit: revision.commit!)
             forceLoad()
             return
         }
-        
+
         guard let url = revision.url, !isEncrypted() else { return }
 
         dropImagesCache()
@@ -118,7 +153,7 @@ extension Note {
     }
 
     public func listRevisions() -> [Revision] {
-        if project.hasRepository() {
+        if hasGitRepository() {
             var result = [Revision]()
             let commits = getCommits()
             for commit in commits {
@@ -310,8 +345,10 @@ extension Note {
         var commits = [Commit]()
 
         do {
+            guard let project = getGitProject() else { return commits }
+
             let repository = try project.getRepository()
-            let path = getGitPath().recode4byteString()
+            let path = getGitPath()
 
             do {
                 let fileRevLog = try FileHistoryIterator(repository: repository, path: path, project: project)
@@ -338,33 +375,18 @@ extension Note {
     }
 
     public func saveRevision(commitMessage: String? = nil, pull: Bool = true) throws {
-        let project = project.getRepositoryProject()
+        guard let project = getGitProject() else { return }
 
         try project.commit(message: commitMessage)
-
-        if pull {
-            try pullPush()
-        }
-    }
-
-    public func pullPush() throws {
-        let project = project.getRepositoryProject()
-
-        // No hands – no mults
-        guard project.getGitOrigin() != nil else { return }
-
         try project.pull()
-        print("Pull successful")
-
         try project.push()
-        print("Push successful")
     }
 
     public func checkout(commit: Commit) {
         do {
-            let repository = try project.getRepository()
+            guard let repository = try getGitProject()?.getRepository() else { return }
             let commit = try repository.commitLookup(oid: commit.oid)
-            try repository.checkout(commit: commit, path: getGitCheckoutPath())
+            try repository.checkout(commit: commit, path: getGitPath())
             print("Successful checkout")
         } catch {
             print(error)

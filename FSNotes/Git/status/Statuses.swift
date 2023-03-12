@@ -16,11 +16,12 @@ public class Statuses {
     public let repository : Repository
     
     /// Clean working directory property : true if clean, false in other cases
-    public var workingDirectoryClean : Bool {
+    public var workingDirectoryClean: Bool {
         get {
             do {
                 return try all().next() == nil
             } catch {
+                print(error.localizedDescription)
                 return false
             }
         }

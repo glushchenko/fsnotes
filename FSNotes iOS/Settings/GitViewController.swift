@@ -258,10 +258,10 @@ class GitViewController: UITableViewController {
     
     @objc func removePressed(sender: UIButton) {
         guard let project = project else { return }
-        
+
         project.removeRepository()
         rightButton?.isEnabled = false
-        
+
         progress?.log(message: "git repository removed")
         updateButtons()
     }
@@ -385,9 +385,7 @@ class GitViewController: UITableViewController {
         guard let project = project else { return }
         
         do {
-            try project.commit()
-            
-            project.cacheHistory(progress: progress)
+            try project.commit(message: nil, progress: progress)
         } catch {
             let message = error.localizedDescription
             self.errorAlert(title: "git clone/pull error", message: message)

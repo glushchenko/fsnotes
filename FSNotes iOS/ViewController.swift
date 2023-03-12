@@ -420,6 +420,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 project.loadNotes()
             }
 
+            storage.loadProjectParents()
+
             print("1. Cache loading finished in \(cacheLoading.timeIntervalSinceNow * -1) seconds")
 
             let diffLoading = Date()
