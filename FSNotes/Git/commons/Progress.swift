@@ -38,24 +38,22 @@ public class GitProgress {
     func log(current: Int, total: Int, action: String) {
         let message = "git \(action): chunk \(current) from \(total)"
         project.gitStatus = message
-
-        #if os(iOS)
-            DispatchQueue.main.async {
-                self.statusTextField.text = message
-            }
-        #endif
+        send(message: message)
     }
     
     func log(message: String) {
         project.gitStatus = message
+        send(message: message)
+    }
 
-        #if os(iOS)
-            DispatchQueue.main.async {
+    func send(message: String) {
+        DispatchQueue.main.async {
+            #if os(iOS)
                 self.statusTextField.text = message
-            }
-        #endif
-        
-        print("\(message)")
+            #else
+                self.statusTextField.stringValue = message
+            #endif
+        }
     }
 }
 

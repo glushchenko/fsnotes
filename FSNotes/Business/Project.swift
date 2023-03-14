@@ -42,14 +42,13 @@ public class Project: Equatable {
     
     public var isEncrypted = false
     public var password: String?
-    
-    public var settingsList: Data?
+
     public var settingsKey = String()
-    
     public var commitsCache = [String: [String]]()
 
     public var isCleanGit = false
     public var gitStatus: String?
+    public var isActiveGit = false
 
     init(storage: Storage,
          url: URL,

@@ -55,7 +55,7 @@ extension Project {
         return nil
     }
 
-    public func initBareRepository() throws -> Repository? {
+    public func initBareRepository() throws {
         let repositoryManager = RepositoryManager()
         let repoURL = getRepositoryUrl()
 
@@ -77,11 +77,7 @@ extension Project {
 
         if FileManager.default.directoryExists(atUrl: dotGit) {
             try? FileManager.default.moveItem(at: dotGit, to: repoURL)
-
-            return try repositoryManager.openRepository(at: repoURL)
         }
-
-        return nil
     }
 
     public func cloneRepository() throws -> Repository? {
@@ -227,7 +223,7 @@ extension Project {
                 progress?.log(message: "commit error: \(error)")
             }
         } else {
-            progress?.log(message: "commit error: no new data")
+            progress?.log(message: "git add: no new data")
         }
     }
 
@@ -253,7 +249,7 @@ extension Project {
         return nil
     }
 
-    public func push() throws {
+    public func push(progress: GitProgress? = nil) throws {
         guard let origin = getGitOrigin() else { return }
 
         let repository = try getRepository()
@@ -268,10 +264,12 @@ extension Project {
         let localMaster = try repository.branches.get(name: branchName)
         try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
 
-        print("Push successful")
+        if let progress = progress {
+            progress.log(message: "\(label) – successful push 👌")
+        }
     }
 
-    public func pull() throws {
+    public func pull(progress: GitProgress? = nil) throws {
         guard let origin = getGitOrigin() else { return }
 
         let repository = try getRepository()
@@ -289,7 +287,9 @@ extension Project {
 
         _ = try remoteBranch.pull(signature: sign, authentication: authHandler, project: self)
 
-        print("Pull successful")
+        if let progress = progress {
+            progress.log(message: "\(label) – successful git pull 👌")
+        }
     }
 
     public func isUseWorkTree() -> Bool {
@@ -364,5 +364,80 @@ extension Project {
         guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return nil }
         let fileName = "commitsDiff-\(settingsKey).cache"
         return documentDir.appendingPathComponent(fileName, isDirectory: false)
+    }
+
+    public func getRepositoryState() -> RepositoryAction {
+        if hasRepository() {
+            if settings.gitOrigin != nil {
+                return .pull
+            } else {
+                return .commit
+            }
+        } else {
+            if settings.gitOrigin != nil {
+                return .clonePush
+            } else {
+                return .initCommit
+            }
+        }
+    }
+
+    public func gitDo(_ action: RepositoryAction, progress: GitProgress? = nil) -> String? {
+        var message: String?
+
+        do {
+            switch action {
+            case .initCommit:
+                try initBareRepository()
+                try commit(message: nil, progress: progress)
+            case .clonePush:
+                message = clonePush(progress: progress)
+            case .commit:
+                try commit(message: nil, progress: progress)
+            case .pull:
+                try pull(progress: progress)
+            case .push:
+                try push()
+            }
+        } catch {
+            message = error.localizedDescription
+        }
+
+        return message
+    }
+
+    private func clonePush(progress: GitProgress? = nil) -> String? {
+        var message: String?
+
+        do {
+            if let repo = try cloneRepository(), let local = getLocalBranch(repository: repo) {
+                try repo.head().forceCheckout(branch: local)
+                cacheHistory(progress: progress)
+            } else {
+                do {
+                    try commit(message: nil, progress: progress)
+                    try push(progress: progress)
+                } catch {
+                    message = error.localizedDescription
+                }
+            }
+        } catch GitError.unknownError(let errorMessage, _, let desc) {
+            message = errorMessage + " – " + desc
+        } catch GitError.notFound(let ref) {
+
+            // Empty repository – commit and push
+            if ref == "refs/heads/master" {
+                do {
+                    try commit(message: nil, progress: progress)
+                    try push(progress: progress)
+                } catch {
+                    message = error.localizedDescription
+                }
+            }
+        } catch {
+            message = error.localizedDescription
+        }
+
+        return message
     }
 }

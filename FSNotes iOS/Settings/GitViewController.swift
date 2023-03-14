@@ -10,25 +10,7 @@ import UIKit
 import NightNight
 import CoreServices
 
-class GitViewController: UITableViewController {
-    enum ButtonAction: Int, CaseIterable {
-        case initCommit
-        case clonePush
-        case commit
-        case pull
-        case push
-
-        var title: String {
-            switch self {
-            case .initCommit: return "Init/commit"
-            case .clonePush: return "Clone/push"
-            case .pull: return "Pull"
-            case .commit: return "Add/commit"
-            case .push: return "Push"
-            }
-        }
-    }
-    
+class GitViewController: UITableViewController {    
     enum GitSection: Int, CaseIterable {
         case credentials
         case origin
@@ -267,7 +249,9 @@ class GitViewController: UITableViewController {
     }
     
     @objc func repoPressed(sender: UIButton) {
-        let action = getButtonAction()
+        guard let project = project else { return }
+
+        let action = project.getRepositoryState()
         updateButtons(isActive: true)
         
         UIApplication.shared.isIdleTimerDisabled = true
@@ -280,118 +264,15 @@ class GitViewController: UITableViewController {
                     self.updateButtons(isActive: false)
                 }
             }
-            
-            switch action {
-            case .initCommit:
-                self.initRepository()
-                self.commit()
-                break
-            case .clonePush:
-                self.clonePush()
-                break
-            case .commit:
-                self.commit()
-                break
-            case .pull:
-                self.pull()
-                break
-            case .push:
-                self.push()
-                break
+
+            if let message = project.gitDo(action, progress: self.progress) {
+                DispatchQueue.main.async {
+                    self.errorAlert(title: "git error", message: message)
+                }
             }
         })
     }
-    
-    public func initRepository() {
-        guard let project = project else { return }
-        
-        do {
-            _ = try project.initBareRepository()
-        } catch {
-            DispatchQueue.main.async {
-                let message = error.localizedDescription
-                self.errorAlert(title: "git init error", message: message)
-            }
-        }
-    }
-    
-    public func pull() {
-        guard let project = project else { return }
-        
-        do {
-            try project.pull()
-            progress?.log(message: "\(project.label) – successful git pull 👌")
-        } catch {
-            DispatchQueue.main.async {
-                let message = error.localizedDescription
-                self.errorAlert(title: "git init error", message: message)
-            }
-        }
-    }
-    
-    public func clonePush() {
-        guard let project = project else { return }
-                
-        do {
-            if let repo = try project.cloneRepository(),
-               let local = project.getLocalBranch(repository: repo)
-            {
-                try repo.head().forceCheckout(branch: local)
-                project.cacheHistory(progress: progress)
-                
-                DispatchQueue.main.async {
-                    // Reload all files and tables
-                    UIApplication.getVC().reloadDatabase()
-                }
-            } else {
-                commit()
-                push()
-            }
 
-            return
-        } catch GitError.unknownError(let errorMessage, _, let desc) {
-            DispatchQueue.main.async {
-                let message = errorMessage + " – " + desc
-                self.errorAlert(title: "git clone/pull error", message: message)
-            }
-        } catch GitError.notFound(let ref) {
-            // Empty repository – commit and push
-            if ref == "refs/heads/master" {
-                self.commit()
-                self.push()
-                
-                progress?.log(message: "Successful git push 👌")
-            }
-        } catch {
-            DispatchQueue.main.async {
-                let message = error.localizedDescription
-                self.errorAlert(title: "git error", message: message)
-            }
-        }
-    }
-        
-    public func push() {
-        guard let project = project else { return }
-        
-        do {
-            try project.push()
-        } catch {
-            let message = error.localizedDescription
-            self.errorAlert(title: "git clone/pull error", message: message)
-        }
-    }
-    
-    public func commit() {
-        guard let project = project else { return }
-        
-        do {
-            try project.commit(message: nil, progress: progress)
-        } catch {
-            let message = error.localizedDescription
-            self.errorAlert(title: "git clone/pull error", message: message)
-        }
-    }
-    
     public func errorAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -422,26 +303,8 @@ class GitViewController: UITableViewController {
 
         rightButton?.isEnabled = project.hasRepository()
 
-        let state = getButtonAction()
+        let state = project.getRepositoryState()
         leftButton?.setTitle(state.title, for: .normal)
-    }
-    
-    public func getButtonAction() -> ButtonAction {
-        guard let project = project else { return .initCommit }
-        
-        if project.hasRepository() {
-            if project.settings.gitOrigin != nil {
-                return .pull
-            } else {
-                return .commit
-            }
-        } else {
-            if project.settings.gitOrigin != nil {
-                return .clonePush
-            } else {
-                return .initCommit
-            }
-        }
     }
 }
 
