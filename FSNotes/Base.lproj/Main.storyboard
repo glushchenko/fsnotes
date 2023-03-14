@@ -3409,7 +3409,7 @@ Olena Hlushcneko</string>
                                 </buttonCell>
                                 <color key="bezelColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
-                                    <action selector="remove:" target="2un-du-hJz" id="nfg-HP-3oZ"/>
+                                    <action selector="removeRepository:" target="2un-du-hJz" id="cec-Nn-5zY"/>
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VOe-4f-fe5">
