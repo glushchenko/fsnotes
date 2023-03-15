@@ -12,16 +12,14 @@ public enum RepositoryAction: Int, CaseIterable {
     case initCommit
     case clonePush
     case commit
-    case pull
-    case push
+    case pullPush
 
     var title: String {
         switch self {
         case .initCommit: return "Init/commit"
         case .clonePush: return "Clone/push"
-        case .pull: return "Pull"
+        case .pullPush: return "Pull/push"
         case .commit: return "Add/commit"
-        case .push: return "Push"
         }
     }
 }

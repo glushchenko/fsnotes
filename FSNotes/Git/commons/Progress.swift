@@ -47,6 +47,8 @@ public class GitProgress {
     }
 
     func send(message: String) {
+        print(message)
+
         DispatchQueue.main.async {
             #if os(iOS)
                 self.statusTextField.text = message

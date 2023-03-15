@@ -308,7 +308,7 @@ extension Project {
         return false
     }
 
-    public func removeRepository() {
+    public func removeRepository(progress: GitProgress? = nil) {
         let repoURL = getRepositoryUrl()
 
         if FileManager.default.fileExists(atPath: repoURL.path) {
@@ -316,6 +316,8 @@ extension Project {
         }
 
         removeCommitsCache()
+
+        progress?.log(message: "git repository has been deleted")
     }
 
     public func removeCommitsCache() {
@@ -369,7 +371,7 @@ extension Project {
     public func getRepositoryState() -> RepositoryAction {
         if hasRepository() {
             if settings.gitOrigin != nil {
-                return .pull
+                return .pullPush
             } else {
                 return .commit
             }
@@ -394,10 +396,14 @@ extension Project {
                 message = clonePush(progress: progress)
             case .commit:
                 try commit(message: nil, progress: progress)
-            case .pull:
-                try pull(progress: progress)
-            case .push:
-                try push()
+            case .pullPush:
+                do {
+                    try pull(progress: progress)
+                } catch GitError.notFound(let ref) {
+                    progress?.log(message: "\(ref) not found, push trying ...")
+
+                    try push(progress: progress)
+                }
             }
         } catch {
             message = error.localizedDescription

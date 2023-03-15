@@ -11,11 +11,15 @@ import Compression
 
 extension Note {
 
-    public func getGitPath() -> String {
+    public func getGitPath(history: Bool = false) -> String {
         var path = name
 
         if let gitPath = getGitPathPrefix() {
             path = gitPath
+        }
+
+        if history && isTextBundle(), let contentURL = getContentFileURL() {
+            path += "/" + contentURL.lastPathComponent
         }
 
         return path.recode4byteString()
@@ -348,7 +352,7 @@ extension Note {
             guard let project = getGitProject() else { return commits }
 
             let repository = try project.getRepository()
-            let path = getGitPath()
+            let path = getGitPath(history: true)
 
             do {
                 let fileRevLog = try FileHistoryIterator(repository: repository, path: path, project: project)
@@ -378,7 +382,11 @@ extension Note {
         guard let project = getGitProject() else { return }
 
         try project.commit(message: commitMessage)
-        try project.pull()
+
+        do {
+            try project.pull()
+        } catch {/*_*/}
+
         try project.push()
     }
 

@@ -27,7 +27,7 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
 
     @IBAction func removeRepository(_ sender: Any) {
-        project?.removeRepository()
+        project?.removeRepository(progress: progress)
 
         updateButtons()
     }
@@ -61,7 +61,6 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
         ViewController.shared()?.gitQueue.addOperation({
             defer {
                 DispatchQueue.main.async {
-                    //UIApplication.getVC().scheduledGitPull()
                     self.updateButtons(isActive: false)
                 }
             }
