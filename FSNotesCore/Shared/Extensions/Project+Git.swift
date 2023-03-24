@@ -168,10 +168,16 @@ extension Project {
         return true
     }
 
-    public func installSSHKey(force: Bool = false) -> URL? {
+    public func removeSSHKey() {
+        guard let url = getSSHKeyUrl() else { return }
+
+        try? FileManager.default.removeItem(at: url)
+    }
+
+    public func installSSHKey() -> URL? {
         guard let url = getSSHKeyUrl() else { return nil }
 
-        if !force, FileManager.default.fileExists(atPath: url.path) {
+        if FileManager.default.fileExists(atPath: url.path) {
             return url
         }
 

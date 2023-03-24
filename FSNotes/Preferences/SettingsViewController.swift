@@ -35,6 +35,8 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     @IBAction func origin(_ sender: Any) {
         project?.settings.setOrigin(origin.stringValue)
         project?.saveSettings()
+
+        updateButtons()
     }
 
     @IBAction func passphrase(_ sender: Any) {
@@ -100,6 +102,7 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     }
 
     @IBAction func resetKey(_ sender: Any) {
+        project?.removeSSHKey()
         project?.settings.gitPrivateKey = nil
         project?.saveSettings()
 

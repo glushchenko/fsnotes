@@ -241,6 +241,7 @@ class GitViewController: UITableViewController {
     @objc func removePressed(sender: UIButton) {
         guard let project = project else { return }
 
+        project.removeSSHKey()
         project.removeRepository()
         rightButton?.isEnabled = false
 

@@ -13,6 +13,16 @@ import Cgit2
 extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
+        guard let note = getSelectedNotes()?.first else { return }
+        if !note.project.hasRepository() {
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.informativeText = NSLocalizedString("Please init git repository before (Preferences -> Git -> Init/commit)", comment: "")
+            alert.messageText = NSLocalizedString("Repository not found", comment: "")
+            alert.runModal()
+            return
+        }
+
         guard let window = self.view.window else { return }
         if UserDefaultsManagement.askCommitMessage {
             let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 60))
