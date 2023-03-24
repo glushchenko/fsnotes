@@ -2940,7 +2940,7 @@ Olena Hlushcneko</string>
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Az0-Zg-c5o">
                                 <rect key="frame" x="127" y="62" width="245" height="16"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" placeholderString="Repository status" drawsBackground="YES" id="v9k-wu-2xL">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" placeholderString="empty log" drawsBackground="YES" id="v9k-wu-2xL">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" red="0.8612499046312958" green="0.9052378177439856" blue="0.94999998807907104" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3414,7 +3414,7 @@ Olena Hlushcneko</string>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="Emv-2s-Shl"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="border" placeholderString="no data" drawsBackground="YES" id="a1w-ll-Djh">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="border" alignment="center" placeholderString="empty log" drawsBackground="YES" id="a1w-ll-Djh">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="background_selected_not_fr"/>

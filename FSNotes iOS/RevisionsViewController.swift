@@ -44,16 +44,23 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     private func initButtons() {
+        var buttons = [UIBarButtonItem]()
+
         let leftString = NSLocalizedString("Cancel", comment: "")
         navItem.leftBarButtonItem = UIBarButtonItem(title: leftString, style: .plain, target: self, action: #selector(closeController))
 
-        let dropImage = UIImage(named: "trashButton")?.resize(maxWidthHeight: 28)
-        let dropBarButton = UIBarButtonItem(image: dropImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(dropRevisions))
+        if let project = note?.project, !project.hasRepository() {
+            let dropImage = UIImage(named: "trashButton")?.resize(maxWidthHeight: 28)
+            let dropBarButton = UIBarButtonItem(image: dropImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(dropRevisions))
+
+            buttons.append(dropBarButton)
+        }
 
         let saveImage = UIImage(named: "saveButton")?.resize(maxWidthHeight: 32)
         let saveBarButton = UIBarButtonItem(image: saveImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(saveRevision))
+        buttons.append(saveBarButton)
 
-        navItem.rightBarButtonItems = [saveBarButton, dropBarButton]
+        navItem.rightBarButtonItems = buttons
     }
 
     @IBAction func dropRevisions() {

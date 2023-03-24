@@ -69,8 +69,8 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.alertStyle = .critical
-                    alert.informativeText = NSLocalizedString("git error", comment: "")
-                    alert.messageText = message
+                    alert.informativeText = message
+                    alert.messageText = NSLocalizedString("git error", comment: "")
                     alert.runModal()
                 }
             }

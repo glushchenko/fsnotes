@@ -285,7 +285,13 @@ extension Project {
         let remote = repository.remotes
         let remoteBranch = try remote.get(remoteName: "origin")
 
-        _ = try remoteBranch.pull(signature: sign, authentication: authHandler, project: self)
+        do {
+            try remoteBranch.pull(signature: sign, authentication: authHandler, project: self)
+        } catch GitError.uncommittedConflict {
+            try commit()
+            try remoteBranch.pull(signature: sign, authentication: authHandler, project: self)
+            try push()
+        }
 
         if let progress = progress {
             progress.log(message: "\(label) – successful git pull 👌")
@@ -406,7 +412,11 @@ extension Project {
                 }
             }
         } catch {
-            message = error.localizedDescription
+            if let error = error as? GitError {
+                message = error.associatedValue()
+            } else {
+                message = error.localizedDescription
+            }
         }
 
         return message
@@ -417,7 +427,7 @@ extension Project {
 
         do {
             if let repo = try cloneRepository(), let local = getLocalBranch(repository: repo) {
-                try repo.head().forceCheckout(branch: local)
+                try repo.head().checkout(branch: local, type: .force)
                 cacheHistory(progress: progress)
             } else {
                 do {

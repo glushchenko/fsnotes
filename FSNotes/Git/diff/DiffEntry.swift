@@ -64,3 +64,10 @@ public class DiffEntry {
         }
     }
 }
+
+public class DiffFileNew {
+    init(delta: UnsafePointer<git_diff_file>) {
+        let ptr = delta.pointee
+        print(git_string_converter(ptr.path))
+    }
+}

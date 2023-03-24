@@ -82,7 +82,7 @@ public class Remote {
     /// - throws: GitError
     public func pull(signature: Signature, remote: Branch? = nil,
                      authentication: AuthenticationHandler? = nil,
-                     progress: Progress? = nil, project: Project? = nil) throws -> Bool {
+                     progress: Progress? = nil, project: Project? = nil) throws {
         
         // Fetch remote
         try fetch(authentication: authentication, progress: progress)
@@ -102,7 +102,7 @@ public class Remote {
         
         // Merge head
         let head = try repository.head()
-        return try head.merge(branch: remoteBranch, signature: signature, progress: progress, project: project)
+        _ = try head.merge(branch: remoteBranch, signature: signature, progress: progress)
     }
     
     /// Push a branch to remote

@@ -37,7 +37,6 @@ public class GitProgress {
     
     func log(current: Int, total: Int, action: String) {
         let message = "git \(action): chunk \(current) from \(total)"
-        project.gitStatus = message
         send(message: message)
     }
     
@@ -60,6 +59,15 @@ public class GitProgress {
 }
 
 final class ProgressDelegate {
+    static let checkoutIgnoreFilesProgressCallback: git_checkout_notify_cb = {a,b,c,d,e,f in
+        // Dirty found – skip checkout, commit before
+        if a.rawValue == 2 {
+            return -1
+        }
+
+        return 0
+    }
+
     static let fetchProgressCallback: git_transfer_progress_cb = { stats, payload in
         if let stats = stats {
             AppDelegate.gitProgress?.log(current: Int(stats.pointee.received_objects), total: Int(stats.pointee.total_objects), action: "fetch")

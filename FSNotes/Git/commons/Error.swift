@@ -24,6 +24,7 @@ public enum GitError : Error {
     case modifiedElsewhere(ref: String)
     
     case notImplemented(msg: String)
+    case uncommittedConflict
     
     func associatedValue() -> String {
         switch self {
@@ -38,17 +39,19 @@ public enum GitError : Error {
         case .ambiguous(msg: let msg):
             return "Ambiguous \(msg)"
         case .invalidReference(msg: let msg, type: let type):
-            return "Invalid ref \(msg)"
+            return "Invalid ref \(msg) \(type)"
         case .unknownReference(msg: let msg):
             return "Unknown ref \(msg)"
         case .unknownError(msg: let msg, code: let code, desc: let desc):
-            return "Code: \(code) \(desc)"
+            return "\(msg) \(code) \(desc)"
         case .unableToMerge(msg: let msg):
             return "Unable to merge \(msg)"
         case .modifiedElsewhere(ref: let ref):
             return "Modified error \(ref)"
         case .notImplemented(msg: let msg):
             return "Not implemented \(msg)"
+        case .uncommittedConflict:
+            return "Uncommitted conflict"
         }
     }
 }
