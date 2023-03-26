@@ -83,7 +83,7 @@ class ProjectSettingsViewController: SettingsViewController {
 
     public func load(project: Project) {
         showInAll.state = project.settings.showInCommon ? .on : .off
-        firstLineAsTitle.state = project.settings.firstLineAsTitle ? .on : .off
+        firstLineAsTitle.state = project.settings.isFirstLineAsTitle() ? .on : .off
         nestedFoldersContent.state = project.settings.showNestedFoldersContent ? .on : .off
 
         modificationDate.state = project.settings.sortBy == .modificationDate ? .on : .off

@@ -123,7 +123,7 @@ class TitleTextField: NSTextField {
     public func updateNotesTableView() {
         guard let vc = ViewController.shared(), let note = vc.editor.note else { return }
 
-        if (note.container == .encryptedTextPack && !note.isUnlocked()) || !note.project.settings.firstLineAsTitle {
+        if (note.container == .encryptedTextPack && !note.isUnlocked()) || !note.project.settings.isFirstLineAsTitle() {
             vc.notesTableView.reloadRow(note: note)
         }
 

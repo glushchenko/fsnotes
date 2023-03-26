@@ -889,15 +889,15 @@ class Storage {
         if let word = word {
             notes = notes
                 .filter{
-                    $0.title.contains(word) && $0.project.settings.firstLineAsTitle
-                    || $0.fileName.contains(word) && !$0.project.settings.firstLineAsTitle
+                    $0.title.contains(word) && $0.project.settings.isFirstLineAsTitle()
+                    || $0.fileName.contains(word) && !$0.project.settings.isFirstLineAsTitle()
 
                 }
                 .filter({ !$0.isTrash() })
 
             guard notes.count > 0 else { return nil }
 
-            var titles = notes.map{ String($0.project.settings.firstLineAsTitle ? $0.title : $0.fileName) }
+            var titles = notes.map{ String($0.project.settings.isFirstLineAsTitle() ? $0.title : $0.fileName) }
 
             titles = Array(Set(titles))
             titles = titles
@@ -927,7 +927,7 @@ class Storage {
 
         let titles = notes
             .filter({ !$0.isTrash() })
-            .map{ String($0.project.settings.firstLineAsTitle ? $0.title : $0.fileName ) }
+            .map{ String($0.project.settings.isFirstLineAsTitle() ? $0.title : $0.fileName ) }
             .filter({ $0.count > 0 })
             .filter({ !$0.starts(with: "![](") })
             .prefix(100)

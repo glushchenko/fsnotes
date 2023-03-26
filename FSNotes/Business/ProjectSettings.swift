@@ -16,7 +16,7 @@ public class ProjectSettings: NSObject, NSSecureCoding {
     public var showInCommon: Bool = true
     public var showInSidebar: Bool = true
     public var showNestedFoldersContent: Bool = true
-    public var firstLineAsTitle: Bool = true
+    public var firstLineAsTitle: Bool?
     public var priority: Int = 0
     public var gitOrigin: String?
     public var gitPrivateKey: Data?
@@ -36,7 +36,11 @@ public class ProjectSettings: NSObject, NSSecureCoding {
         showInCommon =  aDecoder.decodeBool(forKey: "showInCommon")
         showInSidebar = aDecoder.decodeBool(forKey: "showInSidebar")
         showNestedFoldersContent = aDecoder.decodeBool(forKey: "showNestedFoldersContent")
-        firstLineAsTitle = aDecoder.decodeBool(forKey: "firstLineAsTitle")
+
+        if aDecoder.containsValue(forKey: "firstLineAsTitle") {
+            firstLineAsTitle = aDecoder.decodeBool(forKey: "firstLineAsTitle")
+        }
+
         priority = aDecoder.decodeInteger(forKey: "priority")
 
         if let value = aDecoder.decodeObject(of: NSString.self, forKey: "gitOrigin") as? String {
@@ -58,7 +62,11 @@ public class ProjectSettings: NSObject, NSSecureCoding {
         aCoder.encode(showInCommon, forKey: "showInCommon")
         aCoder.encode(showInSidebar, forKey: "showInSidebar")
         aCoder.encode(showNestedFoldersContent, forKey: "showNestedFoldersContent")
-        aCoder.encode(firstLineAsTitle, forKey: "firstLineAsTitle")
+
+        if let firstLineAsTitle = firstLineAsTitle {
+            aCoder.encode(firstLineAsTitle, forKey: "firstLineAsTitle")
+        }
+
         aCoder.encode(priority, forKey: "priority")
         
         if let gitOrigin = gitOrigin {
@@ -81,5 +89,13 @@ public class ProjectSettings: NSObject, NSSecureCoding {
         }
 
         gitOrigin = nil
+    }
+
+    public func isFirstLineAsTitle() -> Bool {
+        if let firstLineAsTitle = firstLineAsTitle {
+            return firstLineAsTitle
+        }
+
+        return UserDefaultsManagement.firstLineAsTitle
     }
 }

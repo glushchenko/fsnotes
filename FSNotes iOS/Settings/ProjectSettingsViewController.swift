@@ -170,7 +170,7 @@ class ProjectSettingsViewController: UITableViewController {
 
         if indexPath.section == 0x02 {
             cell.accessoryView = uiSwitch
-            uiSwitch.isOn = project.settings.firstLineAsTitle
+            uiSwitch.isOn = project.settings.isFirstLineAsTitle()
             uiSwitch.isEnabled = !project.isVirtual
 
             cell.textLabel?.text = NSLocalizedString("Use first line as title", comment: "")

@@ -613,7 +613,7 @@ public class Note: NSObject  {
     }
 
     @objc public func getPreviewForLabel() -> String {
-        if project.settings.firstLineAsTitle {
+        if project.settings.isFirstLineAsTitle() {
             return preview
         }
 
@@ -878,7 +878,7 @@ public class Note: NSObject  {
     }
 
     private func loadTitle() {
-        if !(UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle) {
+        if !project.settings.isFirstLineAsTitle() {
             title = url
                 .deletingPathExtension()
                 .pathComponents
@@ -1476,7 +1476,7 @@ public class Note: NSObject  {
         let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
 
         if let first = components.first {
-            if UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle {
+            if project.settings.isFirstLineAsTitle() {
                 loadYaml(components: components)
 
                 if title.count == 0 {
@@ -1489,7 +1489,7 @@ public class Note: NSObject  {
                 self.preview = getPreviewLabel(with: components.joined(separator: " "))
             }
         } else {
-            if !(UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle) {
+            if !project.settings.isFirstLineAsTitle() {
                 loadTitleFromFileName()
             } else {
                 firstLineAsTitle = false
@@ -2029,15 +2029,13 @@ public class Note: NSObject  {
         }
 
         #if os(iOS)
-        if !project.settings.firstLineAsTitle {
+        if !project.settings.isFirstLineAsTitle() {
             return getFileName()
         }
         #endif
 
         if title.count > 0 {
-            if title.isValidUUID && (
-                UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle
-            ) {
+            if title.isValidUUID && project.settings.isFirstLineAsTitle() {
                 return nil
             }
 

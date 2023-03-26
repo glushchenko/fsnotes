@@ -1625,7 +1625,7 @@ class ViewController: EditorViewController,
      Load titles in cases sort by Title
      */
     private func preLoadNoteTitles(in project: Project) {
-        if (UserDefaultsManagement.sort == .title || project.settings.sortBy == .title) && (UserDefaultsManagement.firstLineAsTitle || project.settings.firstLineAsTitle) {
+        if (UserDefaultsManagement.sort == .title || project.settings.sortBy == .title) && project.settings.isFirstLineAsTitle() {
             let notes = storage.noteList.filter({ $0.project == project })
             for note in notes {
                 note.loadPreviewInfo()
