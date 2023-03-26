@@ -332,6 +332,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             {
                 menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
             }
+
+            if menuItem.identifier?.rawValue == "note.saveRevision" {
+                if let note = note {
+                    let hasCommits = note.project.hasCommitsDiffsCache()
+                    menuItem.isHidden = !hasCommits
+                }
+            }
             
             if menuItem.identifier?.rawValue == "fileMenu.pinUnpin" {
                 if let note = note {

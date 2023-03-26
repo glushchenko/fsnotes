@@ -95,17 +95,12 @@ class GitViewController: UITableViewController {
             indexPath.section == GitSection.logs.rawValue && indexPath.row == 0
         ) {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            
-            if indexPath.section == 0 {
-                cell.textLabel?.text = indexPath.row == 0
-                    ? NSLocalizedString("Private key", comment: "")
-                    : NSLocalizedString("Passphrase", comment: "")
-            }
         
             let textField = UITextField()
             
             // Passphrase
             if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 {
+                cell.textLabel?.text = NSLocalizedString("Passphrase", comment: "")
                 textField.isSecureTextEntry = true
                 textField.addTarget(self, action: #selector(passphraseDidChange), for: .editingChanged)
                 textField.placeholder = "(optional)"
@@ -121,7 +116,7 @@ class GitViewController: UITableViewController {
             
             // Logs
             if indexPath.section == GitSection.logs.rawValue && indexPath.row == 0 {
-                textField.placeholder = "No data"
+                textField.placeholder = "no data"
                 textField.isEnabled = false
 
                 logTextField = textField
@@ -165,7 +160,8 @@ class GitViewController: UITableViewController {
         // Private key
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 0 {
             if project.settings.gitPrivateKey != nil {
-                cell.detailTextLabel?.text = NSLocalizedString("Found one private key 👍", comment: "")
+                cell.textLabel?.text = NSLocalizedString("Private key", comment: "")
+                cell.detailTextLabel?.text = NSLocalizedString("✅ - ", comment: "")
                 
                 let accessoryButton = UIButton(type: .custom)
                 accessoryButton.addTarget(self, action: #selector(deletePrivateKey(sender:)), for: .touchUpInside)

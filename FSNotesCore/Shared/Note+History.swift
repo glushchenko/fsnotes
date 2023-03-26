@@ -349,7 +349,7 @@ extension Note {
         var commits = [Commit]()
 
         do {
-            guard let project = getGitProject() else { return commits }
+            guard let project = getGitProject(), project.hasCommitsDiffsCache() else { return commits }
 
             let repository = try project.getRepository()
             let path = getGitPath(history: true)

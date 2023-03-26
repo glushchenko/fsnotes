@@ -120,9 +120,9 @@ public class Project: Equatable {
                 keyStore.set(data, forKey: key)
                 keyStore.synchronize()
             #else
-                if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first,
-                   let url = documentDir.appendingPathComponent(key) {
-                    data.write(to: url)
+                if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                    let url = documentDir.appendingPathComponent(key)
+                    try? data.write(to: url)
                 }
             #endif
         } catch {
@@ -138,8 +138,8 @@ public class Project: Equatable {
             let keyStore = NSUbiquitousKeyValueStore()
             data = keyStore.data(forKey: key)
         #else
-            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first,
-               let url = documentDir.appendingPathComponent(key) {
+            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                let url = documentDir.appendingPathComponent(key)
                 data = try? Data(contentsOf: url)
             }
         #endif

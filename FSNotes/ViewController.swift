@@ -249,6 +249,15 @@ class ViewController: EditorViewController,
                     return false
                 }
 
+                if menuItem.identifier?.rawValue == "note.saveRevision"
+                    || menuItem.identifier?.rawValue == "note.history" {
+                    if let note = note {
+                        let hasCommits = note.project.hasCommitsDiffsCache()
+                        menuItem.isHidden = !hasCommits
+                        return hasCommits
+                    }
+                }
+
                 if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
                     if let note = note, note.isEncrypted() {
                         menuItem.isHidden = false
@@ -1975,6 +1984,7 @@ class ViewController: EditorViewController,
         let historyMenu = noteMenu.item(withTitle: title)
         historyMenu?.submenu?.removeAllItems()
         historyMenu?.isEnabled = false
+        historyMenu?.isHidden = !note.project.hasCommitsDiffsCache()
 
         guard notes.count == 0x01 else { return }
 

@@ -380,6 +380,16 @@ extension Project {
         return documentDir.appendingPathComponent(fileName, isDirectory: false)
     }
 
+    public func hasCommitsDiffsCache() -> Bool {
+        guard let project = getGitProject() else { return false }
+
+        if let url = project.getCommitsDiffsCache() {
+            return FileManager.default.fileExists(atPath: url.path)
+        }
+
+        return false
+    }
+
     public func getRepositoryState() -> RepositoryAction {
         if hasRepository() {
             if settings.gitOrigin != nil {
