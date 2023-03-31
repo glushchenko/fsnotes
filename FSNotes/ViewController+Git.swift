@@ -57,7 +57,8 @@ extension EditorViewController {
     
     private func saveRevision(commitMessage: String? = nil) {
         guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
-        
+
+        ViewController.shared()?.gitQueue.cancelAllOperations()
         ViewController.shared()?.gitQueue.addOperation({
             do {
                 try note.saveRevision(commitMessage: commitMessage)
