@@ -685,10 +685,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func addPullTask() {
         guard storage.hasOrigins() else { return }
         
+        guard UIApplication.getVC().gitQueue.operationCount == 0 else {
+            print("Pull skipped")
+            return
+        }
+
         let operation = BlockOperation()
         operation.addExecutionBlock {
             Storage.shared().pullAll()
-            
+
             if operation.isCancelled { return }
             Storage.shared().checkGitState()
 

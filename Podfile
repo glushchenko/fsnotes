@@ -1,6 +1,6 @@
 use_frameworks!
 
-MAC_TARGET_VERSION = '10.12'
+MAC_TARGET_VERSION = '10.14'
 IOS_TARGET_VERSION = '12'
 
 def mac_pods
@@ -86,6 +86,11 @@ post_install do |installer|
       end
       source_files.delete dummyM
       puts "Deleting source file #{dummy.inspect} from target #{target.inspect}."
+    end
+
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.14'
     end
   end
 end

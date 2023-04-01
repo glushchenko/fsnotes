@@ -2805,8 +2805,6 @@
 			dependencies = (
 			);
 			name = "FSNotesCore macOS";
-			packageProductDependencies = (
-			);
 			productName = "FSNotesCore macOS";
 			productReference = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */;
 			productType = "com.apple.product-type.framework";

@@ -146,7 +146,7 @@ extension EditorViewController {
     
     @IBAction private func pull(_ sender: Any) {
         // Skip on high load
-        if let qty = ViewController.shared()?.gitQueue.operationCount, qty > 5 {
+        if let qty = ViewController.shared()?.gitQueue.operationCount, qty > 0 {
             print("Pull skipped")
             return
         }
