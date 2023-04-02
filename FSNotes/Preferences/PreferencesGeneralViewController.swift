@@ -11,7 +11,7 @@ import MASShortcut
 import CoreData
 import FSNotesCore_macOS
 
-class PreferencesGeneralViewController: NSViewController {
+class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 481)
@@ -59,6 +59,8 @@ class PreferencesGeneralViewController: NSViewController {
 
         let ext = UserDefaultsManagement.noteExtension
         defaultExtension.selectItem(withTitle: "." + ext)
+
+        externalEditorApp.delegate = self
     }
 
     @IBAction func changeDefaultStorage(_ sender: Any) {
@@ -230,6 +232,14 @@ class PreferencesGeneralViewController: NSViewController {
             } else {
                 UserDefaultsManagement.quickNoteShortcut = nil
             }
+        }
+    }
+
+    func controlTextDidChange(_ notification: Notification) {
+        guard let textField = notification.object as? NSTextField else { return }
+
+        if textField.identifier?.rawValue == "openInExternalEditor" {
+            UserDefaultsManagement.externalEditor = externalEditorApp.stringValue
         }
     }
 }
