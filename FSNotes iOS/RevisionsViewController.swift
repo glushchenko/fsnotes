@@ -81,23 +81,10 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     @IBAction func saveRevision() {
-        do {
-            try note?.saveRevision()
-        } catch {
-            let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        guard let note = note else { return }
+        
+        UIApplication.getVC().notesTable.saveRevisionAction(note: note)
 
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        if let project = note?.getGitProject(), project.isGitOriginExist() {
-            UIApplication.getVC().gitQueue.addOperation({
-                try? project.pull()
-                try? project.push()
-            })
-        }
-        
         dismiss(animated: true)
     }
 

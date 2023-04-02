@@ -1,7 +1,7 @@
 use_frameworks!
 
 MAC_TARGET_VERSION = '10.14'
-IOS_TARGET_VERSION = '12'
+IOS_TARGET_VERSION = '13'
 
 def mac_pods
     pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
@@ -88,9 +88,29 @@ post_install do |installer|
       puts "Deleting source file #{dummy.inspect} from target #{target.inspect}."
     end
 
-    target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
-      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.14'
+    if target.name == 'libcmark_gfm-macOS' ||
+      target.name == 'MASShortcut' ||
+      target.name == 'SSZipArchive-macOS' ||
+      target.name == 'RNCryptor-macOS'
+
+      target.build_configurations.each do |config|
+        config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.14'
+      end
+    end
+
+    if target.name == 'SSZipArchive-iOS' ||
+      target.name == 'RNCryptor-iOS' ||
+      target.name == 'NightNight' ||
+      target.name == 'Kanna' ||
+      target.name == 'Highlightr-iOS' ||
+      target.name == 'DropDown' ||
+      target.name == 'DKCamera' ||
+      target.name == 'CropViewController' ||
+      target.name == 'DKImagePickerController'
+
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      end
     end
   end
 end

@@ -18,6 +18,7 @@ public class ProjectSettings: NSObject, NSSecureCoding {
     public var showNestedFoldersContent: Bool = true
     public var firstLineAsTitle: Bool?
     public var priority: Int = 0
+    public var gitAutoPull: Bool = false
     public var gitOrigin: String?
     public var gitPrivateKey: Data?
     public var gitPrivateKeyPassphrase: String?
@@ -42,6 +43,7 @@ public class ProjectSettings: NSObject, NSSecureCoding {
         }
 
         priority = aDecoder.decodeInteger(forKey: "priority")
+        gitAutoPull =  aDecoder.decodeBool(forKey: "gitAutoPull")
 
         if let value = aDecoder.decodeObject(of: NSString.self, forKey: "gitOrigin") as? String {
             gitOrigin = value
@@ -68,7 +70,8 @@ public class ProjectSettings: NSObject, NSSecureCoding {
         }
 
         aCoder.encode(priority, forKey: "priority")
-        
+        aCoder.encode(gitAutoPull, forKey: "gitAutoPull")
+
         if let gitOrigin = gitOrigin {
             aCoder.encode(gitOrigin, forKey: "gitOrigin")
         }

@@ -37,6 +37,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private let metadataQueue = OperationQueue()
     
     public let gitQueue = OperationQueue()
+    public let gitQueueState = OperationQueue()
+
     private var delayedInsert: Note?
 
     private var maxSidebarWidth = CGFloat(0)
@@ -105,6 +107,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         gitQueue.qualityOfService = .userInteractive
         gitQueue.maxConcurrentOperationCount = 1
+
+        gitQueueState.qualityOfService = .background
+        gitQueueState.maxConcurrentOperationCount = 1
                 
         scheduledGitPull()
 
@@ -118,14 +123,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadNews()
         restoreLastController()
 
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+
         super.viewDidLoad()
+    }
+
+    @objc public func didBecomeActive() {
+        addPullTask()
     }
 
     public func scheduledGitPull() {
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
 
         gitPullTimer?.invalidate()
-        gitPullTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.addPullTask), userInfo: nil, repeats: true)
+        gitPullTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(self.addPullTask), userInfo: nil, repeats: true)
     }
         
     public func loadInbox() {
@@ -674,7 +685,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @objc func toggleSearch(refreshControl: UIRefreshControl) {
         if storage.hasOrigins() {
-            addPullTask()
+            addPullTask(force: true)
         } else {
             toggleSearchView()
         }
@@ -682,27 +693,29 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         refreshControl.endRefreshing()
     }
     
-    @objc func addPullTask() {
+    @objc func addPullTask(force: Bool = false) {
         guard storage.hasOrigins() else { return }
-        
+
+        print(UIApplication.getVC().gitQueue.operationCount)
         guard UIApplication.getVC().gitQueue.operationCount == 0 else {
             print("Pull skipped")
             return
         }
 
-        let operation = BlockOperation()
-        operation.addExecutionBlock {
-            Storage.shared().pullAll()
+        let viewController = UIApplication.getVC()
 
-            if operation.isCancelled { return }
-            Storage.shared().checkGitState()
+        viewController.gitQueue.addOperation({
+            Storage.shared().pullAll(force: force)
 
-            DispatchQueue.main.async {
-                self.updateNotesCounter()
-            }
-        }
-        
-        UIApplication.getVC().gitQueue.addOperation(operation)
+//            if viewController.gitQueueState.operationCount == 0 {
+//                viewController.gitQueueState.addOperation {
+//                    Storage.shared().checkGitState()
+//                    DispatchQueue.main.async {
+//                        self.updateNotesCounter()
+//                    }
+//                }
+//            }
+        })
     }
 
     public func loadSearchController(query: String? = nil) {

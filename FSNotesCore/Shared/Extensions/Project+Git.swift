@@ -421,6 +421,7 @@ extension Project {
             case .pullPush:
                 do {
                     try pull(progress: progress)
+                    try push(progress: progress)
                 } catch GitError.notFound(let ref) {
                     progress?.log(message: "\(ref) not found, push trying ...")
 

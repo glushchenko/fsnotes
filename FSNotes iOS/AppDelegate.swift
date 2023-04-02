@@ -275,5 +275,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return gvc
     }
+
+    public static func getGitVCOptional(for project: Project) -> GitViewController? {
+        if let gitVC = AppDelegate.gitVC[project.settingsKey] {
+            return gitVC
+        }
+
+        return nil
+    }
 }
 

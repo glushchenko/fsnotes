@@ -12,12 +12,14 @@ import CoreServices
 
 class GitViewController: UITableViewController {    
     enum GitSection: Int, CaseIterable {
+        case automation
         case credentials
         case origin
         case logs
 
         var title: String {
             switch self {
+            case .automation: return "Automation"
             case .credentials: return "Credentials"
             case .origin: return "Origin"
             case .logs: return "Status"
@@ -86,10 +88,33 @@ class GitViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 20
+        }
+
+        return 50
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let project = project else { return UITableViewCell() }
+
+        if indexPath.section == GitSection.automation.rawValue {
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+
+            if indexPath.row == 0 {
+                cell.textLabel?.text = NSLocalizedString("Pull (every 30 sec)", comment: "")
+
+                let uiSwitch = UISwitch()
+                uiSwitch.addTarget(self, action: #selector(autoPullDidChange(_:)), for: .valueChanged)
+                uiSwitch.isOn = project.settings.gitAutoPull
+                cell.accessoryView = uiSwitch
+            }
+
+            return cell
+        }
         
-        // Passphrase and origin
+        // Passphrase and origin textfields
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 || (
             indexPath.section == GitSection.origin.rawValue && indexPath.row == 0 ||
             indexPath.section == GitSection.logs.rawValue && indexPath.row == 0
@@ -159,8 +184,10 @@ class GitViewController: UITableViewController {
         
         // Private key
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 0 {
+            cell.textLabel?.text = NSLocalizedString("Private key", comment: "")
+            cell.detailTextLabel?.text = NSLocalizedString("...", comment: "")
+
             if project.settings.gitPrivateKey != nil {
-                cell.textLabel?.text = NSLocalizedString("Private key", comment: "")
                 cell.detailTextLabel?.text = NSLocalizedString("✅ - ", comment: "")
                 
                 let accessoryButton = UIButton(type: .custom)
@@ -180,9 +207,14 @@ class GitViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 || section == 1 {
+        if section == 0 {
+            return 1
+        }
+
+        if section == 1 || section == 2 {
             return 2
         }
+
         return 1
     }
 
@@ -302,6 +334,19 @@ class GitViewController: UITableViewController {
 
         let state = project.getRepositoryState()
         leftButton?.setTitle(state.title, for: .normal)
+    }
+
+    @objc public func autoPullDidChange(_ sender: UISwitch) {
+        guard let cell = sender.superview as? UITableViewCell else { return }
+        guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+        guard let project = project else { return }
+        
+        project.settings.gitAutoPull = uiSwitch.isOn
+        project.saveSettings()
+    }
+
+    public func setProgress(message: String) {
+        progress?.log(message: message)
     }
 }
 

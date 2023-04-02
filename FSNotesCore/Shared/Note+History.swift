@@ -382,6 +382,7 @@ extension Note {
         guard let project = getGitProject() else { return }
 
         try project.commit(message: commitMessage)
+        print("Successful commit")
 
         do {
             try project.pull()

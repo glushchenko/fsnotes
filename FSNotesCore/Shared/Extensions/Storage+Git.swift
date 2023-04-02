@@ -9,9 +9,17 @@
 import Foundation
 
 extension Storage {
-    public func pullAll() {
+    public func pullAll(force: Bool = false) {
         guard let projects = getGitProjects() else { return }
         for project in projects {
+        #if os(iOS)
+            if !force && !project.settings.gitAutoPull {
+                continue
+            }
+        #endif
+
+            var status: String?
+
             do {
                 try project.pull()
 
@@ -20,12 +28,25 @@ extension Storage {
                 dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
                 let dateString = dateFormatter.string(from: currentDate)
 
-                project.gitStatus = "Successfull auto pull – \(dateString)"
+                status = "Successfull auto pull – \(dateString)"
+                project.gitStatus = status
             } catch {
                 if let error = error as? GitError {
-                    project.gitStatus = error.associatedValue()
+                    status = error.associatedValue()
+
                 }
             }
+
+            #if os(iOS)
+                if let status = status {
+                    print(status)
+                    project.gitStatus = status
+
+                    if let viewController = AppDelegate.getGitVCOptional(for: project) {
+                        viewController.setProgress(message: status)
+                    }
+                }
+            #endif
         }
     }
 

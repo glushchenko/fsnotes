@@ -242,7 +242,7 @@ class NotesTableView: UITableView,
 
         if showAll && note.hasGitRepository() && !note.isEncrypted() {
             let history = UIAlertAction(title: NSLocalizedString("Save revision", comment: ""), style: .default, handler: { _ in
-                self.saveRevisionAction(note: notes.first!, presentController: presentController)
+                self.saveRevisionAction(note: notes.first!)
             })
             history.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(named: "saveButton")?.resize(maxWidthHeight: 25) {
@@ -595,23 +595,52 @@ class NotesTableView: UITableView,
         nvc?.present(datePickerViewController, animated: true )
     }
     
-    private func saveRevisionAction(note: Note, presentController: UIViewController) {
-        UIApplication.getVC().gitQueue.addOperation({
+    public func saveRevisionAction(note: Note) {
+        guard let nvc = UIApplication.getNC() else { return }
+        let viewController = UIApplication.getVC()
+
+        // Show loader
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+        nvc.present(alert, animated: true)
+
+        DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try note.saveRevision()
-            } catch {
-                note.getGitProject()?.gitStatus = error.localizedDescription
 
+                // Hide loader
                 DispatchQueue.main.async {
+                    nvc.dismiss(animated: false, completion: nil)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    // Hide loader
+                    nvc.dismiss(animated: false, completion: nil)
+
+                    note.getGitProject()?.gitStatus = error.localizedDescription
+
                     let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
-                    let nvc = UIApplication.getNC()
-                    nvc?.present(alert, animated: true, completion: nil)
+                    nvc.present(alert, animated: true, completion: nil)
                 }
+
                 return
             }
-        })
+
+            if let project = note.getGitProject(), project.isGitOriginExist() {
+                viewController.gitQueue.addOperation({
+                    try? project.pull()
+                    try? project.push()
+                })
+            }
+        }
     }
 
     private func historyAction(note: Note, presentController: UIViewController) {
