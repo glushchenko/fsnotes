@@ -120,20 +120,13 @@ extension EditorViewController {
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
 
         let storage = Storage.shared()
-        let projects = storage.getProjects()
+        guard let projects = storage.getGitProjects() else { return }
 
         ViewController.shared()?.gitQueue.addOperation({
             for project in projects {
-                if project.isTrash {
-                    continue
-                }
-
                 do {
-                    if project.isRoot || project.isGitOriginExist()  {
+                    if project.hasRepository()  {
                         try project.commit()
-                        
-                        guard project.getGitOrigin() != nil else { continue }
-                        
                         try project.pull()
                         try project.push()
                     }

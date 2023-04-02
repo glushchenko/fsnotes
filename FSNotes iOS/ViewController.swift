@@ -696,7 +696,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func addPullTask(force: Bool = false) {
         guard storage.hasOrigins() else { return }
 
-        print(UIApplication.getVC().gitQueue.operationCount)
         guard UIApplication.getVC().gitQueue.operationCount == 0 else {
             print("Pull skipped")
             return
