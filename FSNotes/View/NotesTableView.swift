@@ -308,7 +308,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
-        if (clickedRow > -1 && selectedRow < 0) {
+        if clickedRow > -1 {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
 
