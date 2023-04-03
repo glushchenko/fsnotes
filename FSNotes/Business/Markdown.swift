@@ -45,12 +45,20 @@ func renderMarkdownHTML(markdown: String) -> String? {
 func renderSoulverCodeBlocks(markdown: String) -> String {
     var html = markdown
     let calculator = Calculator(customization: .standard)
-    
+    let content = NSMutableAttributedString(string: html)
+
     FSParser.soulverRegex.regularExpression.enumerateMatches(in: markdown, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<markdown.count), using:
             {(result, flags, stop) -> Void in
         
         guard let replaceRange = result?.range(at: 0), let codeRange = result?.range(at: 2) else { return }
-        
+
+        let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: codeRange, string: content)
+        let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: codeRange)
+
+        if codeBlock != nil || spanBlock != nil {
+            return
+        }
+
         guard let replace = markdown.substring(with: replaceRange),
               let code = markdown.substring(with: codeRange),
             !replace.hasPrefix("\\")
