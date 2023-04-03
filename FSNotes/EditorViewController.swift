@@ -848,11 +848,23 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             editor.saveImages()
 
             note.save(attributed: editor.attributedString())
+
+            updateLastEditedStatus()
             vc.reSort(note: note)
         }
 
         breakUndoTimer.invalidate()
         breakUndoTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(breakUndo), userInfo: nil, repeats: true)
+    }
+
+    private func updateLastEditedStatus() {
+        let editors = AppDelegate.getEditTextViews()
+
+        for editor in editors {
+            editor.isLastEdited = false
+        }
+
+        vcEditor?.isLastEdited = true
     }
             
     @objc func breakUndo() {

@@ -1479,7 +1479,7 @@ class ViewController: EditorViewController,
             // Reloading nstextview in multiple windows
             
             for editor in editors {
-                if editor.note == note, let window = editor.window, !window.isKeyWindow {
+                if editor.note == note, !editor.isLastEdited, let window = editor.window, !window.isKeyWindow {
                     editor.editorViewController?.refillEditArea(force: true)
                 }
             }

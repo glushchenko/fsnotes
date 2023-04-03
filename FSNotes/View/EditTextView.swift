@@ -27,6 +27,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var tagsTimer: Timer?
     public var markdownView: MPreviewView?
     public var restoreRange: NSRange? = nil
+    public var isLastEdited: Bool = false
     
     @IBOutlet weak var previewMathJax: NSMenuItem!
 
