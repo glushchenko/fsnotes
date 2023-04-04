@@ -59,7 +59,6 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
         let action = project.getRepositoryState()
         updateButtons(isActive: true)
 
-        ViewController.shared()?.gitQueue.cancelAllOperations()
         ViewController.shared()?.gitQueue.addOperation({
             defer {
                 DispatchQueue.main.async {

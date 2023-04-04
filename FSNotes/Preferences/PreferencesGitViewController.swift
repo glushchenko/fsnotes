@@ -114,8 +114,6 @@ class PreferencesGitViewController: SettingsViewController {
     }
 
     @IBAction func pullInterval(_ sender: NSTextField) {
-        ViewController.shared()?.gitQueue.cancelAllOperations()
-        
         if var interval = Int(sender.stringValue) {
             if interval < 10 {
                 interval = 10

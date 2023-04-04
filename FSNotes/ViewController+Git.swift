@@ -14,7 +14,7 @@ extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
         guard let note = getSelectedNotes()?.first else { return }
-        if !note.project.hasRepository() {
+        if !note.hasGitRepository() {
             let alert = NSAlert()
             alert.alertStyle = .critical
             alert.informativeText = NSLocalizedString("Please init git repository before (Preferences -> Git -> Init/commit)", comment: "")
@@ -58,7 +58,6 @@ extension EditorViewController {
     private func saveRevision(commitMessage: String? = nil) {
         guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
 
-        ViewController.shared()?.gitQueue.cancelAllOperations()
         ViewController.shared()?.gitQueue.addOperation({
             do {
                 try note.saveRevision(commitMessage: commitMessage)
@@ -119,10 +118,10 @@ extension EditorViewController {
 
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
 
-        let storage = Storage.shared()
-        guard let projects = storage.getGitProjects() else { return }
-
         ViewController.shared()?.gitQueue.addOperation({
+            let storage = Storage.shared()
+            guard let projects = storage.getGitProjects() else { return }
+
             for project in projects {
                 do {
                     if project.hasRepository()  {
@@ -138,13 +137,14 @@ extension EditorViewController {
     }
     
     @IBAction private func pull(_ sender: Any) {
-        // Skip on high load
-        if let qty = ViewController.shared()?.gitQueue.operationCount, qty > 0 {
+        guard let queue = ViewController.shared()?.gitQueue else { return }
+
+        guard queue.operationCount == 0 else {
             print("Pull skipped")
             return
         }
-        
-        ViewController.shared()?.gitQueue.addOperation({
+
+        queue.addOperation({
             Storage.shared().pullAll()
         })
     }
