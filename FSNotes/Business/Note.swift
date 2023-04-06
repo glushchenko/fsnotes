@@ -1860,7 +1860,6 @@ public class Note: NSObject  {
             try FileManager.default.removeItem(at: textPackURL)
             try FileManager.default.removeItem(at: originalSrc)
 
-            convertTextBundleToFlat(name: name)
             self.decryptedTemporarySrc = nil
 
             invalidateCache()

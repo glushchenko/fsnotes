@@ -985,10 +985,15 @@ class SidebarOutlineView: NSOutlineView,
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
         guard let window = self.window else { return }
-        guard let vc = ViewController.shared() else { return }
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
-        vc.gitQueue.addOperation({
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
+
+            defer {
+                ViewController.gitQueueOperationDate = nil
+            }
+
             guard let project = project.getGitProject() else { return }
             
             do {

@@ -58,7 +58,13 @@ extension EditorViewController {
     private func saveRevision(commitMessage: String? = nil) {
         guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
 
-        ViewController.shared()?.gitQueue.addOperation({
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
+
+            defer {
+                ViewController.gitQueueOperationDate = nil
+            }
+
             do {
                 try note.saveRevision(commitMessage: commitMessage)
             } catch {
@@ -118,7 +124,13 @@ extension EditorViewController {
 
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
 
-        ViewController.shared()?.gitQueue.addOperation({
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
+
+            defer {
+                ViewController.gitQueueOperationDate = nil
+            }
+
             let storage = Storage.shared()
             guard let projects = storage.getGitProjects() else { return }
 
@@ -137,14 +149,31 @@ extension EditorViewController {
     }
     
     @IBAction private func pull(_ sender: Any) {
-        guard let queue = ViewController.shared()?.gitQueue else { return }
 
-        guard queue.operationCount == 0 else {
-            print("Pull skipped")
-            return
+        // Restart queue if operation stucked more then 2 minutes
+        if let date = ViewController.gitQueueOperationDate {
+            let diff = Int(Date().timeIntervalSince1970) - Int(date.timeIntervalSince1970)
+            let isBusy = ViewController.gitQueueBusy
+
+            if diff > 120 && !isBusy {
+
+                ViewController.gitQueue = OperationQueue()
+                ViewController.gitQueue.maxConcurrentOperationCount = 1
+
+                print("Git queue restart")
+            } else {
+                print("Git pull skipped")
+                return
+            }
         }
 
-        queue.addOperation({
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
+
+            defer {
+                ViewController.gitQueueOperationDate = nil
+            }
+
             Storage.shared().pullAll()
         })
     }

@@ -59,12 +59,18 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
         let action = project.getRepositoryState()
         updateButtons(isActive: true)
 
-        ViewController.shared()?.gitQueue.addOperation({
+        ViewController.gitQueue.addOperation({
             defer {
+                ViewController.gitQueueOperationDate = nil
+                ViewController.gitQueueBusy = false
+                
                 DispatchQueue.main.async {
                     self.updateButtons(isActive: false)
                 }
             }
+
+            ViewController.gitQueueOperationDate = Date()
+            ViewController.gitQueueBusy = true
 
             if let message = project.gitDo(action, progress: self.progress) {
                 DispatchQueue.main.async {

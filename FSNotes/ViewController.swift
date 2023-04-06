@@ -33,7 +33,10 @@ class ViewController: EditorViewController,
     
     var tagsScannerQueue = [Note]()
     
-    public let gitQueue = OperationQueue()
+    public static var gitQueue = OperationQueue()
+    public static var gitQueueBusy: Bool = false
+    public static var gitQueueOperationDate: Date?
+
     public var prevCommit: Commit?
 
     /* Git */
@@ -179,8 +182,8 @@ class ViewController: EditorViewController,
             self.registerKeyValueObserver()
         #endif
         
-        searchQueue.maxConcurrentOperationCount = 1
-        gitQueue.maxConcurrentOperationCount = 1
+        ViewController.gitQueue.maxConcurrentOperationCount = 1
+        ViewController.gitQueue.maxConcurrentOperationCount = 1
         
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
     }
