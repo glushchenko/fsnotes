@@ -1051,15 +1051,9 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     public func decrypt(projects: [Project], password: String) {
-        guard let vc = ViewController.shared() else { return }
-        
         var decryptedQty = 0
         for project in projects {
             let decrypted = project.decrypt(password: password)
-            for note in decrypted {
-                vc.notesTableView.reloadRow(note: note)
-            }
-            
             decryptedQty = decrypted.count
             self.showTags(notes: decrypted)
         }
@@ -1070,6 +1064,8 @@ class SidebarOutlineView: NSOutlineView,
         }
         
         DispatchQueue.main.async {
+            guard let vc = ViewController.shared() else { return }
+
             vc.notesTableView.disableLockedProject()
             vc.updateTable()
             
@@ -1078,14 +1074,13 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     public func encrypt(projects: [Project], password: String) {
-        guard let vc = ViewController.shared() else { return }
-        
         for project in projects {
             let encrypted = project.encrypt(password: password)
             self.hideTags(notes: encrypted)
         }
         
         DispatchQueue.main.async {
+            guard let vc = ViewController.shared() else { return }
             vc.notesTableView.enableLockedProject()
             
             self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
