@@ -24,8 +24,9 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             NSLocalizedString("File format", comment: "Settings"),
             NSLocalizedString("Editor", comment: "Settings"),
             NSLocalizedString("Night Mode", comment: "Settings"),
-            NSLocalizedString("Pro", comment: "Settings"),
             NSLocalizedString("Git", comment: "Settings"),
+            NSLocalizedString("App Icon", comment: "Settings"),
+            NSLocalizedString("Advanced", comment: "Settings"),
         ], [
             NSLocalizedString("iCloud Drive", comment: "Settings"),
             NSLocalizedString("Add External Folder", comment: "Settings"),
@@ -44,8 +45,9 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             "settings-icons-format",
             "settings-icons-editor",
             "settings-icons-night",
-            "settings-icons-pro",
-            "settings-icons-git"
+            "settings-icons-git",
+            "settings-icons-icon",
+            "settings-icons-pro"
         ], [
             "settings-icons-cloud",
             "settings-icons-external",
@@ -59,7 +61,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [5, 4, 4]
+    var rowsInSection = [6, 4, 4]
 
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -180,10 +182,12 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 2:
                 lvc = NightModeViewController(style: .grouped)
             case 3:
-                lvc = ProViewController()
-            case 4:
                 guard let project = Storage.shared().getDefault() else { return }
                 lvc = AppDelegate.getGitVC(for: project)
+            case 4:
+                lvc = AppIconViewController()
+            case 5:
+                lvc = ProViewController()
             default:
                 return
             }

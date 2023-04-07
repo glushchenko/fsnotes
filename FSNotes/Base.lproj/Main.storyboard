@@ -452,9 +452,9 @@ CA
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Sidebar" id="Fuh-qO-nt2">
+                            <menuItem title="Library" id="Fuh-qO-nt2">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Sidebar" identifier="folderMenu" id="BYI-2F-BJo">
+                                <menu key="submenu" title="Library" identifier="folderMenu" id="BYI-2F-BJo">
                                     <items>
                                         <menuItem title="Add External Folder..." identifier="folderMenu.attach" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>

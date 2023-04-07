@@ -34,7 +34,7 @@ class ProViewController: UITableViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
-        self.title = NSLocalizedString("Pro", comment: "Settings")
+        self.title = NSLocalizedString("Advanced", comment: "Settings")
         super.viewDidLoad()
     }
 

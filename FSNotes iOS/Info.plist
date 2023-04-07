@@ -70,7 +70,25 @@
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIcons</key>
-	<dict/>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>dylanseegerIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>dylanseeger</string>
+				</array>
+			</dict>
+			<key>kmstrrIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>kmstrr</string>
+				</array>
+			</dict>
+		</dict>
+	</dict>
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>

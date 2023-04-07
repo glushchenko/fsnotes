@@ -874,6 +874,14 @@
 		D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C221F31E5F0041627F /* ImageAttachment+.swift */; };
 		D7C302C521F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
 		D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
+		D7C33F6C29E099C10006C473 /* settings-icons-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F6B29E099C10006C473 /* settings-icons-icon.png */; };
+		D7C33F6E29E09A690006C473 /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C33F6D29E09A690006C473 /* AppIconViewController.swift */; };
+		D7C33F7129E09E800006C473 /* app-icon-dylanseeger.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7029E09E800006C473 /* app-icon-dylanseeger.png */; };
+		D7C33F7329E0A2DC0006C473 /* app-icon-kmstrr.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7229E0A2DC0006C473 /* app-icon-kmstrr.png */; };
+		D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */; };
+		D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */; };
+		D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */; };
+		D7C33F7B29E0C1CA0006C473 /* kmstrr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */; };
 		D7C52B7828C7A3D2001B2065 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D7C52B7728C7A3D2001B2065 /* Shout */; };
 		D7C690AB22AA4AE500BFBBD1 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BE204F078A000B9F59 /* bold.png */; };
 		D7C690AC22AA4AE500BFBBD1 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BD204F078A000B9F59 /* bold@2x.png */; };
@@ -1707,6 +1715,14 @@
 		D7C2AB0621E116CE00B1AC0E /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		D7C302C221F31E5F0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
 		D7C302C421F320FD0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
+		D7C33F6B29E099C10006C473 /* settings-icons-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-icon.png"; sourceTree = "<group>"; };
+		D7C33F6D29E09A690006C473 /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
+		D7C33F7029E09E800006C473 /* app-icon-dylanseeger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseeger.png"; sourceTree = "<group>"; };
+		D7C33F7229E0A2DC0006C473 /* app-icon-kmstrr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-kmstrr.png"; sourceTree = "<group>"; };
+		D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@3x.png"; sourceTree = "<group>"; };
+		D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@2x.png"; sourceTree = "<group>"; };
+		D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@3x.png"; sourceTree = "<group>"; };
+		D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@2x.png"; sourceTree = "<group>"; };
 		D7C690CF22AB025700BFBBD1 /* codeblock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = codeblock.png; sourceTree = "<group>"; };
 		D7C690D322AB033A00BFBBD1 /* tb_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_link.png; sourceTree = "<group>"; };
 		D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+More.swift"; sourceTree = "<group>"; };
@@ -2270,7 +2286,9 @@
 		D73CEC6D2278ECA500D549F7 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D7C33F6F29E09E6D0006C473 /* app-icons */,
 				D71C79BC253F3BF5003BD724 /* close-window.png */,
+				D7C33F6B29E099C10006C473 /* settings-icons-icon.png */,
 				D794559D27C25C8F000C283F /* settings-icons-editor.png */,
 				D794559527C1A5F4000C283F /* settings-icons-external.png */,
 				D794559327C1A401000C283F /* settings-icons-cloud.png */,
@@ -2524,6 +2542,19 @@
 			path = Business;
 			sourceTree = "<group>";
 		};
+		D7C33F6F29E09E6D0006C473 /* app-icons */ = {
+			isa = PBXGroup;
+			children = (
+				D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */,
+				D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */,
+				D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */,
+				D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */,
+				D7C33F7029E09E800006C473 /* app-icon-dylanseeger.png */,
+				D7C33F7229E0A2DC0006C473 /* app-icon-kmstrr.png */,
+			);
+			path = "app-icons";
+			sourceTree = "<group>";
+		};
 		D7C52B8028C7A8C2001B2065 /* Git */ = {
 			isa = PBXGroup;
 			children = (
@@ -2755,6 +2786,7 @@
 				D75A34E427D7CD440085438F /* SidebarViewController.swift */,
 				D73B3134298FBF4400F46144 /* GitViewController.swift */,
 				D709C9E129AFD9E0006EF9A8 /* GitTableViewCell.swift */,
+				D7C33F6D29E09A690006C473 /* AppIconViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3229,6 +3261,7 @@
 				D7BE112A22DB1C8600435866 /* padlock-locked-ios.png in Resources */,
 				D7B818FA2556B77300D4F61E /* trash.png in Resources */,
 				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
+				D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */,
 				D7D0652D247AF6E900214326 /* basket.png in Resources */,
 				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D7BAC63A24A35EB0008D29AA /* trash_white.png in Resources */,
@@ -3277,6 +3310,7 @@
 				D7271FAB2052803500033D0C /* indent.png in Resources */,
 				D798027F2137C3D6008D6200 /* uncheckedbox.png in Resources */,
 				D70BA87720599D1300875E9C /* header.png in Resources */,
+				D7C33F6C29E099C10006C473 /* settings-icons-icon.png in Resources */,
 				D70BA87920599D1300875E9C /* header@2x.png in Resources */,
 				D7D79AFD24DE71FA003C61AF /* settings-icons-support.png in Resources */,
 				D794559027C05F81000C283F /* settings-icons-pro.png in Resources */,
@@ -3318,9 +3352,12 @@
 				D73CEC8B2278ECA500D549F7 /* checkbox_empty_white@3x.png in Resources */,
 				D7D03BC6205C6ED200D96A6D /* undo@2x.png in Resources */,
 				D78DC720247AE47D00C5BB43 /* plus@3x.png in Resources */,
+				D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */,
 				D7271FAE2052803500033D0C /* unindent@3x.png in Resources */,
+				D7C33F7329E0A2DC0006C473 /* app-icon-kmstrr.png in Resources */,
 				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */,
+				D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */,
 				D7271FAA2052803500033D0C /* unindent.png in Resources */,
 				D7BAC63C24A35F73008D29AA /* home.png in Resources */,
 				D7BE112522DB168C00435866 /* lock-closed.png in Resources */,
@@ -3336,6 +3373,7 @@
 				D7A549C124DD9BDA00537544 /* settings-icons-night.png in Resources */,
 				D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */,
 				D71C79BD253F3BF5003BD724 /* close-window.png in Resources */,
+				D7C33F7129E09E800006C473 /* app-icon-dylanseeger.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
 				D7D79B0324DE72BB003C61AF /* settings-icons-home.png in Resources */,
 				D70E8D6B23705C6200E64D62 /* tag2.png in Resources */,
@@ -3366,6 +3404,7 @@
 				D7EA59F0213EAD8800582BD9 /* image@2x.png in Resources */,
 				D73CEC892278ECA500D549F7 /* checkbox_white.png in Resources */,
 				D76025C1204F078A000B9F59 /* bold.png in Resources */,
+				D7C33F7B29E0C1CA0006C473 /* kmstrr@2x.png in Resources */,
 				D7F2F1A221C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
 				D76F0B402152C6CB008E5F2F /* more.png in Resources */,
 			);
@@ -4253,6 +4292,7 @@
 				D70E9E152901AEEB00A3C634 /* Status.swift in Sources */,
 				D7EFAF6B278B310300175A2F /* HighlighterTheme.swift in Sources */,
 				D7D00E79248FBFF7009AE455 /* UIView+.swift in Sources */,
+				D7C33F6E29E09A690006C473 /* AppIconViewController.swift in Sources */,
 				D70E9DFE2901AEAF00A3C634 /* StaticSshKeyDelegate.swift in Sources */,
 				D7E7DB3327A9B17000408725 /* DatePickerViewController.swift in Sources */,
 				D71B9D892868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
@@ -4896,7 +4936,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 569;
+				CURRENT_PROJECT_VERSION = 570;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4913,7 +4953,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.2.3;
+				MARKETING_VERSION = 6.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4935,7 +4975,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 569;
+				CURRENT_PROJECT_VERSION = 570;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4953,7 +4993,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.2.3;
+				MARKETING_VERSION = 6.2.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
