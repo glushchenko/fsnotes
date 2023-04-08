@@ -71,6 +71,20 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>dylanseegerDarkFullIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>dylanseegerDarkFull</string>
+				</array>
+			</dict>
+			<key>dylanseegerDarkIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>dylanseegerDark</string>
+				</array>
+			</dict>
 			<key>dylanseegerIcon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>

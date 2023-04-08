@@ -13,6 +13,8 @@ class AppIconViewController: UITableViewController {
     enum AppIconRows: Int, CaseIterable {
         case kmstrr
         case dylanseeger
+        case dylanseegerDark
+        case dylanseegerDarkFull
 
         public func getName() -> String {
             switch self {
@@ -20,6 +22,10 @@ class AppIconViewController: UITableViewController {
                 return "Classic"
             case .dylanseeger:
                 return "Dylan Seeger"
+            case .dylanseegerDark:
+                return "Dylan Seeger (Dark)"
+            case .dylanseegerDarkFull:
+                return "Dylan Seeger (Black)"
             }
         }
 
@@ -27,6 +33,8 @@ class AppIconViewController: UITableViewController {
             switch self {
             case .kmstrr: return "kmstrr"
             case .dylanseeger: return "dylanseeger"
+            case .dylanseegerDark: return "dylanseegerDark"
+            case .dylanseegerDarkFull: return "dylanseegerDarkFull"
             }
         }
 

@@ -132,6 +132,7 @@ class GitViewController: UITableViewController {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         
             let textField = UITextField()
+            textField.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
             
             // Passphrase
             if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 {
