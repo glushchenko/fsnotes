@@ -220,6 +220,16 @@ class ProjectSettingsViewController: UITableViewController {
         project.saveSettings()
     }
 
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let headerView = view as? UITableViewHeaderFooterView {
+            if NightNight.theme == .night {
+                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
+            } else {
+                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
+            }
+        }
+    }
+
     @objc func cancel() {
         navigationController?.popViewController(animated: true)
     }
