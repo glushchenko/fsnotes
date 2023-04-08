@@ -11,6 +11,7 @@ import NightNight
 
 extension UserDefaultsManagement {
     private struct Constants {
+        static let appIcon = "appIcon"
         static let codeTheme = "codeTheme"
         static let currentNote = "currentNote"
         static let currentLocation = "currentLocation"
@@ -22,6 +23,19 @@ extension UserDefaultsManagement {
         static let IsFirstLaunch = "isFirstLaunch"
         static let ImportURLsKey = "ImportURLs"
         static let ProjectsKeyNew = "ProjectsKeyNew"
+    }
+
+    static var appIcon: Int {
+        get {
+            if let theme = shared?.integer(forKey: Constants.appIcon) {
+                return theme
+            }
+
+            return 1
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.appIcon)
+        }
     }
 
     static var codeTheme: String {

@@ -17,7 +17,7 @@ class AppIconViewController: UITableViewController {
         public func getName() -> String {
             switch self {
             case .kmstrr:
-                return "Roman Kliuchkovych"
+                return "Classic"
             case .dylanseeger:
                 return "Dylan Seeger"
             }
@@ -46,7 +46,7 @@ class AppIconViewController: UITableViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
-        self.title = NSLocalizedString("App Icons", comment: "Settings")
+        self.title = NSLocalizedString("App Icon", comment: "Settings")
         super.viewDidLoad()
     }
 
@@ -55,7 +55,6 @@ class AppIconViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let numOfCases = AppIconRows.allCases.count
         for row in AppIconRows.allCases {
             if let cell = tableView.cellForRow(at: IndexPath(row: row.rawValue, section: 0)) {
                 cell.accessoryType = .none
@@ -72,6 +71,8 @@ class AppIconViewController: UITableViewController {
                     }
                 }
             }
+
+            UserDefaultsManagement.appIcon = indexPath.row
         }
 
         tableView.deselectRow(at: indexPath, animated: false)
@@ -119,7 +120,7 @@ class AppIconViewController: UITableViewController {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
-        if indexPath.row == 0 {
+        if indexPath.row == UserDefaultsManagement.appIcon {
             cell.accessoryType = .checkmark
         }
     }
