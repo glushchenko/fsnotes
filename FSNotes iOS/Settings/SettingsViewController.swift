@@ -24,6 +24,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             NSLocalizedString("File format", comment: "Settings"),
             NSLocalizedString("Editor", comment: "Settings"),
             NSLocalizedString("Night Mode", comment: "Settings"),
+            NSLocalizedString("Security", comment: "Settings"),
             NSLocalizedString("Git", comment: "Settings"),
             NSLocalizedString("App Icon", comment: "Settings"),
             NSLocalizedString("Advanced", comment: "Settings"),
@@ -45,6 +46,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             "settings-icons-format",
             "settings-icons-editor",
             "settings-icons-night",
+            "settings-icons-security",
             "settings-icons-git",
             "settings-icons-icon",
             "settings-icons-pro"
@@ -61,7 +63,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [6, 4, 4]
+    var rowsInSection = [7, 4, 4]
 
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -182,11 +184,13 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 2:
                 lvc = NightModeViewController(style: .grouped)
             case 3:
+                lvc = SecurityViewController()
+            case 4:
                 guard let project = Storage.shared().getDefault() else { return }
                 lvc = AppDelegate.getGitVC(for: project)
-            case 4:
-                lvc = AppIconViewController()
             case 5:
+                lvc = AppIconViewController()
+            case 6:
                 lvc = ProViewController()
             default:
                 return
@@ -286,7 +290,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             let storage = Storage.shared()
             let viewController = UIApplication.getVC()
 
-            let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+            let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
             viewController.configureIndicator(indicator: indicator, view: self.tableView)
             viewController.startAnimation(indicator: indicator)
 

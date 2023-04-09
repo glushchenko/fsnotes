@@ -998,6 +998,8 @@
 		D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
 		D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
+		D7CF7EAB29E2093C00FEC0C5 /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */; };
+		D7CF7EAD29E20AA400FEC0C5 /* settings-icons-security.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EAC29E20AA400FEC0C5 /* settings-icons-security.png */; };
 		D7D00E79248FBFF7009AE455 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D00E78248FBFF6009AE455 /* UIView+.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
 		D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
@@ -1760,6 +1762,8 @@
 		D7CDE9D82160C1D500DC5978 /* makeNote_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote_white.png; sourceTree = "<group>"; };
 		D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceType.swift; sourceTree = "<group>"; };
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
+		D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
+		D7CF7EAC29E20AA400FEC0C5 /* settings-icons-security.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-security.png"; sourceTree = "<group>"; };
 		D7D00E78248FBFF6009AE455 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		D7D03BB7205C6D1800D96A6D /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
@@ -2300,6 +2304,7 @@
 			children = (
 				D7C33F6F29E09E6D0006C473 /* app-icons */,
 				D71C79BC253F3BF5003BD724 /* close-window.png */,
+				D7CF7EAC29E20AA400FEC0C5 /* settings-icons-security.png */,
 				D7DF48D029E1767B00FFD0B2 /* settings-icons-format.png */,
 				D7C33F6B29E099C10006C473 /* settings-icons-icon.png */,
 				D794559D27C25C8F000C283F /* settings-icons-editor.png */,
@@ -2805,6 +2810,7 @@
 				D73B3134298FBF4400F46144 /* GitViewController.swift */,
 				D709C9E129AFD9E0006EF9A8 /* GitTableViewCell.swift */,
 				D7C33F6D29E09A690006C473 /* AppIconViewController.swift */,
+				D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3368,6 +3374,7 @@
 				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7B1F6B2246A686700593001 /* numbered_list.png in Resources */,
 				D7D79B0B24DE738E003C61AF /* settings-icons-container.png in Resources */,
+				D7CF7EAD29E20AA400FEC0C5 /* settings-icons-security.png in Resources */,
 				D7E378812147A05D00D6D7DD /* search.png in Resources */,
 				D7EA59F1213EAD8800582BD9 /* image.png in Resources */,
 				D73CEC8B2278ECA500D549F7 /* checkbox_empty_white@3x.png in Resources */,
@@ -4256,6 +4263,7 @@
 				D7680FB525D02B2C00810DA8 /* FileManager+.swift in Sources */,
 				D7BDFE6A201F68B700897A58 /* NotesTableView.swift in Sources */,
 				D730BD3E222DB9FC00E69C93 /* NameHelper.swift in Sources */,
+				D7CF7EAB29E2093C00FEC0C5 /* SecurityViewController.swift in Sources */,
 				D7BDFE62201F678C00897A58 /* Note.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
