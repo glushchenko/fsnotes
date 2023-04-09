@@ -1336,21 +1336,27 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func unLock(notes: [Note], completion: @escaping ([Note]?) -> ()) {
         getMasterPassword() { password in
-            for note in notes {
-                var success: [Note]? = nil
-                if note.unLock(password: password) {
+            self.unLock(notes: notes, completion: completion, password: password, savePassword: true)
+        }
+    }
+
+    public func unLock(notes: [Note], completion: @escaping ([Note]?) -> (), password: String, savePassword: Bool = false) {
+        for note in notes {
+            var success = [Note]()
+            if note.unLock(password: password) {
+                if savePassword {
                     self.savePassword(password)
-                    note.password = password
-                    
-                    success?.append(note)
                 }
 
-                DispatchQueue.main.async {
-                    self.notesTable.reloadRowForce(note: note)
-                }
-
-                completion(success)
+                note.password = password
+                success.append(note)
             }
+
+            DispatchQueue.main.async {
+                self.notesTable.reloadRowForce(note: note)
+            }
+
+            completion(success)
         }
     }
 
@@ -1445,6 +1451,36 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             alertController.addTextField(configurationHandler: {
                 [] (textField: UITextField) in
                 textField.placeholder = "mast3r passw0rd"
+            })
+
+            let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
+                guard let password = alertController.textFields?[0].text, password.count > 0 else {
+                    return
+                }
+
+                completion(password)
+            }
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+
+            self.present(alertController, animated: true) {
+                alertController.textFields![0].selectAll(nil)
+            }
+        }
+    }
+
+    public func unlockPasswordPrompt(completion: @escaping (String) -> ()) {
+        DispatchQueue.main.async {
+            let title = NSLocalizedString("Password:", comment: "")
+            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+
+            alertController.addTextField(configurationHandler: {
+                [] (textField: UITextField) in
+                textField.placeholder = "note passw0rd"
+                textField.isSecureTextEntry = true
             })
 
             let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in

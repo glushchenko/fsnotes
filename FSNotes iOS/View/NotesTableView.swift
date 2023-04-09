@@ -108,7 +108,7 @@ class NotesTableView: UITableView,
             viewDelegate?.unLock(notes: [note], completion: { notes in
                 DispatchQueue.main.async {
                     guard note.container != .encryptedTextPack else {
-                        self.invalidPasswordAlert()
+                        self.askPasswordAndUnlock(note: note, indexPath: indexPath)
                         return
                     }
 
@@ -131,6 +131,35 @@ class NotesTableView: UITableView,
                 } catch {/*_*/}
             }
         }
+    }
+
+    private func askPasswordAndUnlock(note: Note, indexPath: IndexPath) {
+        self.viewDelegate?.unlockPasswordPrompt(completion: { password in
+            self.viewDelegate?.unLock(notes: [note], completion: { success in
+                if let success = success, success.count > 0 {
+                    self.reloadRows(notes: [note])
+                    NotesTextProcessor.highlight(note: note)
+
+                    self.fill(note: note, indexPath: indexPath)
+                }
+            }, password: password)
+        })
+    }
+
+    private func askPasswordAndUnEncrypt(note: Note) {
+        self.viewDelegate?.unlockPasswordPrompt(completion: { password in
+            if note.container == .encryptedTextPack {
+                let success = note.unEncrypt(password: password)
+                note.password = nil
+
+                if success {
+                    DispatchQueue.main.async {
+                        UIApplication.getEVC().refill()
+                        self.reloadRows(notes: [note], resetKeys: true)
+                    }
+                }
+            }
+        })
     }
 
     private func fill(note: Note, indexPath: IndexPath) {
@@ -757,24 +786,23 @@ class NotesTableView: UITableView,
         let vc = UIApplication.getVC()
 
         let notes = decryptUnlocked(notes: [note])
-        guard notes.count > 0 else { return }
+        guard let note = notes.first else { return }
 
         vc.getMasterPassword() { password in
-            var isFirst = true
-            for note in notes {
-                if note.container == .encryptedTextPack {
-                    let success = note.unEncrypt(password: password)
-                    note.password = nil
+            if note.container == .encryptedTextPack {
+                let success = note.unEncrypt(password: password)
+                note.password = nil
 
-                    if success && isFirst {
-                        vc.savePassword(password)
+                if success {
+                    vc.savePassword(password)
 
-                        DispatchQueue.main.async {
-                            UIApplication.getEVC().refill()
-                        }
+                    DispatchQueue.main.async {
+                        UIApplication.getEVC().refill()
                     }
+                } else {
+                    self.askPasswordAndUnEncrypt(note: note)
+                    return
                 }
-                isFirst = false
             }
 
             DispatchQueue.main.async {
