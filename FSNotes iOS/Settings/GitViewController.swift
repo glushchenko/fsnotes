@@ -203,7 +203,12 @@ class GitViewController: UITableViewController {
                 
                 let accessoryButton = UIButton(type: .custom)
                 accessoryButton.addTarget(self, action: #selector(deletePrivateKey(sender:)), for: .touchUpInside)
-                accessoryButton.setImage(UIImage(named: "trash"), for: .normal)
+
+                let light = UIImage(named: "trash")!
+                let night = UIImage(named: "trash")!.withTintColor(.white)
+                let mixedImage = MixedImage(normal: light, night: night)
+                accessoryButton.setMixedImage(mixedImage, forState: .normal)
+
                 accessoryButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
                 accessoryButton.contentMode = .scaleAspectFit
                 cell.accessoryView = accessoryButton

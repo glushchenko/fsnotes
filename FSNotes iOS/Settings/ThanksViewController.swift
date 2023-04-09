@@ -12,12 +12,14 @@ import NightNight
 class ThanksViewController: UITableViewController {
     private var rows = [
         "Radio-T",
-        "Matt Septhon"
+        "Matt Septhon",
+        "Dylan Seeger (Icon design)"
     ]
 
     private var urls = [
         "https://radio-t.com",
-        "https://www.gingerbeardman.com"
+        "https://www.gingerbeardman.com",
+        "https://lovably.com"
     ]
 
     override func viewDidLoad() {
