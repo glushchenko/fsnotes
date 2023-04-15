@@ -20,6 +20,10 @@ enum FolderPopoverActions: Int {
     case renameTag
     case openInFiles
     case emptyBin
+    case encryptFolder
+    case decryptFolder
+    case lockFolder
+    case unLockFolder
 
     static let description =
         [
@@ -34,6 +38,10 @@ enum FolderPopoverActions: Int {
             NSLocalizedString("Rename tag", comment: "Main view popover table"),
             NSLocalizedString("Open in Files.app", comment: "Main view popover table"),
             NSLocalizedString("Empty Bin", comment: "Main view popover table"),
+            NSLocalizedString("Encrypt", comment: "Main view popover table"),
+            NSLocalizedString("Decrypt", comment: "Main view popover table"),
+            NSLocalizedString("Lock", comment: "Main view popover table"),
+            NSLocalizedString("Unlock", comment: "Main view popover table"),
         ]
 
     public func getDescription() -> String {

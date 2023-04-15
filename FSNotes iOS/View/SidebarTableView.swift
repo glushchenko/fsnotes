@@ -131,6 +131,12 @@ class SidebarTableView: UITableView,
             return
         }
 
+        if let project = sidebarItem.project, project.isLocked() {
+            vc.enableLockedProject()
+        } else {
+            vc.disableLockedProject()
+        }
+
         guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else {
             return
         }
@@ -247,7 +253,7 @@ class SidebarTableView: UITableView,
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
 
         if let sidebarCell = cell as? SidebarTableCellView {
-            if let sidebarItem = (cell as! SidebarTableCellView).sidebarItem, sidebarItem.type == .Tag || sidebarItem.type == .Category {
+            if let sidebarItem = (cell as! SidebarTableCellView).sidebarItem, sidebarItem.type == .Tag {
                 sidebarCell.icon.constraints[1].constant = 0
                 sidebarCell.labelConstraint.constant = 0
                 sidebarCell.contentView.setNeedsLayout()
@@ -317,7 +323,7 @@ class SidebarTableView: UITableView,
                 guard let note = Storage.shared().getBy(url: url) else { continue }
 
                 switch sidebarItem.type {
-                case .Category, .Archive, .Inbox:
+                case .Project, .Archive, .Inbox:
                     guard let project = sidebarItem.project else { break }
                     self.move(note: note, in: project)
                 case .Trash:
@@ -453,7 +459,7 @@ class SidebarTableView: UITableView,
             let notes = vc.notesTable.notes
             tags = getAllTags(notes: notes)
             break
-        case .Category:
+        case .Project, .ProjectEncryptedUnlocked:
             guard let project = vc.searchQuery.project else { return }
             tags = getAllTags(projects: [project])
             break
@@ -608,7 +614,7 @@ class SidebarTableView: UITableView,
             query.type = type
 
             if query.project != nil && type == .Tag {
-                query.type = .Category
+                query.type = .Project
             }
         }
 
@@ -716,7 +722,7 @@ class SidebarTableView: UITableView,
             indexPaths.append(IndexPath(row: index, section: 1))
         }
 
-        sidebar.items[1] = sorted.compactMap({ SidebarItem(name: $0.label, project: $0, type: .Category) })
+        sidebar.items[1] = sorted.compactMap({ SidebarItem(name: $0.label, project: $0, type: .Project) })
         insertRows(at: indexPaths, with: .fade)
     }
     

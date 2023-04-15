@@ -1100,16 +1100,7 @@ class SidebarOutlineView: NSOutlineView,
         
         var locked = [Note]()
         for project in projects {
-            let notes = storage.getNotesBy(project: project)
-            for note in notes {
-                if note.lock() {
-                    locked.append(note)
-                }
-            }
-            
-            if locked.count > 0 {
-                project.password = nil
-            }
+            locked.append(contentsOf: project.lock())
         }
         
         hideTags(notes: locked)
@@ -1133,32 +1124,24 @@ class SidebarOutlineView: NSOutlineView,
     
     public func unlock(projects: [Project], password: String, action: String? = nil) {
         var unlocked = [Note]()
-        var unlockedQty = 0
         var isEmptyDir = false
         
         for project in projects {
-            let notes = self.storage.getNotesBy(project: project)
-            
-            if notes.count == 0 {
+            let result = project.unlock(password: password)
+
+            // no notes
+            if result.0.count == 0 {
                 isEmptyDir = true
-                project.password = password
                 continue
             }
-            
-            for note in notes {
-                if note.unLock(password: password) {
-                    project.password = password
-                    
-                    unlocked.append(note)
-                    unlockedQty += 1
-                }
-            }
+
+            unlocked.append(contentsOf: result.1)
         }
         
         self.showTags(notes: unlocked)
         
         DispatchQueue.main.async {
-            if unlockedQty > 0 || (projects.count == 1 && isEmptyDir) {
+            if unlocked.count > 0 || (projects.count == 1 && isEmptyDir) {
                 guard let vc = ViewController.shared() else { return }
                 
                 vc.notesTableView.disableLockedProject()

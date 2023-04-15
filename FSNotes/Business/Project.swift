@@ -806,4 +806,40 @@ public class Project: Equatable {
         
         return decrypted
     }
+
+    public func unlock(password: String) -> ([Note], [Note]) {
+        let notes = self.storage.getNotesBy(project: self)
+        var unlocked = [Note]()
+
+        if notes.count == 0 {
+            self.password = password
+            return (notes, unlocked)
+        }
+
+        for note in notes {
+            if note.unLock(password: password) {
+                self.password = password
+                unlocked.append(note)
+            }
+        }
+
+        return (notes, unlocked)
+    }
+
+    public func lock() -> [Note] {
+        var locked = [Note]()
+        let notes = self.storage.getNotesBy(project: self)
+
+        for note in notes {
+            if note.lock() {
+                locked.append(note)
+            }
+        }
+
+        if locked.count > 0 {
+            password = nil
+        }
+
+        return locked
+    }
 }

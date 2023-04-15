@@ -58,12 +58,16 @@ extension ViewController: UIDocumentPickerDelegate {
             actions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
             actions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
-        case .Category:
-            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository]
+        case .Project:
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository, .encryptFolder]
         case .Tag:
             actions = [.removeTag, .renameTag, .multipleSelection]
         case .Untagged:
             actions = [.multipleSelection]
+        case .ProjectEncryptedLocked:
+            actions = [.unLockFolder, .decryptFolder, .importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository]
+        case .ProjectEncryptedUnlocked:
+            actions = [.lockFolder, .decryptFolder, .importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository]
         default: break
         }
 
@@ -204,6 +208,54 @@ extension ViewController: UIDocumentPickerDelegate {
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(named: "openInFiles")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.lockFolder) {
+            let title = FolderPopoverActions.lockFolder.getDescription()
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.lockProject()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebar_project_encrypted_locked")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.unLockFolder) {
+            let title = FolderPopoverActions.unLockFolder.getDescription()
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.unlockProject()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebar_project_encrypted_unlocked")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.decryptFolder) {
+            let title = FolderPopoverActions.decryptFolder.getDescription()
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.decryptProject()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebar_project_encrypted_unlocked")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.encryptFolder) {
+            let title = FolderPopoverActions.encryptFolder.getDescription()
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.encryptProject()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebar_project_encrypted_locked")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -539,5 +591,107 @@ extension ViewController: UIDocumentPickerDelegate {
         storage.removeNotes(notes: notes, fsRemove: true, completely: true) { [self]_ in
             self.notesTable.removeRows(notes: notes)
         }
+    }
+
+    @objc public func unlockProject() {
+        guard let selectedProject = searchQuery.project else { return }
+
+        getMasterPassword() { password in
+            let result = selectedProject.unlock(password: password)
+
+            DispatchQueue.main.async {
+                self.sidebarTableView.loadTags(notes: result.1)
+                self.disableLockedProject()
+                self.reloadNotesTable()
+
+                if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
+                   let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
+                    sidebarItem.load(type: .ProjectEncryptedUnlocked)
+                    self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+                    self.sidebarTableView.select(project: selectedProject)
+                }
+            }
+        }
+    }
+
+    @objc public func lockProject() {
+        guard let selectedProject = searchQuery.project else { return }
+        let locked = selectedProject.lock()
+
+        DispatchQueue.main.async {
+            guard locked.count > 0 else {
+                self.wrongPassAlert()
+                return
+            }
+
+            self.sidebarTableView.loadTags(notes: locked)
+
+            self.enableLockedProject()
+            self.reloadNotesTable()
+
+            if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
+               let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
+                sidebarItem.load(type: .ProjectEncryptedLocked)
+                self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+                self.sidebarTableView.select(project: selectedProject)
+            }
+        }
+    }
+
+    @objc public func encryptProject() {
+        guard let selectedProject = searchQuery.project else { return }
+
+        getMasterPassword() { password in
+            let encrypted = selectedProject.encrypt(password: password)
+
+            DispatchQueue.main.async {
+                self.sidebarTableView.loadTags(notes: encrypted)
+                self.enableLockedProject()
+                self.reloadNotesTable()
+
+                if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
+                   let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
+                    sidebarItem.load(type: .ProjectEncryptedLocked)
+                    self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+                    self.sidebarTableView.select(project: selectedProject)
+                }
+            }
+        }
+    }
+
+    @objc public func decryptProject() {
+        guard let selectedProject = searchQuery.project else { return }
+
+        getMasterPassword() { password in
+            let decrypted = selectedProject.decrypt(password: password)
+
+            DispatchQueue.main.async {
+                guard decrypted.count > 0 else {
+                    self.wrongPassAlert()
+                    return
+                }
+
+                self.sidebarTableView.loadTags(notes: decrypted)
+                self.disableLockedProject()
+                self.reloadNotesTable()
+
+                if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
+                   let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
+                    sidebarItem.load(type: .Project)
+                    self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+                    self.sidebarTableView.select(project: selectedProject)
+                }
+            }
+        }
+    }
+
+    private func wrongPassAlert() {
+        let message = NSLocalizedString("Wrong password", comment: "")
+        let alertController = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "OK", style: .cancel) { (_) in }
+        alertController.addAction(okAction)
+
+        self.present(alertController, animated: true, completion: nil)
     }
 }

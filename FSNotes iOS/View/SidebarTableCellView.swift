@@ -19,7 +19,7 @@ class SidebarTableCellView: UITableViewCell {
     func configure(sidebarItem: SidebarItem) {
         self.sidebarItem = sidebarItem
         
-        if sidebarItem.type == .Category || sidebarItem.type == .Tag {
+        if sidebarItem.type == .Tag {
             self.icon.constraints[1].constant = 0
             self.labelConstraint.constant = 0
             icon.image = nil
@@ -31,7 +31,7 @@ class SidebarTableCellView: UITableViewCell {
 
         var font = UIFont(name: "HelveticaNeue", size: 15)
 
-        if sidebarItem.type == .Category {
+        if sidebarItem.type == .Project {
             font = UIFont(name: "HelveticaNeue-Bold", size: 13)
         }
 

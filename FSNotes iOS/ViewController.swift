@@ -25,6 +25,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var leftPreSafeArea: UIView!
     @IBOutlet weak var rightPreSafeArea: UIView!
 
+    @IBOutlet weak var lockedProject: UIImageView!
+
     private var newsPopup: MPreviewView?
     private var newsOverlay: UIView?
 
@@ -399,6 +401,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         sidebarTableView.delegate = self.sidebarTableView
         sidebarTableView.viewController = self
         maxSidebarWidth = self.calculateLabelMaxWidth()
+
+        lockedProject.layer.zPosition = 1001
+        lockedProject.isUserInteractionEnabled = true
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(unlockProject))
+        lockedProject.addGestureRecognizer(tapRecognizer)
 
         initSidebar()
 
@@ -863,6 +870,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
 
+            if let project = query.project, project.isLocked() {
+                notes.removeAll()
+            }
+
             var modifiedNotesList = [Note]()
 
             if !notes.isEmpty {
@@ -956,9 +967,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 && note.project.settings.showInCommon
             || searchQuery.type == .All
                 && note.project.settings.showInCommon
-            || searchQuery.type == .Category
-                && searchQuery.project != nil
-                && note.project == searchQuery.project
+            || (
+                (
+                 searchQuery.type == .Project ||
+                 searchQuery.type == .ProjectEncryptedUnlocked ||
+                 searchQuery.type == .ProjectEncryptedLocked
+                )
+                    && searchQuery.project != nil
+                    && note.project == searchQuery.project
+                )
             || searchQuery.project != nil && searchQuery.project!.isRoot
                 && note.project.parent == searchQuery.project
                 && searchQuery.type != .Inbox
@@ -1628,6 +1645,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         storage = Storage.shared()
         sidebarTableView.reloadSidebar()
         viewDidLoad()
+    }
+
+    public func enableLockedProject() {
+        lockedProject.isHidden = false
+        clean()
+    }
+
+    public func disableLockedProject() {
+        lockedProject.isHidden = true
+    }
+
+    public func clean() {
+        notesTable.notes.removeAll()
+        notesTable.reloadData()
     }
 }
 

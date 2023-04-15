@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -191,6 +191,12 @@
                                     <constraint firstAttribute="width" id="stD-N5-7Jq"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="lock-closed.png" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-ez-Ynx">
+                                <rect key="frame" x="244" y="454.66666666666669" width="128" height="64.000000000000057"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="wu2-fA-rg1"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hRO-uY-yS2"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -201,6 +207,7 @@
                             <constraint firstItem="sUC-hL-bgg" firstAttribute="leading" secondItem="hRO-uY-yS2" secondAttribute="leading" constant="188" id="JPP-fj-2Qz"/>
                             <constraint firstItem="IQe-XD-PyC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="KGz-xF-ebl"/>
                             <constraint firstAttribute="trailing" secondItem="vdo-f5-klY" secondAttribute="trailing" id="KfK-kU-4g2"/>
+                            <constraint firstItem="NZ1-ez-Ynx" firstAttribute="centerX" secondItem="sUC-hL-bgg" secondAttribute="centerX" id="V0g-Nk-aes"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="leading" secondItem="IQe-XD-PyC" secondAttribute="trailing" id="VoW-NF-0ro"/>
                             <constraint firstAttribute="bottom" secondItem="vdo-f5-klY" secondAttribute="bottom" id="WO7-Mx-Epc"/>
                             <constraint firstItem="hRO-uY-yS2" firstAttribute="leading" secondItem="IQe-XD-PyC" secondAttribute="trailing" id="e90-Je-x7F"/>
@@ -209,6 +216,7 @@
                             <constraint firstItem="vdo-f5-klY" firstAttribute="leading" secondItem="sUC-hL-bgg" secondAttribute="trailing" id="kKi-Xc-Gjo"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="top" secondItem="hRO-uY-yS2" secondAttribute="top" id="qOe-Ck-iuT"/>
                             <constraint firstItem="IQe-XD-PyC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rAg-B0-rIW"/>
+                            <constraint firstItem="NZ1-ez-Ynx" firstAttribute="centerY" secondItem="sUC-hL-bgg" secondAttribute="centerY" id="umn-PV-FUi"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
@@ -221,6 +229,7 @@
                     </view>
                     <connections>
                         <outlet property="leftPreSafeArea" destination="IQe-XD-PyC" id="phr-P3-VB3"/>
+                        <outlet property="lockedProject" destination="NZ1-ez-Ynx" id="zeN-F2-Wgk"/>
                         <outlet property="notesTable" destination="sUC-hL-bgg" id="Iqp-8V-0Ly"/>
                         <outlet property="notesTableBottomContraint" destination="gA3-do-ZSA" id="hNr-WS-Zei"/>
                         <outlet property="notesTableLeadingConstraint" destination="JPP-fj-2Qz" id="Ars-QP-VeS"/>
@@ -329,7 +338,7 @@
                                 <rect key="frame" x="0.0" y="47" width="428" height="801"/>
                                 <subviews>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="B67-S8-Rt3">
-                                        <rect key="frame" x="46" y="200" width="336" height="34.333333333333343"/>
+                                        <rect key="frame" x="46" y="200" width="336" height="36"/>
                                     </datePicker>
                                 </subviews>
                                 <constraints>
@@ -535,6 +544,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="lock-closed.png" width="128" height="128"/>
         <image name="pin_white.png" width="128" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
