@@ -26,6 +26,7 @@ public class Note: NSObject  {
     let undoManager = UndoManager()
 
     public var tags = [String]()
+    public var noteDate: Date = Date()
     public var originalExtension: String?
 
     /*
@@ -130,6 +131,7 @@ public class Note: NSObject  {
             imageUrl: imageUrl,
             title: title,
             tags: tags,
+            noteDate: noteDate,
             preview: preview,
             modificationDate: modifiedLocalAt,
             creationDate: creationDate!,
