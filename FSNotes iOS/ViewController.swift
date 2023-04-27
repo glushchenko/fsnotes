@@ -457,6 +457,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             print("3. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
             DispatchQueue.main.async {
+                self.resizeSidebar(withAnimation: true)
                 self.importSavedInSharedExtension()
                 self.sidebarTableView.loadAllTags()
             }
@@ -1039,6 +1040,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func newButtonAction() {
+        if let project = sidebarTableView.getSidebarProjects()?.first, project.isEncrypted, project.password == nil {
+            unlockProject(createNote: true)
+            return
+        }
+
         createNote(content: nil)
     }
 
@@ -1098,6 +1104,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 evc.togglePreview()
             }
             evc.editArea.becomeFirstResponder()
+
+            if let password = note.project.password {
+                if note.encrypt(password: password) {
+                    _ = note.unLock(password: password)
+                }
+            }
         }
     }
 
@@ -1317,10 +1329,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func calculateLabelMaxWidth() -> CGFloat {
-        var width = CGFloat(115)
-        let font = UIFont.boldSystemFont(ofSize: 15.0)
+        var width = CGFloat(0)
+        var font = UIFont(name: "HelveticaNeue-BoldItalic", size: 15)
+        let fontMetrics = UIFontMetrics(forTextStyle: .title3)
+        font = fontMetrics.scaledFont(for: font!)
 
         let settings = NSLocalizedString("Settings", comment: "Sidebar settings")
+        let untagged = NSLocalizedString("Untagged", comment: "Sidebar settings")
         let inbox = NSLocalizedString("Inbox", comment: "Inbox in sidebar")
         let notes = NSLocalizedString("Notes", comment: "Notes in sidebar")
         let todo = NSLocalizedString("Todo", comment: "Todo in sidebar")
@@ -1332,14 +1347,27 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             sidebarItems = sidebarTableView.getAllTags(projects: [project])
         }
 
-        sidebarItems = sidebarItems
-            + Storage.shared().getProjects().map({ $0.label })
-            + [settings, inbox, notes, todo, archive, trash]
+        // Without icons
+        for item in sidebarItems {
+            let labelWidth = ("#" + item as NSString).size(withAttributes: [.font: font]).width + 15
+
+            if labelWidth < (view.frame.size.width / 2) {
+                if labelWidth > width {
+                    width = labelWidth
+                }
+            } else {
+                width = view.frame.size.width / 2
+            }
+        }
+
+        // With icons
+        sidebarItems = Storage.shared().getProjects().map({ $0.label })
+            + [settings, inbox, notes, todo, archive, trash, untagged]
 
         for item in sidebarItems {
-            let labelWidth = ("#                " + item as NSString).size(withAttributes: [.font: font]).width
+            let labelWidth = (item as NSString).size(withAttributes: [.font: font]).width + 55
 
-            if labelWidth < view.frame.size.width / 2 {
+            if labelWidth < (view.frame.size.width / 2) {
                 if labelWidth > width {
                     width = labelWidth
                 }
@@ -1527,14 +1555,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func resizeSidebar(withAnimation: Bool = false) {
-        let currentSidebarWidth = self.sidebarTableWidth.constant
         let width = calculateLabelMaxWidth()
         maxSidebarWidth = width
 
-        if maxSidebarWidth < currentSidebarWidth {
-            return
-        }
-        
         guard UserDefaultsManagement.sidebarIsOpened else { return }
 
         if maxSidebarWidth > view.frame.size.width {

@@ -593,7 +593,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    @objc public func unlockProject() {
+    @objc public func unlockProject(createNote: Bool = false) {
         guard let selectedProject = searchQuery.project else { return }
 
         getMasterPassword() { password in
@@ -602,14 +602,19 @@ extension ViewController: UIDocumentPickerDelegate {
             DispatchQueue.main.async {
                 self.sidebarTableView.loadTags(notes: result.1)
                 self.disableLockedProject()
-                self.reloadNotesTable()
 
                 if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
                    let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
                     sidebarItem.load(type: .ProjectEncryptedUnlocked)
                     self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
                     self.sidebarTableView.select(project: selectedProject)
+
+                    if createNote {
+                        self.createNote()
+                    }
                 }
+
+                self.reloadNotesTable()
             }
         }
     }
@@ -617,6 +622,7 @@ extension ViewController: UIDocumentPickerDelegate {
     @objc public func lockProject() {
         guard let selectedProject = searchQuery.project else { return }
         let locked = selectedProject.lock()
+        selectedProject.removeCache()
 
         DispatchQueue.main.async {
             guard locked.count > 0 else {
@@ -643,6 +649,7 @@ extension ViewController: UIDocumentPickerDelegate {
 
         getMasterPassword() { password in
             let encrypted = selectedProject.encrypt(password: password)
+            selectedProject.removeCache()
 
             DispatchQueue.main.async {
                 self.sidebarTableView.loadTags(notes: encrypted)

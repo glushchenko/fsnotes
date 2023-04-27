@@ -39,13 +39,11 @@ class SidebarTableCellView: UITableViewCell {
             font = UIFont(name: "HelveticaNeue-BoldItalic", size: 13)
         }
 
-        if #available(iOS 11.0, *) {
-            if font != nil {
-                let fontMetrics = UIFontMetrics(forTextStyle: .title3)
-                font = fontMetrics.scaledFont(for: font!)
-            }
+        if font != nil {
+            let fontMetrics = UIFontMetrics(forTextStyle: .title3)
+            font = fontMetrics.scaledFont(for: font!)
         }
-        
+
         label.font = font
 
         var name = sidebarItem.name
