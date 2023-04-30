@@ -652,6 +652,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         // Line height compute
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
+        let fontSize = UserDefaultsManagement.noteFont.pointSize - 3
 
         var result = """
             @font-face {
@@ -666,8 +667,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 font-weight: bold;
             }
         
-            body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; }
-            code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; }
+            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; }
+            code, pre {font: \(fontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; }
             img {display: block; margin: 0 auto;}
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
             p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)

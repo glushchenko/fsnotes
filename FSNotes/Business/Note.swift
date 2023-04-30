@@ -1891,7 +1891,6 @@ public class Note: NSObject  {
             try FileManager.default.moveItem(at: decSrcUrl, to: newURL)
 
             self.decryptedTemporarySrc = nil
-            convertTextBundleToFlat(name: name)
 
             load()
             parseURL()
