@@ -25,6 +25,7 @@ public enum GitError : Error {
     
     case notImplemented(msg: String)
     case uncommittedConflict
+    case noAddedFiles
     
     func associatedValue() -> String {
         switch self {
@@ -52,6 +53,8 @@ public enum GitError : Error {
             return "Not implemented \(msg)"
         case .uncommittedConflict:
             return "Uncommitted conflict"
+        case .noAddedFiles:
+            return "New files not found"
         }
     }
 }

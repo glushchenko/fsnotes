@@ -313,6 +313,10 @@ class GitViewController: UITableViewController {
             if let message = project.gitDo(action, progress: self.progress) {
                 DispatchQueue.main.async {
                     self.errorAlert(title: "git error", message: message)
+
+                    if action == .pullPush {
+                        UIApplication.getVC().checkNew()
+                    }
                 }
             }
         })

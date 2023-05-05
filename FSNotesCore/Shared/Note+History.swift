@@ -381,14 +381,13 @@ extension Note {
     public func saveRevision(commitMessage: String? = nil, pull: Bool = true) throws {
         guard let project = getGitProject() else { return }
 
-        try project.commit(message: commitMessage)
-        print("Successful commit")
-
         do {
+            try project.commit(message: commitMessage)
             try project.pull()
-        } catch {/*_*/}
-
-        try project.push()
+            try project.push()
+        } catch {
+            print(error)
+        }
     }
 
     public func checkout(commit: Commit) {

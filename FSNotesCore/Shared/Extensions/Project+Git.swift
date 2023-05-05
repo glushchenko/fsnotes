@@ -30,6 +30,10 @@ extension Project {
     }
 #else
     public func getRepositoryUrl() -> URL {
+        if !UserDefaultsManagement.iCloudDrive {
+            return url.appendingPathComponent(".git")
+        }
+
         let key = settingsKey.md5.prefix(6)
         let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(key + " - " + label + ".git")
 
@@ -205,11 +209,13 @@ extension Project {
         if let progress = progress {
             progress.log(message: "git add .")
         }
-        head.add(path: ".")
-        try head.save()
 
-        // Check directory is clean
-        if statuses.workingDirectoryClean == false || lastCommit == nil {
+        let success = head.add(path: ".")
+
+        // No commits yet or added files was found
+        if success || lastCommit == nil {
+            try head.save()
+
             do {
                 progress?.log(message: "git commit")
 
@@ -230,6 +236,8 @@ extension Project {
             }
         } else {
             progress?.log(message: "git add: no new data")
+
+            throw GitError.noAddedFiles
         }
     }
 

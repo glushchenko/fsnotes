@@ -713,6 +713,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         viewController.gitQueue.addOperation({
             Storage.shared().pullAll(force: force)
+            self.checkNew()
 
 //            if viewController.gitQueueState.operationCount == 0 {
 //                viewController.gitQueueState.addOperation {
@@ -723,6 +724,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 //                }
 //            }
         })
+    }
+
+    public func checkNew() {
+        if let projects = Storage.shared().getGitProjects() {
+            for project in projects {
+                if let childProjects = project.getAllChild() {
+                    for childProject in childProjects {
+                        self.checkNotesCacheDiff(for: childProject, isGit: true)
+                    }
+                }
+
+                self.checkNotesCacheDiff(for: project, isGit: true)
+            }
+        }
     }
 
     public func loadSearchController(query: String? = nil) {
@@ -1592,12 +1607,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func checkNotesCacheDiff(for project: Project) {
+    public func checkNotesCacheDiff(for project: Project, isGit: Bool = false) {
         let storage = Storage.shared()
 
         // if not cached – load all results for cache
         // (not loaded instantly because is resource consumption operation, loaded later in background)
-        guard project.cacheUsedDiffValidationNeeded else {
+        guard project.cacheUsedDiffValidationNeeded || isGit else {
 
             _ = storage.noteList
                 .filter({ $0.project == project })

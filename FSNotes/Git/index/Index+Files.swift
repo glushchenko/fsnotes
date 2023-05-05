@@ -120,8 +120,21 @@ extension Index {
             throw gitUnknownError("Unable to read index", code: error)
         }
     }
+
+    static var count = 0
+
+    static let gitIndexCallback: git_index_matched_path_cb = { path, match, payload in
+        let newPath: String = git_string_converter(path!)
+
+        if newPath.startsWith(string: ".Trash") {
+            return 1
+        }
+
+        count += 1
+        return 0
+    }
     
-    public func add(path: String) {
+    public func add(path: String) -> Bool {
         var dirPointer = UnsafeMutablePointer<Int8>(mutating: (path as NSString).utf8String)
         var paths = withUnsafeMutablePointer(to: &dirPointer) {
             git_strarray(strings: $0, count: 1)
@@ -129,7 +142,7 @@ extension Index {
         
         idx.pointee.flatMap { index in
             defer { git_index_free(index) }
-            let addResult = git_index_add_all(index, &paths, 0, nil, nil)
+            let addResult = git_index_add_all(index, &paths, 0, Index.gitIndexCallback, nil)
             guard addResult == GIT_OK.rawValue else {
                 print("git_index_add_all \(addResult)")
                 return
@@ -141,5 +154,12 @@ extension Index {
                 return
             }
         }
+
+        let success = Index.count > 0
+
+        // reset
+        Index.count = 0
+
+        return success
     }
 }
