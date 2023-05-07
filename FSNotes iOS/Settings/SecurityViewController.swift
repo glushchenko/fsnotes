@@ -128,7 +128,7 @@ class SecurityViewController: UITableViewController {
         let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
         let oldPassword = try? item.readPassword()
 
-        if text.count > 0, text == verifyPasswordTextField.text, text != oldPassword {
+        if text.count > 0, text == verifyPasswordTextField.text {
             do {
                 try item.savePassword(text)
             } catch {

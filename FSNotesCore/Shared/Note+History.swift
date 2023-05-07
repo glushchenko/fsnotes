@@ -30,6 +30,10 @@ extension Note {
 
         let relative = url.path.replacingOccurrences(of: project.url.path, with: "")
 
+        if !UserDefaultsManagement.iCloudDrive && relative.startsWith(string: "/private/") {
+            return relative.replacingOccurrences(of: "/private/", with: "")
+        }
+
         if relative.first == "/" {
             return String(relative.dropFirst())
         }

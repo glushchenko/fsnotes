@@ -26,16 +26,22 @@ public protocol SshKeyData {
     var passphrase : String? {
         get
     }
+
+    var publicKey : URL? {
+        get
+    }
 }
 
 public struct RawSshKeyData : SshKeyData {
     public let username : String?
     public let privateKey : URL
+    public let publicKey : URL?
     public let passphrase : String?
     
-    public init(username : String?, privateKey : URL, passphrase : String? = nil) {
+    public init(username : String?, privateKey : URL, publicKey: URL? = nil, passphrase : String? = nil) {
         self.username = username
         self.privateKey = privateKey
+        self.publicKey = publicKey
         self.passphrase = passphrase
     }
 }
@@ -85,10 +91,12 @@ public class SshKeyHandler : AuthenticationHandler {
         // User name
         let optionalUsername = sshKeyData.username
         let optionalPassPhrase = sshKeyData.passphrase
+
+        let publicKey = sshKeyData.publicKey != nil ? sshKeyData.publicKey!.path : nil
         
         return git_cred_ssh_key_new(out,
                                     optionalUsername == nil ? "" : optionalUsername!,
-                                    nil,
+                                    publicKey,
                                     privateKey,
                                     optionalPassPhrase == nil ? "" : optionalPassPhrase!)
     }

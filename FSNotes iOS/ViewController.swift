@@ -713,7 +713,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         viewController.gitQueue.addOperation({
             Storage.shared().pullAll(force: force)
-            self.checkNew()
+
+            if !UserDefaultsManagement.iCloudDrive {
+                self.checkNew()
+            }
 
 //            if viewController.gitQueueState.operationCount == 0 {
 //                viewController.gitQueueState.addOperation {

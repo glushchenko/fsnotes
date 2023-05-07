@@ -21,6 +21,7 @@ public class ProjectSettings: NSObject, NSSecureCoding {
     public var gitAutoPull: Bool = false
     public var gitOrigin: String?
     public var gitPrivateKey: Data?
+    public var gitPublicKey: Data?
     public var gitPrivateKeyPassphrase: String?
     
     public override init() {/*_*/}
@@ -53,6 +54,10 @@ public class ProjectSettings: NSObject, NSSecureCoding {
             gitPrivateKey = value
         }
 
+        if let value = aDecoder.decodeObject(of: NSData.self, forKey: "gitPublicKey") as? Data {
+            gitPublicKey = value
+        }
+
         if let value = aDecoder.decodeObject(of: NSString.self, forKey: "gitPrivateKeyPassphrase") as? String {
             gitPrivateKeyPassphrase = value
         }
@@ -78,6 +83,10 @@ public class ProjectSettings: NSObject, NSSecureCoding {
         
         if let gitPrivateKey = gitPrivateKey {
             aCoder.encode(gitPrivateKey, forKey: "gitPrivateKey")
+        }
+
+        if let gitPublicKey = gitPublicKey {
+            aCoder.encode(gitPublicKey, forKey: "gitPublicKey")
         }
         
         if let gitPrivateKeyPassphrase = gitPrivateKeyPassphrase {

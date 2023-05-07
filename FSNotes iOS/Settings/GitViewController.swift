@@ -85,6 +85,10 @@ class GitViewController: UITableViewController {
             changePrivateKey(tableView: tableView, indexPath: indexPath)
         }
 
+        if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 {
+            changePublicKey(tableView: tableView, indexPath: indexPath)
+        }
+
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
@@ -125,7 +129,7 @@ class GitViewController: UITableViewController {
         }
         
         // Passphrase and origin textfields
-        if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 || (
+        if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 2 || (
             indexPath.section == GitSection.origin.rawValue && indexPath.row == 0 ||
             indexPath.section == GitSection.logs.rawValue && indexPath.row == 0
         ) {
@@ -135,7 +139,7 @@ class GitViewController: UITableViewController {
             textField.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
             
             // Passphrase
-            if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 {
+            if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 2 {
                 cell.textLabel?.text = NSLocalizedString("Passphrase", comment: "")
                 textField.isSecureTextEntry = true
                 textField.addTarget(self, action: #selector(passphraseDidChange), for: .editingChanged)
@@ -214,6 +218,28 @@ class GitViewController: UITableViewController {
                 cell.accessoryView = accessoryButton
             }
         }
+
+        // Public key
+        if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 {
+            cell.textLabel?.text = NSLocalizedString("Public key (optional)", comment: "")
+            cell.detailTextLabel?.text = NSLocalizedString("...", comment: "")
+
+            if project.settings.gitPublicKey != nil {
+                cell.detailTextLabel?.text = NSLocalizedString("✅ - ", comment: "")
+
+                let accessoryButton = UIButton(type: .custom)
+                accessoryButton.addTarget(self, action: #selector(deletePublicKey(sender:)), for: .touchUpInside)
+
+                let light = UIImage(named: "trash")!
+                let night = UIImage(named: "trash")!.withTintColor(.white)
+                let mixedImage = MixedImage(normal: light, night: night)
+                accessoryButton.setMixedImage(mixedImage, forState: .normal)
+
+                accessoryButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+                accessoryButton.contentMode = .scaleAspectFit
+                cell.accessoryView = accessoryButton
+            }
+        }
         
         return cell
     }
@@ -227,7 +253,11 @@ class GitViewController: UITableViewController {
             return 1
         }
 
-        if section == 1 || section == 2 {
+        if section == 1 {
+            return 3
+        }
+
+        if section == 2 {
             return 2
         }
 
@@ -239,13 +269,30 @@ class GitViewController: UITableViewController {
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
-    private func changePrivateKey(tableView: UITableView, indexPath: IndexPath) {
+    private lazy var documentPickerPrivateKey: UIDocumentPickerViewController = {
         let types: [String] = ["public.data"]
         let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
         documentPicker.modalPresentationStyle = .formSheet
-        self.present(documentPicker, animated: true, completion: nil)
+        return documentPicker
+    }()
+
+    private lazy var documentPickerPublicKey: UIDocumentPickerViewController = {
+        let types: [String] = ["public.data"]
+        let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        documentPicker.modalPresentationStyle = .formSheet
+        return documentPicker
+    }()
+
+    private func changePrivateKey(tableView: UITableView, indexPath: IndexPath) {
+        present(documentPickerPrivateKey, animated: true, completion: nil)
+    }
+
+    private func changePublicKey(tableView: UITableView, indexPath: IndexPath) {
+        present(documentPickerPublicKey, animated: true, completion: nil)
     }
     
     @objc func deletePrivateKey(sender: UIButton) {
@@ -253,15 +300,34 @@ class GitViewController: UITableViewController {
         
         project.settings.gitPrivateKey = nil
         project.saveSettings()
-        
-        if let rsaURL = GitViewController.getRsaUrl() {
-            try? FileManager.default.removeItem(at: rsaURL)
+
+        if let privateUrl = project.getSSHKeyUrl(),
+            FileManager.default.fileExists(atPath: privateUrl.path) {
+                try? FileManager.default.removeItem(at: privateUrl)
         }
-        
+
         guard let cell = sender.superview as? UITableViewCell,
             let tableView = cell.superview as? UITableView,
             let indexPath = tableView.indexPath(for: cell) else { return }
         
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+
+    @objc func deletePublicKey(sender: UIButton) {
+        guard let project = project else { return }
+
+        project.settings.gitPublicKey = nil
+        project.saveSettings()
+
+        if let pubUrl = project.getSSHKeyUrl()?.appendingPathExtension("pub"),
+            FileManager.default.fileExists(atPath: pubUrl.path) {
+                try? FileManager.default.removeItem(at: pubUrl)
+        }
+
+        guard let cell = sender.superview as? UITableViewCell,
+            let tableView = cell.superview as? UITableView,
+            let indexPath = tableView.indexPath(for: cell) else { return }
+
         tableView.reloadRows(at: [indexPath], with: .none)
     }
     
@@ -314,7 +380,8 @@ class GitViewController: UITableViewController {
                 DispatchQueue.main.async {
                     self.errorAlert(title: "git error", message: message)
 
-                    if action == .pullPush {
+                    // Refresh local files
+                    if action == .pullPush && !UserDefaultsManagement.iCloudDrive {
                         UIApplication.getVC().checkNew()
                     }
                 }
@@ -332,15 +399,7 @@ class GitViewController: UITableViewController {
             self.present(alertController, animated: true, completion: nil)
         }
     }
-        
-    public static func getRsaUrl() -> URL? {
-        let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
-        if let rsaKey = documentDir?.appendingPathComponent("id_rsa", isDirectory: false) {
-            return rsaKey
-        }
-        return nil
-    }
-    
+
     public func updateButtons(isActive: Bool? = nil) {
         guard let project = project else { return }
 
@@ -375,8 +434,15 @@ extension GitViewController: UIDocumentPickerDelegate, UINavigationControllerDel
         guard let url = urls.first else { return }
         guard let data = try? Data(contentsOf: url) else { return }
         guard let project = project else { return }
-        
-        project.settings.gitPrivateKey = data
+
+        if controller == documentPickerPrivateKey {
+            project.settings.gitPrivateKey = data
+        }
+
+        if controller == documentPickerPublicKey {
+            project.settings.gitPublicKey = data
+        }
+
         project.saveSettings()
         
         tableView.reloadData()

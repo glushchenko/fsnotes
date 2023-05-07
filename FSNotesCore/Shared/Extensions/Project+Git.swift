@@ -162,32 +162,25 @@ extension Project {
             .appendingPathComponent(keyName)
     }
 
-    public func isSSHKeyExist() -> Bool {
-        guard let sshKey = getSSHKeyUrl() else { return false }
-
-        if FileManager.default.fileExists(atPath: sshKey.path) {
-            return false
-        }
-
-        return true
-    }
-
     public func removeSSHKey() {
         guard let url = getSSHKeyUrl() else { return }
 
         try? FileManager.default.removeItem(at: url)
+        try? FileManager.default.removeItem(at: url.appendingPathExtension("pub"))
     }
 
     public func installSSHKey() -> URL? {
         guard let url = getSSHKeyUrl() else { return nil }
 
-        if FileManager.default.fileExists(atPath: url.path) {
-            return url
-        }
-
         if let key = settings.gitPrivateKey {
             do {
                 try key.write(to: url)
+
+                if let publicKey = settings.gitPublicKey {
+                    let publicKeyUrl = url.appendingPathExtension("pub")
+                    try publicKey.write(to: publicKeyUrl)
+                }
+
                 return url
             } catch {/*_*/}
         }
@@ -201,7 +194,6 @@ extension Project {
 
     public func commit(message: String? = nil, progress: GitProgress? = nil) throws {
         let repository = try getRepository()
-        let statuses = Statuses(repository: repository)
         let lastCommit = try? repository.head().targetCommit()
 
         // Add all and save index
