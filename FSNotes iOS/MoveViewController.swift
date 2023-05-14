@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class MoveViewController: UITableViewController {
     private var projects: [Project]?
@@ -28,11 +27,8 @@ class MoveViewController: UITableViewController {
 
     override func viewDidLoad() {
         initNavigationBackground()
-        
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-        self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(newAlert))
+        self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(createFolder))
 
         self.projects = Storage.shared().getProjects()
         self.title = NSLocalizedString("Move", comment: "Move view")
@@ -90,10 +86,6 @@ class MoveViewController: UITableViewController {
             }
         }
 
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
-
         return cell
     }
 
@@ -106,9 +98,6 @@ class MoveViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
         if selectedNotes.count == 1 {
             let note = selectedNotes.first!
             if let projects = self.projects {
@@ -119,7 +108,7 @@ class MoveViewController: UITableViewController {
         }
     }
 
-    @objc func newAlert() {
+    @objc func createFolder() {
         let alertController = UIAlertController(title: NSLocalizedString("Folder name:", comment: ""), message: nil, preferredStyle: .alert)
 
         alertController.addTextField { (textField) in
@@ -165,10 +154,7 @@ class MoveViewController: UITableViewController {
             self.tableView.reloadData()
 
             storage.assignTree(for: project)
-
-            if let vc = self.notesTableView.viewDelegate {
-                vc.sidebarTableView.insertRows(projects: [project])
-            }
+            self.notesTableView.viewDelegate?.sidebarTableView.reloadSidebar()
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }

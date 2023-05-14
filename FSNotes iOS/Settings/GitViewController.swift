@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 import CoreServices
 
 class GitViewController: UITableViewController {    
@@ -41,16 +40,15 @@ class GitViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         self.title = NSLocalizedString("Git", comment: "Settings")
+
+        super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        UIApplication.shared.isIdleTimerDisabled = true
-
         initNavigationBackground()
+
+        UIApplication.shared.isIdleTimerDisabled = true
 
         DispatchQueue.main.async {
             self.updateButtons(isActive: self.hasActiveGit)
@@ -68,7 +66,7 @@ class GitViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         if let rect = self.navigationController?.navigationBar.frame {
             let y = rect.size.height
-            self.tableView.contentInset = UIEdgeInsets( top: y, left: 0, bottom: 0, right: 0)
+            self.tableView.contentInset = UIEdgeInsets( top: y / 2, left: 0, bottom: 0, right: 0)
         }
     }
         
@@ -100,16 +98,6 @@ class GitViewController: UITableViewController {
         return 50
     }
 
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let headerView = view as? UITableViewHeaderFooterView {
-            if NightNight.theme == .night {
-                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
-            } else {
-                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
-            }
-        }
-    }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let project = project else { return UITableViewCell() }
 
@@ -136,7 +124,7 @@ class GitViewController: UITableViewController {
             let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         
             let textField = UITextField()
-            textField.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+            textField.textColor = UIColor.blackWhite
             
             // Passphrase
             if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 2 {
@@ -205,16 +193,11 @@ class GitViewController: UITableViewController {
             if project.settings.gitPrivateKey != nil {
                 cell.detailTextLabel?.text = NSLocalizedString("✅ - ", comment: "")
                 
-                let accessoryButton = UIButton(type: .custom)
+                let accessoryButton = UIButton(type: .system)
                 accessoryButton.addTarget(self, action: #selector(deletePrivateKey(sender:)), for: .touchUpInside)
+                accessoryButton.setImage(UIImage(systemName: "trash"), for: .normal)
 
-                let light = UIImage(named: "trash")!
-                let night = UIImage(named: "trash")!.withTintColor(.white)
-                let mixedImage = MixedImage(normal: light, night: night)
-                accessoryButton.setMixedImage(mixedImage, forState: .normal)
-
-                accessoryButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-                accessoryButton.contentMode = .scaleAspectFit
+                accessoryButton.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
                 cell.accessoryView = accessoryButton
             }
         }
@@ -227,16 +210,11 @@ class GitViewController: UITableViewController {
             if project.settings.gitPublicKey != nil {
                 cell.detailTextLabel?.text = NSLocalizedString("✅ - ", comment: "")
 
-                let accessoryButton = UIButton(type: .custom)
+                let accessoryButton = UIButton(type: .system)
                 accessoryButton.addTarget(self, action: #selector(deletePublicKey(sender:)), for: .touchUpInside)
+                accessoryButton.setImage(UIImage(systemName: "trash"), for: .normal)
 
-                let light = UIImage(named: "trash")!
-                let night = UIImage(named: "trash")!.withTintColor(.white)
-                let mixedImage = MixedImage(normal: light, night: night)
-                accessoryButton.setMixedImage(mixedImage, forState: .normal)
-
-                accessoryButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-                accessoryButton.contentMode = .scaleAspectFit
+                accessoryButton.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
                 cell.accessoryView = accessoryButton
             }
         }
@@ -262,11 +240,6 @@ class GitViewController: UITableViewController {
         }
 
         return 1
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
     private lazy var documentPickerPrivateKey: UIDocumentPickerViewController = {

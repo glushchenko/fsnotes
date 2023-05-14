@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 import SwipeCellKit
 
 class NoteCellView: SwipeTableViewCell {
@@ -59,33 +58,28 @@ class NoteCellView: SwipeTableViewCell {
         self.note = note
 
         date.attributedText = NSAttributedString(string: getDate())
-
-        title.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-        preview.mixedTextColor = MixedColor(normal: 0x7f8ea7, night: 0xd9dee5)
+        preview.textColor = UIColor.previewColor
         
         if note.isEncrypted() {
-            let name = note.isUnlocked() ? "padlock-unlocked-ios" : "padlock-locked-ios"
-            pin.image = UIImage(named: name)
+            let name = note.isUnlocked() ? "lock.open" : "lock"
+            pin.image = UIImage(systemName: name)
             pin.isHidden = false
         } else {
-            var imageName = ""
-            if NightNight.theme == .night {
-                imageName = "_white"
-            }
-
-            pin.image = UIImage(named: "pin\(imageName).png" )
+            pin.image = UIImage(systemName: "pin")
             pin.isHidden = !note.isPinned
         }
 
-        var font = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
-        if let name = UserDefaultsManagement.fontName, let unwrappedFont = UIFont(name: name, size: CGFloat(UserDefaultsManagement.fontSize)) {
-            font = unwrappedFont
-        }
+        pin.tintColor = UIColor.mainTheme
 
-        let fontMetrics = UIFontMetrics(forTextStyle: .headline)
+        let font = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize), weight: .semibold)
+        let fontMetrics = UIFontMetrics(forTextStyle: .title1)
         let scaledFont = fontMetrics.scaledFont(for: font)
         title.font = scaledFont
-        date.font = scaledFont
+
+        let dateFont = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize - 2), weight: .regular)
+        let dateFontMetrics = UIFontMetrics(forTextStyle: .title3)
+        let dateScaledFont = dateFontMetrics.scaledFont(for: dateFont)
+        date.font = dateScaledFont
     }
 
     public func getDate() -> String {

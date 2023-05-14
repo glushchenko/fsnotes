@@ -61,7 +61,7 @@ enum SidebarItemType: Int {
     public func getIcon() -> UIImage? {
         guard let icon = icon, let image = UIImage(named: icon) else { return nil }
 
-        return image.imageWithColor(color1: .white)
+        return image.imageWithColor(color1: UIColor.mainTheme)
     }
 #endif
 }

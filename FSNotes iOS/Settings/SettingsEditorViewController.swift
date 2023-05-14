@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class SettingsEditorViewController: UITableViewController {
     private var noteTableUpdater = Timer()
@@ -47,10 +46,6 @@ class SettingsEditorViewController: UITableViewController {
     ]
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
         title = NSLocalizedString("Editor", comment: "Settings")
 
         super.viewDidLoad()
@@ -74,11 +69,6 @@ class SettingsEditorViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -106,10 +96,6 @@ class SettingsEditorViewController: UITableViewController {
         
         let cell = UITableViewCell()
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
-
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
 
         if indexPath.section == 0 {
             switch indexPath.row {
@@ -176,7 +162,7 @@ class SettingsEditorViewController: UITableViewController {
                 label.translatesAutoresizingMaskIntoConstraints = false
 
                 counter.text = String(Double(UserDefaultsManagement.fontSize))
-                counter.mixedTextColor = MixedColor(normal: UIColor.gray, night: UIColor.white)
+                counter.textColor = UIColor.blackWhite
                 counter.translatesAutoresizingMaskIntoConstraints = false
 
                 cell.contentView.addSubview(label)
@@ -217,16 +203,6 @@ class SettingsEditorViewController: UITableViewController {
         }
 
         return super.tableView(tableView, heightForRowAt: indexPath)
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let headerView = view as? UITableViewHeaderFooterView {
-            if NightNight.theme == .night {
-                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
-            } else {
-                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
-            }
-        }
     }
 
     @objc public func switchValueDidChange(_ sender: UISwitch) {

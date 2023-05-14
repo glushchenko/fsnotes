@@ -11,7 +11,6 @@ import Highlightr
 import SSZipArchive
 
 #if os(iOS)
-import NightNight
 import MobileCoreServices
 import AudioToolbox
 #else
@@ -448,7 +447,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
 #if os(iOS)
         platform = "ios"
-        if NightNight.theme == .night && archivePath == nil {
+        if UITraitCollection.current.userInterfaceStyle == .dark && archivePath == nil {
             appearance = "darkmode"
         }
 #else

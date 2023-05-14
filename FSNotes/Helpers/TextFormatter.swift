@@ -16,7 +16,6 @@ import Foundation
     typealias Color = NSColor
 #else
     import UIKit
-    import NightNight
     typealias Font = UIFont
     typealias TextView = EditTextView
     typealias Color = UIColor
@@ -941,7 +940,7 @@ public class TextFormatter {
         let mutableResult = NSMutableAttributedString(string: result)
         
         #if os(iOS)
-            let textColor: UIColor = NightNight.theme == .night ? UIColor.white : UIColor.black
+            let textColor: UIColor = UIColor.blackWhite
         #else
             let textColor: NSColor = NotesTextProcessor.fontColor
         #endif

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class ProjectSettingsViewController: UITableViewController {
     private var dismiss: Bool = false
@@ -33,16 +32,11 @@ class ProjectSettingsViewController: UITableViewController {
     override func viewDidLoad() {
         initNavigationBackground()
 
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
-
         if dismiss {
             self.navigationItem.rightBarButtonItem = Buttons.getDone(target: self, selector: #selector(close))
-        } else {
-            self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         }
 
         self.title = NSLocalizedString("Project", comment: "Settings") + " \"\(project.getFullLabel())\""
-
 
         super.viewDidLoad()
     }
@@ -89,11 +83,6 @@ class ProjectSettingsViewController: UITableViewController {
         return sections[section]
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-    }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let uiSwitch = UISwitch()
         uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
@@ -136,10 +125,6 @@ class ProjectSettingsViewController: UITableViewController {
                 break
             }
         }
-
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
 
         if indexPath.section == 0x01 {
             switch indexPath.row {
@@ -218,16 +203,6 @@ class ProjectSettingsViewController: UITableViewController {
         }
 
         project.saveSettings()
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let headerView = view as? UITableViewHeaderFooterView {
-            if NightNight.theme == .night {
-                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
-            } else {
-                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
-            }
-        }
     }
 
     @objc func cancel() {

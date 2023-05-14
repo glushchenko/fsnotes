@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import NightNight
 import UIKit
 
 extension NSMutableAttributedString {
@@ -24,9 +23,7 @@ extension NSMutableAttributedString {
             let parRange = mutableString.paragraphRange(for: range)
             
             if length >= range.upperBound, let checked = AttributedBox.getChecked() {
-                
-                let color = NightNight.theme == .night ? UIColor.white : UIColor.black
-                addAttribute(.strikethroughColor, value: color, range: parRange)
+                addAttribute(.strikethroughColor, value: UIColor.blackWhite, range: parRange)
                 
                 replaceCharacters(in: range, with: checked)
             }

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class SortByViewController: UITableViewController {
     private var rows = [
@@ -17,11 +16,6 @@ class SortByViewController: UITableViewController {
     ]
 
     override func viewDidLoad() {
-        initNavigationBackground()
-
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         self.title = NSLocalizedString("Sort by", comment: "Settings")
 
         super.viewDidLoad()
@@ -61,11 +55,6 @@ class SortByViewController: UITableViewController {
         return 50
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-    }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
 
@@ -98,10 +87,6 @@ class SortByViewController: UITableViewController {
                 break
             }
         }
-
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
 
         return cell
     }

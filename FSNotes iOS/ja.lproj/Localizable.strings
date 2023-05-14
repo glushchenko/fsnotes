@@ -119,7 +119,7 @@
 "Family" = "ファミリー";
 
 /* Settings */
-"File format" = "ファイル形式";
+"Files Format" = "ファイル形式";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "同名のファイルがすでに存在しています";
@@ -173,6 +173,8 @@
 "Images source:" = "画像ソース:";
 
 /* Main view popover table Settings */
+"Import Notes" = "ノートのインポート";
+
 "Import notes" = "ノートのインポート";
 
 /* Inbox in sidebar */
@@ -249,7 +251,7 @@
 "Project removing ❌" = "削除するプロジェクト ❌";
 
 /* Settings */
-"Projects" = "プロジェクト";
+"Folders" = "プロジェクト";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "ロックを削除";

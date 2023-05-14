@@ -119,7 +119,7 @@
 "Family" = "Family";
 
 /* Settings */
-"File format" = "File format";
+"Files Format" = "Files Format";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "File with this name already exist";
@@ -174,6 +174,8 @@
 
 /* Main view popover table
    Settings */
+"Import Notes" = "Import Notes";
+
 "Import notes" = "Import notes";
 
 /* Inbox in sidebar */
@@ -250,7 +252,7 @@
 "Project removing ❌" = "Project removing ❌";
 
 /* Settings */
-"Projects" = "Projects";
+"Folders" = "Folders";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Remove encryption";

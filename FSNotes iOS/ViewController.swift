@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 import LocalAuthentication
 import WebKit
 import AudioToolbox
@@ -71,10 +70,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     // Pass for access from CloudDriveManager
     public var editorViewController: EditorViewController?
-    public static var gitViewController: GitViewController?
     
     private var gitClean: Bool = false
     private var gitPullTimer: Timer?
+
+    override func viewWillAppear(_ animated: Bool) {
+        configureSearchController()
+
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .whiteBlack
+
+        super.viewWillAppear(animated)
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         if nil == Storage.shared().getRoot() {
@@ -106,6 +113,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureNotifications()
         configureGestures()
         configureSearchController()
+        loadSearchController()
         
         gitQueue.qualityOfService = .userInteractive
         gitQueue.maxConcurrentOperationCount = 1
@@ -126,6 +134,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         restoreLastController()
 
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+
+        notesTable.keyboardDismissMode = .onDrag
+        notesTable.contentInsetAdjustmentBehavior = .never
+        notesTable.alwaysBounceVertical = true
 
         super.viewDidLoad()
     }
@@ -187,43 +199,26 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         self.metadataQueue.qualityOfService = .userInteractive
+        self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
-        if UserDefaultsManagement.nightModeType == .system {
-            if #available(iOS 12.0, *) {
-                if traitCollection.userInterfaceStyle == .dark {
-                    NightNight.theme = .night
-                } else {
-                    NightNight.theme = .normal
-                }
-            }
-        }
-
-        self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
-
-        let navSettingsImage = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 34)?.imageWithColor(color1: .white)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)!.imageWithColor(color1: UIColor.mainTheme)
         let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(openSidebarSettings))
-        navSettings.tintColor = .white
+        navSettings.tintColor = UIColor.mainTheme
 
-        let appSettingsImage = UIImage(named: "hideSide")?.resize(maxWidthHeight: 30)?.imageWithColor(color1: .white)
+        let appSettingsImage = UIImage(systemName: "sidebar.left", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
         let appSettings = UIBarButtonItem(image: appSettingsImage, style: .plain, target: self, action: #selector(toggleSidebar))
-        appSettings.tintColor = .white
+        appSettings.tintColor = UIColor.mainTheme
 
-        let searchButtonImage = UIImage(named: "searchButton")?.resize(maxWidthHeight: 25)?.imageWithColor(color1: .white)
-        let searchButton = UIBarButtonItem(image: searchButtonImage, style: .plain, target: self, action: #selector(openSearchController))
-        searchButton.tintColor = .white
-        searchButton.imageInsets = UIEdgeInsets(top: 0.0, left: 20, bottom: 0, right: 0)
-
-        let generalSettingsImage = UIImage(named: "navigationSettings")?.resize(maxWidthHeight: 23)?.imageWithColor(color1: .white)
+        let generalSettingsImage = UIImage(systemName: "gear", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
         let generalSettings = UIBarButtonItem(image: generalSettingsImage, style: .plain, target: self, action: #selector(openSettings))
-        generalSettings.tintColor = .white
+        generalSettings.tintColor = UIColor.mainTheme
 
         navigationItem.leftBarButtonItems = [appSettings, generalSettings]
-        navigationItem.rightBarButtonItems = [navSettings, searchButton]
+        navigationItem.rightBarButtonItems = [navSettings]
 
         setNavTitle(folder: NSLocalizedString("Inbox", comment: ""))
-
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
-        notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        sidebarTableView.backgroundColor = UIColor.sidebar
 
         loadPlusButton()
 
@@ -260,22 +255,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             qty += " | git ✓"
         }
 
-        let titleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white]
-        let subtitleParameters = [NSAttributedString.Key.foregroundColor : UIColor.white, .font: UIFont(name: "Source Code Pro", size: 10)]
-        let title: NSMutableAttributedString = NSMutableAttributedString(string: folder, attributes: titleParameters)
-        let subtitle: NSAttributedString = NSAttributedString(string: qty, attributes: subtitleParameters as [NSAttributedString.Key : Any])
-
-        title.append(NSAttributedString(string: "\n"))
-        title.append(subtitle)
-
-        let size = title.size()
-
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        titleLabel.attributedText = title
-        titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .center
-
-        navigationItem.titleView = titleLabel
+        navigationItem.title = folder
     }
 
     public func configureNotifications() {
@@ -294,8 +274,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: UIScreen.brightnessDidChangeNotification, object: nil)
     }
 
     public func configureGestures() {
@@ -316,34 +294,24 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func configureSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")
-        searchController.searchBar.mixedBackgroundColor = Colors.Header
-        searchController.searchBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0xffffff)
-        
-        if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-            textFieldInsideSearchBar.attributedPlaceholder = NSAttributedString(string: textFieldInsideSearchBar.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        }
-        
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")        
         searchController.searchBar.returnKeyType = .go
-        searchController.searchBar.showsCancelButton = true
+        searchController.searchBar.showsCancelButton = false
         searchController.searchBar.autocapitalizationType = .none
-        searchController.searchBar.keyboardAppearance = NightNight.theme == .night ? .dark : .default
+        searchController.searchBar.keyboardAppearance = traitCollection.userInterfaceStyle == .dark ? .dark : .default
 
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationItem.searchController = searchController
+    }
 
-        if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField,
-           let glassIconView = textFieldInsideSearchBar.leftView as? UIImageView {
-            glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
-            glassIconView.tintColor = .white
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.searchController?.isActive = true
 
-            textFieldInsideSearchBar.keyboardAppearance = NightNight.theme == .night ? .dark : .default
-        }
-
-        self.searchController = searchController
-
-        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController!.navigationBar.sizeToFit()
     }
 
     @IBAction public func openSearchController() {
@@ -591,7 +559,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
         closeButton.layer.zPosition = 110
         news.addSubview(closeButton)
-        view.addSubview(news)
+
+        navigationController?.view.addSubview(news)
 
         self.newsPopup = news
 
@@ -622,39 +591,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadNotches() {
-        rightPreSafeArea.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00),
-                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            )
+        rightPreSafeArea.backgroundColor = .whiteBlack
     }
 
     public func loadPreSafeArea() {
         if UserDefaultsManagement.sidebarIsOpened {
             // blue/black pre safe area
-            leftPreSafeArea.mixedBackgroundColor =
-                MixedColor(
-                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
-                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
-                )
-
-            rightPreSafeArea.mixedBackgroundColor =
-                MixedColor(
-                    normal: .white,
-                    night: .black
-                )
+            leftPreSafeArea.backgroundColor = UIColor.sidebar
+            rightPreSafeArea.backgroundColor = .whiteBlack
         } else {
-            leftPreSafeArea.mixedBackgroundColor =
-                MixedColor(
-                    normal: .white,
-                    night: .black
-                )
-
-            rightPreSafeArea.mixedBackgroundColor =
-                MixedColor(
-                    normal: .white,
-                    night: .black
-                )
+            leftPreSafeArea.backgroundColor = .whiteBlack
+            rightPreSafeArea.backgroundColor = .whiteBlack
         }
     }
 
@@ -744,14 +691,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadSearchController(query: String? = nil) {
-        navigationItem.searchController = searchController
+        //navigationItem.searchController = searchController
+        //navigationItem.searchController?.isActive = true
 
         if let query = query {
             navigationItem.searchController?.searchBar.text = query
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.navigationItem.searchController?.searchBar.becomeFirstResponder()
+            //self.navigationItem.searchController?.searchBar.becomeFirstResponder()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.loadPlusButton()
@@ -787,7 +735,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private func toggleSearchView() {
 
         if navigationItem.searchController != nil {
-            unloadSearchController()
+            //unloadSearchController()
             return
         }
 
@@ -799,7 +747,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText.count > 0 else {
-            reloadNotesTable(with: SearchQuery())
+            if let searchQuery = sidebarTableView.buildSearchQuery() {
+                reloadNotesTable(with: searchQuery)
+            } else {
+                reloadNotesTable(with: SearchQuery(type: .Inbox))
+            }
             return
         }
 
@@ -807,15 +759,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        unloadSearchController()
-        callbackSearchController()
+//        unloadSearchController()
+//        callbackSearchController()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let content = searchBar.text
         searchBar.text = ""
         self.createNote(content: content, pasteboard: nil)
-        unloadSearchController()
+        //unloadSearchController()
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
@@ -824,7 +776,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         indicator.layer.cornerRadius = 5
         indicator.layer.borderWidth = 1
         indicator.layer.borderColor = UIColor.lightGray.cgColor
-        indicator.mixedBackgroundColor = MixedColor(normal: 0xb7b7b7, night: 0x47444e)
         view.addSubview(indicator)
         indicator.bringSubviewToFront(view)
     }
@@ -942,7 +893,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func isNoteInsertionAllowed() -> Bool {
-        if let searchBar = navigationItem.searchController?.searchBar {
+        if let searchBar = navigationController?.navigationItem.searchController?.searchBar {
             return !searchBar.isFirstResponder
         }
 
@@ -1032,16 +983,27 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let width = self.view.frame.width
             let height = self.view.frame.height
 
-            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 80), y: CGFloat(height - 80)), size: CGSize(width: 60, height: 60))
+            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 90), y: CGFloat(height - 90)), size: CGSize(width: 60, height: 60))
             return
         }
 
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 60, height: 60)))
-        let image = UIImage(named: "plus.png")
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 90, y: self.view.frame.height - 90), size: CGSize(width: 60, height: 60)))
+
+        var image = UIImage()
+        if #available(iOS 15.0, *) {
+            let colorsConfig = UIImage.SymbolConfiguration(paletteColors: [.white, UIColor.mainTheme])
+            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill", withConfiguration: colorsConfig)?.resize(maxWidthHeight: 50) {
+                image = imageUnwrapped
+            }
+        } else {
+            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill")?.withTintColor(UIColor.mainTheme).resize(maxWidthHeight: 50) {
+                image = imageUnwrapped
+            }
+        }
+
         button.setImage(image, for: UIControl.State.normal)
         button.tag = 1
-        button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
-        button.addTarget(self, action: #selector(self.newButtonAction), for: .touchDown)
+        button.addTarget(self, action: #selector(self.newButtonAction), for: .touchUpInside)
         button.layer.zPosition = 101
         self.view.addSubview(button)
     }
@@ -1213,23 +1175,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         importSavedInSharedExtension()
     }
 
-    @objc func didChangeScreenBrightness() {
-        guard UserDefaultsManagement.nightModeType == .brightness else {
-            return
-        }
-
-        let brightness = Float(UIScreen.screens[0].brightness)
-
-        if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness && NightNight.theme == .night) {
-            UIApplication.getNC()?.disableNightMode()
-            return
-        }
-
-        if (UserDefaultsManagement.maxNightModeBrightnessLevel > brightness && NightNight.theme == .normal) {
-            UIApplication.getNC()?.enableNightMode()
-        }
-    }
-
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
         let notchWidth = getLeftInset()
         let translation = swipe.translation(in: notesTable)
@@ -1279,11 +1224,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
 
             // blue/blck pre safe area
-            leftPreSafeArea.mixedBackgroundColor =
-                MixedColor(
-                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
-                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
-                )
+            leftPreSafeArea.backgroundColor = UIColor.sidebar
         }
     }
 
@@ -1298,11 +1239,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.notesTable.dragInteractionEnabled = true
             self.sidebarTableView.isUserInteractionEnabled = true
 
-            self.leftPreSafeArea.mixedBackgroundColor =
-                MixedColor(
-                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
-                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
-                )
+            self.leftPreSafeArea.backgroundColor = UIColor.sidebar
         }
     }
 
@@ -1318,11 +1255,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.sidebarTableView.isUserInteractionEnabled = false
 
             // white pre safe area
-            self.leftPreSafeArea.mixedBackgroundColor =
-                MixedColor(
-                    normal: .white,
-                    night: .black
-            )
+            self.leftPreSafeArea.backgroundColor = .whiteBlack
         }
     }
 
@@ -1361,25 +1294,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let trash = NSLocalizedString("Trash", comment: "Trash in sidebar")
 
         var sidebarItems = [String]()
+        var tags = [String]()
+
         if let project = searchQuery.project {
-            sidebarItems = sidebarTableView.getAllTags(projects: [project])
+            tags = sidebarTableView.getAllTags(projects: [project])
         }
 
-        // Without icons
-        for item in sidebarItems {
-            let labelWidth = ("#" + item as NSString).size(withAttributes: [.font: font]).width + 15
-
-            if labelWidth < (view.frame.size.width / 2) {
-                if labelWidth > width {
-                    width = labelWidth
-                }
-            } else {
-                width = view.frame.size.width / 2
-            }
-        }
-
-        // With icons
-        sidebarItems = Storage.shared().getProjects().map({ $0.label })
+        sidebarItems = tags + Storage.shared().getProjects().map({ $0.label })
             + [settings, inbox, notes, todo, archive, trash, untagged]
 
         for item in sidebarItems {

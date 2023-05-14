@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class ProViewController: UITableViewController {
     private var sections = [
@@ -30,10 +29,6 @@ class ProViewController: UITableViewController {
     ]
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
         self.title = NSLocalizedString("Advanced", comment: "Settings")
         super.viewDidLoad()
     }
@@ -65,10 +60,6 @@ class ProViewController: UITableViewController {
         let cell = UITableViewCell()
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
 
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
-
         if indexPath.section == 0 {
             switch indexPath.row {
             case 1:
@@ -96,21 +87,8 @@ class ProViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
         if indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let headerView = view as? UITableViewHeaderFooterView {
-            if NightNight.theme == .night {
-                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
-            } else {
-                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
-            }
         }
     }
 

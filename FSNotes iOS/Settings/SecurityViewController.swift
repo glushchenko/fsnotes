@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class SecurityViewController: UITableViewController {
 
@@ -29,10 +28,6 @@ class SecurityViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
         self.title = NSLocalizedString("Security", comment: "Settings")
         super.viewDidLoad()
     }
@@ -51,9 +46,7 @@ class SecurityViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-
         let textField = UITextField()
-        textField.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
         var password = String()
 
@@ -105,28 +98,12 @@ class SecurityViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let headerView = view as? UITableViewHeaderFooterView {
-            if NightNight.theme == .night {
-                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
-            } else {
-                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
-            }
-        }
-    }
-
     @objc func saveButtonClicked(sender: UIButton) {
         guard let passwordTextField = passwordTextField,
               let verifyPasswordTextField = verifyPasswordTextField,
               let text = passwordTextField.text else { return }
 
         let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-        let oldPassword = try? item.readPassword()
 
         if text.count > 0, text == verifyPasswordTextField.text {
             do {

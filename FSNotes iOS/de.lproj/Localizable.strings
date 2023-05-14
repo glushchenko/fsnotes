@@ -119,7 +119,7 @@
 "Family" = "Schriftfamilie";
 
 /* Settings */
-"File format" = "Datei Format";
+"Files Format" = "Datei Format";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Eine Datei mit diesem Namen existiert bereits";
@@ -173,6 +173,8 @@
 "Images source:" = "Bildquelle:";
 
 /* Main view popover table - Settings */
+"Import Notes" = "Importieren";
+
 "Import notes" = "Importieren";
 
 /* Inbox in sidebar */
@@ -248,7 +250,7 @@
 "Project removing ❌" = "Projekt entfernen ❌";
 
 /* Settings */
-"Projects" = "Projekte";
+"Folders" = "Ordner";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Verschlüsselung entfernen";

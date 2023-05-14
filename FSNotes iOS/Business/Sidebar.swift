@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 typealias Image = UIImage
 
 enum SidebarSection: Int {

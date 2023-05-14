@@ -119,7 +119,7 @@
 "Family" = "Famiglia di font";
 
 /* Settings */
-"File format" = "Formato del file";
+"Files Format" = "Formato del file";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Il file con questo nome già esiste";
@@ -173,6 +173,8 @@
 "Images source:" = "Fonti delle immagini:";
 
 /* Main view popover table - Settings */
+"Import Notes" = "Importa note";
+
 "Import notes" = "Importa note";
 
 /* Inbox in sidebar */
@@ -248,7 +250,7 @@
 "Project removing ❌" = "Rimozione progetto ❌";
 
 /* Settings */
-"Projects" = "Progetti";
+"Folders" = "Cartelle";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Rimuovi la crittografia";

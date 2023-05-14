@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class DefaultExtensionViewController: UITableViewController {
     private var sections = [
@@ -28,13 +27,7 @@ class DefaultExtensionViewController: UITableViewController {
     ]
     
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        
-        super.viewDidLoad()
-        
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
-        self.title = NSLocalizedString("File format", comment: "Settings")
+        self.title = NSLocalizedString("Files Format", comment: "Settings")
     }
     
     @objc func cancel() {
@@ -91,9 +84,6 @@ class DefaultExtensionViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
         guard let text = cell.textLabel?.text else { return }
 
         if indexPath.section == 1 {
@@ -121,36 +111,14 @@ class DefaultExtensionViewController: UITableViewController {
 
             cell.textLabel?.text = "Textbundle"
             cell.accessoryView = uiSwitch
-
-            let view = UIView()
-            view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-            cell.selectedBackgroundView = view
         } else if indexPath.section == 1 {
             cell.textLabel?.text = extensions[indexPath.row]
-
-            let view = UIView()
-            view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-            cell.selectedBackgroundView = view
         } else if indexPath.section == 2 {
             cell.textLabel?.text = naming[indexPath.row]
             cell.tag = indexPath.row + 1
-
-            let view = UIView()
-            view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-            cell.selectedBackgroundView = view
         }
 
         return cell
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let headerView = view as? UITableViewHeaderFooterView {
-            if NightNight.theme == .night {
-                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
-            } else {
-                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
-            }
-        }
     }
 
     @objc public func switchValueDidChange(_ sender: UISwitch) {

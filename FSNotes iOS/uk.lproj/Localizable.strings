@@ -119,7 +119,7 @@
 "Family" = "Сімейство шрифтів";
 
 /* Settings */
-"File format" = "Формат файлу";
+"Files Format" = "Формат файлу";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл з цим іменем вже існує";
@@ -173,6 +173,8 @@
 "Images source:" = "Джерело зображень:";
 
 /* Main view popover table - Settings */
+"Import Notes" = "Імпортувати";
+
 "Import notes" = "Імпортувати";
 
 /* Inbox in sidebar */
@@ -248,7 +250,7 @@
 "Project removing ❌" = "Видалення проекту ❌";
 
 /* Settings */
-"Projects" = "Проекти";
+"Folders" = "Папки";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Зняти шифрування";

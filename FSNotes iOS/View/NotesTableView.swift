@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 import MobileCoreServices
 import AudioToolbox
 import SwipeCellKit
@@ -75,11 +74,6 @@ class NotesTableView: UITableView,
         
         cell.configure(note: note)
         cell.selectionStyle = .gray
-
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
-
         cell.loadImagesPreview(position: indexPath.row)
         cell.attachHeaders(note: note)
 
@@ -200,7 +194,7 @@ class NotesTableView: UITableView,
                 vc.storage.removeBy(note: note)
             }
         }
-        deleteAction.image = UIImage(named: "basket")?.resize(maxWidthHeight: 32)
+        deleteAction.image = UIImage(systemName: "trash")
 
         let pinTitle = note.isPinned
             ? NSLocalizedString("UnPin", comment: "Table row action")
@@ -226,22 +220,17 @@ class NotesTableView: UITableView,
             self.reloadRows(at: [newIndexPath], with: .automatic)
             self.reloadRows(at: [indexPath], with: .automatic)
         }
-        pinAction.image = UIImage(named: "pin_row_action")?.resize(maxWidthHeight: 32)
+        pinAction.image = note.isPinned ? UIImage(systemName: "pin.slash") : UIImage(systemName: "pin")
         pinAction.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
 
         let moreTitle = NSLocalizedString("More", comment: "Table row action")
         let moreAction = SwipeAction(style: .default, title: moreTitle) { action, indexPath in
             self.actionsSheet(notes: [note], showAll: true, presentController: self.viewDelegate!)
         }
-        moreAction.image = UIImage(named: "more_row_action")?.resize(maxWidthHeight: 32)
+        moreAction.image = UIImage(systemName: "ellipsis.circle")
         moreAction.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
 
         return [moreAction, pinAction, deleteAction]
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
     public func turnOffEditing() {
@@ -264,7 +253,7 @@ class NotesTableView: UITableView,
             }
         })
         remove.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        if let image = UIImage(named: "removeAction")?.resize(maxWidthHeight: 22) {
+        if let image = UIImage(systemName: "trash")?.resize(maxWidthHeight: 23) {
             remove.setValue(image, forKey: "image")
         }
         actionSheet.addAction(remove)
@@ -274,7 +263,7 @@ class NotesTableView: UITableView,
                 self.saveRevisionAction(note: notes.first!)
             })
             history.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "saveButton")?.resize(maxWidthHeight: 25) {
+            if let image = UIImage(systemName: "plus.circle")?.resize(maxWidthHeight: 23) {
                 history.setValue(image, forKey: "image")
             }
             actionSheet.addAction(history)
@@ -285,7 +274,7 @@ class NotesTableView: UITableView,
                 self.historyAction(note: notes.first!, presentController: presentController)
             })
             history.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "historyAction")?.resize(maxWidthHeight: 25) {
+            if let image = UIImage(systemName: "clock.arrow.circlepath")?.resize(maxWidthHeight: 23) {
                 history.setValue(image, forKey: "image")
             }
             actionSheet.addAction(history)
@@ -295,7 +284,7 @@ class NotesTableView: UITableView,
             self.dateAction(notes: notes, presentController: presentController)
         })
         creationDate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        if let image = UIImage(named: "dateAction")?.resize(maxWidthHeight: 25) {
+        if let image = UIImage(systemName: "calendar")?.resize(maxWidthHeight: 23) {
             creationDate.setValue(image, forKey: "image")
         }
         actionSheet.addAction(creationDate)
@@ -304,7 +293,7 @@ class NotesTableView: UITableView,
             self.duplicateAction(notes: notes, presentController: presentController)
         })
         duplicate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        if let image = UIImage(named: "duplicateAction")?.resize(maxWidthHeight: 22) {
+        if let image = UIImage(systemName: "doc.on.doc")?.resize(maxWidthHeight: 23) {
             duplicate.setValue(image, forKey: "image")
         }
         actionSheet.addAction(duplicate)
@@ -315,7 +304,7 @@ class NotesTableView: UITableView,
             })
             rename.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-            if let image = UIImage(named: "renameAction")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "pencil.circle")?.resize(maxWidthHeight: 23) {
                 rename.setValue(image, forKey: "image")
             }
 
@@ -334,7 +323,7 @@ class NotesTableView: UITableView,
 
             pin.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-            if let image = UIImage(named: "pinAction")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: note.isPinned ? "pin.slash" : "pin")?.resize(maxWidthHeight: 23) {
                 pin.setValue(image, forKey: "image")
             }
 
@@ -347,7 +336,7 @@ class NotesTableView: UITableView,
         })
         move.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-        if let image = UIImage(named: "moveAction")?.resize(maxWidthHeight: 23) {
+        if let image = UIImage(systemName: "move.3d")?.resize(maxWidthHeight: 23) {
             move.setValue(image, forKey: "image")
         }
 
@@ -359,6 +348,10 @@ class NotesTableView: UITableView,
                     ? NSLocalizedString("Lock", comment: "")
                     : NSLocalizedString("Unlock", comment: "")
 
+            let imageName = (note.isUnlocked() && note.isEncrypted()) || !note.isEncrypted()
+                ? "lock"
+                : "lock.open"
+
             let encryption = UIAlertAction(title: alertTitle, style: .default, handler: { _ in
                 self.viewDelegate?.toggleNotesLock(notes: [note])
 
@@ -367,7 +360,7 @@ class NotesTableView: UITableView,
                 }
             })
             encryption.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "lockAction")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: imageName)?.resize(maxWidthHeight: 23) {
                 encryption.setValue(image, forKey: "image")
             }
             actionSheet.addAction(encryption)
@@ -378,7 +371,7 @@ class NotesTableView: UITableView,
                 })
 
                 removeEncryption.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-                if let image = UIImage(named: "actionDropEncryption") {
+                if let image = UIImage(systemName: "lock.slash")?.resize(maxWidthHeight: 23) {
                     removeEncryption.setValue(image, forKey: "image")
                 }
 
@@ -389,7 +382,7 @@ class NotesTableView: UITableView,
                 self.copyAction(note: note, presentController: presentController)
             })
             copy.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "copyAction")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "list.clipboard")?.resize(maxWidthHeight: 23) {
                 copy.setValue(image, forKey: "image")
             }
             actionSheet.addAction(copy)
@@ -399,7 +392,7 @@ class NotesTableView: UITableView,
             })
             share.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-            if let image = UIImage(named: "shareAction")?.resize(maxWidthHeight: 25) {
+            if let image = UIImage(systemName: "square.and.arrow.up")?.resize(maxWidthHeight: 23) {
                 share.setValue(image, forKey: "image")
             }
 

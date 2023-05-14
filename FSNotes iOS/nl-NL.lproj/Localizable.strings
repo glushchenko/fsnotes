@@ -119,7 +119,7 @@
 "Family" = "Lettertype familie";
 
 /* Settings */
-"File format" = "Bestandsformaat";
+"Files Format" = "Bestandsformaat";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Bestand met deze naam bestaat al";
@@ -173,6 +173,8 @@
 "Images source:" = "Afbeeldingen bron:";
 
 /* Main view popover table - Settings */
+"Import Notes" = "Importeren notities";
+
 "Import notes" = "Importeren notities";
 
 /* Inbox in sidebar */
@@ -248,7 +250,7 @@
 "Project removing ❌" = "Project verwijderen ❌";
 
 /* Settings */
-"Projects" = "Projecten";
+"Folders" = "Mappen";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Verwijder versleuteling";

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 import AudioToolbox
 import DKImagePickerController
 import MobileCoreServices
@@ -16,7 +15,7 @@ import DropDown
 import CoreSpotlight
 import PhotosUI
 
-class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate,  PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     public var note: Note?
     
     private var isHighlighted: Bool = false
@@ -47,7 +46,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         editArea.textContainerInset = UIEdgeInsets(top: 13, left: 10, bottom: 0, right: 10)
         
         navigationItem.rightBarButtonItems = [getMoreButton(), self.getTogglePreviewButton()]
-        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
         editArea.addGestureRecognizer(imageTap)
@@ -105,7 +103,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
-        if NightNight.theme == .night {
+        if traitCollection.userInterfaceStyle == .dark {
             editArea.keyboardAppearance = .dark
         } else {
             editArea.keyboardAppearance = .default
@@ -113,12 +111,20 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         initLinksColor()
 
-        editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
+        editArea.indicatorStyle = (traitCollection.userInterfaceStyle == .dark) ? .white : .black
         editArea.flashScrollIndicators()
 
         self.registerForKeyboardNotifications()
 
         initSwipes()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationItem.largeTitleDisplayMode = .never
+
+        navigationController?.navigationBar.tintColor = UIColor.mainTheme
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -164,7 +170,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
         button.setTitle(text, for: .normal)
         button.addTarget(self, action: #selector(self.clickOnButton), for: .touchUpInside)
-        self.navigationItem.titleView = button
+        //self.navigationItem.titleView = button
+
         self.navigationItem.title = text
     }
 
@@ -197,7 +204,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         
         editArea.note = note
 
-        setTitle(text: note.getShortTitle())
+        //setTitle(text: note.getShortTitle())
 
         if UserDefaultsManagement.previewMode {
             loadPreviewView()
@@ -218,8 +225,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             view.backgroundColor = UIColor.white
             editArea.backgroundColor = UIColor.white
         } else {
-            view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
-            editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
+            view.backgroundColor = UIColor.dropDownColor
+            editArea.backgroundColor = UIColor.dropDownColor
         }
 
         if note.isMarkdown() {
@@ -307,7 +314,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 editArea.endEditing(true)
             }
             
-            if NightNight.theme == .night {
+            if traitCollection.userInterfaceStyle == .dark {
                 editArea.keyboardAppearance = .dark
             } else {
                 editArea.keyboardAppearance = .light
@@ -560,8 +567,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         dropDown.cellHeight = 35
         dropDown.textFont = UIFont.boldSystemFont(ofSize: 15)
-        dropDown.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
-        dropDown.textColor = NightNight.theme == .night ? UIColor.white : UIColor.gray
+        dropDown.backgroundColor = UIColor.dropDownColor
+        dropDown.textColor = traitCollection.userInterfaceStyle == .dark ? UIColor.white : UIColor.gray
         dropDown.anchorView = customView
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             customView.removeFromSuperview()
@@ -817,14 +824,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scrollFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height)
         let scroll = UIScrollView(frame: scrollFrame)
-        scroll.mixedBackgroundColor = MixedColor(normal: .white, night: .black)
+        scroll.backgroundColor = .whiteBlack
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
 
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: -1000, y: 0, width: 9999, height: 1)
-        topBorder.mixedBackgroundColor = MixedColor(normal: 0xD5D7DD, night: 0x373739)
+        topBorder.backgroundColor = UIColor.toolbarBorder.cgColor
         scroll.layer.addSublayer(topBorder)
 
         let isFirst = textField.isFirstResponder
@@ -923,7 +930,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 50))
         toolBar.backgroundColor = .darkGray
         toolBar.isTranslucent = false
-        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+        toolBar.tintColor = UIColor.mainTheme
         toolBar.setItems(items, animated: false)
         toolBar.isUserInteractionEnabled = true
 
@@ -933,9 +940,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     private func getRTFToolbar() -> UIToolbar {
         let width = self.editArea.superview!.frame.width
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
-
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
-        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+        toolBar.backgroundColor = .darkGray
+        toolBar.isTranslucent = false
+        toolBar.tintColor = UIColor.mainTheme
 
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
         let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
@@ -1326,7 +1333,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         guard let note = self.note else { return }
 
         var linkAttributes: [NSAttributedString.Key : Any] = [
-            .foregroundColor: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0)
+            .foregroundColor: UIColor.linksColor
         ]
 
         if !note.isRTF() {
@@ -1491,20 +1498,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func getMoreButton() -> UIBarButtonItem {
-        let menuBtn = SmallButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 32, height: 32)
-        let image = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 32)?.imageWithColor(color1: .white)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+        let image = UIImage(systemName: "ellipsis.circle", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
+        let menuBarItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(clickOnButton))
 
-        menuBtn.setImage(image, for: .normal)
-        menuBtn.addTarget(self, action: #selector(clickOnButton), for: UIControl.Event.touchUpInside)
-
-        let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 32)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 32)
-        currHeight?.isActive = true
-
-        menuBarItem.tintColor = UIColor.white
         return menuBarItem
     }
 
@@ -1517,23 +1514,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func getTogglePreviewButton() -> UIBarButtonItem {
-        let buttonName = UserDefaultsManagement.previewMode ? "editButton" : "previewButton"
-
-        let menuBtn = SmallButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        let image = UIImage(named: buttonName)!.imageWithColor(color1: .white)
-
-        menuBtn.setImage(image, for: .normal)
-        menuBtn.addTarget(self, action: #selector(togglePreview), for: UIControl.Event.touchUpInside)
-
-        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+        let buttonName = UserDefaultsManagement.previewMode ? "eye.slash" : "eye"
+        let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
+        let menuBarItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(togglePreview))
         menuBarItem.tag = 5
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 22)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 22)
-        currHeight?.isActive = true
-
-        menuBarItem.tintColor = UIColor.white
         return menuBarItem
     }
 
@@ -1567,11 +1552,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             loadPreviewView()
         }
 
-        let buttonName = UserDefaultsManagement.previewMode ? "editButton" : "previewButton"
+        let buttonName = UserDefaultsManagement.previewMode ? "eye.slash" : "eye"
 
-        if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }), let button = buttonBar.customView as? UIButton {
-            if let image = UIImage(named: buttonName)?.resize(maxWidthHeight: 32)?.imageWithColor(color1: .white) {
-                button.setImage(image, for: .normal)
+        if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }) {
+
+            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+            if let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme) {
+
+                buttonBar.image = image
             }
         }
 
@@ -1587,7 +1575,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         if previewView == nil {
             let newView = MPreviewView(frame: self.view.frame, note: note, closure: {})
-            newView.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
+            newView.backgroundColor = UIColor.dropDownColor
             view.addSubview(newView)
 
             newView.translatesAutoresizingMaskIntoConstraints = false

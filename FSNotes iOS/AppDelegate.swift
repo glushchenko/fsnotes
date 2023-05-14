@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import NightNight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

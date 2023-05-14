@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class SidebarTableCellView: UITableViewCell {    
     @IBOutlet weak var icon: UIImageView!
@@ -19,45 +18,26 @@ class SidebarTableCellView: UITableViewCell {
     func configure(sidebarItem: SidebarItem) {
         self.sidebarItem = sidebarItem
         
-        if sidebarItem.type == .Tag {
-            self.icon.constraints[1].constant = 0
-            self.labelConstraint.constant = 0
-            icon.image = nil
-        } else {
-            self.icon.constraints[1].constant = 21
-            self.labelConstraint.constant = 11
-            icon.image = sidebarItem.icon
+        self.icon.constraints[1].constant = 21
+        self.labelConstraint.constant = 11
+        icon.image = sidebarItem.icon
+
+        var font = UIFont.systemFont(ofSize: 15)
+
+        if sidebarItem.type == .Project || sidebarItem.type == .ProjectEncryptedLocked || sidebarItem.type == .ProjectEncryptedUnlocked || sidebarItem.type == .Tag {
+            font = UIFont.systemFont(ofSize: 14)
         }
 
-        var font = UIFont(name: "HelveticaNeue", size: 15)
-
-        if sidebarItem.type == .Project {
-            font = UIFont(name: "HelveticaNeue-Bold", size: 13)
-        }
-
-        if sidebarItem.type == .Tag {
-            font = UIFont(name: "HelveticaNeue-BoldItalic", size: 13)
-        }
-
-        if font != nil {
-            let fontMetrics = UIFontMetrics(forTextStyle: .title3)
-            font = fontMetrics.scaledFont(for: font!)
-        }
+        let fontMetrics = UIFontMetrics(forTextStyle: .title3)
+        font = fontMetrics.scaledFont(for: font)
 
         label.font = font
-
-        var name = sidebarItem.name
-        if sidebarItem.type == .Tag {
-            name = "# \(sidebarItem.name)"
-        }
-
-        label.text = name
-        label.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
+        label.text = sidebarItem.name
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.selectedBackgroundView?.mixedBackgroundColor = MixedColor(normal: 0xcfdef2, night: 0x686372)
+        self.selectedBackgroundView?.backgroundColor = UIColor.currentSidebarCell
         self.selectedBackgroundView?.frame = CGRect(x: 0, y: 0, width: 5, height: 40)
     }
 }

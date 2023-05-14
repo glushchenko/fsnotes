@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import NightNight
+import UIKit
 
 extension UserDefaultsManagement {
     private struct Constants {
@@ -44,7 +44,7 @@ extension UserDefaultsManagement {
                 return theme
             }
 
-            if NightNight.theme == .night {
+            if UITraitCollection.current.userInterfaceStyle == .dark {
                 return "monokai-sublime"
             }
 

@@ -8,7 +8,6 @@ def mac_pods
 end
 
 def ios_pods
-    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     pod 'DKImagePickerController', '4.3.1'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'DropDown', '2.3.13'
@@ -66,7 +65,6 @@ target 'FSNotes iOS Share Extension' do
     platform :ios, IOS_TARGET_VERSION
 
     pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
-    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'Kanna', '~> 5.0.0'
@@ -100,7 +98,6 @@ post_install do |installer|
 
     if target.name == 'SSZipArchive-iOS' ||
       target.name == 'RNCryptor-iOS' ||
-      target.name == 'NightNight' ||
       target.name == 'Kanna' ||
       target.name == 'Highlightr-iOS' ||
       target.name == 'DropDown' ||

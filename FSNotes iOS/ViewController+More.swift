@@ -85,7 +85,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.removeFolder()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarRemoveFolder")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "trash")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -97,7 +97,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.emptyBin()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "emptyBin")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "xmark.circle")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -110,7 +110,7 @@ extension ViewController: UIDocumentPickerDelegate {
             })
             importNote.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-            if let image = UIImage(named: "sidebarImport")?.resize(maxWidthHeight: 22) {
+            if let image = UIImage(systemName: "square.and.arrow.down")?.resize(maxWidthHeight: 23) {
                 importNote.setValue(image, forKey: "image")
             }
 
@@ -123,7 +123,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.openProjectSettings()
             })
             settings.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarSettings")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "gearshape")?.resize(maxWidthHeight: 23) {
                 settings.setValue(image, forKey: "image")
             }
             actionSheet.addAction(settings)
@@ -147,7 +147,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.bulkEditing()
             })
             multipleSelection.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "navigationBulk")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "checkmark.circle")?.resize(maxWidthHeight: 23) {
                 multipleSelection.setValue(image, forKey: "image")
             }
             actionSheet.addAction(multipleSelection)
@@ -159,7 +159,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.createFolder()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarCreateFolder")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "folder.badge.plus")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -171,7 +171,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.renameFolder()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarRenameFolder")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "pencil.circle")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -183,7 +183,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.removeTag()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarRemoveTag")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "tag.slash")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -195,7 +195,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.renameTag()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebarRenameTag")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "pencil.circle")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -207,7 +207,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.openInFiles()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "openInFiles")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "folder")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -219,7 +219,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.lockProject()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebar_project_encrypted_locked")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "lock")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -231,7 +231,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.unlockProject()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebar_project_encrypted_unlocked")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "lock.open")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -243,7 +243,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.decryptProject()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebar_project_encrypted_unlocked")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "lock.slash")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -255,7 +255,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.encryptProject()
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "sidebar_project_encrypted_locked")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: "lock")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)

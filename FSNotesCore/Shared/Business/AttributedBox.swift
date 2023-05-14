@@ -8,7 +8,6 @@
 
 #if os(iOS)
     import UIKit
-    import NightNight
 #else
     import Cocoa
 #endif
@@ -31,20 +30,9 @@ class AttributedBox {
     public static func getCleanUnchecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
         let size = font.pointSize + font.pointSize / 2
-        var image: Image
+        let image = getImage(name: "checkbox_empty")
         let attachment = NSTextAttachment()
-
-        if #available(OSX 10.13, iOS 10.0, *) {
-            let image = getImage(name: "checkbox_empty")
-            attachment.image = image
-        } else {
-        #if os(OSX)
-            image = NSImage(named: "checkbox_empty1012.png")!.resize(to: CGSize(width: size, height: size))!
-            let cell = NSTextAttachmentCell(imageCell: image)
-            attachment.attachmentCell = cell
-        #endif
-        }
-
+        attachment.image = image
         attachment.bounds = CGRect(x: CGFloat(0), y: (font.capHeight - size) / 2, width: size, height: size)
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
@@ -67,20 +55,9 @@ class AttributedBox {
     public static func getCleanChecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
         let size = font.pointSize + font.pointSize / 2
-        var image: Image
         let attachment = NSTextAttachment()
-
-        if #available(OSX 10.13, iOS 10.0, *) {
-            image = getImage(name: "checkbox")
-            attachment.image = image
-        } else {
-        #if os(OSX)
-            image = NSImage(named: "checkbox1012.png")!.resize(to: CGSize(width: size, height: size))!
-            let cell = NSTextAttachmentCell(imageCell: image)
-            attachment.attachmentCell = cell
-        #endif
-        }
-
+        let image = getImage(name: "checkbox")
+        attachment.image = image
         attachment.bounds = CGRect(x: CGFloat(0), y: (font.capHeight - size) / 2, width: size, height: size)
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
@@ -113,13 +90,7 @@ class AttributedBox {
             }
             return NSImage(named: name)!
         #else
-            var night = String()
-
-            if NightNight.theme == .night {
-                night = "_white"
-            }
-
-            return UIImage(named: "\(name)\(night).png")!
+            return UIImage(named: name)!
         #endif
     }
 }

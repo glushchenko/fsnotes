@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import NightNight
 
 class RevisionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -23,15 +22,10 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
-
-        navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationBar.mixedTintColor = Colors.buttonText
-        navigationBar.mixedBarTintColor = Colors.Header
-        navigationBar.mixedBackgroundColor = Colors.Header
-        bottomSafeView.mixedBackgroundColor = Colors.Header
-
-        updateNavigationBarBackground()
+        navigationBar.barTintColor = UIColor.sidebar
+        navigationBar.tintColor = UIColor.mainTheme
+        navigationBar.backgroundColor = UIColor.sidebar
+        bottomSafeView.backgroundColor = UIColor.sidebar
 
         if let urls = note?.listRevisions() {
             revisions = urls
@@ -50,13 +44,13 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
         navItem.leftBarButtonItem = UIBarButtonItem(title: leftString, style: .plain, target: self, action: #selector(closeController))
 
         if let project = note?.project, !project.hasRepository() {
-            let dropImage = UIImage(named: "trashButton")?.resize(maxWidthHeight: 28)
+            let dropImage = UIImage(systemName: "trash")
             let dropBarButton = UIBarButtonItem(image: dropImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(dropRevisions))
 
             buttons.append(dropBarButton)
         }
 
-        let saveImage = UIImage(named: "saveButton")?.resize(maxWidthHeight: 32)
+        let saveImage = UIImage(systemName: "plus.circle")
         let saveBarButton = UIBarButtonItem(image: saveImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(saveRevision))
         buttons.append(saveBarButton)
 
@@ -90,24 +84,6 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
 
     @IBAction func closeController() {
         dismiss(animated: true)
-    }
-
-    @objc public func updateNavigationBarBackground() {
-        if #available(iOS 13.0, *) {
-            var color = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
-            if NightNight.theme == .night {
-                color = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            }
-
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = color
-            appearance.shadowColor = .clear
-            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -8,7 +8,6 @@
 
 import UIKit
 import AudioToolbox
-import NightNight
 import CropViewController
 
 class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
@@ -30,33 +29,22 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
-
-        navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationBar.mixedTintColor = Colors.buttonText
-        navigationBar.mixedBarTintColor = Colors.Header
-        navigationBar.mixedBackgroundColor = Colors.Header
-        bottomSafeView.mixedBackgroundColor = Colors.Header
-
-        updateNavigationBarBackground()
+        navigationBar.barTintColor = UIColor.sidebar
+        navigationBar.tintColor = UIColor.mainTheme
+        navigationBar.backgroundColor = UIColor.sidebar
+        bottomSafeView.backgroundColor = UIColor.sidebar
 
         let doneString = NSLocalizedString("Cancel", comment: "")
-
-        let moreButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-        moreButton.setBackgroundImage(UIImage(named: "shareAction")!.imageWithColor(color1: .white), for: .normal)
-
         navItem.leftBarButtonItem = UIBarButtonItem(title: doneString, style: .done, target: self, action: #selector(done))
 
-        let shareButton = UIBarButtonItem.menuButton(self, action: #selector(share), imageName: "shareButton", size: CGSize(width: 26, height: 26), tintColor: nil)
-
-        let cropButton = UIBarButtonItem.menuButton(self, action: #selector(crop), imageName: "cropButton", size: CGSize(width: 30, height: 30), tintColor: nil)
-
-        let dropButton = UIBarButtonItem.menuButton(self, action: #selector(trashBin), imageName: "trashButton", size: CGSize(width: 26, height: 26), tintColor: nil)
+        let shareButton = Buttons.getShare(target: self, selector: #selector(share))
+        let cropButton = Buttons.getCrop(target: self, selector: #selector(crop))
+        let dropButton = Buttons.getTrash(target: self, selector: #selector(trashBin))
 
         let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         space.width = 20
 
-        navItem.rightBarButtonItems = [shareButton, space, cropButton, space, dropButton]
+        navItem.rightBarButtonItems = [shareButton, cropButton, dropButton]
 
         DispatchQueue.main.async {
             self.rotated()
@@ -188,23 +176,6 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
         imageScrollView.imageContentMode = .aspectFit
         imageScrollView.initialOffset = .center
         imageScrollView.display(image: image!)
-    }
-
-    @objc public func updateNavigationBarBackground() {
-        if #available(iOS 13.0, *) {
-            var color = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
-            if NightNight.theme == .night {
-                color = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            }
-
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = color
-            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-        }
     }
 
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {

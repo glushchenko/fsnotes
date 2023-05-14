@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 import StoreKit
 import CoreServices
 
@@ -21,9 +20,8 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var rows = [
         [
-            NSLocalizedString("File format", comment: "Settings"),
+            NSLocalizedString("Files Format", comment: "Settings"),
             NSLocalizedString("Editor", comment: "Settings"),
-            NSLocalizedString("Night Mode", comment: "Settings"),
             NSLocalizedString("Security", comment: "Settings"),
             NSLocalizedString("Git", comment: "Settings"),
             NSLocalizedString("App Icon", comment: "Settings"),
@@ -31,8 +29,8 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ], [
             NSLocalizedString("iCloud Drive", comment: "Settings"),
             NSLocalizedString("Add External Folder", comment: "Settings"),
-            NSLocalizedString("Projects", comment: "Settings"),
-            NSLocalizedString("Import notes", comment: "Settings")
+            NSLocalizedString("Folders", comment: "Settings"),
+            NSLocalizedString("Import Notes", comment: "Settings")
         ], [
             NSLocalizedString("Support", comment: "Settings"),
             NSLocalizedString("Homepage", comment: "Settings"),
@@ -45,7 +43,6 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         [
             "settings-icons-format",
             "settings-icons-editor",
-            "settings-icons-night",
             "settings-icons-security",
             "settings-icons-git",
             "settings-icons-icon",
@@ -63,18 +60,15 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [7, 4, 4]
+    var rowsInSection = [6, 4, 4]
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         title = NSLocalizedString("Settings", comment: "Sidebar settings")
-        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
         navigationItem.rightBarButtonItem = Buttons.getRateUs(target: self, selector: #selector(rateUs))
 
         super.viewDidLoad()
 
         let version = UILabel(frame: CGRect(x: 8, y: 30, width: tableView.frame.width, height: 60))
-        version.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         version.font = version.font.withSize(17).bold()
 
         if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
@@ -108,23 +102,14 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
         if indexPath.section == 0x02 && indexPath.row == 0x01 {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         }
 
-        let view = UIView()
         let iconName = icons[indexPath.section][indexPath.row]
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
         cell.imageView?.image = image(UIImage(named: iconName)!, withSize: CGSize(width: 40, height: 40))
 
@@ -147,7 +132,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 2:
                 cell.accessoryType = .disclosureIndicator
             case 3:
-                cell.detailTextLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+                cell.detailTextLabel?.textColor = UIColor.blackWhite
                 cell.detailTextLabel?.numberOfLines = 0
                 cell.detailTextLabel?.lineBreakMode = .byWordWrapping
                 cell.detailTextLabel?.text = NSLocalizedString("Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
@@ -182,15 +167,13 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 1:
                 lvc = SettingsEditorViewController()
             case 2:
-                lvc = NightModeViewController(style: .grouped)
-            case 3:
                 lvc = SecurityViewController()
-            case 4:
+            case 3:
                 guard let project = Storage.shared().getDefault() else { return }
                 lvc = AppDelegate.getGitVC(for: project)
-            case 5:
+            case 4:
                 lvc = AppIconViewController()
-            case 6:
+            case 5:
                 lvc = ProViewController()
             default:
                 return
@@ -250,36 +233,6 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         
         if let controller = lvc {
             self.navigationController?.pushViewController(controller, animated: true)
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 25, y: 7, width: view.frame.size.width, height: 50))
-
-        // add label
-        let label = UILabel(frame: CGRect(x: 25, y: 7, width: headerView.frame.size.width, height: 50))
-        label.text = sections[section]
-        label.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-        headerView.addSubview(label)
-
-
-        // bottom border
-        let borderBottom = CALayer()
-        borderBottom.mixedBackgroundColor = MixedColor(normal: 0xcdcdcf, night: 0x19191a)
-        borderBottom.frame = CGRect(x: 0, y: 49.5, width: headerView.frame.size.width, height: 0.5)
-        headerView.layer.addSublayer(borderBottom)
-
-        headerView.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        return headerView
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let headerView = view as? UITableViewHeaderFooterView {
-            if NightNight.theme == .night {
-                headerView.textLabel?.textColor = UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00)
-            } else {
-                headerView.textLabel?.textColor = UIColor(red: 0.47, green: 0.47, blue: 0.48, alpha: 1.00)
-            }
         }
     }
 

@@ -9,7 +9,6 @@
 import Foundation
 
 import UIKit
-import NightNight
 import AudioToolbox
 
 class SidebarTableView: UITableView,
@@ -17,27 +16,9 @@ class SidebarTableView: UITableView,
     UITableViewDataSource,
     UITableViewDropDelegate {
 
-    @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}
-    @IBInspectable var endColor:     UIColor = .white { didSet { updateColors() }}
-    @IBInspectable var startLocation: Double =   0.05 { didSet { updateLocations() }}
-    @IBInspectable var endLocation:   Double =   0.95 { didSet { updateLocations() }}
-    @IBInspectable var horizontalMode:  Bool =  false { didSet { updatePoints() }}
-    @IBInspectable var diagonalMode:    Bool =  false { didSet { updatePoints() }}
-
-    var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
     private var sidebar: Sidebar = Sidebar()
     private var busyTrashReloading = false
-
     public var viewController: ViewController?
-
-    override class var layerClass: AnyClass { return CAGradientLayer.self }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updatePoints()
-        updateLocations()
-        updateColors()
-    }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return sidebar.items.count
@@ -62,10 +43,18 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return nil
+        }
+
         return ""
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 0.5
+        }
+
         return 10
     }
 
@@ -86,7 +75,7 @@ class SidebarTableView: UITableView,
             }
 
             view.textLabel?.font = font.bold()
-            view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
+            //view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
         }
     }
     
@@ -103,7 +92,7 @@ class SidebarTableView: UITableView,
             }
             
             view.textLabel?.font = font.bold()
-            view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
+            //view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
         }
     }
 
@@ -141,7 +130,7 @@ class SidebarTableView: UITableView,
             return
         }
 
-        vc.unloadSearchController()
+        //vc.unloadSearchController()
         vc.notesTable.turnOffEditing()
 
         if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
@@ -250,16 +239,6 @@ class SidebarTableView: UITableView,
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
-
-        if let sidebarCell = cell as? SidebarTableCellView {
-            if let sidebarItem = (cell as! SidebarTableCellView).sidebarItem, sidebarItem.type == .Tag {
-                sidebarCell.icon.constraints[1].constant = 0
-                sidebarCell.labelConstraint.constant = 0
-                sidebarCell.contentView.setNeedsLayout()
-                sidebarCell.contentView.layoutIfNeeded()
-            }
-        }
     }
 
     public func deselectAll() {
@@ -267,32 +246,6 @@ class SidebarTableView: UITableView,
             for path in paths {
                 deselectRow(at: path, animated: false)
             }
-        }
-    }
-
-    // MARK: Gradient settings
-    func updatePoints() {
-        if horizontalMode {
-            gradientLayer.startPoint = diagonalMode ? CGPoint(x: 1, y: 0) : CGPoint(x: 0, y: 0.5)
-            gradientLayer.endPoint   = diagonalMode ? CGPoint(x: 0, y: 1) : CGPoint(x: 1, y: 0.5)
-        } else {
-            gradientLayer.startPoint = diagonalMode ? CGPoint(x: 0, y: 0) : CGPoint(x: 0.5, y: 0)
-            gradientLayer.endPoint   = diagonalMode ? CGPoint(x: 1, y: 1) : CGPoint(x: 0.5, y: 1)
-        }
-    }
-
-    func updateLocations() {
-        gradientLayer.locations = [startLocation as NSNumber, endLocation as NSNumber]
-    }
-
-    func updateColors() {
-        if NightNight.theme == .night{
-            let startNightTheme = UIColor(red:0.14, green:0.14, blue:0.14, alpha:1.0)
-            let endNightTheme = UIColor(red:0.12, green:0.11, blue:0.12, alpha:1.0)
-
-            gradientLayer.colors    = [startNightTheme.cgColor, endNightTheme.cgColor]
-        } else {
-            gradientLayer.colors    = [startColor.cgColor, endColor.cgColor]
         }
     }
 
@@ -388,6 +341,26 @@ class SidebarTableView: UITableView,
             vc.notesTable.removeRows(notes: [note])
             vc.notesTable.insertRows(notes: [note])
         }
+    }
+
+    public func buildSearchQuery() -> SearchQuery? {
+        guard let indexPaths = UIApplication.getVC().sidebarTableView?.indexPathsForSelectedRows else { return nil }
+        var searchQuery = SearchQuery()
+
+        for indexPath in indexPaths {
+            let item = sidebar.items[indexPath.section][indexPath.row]
+            searchQuery.type = item.type
+
+            if let project = item.project {
+                searchQuery.project = project
+            }
+
+            if item.type == .Tag {
+                searchQuery.tag = item.name
+            }
+        }
+
+        return searchQuery
     }
 
     public func getSidebarProjects() -> [Project]? {

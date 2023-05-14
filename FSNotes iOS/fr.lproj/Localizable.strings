@@ -119,7 +119,7 @@
 "Family" = "Famille de polices";
 
 /* Settings */
-"File format" = "Format de fichier";
+"Files Format" = "Format de fichier";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Un fichier avec ce nom existe déjà";
@@ -173,6 +173,8 @@
 "Images source:" = "Source des images:";
 
 /* Main view popover table - Settings */
+"Import Notes" = "Notes importantes";
+
 "Import notes" = "Notes importantes";
 
 /* Inbox in sidebar */
@@ -248,7 +250,7 @@
 "Project removing ❌" = "Suppression de projet ❌";
 
 /* Settings */
-"Projects" = "Projets";
+"Folders" = "Dossiers";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Supprimer le cryptage";
