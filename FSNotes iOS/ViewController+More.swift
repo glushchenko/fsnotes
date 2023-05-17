@@ -10,6 +10,166 @@ import Foundation
 import UIKit
 
 extension ViewController: UIDocumentPickerDelegate {
+    
+    func makeSidebarSettingsMenu(for sidebarItem: SidebarItem) -> UIMenu? {
+        let handler: (_ action: UIAction) -> () = { action in
+        switch action.identifier.rawValue {
+            case "emptyBin":
+                self.emptyBin()
+            case "importNote":
+                self.importNote()
+            case "viewSettings":
+                self.openProjectSettings()
+            case "gitSettings":
+                self.openGitSettings()
+            case "bulkEditing":
+                self.bulkEditing()
+            case "createFolder":
+                self.createFolder()
+            case "removeFolder":
+                self.removeFolder()
+            case "renameFolder":
+                self.renameFolder()
+            case "removeTag":
+                self.removeTag()
+            case "renameTag":
+                self.renameTag()
+            case "openInFiles":
+                self.openInFiles()
+            case "lockFolder":
+                self.lockProject()
+            case "unlockFolder":
+                self.unlockProject()
+            case "decryptFolder":
+                self.decryptProject()
+            case "encryptFolder":
+                self.encryptProject()
+            default:
+                break
+            }
+        }
+
+        // Build popovers
+
+        var popoverActions = [FolderPopoverActions]()
+        switch sidebarItem.type {
+        case .Inbox:
+            popoverActions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles, .settingsRepository]
+        case .All, .Todo:
+            popoverActions = [.settingsFolder, .multipleSelection]
+        case .Archive:
+            popoverActions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
+        case .Trash:
+            popoverActions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
+        case .Project:
+            popoverActions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository, .encryptFolder]
+        case .Tag:
+            popoverActions = [.removeTag, .renameTag, .multipleSelection]
+        case .Untagged:
+            popoverActions = [.multipleSelection]
+        case .ProjectEncryptedLocked:
+            popoverActions = [.unLockFolder, .decryptFolder, .settingsFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository]
+        case .ProjectEncryptedUnlocked:
+            popoverActions = [.lockFolder, .decryptFolder, .importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository]
+        default: break
+        }
+
+        // Build actions
+
+        var actions = [UIAction]()
+        if popoverActions.contains(.removeFolder) {
+            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "trash"), identifier: UIAction.Identifier("removeFolder"), attributes: .destructive, handler: handler))
+        }
+
+        if popoverActions.contains(.emptyBin) {
+            let title = NSLocalizedString("Empty Bin", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "xmark.circle"), identifier: UIAction.Identifier("emptyBin"), handler: handler))
+        }
+
+        if popoverActions.contains(.importNote) {
+            let title = NSLocalizedString("Import notes", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "square.and.arrow.down"), identifier: UIAction.Identifier("importNote"), handler: handler))
+        }
+
+        if popoverActions.contains(.settingsFolder) {
+            let title = NSLocalizedString("View settings", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "gearshape"), identifier: UIAction.Identifier("viewSettings"), handler: handler))
+        }
+
+        if popoverActions.contains(.settingsRepository) {
+            let title = NSLocalizedString("Git settings", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(named: "gitSettings"), identifier: UIAction.Identifier("gitSettings"), handler: handler))
+        }
+
+        if popoverActions.contains(.multipleSelection) {
+            let title = NSLocalizedString("Select", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "checkmark.circle"), identifier: UIAction.Identifier("bulkEditing"), handler: handler))
+        }
+
+        if popoverActions.contains(.createFolder) {
+            let title = NSLocalizedString("Create folder", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "folder.badge.plus"), identifier: UIAction.Identifier("createFolder"), handler: handler))
+        }
+
+        if popoverActions.contains(.renameFolder) {
+            let title = NSLocalizedString("Rename folder", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "pencil.circle"), identifier: UIAction.Identifier("renameFolder"), handler: handler))
+        }
+
+        if popoverActions.contains(.removeTag) {
+            let title = NSLocalizedString("Remove tag", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "tag.slash"), identifier: UIAction.Identifier("removeTag"), handler: handler))
+        }
+
+        if popoverActions.contains(.renameTag) {
+            let title = NSLocalizedString("Rename tag", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "pencil.circle"), identifier: UIAction.Identifier("renameTag"), handler: handler))
+        }
+
+        if popoverActions.contains(.openInFiles) {
+            let title = NSLocalizedString("Open in Files.app", comment: "Main view popover table")
+            actions.append(UIAction(title: title, image: UIImage(systemName: "folder"), identifier: UIAction.Identifier("openInFiles"), handler: handler))
+        }
+
+        if popoverActions.contains(.lockFolder) {
+            let title = FolderPopoverActions.lockFolder.getDescription()
+            actions.append(UIAction(title: title, image: UIImage(systemName: "lock"), identifier: UIAction.Identifier("lockFolder"), handler: handler))
+        }
+
+        if popoverActions.contains(.unLockFolder) {
+            let title = FolderPopoverActions.unLockFolder.getDescription()
+            actions.append(UIAction(title: title, image: UIImage(systemName: "lock.open"), identifier: UIAction.Identifier("unlockFolder"), handler: handler))
+        }
+
+        if popoverActions.contains(.decryptFolder) {
+            let title = FolderPopoverActions.decryptFolder.getDescription()
+            actions.append(UIAction(title: title, image: UIImage(systemName: "lock.slash"), identifier: UIAction.Identifier("decryptFolder"), handler: handler))
+        }
+
+        if popoverActions.contains(.encryptFolder) {
+            let title = FolderPopoverActions.encryptFolder.getDescription()
+            actions.append(UIAction(title: title, image: UIImage(systemName: "lock"), identifier: UIAction.Identifier("encryptFolder"), handler: handler))
+        }
+
+        // Build title
+
+        var mainTitle = String()
+        switch sidebarItem.type {
+        case .Project:
+            if let project = sidebarItem.project {
+                mainTitle = project.getFullLabel()
+            }
+        case .Untagged:
+            mainTitle = NSLocalizedString("Untagged", comment: "")
+        default:
+            mainTitle = sidebarItem.getName()
+        }
+
+        return UIMenu(title: mainTitle,  children: actions)
+    }
+
+
     @IBAction public func openSidebarSettings() {
         let mvc = UIApplication.getVC()
         if notesTable.isEditing {
@@ -330,8 +490,30 @@ extension ViewController: UIDocumentPickerDelegate {
         if !mvc.notesTable.isEditing {
             mvc.notesTable.allowsMultipleSelectionDuringEditing = true
             mvc.notesTable.setEditing(true, animated: true)
+
+            mvc.notesTable.loadBulkBarButtomItem()
         }
     }
+
+//    let mvc = UIApplication.getVC()
+//    if notesTable.isEditing {
+//        if let selectedRows = mvc.notesTable.selectedIndexPaths {
+//            var notes = [Note]()
+//            for indexPath in selectedRows {
+//                if mvc.notesTable.notes.indices.contains(indexPath.row) {
+//                    let note = mvc.notesTable.notes[indexPath.row]
+//                    notes.append(note)
+//                }
+//            }
+//
+//            mvc.notesTable.selectedIndexPaths = nil
+//            mvc.notesTable.actionsSheet(notes: notes, presentController: self)
+//        } else {
+//            mvc.notesTable.allowsMultipleSelectionDuringEditing = false
+//            mvc.notesTable.setEditing(false, animated: true)
+//        }
+//        return UIMenu(title: "",  children: [])
+//    }
 
     private func createFolder() {
         let mvc = UIApplication.getVC()
@@ -460,9 +642,13 @@ extension ViewController: UIDocumentPickerDelegate {
             selectedProject.url = newDir
             selectedProject.loadLabel()
 
-            mvc.storage.loadNotes(selectedProject)
+            mvc.storage.loadNotes(selectedProject, loadContent: true)
             mvc.sidebarTableView.insertRows(projects: [selectedProject])
             mvc.sidebarTableView.select(project: selectedProject)
+
+            // Load tags for new urls
+            let notes = selectedProject.getNotes()
+            mvc.sidebarTableView.loadTags(notes: notes)
         }
 
         let cancel = NSLocalizedString("Cancel", comment: "")

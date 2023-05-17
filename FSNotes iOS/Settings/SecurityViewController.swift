@@ -15,8 +15,8 @@ class SecurityViewController: UITableViewController {
         button.backgroundColor = UIColor.systemBlue
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
-        button.setTitle("Save", for: UIControl.State.normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 25, bottom: 5, right: 25)
+        button.setTitle(NSLocalizedString("Save", comment: ""), for: UIControl.State.normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 25, bottom: 10, right: 25)
        return button
     }()
 
@@ -72,7 +72,7 @@ class SecurityViewController: UITableViewController {
         }
 
         if indexPath.row == 2 {
-            var cell: UITableViewCell = UITableViewCell()
+            let cell: UITableViewCell = UITableViewCell()
 
             cell.selectionStyle = .none
             cell.contentView.addSubview(saveButton)

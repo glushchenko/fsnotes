@@ -14,6 +14,7 @@ class AppIconViewController: UITableViewController {
         case dylanseeger
         case dylanseegerDark
         case dylanseegerDarkFull
+        case mars
 
         public func getName() -> String {
             switch self {
@@ -25,6 +26,8 @@ class AppIconViewController: UITableViewController {
                 return "Dylan Seeger (Dark)"
             case .dylanseegerDarkFull:
                 return "Dylan Seeger (Black)"
+            case .mars:
+                return "Mars"
             }
         }
 
@@ -34,6 +37,7 @@ class AppIconViewController: UITableViewController {
             case .dylanseeger: return "dylanseeger"
             case .dylanseegerDark: return "dylanseegerDark"
             case .dylanseegerDarkFull: return "dylanseegerDarkFull"
+            case .mars: return "mars"
             }
         }
 
@@ -103,7 +107,7 @@ class AppIconViewController: UITableViewController {
         cell.imageView?.layer.cornerRadius = 20
 
         if let icon = AppIconRows(rawValue: indexPath.row) {
-            if let image = UIImage(named: "app-icon-\(icon.description)") {
+            if let image = UIImage(named: "app-icon-\(icon.description)")?.rounded(radius: 100) {
                 cell.imageView?.image = image
             }
             cell.textLabel?.text = icon.getName()

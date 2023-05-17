@@ -34,6 +34,14 @@ class NotesTableView: UITableView,
         return calcHeight(indexPath: indexPath)
     }
 
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+            let note = self.notes[indexPath.row]
+            let menu = self.makeBulkMenu(full: true, editor: false, note: note)
+            return menu
+        }
+    }
+
     private func calcHeight(indexPath: IndexPath) -> CGFloat {
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
@@ -240,13 +248,193 @@ class NotesTableView: UITableView,
         }
     }
 
+    private func getSelectedNotes() -> [Note] {
+        var notes = [Note]()
+
+        if let selectedRows = selectedIndexPaths {
+            for indexPath in selectedRows {
+                if self.notes.indices.contains(indexPath.row) {
+                    let note = self.notes[indexPath.row]
+                    notes.append(note)
+                }
+            }
+
+            selectedIndexPaths = nil
+        }
+
+        return notes
+    }
+
+    public func makeBulkMenu(full: Bool = false, editor: Bool = false, note: Note? = nil) -> UIMenu? {
+        let handler: (_ action: UIAction) -> () = { action in
+            let sidebarItem = self.viewDelegate?.lastSidebarItem
+            let selected = self.indexPathsForSelectedRows
+
+            // ViewController
+            var notes = self.getSelectedNotes()
+
+            // EditorViewController
+            if editor, let note = UIApplication.getEVC().note {
+                notes = [note]
+            }
+
+            // Popover from ViewController
+            if let note = note {
+                notes = [note]
+            }
+
+            switch action.identifier.rawValue {
+            case "cancel":
+                break
+            case "delete":
+                self.removeAction(notes: notes)
+
+                if editor {
+                    UIApplication.getEVC().cancel()
+                }
+            case "calendar":
+                self.dateAction(notes: notes)
+            case "duplicate":
+                self.duplicateAction(notes: notes)
+            case "move":
+                self.moveAction(notes: notes)
+            case "commit":
+                self.saveRevisionAction(note: notes.first!)
+            case "history":
+                self.historyAction(note: notes.first!)
+            case "rename":
+                self.renameAction(note: notes.first!)
+            case "pinUnpin":
+                if notes.first!.isPinned {
+                    notes.first!.removePin()
+                    self.removePins(notes: [notes.first!])
+                } else {
+                    notes.first!.addPin()
+                    self.addPins(notes: [notes.first!])
+                }
+
+                UIApplication.getEVC().configureNavMenu()
+            case "lockUnlock":
+                self.viewDelegate?.toggleNotesLock(notes: [notes.first!])
+
+                if editor {
+                    if !notes.first!.isUnlocked() {
+                        UIApplication.getEVC().cancel()
+                    }
+                }
+            case "removeEncryption":
+                self.removeEncryption(note: notes.first!)
+
+                UIApplication.getEVC().configureNavMenu()
+            case "copy":
+                self.copyAction(note: notes.first!)
+            case "share":
+                self.shareAction(note: notes.first!)
+            default:
+                break
+            }
+
+            self.turnOffEditing()
+
+            if let sidebarItem = sidebarItem {
+                self.viewDelegate?.configureNavMenu(for: sidebarItem)
+            }
+
+            if let selected = selected {
+                for indexP in selected {
+                    self.deselectRow(at: indexP, animated: false)
+                }
+            }
+        }
+
+        var actions = [UIAction]()
+
+        let deleteTitle = NSLocalizedString("Delete", comment: "")
+        actions.append(UIAction(title: deleteTitle, image: UIImage(systemName: "trash"), identifier: UIAction.Identifier("delete"), attributes: .destructive, handler: handler))
+
+        let calendarTitle = NSLocalizedString("Date created", comment: "")
+        let calendarImage = UIImage(systemName: "calendar")
+        actions.append(UIAction(title: calendarTitle, image: calendarImage, identifier: UIAction.Identifier("calendar"), handler: handler))
+
+        let duplicateTitle = NSLocalizedString("Duplicate", comment: "")
+        let duplicateImage = UIImage(systemName: "doc.on.doc")
+        actions.append(UIAction(title: duplicateTitle, image: duplicateImage, identifier: UIAction.Identifier("duplicate"), handler: handler))
+
+        let moveTitle = NSLocalizedString("Move", comment: "")
+        let moveImage = UIImage(systemName: "move.3d")
+        actions.append(UIAction(title: moveTitle, image: moveImage, identifier: UIAction.Identifier("move"), handler: handler))
+
+        if full, let note = note {
+            if note.hasGitRepository() && !note.isEncrypted() {
+                let commitTitle = NSLocalizedString("Save revision", comment: "")
+                let commitImage = UIImage(systemName: "plus.circle")
+                actions.append(UIAction(title: commitTitle, image: commitImage, identifier: UIAction.Identifier("commit"), handler: handler))
+            }
+
+            if UserDefaultsManagement.autoVersioning && !note.isEncrypted() {
+                let historyTitle = NSLocalizedString("History", comment: "")
+                let historyImage = UIImage(systemName: "clock.arrow.circlepath")
+                actions.append(UIAction(title: historyTitle, image: historyImage, identifier: UIAction.Identifier("history"), handler: handler))
+            }
+
+            let renameTitle = NSLocalizedString("Rename", comment: "")
+            let renameImage = UIImage(systemName: "pencil.circle")
+            actions.append(UIAction(title: renameTitle, image: renameImage, identifier: UIAction.Identifier("rename"), handler: handler))
+
+            let pinUnpinTitle = note.isPinned ? NSLocalizedString("UnPin", comment: "") : NSLocalizedString("Pin", comment: "")
+            let pinUnpinImage = UIImage(systemName: note.isPinned ? "pin.slash" : "pin")
+            actions.append(UIAction(title: pinUnpinTitle, image: pinUnpinImage, identifier: UIAction.Identifier("pinUnpin"), handler: handler))
+
+            let lockUnlockTitle =
+                (note.isUnlocked() && note.isEncrypted()) || !note.isEncrypted()
+                    ? NSLocalizedString("Lock", comment: "")
+                    : NSLocalizedString("Unlock", comment: "")
+            let lockUnlockImageName = (note.isUnlocked() && note.isEncrypted()) || !note.isEncrypted()
+                ? "lock"
+                : "lock.open"
+            let lockUnlockImage = UIImage(systemName: lockUnlockImageName)
+            actions.append(UIAction(title: lockUnlockTitle, image: lockUnlockImage, identifier: UIAction.Identifier("lockUnlock"), handler: handler))
+
+            if note.isEncrypted() {
+                let removeEncryptionTitle = NSLocalizedString("Remove encryption", comment: "")
+                let removeEncryptionImage = UIImage(systemName: "lock.slash")
+                actions.append(UIAction(title: removeEncryptionTitle, image: removeEncryptionImage, identifier: UIAction.Identifier("removeEncryption"), handler: handler))
+            }
+
+            let copyTitle = NSLocalizedString("Copy plain text", comment: "")
+            let copyImage = UIImage(systemName: "list.clipboard")
+            actions.append(UIAction(title: copyTitle, image: copyImage, identifier: UIAction.Identifier("copy"), handler: handler))
+
+            let shareTitle = NSLocalizedString("Share", comment: "")
+            let shareImage = UIImage(systemName: "square.and.arrow.up")
+            actions.append(UIAction(title: shareTitle, image: shareImage, identifier: UIAction.Identifier("share"), handler: handler))
+        }
+
+        let cancelTitle = NSLocalizedString("Cancel", comment: "Main view popover table")
+        actions.append(UIAction(title: cancelTitle, image: nil, identifier: UIAction.Identifier("cancel"), handler: handler))
+
+        return UIMenu(title: "",  children: actions)
+    }
+
+    public func loadBulkBarButtomItem() {
+        if #available(iOS 14.0, *) {
+            let menu = makeBulkMenu()
+            let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
+            let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
+            let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
+            navSettings.tintColor = UIColor.mainTheme
+            viewDelegate?.navigationItem.rightBarButtonItem = navSettings
+            return
+        }
+    }
+
     public func actionsSheet(notes: [Note], showAll: Bool = false, presentController: UIViewController, back: Bool = false) {
         let note = notes.first!
         let actionSheet = UIAlertController(title: note.project.getFullLabel() + " ➔ " + note.url.lastPathComponent, message: nil, preferredStyle: .actionSheet)
 
         let remove = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { _ in
             self.turnOffEditing()
-            self.removeAction(notes: notes, presentController: presentController)
+            self.removeAction(notes: notes)
 
             if presentController.isKind(of: EditorViewController.self) || back {
                 UIApplication.getEVC().cancel()
@@ -271,7 +459,7 @@ class NotesTableView: UITableView,
         
         if showAll && UserDefaultsManagement.autoVersioning && !note.isEncrypted() {
             let history = UIAlertAction(title: NSLocalizedString("History", comment: ""), style: .default, handler: { _ in
-                self.historyAction(note: notes.first!, presentController: presentController)
+                self.historyAction(note: notes.first!)
             })
             history.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "clock.arrow.circlepath")?.resize(maxWidthHeight: 23) {
@@ -281,7 +469,7 @@ class NotesTableView: UITableView,
         }
 
         let creationDate = UIAlertAction(title: NSLocalizedString("Date created", comment: ""), style: .default, handler: { _ in
-            self.dateAction(notes: notes, presentController: presentController)
+            self.dateAction(notes: notes)
         })
         creationDate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         if let image = UIImage(systemName: "calendar")?.resize(maxWidthHeight: 23) {
@@ -290,7 +478,7 @@ class NotesTableView: UITableView,
         actionSheet.addAction(creationDate)
 
         let duplicate = UIAlertAction(title: NSLocalizedString("Duplicate", comment: ""), style: .default, handler: { _ in
-            self.duplicateAction(notes: notes, presentController: presentController)
+            self.duplicateAction(notes: notes)
         })
         duplicate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         if let image = UIImage(systemName: "doc.on.doc")?.resize(maxWidthHeight: 23) {
@@ -300,7 +488,7 @@ class NotesTableView: UITableView,
 
         if showAll {
             let rename = UIAlertAction(title: NSLocalizedString("Rename", comment: ""), style: .default, handler: { _ in
-                self.renameAction(note: note, presentController: presentController)
+                self.renameAction(note: note)
             })
             rename.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
@@ -332,7 +520,7 @@ class NotesTableView: UITableView,
 
         let move = UIAlertAction(title: NSLocalizedString("Move", comment: ""), style: .default, handler: { _ in
             self.turnOffEditing()
-            self.moveAction(notes: notes, presentController: presentController)
+            self.moveAction(notes: notes)
         })
         move.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
@@ -379,7 +567,7 @@ class NotesTableView: UITableView,
             }
 
             let copy = UIAlertAction(title: NSLocalizedString("Copy plain text", comment: ""), style: .default, handler: { _ in
-                self.copyAction(note: note, presentController: presentController)
+                self.copyAction(note: note)
             })
             copy.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "list.clipboard")?.resize(maxWidthHeight: 23) {
@@ -388,7 +576,7 @@ class NotesTableView: UITableView,
             actionSheet.addAction(copy)
 
             let share = UIAlertAction(title: NSLocalizedString("Share", comment: ""), style: .default, handler: { _ in
-                self.shareAction(note: note, presentController: presentController)
+                self.shareAction(note: note)
             })
             share.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
@@ -501,7 +689,7 @@ class NotesTableView: UITableView,
         }
     }
 
-    private func renameAction(note: Note, presentController: UIViewController) {
+    private func renameAction(note: Note) {
         let alertController = UIAlertController(title: NSLocalizedString("Rename note:", comment: ""), message: nil, preferredStyle: .alert)
 
         alertController.addTextField(configurationHandler: {
@@ -515,7 +703,7 @@ class NotesTableView: UITableView,
                 return
             }
 
-            self.rename(note: note, to: name, presentController: presentController)
+            self.rename(note: note, to: name)
         }
 
         let title = NSLocalizedString("Cancel", comment: "")
@@ -524,12 +712,12 @@ class NotesTableView: UITableView,
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
 
-        presentController.present(alertController, animated: true) {
+        UIApplication.getNC()?.present(alertController, animated: true) {
             alertController.textFields![0].selectAll(nil)
         }
     }
 
-    public func rename(note: Note, to name: String, presentController: UIViewController) {
+    public func rename(note: Note, to name: String) {
 
         guard name.count > 0, name.trim().count > 0 else { return }
 
@@ -583,13 +771,9 @@ class NotesTableView: UITableView,
         DispatchQueue.main.async {
             self.reloadRows(notes: [note])
         }
-
-        if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
-            evc.setTitle(text: note.getShortTitle())
-        }
     }
 
-    private func removeAction(notes: [Note], presentController: UIViewController) {
+    private func removeAction(notes: [Note]) {
         guard let vc = viewDelegate else { return }
 
         vc.sidebarTableView.removeTags(in: notes)
@@ -602,13 +786,15 @@ class NotesTableView: UITableView,
         setEditing(false, animated: true)
     }
 
-    private func moveAction(notes: [Note], presentController: UIViewController) {
+    private func moveAction(notes: [Note]) {
         let moveController = MoveViewController(notes: notes, notesTableView: self)
-        let controller = UINavigationController(rootViewController:moveController)
-        presentController.present(controller, animated: true, completion: nil)
+        let controller = UINavigationController(rootViewController: moveController)
+
+        let nvc = UIApplication.getNC()
+        nvc?.present(controller, animated: true, completion: nil)
     }
 
-    private func dateAction(notes: [Note], presentController: UIViewController) {
+    private func dateAction(notes: [Note]) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let datePickerViewController = storyBoard.instantiateViewController(withIdentifier: "datePickerViewController") as! DatePickerViewController
         datePickerViewController.notes = notes
@@ -665,22 +851,21 @@ class NotesTableView: UITableView,
         }
     }
 
-    private func historyAction(note: Note, presentController: UIViewController) {
+    private func historyAction(note: Note) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let datePickerViewController = storyBoard.instantiateViewController(withIdentifier: "revisionsViewController") as! RevisionsViewController
         datePickerViewController.note = note
 
-        let nvc = UIApplication.getNC()
-        nvc?.present(datePickerViewController, animated: true )
+        UIApplication.getNC()?.present(datePickerViewController, animated: true)
     }
 
-    private func copyAction(note: Note, presentController: UIViewController) {
+    private func copyAction(note: Note) {
         let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
 
         UIPasteboard.general.items = [item]
     }
 
-    public func shareAction(note: Note, presentController: UIViewController, isHTML: Bool = false) {
+    public func shareAction(note: Note, isHTML: Bool = false) {
         AudioServicesPlaySystemSound(1519)
 
         var tempURL = note.url
@@ -693,6 +878,7 @@ class NotesTableView: UITableView,
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [ UIActivity.ActivityType.addToReadingList ]
 
+        guard let presentController = UIApplication.getNC() else { return }
         presentController.present(activityVC, animated: true, completion: nil)
 
         guard let popOver = activityVC.popoverPresentationController else { return }
@@ -712,7 +898,7 @@ class NotesTableView: UITableView,
         }
     }
 
-    public func duplicateAction(notes: [Note], presentController: UIViewController) {
+    public func duplicateAction(notes: [Note]) {
         var dupes = [Note]()
         for note in notes {
             let src = note.url

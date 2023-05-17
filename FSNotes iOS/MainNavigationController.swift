@@ -26,6 +26,7 @@ class MainNavigationController: UINavigationController {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let evc = UIApplication.getEVC()
+            evc.topBorder.backgroundColor = UIColor.toolbarBorder.cgColor
 
             MPreviewView.template = nil
             NotesTextProcessor.hl = nil

@@ -1,8 +1,17 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "Внешняя директория";
+
+/* Settings */
+"Advanced" = "Advanced";
+
+/* Settings */
+"App Icon" = "App Icon";
 
 /* Archive in sidebar */
 "Archive" = "Архив";
@@ -16,23 +25,14 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Вы уверены, что хотите удалить это изображение?";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "Автоматически от яркости экрана";
-
 /* Naming controller */
 "Auto rename by title" = "Автоматически по заголовку";
 
 /* Settings */
 "Auto Rename By Title" = "По заголовку";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "Автоверсионирование";
-
 /* Settings */
 "Autocorrection" = "Aвтоисправление";
-
-/* No comment provided by engineer. */
-"Brightness level" = "Уровень яркости";
 
 /* Settings */
 "build" = "билд";
@@ -70,8 +70,8 @@
 /* No comment provided by engineer. */
 "Date created" = "Дата создания";
 
-/* Settings */
-"Default Container" = "Контейнер по умолчанию";
+/* Main view popover table */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
 "Default keyboard in editor" = "Клавиатура по умолчанию";
@@ -80,10 +80,10 @@
 "Delete" = "Удалить";
 
 /* No comment provided by engineer. */
-"Disabled" = "Отключен";
+"Documents" = "Документы";
 
 /* No comment provided by engineer. */
-"Documents" = "Документы";
+"Done" = "Done";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Создать копию";
@@ -97,8 +97,8 @@
 /* Main view popover table */
 "Empty Bin" = "Очистить корзину";
 
-/* No comment provided by engineer. */
-"Enabled" = "Включен";
+/* Main view popover table */
+"Encrypt" = "Encrypt";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Введите название папки";
@@ -118,11 +118,11 @@
 /* Settings */
 "Family" = "Семейство шрифтов";
 
-/* Settings */
-"File format" = "Формат файла";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл с таким именем уже существует";
+
+/* Settings */
+"Files Format" = "Files Format";
 
 /* Settings */
 "Files Naming" = "Именование файлов";
@@ -135,6 +135,9 @@
 
 /* No comment provided by engineer. */
 "Folder with this name already exist" = "Папка с таким именем уже существует";
+
+/* Settings */
+"Folders" = "Folders";
 
 /* Settings */
 "Font" = "Шрифт";
@@ -160,6 +163,12 @@
 /* Settings */
 "General" = "Основные";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git settings" = "Git settings";
+
 /* No comment provided by engineer. */
 "History" = "История";
 
@@ -169,11 +178,17 @@
 /* Settings */
 "iCloud Drive" = "iCloud Drive";
 
+/* Settings */
+"Icons" = "Icons";
+
 /* No comment provided by engineer. */
 "Images source:" = "Источник изображения:";
 
 /* Main view popover table - Settings */
 "Import notes" = "Импортировать";
+
+/* Settings */
+"Import Notes" = "Import Notes";
 
 /* Inbox in sidebar */
 "Inbox" = "Входящие";
@@ -190,6 +205,9 @@
 /* No comment provided by engineer. */
 "Lock" = "Заблокировать";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "Мастер пароль:";
 
@@ -204,9 +222,6 @@
 
 /* No comment provided by engineer. */
 "New document" = "Создать заметку";
-
-/* Settings */
-"Night Mode" = "Ночной режим";
 
 /* No comment provided by engineer. */
 "None" = "Умолчанию";
@@ -224,6 +239,18 @@
 "Open note" = "Открытая заметка";
 
 /* No comment provided by engineer. */
+"Passphrase" = "Passphrase";
+
+/* No comment provided by engineer. */
+"Password" = "Password";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "Password has been successfully changed";
+
+/* No comment provided by engineer. */
+"Password:" = "Password:";
+
+/* No comment provided by engineer. */
 "Photos" = "Фото";
 
 /* No comment provided by engineer. */
@@ -236,10 +263,16 @@
 "Please enter valid password" = "Введите действующий пароль";
 
 /* No comment provided by engineer. */
+"Please try again" = "Please try again";
+
+/* No comment provided by engineer. */
 "Preview" = "Предпросмотр";
 
-/* Settings */
-"Pro" = "Расширенные";
+/* No comment provided by engineer. */
+"Preview MathJax" = "Предпросмотр MathJax";
+
+/* No comment provided by engineer. */
+"Private key" = "Private key";
 
 /* Settings */
 "Project" = "Проект";
@@ -247,8 +280,11 @@
 /* No comment provided by engineer. */
 "Project removing ❌" = "Удаление проекта ❌";
 
-/* Settings */
-"Projects" = "Проекты";
+/* No comment provided by engineer. */
+"Public key (optional)" = "Public key (optional)";
+
+/* No comment provided by engineer. */
+"Pull (every 30 sec)" = "Pull (every 30 sec)";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Снять шифрование";
@@ -278,7 +314,13 @@
 "Rename tag:" = "Переименовать тег:";
 
 /* No comment provided by engineer. */
+"Save" = "Save";
+
+/* No comment provided by engineer. */
 "Save clipboard" = "Сохранить буфер обмена";
+
+/* No comment provided by engineer. */
+"Save revision" = "Save revision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Сохраненные версии";
@@ -288,6 +330,9 @@
 
 /* No comment provided by engineer. */
 "Search or create" = "Найти или создать";
+
+/* Settings */
+"Security" = "Security";
 
 /* Main view popover table */
 "Select" = "Выбрать";
@@ -319,14 +364,14 @@
 /* Settings */
 "Support" = "Поддержка";
 
-/* No comment provided by engineer. */
-"System" = "Система";
-
 /* Settings */
 "Thanks to" = "Спасибо";
 
 /* Settings */
 "Theme" = "Тема";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовку";
@@ -339,9 +384,6 @@
 
 /* Settings */
 "Twitter" = "Twitter";
-
-/* No comment provided by engineer. */
-"Type" = "Тип";
 
 /* No comment provided by engineer. */
 "Unlock" = "Разблокировать";
@@ -358,6 +400,9 @@
 /* Settings */
 "Use inline tags" = "Встроенные теги";
 
+/* No comment provided by engineer. */
+"Verify password" = "Verify password";
+
 /* Settings */
 "Version" = "Версия";
 
@@ -371,7 +416,13 @@
 "Visibility" = "Видимость";
 
 /* No comment provided by engineer. */
+"Wrong password" = "Wrong password";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Wrong repeated password";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "Очистка истории";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "Предпросмотр MathJax";
+"✅ - " = "✅ - ";

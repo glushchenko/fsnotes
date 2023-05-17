@@ -44,8 +44,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         storageQueue.qualityOfService = .userInitiated
 
         editArea.textContainerInset = UIEdgeInsets(top: 13, left: 10, bottom: 0, right: 10)
-        
-        navigationItem.rightBarButtonItems = [getMoreButton(), self.getTogglePreviewButton()]
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
         editArea.addGestureRecognizer(imageTap)
@@ -92,11 +90,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
-        
-        if let n = note, n.isMarkdown() {
-            self.navigationItem.rightBarButtonItem?.title = NSLocalizedString("Preview", comment: "")
-        }
-        
+        configureNavMenu()
+
         super.viewDidAppear(animated)
 
         if editArea.textStorage.length == 0  && !UserDefaultsManagement.previewMode {
@@ -165,14 +160,22 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         self.addToolBar(textField: self.editArea, toolbar: self.getToolbar(for: note))
     }
 
-    public func setTitle(text: String) {
-        let button =  UIButton(type: .custom)
-        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-        button.setTitle(text, for: .normal)
-        button.addTarget(self, action: #selector(self.clickOnButton), for: .touchUpInside)
-        //self.navigationItem.titleView = button
+    public func configureNavMenu() {
+        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
+        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
 
-        self.navigationItem.title = text
+        if #available(iOS 14.0, *) {
+            let menu =  UIApplication.getVC().notesTable.makeBulkMenu(full: true, editor: true, note: self.note)
+            let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
+            navSettings.tintColor = UIColor.mainTheme
+            navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
+            return
+        }
+
+        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(clickOnButton))
+        navSettings.tintColor = UIColor.mainTheme
+
+        navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
     }
 
     public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
@@ -203,8 +206,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         
         editArea.note = note
-
-        //setTitle(text: note.getShortTitle())
 
         if UserDefaultsManagement.previewMode {
             loadPreviewView()
@@ -614,7 +615,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             let title = note.title.withoutSpecialCharacters.trunc(length: 64)
 
             if note.fileName != title && title.count > 0 && !note.isEncrypted() {
-                UIApplication.getVC().notesTable.rename(note: note, to: title, presentController: self)
+                UIApplication.getVC().notesTable.rename(note: note, to: title)
             }
         }
     }
@@ -821,6 +822,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         toolbar = .none
     }
 
+    var topBorder = CALayer()
+
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scrollFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height)
         let scroll = UIScrollView(frame: scrollFrame)
@@ -829,7 +832,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
 
-        let topBorder = CALayer()
         topBorder.frame = CGRect(x: -1000, y: 0, width: 9999, height: 1)
         topBorder.backgroundColor = UIColor.toolbarBorder.cgColor
         scroll.layer.addSublayer(topBorder)
@@ -1444,9 +1446,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             navigationController?.popViewController(animated: true)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                vc.navigationItem.searchController = nil
                 vc.shouldReturnToControllerIndex = true
-
                 vc.loadSearchController(query: query)
                 vc.reloadNotesTable(with: SearchQuery(filter: query))
             }
@@ -1498,9 +1498,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func getMoreButton() -> UIBarButtonItem {
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
-        let image = UIImage(systemName: "ellipsis.circle", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
+        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
+        let image = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
         let menuBarItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(clickOnButton))
+        menuBarItem.tintColor = UIColor.mainTheme
 
         return menuBarItem
     }
@@ -1514,7 +1515,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func getTogglePreviewButton() -> UIBarButtonItem {
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+        let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .light, scale: .default)
         let buttonName = UserDefaultsManagement.previewMode ? "eye.slash" : "eye"
         let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
         let menuBarItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(togglePreview))
@@ -1556,7 +1557,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }) {
 
-            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+            let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .light, scale: .default)
             if let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme) {
 
                 buttonBar.image = image

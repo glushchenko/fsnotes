@@ -101,6 +101,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadPreSafeArea()
         loadPlusButton()
 
+
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+
         super.viewDidAppear(animated)
     }
 
@@ -113,7 +118,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureNotifications()
         configureGestures()
         configureSearchController()
-        loadSearchController()
         
         gitQueue.qualityOfService = .userInteractive
         gitQueue.maxConcurrentOperationCount = 1
@@ -202,10 +206,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
-        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)!.imageWithColor(color1: UIColor.mainTheme)
-        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(openSidebarSettings))
-        navSettings.tintColor = UIColor.mainTheme
-
         let appSettingsImage = UIImage(systemName: "sidebar.left", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
         let appSettings = UIBarButtonItem(image: appSettingsImage, style: .plain, target: self, action: #selector(toggleSidebar))
         appSettings.tintColor = UIColor.mainTheme
@@ -215,7 +215,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         generalSettings.tintColor = UIColor.mainTheme
 
         navigationItem.leftBarButtonItems = [appSettings, generalSettings]
-        navigationItem.rightBarButtonItems = [navSettings]
 
         setNavTitle(folder: NSLocalizedString("Inbox", comment: ""))
         sidebarTableView.backgroundColor = UIColor.sidebar
@@ -237,6 +236,27 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         refreshControl.addTarget(self, action: #selector(toggleSearch), for: .valueChanged)
 
         notesTable.refreshControl = refreshControl
+    }
+
+    public var lastSidebarItem: SidebarItem? = nil
+
+    public func configureNavMenu(for sidebarItem: SidebarItem) {
+        lastSidebarItem = sidebarItem
+
+        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
+        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
+
+        if #available(iOS 14.0, *) {
+            let menu = makeSidebarSettingsMenu(for: sidebarItem)
+            let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
+            navSettings.tintColor = UIColor.mainTheme
+            navigationItem.rightBarButtonItem = navSettings
+            return
+        }
+
+        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(openSidebarSettings))
+        navSettings.tintColor = UIColor.mainTheme
+        navigationItem.rightBarButtonItem = navSettings
     }
 
     public func setNavTitle(folder: String? = nil, qty: String? = nil) {
@@ -311,11 +331,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationItem.searchController?.isActive = true
 
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController!.navigationBar.sizeToFit()
-    }
-
-    @IBAction public func openSearchController() {
-        loadSearchController()
     }
 
     @IBAction public func toggleSidebar() {
@@ -691,15 +706,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadSearchController(query: String? = nil) {
-        //navigationItem.searchController = searchController
-        //navigationItem.searchController?.isActive = true
+        navigationItem.searchController?.isActive = true
 
         if let query = query {
             navigationItem.searchController?.searchBar.text = query
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            //self.navigationItem.searchController?.searchBar.becomeFirstResponder()
+            self.navigationItem.searchController?.searchBar.becomeFirstResponder()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.loadPlusButton()
@@ -708,39 +722,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     }
 
-    public func unloadSearchController() {
-        navigationItem.searchController = nil
-
-        sidebarTableView.restoreSelection(for: searchQuery)
-        reloadNotesTable(with: searchQuery)
-
-        // iOS 12 compatibility
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.loadPlusButton()
-        }
-    }
-
-    public func callbackSearchController() {
-        if shouldReturnToControllerIndex {
-            shouldReturnToControllerIndex = false
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.openEditorViewController()
-
-                UIApplication.getEVC().refill()
-            }
-        }
-    }
-
     private func toggleSearchView() {
-
-        if navigationItem.searchController != nil {
-            //unloadSearchController()
-            return
-        }
-
         loadSearchController()
-
         sidebarTableView.deselectAll()
         reloadNotesTable(with: SearchQuery())
     }
@@ -758,16 +741,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         reloadNotesTable(with: SearchQuery(filter: searchText))
     }
 
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        unloadSearchController()
-//        callbackSearchController()
-    }
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let content = searchBar.text
         searchBar.text = ""
         self.createNote(content: content, pasteboard: nil)
-        //unloadSearchController()
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
@@ -1643,14 +1620,5 @@ extension UIApplication {
             closure()
         }
         self.endBackgroundTask(taskID)
-    }
-}
-
-extension UISearchBar {
-    func setPlaceholderTextColorTo(color: UIColor) {
-        let textFieldInsideSearchBar = self.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.textColor = color
-        let textFieldInsideSearchBarLabel = textFieldInsideSearchBar!.value(forKey: "placeholderLabel") as? UILabel
-        textFieldInsideSearchBarLabel?.textColor = color
     }
 }

@@ -1,8 +1,17 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "Cartella esterna";
+
+/* Settings */
+"Advanced" = "Esteso";
+
+/* Settings */
+"App Icon" = "App Icon";
 
 /* Archive in sidebar */
 "Archive" = "Archivio";
@@ -16,23 +25,14 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Sei sicuro di voler eliminare questa immagine?";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "Dalla luminosità dello schermo";
-
 /* Naming controller */
 "Auto rename by title" = "Rinomina automaticamente per titolo";
 
 /* Settings */
 "Auto Rename By Title" = "Rinomina per titolo";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "Versione automatica";
-
 /* Settings */
 "Autocorrection" = "Autocorrezione";
-
-/* No comment provided by engineer. */
-"Brightness level" = "Livello di luminosità";
 
 /* Settings */
 "build" = "build";
@@ -70,8 +70,8 @@
 /* No comment provided by engineer. */
 "Date created" = "Data di creazione";
 
-/* Settings */
-"Default Container" = "Container predefinito";
+/* Main view popover table */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
 "Default keyboard in editor" = "Tastiera predefinita";
@@ -80,10 +80,10 @@
 "Delete" = "Elimina";
 
 /* No comment provided by engineer. */
-"Disabled" = "Disabilitato";
+"Documents" = "Documenti";
 
 /* No comment provided by engineer. */
-"Documents" = "Documenti";
+"Done" = "Done";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicare";
@@ -97,8 +97,8 @@
 /* Main view popover table */
 "Empty Bin" = "Cestino vuoto";
 
-/* No comment provided by engineer. */
-"Enabled" = "Abilitato";
+/* Main view popover table */
+"Encrypt" = "Encrypt";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Inserisci il nome della cartella";
@@ -118,11 +118,11 @@
 /* Settings */
 "Family" = "Famiglia di font";
 
-/* Settings */
-"Files Format" = "Formato del file";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "Il file con questo nome già esiste";
+
+/* Settings */
+"Files Format" = "Formato del file";
 
 /* Settings */
 "Files Naming" = "Denominazione dei file";
@@ -135,6 +135,9 @@
 
 /* No comment provided by engineer. */
 "Folder with this name already exist" = "La cartella con questo nome già esiste";
+
+/* Settings */
+"Folders" = "Cartelle";
 
 /* Settings */
 "Font" = "Carattere";
@@ -160,6 +163,12 @@
 /* Settings */
 "General" = "Generali";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git settings" = "Git settings";
+
 /* No comment provided by engineer. */
 "History" = "Storia";
 
@@ -169,12 +178,16 @@
 /* Settings */
 "iCloud Drive" = "iCloud Drive";
 
+/* Settings */
+"Icons" = "Icons";
+
 /* No comment provided by engineer. */
 "Images source:" = "Fonti delle immagini:";
 
 /* Main view popover table - Settings */
 "Import Notes" = "Importa note";
 
+/* Main view popover table */
 "Import notes" = "Importa note";
 
 /* Inbox in sidebar */
@@ -192,6 +205,9 @@
 /* No comment provided by engineer. */
 "Lock" = "Blocca";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "Password principale:";
 
@@ -206,9 +222,6 @@
 
 /* No comment provided by engineer. */
 "New document" = "Nuovo documento";
-
-/* Settings */
-"Night Mode" = "Modalità notte";
 
 /* No comment provided by engineer. */
 "None" = "Predefinita";
@@ -226,6 +239,18 @@
 "Open note" = "Apri nota";
 
 /* No comment provided by engineer. */
+"Passphrase" = "Passphrase";
+
+/* No comment provided by engineer. */
+"Password" = "Password";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "Password has been successfully changed";
+
+/* No comment provided by engineer. */
+"Password:" = "Password:";
+
+/* No comment provided by engineer. */
 "Photos" = "Foto";
 
 /* No comment provided by engineer. */
@@ -238,10 +263,16 @@
 "Please enter valid password" = "Per favore inserisci una password valida";
 
 /* No comment provided by engineer. */
+"Please try again" = "Please try again";
+
+/* No comment provided by engineer. */
 "Preview" = "Antemprima";
 
-/* Settings */
-"Advanced" = "Esteso";
+/* No comment provided by engineer. */
+"Preview MathJax" = "Anteprima MathJax";
+
+/* No comment provided by engineer. */
+"Private key" = "Private key";
 
 /* Settings */
 "Project" = "Progetto";
@@ -249,8 +280,11 @@
 /* No comment provided by engineer. */
 "Project removing ❌" = "Rimozione progetto ❌";
 
-/* Settings */
-"Folders" = "Cartelle";
+/* No comment provided by engineer. */
+"Public key (optional)" = "Public key (optional)";
+
+/* No comment provided by engineer. */
+"Pull (every 30 sec)" = "Pull (every 30 sec)";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Rimuovi la crittografia";
@@ -280,7 +314,13 @@
 "Rename tag:" = "Rinomina tag:";
 
 /* No comment provided by engineer. */
+"Save" = "Save";
+
+/* No comment provided by engineer. */
 "Save clipboard" = "Salva gli appunti";
+
+/* No comment provided by engineer. */
+"Save revision" = "Save revision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Saved versions";
@@ -290,6 +330,9 @@
 
 /* No comment provided by engineer. */
 "Search or create" = "Cerca o crea";
+
+/* Settings */
+"Security" = "Security";
 
 /* Main view popover table */
 "Select" = "Selezionare";
@@ -321,14 +364,14 @@
 /* Settings */
 "Support" = "Supporto";
 
-/* No comment provided by engineer. */
-"System" = "Di Sistema";
-
 /* Settings */
 "Thanks to" = "Grazie a";
 
 /* Settings */
 "Theme" = "Tema";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
 
 /* No comment provided by engineer. */
 "Title" = "Titolo";
@@ -341,9 +384,6 @@
 
 /* Settings */
 "Twitter" = "Twitter";
-
-/* No comment provided by engineer. */
-"Type" = "Tipo";
 
 /* No comment provided by engineer. */
 "Unlock" = "Sblocca";
@@ -360,6 +400,9 @@
 /* Settings */
 "Use inline tags" = "Usa tag in linea";
 
+/* No comment provided by engineer. */
+"Verify password" = "Verify password";
+
 /* Settings */
 "Version" = "Versione";
 
@@ -373,7 +416,13 @@
 "Visibility" = "Visibilità";
 
 /* No comment provided by engineer. */
+"Wrong password" = "Wrong password";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Wrong repeated password";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "Sto imparando la storia";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "Anteprima MathJax";
+"✅ - " = "✅ - ";

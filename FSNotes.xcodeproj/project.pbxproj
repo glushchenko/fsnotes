@@ -482,6 +482,11 @@
 		D752D81023463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
 		D752D81123463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
 		D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
+		D755E27A2A1427F700CF9ECB /* mars@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2762A1427F600CF9ECB /* mars@3x~ipad.png */; };
+		D755E27B2A1427F700CF9ECB /* mars@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2772A1427F600CF9ECB /* mars@3x.png */; };
+		D755E27C2A1427F700CF9ECB /* mars@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2782A1427F600CF9ECB /* mars@2x~ipad.png */; };
+		D755E27F2A14282000CF9ECB /* mars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E27E2A14281F00CF9ECB /* mars@2x.png */; };
+		D755E2812A1428B400CF9ECB /* app-icon-mars.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2802A1428B300CF9ECB /* app-icon-mars.png */; };
 		D75627CE26D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627CF26D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627D026D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
@@ -1572,6 +1577,11 @@
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
 		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
 		D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attachments.swift"; sourceTree = "<group>"; };
+		D755E2762A1427F600CF9ECB /* mars@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@3x~ipad.png"; sourceTree = "<group>"; };
+		D755E2772A1427F600CF9ECB /* mars@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@3x.png"; sourceTree = "<group>"; };
+		D755E2782A1427F600CF9ECB /* mars@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@2x~ipad.png"; sourceTree = "<group>"; };
+		D755E27E2A14281F00CF9ECB /* mars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@2x.png"; sourceTree = "<group>"; };
+		D755E2802A1428B300CF9ECB /* app-icon-mars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-mars.png"; sourceTree = "<group>"; };
 		D75627CD26D1165A000AF6EA /* ImageFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFormat.swift; sourceTree = "<group>"; };
 		D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeFontViewController.swift; sourceTree = "<group>"; };
 		D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeThemeViewController.swift; sourceTree = "<group>"; };
@@ -2594,6 +2604,7 @@
 				D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */,
 				D7CF7EB029E2CFD300FEC0C5 /* kmstrr@2x~ipad.png */,
 				D7CF7EB129E2CFD300FEC0C5 /* kmstrr@3x~ipad.png */,
+				D755E2802A1428B300CF9ECB /* app-icon-mars.png */,
 				D7DF48CD29E1765B00FFD0B2 /* app-icon-dylanseeger.png */,
 				D7DF48CC29E1765B00FFD0B2 /* app-icon-kmstrr.png */,
 				D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */,
@@ -2606,6 +2617,10 @@
 				D780165A29E19F3F00660689 /* dylanseegerDark@3x.png */,
 				D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */,
 				D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */,
+				D755E27E2A14281F00CF9ECB /* mars@2x.png */,
+				D755E2782A1427F600CF9ECB /* mars@2x~ipad.png */,
+				D755E2772A1427F600CF9ECB /* mars@3x.png */,
+				D755E2762A1427F600CF9ECB /* mars@3x~ipad.png */,
 			);
 			path = "app-icons";
 			sourceTree = "<group>";
@@ -3326,6 +3341,7 @@
 				D780165E29E19FD800660689 /* app-icon-dylanseegerDark.png in Resources */,
 				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D7BAC63A24A35EB0008D29AA /* trash_white.png in Resources */,
+				D755E27B2A1427F700CF9ECB /* mars@3x.png in Resources */,
 				D76F0B452152C9A2008E5F2F /* done.png in Resources */,
 				D7D95044209D8B40001FB60B /* repository.png in Resources */,
 				D7D95045209D8B40001FB60B /* tag.png in Resources */,
@@ -3425,6 +3441,7 @@
 				D7271FAE2052803500033D0C /* unindent@3x.png in Resources */,
 				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7CF7EB929E2CFD400FEC0C5 /* kmstrr@3x~ipad.png in Resources */,
+				D755E2812A1428B400CF9ECB /* app-icon-mars.png in Resources */,
 				D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */,
 				D7DF48D129E1767B00FFD0B2 /* settings-icons-format.png in Resources */,
 				D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */,
@@ -3444,9 +3461,11 @@
 				D78C6CBF246D7B78007AF7F2 /* wikilink.png in Resources */,
 				D7A549C124DD9BDA00537544 /* settings-icons-night.png in Resources */,
 				D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */,
+				D755E27C2A1427F700CF9ECB /* mars@2x~ipad.png in Resources */,
 				D71C79BD253F3BF5003BD724 /* close-window.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
 				D7D79B0324DE72BB003C61AF /* settings-icons-home.png in Resources */,
+				D755E27F2A14282000CF9ECB /* mars@2x.png in Resources */,
 				D7DF48CE29E1765C00FFD0B2 /* app-icon-kmstrr.png in Resources */,
 				D70E8D6B23705C6200E64D62 /* tag2.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* Icons.xcassets in Resources */,
@@ -3465,6 +3484,7 @@
 				D78115612153AE89004FA1CA /* preview.png in Resources */,
 				D7D79B0424DE72BB003C61AF /* settings-icons-projects.png in Resources */,
 				D73CEC872278ECA500D549F7 /* checkbox_empty_white@2x.png in Resources */,
+				D755E27A2A1427F700CF9ECB /* mars@3x~ipad.png in Resources */,
 				D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */,
 				D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */,
 				D71354022042AECD00E3776F /* settings@3x.png in Resources */,
@@ -5091,7 +5111,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 254;
+				CURRENT_PROJECT_VERSION = 256;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -5120,7 +5140,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 254;
+				CURRENT_PROJECT_VERSION = 256;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -5154,7 +5174,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 254;
+				CURRENT_PROJECT_VERSION = 256;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -5189,7 +5209,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 254;
+				CURRENT_PROJECT_VERSION = 256;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";

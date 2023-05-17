@@ -103,8 +103,8 @@ extension UIColor {
     public static var linksColor: UIColor {
         return UIColor { (traits) -> UIColor in
             return traits.userInterfaceStyle == .dark ?
-                UIColor(red: 0.44, green: 0.92, blue: 0.56, alpha: 1.00) :
-                UIColor(red: 0.19, green: 0.42, blue: 0.87, alpha: 1.00)
+                UIColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00) :
+                UIColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
         }
     }
 }

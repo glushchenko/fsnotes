@@ -1,8 +1,17 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "外部フォルダを追加";
+
+/* Settings */
+"Advanced" = "プロ";
+
+/* Settings */
+"App Icon" = "App Icon";
 
 /* Archive in sidebar */
 "Archive" = "アーカイブ";
@@ -16,23 +25,14 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "この画像を削除しますか？";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "スクリーンの明るさから自動選択";
-
 /* Naming controller */
 "Auto rename by title" = "タイトルをファイル名に自動反映";
 
 /* Settings */
 "Auto Rename By Title" = "タイトルをファイル名に自動反映";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "自動バージョニング";
-
 /* Settings */
 "Autocorrection" = "自動訂正";
-
-/* No comment provided by engineer. */
-"Brightness level" = "明度";
 
 /* Settings */
 "build" = "ビルド";
@@ -70,8 +70,8 @@
 /* No comment provided by engineer. */
 "Date created" = "作成日";
 
-/* Settings */
-"Default Container" = "デフォルトコンテナ";
+/* Main view popover table */
+"Decrypt" = "Decrypt";
 
 /* Settings */
 "Default keyboard in editor" = "エディタで使用するデフォルトキーボード";
@@ -80,10 +80,10 @@
 "Delete" = "削除";
 
 /* No comment provided by engineer. */
-"Disabled" = "無効";
+"Documents" = "ドキュメント";
 
 /* No comment provided by engineer. */
-"Documents" = "ドキュメント";
+"Done" = "Done";
 
 /* No comment provided by engineer. */
 "Duplicate" = "複製";
@@ -97,8 +97,8 @@
 /* Main view popover table */
 "Empty Bin" = "ゴミ箱を空にする";
 
-/* No comment provided by engineer. */
-"Enabled" = "有効";
+/* Main view popover table */
+"Encrypt" = "Encrypt";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "フォルダ名を入力";
@@ -118,11 +118,11 @@
 /* Settings */
 "Family" = "ファミリー";
 
-/* Settings */
-"Files Format" = "ファイル形式";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "同名のファイルがすでに存在しています";
+
+/* Settings */
+"Files Format" = "ファイル形式";
 
 /* Settings */
 "Files Naming" = "ファイル命名";
@@ -135,6 +135,9 @@
 
 /* No comment provided by engineer. */
 "Folder with this name already exist" = "同名のフォルダがすでに存在しています";
+
+/* Settings */
+"Folders" = "プロジェクト";
 
 /* Settings */
 "Font" = "フォント";
@@ -160,6 +163,12 @@
 /* Settings */
 "General" = "一般";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git settings" = "Git settings";
+
 /* No comment provided by engineer. */
 "History" = "履歴";
 
@@ -169,12 +178,16 @@
 /* Settings */
 "iCloud Drive" = "iCloud Drive";
 
+/* Settings */
+"Icons" = "Icons";
+
 /* No comment provided by engineer. */
 "Images source:" = "画像ソース:";
 
 /* Main view popover table Settings */
 "Import Notes" = "ノートのインポート";
 
+/* Main view popover table */
 "Import notes" = "ノートのインポート";
 
 /* Inbox in sidebar */
@@ -192,6 +205,9 @@
 /* No comment provided by engineer. */
 "Lock" = "ロック";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "マスターパスワード:";
 
@@ -206,9 +222,6 @@
 
 /* No comment provided by engineer. */
 "New document" = "新規ドキュメント";
-
-/* Settings */
-"Night Mode" = "ナイトモード";
 
 /* No comment provided by engineer. */
 "None" = "なし";
@@ -227,6 +240,18 @@
 "Open note" = "ノートを開く";
 
 /* No comment provided by engineer. */
+"Passphrase" = "Passphrase";
+
+/* No comment provided by engineer. */
+"Password" = "Password";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "Password has been successfully changed";
+
+/* No comment provided by engineer. */
+"Password:" = "Password:";
+
+/* No comment provided by engineer. */
 "Photos" = "画像";
 
 /* No comment provided by engineer. */
@@ -239,10 +264,16 @@
 "Please enter valid password" = "有効なパスワードを入力してください";
 
 /* No comment provided by engineer. */
+"Please try again" = "Please try again";
+
+/* No comment provided by engineer. */
 "Preview" = "プレビュー";
 
-/* Settings */
-"Advanced" = "プロ";
+/* No comment provided by engineer. */
+"Preview MathJax" = "MathJaxをプレビュー";
+
+/* No comment provided by engineer. */
+"Private key" = "Private key";
 
 /* Settings */
 "Project" = "プロジェクト";
@@ -250,8 +281,11 @@
 /* No comment provided by engineer. */
 "Project removing ❌" = "削除するプロジェクト ❌";
 
-/* Settings */
-"Folders" = "プロジェクト";
+/* No comment provided by engineer. */
+"Public key (optional)" = "Public key (optional)";
+
+/* No comment provided by engineer. */
+"Pull (every 30 sec)" = "Pull (every 30 sec)";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "ロックを削除";
@@ -281,7 +315,13 @@
 "Rename tag:" = "タグの名称変更:";
 
 /* No comment provided by engineer. */
+"Save" = "Save";
+
+/* No comment provided by engineer. */
 "Save clipboard" = "クリップボードの内容を保存";
+
+/* No comment provided by engineer. */
+"Save revision" = "Save revision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "保存されたバージョン";
@@ -291,6 +331,9 @@
 
 /* No comment provided by engineer. */
 "Search or create" = "検索または新規作成";
+
+/* Settings */
+"Security" = "Security";
 
 /* Main view popover table */
 "Select" = "選択";
@@ -322,14 +365,14 @@
 /* Settings */
 "Support" = "サポート";
 
-/* No comment provided by engineer. */
-"System" = "システム";
-
 /* Settings */
 "Thanks to" = "次に感謝:";
 
 /* Settings */
 "Theme" = "テーマ";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
 
 /* No comment provided by engineer. */
 "Title" = "タイトル";
@@ -342,9 +385,6 @@
 
 /* Settings */
 "Twitter" = "Twitter";
-
-/* No comment provided by engineer. */
-"Type" = "タイプ";
 
 /* No comment provided by engineer. */
 "Unlock" = "アンロック";
@@ -361,6 +401,9 @@
 /* Settings */
 "Use inline tags" = "インラインタグを使用する";
 
+/* No comment provided by engineer. */
+"Verify password" = "Verify password";
+
 /* Settings */
 "Version" = "バージョン";
 
@@ -374,7 +417,13 @@
 "Visibility" = "可視性";
 
 /* No comment provided by engineer. */
+"Wrong password" = "Wrong password";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Wrong repeated password";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "履歴の削除";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "MathJaxをプレビュー";
+"✅ - " = "✅ - ";

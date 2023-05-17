@@ -130,7 +130,6 @@ class SidebarTableView: UITableView,
             return
         }
 
-        //vc.unloadSearchController()
         vc.notesTable.turnOffEditing()
 
         if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
@@ -166,6 +165,7 @@ class SidebarTableView: UITableView,
         }
 
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        vc.configureNavMenu(for: sidebarItem)
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
@@ -184,6 +184,14 @@ class SidebarTableView: UITableView,
                     vc.resizeSidebar(withAnimation: true)
                 }
             }
+        }
+    }
+
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+            let sidebarItem = self.sidebar.items[indexPath.section][indexPath.row]
+            let menu = self.viewController!.makeSidebarSettingsMenu(for: sidebarItem)
+            return menu
         }
     }
 
@@ -207,6 +215,7 @@ class SidebarTableView: UITableView,
         newQuery.project = sidebarItem.project
 
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        vc.configureNavMenu(for: sidebarItem)
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
@@ -345,7 +354,7 @@ class SidebarTableView: UITableView,
 
     public func buildSearchQuery() -> SearchQuery? {
         guard let indexPaths = UIApplication.getVC().sidebarTableView?.indexPathsForSelectedRows else { return nil }
-        var searchQuery = SearchQuery()
+        let searchQuery = SearchQuery()
 
         for indexPath in indexPaths {
             let item = sidebar.items[indexPath.section][indexPath.row]
@@ -419,10 +428,7 @@ class SidebarTableView: UITableView,
     }
 
     public func loadAllTags() {
-        guard
-            UserDefaultsManagement.inlineTags,
-            let vc = viewController
-        else { return }
+        guard UserDefaultsManagement.inlineTags, let vc = viewController else { return }
 
         unloadAllTags()
         var tags = [String]()

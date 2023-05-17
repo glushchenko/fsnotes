@@ -1,8 +1,17 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "Зовнішня папка";
+
+/* Settings */
+"Advanced" = "Розширені";
+
+/* Settings */
+"App Icon" = "Іконка програми";
 
 /* Archive in sidebar */
 "Archive" = "Архів";
@@ -16,23 +25,14 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Ви впевнені, що хочете видалити це зображення?";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "Автоматично за яскравістю екрана";
-
 /* Naming controller */
 "Auto rename by title" = "Автоматичне за заголовком";
 
 /* Settings */
 "Auto Rename By Title" = "Автоматичне перейменування";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "Автоматичне керування версіями";
-
 /* Settings */
 "Autocorrection" = "Автокорекція";
-
-/* No comment provided by engineer. */
-"Brightness level" = "Рівень яскравості";
 
 /* Settings */
 "build" = "білд";
@@ -70,8 +70,8 @@
 /* No comment provided by engineer. */
 "Date created" = "Дата створення";
 
-/* Settings */
-"Default Container" = "Контейнер за замовчуванням";
+/* Main view popover table */
+"Decrypt" = "Розшифрувати";
 
 /* No comment provided by engineer. */
 "Default keyboard in editor" = "Клавіатура за замовчуванням";
@@ -80,10 +80,10 @@
 "Delete" = "Видалити";
 
 /* No comment provided by engineer. */
-"Disabled" = "Відключений";
+"Documents" = "Документи";
 
 /* No comment provided by engineer. */
-"Documents" = "Документи";
+"Done" = "Готово";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Створити копію";
@@ -97,8 +97,8 @@
 /* Main view popover table */
 "Empty Bin" = "Очистити кошик";
 
-/* No comment provided by engineer. */
-"Enabled" = "Включений";
+/* Main view popover table */
+"Encrypt" = "Зашифрувати";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Введіть назву папки";
@@ -118,11 +118,11 @@
 /* Settings */
 "Family" = "Сімейство шрифтів";
 
-/* Settings */
-"Files Format" = "Формат файлу";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл з цим іменем вже існує";
+
+/* Settings */
+"Files Format" = "Формат файлу";
 
 /* Settings */
 "Files Naming" = "Іменування файлів";
@@ -135,6 +135,9 @@
 
 /* No comment provided by engineer. */
 "Folder with this name already exist" = "Папка з цим іменем вже існує";
+
+/* Settings */
+"Folders" = "Папки";
 
 /* Settings */
 "Font" = "Шрифт";
@@ -160,6 +163,12 @@
 /* Settings */
 "General" = "Загальні";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git settings" = "Налаштування Git";
+
 /* No comment provided by engineer. */
 "History" = "Історія";
 
@@ -169,12 +178,16 @@
 /* Settings */
 "iCloud Drive" = "iCloud Drive";
 
+/* Settings */
+"Icons" = "Іконки";
+
 /* No comment provided by engineer. */
 "Images source:" = "Джерело зображень:";
 
 /* Main view popover table - Settings */
 "Import Notes" = "Імпортувати";
 
+/* Main view popover table */
 "Import notes" = "Імпортувати";
 
 /* Inbox in sidebar */
@@ -192,6 +205,9 @@
 /* No comment provided by engineer. */
 "Lock" = "Заблокувати";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "Головний пароль:";
 
@@ -206,9 +222,6 @@
 
 /* No comment provided by engineer. */
 "New document" = "Нова нотатка";
-
-/* Settings */
-"Night Mode" = "Нічний режим";
 
 /* No comment provided by engineer. */
 "None" = "За замовчуванням";
@@ -226,6 +239,18 @@
 "Open note" = "Відкрита нотатка";
 
 /* No comment provided by engineer. */
+"Passphrase" = "Парольна фраза";
+
+/* No comment provided by engineer. */
+"Password" = "Пароль";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "Пароль успішно змінено";
+
+/* No comment provided by engineer. */
+"Password:" = "Пароль:";
+
+/* No comment provided by engineer. */
 "Photos" = "Фотографії";
 
 /* No comment provided by engineer. */
@@ -238,10 +263,16 @@
 "Please enter valid password" = "Введіть дійсний пароль";
 
 /* No comment provided by engineer. */
+"Please try again" = "Будь ласка, спробуйте ще разn";
+
+/* No comment provided by engineer. */
 "Preview" = "Попередній перегляд";
 
-/* Settings */
-"Advanced" = "Розширені";
+/* No comment provided by engineer. */
+"Preview MathJax" = "Попередній перегляд MathJax";
+
+/* No comment provided by engineer. */
+"Private key" = "Приватний ключ";
 
 /* Settings */
 "Project" = "Проект";
@@ -249,8 +280,11 @@
 /* No comment provided by engineer. */
 "Project removing ❌" = "Видалення проекту ❌";
 
-/* Settings */
-"Folders" = "Папки";
+/* No comment provided by engineer. */
+"Public key (optional)" = "Відкритий ключ (необов'язково)";
+
+/* No comment provided by engineer. */
+"Pull (every 30 sec)" = "Тягнути (кожні 30 сек)";
 
 /* No comment provided by engineer. */
 "Remove encryption" = "Зняти шифрування";
@@ -280,7 +314,13 @@
 "Rename tag:" = "Перейменувати тег:";
 
 /* No comment provided by engineer. */
+"Save" = "Зберегти";
+
+/* No comment provided by engineer. */
 "Save clipboard" = "Зберегти буфер обміну";
+
+/* No comment provided by engineer. */
+"Save revision" = "Зберегти ревізію";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Збережені версії";
@@ -290,6 +330,9 @@
 
 /* No comment provided by engineer. */
 "Search or create" = "Знайти або створити";
+
+/* Settings */
+"Security" = "Безпека";
 
 /* Main view popover table */
 "Select" = "Вибрати";
@@ -321,14 +364,14 @@
 /* Settings */
 "Support" = "Підтримка";
 
-/* No comment provided by engineer. */
-"System" = "Система";
-
 /* Settings */
 "Thanks to" = "Дякую";
 
 /* Settings */
 "Theme" = "Тема";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Порада: Щоб використовувати старі нотатки, ви повинні розшифрувати їх окремо за допомогою старого ключа і зашифрувати знову.";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовком";
@@ -341,9 +384,6 @@
 
 /* Settings */
 "Twitter" = "Twitter";
-
-/* No comment provided by engineer. */
-"Type" = "Тип";
 
 /* No comment provided by engineer. */
 "Unlock" = "Розблокувати";
@@ -360,6 +400,9 @@
 /* Settings */
 "Use inline tags" = "Використовувати вбудовані теги";
 
+/* No comment provided by engineer. */
+"Verify password" = "Підтвердіть пароль";
+
 /* Settings */
 "Version" = "Версія";
 
@@ -373,7 +416,13 @@
 "Visibility" = "Видимість";
 
 /* No comment provided by engineer. */
+"Wrong password" = "Неправильний пароль";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Неправильний повторний пароль";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "Очищення історії";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "Попередній перегляд MathJax";
+"✅ - " = "✅ - ";

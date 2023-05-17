@@ -71,6 +71,13 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>marsIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>mars</string>
+				</array>
+			</dict>
 			<key>dylanseegerDarkFullIcon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -207,7 +214,7 @@
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
-	<string>Launch Screen.storyboard</string>
+	<string>Launch Screen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
