@@ -117,9 +117,35 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationItem.largeTitleDisplayMode = .never
+        navigationItem.largeTitleDisplayMode = .never
 
+        let imageSearch = UIImage(systemName: "magnifyingglass")
+        let imagePlus = UIImage(systemName: "plus")
+
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem(image: imageSearch, style: .plain, target: self, action: #selector(search)))
+        if #available(iOS 14.0, *) {
+            items.append(UIBarButtonItem.flexibleSpace())
+        }
+        items.append(UIBarButtonItem(image: imagePlus, style: .plain, target: self, action: #selector(newNote)))
+
+        navigationController?.toolbar.tintColor = UIColor.mainTheme
+        toolbarItems = items
+
+        navigationController?.setToolbarHidden(false, animated: true)
         navigationController?.navigationBar.tintColor = UIColor.mainTheme
+    }
+
+    @objc func search() {
+        UIApplication.getVC().enableSearchFocus()
+
+        self.cancel()
+    }
+
+    @objc func newNote() {
+        UIApplication.getVC().createNote(content: "")
+
+        configureNavMenu()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -806,7 +832,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             self.editArea.typingAttributes[.paragraphStyle] = paragraphStyle
             self.editArea.typingAttributes.removeValue(forKey: .link)
 
-            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight - 25, right: 0.0)
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight - 66, right: 0.0)
             self.editArea.contentInset = contentInsets
             self.editArea.scrollIndicatorInsets = contentInsets
         }

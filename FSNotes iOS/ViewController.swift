@@ -74,10 +74,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var gitClean: Bool = false
     private var gitPullTimer: Timer?
 
+    private var searchFocus: Bool = false
+
     override func viewWillAppear(_ animated: Bool) {
         configureSearchController()
 
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.setToolbarHidden(true, animated: false)
         view.backgroundColor = .whiteBlack
 
         super.viewWillAppear(animated)
@@ -104,6 +107,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if let sidebarItem = UIApplication.getVC().lastSidebarItem {
             configureNavMenu(for: sidebarItem)
+        }
+
+        if searchFocus {
+            disableSearchFocus()
+
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                self.navigationItem.searchController?.searchBar.becomeFirstResponder()
+            })
         }
 
         super.viewDidAppear(animated)
@@ -196,11 +207,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func configureUI() {
         UINavigationBar.appearance().isTranslucent = false
-
-        if UserDefaultsManagement.isFirstLaunch {
-            UserDefaultsManagement.fontName = "Avenir Next"
-            UserDefaultsManagement.isFirstLaunch = false
-        }
 
         self.metadataQueue.qualityOfService = .userInteractive
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -313,6 +319,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func configureSearchController() {
+        let text = navigationItem.searchController?.searchBar.text
+
         let searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
@@ -323,14 +331,25 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.keyboardAppearance = traitCollection.userInterfaceStyle == .dark ? .dark : .default
 
+        if let text = text {
+            searchController.searchBar.text = text
+        }
+
         navigationItem.searchController = searchController
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.searchController?.isActive = true
 
-        navigationController?.navigationBar.prefersLargeTitles = true
+        // hack for reinstantinate large title
+        configureSearchController()
+    }
+
+    public func enableSearchFocus() {
+        searchFocus = true
+    }
+
+    public func disableSearchFocus() {
+        searchFocus = false
     }
 
     @IBAction public func toggleSidebar() {
@@ -706,8 +725,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadSearchController(query: String? = nil) {
-        navigationItem.searchController?.isActive = true
-
         if let query = query {
             navigationItem.searchController?.searchBar.text = query
         }
@@ -729,6 +746,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        reloadNotesTable(with: SearchQuery())
+
         guard searchText.count > 0 else {
             if let searchQuery = sidebarTableView.buildSearchQuery() {
                 reloadNotesTable(with: searchQuery)
@@ -1013,7 +1032,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UserDefaultsManagement.lastNews = storage.getNewsDate()
     }
 
-    func createNote(content: String? = nil, pasteboard: Bool? = nil) {
+    public func createNote(content: String? = nil, pasteboard: Bool? = nil) {
         var currentProject: Project
         if let project = storage.getProjects().first {
             currentProject = project

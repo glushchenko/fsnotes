@@ -57,7 +57,6 @@ class SingleImageTouchDownGestureRecognizer: UIGestureRecognizer {
                 let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: view.textContainer)
 
                 if Int(location.x) < minX || Int(location.x) > maxX, isImage, glyphIndex < view.textStorage.length, glyphRect.contains(point) {
-                    print("recognized near image")
                     self.state = .recognized
                 } else {
                     self.state = .failed

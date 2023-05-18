@@ -416,6 +416,16 @@ class NotesTableView: UITableView,
         return UIMenu(title: "",  children: actions)
     }
 
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        setContentOffset(CGPoint(x: 0, y: -44), animated: true)
+        return false
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        viewDelegate?.navigationItem.hidesSearchBarWhenScrolling = false
+        viewDelegate?.navigationItem.largeTitleDisplayMode = .automatic
+    }
+
     public func loadBulkBarButtomItem() {
         if #available(iOS 14.0, *) {
             let menu = makeBulkMenu()
