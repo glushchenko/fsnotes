@@ -187,7 +187,7 @@ class GitViewController: UITableViewController {
         
         // Private key
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 0 {
-            cell.textLabel?.text = NSLocalizedString("Private key", comment: "")
+            cell.textLabel?.text = NSLocalizedString("Private Key", comment: "")
             cell.detailTextLabel?.text = NSLocalizedString("...", comment: "")
 
             if project.settings.gitPrivateKey != nil {
@@ -204,7 +204,7 @@ class GitViewController: UITableViewController {
 
         // Public key
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 1 {
-            cell.textLabel?.text = NSLocalizedString("Public key (optional)", comment: "")
+            cell.textLabel?.text = NSLocalizedString("Public Key (optional)", comment: "")
             cell.detailTextLabel?.text = NSLocalizedString("...", comment: "")
 
             if project.settings.gitPublicKey != nil {

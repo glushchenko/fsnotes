@@ -26,18 +26,18 @@ class SettingsEditorViewController: UITableViewController {
     private var rows = [
         [
             NSLocalizedString("Autocorrection", comment: "Settings"),
-            NSLocalizedString("Spell Checking", comment: "Settings"),
+            NSLocalizedString("Check Spelling", comment: "Settings"),
         ],
         [
-            NSLocalizedString("Code block live highlighting", comment: "Settings"),
-            NSLocalizedString("Live images preview", comment: "Settings"),
+            NSLocalizedString("Code Block Live Highlighting", comment: "Settings"),
+            NSLocalizedString("Live Images Preview", comment: "Settings"),
             NSLocalizedString("Preview MathJax", comment: "Settings"),
         ],
         [""],
         [
             NSLocalizedString("Family", comment: "Settings"),
             NSLocalizedString("Dynamic Type", comment: "Settings"),
-            NSLocalizedString("Font size", comment: "Settings")
+            NSLocalizedString("Font Size", comment: "Settings")
         ],
         [
             NSLocalizedString("Font", comment: "Settings"),

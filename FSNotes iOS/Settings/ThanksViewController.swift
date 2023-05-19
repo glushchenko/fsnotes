@@ -22,7 +22,7 @@ class ThanksViewController: UITableViewController {
     ]
 
     override func viewDidLoad() {
-        self.title = NSLocalizedString("Thanks to", comment: "Settings")
+        self.title = NSLocalizedString("Thanks", comment: "Settings")
 
         super.viewDidLoad()
     }

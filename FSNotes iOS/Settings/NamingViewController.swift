@@ -11,7 +11,7 @@ import UIKit
 class NamingViewController: UITableViewController {
     private var filesNaming: [String] = [
         "UUID",
-        NSLocalizedString("Auto rename by title", comment: "Naming controller")
+        NSLocalizedString("Auto Rename By Title", comment: "Settings")
     ]
 
     override func viewDidLoad() {

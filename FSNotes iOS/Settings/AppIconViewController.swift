@@ -14,20 +14,17 @@ class AppIconViewController: UITableViewController {
         case dylanseeger
         case dylanseegerDark
         case dylanseegerDarkFull
-        case mars
 
         public func getName() -> String {
             switch self {
             case .kmstrr:
                 return "Classic"
             case .dylanseeger:
-                return "Dylan Seeger"
+                return "Modern"
             case .dylanseegerDark:
-                return "Dylan Seeger (Dark)"
+                return "Modern (Dark)"
             case .dylanseegerDarkFull:
-                return "Dylan Seeger (Black)"
-            case .mars:
-                return "Mars"
+                return "Modern (Black)"
             }
         }
 
@@ -37,7 +34,6 @@ class AppIconViewController: UITableViewController {
             case .dylanseeger: return "dylanseeger"
             case .dylanseegerDark: return "dylanseegerDark"
             case .dylanseegerDarkFull: return "dylanseegerDarkFull"
-            case .mars: return "mars"
             }
         }
 
@@ -48,12 +44,8 @@ class AppIconViewController: UITableViewController {
         }()
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return NSLocalizedString("Icons", comment: "Settings")
-    }
-
     override func viewDidLoad() {
-        self.title = NSLocalizedString("App Icon", comment: "Settings")
+        self.title = NSLocalizedString("Icon", comment: "Settings")
         super.viewDidLoad()
     }
 
@@ -107,7 +99,7 @@ class AppIconViewController: UITableViewController {
         cell.imageView?.layer.cornerRadius = 20
 
         if let icon = AppIconRows(rawValue: indexPath.row) {
-            if let image = UIImage(named: "app-icon-\(icon.description)")?.rounded(radius: 100) {
+            if let image = UIImage(named: "app-icon-\(icon.description)") {
                 cell.imageView?.image = image
             }
             cell.textLabel?.text = icon.getName()

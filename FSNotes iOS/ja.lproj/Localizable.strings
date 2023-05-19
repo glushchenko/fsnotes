@@ -11,7 +11,7 @@
 "Advanced" = "プロ";
 
 /* Settings */
-"App Icon" = "App Icon";
+"Icon" = "アイコン";
 
 /* Archive in sidebar */
 "Archive" = "アーカイブ";
@@ -24,9 +24,6 @@
 
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "この画像を削除しますか？";
-
-/* Naming controller */
-"Auto rename by title" = "タイトルをファイル名に自動反映";
 
 /* Settings */
 "Auto Rename By Title" = "タイトルをファイル名に自動反映";
@@ -44,7 +41,7 @@
 "Code" = "コード";
 
 /* Settings */
-"Code block live highlighting" = "コードブロックの色付け";
+"Code Block Live Highlighting" = "コードブロックの色付け";
 
 /* Settings */
 "Code Theme" = "コードテーマ";
@@ -56,25 +53,25 @@
 "Container" = "コンテナ";
 
 /* No comment provided by engineer. */
-"Copy plain text" = "プレインテキストとしてコピー";
+"Copy Plain Text" = "プレインテキストとしてコピー";
 
 /* Main view popover table */
-"Create folder" = "新規フォルダ";
+"Create Folder" = "新規フォルダ";
 
 /* No comment provided by engineer. */
 "Create folder:" = "新規フォルダ:";
 
 /* No comment provided by engineer. */
-"Creation date" = "作成日";
+"Creation Date" = "作成日";
 
 /* No comment provided by engineer. */
-"Date created" = "作成日";
+"Change Creation Date" = "作成日";
 
 /* Main view popover table */
 "Decrypt" = "Decrypt";
 
 /* Settings */
-"Default keyboard in editor" = "エディタで使用するデフォルトキーボード";
+"Default Keyboard" = "エディタで使用するデフォルトキーボード";
 
 /* Table row action */
 "Delete" = "削除";
@@ -122,7 +119,7 @@
 "File with this name already exist" = "同名のファイルがすでに存在しています";
 
 /* Settings */
-"Files Format" = "ファイル形式";
+"Files" = "ファイル形式";
 
 /* Settings */
 "Files Naming" = "ファイル命名";
@@ -146,7 +143,7 @@
 "Font Family" = "フォントファミリー";
 
 /* Settings */
-"Font size" = "フォントサイズ";
+"Font Size" = "フォントサイズ";
 
 /* Settings */
 "Format: Untitled Note" = "フォーマット: 無題のノート";
@@ -167,13 +164,13 @@
 "Git" = "Git";
 
 /* Main view popover table */
-"Git settings" = "Git settings";
+"Git Settings" = "Git settings";
 
 /* No comment provided by engineer. */
 "History" = "履歴";
 
 /* Settings */
-"Homepage" = "ホームページ";
+"Website" = "ホームページ";
 
 /* Settings */
 "iCloud Drive" = "iCloud Drive";
@@ -187,9 +184,6 @@
 /* Main view popover table Settings */
 "Import Notes" = "ノートのインポート";
 
-/* Main view popover table */
-"Import notes" = "ノートのインポート";
-
 /* Inbox in sidebar */
 "Inbox" = "未整理";
 
@@ -200,7 +194,7 @@
 "Line Spacing" = "行間隔";
 
 /* Settings */
-"Live images preview" = "ライブ画像プレビュー";
+"Live Images Preview" = "ライブ画像プレビュー";
 
 /* No comment provided by engineer. */
 "Lock" = "ロック";
@@ -212,7 +206,7 @@
 "Master password:" = "マスターパスワード:";
 
 /* No comment provided by engineer. */
-"Modification date" = "変更日";
+"Modification Date" = "変更日";
 
 /* Table row action */
 "More" = "他";
@@ -221,7 +215,7 @@
 "Move" = "移動";
 
 /* No comment provided by engineer. */
-"New document" = "新規ドキュメント";
+"New Note" = "新規ドキュメント";
 
 /* No comment provided by engineer. */
 "None" = "なし";
@@ -231,13 +225,13 @@
 "Notes" = "すべて";
 
 /* No comment provided by engineer. */
-"Notes list" = "ノートリスト";
+"Notes List" = "ノートリスト";
 
 /* Main view popover table */
 "Open in Files.app" = "ファイルで開く";
 
 /* Document opened */
-"Open note" = "ノートを開く";
+"Open Note" = "ノートを開く";
 
 /* No comment provided by engineer. */
 "Passphrase" = "Passphrase";
@@ -273,7 +267,7 @@
 "Preview MathJax" = "MathJaxをプレビュー";
 
 /* No comment provided by engineer. */
-"Private key" = "Private key";
+"Private Key" = "Private key";
 
 /* Settings */
 "Project" = "プロジェクト";
@@ -282,25 +276,25 @@
 "Project removing ❌" = "削除するプロジェクト ❌";
 
 /* No comment provided by engineer. */
-"Public key (optional)" = "Public key (optional)";
+"Public Key (optional)" = "Public key (optional)";
 
 /* No comment provided by engineer. */
 "Pull (every 30 sec)" = "Pull (every 30 sec)";
 
 /* No comment provided by engineer. */
-"Remove encryption" = "ロックを削除";
+"Remove Encryption" = "ロックを削除";
 
 /* Main view popover table */
-"Remove folder" = "フォルダの削除";
+"Remove Folder" = "フォルダの削除";
 
 /* Main view popover table */
-"Remove tag" = "削除されたタグ";
+"Remove Tag" = "削除されたタグ";
 
 /* No comment provided by engineer. */
 "Rename" = "名称変更";
 
 /* Main view popover table */
-"Rename folder" = "フォルダの名称変更";
+"Rename Folder" = "フォルダの名称変更";
 
 /* Popover table */
 "Rename folder:" = "フォルダの名称変更:";
@@ -309,7 +303,7 @@
 "Rename note:" = "ノートの名称変更:";
 
 /* Main view popover table */
-"Rename tag" = "タグの名称変更";
+"Rename Tag" = "タグの名称変更";
 
 /* Popover table */
 "Rename tag:" = "タグの名称変更:";
@@ -318,16 +312,16 @@
 "Save" = "Save";
 
 /* No comment provided by engineer. */
-"Save clipboard" = "クリップボードの内容を保存";
+"Save Clipboard" = "クリップボードの内容を保存";
 
 /* No comment provided by engineer. */
-"Save revision" = "Save revision";
+"Save Revision" = "Save revision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "保存されたバージョン";
 
 /* No comment provided by engineer. */
-"Search" = "検索";
+"Search or Create" = "検索";
 
 /* No comment provided by engineer. */
 "Search or create" = "検索または新規作成";
@@ -345,19 +339,19 @@
 "Share" = "共有";
 
 /* No comment provided by engineer. */
-"Show folder in sidebar" = "サイドバーにフォルダを表示";
+"Show Folder in Library" = "サイドバーにフォルダを表示";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "\"すべて\" と \"タスク\" にノートを表示";
+"Show Notes in \"Notes\" and \"Todo\"" = "\"すべて\" と \"タスク\" にノートを表示";
 
 /* Settings */
-"Sidebar" = "サイドバー";
+"Library" = "サイドバー";
 
 /* No comment provided by engineer. */
-"Sort by" = "表示順序";
+"Sort By" = "表示順序";
 
 /* Settings */
-"Spell Checking" = "スペルチェック";
+"Check Spelling" = "スペルチェック";
 
 /* Settings */
 "Storage" = "ストレージ";
@@ -366,7 +360,7 @@
 "Support" = "サポート";
 
 /* Settings */
-"Thanks to" = "次に感謝:";
+"Thanks" = "次に感謝:";
 
 /* Settings */
 "Theme" = "テーマ";
@@ -390,19 +384,19 @@
 "Unlock" = "アンロック";
 
 /* Table row action */
-"UnPin" = "ピン固定の解除";
+"Unpin" = "ピン固定の解除";
 
 /* No comment provided by engineer. */
 "Untagged" = "タグなし";
 
 /* No comment provided by engineer. */
-"Use first line as title" = "Use first line as title";
+"Use First Line as Title" = "Use first line as title";
 
 /* Settings */
-"Use inline tags" = "インラインタグを使用する";
+"Use Inline Tags" = "インラインタグを使用する";
 
 /* No comment provided by engineer. */
-"Verify password" = "Verify password";
+"Verify Password" = "Verify password";
 
 /* Settings */
 "Version" = "バージョン";
@@ -411,7 +405,7 @@
 "View" = "表示";
 
 /* Main view popover table */
-"View settings" = "設定を開く";
+"View Settings" = "設定を開く";
 
 /* No comment provided by engineer. */
 "Visibility" = "可視性";

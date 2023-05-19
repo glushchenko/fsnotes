@@ -108,7 +108,7 @@ extension UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.editorAutocorrection) as? Bool {
                 return result
             }
-            return false
+            return true
         }
         set {
             shared?.set(newValue, forKey: Constants.editorAutocorrection)

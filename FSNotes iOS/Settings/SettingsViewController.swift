@@ -20,11 +20,11 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var rows = [
         [
-            NSLocalizedString("Files Format", comment: "Settings"),
+            NSLocalizedString("Files", comment: "Settings"),
             NSLocalizedString("Editor", comment: "Settings"),
             NSLocalizedString("Security", comment: "Settings"),
             NSLocalizedString("Git", comment: "Settings"),
-            NSLocalizedString("App Icon", comment: "Settings"),
+            NSLocalizedString("Icon", comment: "Settings"),
             NSLocalizedString("Advanced", comment: "Settings"),
         ], [
             NSLocalizedString("iCloud Drive", comment: "Settings"),
@@ -33,9 +33,9 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             NSLocalizedString("Import Notes", comment: "Settings")
         ], [
             NSLocalizedString("Support", comment: "Settings"),
-            NSLocalizedString("Homepage", comment: "Settings"),
+            NSLocalizedString("Website", comment: "Settings"),
             NSLocalizedString("Twitter", comment: "Settings"),
-            NSLocalizedString("Thanks to", comment: "Settings")
+            NSLocalizedString("Thanks", comment: "Settings")
         ]
     ]
 

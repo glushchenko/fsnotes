@@ -78,7 +78,7 @@ extension ViewController: UIDocumentPickerDelegate {
 
         var actions = [UIAction]()
         if popoverActions.contains(.removeFolder) {
-            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
+            let title = NSLocalizedString("Remove Folder", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(systemName: "trash"), identifier: UIAction.Identifier("removeFolder"), attributes: .destructive, handler: handler))
         }
 
@@ -88,17 +88,17 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if popoverActions.contains(.importNote) {
-            let title = NSLocalizedString("Import notes", comment: "Main view popover table")
+            let title = NSLocalizedString("Import Notes", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(systemName: "square.and.arrow.down"), identifier: UIAction.Identifier("importNote"), handler: handler))
         }
 
         if popoverActions.contains(.settingsFolder) {
-            let title = NSLocalizedString("View settings", comment: "Main view popover table")
+            let title = NSLocalizedString("View Settings", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(systemName: "gearshape"), identifier: UIAction.Identifier("viewSettings"), handler: handler))
         }
 
         if popoverActions.contains(.settingsRepository) {
-            let title = NSLocalizedString("Git settings", comment: "Main view popover table")
+            let title = NSLocalizedString("Git Settings", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(named: "gitSettings"), identifier: UIAction.Identifier("gitSettings"), handler: handler))
         }
 
@@ -108,22 +108,22 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if popoverActions.contains(.createFolder) {
-            let title = NSLocalizedString("Create folder", comment: "Main view popover table")
+            let title = NSLocalizedString("Create Folder", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(systemName: "folder.badge.plus"), identifier: UIAction.Identifier("createFolder"), handler: handler))
         }
 
         if popoverActions.contains(.renameFolder) {
-            let title = NSLocalizedString("Rename folder", comment: "Main view popover table")
+            let title = NSLocalizedString("Rename Folder", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(systemName: "pencil.circle"), identifier: UIAction.Identifier("renameFolder"), handler: handler))
         }
 
         if popoverActions.contains(.removeTag) {
-            let title = NSLocalizedString("Remove tag", comment: "Main view popover table")
+            let title = NSLocalizedString("Remove Tag", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(systemName: "tag.slash"), identifier: UIAction.Identifier("removeTag"), handler: handler))
         }
 
         if popoverActions.contains(.renameTag) {
-            let title = NSLocalizedString("Rename tag", comment: "Main view popover table")
+            let title = NSLocalizedString("Rename Tag", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(systemName: "pencil.circle"), identifier: UIAction.Identifier("renameTag"), handler: handler))
         }
 
@@ -240,7 +240,7 @@ extension ViewController: UIDocumentPickerDelegate {
         let actionSheet = UIAlertController(title: mainTitle, message: nil, preferredStyle: .actionSheet)
 
         if actions.contains(.removeFolder) {
-            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
+            let title = NSLocalizedString("Remove Folder", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
                 self.removeFolder()
             })
@@ -264,7 +264,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
         
         if actions.contains(.importNote) {
-            let title = NSLocalizedString("Import notes", comment: "Main view popover table")
+            let title = NSLocalizedString("Import Notes", comment: "Main view popover table")
             let importNote = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.importNote()
             })
@@ -278,7 +278,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.settingsFolder) {
-            let title = NSLocalizedString("View settings", comment: "Main view popover table")
+            let title = NSLocalizedString("View Settings", comment: "Main view popover table")
             let settings = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.openProjectSettings()
             })
@@ -290,7 +290,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.settingsRepository) {
-            let title = NSLocalizedString("Git settings", comment: "Main view popover table")
+            let title = NSLocalizedString("Git Settings", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.openGitSettings()
             })
@@ -314,7 +314,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.createFolder) {
-            let title = NSLocalizedString("Create folder", comment: "Main view popover table")
+            let title = NSLocalizedString("Create Folder", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.createFolder()
             })
@@ -326,7 +326,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.renameFolder) {
-            let title = NSLocalizedString("Rename folder", comment: "Main view popover table")
+            let title = NSLocalizedString("Rename Folder", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.renameFolder()
             })
@@ -338,7 +338,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.removeTag) {
-            let title = NSLocalizedString("Remove tag", comment: "Main view popover table")
+            let title = NSLocalizedString("Remove Tag", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
                 self.removeTag()
             })
@@ -350,7 +350,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.renameTag) {
-            let title = NSLocalizedString("Rename tag", comment: "Main view popover table")
+            let title = NSLocalizedString("Rename Tag", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.renameTag()
             })
@@ -491,29 +491,93 @@ extension ViewController: UIDocumentPickerDelegate {
             mvc.notesTable.allowsMultipleSelectionDuringEditing = true
             mvc.notesTable.setEditing(true, animated: true)
 
-            mvc.notesTable.loadBulkBarButtomItem()
+            // load navbar
+            
+            let cancelTitle = NSLocalizedString("Cancel", comment: "")
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: cancelTitle, style: .plain, target: self, action: #selector(cancel))
+
+            // load toolbar
+
+            let deleteImage = UIImage(systemName: "trash")
+            let calendarImage = UIImage(systemName: "calendar")
+            let duplicateImage = UIImage(systemName: "doc.on.doc")
+            let moveImage = UIImage(systemName: "move.3d")
+
+            if #available(iOS 14.0, *) {
+                var items = [UIBarButtonItem]()
+                items.append(UIBarButtonItem(image: deleteImage, style: .plain, target: self, action: #selector(removeNotes)))
+                items.append(UIBarButtonItem.flexibleSpace())
+                items.append(UIBarButtonItem(image: calendarImage, style: .plain, target: self, action: #selector(calendarNotes)))
+                items.append(UIBarButtonItem.flexibleSpace())
+                items.append(UIBarButtonItem(image: duplicateImage, style: .plain, target: self, action: #selector(duplicateNotes)))
+                items.append(UIBarButtonItem.flexibleSpace())
+                items.append(UIBarButtonItem(image: moveImage, style: .plain, target: self, action: #selector(moveNotes)))
+                toolbarItems = items
+            }
+
+            navigationController?.toolbar.tintColor = UIColor.mainTheme
+            navigationController?.setToolbarHidden(false, animated: true)
+            navigationController?.navigationBar.tintColor = UIColor.mainTheme
         }
     }
 
-//    let mvc = UIApplication.getVC()
-//    if notesTable.isEditing {
-//        if let selectedRows = mvc.notesTable.selectedIndexPaths {
-//            var notes = [Note]()
-//            for indexPath in selectedRows {
-//                if mvc.notesTable.notes.indices.contains(indexPath.row) {
-//                    let note = mvc.notesTable.notes[indexPath.row]
-//                    notes.append(note)
-//                }
-//            }
-//
-//            mvc.notesTable.selectedIndexPaths = nil
-//            mvc.notesTable.actionsSheet(notes: notes, presentController: self)
-//        } else {
-//            mvc.notesTable.allowsMultipleSelectionDuringEditing = false
-//            mvc.notesTable.setEditing(false, animated: true)
-//        }
-//        return UIMenu(title: "",  children: [])
-//    }
+    @objc func removeNotes() {
+        let notes = notesTable.getSelectedNotes()
+        notesTable.removeAction(notes: notes)
+        notesTable.turnOffEditing()
+
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
+
+    @objc func calendarNotes() {
+        let notes = notesTable.getSelectedNotes()
+        notesTable.dateAction(notes: notes)
+        notesTable.turnOffEditing()
+
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
+
+    @objc func duplicateNotes() {
+        let notes = notesTable.getSelectedNotes()
+        notesTable.duplicateAction(notes: notes)
+        notesTable.turnOffEditing()
+
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
+
+    @objc func moveNotes() {
+        let notes = notesTable.getSelectedNotes()
+        notesTable.moveAction(notes: notes)
+        notesTable.turnOffEditing()
+
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
+
+    @objc func cancel() {
+        notesTable.turnOffEditing()
+
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
 
     private func createFolder() {
         let mvc = UIApplication.getVC()

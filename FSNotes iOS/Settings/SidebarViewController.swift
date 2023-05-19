@@ -18,7 +18,7 @@ class SidebarViewController: UITableViewController {
     ]
 
     override func viewDidLoad() {
-        self.title = NSLocalizedString("Sidebar", comment: "Settings")
+        self.title = NSLocalizedString("Library", comment: "Settings")
 
         super.viewDidLoad()
     }

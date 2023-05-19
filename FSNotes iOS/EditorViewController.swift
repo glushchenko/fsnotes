@@ -191,10 +191,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
 
         if #available(iOS 14.0, *) {
-            let menu =  UIApplication.getVC().notesTable.makeBulkMenu(full: true, editor: true, note: self.note)
-            let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
-            navSettings.tintColor = UIColor.mainTheme
-            navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
+            if let note = self.note {
+                let menu =  UIApplication.getVC().notesTable.makeBulkMenu(editor: true, note: note)
+                let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
+                navSettings.tintColor = UIColor.mainTheme
+                navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
+            }
             return
         }
 
@@ -1683,7 +1685,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let activity = NSUserActivity(activityType: "es.fsnot.handoff-open-note")
         activity.isEligibleForHandoff = true
         activity.addUserInfoEntries(from: updateDict)
-        activity.title = NSLocalizedString("Open note", comment: "Document opened")
+        activity.title = NSLocalizedString("Open Note", comment: "Document opened")
         self.userActivity = activity
         self.userActivity?.becomeCurrent()
     }

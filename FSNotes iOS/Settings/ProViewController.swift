@@ -20,11 +20,11 @@ class ProViewController: UITableViewController {
 
     private var rows = [
         [
-            NSLocalizedString("Default keyboard in editor", comment: ""),
-            NSLocalizedString("Use inline tags", comment: "")
+            NSLocalizedString("Default Keyboard", comment: ""),
+            NSLocalizedString("Use Inline Tags", comment: "")
         ], [
-            NSLocalizedString("Sort by", comment: ""),
-            NSLocalizedString("Sidebar", comment: "")
+            NSLocalizedString("Sort By", comment: ""),
+            NSLocalizedString("Library", comment: "")
         ]
     ]
 

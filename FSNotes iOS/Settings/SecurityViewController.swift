@@ -66,7 +66,7 @@ class SecurityViewController: UITableViewController {
         }
 
         if indexPath.row == 1 {
-            cell.textLabel?.text = NSLocalizedString("Verify password", comment: "")
+            cell.textLabel?.text = NSLocalizedString("Verify Password", comment: "")
             textField.placeholder = "Required"
             verifyPasswordTextField = textField
         }

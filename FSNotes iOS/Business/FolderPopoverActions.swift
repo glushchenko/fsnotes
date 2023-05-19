@@ -27,15 +27,15 @@ enum FolderPopoverActions: Int {
 
     static let description =
         [
-            NSLocalizedString("Import notes", comment: "Main view popover table"),
+            NSLocalizedString("Import Notes", comment: "Main view popover table"),
             NSLocalizedString("Select", comment: "Main view popover table"),
-            NSLocalizedString("View settings", comment: "Main view popover table"),
-            NSLocalizedString("Git settings", comment: "Main view popover table"),
-            NSLocalizedString("Create folder", comment: "Main view popover table"),
-            NSLocalizedString("Remove folder", comment: "Main view popover table"),
-            NSLocalizedString("Rename folder", comment: "Main view popover table"),
-            NSLocalizedString("Remove tag", comment: "Main view popover table"),
-            NSLocalizedString("Rename tag", comment: "Main view popover table"),
+            NSLocalizedString("View Settings", comment: "Main view popover table"),
+            NSLocalizedString("Git Settings", comment: "Main view popover table"),
+            NSLocalizedString("Create Folder", comment: "Main view popover table"),
+            NSLocalizedString("Remove Folder", comment: "Main view popover table"),
+            NSLocalizedString("Rename Folder", comment: "Main view popover table"),
+            NSLocalizedString("Remove Tag", comment: "Main view popover table"),
+            NSLocalizedString("Rename Tag", comment: "Main view popover table"),
             NSLocalizedString("Open in Files.app", comment: "Main view popover table"),
             NSLocalizedString("Empty Bin", comment: "Main view popover table"),
             NSLocalizedString("Encrypt", comment: "Main view popover table"),

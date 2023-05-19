@@ -71,15 +71,20 @@ class NoteCellView: SwipeTableViewCell {
 
         pin.tintColor = UIColor.mainTheme
 
-        let font = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize), weight: .semibold)
+        let font = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.DefaultFontSize), weight: .semibold)
         let fontMetrics = UIFontMetrics(forTextStyle: .title1)
         let scaledFont = fontMetrics.scaledFont(for: font)
         title.font = scaledFont
 
-        let dateFont = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize - 2), weight: .regular)
+        let dateFont = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.DefaultFontSize - 2), weight: .regular)
         let dateFontMetrics = UIFontMetrics(forTextStyle: .title3)
         let dateScaledFont = dateFontMetrics.scaledFont(for: dateFont)
         date.font = dateScaledFont
+
+        let previewFont = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.DefaultFontSize - 2), weight: .regular)
+        let previewFontMetrics = UIFontMetrics(forTextStyle: .title3)
+        let previewScaledFont = previewFontMetrics.scaledFont(for: previewFont)
+        preview.font = previewScaledFont
     }
 
     public func getDate() -> String {

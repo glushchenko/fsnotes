@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             shouldPerformAdditionalDelegateHandling = false
         }
         
-        let newDocument = NSLocalizedString("New document", comment: "")
+        let newDocument = NSLocalizedString("New Note", comment: "")
         let shortcutNew = UIMutableApplicationShortcutItem(
             type: ShortcutIdentifier.makeNew.type,
             localizedTitle: newDocument,
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userInfo: nil
         )
 
-        let saveClipboard = NSLocalizedString("Save clipboard", comment: "")
+        let saveClipboard = NSLocalizedString("Save Clipboard", comment: "")
         let shortcutNewClipboard = UIMutableApplicationShortcutItem(
             type: ShortcutIdentifier.clipboard.type,
             localizedTitle: saveClipboard,
@@ -48,12 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userInfo: nil
         )
 
-        let search = NSLocalizedString("Search", comment: "")
-        let focus = NSLocalizedString("Focus in search field", comment: "")
+        let search = NSLocalizedString("Search or Create", comment: "")
         let shortcutSearch = UIMutableApplicationShortcutItem(
             type: ShortcutIdentifier.search.type,
             localizedTitle: search,
-            localizedSubtitle: focus,
+            localizedSubtitle: "",
             icon: UIApplicationShortcutIcon(type: .search),
             userInfo: nil
         )

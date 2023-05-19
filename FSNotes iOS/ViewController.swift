@@ -237,11 +237,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.layer.zPosition = 100
         notesTable.rowHeight = UITableView.automaticDimension
         notesTable.estimatedRowHeight = 160
-
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(toggleSearch), for: .valueChanged)
-
-        notesTable.refreshControl = refreshControl
     }
 
     public var lastSidebarItem: SidebarItem? = nil
@@ -326,7 +321,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         searchController.searchBar.delegate = self
         searchController.searchBar.searchBarStyle = .minimal
         searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")        
-        searchController.searchBar.returnKeyType = .go
+        searchController.searchBar.returnKeyType = .done
         searchController.searchBar.showsCancelButton = false
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.keyboardAppearance = traitCollection.userInterfaceStyle == .dark ? .dark : .default
@@ -979,20 +974,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let width = self.view.frame.width
             let height = self.view.frame.height
 
-            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 90), y: CGFloat(height - 90)), size: CGSize(width: 60, height: 60))
+            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 85), y: CGFloat(height - 85)), size: CGSize(width: 60, height: 60))
             return
         }
 
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 90, y: self.view.frame.height - 90), size: CGSize(width: 60, height: 60)))
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 85, y: self.view.frame.height - 85), size: CGSize(width: 60, height: 60)))
 
         var image = UIImage()
         if #available(iOS 15.0, *) {
             let colorsConfig = UIImage.SymbolConfiguration(paletteColors: [.white, UIColor.mainTheme])
-            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill", withConfiguration: colorsConfig)?.resize(maxWidthHeight: 50) {
+            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill", withConfiguration: colorsConfig)?.resize(maxWidthHeight: 60) {
                 image = imageUnwrapped
             }
         } else {
-            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill")?.withTintColor(UIColor.mainTheme).resize(maxWidthHeight: 50) {
+            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill")?.withTintColor(UIColor.mainTheme).resize(maxWidthHeight: 60) {
                 image = imageUnwrapped
             }
         }

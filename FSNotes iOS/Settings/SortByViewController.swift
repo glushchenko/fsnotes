@@ -10,13 +10,13 @@ import UIKit
 
 class SortByViewController: UITableViewController {
     private var rows = [
-        NSLocalizedString("Modification date", comment: ""),
-        NSLocalizedString("Creation date", comment: ""),
+        NSLocalizedString("Modification Date", comment: ""),
+        NSLocalizedString("Creation Date", comment: ""),
         NSLocalizedString("Title", comment: "")
     ]
 
     override func viewDidLoad() {
-        self.title = NSLocalizedString("Sort by", comment: "Settings")
+        self.title = NSLocalizedString("Sort By", comment: "Settings")
 
         super.viewDidLoad()
     }
@@ -62,14 +62,14 @@ class SortByViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "modificationDate")
-                cell.textLabel?.text = NSLocalizedString("Modification date", comment: "")
+                cell.textLabel?.text = NSLocalizedString("Modification Date", comment: "")
                 if UserDefaultsManagement.sort == .modificationDate {
                     cell.accessoryType = .checkmark
                 }
                 break
             case 1:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "creationDate")
-                cell.textLabel?.text = NSLocalizedString("Creation date", comment: "")
+                cell.textLabel?.text = NSLocalizedString("Creation Date", comment: "")
 
                 if UserDefaultsManagement.sort == .creationDate {
                     cell.accessoryType = .checkmark

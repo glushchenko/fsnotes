@@ -11,7 +11,7 @@
 "Advanced" = "Profi";
 
 /* Settings */
-"App Icon" = "App Icon";
+"Icon" = "Icône";
 
 /* Archive in sidebar */
 "Archive" = "Archiver";
@@ -24,9 +24,6 @@
 
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Êtes-vous sûr de vouloir supprimer cette image?";
-
-/* Naming controller */
-"Auto rename by title" = "Renommer automatiquement par titre";
 
 /* Settings */
 "Auto Rename By Title" = "Renommer automatiquement par titre";
@@ -44,7 +41,7 @@
 "Code" = "Code";
 
 /* Settings */
-"Code block live highlighting" = "Bloc de code avec surbrillance";
+"Code Block Live Highlighting" = "Bloc de code avec surbrillance";
 
 /* Settings */
 "Code Theme" = "Thème de codes";
@@ -56,25 +53,25 @@
 "Container" = "Container";
 
 /* No comment provided by engineer. */
-"Copy plain text" = "Copier le texte brut";
+"Copy Plain Text" = "Copier le texte brut";
 
 /* Main view popover table */
-"Create folder" = "Créer le dossier";
+"Create Folder" = "Créer le dossier";
 
 /* No comment provided by engineer. */
 "Create folder:" = "Créer le dossier:";
 
 /* No comment provided by engineer. */
-"Creation date" = "Date de création";
+"Creation Date" = "Date de création";
 
 /* No comment provided by engineer. */
-"Date created" = "Date créée";
+"Change Creation Date" = "Date créée";
 
 /* Main view popover table */
 "Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
-"Default keyboard in editor" = "Clavier par défaut";
+"Default Keyboard" = "Clavier par défaut";
 
 /* Table row action */
 "Delete" = "Supprimer";
@@ -122,7 +119,7 @@
 "File with this name already exist" = "Un fichier avec ce nom existe déjà";
 
 /* Settings */
-"Files Format" = "Format de fichier";
+"Files" = "Format de fichier";
 
 /* Settings */
 "Files Naming" = "Nommage des fichiers";
@@ -146,7 +143,7 @@
 "Font Family" = "Famille de police";
 
 /* Settings */
-"Font size" = "Taille de polive";
+"Font Size" = "Taille de polive";
 
 /* Settings */
 "Format: Untitled Note" = "Format: Untitled Note";
@@ -167,13 +164,13 @@
 "Git" = "Git";
 
 /* Main view popover table */
-"Git settings" = "Git settings";
+"Git Settings" = "Git settings";
 
 /* No comment provided by engineer. */
 "History" = "Histoire";
 
 /* Settings */
-"Homepage" = "Page d'accueil";
+"Website" = "Page d'accueil";
 
 /* Settings */
 "iCloud Drive" = "iCloud Drive";
@@ -187,9 +184,6 @@
 /* Main view popover table - Settings */
 "Import Notes" = "Notes importantes";
 
-/* Main view popover table */
-"Import notes" = "Notes importantes";
-
 /* Inbox in sidebar */
 "Inbox" = "Boîte de réception";
 
@@ -200,7 +194,7 @@
 "Line Spacing" = "Interligne";
 
 /* Settings */
-"Live images preview" = "Aperçu des images";
+"Live Images Preview" = "Aperçu des images";
 
 /* No comment provided by engineer. */
 "Lock" = "Verrouiller";
@@ -212,7 +206,7 @@
 "Master password:" = "Mot de passe maître:";
 
 /* No comment provided by engineer. */
-"Modification date" = "Date de modification";
+"Modification Date" = "Date de modification";
 
 /* Table row action */
 "More" = "Plus";
@@ -221,7 +215,7 @@
 "Move" = "Déplacer";
 
 /* No comment provided by engineer. */
-"New document" = "Nouveau document";
+"New Note" = "Nouveau document";
 
 /* No comment provided by engineer. */
 "None" = "Par défaut";
@@ -230,13 +224,13 @@
 "Notes" = "Notes";
 
 /* No comment provided by engineer. */
-"Notes list" = "Liste de notes";
+"Notes List" = "Liste de notes";
 
 /* Main view popover table */
 "Open in Files.app" = "Ouvrir dans Files.app";
 
 /* Document opened */
-"Open note" = "Ouvrir la note";
+"Open Note" = "Ouvrir la note";
 
 /* No comment provided by engineer. */
 "Passphrase" = "Passphrase";
@@ -272,7 +266,7 @@
 "Preview MathJax" = "Aperçu MathJax";
 
 /* No comment provided by engineer. */
-"Private key" = "Private key";
+"Private Key" = "Private key";
 
 /* Settings */
 "Project" = "Projet";
@@ -281,25 +275,25 @@
 "Project removing ❌" = "Suppression de projet ❌";
 
 /* No comment provided by engineer. */
-"Public key (optional)" = "Public key (optional)";
+"Public Key (optional)" = "Public key (optional)";
 
 /* No comment provided by engineer. */
 "Pull (every 30 sec)" = "Pull (every 30 sec)";
 
 /* No comment provided by engineer. */
-"Remove encryption" = "Supprimer le cryptage";
+"Remove Encryption" = "Supprimer le cryptage";
 
 /* Main view popover table */
-"Remove folder" = "Supprimer le dossier";
+"Remove Folder" = "Supprimer le dossier";
 
 /* Main view popover table */
-"Remove tag" = "Enlever le libellé";
+"Remove Tag" = "Enlever le libellé";
 
 /* No comment provided by engineer. */
 "Rename" = "Renommer";
 
 /* Main view popover table */
-"Rename folder" = "Renommer le dossier";
+"Rename Folder" = "Renommer le dossier";
 
 /* Popover table */
 "Rename folder:" = "Renommer le dossier:";
@@ -308,7 +302,7 @@
 "Rename note:" = "Renommer la note";
 
 /* Main view popover table */
-"Rename tag" = "Renommer le libellé";
+"Rename Tag" = "Renommer le libellé";
 
 /* Popover table */
 "Rename tag:" = "Renommer le libellé:";
@@ -317,16 +311,16 @@
 "Save" = "Save";
 
 /* No comment provided by engineer. */
-"Save clipboard" = "Enregistrer le presse-papiers";
+"Save Clipboard" = "Enregistrer le presse-papiers";
 
 /* No comment provided by engineer. */
-"Save revision" = "Save revision";
+"Save Revision" = "Save revision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Versions enregistrées";
 
 /* No comment provided by engineer. */
-"Search" = "Chercher";
+"Search or Create" = "Chercher";
 
 /* No comment provided by engineer. */
 "Search or create" = "Trouver ou créer";
@@ -344,19 +338,19 @@
 "Share" = "Partager";
 
 /* No comment provided by engineer. */
-"Show folder in sidebar" = "Afficher le dossier dans la barre latérale";
+"Show Folder in Library" = "Afficher le dossier dans la barre latérale";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "Afficher les notes dans \"Notes\" et \"À faire\"";
+"Show Notes in \"Notes\" and \"Todo\"" = "Afficher les notes dans \"Notes\" et \"À faire\"";
 
 /* Settings */
-"Sidebar" = "Barre latérale";
+"Library" = "Barre latérale";
 
 /* No comment provided by engineer. */
-"Sort by" = "Trier par";
+"Sort By" = "Trier par";
 
 /* Settings */
-"Spell Checking" = "Vérification orthographique";
+"Check Spelling" = "Vérification orthographique";
 
 /* Settings */
 "Storage" = "Stockage";
@@ -365,7 +359,7 @@
 "Support" = "Aide";
 
 /* Settings */
-"Thanks to" = "Grâce à";
+"Thanks" = "Grâce à";
 
 /* Settings */
 "Theme" = "Thème";
@@ -389,19 +383,19 @@
 "Unlock" = "Déverrouiller";
 
 /* Table row action */
-"UnPin" = "Désépingler";
+"Unpin" = "Désépingler";
 
 /* No comment provided by engineer. */
 "Untagged" = "Non étiqueté";
 
 /* No comment provided by engineer. */
-"Use first line as title" = "Utiliser la première ligne comme titre";
+"Use First Line as Title" = "Utiliser la première ligne comme titre";
 
 /* Settings */
-"Use inline tags" = "Utiliser les tags en ligne";
+"Use Inline Tags" = "Utiliser les tags en ligne";
 
 /* No comment provided by engineer. */
-"Verify password" = "Verify password";
+"Verify Password" = "Verify password";
 
 /* Settings */
 "Version" = "Version";
@@ -410,7 +404,7 @@
 "View" = "Voir";
 
 /* Main view popover table */
-"View settings" = "Paramètres d'affichage";
+"View Settings" = "Paramètres d'affichage";
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilité";

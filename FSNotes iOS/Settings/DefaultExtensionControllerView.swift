@@ -27,7 +27,7 @@ class DefaultExtensionViewController: UITableViewController {
     ]
     
     override func viewDidLoad() {
-        self.title = NSLocalizedString("Files Format", comment: "Settings")
+        self.title = NSLocalizedString("Files", comment: "Settings")
     }
     
     @objc func cancel() {

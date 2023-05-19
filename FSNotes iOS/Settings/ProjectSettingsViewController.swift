@@ -12,9 +12,9 @@ class ProjectSettingsViewController: UITableViewController {
     private var dismiss: Bool = false
     private var project: Project
     private var sections = [
-        NSLocalizedString("Sort by", comment: ""),
+        NSLocalizedString("Sort By", comment: ""),
         NSLocalizedString("Visibility", comment: ""),
-        NSLocalizedString("Notes list", comment: "")
+        NSLocalizedString("Notes List", comment: "")
     ]
     private var rowsInSections = [4, 2, 1]
 
@@ -36,7 +36,7 @@ class ProjectSettingsViewController: UITableViewController {
             self.navigationItem.rightBarButtonItem = Buttons.getDone(target: self, selector: #selector(close))
         }
 
-        self.title = NSLocalizedString("Project", comment: "Settings") + " \"\(project.getFullLabel())\""
+        self.title = project.getFullLabel()
 
         super.viewDidLoad()
     }
@@ -100,14 +100,14 @@ class ProjectSettingsViewController: UITableViewController {
                 break
             case 1:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "modificationDate")
-                cell.textLabel?.text = NSLocalizedString("Modification date", comment: "")
+                cell.textLabel?.text = NSLocalizedString("Modification Date", comment: "")
                 if project.settings.sortBy.rawValue == "modificationDate" {
                     cell.accessoryType = .checkmark
                 }
                 break
             case 2:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "creationDate")
-                cell.textLabel?.text = NSLocalizedString("Creation date", comment: "")
+                cell.textLabel?.text = NSLocalizedString("Creation Date", comment: "")
 
                 if project.settings.sortBy.rawValue == "creationDate" {
                     cell.accessoryType = .checkmark
@@ -137,7 +137,7 @@ class ProjectSettingsViewController: UITableViewController {
                     && !project.isTrash
                     && !project.isVirtual
 
-                cell.textLabel?.text = NSLocalizedString("Show notes in \"Notes\" and \"Todo\" lists", comment: "")
+                cell.textLabel?.text = NSLocalizedString("Show Notes in \"Notes\" and \"Todo\"", comment: "")
             case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = project.settings.showInSidebar
@@ -147,7 +147,7 @@ class ProjectSettingsViewController: UITableViewController {
                     && !project.isTrash
                     && !project.isVirtual
 
-                cell.textLabel?.text = NSLocalizedString("Show folder in sidebar", comment: "")
+                cell.textLabel?.text = NSLocalizedString("Show Folder in Library", comment: "")
             default:
                 return cell
             }
@@ -158,7 +158,7 @@ class ProjectSettingsViewController: UITableViewController {
             uiSwitch.isOn = project.settings.isFirstLineAsTitle()
             uiSwitch.isEnabled = !project.isVirtual
 
-            cell.textLabel?.text = NSLocalizedString("Use first line as title", comment: "")
+            cell.textLabel?.text = NSLocalizedString("Use First Line as Title", comment: "")
         }
 
         return cell
