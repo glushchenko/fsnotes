@@ -755,6 +755,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         reloadNotesTable(with: SearchQuery(filter: searchText))
     }
 
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        notesTable.setContentOffset(CGPoint(x: 0, y: -44), animated: true)
+    }
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let content = searchBar.text
         searchBar.text = ""

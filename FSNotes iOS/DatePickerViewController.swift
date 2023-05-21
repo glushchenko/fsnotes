@@ -59,8 +59,7 @@ class DatePickerViewController: UIViewController {
         let leftString = NSLocalizedString("Cancel", comment: "")
         navItem.leftBarButtonItem = UIBarButtonItem(title: leftString, style: .plain, target: self, action: #selector(closeController))
 
-        let saveImage = UIImage(systemName: "plus.circle")
-        let saveBarButton = UIBarButtonItem(image: saveImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(saveDate))
+        let saveBarButton = UIBarButtonItem(title: NSLocalizedString("Update", comment: ""), style: .plain, target: self, action: #selector(saveDate))
 
         navItem.rightBarButtonItem = saveBarButton
     }

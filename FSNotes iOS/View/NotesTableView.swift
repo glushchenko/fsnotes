@@ -42,6 +42,10 @@ class NotesTableView: UITableView,
         }
     }
 
+    func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
     private func calcHeight(indexPath: IndexPath) -> CGFloat {
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
@@ -238,7 +242,7 @@ class NotesTableView: UITableView,
         moreAction.image = UIImage(systemName: "ellipsis.circle")
         moreAction.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
 
-        return [moreAction, pinAction, deleteAction]
+        return [deleteAction, pinAction, moreAction]
     }
 
     public func turnOffEditing() {
