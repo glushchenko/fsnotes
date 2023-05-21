@@ -86,6 +86,9 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         tableView.tableFooterView = version
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        initZeroNavigationBackground()
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3

@@ -30,7 +30,7 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        initNavigationBackground()
+        initZeroNavigationBackground()
 
         if dismiss {
             self.navigationItem.rightBarButtonItem = Buttons.getDone(target: self, selector: #selector(close))

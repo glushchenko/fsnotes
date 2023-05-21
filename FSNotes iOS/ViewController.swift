@@ -83,6 +83,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationController?.setToolbarHidden(true, animated: false)
         view.backgroundColor = .whiteBlack
 
+        // configure proper title margin
+        let style = NSMutableParagraphStyle()
+        style.firstLineHeadIndent = 10
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.largeTitleTextAttributes = [NSAttributedString.Key.paragraphStyle : style]
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
         super.viewWillAppear(animated)
     }
 

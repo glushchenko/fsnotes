@@ -75,7 +75,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbV-ot-mEE">
-                                                    <rect key="frame" x="186.33333333333337" y="11" width="28.666666666666629" height="15.666666666666664"/>
+                                                    <rect key="frame" x="186.33333333333334" y="11" width="28.666666666666657" height="15.666666666666664"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -103,7 +103,7 @@
                                                 <constraint firstItem="t6a-FH-UHM" firstAttribute="leading" secondItem="rsi-Av-qh2" secondAttribute="trailing" constant="8" id="zr3-db-Dgc"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="15" minY="0.0" maxX="18" maxY="0.0"/>
+                                        <inset key="separatorInset" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="date" destination="AbV-ot-mEE" id="bLC-CN-Urn"/>
                                             <outlet property="imagePreview" destination="rsi-Av-qh2" id="7ax-Ce-vfL"/>

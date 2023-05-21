@@ -46,7 +46,7 @@ class GitViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initNavigationBackground()
+        initZeroNavigationBackground()
 
         UIApplication.shared.isIdleTimerDisabled = true
 
