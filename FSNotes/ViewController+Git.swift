@@ -66,7 +66,7 @@ extension EditorViewController {
             }
 
             do {
-                try note.saveRevision(commitMessage: commitMessage)
+                try note.project.saveRevision(commitMessage: commitMessage)
             } catch {
                 DispatchQueue.main.async {
                     let alert = NSAlert()

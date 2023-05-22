@@ -397,7 +397,7 @@ class NotesTableView: UITableView,
         let shareImage = UIImage(systemName: "square.and.arrow.up")
         actions.append(UIAction(title: shareTitle, image: shareImage, identifier: UIAction.Identifier("share"), handler: handler))
 
-        return UIMenu(title: "",  children: actions)
+        return UIMenu(title: note.getShortTitle(),  children: actions)
     }
 
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
@@ -785,8 +785,18 @@ class NotesTableView: UITableView,
         nvc?.present(datePickerViewController, animated: true )
     }
     
-    public func saveRevisionAction(note: Note) {
+    public func saveRevisionAction(note: Note? = nil, project: Project? = nil) {
+        var current: Project?
+
+        if let unwrappedProject = project {
+            current = unwrappedProject
+        } else if let note = note {
+            current = note.getGitProject()
+        }
+
+        guard let project = current else { return }
         guard let nvc = UIApplication.getNC() else { return }
+
         let viewController = UIApplication.getVC()
 
         // Show loader
@@ -802,7 +812,7 @@ class NotesTableView: UITableView,
 
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                try note.saveRevision()
+                try project.saveRevision()
 
                 // Hide loader
                 DispatchQueue.main.async {
@@ -813,7 +823,7 @@ class NotesTableView: UITableView,
                     // Hide loader
                     nvc.dismiss(animated: false, completion: nil)
 
-                    note.getGitProject()?.gitStatus = error.localizedDescription
+                    project.gitStatus = error.localizedDescription
 
                     let alert = UIAlertController(title: "Git error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
@@ -824,7 +834,7 @@ class NotesTableView: UITableView,
                 return
             }
 
-            if let project = note.getGitProject(), project.isGitOriginExist() {
+            if project.isGitOriginExist() {
                 viewController.gitQueue.addOperation({
                     try? project.pull()
                     try? project.push()

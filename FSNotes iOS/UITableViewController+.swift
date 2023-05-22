@@ -18,6 +18,7 @@ extension UITableViewController {
         appearance.configureWithOpaqueBackground()
         appearance.largeTitleTextAttributes = [NSAttributedString.Key.paragraphStyle : style]
 
+        navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 }

@@ -161,6 +161,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+
         var lvc: UIViewController?
         
         if indexPath.section == 0x00 {

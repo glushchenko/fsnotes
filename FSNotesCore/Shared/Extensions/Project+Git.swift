@@ -473,4 +473,10 @@ extension Project {
 
         return message
     }
+
+    public func saveRevision(commitMessage: String? = nil) throws {
+        try commit(message: commitMessage)
+        try pull()
+        try push()
+    }
 }

@@ -55,7 +55,8 @@ extension Note {
 
     public func saveRevision() throws {
         if hasGitRepository() {
-            try saveRevision(commitMessage: nil)
+            guard let project = getGitProject() else { return }
+            try project.saveRevision(commitMessage: nil)
             return
         }
 
@@ -380,18 +381,6 @@ extension Note {
         }
 
         return commits
-    }
-
-    public func saveRevision(commitMessage: String? = nil, pull: Bool = true) throws {
-        guard let project = getGitProject() else { return }
-
-        do {
-            try project.commit(message: commitMessage)
-            try project.pull()
-            try project.push()
-        } catch {
-            print(error)
-        }
     }
 
     public func checkout(commit: Commit) {

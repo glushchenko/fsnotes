@@ -341,12 +341,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationItem.searchController = searchController
     }
 
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-
-        // hack for reinstantinate large title
-        configureSearchController()
-    }
-
     public func enableSearchFocus() {
         searchFocus = true
     }
@@ -763,8 +757,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         reloadNotesTable(with: SearchQuery(filter: searchText))
     }
 
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+
+        // hack for reinstantinate large title
+        configureSearchController()
+    }
+
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         notesTable.setContentOffset(CGPoint(x: 0, y: -44), animated: true)
+
+        disableLockedProject()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

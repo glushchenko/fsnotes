@@ -297,6 +297,7 @@ class SidebarTableView: UITableView,
             }
 
             vc.notesTable.isEditing = false
+            vc.navigationController?.setToolbarHidden(true, animated: true)
         }
     }
 

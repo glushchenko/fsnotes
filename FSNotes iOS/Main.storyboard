@@ -319,23 +319,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WqV-qb-GJ8">
-                                <rect key="frame" x="0.0" y="47" width="428" height="801"/>
-                                <subviews>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="B67-S8-Rt3">
-                                        <rect key="frame" x="46" y="200" width="336" height="36"/>
-                                    </datePicker>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="QWE-fY-3WC" firstAttribute="trailing" secondItem="B67-S8-Rt3" secondAttribute="trailing" constant="46" id="SFc-02-2Kg"/>
-                                    <constraint firstItem="B67-S8-Rt3" firstAttribute="leading" secondItem="QWE-fY-3WC" secondAttribute="leading" constant="46" id="SeY-Xq-wKr"/>
-                                    <constraint firstItem="B67-S8-Rt3" firstAttribute="centerY" secondItem="rPa-h8-uvG" secondAttribute="centerY" constant="100" id="h9n-cP-ZNT"/>
-                                    <constraint firstItem="B67-S8-Rt3" firstAttribute="centerX" secondItem="rPa-h8-uvG" secondAttribute="centerX" id="pkV-gU-0Sx"/>
-                                    <constraint firstAttribute="bottom" secondItem="B67-S8-Rt3" secondAttribute="bottom" id="sjL-tY-Rje"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="rPa-h8-uvG"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="QWE-fY-3WC"/>
-                            </scrollView>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="B67-S8-Rt3">
+                                <rect key="frame" x="54" y="311" width="320" height="216"/>
+                            </datePicker>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uob-7M-pKX" userLabel="bottomNavigationBar">
                                 <rect key="frame" x="0.0" y="848" width="428" height="44"/>
                                 <items>
@@ -351,15 +337,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="uob-7M-pKX" firstAttribute="leading" secondItem="fXr-M2-3VJ" secondAttribute="leading" id="40t-no-m7I"/>
-                            <constraint firstItem="WqV-qb-GJ8" firstAttribute="trailing" secondItem="fXr-M2-3VJ" secondAttribute="trailing" id="DVF-Cj-rG7"/>
                             <constraint firstItem="uob-7M-pKX" firstAttribute="trailing" secondItem="fXr-M2-3VJ" secondAttribute="trailing" id="GCm-g1-LJX"/>
                             <constraint firstAttribute="bottom" secondItem="WxN-Ou-qlq" secondAttribute="bottom" id="GEh-on-qyn"/>
-                            <constraint firstItem="WqV-qb-GJ8" firstAttribute="leading" secondItem="fXr-M2-3VJ" secondAttribute="leading" id="GwO-3n-eiP"/>
-                            <constraint firstItem="uob-7M-pKX" firstAttribute="top" secondItem="WqV-qb-GJ8" secondAttribute="bottom" id="Q82-yL-nKk"/>
-                            <constraint firstAttribute="bottom" secondItem="WqV-qb-GJ8" secondAttribute="bottom" constant="78" id="Qqf-Cx-ggi"/>
                             <constraint firstItem="WxN-Ou-qlq" firstAttribute="leading" secondItem="fXr-M2-3VJ" secondAttribute="leading" id="S03-r6-xid"/>
-                            <constraint firstItem="WqV-qb-GJ8" firstAttribute="top" secondItem="iVW-EM-nqi" secondAttribute="top" id="VGY-3P-00w"/>
+                            <constraint firstItem="B67-S8-Rt3" firstAttribute="centerX" secondItem="fXr-M2-3VJ" secondAttribute="centerX" id="S8B-sF-59h"/>
                             <constraint firstItem="WxN-Ou-qlq" firstAttribute="top" secondItem="iVW-EM-nqi" secondAttribute="bottom" id="hF7-79-Mx2"/>
+                            <constraint firstItem="B67-S8-Rt3" firstAttribute="centerY" secondItem="fXr-M2-3VJ" secondAttribute="centerY" constant="-44" id="iFU-TI-9tH"/>
                             <constraint firstItem="WxN-Ou-qlq" firstAttribute="trailing" secondItem="fXr-M2-3VJ" secondAttribute="trailing" id="pYW-5M-5rW"/>
                             <constraint firstItem="WxN-Ou-qlq" firstAttribute="top" secondItem="uob-7M-pKX" secondAttribute="bottom" id="y7H-Jf-tHg"/>
                         </constraints>

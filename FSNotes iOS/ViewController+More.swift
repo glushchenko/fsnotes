@@ -44,6 +44,8 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.decryptProject()
             case "encryptFolder":
                 self.encryptProject()
+            case "gitAddCommitPush":
+                self.addCommitPush()
             default:
                 break
             }
@@ -100,6 +102,11 @@ extension ViewController: UIDocumentPickerDelegate {
         if popoverActions.contains(.settingsRepository) {
             let title = NSLocalizedString("Git Settings", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(named: "gitSettings"), identifier: UIAction.Identifier("gitSettings"), handler: handler))
+
+            if let project = sidebarItem.project, project.hasRepository() {
+                let titleAddCommit = NSLocalizedString("Git Add/commit/push", comment: "Main view popover table")
+                actions.append(UIAction(title: titleAddCommit, image: UIImage(systemName: "plus"), identifier: UIAction.Identifier("gitAddCommitPush"), handler: handler))
+            }
         }
 
         if popoverActions.contains(.multipleSelection) {
@@ -914,6 +921,12 @@ extension ViewController: UIDocumentPickerDelegate {
                 }
             }
         }
+    }
+
+    @objc public func addCommitPush() {
+        guard let project = searchQuery.project else { return }
+
+        notesTable.saveRevisionAction(project: project)
     }
 
     @objc public func decryptProject() {
