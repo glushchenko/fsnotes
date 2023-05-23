@@ -8,7 +8,6 @@
 
 import UIKit
 import AudioToolbox
-import DKImagePickerController
 import MobileCoreServices
 import Photos
 import DropDown
@@ -1143,117 +1142,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc func imagePressed() {
-        if #available(iOS 14, *) {
-            var conf = PHPickerConfiguration(photoLibrary: .shared())
-            conf.selectionLimit = 10
+        var conf = PHPickerConfiguration(photoLibrary: .shared())
+        conf.selectionLimit = 10
 
-            let picker = PHPickerViewController(configuration: conf)
-            picker.delegate = self
+        let picker = PHPickerViewController(configuration: conf)
+        picker.delegate = self
 
-            present(picker, animated: true, completion: nil)
-            return
-        }
-
-        if let note = self.note {
-            let pickerController = DKImagePickerController()
-            pickerController.assetType = .allPhotos
-
-            pickerController.didSelectAssets = { (assets: [DKAsset]) in
-                var processed = 0
-                var markup = ""
-
-                for asset in assets {
-                    let options = PHImageRequestOptions.init()
-                    options.deliveryMode = .highQualityFormat
-
-                    asset.fetchOriginalImage(options: nil, completeBlock: { image, info in
-                        processed += 1
-
-                        var imageExt = "jpg"
-                        if let uti = info?["PHImageFileUTIKey"] as? String,
-                            let ext = UTTypeCopyPreferredTagWithClass(uti as CFString, kUTTagClassFilenameExtension)?.takeRetainedValue()
-                        {
-                            imageExt = String(ext)
-                        }
-
-                        var url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + "." + imageExt)
-                        var data: Data?
-
-                        if let fileURL = info?["PHImageFileURLKey"] as? URL,
-                            fileURL.pathExtension.lowercased() == "heic",
-                            let imageUnwrapped = image
-                        {
-                            data = imageUnwrapped.jpegData(compressionQuality: 1);
-                            url.deletePathExtension()
-                            url.appendPathExtension("jpg")
-                        } else if let fileData = info?["PHImageFileDataKey"] as? Data {
-                            let format = ImageFormat.get(from: fileData)
-
-                            if format == .heic {
-                                data = UIImage(data: fileData)?.jpegData(compressionQuality: 1)
-                                imageExt = "jpg"
-                            } else {
-                                data = fileData
-
-                                let ext = ImageFormat.get(from: data!)
-                                let path = "file:///tmp/" + UUID().uuidString + "." + ext.rawValue
-                                url = URL(fileURLWithPath: path)
-                            }
-                        } else if let imageFileUrl = info?["PHImageFileURLKey"] as? URL {
-                            do {
-                                data = try Data(contentsOf: imageFileUrl)
-
-                                let ext = ImageFormat.get(from: data!)
-                                let path = "file:///tmp/" + UUID().uuidString + "." + ext.rawValue
-                                url = URL(fileURLWithPath: path)
-                            } catch {
-                                return
-                            }
-                        }
-
-                        guard let imageData = data else { return }
-
-                        if UserDefaultsManagement.liveImagesPreview {
-                            self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
-
-                            if processed == assets.count {
-                                note.saveSync(copy: self.editArea.attributedText)
-                                note.invalidateCache()
-
-                                UIApplication.getVC().notesTable.reloadRows(notes: [note])
-                                return
-                            }
-
-                            if assets.count != 1 {
-                                self.editArea.insertText("\n\n")
-                            }
-
-                            return
-                        }
-
-                        guard let path = ImagesProcessor.writeFile(data: imageData, url: url, note: note, ext: imageExt) else { return }
-
-                        markup += "![](\(path))\n\n"
-
-                        guard processed == assets.count else { return }
-
-                        DispatchQueue.main.async {
-                            self.editArea.insertText(markup)
-
-                            note.saveSync(copy: self.editArea.attributedText)
-                            note.invalidateCache()
-
-                            UIApplication.getVC().notesTable.reloadRows(notes: [note])
-
-                            self.editArea.undoManager?.removeAllActions()
-                            self.refill()
-                        }
-                    })
-                }
-            }
-
-            present(pickerController, animated: true) {}
-        }
+        present(picker, animated: true, completion: nil)
     }
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {

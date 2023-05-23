@@ -1,14 +1,13 @@
 use_frameworks!
 
 MAC_TARGET_VERSION = '10.14'
-IOS_TARGET_VERSION = '13'
+IOS_TARGET_VERSION = '14'
 
 def mac_pods
     pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
 end
 
 def ios_pods
-    pod 'DKImagePickerController', '4.3.1'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'DropDown', '2.3.13'
     pod 'SwipeCellKit', :git => 'https://github.com/glushchenko/SwipeCellKit.git', :branch => 'develop'
@@ -102,8 +101,7 @@ post_install do |installer|
       target.name == 'Highlightr-iOS' ||
       target.name == 'DropDown' ||
       target.name == 'DKCamera' ||
-      target.name == 'CropViewController' ||
-      target.name == 'DKImagePickerController'
+      target.name == 'CropViewController'
 
       target.build_configurations.each do |config|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'

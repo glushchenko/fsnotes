@@ -389,8 +389,13 @@ class NotesTableView: UITableView,
             actions.append(UIAction(title: removeEncryptionTitle, image: removeEncryptionImage, identifier: UIAction.Identifier("removeEncryption"), handler: handler))
         }
 
+        var clipboardName = "doc.on.clipboard"
+        if #available(iOS 16.0, *) {
+            clipboardName = "clipboard"
+        }
+
         let copyTitle = NSLocalizedString("Copy Plain Text", comment: "")
-        let copyImage = UIImage(systemName: "list.clipboard")
+        let copyImage = UIImage(systemName: clipboardName)
         actions.append(UIAction(title: copyTitle, image: copyImage, identifier: UIAction.Identifier("copy"), handler: handler))
 
         let shareTitle = NSLocalizedString("Share", comment: "")
@@ -548,11 +553,16 @@ class NotesTableView: UITableView,
                 actionSheet.addAction(removeEncryption)
             }
 
+            var clipboardName = "doc.on.clipboard"
+            if #available(iOS 16.0, *) {
+                clipboardName = "clipboard"
+            }
+
             let copy = UIAlertAction(title: NSLocalizedString("Copy Plain Text", comment: ""), style: .default, handler: { _ in
                 self.copyAction(note: note)
             })
             copy.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(systemName: "list.clipboard")?.resize(maxWidthHeight: 23) {
+            if let image = UIImage(systemName: clipboardName)?.resize(maxWidthHeight: 23) {
                 copy.setValue(image, forKey: "image")
             }
             actionSheet.addAction(copy)
