@@ -103,9 +103,9 @@ extension ViewController: UIDocumentPickerDelegate {
             let title = NSLocalizedString("Git Settings", comment: "Main view popover table")
             actions.append(UIAction(title: title, image: UIImage(named: "gitSettings"), identifier: UIAction.Identifier("gitSettings"), handler: handler))
 
-            if let project = sidebarItem.project, project.hasRepository() {
+            if let project = sidebarItem.project, project.getGitProject() != nil {
                 let titleAddCommit = NSLocalizedString("Git Add/commit/push", comment: "Main view popover table")
-                actions.append(UIAction(title: titleAddCommit, image: UIImage(systemName: "plus"), identifier: UIAction.Identifier("gitAddCommitPush"), handler: handler))
+                actions.append(UIAction(title: titleAddCommit, image: UIImage(systemName: "plus.circle"), identifier: UIAction.Identifier("gitAddCommitPush"), handler: handler))
             }
         }
 
@@ -924,7 +924,7 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     @objc public func addCommitPush() {
-        guard let project = searchQuery.project else { return }
+        guard let project = searchQuery.project?.getGitProject() else { return }
 
         notesTable.saveRevisionAction(project: project)
     }
