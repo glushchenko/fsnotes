@@ -541,8 +541,16 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                         .share-button:hover .sites {
                           display: inline-block;
                         }
+
+                        h1 {
+                            margin-top: 0px;
+                        }
+
+                        body {
+                            margin: 0 20px;
+                        }
             
-                        @media screen and (max-width: 400px) {
+                        @media screen and (max-width: 600px) {
                             .share-button .label {
                                 display: none;
                             }
@@ -558,7 +566,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                     <span class="footer__span">Powered by <a href="https://fsnot.es" target="_blank">FSNotes App</a> <img class="logo" src="https://fsnot.es/img/icon.webp" style="margin: 0 0 -10px 0;"></span>
                     <a class="share-button" href="\(archivePath!)" style="float: right; text-decoration: none;">
                         <span class="label" style="vertical-align: middle;">Download</span>
-                        <span style="display: inline-block; height: 17px; width: 17px; vertical-align: middle;">
+                        <span style="display: inline-block; height: 22px; width: 22px; vertical-align: middle;">
                             <svg viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M4 19h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7zM14 9h5l-7 7-7-7h5V3h4v6z"/></svg>
                         </span>
                     </a>

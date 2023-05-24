@@ -14,4 +14,10 @@ extension Data {
         let pdfHeader = Data(bytes: "%PDF", count: 4)
         return self.range(of: pdfHeader, options: [], in: Range(NSRange(location: 0, length: 1024))) != nil
     }
+
+    mutating func append(_ string: String, using encoding: String.Encoding = .utf8) {
+        if let data = string.data(using: encoding) {
+            append(data)
+        }
+    }
 }

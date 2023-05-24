@@ -169,4 +169,15 @@ public extension URL {
 
         return UTTypeConformsTo(fileUTI, kUTTypeImage)
     }
+
+    var mimeType: String {
+        guard
+            let identifier = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)?.takeRetainedValue(),
+            let mimeType = UTTypeCopyPreferredTagWithClass(identifier, kUTTagClassMIMEType)?.takeRetainedValue() as String?
+        else {
+            return "application/octet-stream"
+        }
+
+        return mimeType
+    }
 }

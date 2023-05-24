@@ -310,8 +310,6 @@ class NotesTableView: UITableView,
                     note.addPin()
                     self.addPins(notes: [note])
                 }
-
-                UIApplication.getEVC().configureNavMenu()
             case "lockUnlock":
                 self.viewDelegate?.toggleNotesLock(notes: [note])
 
@@ -322,14 +320,22 @@ class NotesTableView: UITableView,
                 }
             case "removeEncryption":
                 self.removeEncryption(note: note)
-
-                UIApplication.getEVC().configureNavMenu()
             case "copy":
                 self.copyAction(note: note)
             case "share":
                 self.shareAction(note: note)
+            case "shareWeb":
+                self.shareWebAction(note: note)
+            case "deleteWeb":
+                self.deleteWebAction(note: note)
             default:
                 break
+            }
+
+            if ["pinUnpin", "removeEncryption"].contains(action.identifier.rawValue) {
+                DispatchQueue.main.async {
+                    UIApplication.getEVC().configureNavMenu()
+                }
             }
 
             self.turnOffEditing()
@@ -401,6 +407,16 @@ class NotesTableView: UITableView,
         let shareTitle = NSLocalizedString("Share", comment: "")
         let shareImage = UIImage(systemName: "square.and.arrow.up")
         actions.append(UIAction(title: shareTitle, image: shareImage, identifier: UIAction.Identifier("share"), handler: handler))
+
+        let shareWebTitle = NSLocalizedString("Create Web Page", comment: "")
+        let shareWebImage = UIImage(systemName: "newspaper")
+        actions.append(UIAction(title: shareWebTitle, image: shareWebImage, identifier: UIAction.Identifier("shareWeb"), handler: handler))
+
+        if note.apiId != nil {
+            let deleteWebTitle = NSLocalizedString("Delete Web Page", comment: "")
+            let deleteWebImage = UIImage(systemName: "newspaper.fill")
+            actions.append(UIAction(title: deleteWebTitle, image: deleteWebImage, identifier: UIAction.Identifier("deleteWeb"), handler: handler))
+        }
 
         return UIMenu(title: note.getShortTitle(),  children: actions)
     }
@@ -990,6 +1006,30 @@ class NotesTableView: UITableView,
                 self.reloadRows(notes: notes, resetKeys: true)
             }
         }
+    }
+
+    public func shareWebAction(note: Note) {
+        UIApplication.getVC().createAPI(note: note, completion: { url in
+            DispatchQueue.main.async {
+                self.reloadRowForce(note: note)
+
+                if let url = url {
+                    UIApplication.shared.open(url)
+                }
+
+                UIApplication.getEVC().configureNavMenu()
+            }
+        })
+    }
+
+    public func deleteWebAction(note: Note) {
+        UIApplication.getVC().deleteAPI(note: note, completion: {
+            DispatchQueue.main.async {
+                self.reloadRowForce(note: note)
+
+                UIApplication.getEVC().configureNavMenu()
+            }
+        })
     }
 
     public func moveRowUp(note: Note) {

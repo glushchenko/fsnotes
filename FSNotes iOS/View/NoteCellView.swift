@@ -59,8 +59,11 @@ class NoteCellView: SwipeTableViewCell {
 
         date.attributedText = NSAttributedString(string: getDate())
         preview.textColor = UIColor.previewColor
-        
-        if note.isEncrypted() {
+
+        if note.isPublished() {
+            pin.image = UIImage(systemName: "globe")
+            pin.isHidden = false
+        } else if note.isEncrypted() {
             let name = note.isUnlocked() ? "lock.open" : "lock"
             pin.image = UIImage(systemName: name)
             pin.isHidden = false

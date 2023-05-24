@@ -143,7 +143,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         gitQueueState.qualityOfService = .background
         gitQueueState.maxConcurrentOperationCount = 1
-                
+
+        storage.restoreAPIIds()
         scheduledGitPull()
 
         loadNotesTable()
@@ -1626,6 +1627,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func clean() {
         notesTable.notes.removeAll()
         notesTable.reloadData()
+    }
+
+    public func showAlert(message: String) {
+        DispatchQueue.main.async {
+            let title = NSLocalizedString("Web sharing error", comment: "")
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(confirmAction)
+            self.present(alertController, animated: true)
+        }
     }
 }
 

@@ -89,7 +89,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
-        configureNavMenu()
 
         super.viewDidAppear(animated)
 
@@ -115,6 +114,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        configureNavMenu()
         
         navigationItem.largeTitleDisplayMode = .never
 
