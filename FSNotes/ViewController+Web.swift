@@ -105,8 +105,6 @@ extension ViewController {
                     }
                     
                     if !imageDirCreationDone {
-                        let imageDirName = image.path.split(separator: "/")[0]
-                    
                         try ssh.execute("mkdir -p \(remoteDir)/i")
                         imageDirCreationDone = true
                     }

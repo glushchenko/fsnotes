@@ -76,6 +76,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     private var searchFocus: Bool = false
 
+    // Project for import picker
+    public var selectedProject: Project?
+
     override func viewWillAppear(_ animated: Bool) {
         configureSearchController()
 
@@ -404,7 +407,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         lockedProject.layer.zPosition = 1001
         lockedProject.isUserInteractionEnabled = true
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(unlockProject))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(unlock))
         lockedProject.addGestureRecognizer(tapRecognizer)
 
         initSidebar()
@@ -1027,7 +1030,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @objc func newButtonAction() {
         if let project = sidebarTableView.getSidebarProjects()?.first, project.isEncrypted, project.password == nil {
-            unlockProject(createNote: true)
+            unlockProject(selectedProject: project, createNote: true)
             return
         }
 

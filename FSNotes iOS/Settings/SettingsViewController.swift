@@ -9,6 +9,7 @@
 import UIKit
 import StoreKit
 import CoreServices
+import AudioToolbox
 
 class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
@@ -280,7 +281,12 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     @objc func rateUs() {
-        SKStoreReviewController.requestReview()
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            DispatchQueue.main.async {
+                AudioServicesPlaySystemSound(1519)
+                SKStoreReviewController.requestReview(in: scene)
+            }
+        }
     }
 
     @objc func done() {

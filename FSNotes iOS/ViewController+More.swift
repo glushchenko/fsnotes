@@ -12,40 +12,42 @@ import UIKit
 extension ViewController: UIDocumentPickerDelegate {
     
     func makeSidebarSettingsMenu(for sidebarItem: SidebarItem) -> UIMenu? {
+        let project = sidebarItem.project
         let handler: (_ action: UIAction) -> () = { action in
+
         switch action.identifier.rawValue {
             case "emptyBin":
                 self.emptyBin()
             case "importNote":
-                self.importNote()
+                self.importNote(selectedProject: project)
             case "viewSettings":
-                self.openProjectSettings()
+                self.openProjectSettings(sidebarItem: sidebarItem)
             case "gitSettings":
-                self.openGitSettings()
+                self.openGitSettings(selectedProject: project)
             case "bulkEditing":
                 self.bulkEditing()
             case "createFolder":
-                self.createFolder()
+                self.createFolder(selectedProject: project)
             case "removeFolder":
-                self.removeFolder()
+                self.removeFolder(selectedProject: project)
             case "renameFolder":
-                self.renameFolder()
+                self.renameFolder(selectedProject: project)
             case "removeTag":
-                self.removeTag()
+                self.removeTag(sidebarItem: sidebarItem)
             case "renameTag":
-                self.renameTag()
+                self.renameTag(sidebarItem: sidebarItem)
             case "openInFiles":
-                self.openInFiles()
+                self.openInFiles(selectedProject: project)
             case "lockFolder":
-                self.lockProject()
+                self.lockProject(selectedProject: project)
             case "unlockFolder":
-                self.unlockProject()
+                self.unlockProject(selectedProject: project)
             case "decryptFolder":
-                self.decryptProject()
+                self.decryptProject(selectedProject: project)
             case "encryptFolder":
-                self.encryptProject()
+                self.encryptProject(selectedProject: project)
             case "gitAddCommitPush":
-                self.addCommitPush()
+                self.addCommitPush(selectedProject: project)
             default:
                 break
             }
@@ -249,7 +251,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.removeFolder) {
             let title = NSLocalizedString("Remove Folder", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
-                self.removeFolder()
+                self.removeFolder(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "trash")?.resize(maxWidthHeight: 23) {
@@ -273,7 +275,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.importNote) {
             let title = NSLocalizedString("Import Notes", comment: "Main view popover table")
             let importNote = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.importNote()
+                self.importNote(selectedProject: sidebarItem?.project)
             })
             importNote.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
@@ -287,7 +289,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.settingsFolder) {
             let title = NSLocalizedString("View Settings", comment: "Main view popover table")
             let settings = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.openProjectSettings()
+                self.openProjectSettings(sidebarItem: sidebarItem)
             })
             settings.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "gearshape")?.resize(maxWidthHeight: 23) {
@@ -299,7 +301,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.settingsRepository) {
             let title = NSLocalizedString("Git Settings", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.openGitSettings()
+                self.openGitSettings(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(named: "gitSettings")?.resize(maxWidthHeight: 23) {
@@ -323,7 +325,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.createFolder) {
             let title = NSLocalizedString("Create Folder", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.createFolder()
+                self.createFolder(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "folder.badge.plus")?.resize(maxWidthHeight: 23) {
@@ -335,7 +337,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.renameFolder) {
             let title = NSLocalizedString("Rename Folder", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.renameFolder()
+                self.renameFolder(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "pencil.circle")?.resize(maxWidthHeight: 23) {
@@ -347,7 +349,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.removeTag) {
             let title = NSLocalizedString("Remove Tag", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
-                self.removeTag()
+                self.removeTag(sidebarItem: sidebarItem)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "tag.slash")?.resize(maxWidthHeight: 23) {
@@ -359,7 +361,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.renameTag) {
             let title = NSLocalizedString("Rename Tag", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.renameTag()
+                self.renameTag(sidebarItem: sidebarItem)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "pencil.circle")?.resize(maxWidthHeight: 23) {
@@ -371,7 +373,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.openInFiles) {
             let title = NSLocalizedString("Open in Files.app", comment: "Main view popover table")
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.openInFiles()
+                self.openInFiles(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "folder")?.resize(maxWidthHeight: 23) {
@@ -383,7 +385,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.lockFolder) {
             let title = FolderPopoverActions.lockFolder.getDescription()
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.lockProject()
+                self.lockProject(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "lock")?.resize(maxWidthHeight: 23) {
@@ -395,7 +397,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.unLockFolder) {
             let title = FolderPopoverActions.unLockFolder.getDescription()
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.unlockProject()
+                self.unlockProject(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "lock.open")?.resize(maxWidthHeight: 23) {
@@ -407,7 +409,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.decryptFolder) {
             let title = FolderPopoverActions.decryptFolder.getDescription()
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.decryptProject()
+                self.decryptProject(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "lock.slash")?.resize(maxWidthHeight: 23) {
@@ -419,7 +421,7 @@ extension ViewController: UIDocumentPickerDelegate {
         if actions.contains(.encryptFolder) {
             let title = FolderPopoverActions.encryptFolder.getDescription()
             let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
-                self.encryptProject()
+                self.encryptProject(selectedProject: sidebarItem?.project)
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(systemName: "lock")?.resize(maxWidthHeight: 23) {
@@ -438,12 +440,7 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard var projectURL = Storage.shared().getCurrentProject()?.url else { return }
-
-        let mvc = UIApplication.getVC()
-        if let pURL = mvc.sidebarTableView.getSidebarItem()?.project?.url {
-            projectURL = pURL
-        }
+        guard var projectURL = selectedProject?.url else { return }
 
         for url in urls {
             let dstURL = projectURL.appendingPathComponent(url.lastPathComponent)
@@ -453,33 +450,30 @@ extension ViewController: UIDocumentPickerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
 
-    private func importNote() {
+    private func importNote(selectedProject: Project?) {
+        self.selectedProject = selectedProject
+
         let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
-        if #available(iOS 11.0, *) {
-            picker.allowsMultipleSelection = true
-        }
+        picker.allowsMultipleSelection = true
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
     }
 
-    @objc public func openProjectSettings() {
+    public func openProjectSettings(sidebarItem: SidebarItem?) {
         let vc = UIApplication.getVC()
-        guard let sidebarItem = vc.sidebarTableView.getSidebarItem()
-        else { return }
-
         let storage = Storage.shared()
 
         // All projects
 
-        var currentProject = sidebarItem.project
+        var currentProject = sidebarItem?.project
         if currentProject == nil {
             currentProject = storage.getCurrentProject()
         }
 
         // Virtual projects Notes and Todo
 
-        if sidebarItem.type == .Todo || sidebarItem.type == .All {
-            currentProject = sidebarItem.project
+        if sidebarItem?.type == .Todo || sidebarItem?.type == .All {
+            currentProject = sidebarItem?.project
         }
 
         guard let project = currentProject else { return }
@@ -586,11 +580,10 @@ extension ViewController: UIDocumentPickerDelegate {
         navigationController?.setToolbarHidden(true, animated: true)
     }
 
-    private func createFolder() {
-        let mvc = UIApplication.getVC()
-        guard let selectedProject = mvc.searchQuery.project
-        else { return }
+    private func createFolder(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
 
+        let mvc = UIApplication.getVC()
         let alertController = UIAlertController(title: NSLocalizedString("Create folder:", comment: ""), message: nil, preferredStyle: .alert)
 
         alertController.addTextField(configurationHandler: {
@@ -640,12 +633,11 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    private func removeFolder() {
+    private func removeFolder(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
+        guard !selectedProject.isDefault else { return }
+
         let mvc = UIApplication.getVC()
-
-        guard let selectedProject = mvc.searchQuery.project
-        else { return }
-
         let alert = UIAlertController(
             title: "Folder removing 🚨",
             message: "Are you really want to remove \"\(selectedProject.label)\"? Folder content will be deleted, action can not be undone.",
@@ -676,12 +668,10 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    private func renameFolder() {
+    private func renameFolder(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
+
         let mvc = UIApplication.getVC()
-
-        guard let selectedProject = mvc.searchQuery.project
-        else { return }
-
         let title = NSLocalizedString("Rename folder:", comment: "Popover table")
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
 
@@ -734,12 +724,13 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    private func removeTag() {
+    private func removeTag(sidebarItem: SidebarItem?) {
         let mvc = UIApplication.getVC()
 
-        guard let selectedProject = mvc.searchQuery.project,
-            let tag = mvc.searchQuery.tag
-        else { return }
+        guard let sidebarItem = sidebarItem, sidebarItem.type == .Tag else { return }
+        guard let selectedProject = mvc.searchQuery.project else { return }
+
+        let tag = sidebarItem.name
 
         let notes =
             mvc.storage.noteList
@@ -755,12 +746,13 @@ extension ViewController: UIDocumentPickerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
 
-    private func renameTag() {
+    private func renameTag(sidebarItem: SidebarItem?) {
         let mvc = UIApplication.getVC()
 
-        guard let selectedProject = mvc.searchQuery.project,
-            let tag = mvc.searchQuery.tag
-        else { return }
+        guard let sidebarItem = sidebarItem, sidebarItem.type == .Tag else { return }
+        guard let selectedProject = mvc.searchQuery.project else { return }
+
+        let tag = sidebarItem.name
 
         let title = NSLocalizedString("Rename tag:", comment: "Popover table")
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
@@ -809,10 +801,11 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    private func openInFiles() {
+    private func openInFiles(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
+
         let mvc = UIApplication.getVC()
 
-        guard let selectedProject = mvc.searchQuery.project else { return }
         guard let path = selectedProject.url.path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) else { return }
 
         if let projectUrl = URL(string: "shareddocuments://" + path) {
@@ -820,22 +813,12 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    private func openGitSettings() {
+    private func openGitSettings(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
+
         let vc = UIApplication.getVC()
-        guard let sidebarItem = vc.sidebarTableView.getSidebarItem() else { return }
-
         let storage = Storage.shared()
-
-        // All projects
-
-        var currentProject = sidebarItem.project
-        if currentProject == nil {
-            currentProject = storage.getCurrentProject()
-        }
-
-        guard let project = currentProject else { return }
-
-        let projectController = AppDelegate.getGitVC(for: project)
+        let projectController = AppDelegate.getGitVC(for: selectedProject)
         let controller = UINavigationController(rootViewController: projectController)
 
         self.dismiss(animated: true, completion: nil)
@@ -850,8 +833,14 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    @objc public func unlockProject(createNote: Bool = false) {
-        guard let selectedProject = searchQuery.project else { return }
+    @objc public func unlock() {
+        guard let project = sidebarTableView.getSelectedSidebarItem()?.project else { return }
+
+        unlockProject(selectedProject: project)
+    }
+
+    public func unlockProject(selectedProject: Project?, createNote: Bool = false) {
+        guard let selectedProject = selectedProject else { return }
 
         getMasterPassword() { password in
             let result = selectedProject.unlock(password: password)
@@ -876,8 +865,9 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    @objc public func lockProject() {
-        guard let selectedProject = searchQuery.project else { return }
+    public func lockProject(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
+
         let locked = selectedProject.lock()
         selectedProject.removeCache()
 
@@ -901,8 +891,8 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    @objc public func encryptProject() {
-        guard let selectedProject = searchQuery.project else { return }
+    public func encryptProject(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
 
         getMasterPassword() { password in
             let encrypted = selectedProject.encrypt(password: password)
@@ -923,14 +913,14 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
-    @objc public func addCommitPush() {
-        guard let project = searchQuery.project?.getGitProject() else { return }
+    public func addCommitPush(selectedProject: Project?) {
+        guard let selectedProject = selectedProject?.getGitProject() else { return }
 
-        notesTable.saveRevisionAction(project: project)
+        notesTable.saveRevisionAction(project: selectedProject)
     }
 
-    @objc public func decryptProject() {
-        guard let selectedProject = searchQuery.project else { return }
+    public func decryptProject(selectedProject: Project?) {
+        guard let selectedProject = selectedProject else { return }
 
         getMasterPassword() { password in
             let decrypted = selectedProject.decrypt(password: password)

@@ -20,7 +20,7 @@ class EditorSelectionRect: UITextSelectionRect {
         return original.rect
     }
 
-    override var writingDirection: UITextWritingDirection {
+    override var writingDirection: NSWritingDirection {
         return original.writingDirection
     }
 
