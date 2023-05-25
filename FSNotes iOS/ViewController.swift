@@ -1096,7 +1096,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             if let password = note.project.password {
                 if note.encrypt(password: password) {
-                    _ = note.unLock(password: password)
+                    if note.unLock(password: password) {
+                        note.password = password
+                    }
                 }
             }
         }
@@ -1329,18 +1331,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func unLock(notes: [Note], completion: @escaping ([Note]?) -> ()) {
         getMasterPassword() { password in
-            self.unLock(notes: notes, completion: completion, password: password, savePassword: true)
+            self.unLock(notes: notes, completion: completion, password: password)
         }
     }
 
-    public func unLock(notes: [Note], completion: @escaping ([Note]?) -> (), password: String, savePassword: Bool = false) {
+    public func unLock(notes: [Note], completion: @escaping ([Note]?) -> (), password: String) {
         for note in notes {
             var success = [Note]()
             if note.unLock(password: password) {
-                if savePassword {
-                    self.savePassword(password)
-                }
-
                 note.password = password
                 success.append(note)
             }
@@ -1370,12 +1368,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                             UIApplication.getEVC().fill(note: note)
                             UIApplication.getVC().openEditorViewController()
                         }
-
-                        self.savePassword(password)
                     }
                 } else {
                     if note.encrypt(password: password) {
-                        self.savePassword(password)
                         note.password = nil
 
                         DispatchQueue.main.async {
@@ -1493,13 +1488,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 alertController.textFields![0].selectAll(nil)
             }
         }
-    }
-
-    public func savePassword(_ value: String) {
-        let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-        do {
-           try item.savePassword(value)
-        } catch {}
     }
 
     public func resizeSidebar(withAnimation: Bool = false) {

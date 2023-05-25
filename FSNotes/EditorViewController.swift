@@ -934,7 +934,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         // Project encrypted and unlocked – encrypt by default
         if let password = project.password {
             if note.encrypt(password: password) {
-                _ = note.unLock(password: password)
+                if note.unLock(password: password) {
+                    note.password = password
+                }
             }
         }
 
