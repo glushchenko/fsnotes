@@ -12,7 +12,7 @@ import SoulverCore
 func renderMarkdownHTML(markdown: String) -> String? {
     var markdown = markdown.replacingOccurrences(of: "{{TOC}}", with: "<div id=\"toc\"></div>")
     
-    if #available(OSX 10.15, *), UserDefaultsManagement.soulverPreview {
+    if UserDefaultsManagement.soulverPreview {
         markdown = renderSoulverCodeBlocks(markdown: markdown)
     }
     

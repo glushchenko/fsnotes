@@ -332,7 +332,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
 
                 for file in fileList {
-                    print(file)
                     if customCSS != nil && file == "css" {
                         continue
                     }

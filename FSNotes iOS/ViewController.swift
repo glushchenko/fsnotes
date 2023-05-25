@@ -557,7 +557,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let overlay = UIView(frame: CGRect(x: 0, y: 0, width: screeenWidth, height: screeenHeight))
         overlay.layer.zPosition = 104
         overlay.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
-        view.addSubview(overlay)
+        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.addSubview(overlay)
         self.newsOverlay = overlay
 
         var width = UIScreen.main.bounds.width - 20
@@ -587,15 +587,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         news.layer.borderWidth = 1
         news.layer.borderColor = UIColor.gray.cgColor
 
-        let closeButton = UIButton(frame: CGRect(origin: CGPoint(x: width - 10 - 25, y: 10), size: CGSize(width: 25, height: 25)))
+        let closeButton = UIButton(frame: CGRect(origin: CGPoint(x: width - 10 - 50, y: 10), size: CGSize(width: 50, height: 50)))
         let image = UIImage(named: "close-window.png")
         closeButton.setImage(image, for: UIControl.State.normal)
-        closeButton.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
+        closeButton.tintColor = UIColor.mainTheme
         closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
         closeButton.layer.zPosition = 110
         news.addSubview(closeButton)
 
-        navigationController?.view.addSubview(news)
+        UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.addSubview(news)
 
         self.newsPopup = news
 
