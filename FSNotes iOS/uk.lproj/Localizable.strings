@@ -10,9 +10,6 @@
 /* Settings */
 "Advanced" = "Розширені";
 
-/* Settings */
-"Icon" = "Іконка програми";
-
 /* Archive in sidebar */
 "Archive" = "Архів";
 
@@ -36,6 +33,12 @@
 
 /* No comment provided by engineer. */
 "Cancel" = "Скасувати";
+
+/* No comment provided by engineer. */
+"Change Creation Date" = "Дата створення";
+
+/* Settings */
+"Check Spelling" = "Перевірка правопису";
 
 /* No comment provided by engineer. */
 "Code" = "Код";
@@ -62,10 +65,10 @@
 "Create folder:" = "Створити папку:";
 
 /* No comment provided by engineer. */
-"Creation Date" = "Датою створення";
+"Create Web Page" = "Створити веб-сторінку";
 
 /* No comment provided by engineer. */
-"Change Creation Date" = "Дата створення";
+"Creation Date" = "Датою створення";
 
 /* Main view popover table */
 "Decrypt" = "Розшифрувати";
@@ -75,6 +78,9 @@
 
 /* Table row action */
 "Delete" = "Видалити";
+
+/* No comment provided by engineer. */
+"Delete Web Page" = "Видалити веб-сторінку";
 
 /* No comment provided by engineer. */
 "Documents" = "Документи";
@@ -125,9 +131,6 @@
 "Files Naming" = "Іменування файлів";
 
 /* No comment provided by engineer. */
-"Focus in search field" = "Зосередитись в полі";
-
-/* No comment provided by engineer. */
 "Folder name:" = "Назва папки:";
 
 /* No comment provided by engineer. */
@@ -164,19 +167,19 @@
 "Git" = "Git";
 
 /* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
 "Git Settings" = "Налаштування Git";
 
 /* No comment provided by engineer. */
 "History" = "Історія";
 
 /* Settings */
-"Website" = "Домашня сторінка";
-
-/* Settings */
 "iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"Icons" = "Іконки";
+"Icon" = "Іконка програми";
 
 /* No comment provided by engineer. */
 "Images source:" = "Джерело зображень:";
@@ -191,6 +194,9 @@
 "Invalid Password" = "Недійсний пароль";
 
 /* Settings */
+"Library" = "Бічна панель";
+
+/* Settings */
 "Line Spacing" = "Міжрядковий інтервал";
 
 /* Settings */
@@ -200,10 +206,13 @@
 "Lock" = "Заблокувати";
 
 /* Settings */
-"Master" = "Master";
+"Master" = "Головний";
 
 /* No comment provided by engineer. */
 "Master password:" = "Головний пароль:";
+
+/* Settings */
+"MathJax" = "MathJax";
 
 /* No comment provided by engineer. */
 "Modification Date" = "Датою модифікації";
@@ -260,16 +269,7 @@
 "Please try again" = "Будь ласка, спробуйте ще разn";
 
 /* No comment provided by engineer. */
-"Preview" = "Попередній перегляд";
-
-/* No comment provided by engineer. */
-"Preview MathJax" = "Попередній перегляд MathJax";
-
-/* No comment provided by engineer. */
 "Private Key" = "Приватний ключ";
-
-/* Settings */
-"Project" = "Проект";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Видалення проекту ❌";
@@ -296,7 +296,7 @@
 "Rename Folder" = "Перейменувати папку";
 
 /* Popover table */
-"Rename Folder:" = "Перейменувати папку:";
+"Rename folder:" = "Переименовать папку:";
 
 /* No comment provided by engineer. */
 "Rename note:" = "Перейменувати нотатку:";
@@ -305,7 +305,7 @@
 "Rename Tag" = "Перейменувати тег";
 
 /* Popover table */
-"Rename Tag:" = "Перейменувати тег:";
+"Rename tag:" = "Переименовать тег:";
 
 /* No comment provided by engineer. */
 "Save" = "Зберегти";
@@ -343,14 +343,11 @@
 /* No comment provided by engineer. */
 "Show Notes in \"Notes\" and \"Todo\"" = "Включити у \"Нотатки/завдання\"";
 
-/* Settings */
-"Library" = "Бічна панель";
-
 /* No comment provided by engineer. */
 "Sort By" = "Сортувати за";
 
 /* Settings */
-"Check Spelling" = "Перевірка правопису";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Сховище";
@@ -389,6 +386,9 @@
 "Untagged" = "Без тегів";
 
 /* No comment provided by engineer. */
+"Update" = "Оновити";
+
+/* No comment provided by engineer. */
 "Use First Line as Title" = "Перший рядок як заголовок";
 
 /* Settings */
@@ -408,6 +408,12 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимість";
+
+/* No comment provided by engineer. */
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Домашня сторінка";
 
 /* No comment provided by engineer. */
 "Wrong password" = "Неправильний пароль";

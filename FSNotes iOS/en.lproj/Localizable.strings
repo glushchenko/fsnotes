@@ -10,9 +10,6 @@
 /* Settings */
 "Advanced" = "Advanced";
 
-/* Settings */
-"Icon" = "Icon";
-
 /* Archive in sidebar */
 "Archive" = "Archive";
 
@@ -36,6 +33,12 @@
 
 /* No comment provided by engineer. */
 "Cancel" = "Cancel";
+
+/* No comment provided by engineer. */
+"Change Creation Date" = "Change Creation Date";
+
+/* Settings */
+"Check Spelling" = "Check Spelling";
 
 /* No comment provided by engineer. */
 "Code" = "Code";
@@ -62,10 +65,10 @@
 "Create folder:" = "Create folder:";
 
 /* No comment provided by engineer. */
-"Creation Date" = "Creation Date";
+"Create Web Page" = "Create Web Page";
 
 /* No comment provided by engineer. */
-"Change Creation Date" = "Change Creation Date";
+"Creation Date" = "Creation Date";
 
 /* Main view popover table */
 "Decrypt" = "Decrypt";
@@ -75,6 +78,9 @@
 
 /* Table row action */
 "Delete" = "Delete";
+
+/* No comment provided by engineer. */
+"Delete Web Page" = "Delete Web Page";
 
 /* No comment provided by engineer. */
 "Documents" = "Documents";
@@ -125,9 +131,6 @@
 "Files Naming" = "Files Naming";
 
 /* No comment provided by engineer. */
-"Focus in search field" = "Focus in search field";
-
-/* No comment provided by engineer. */
 "Folder name:" = "Folder name:";
 
 /* No comment provided by engineer. */
@@ -164,19 +167,19 @@
 "Git" = "Git";
 
 /* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
 "Git Settings" = "Git Settings";
 
 /* No comment provided by engineer. */
 "History" = "History";
 
 /* Settings */
-"Website" = "Website";
-
-/* Settings */
 "iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"Icons" = "Icons";
+"Icon" = "Icon";
 
 /* No comment provided by engineer. */
 "Images source:" = "Images source:";
@@ -192,6 +195,9 @@
 "Invalid Password" = "Invalid Password";
 
 /* Settings */
+"Library" = "Library";
+
+/* Settings */
 "Line Spacing" = "Line Spacing";
 
 /* Settings */
@@ -205,6 +211,9 @@
 
 /* No comment provided by engineer. */
 "Master password:" = "Master password:";
+
+/* Settings */
+"MathJax" = "MathJax";
 
 /* No comment provided by engineer. */
 "Modification Date" = "Modification Date";
@@ -262,16 +271,7 @@
 "Please try again" = "Please try again";
 
 /* No comment provided by engineer. */
-"Preview" = "Preview";
-
-/* No comment provided by engineer. */
-"Preview MathJax" = "Preview MathJax";
-
-/* No comment provided by engineer. */
 "Private Key" = "Private Key";
-
-/* Settings */
-"Project" = "Project";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Project removing ❌";
@@ -345,14 +345,11 @@
 /* No comment provided by engineer. */
 "Show Notes in \"Notes\" and \"Todo\"" = "Show Notes in \"Notes\" and \"Todo\"";
 
-/* Settings */
-"Library" = "Library";
-
 /* No comment provided by engineer. */
 "Sort By" = "Sort By";
 
 /* Settings */
-"Check Spelling" = "Check Spelling";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Storage";
@@ -392,6 +389,9 @@
 "Untagged" = "Untagged";
 
 /* No comment provided by engineer. */
+"Update" = "Update";
+
+/* No comment provided by engineer. */
 "Use First Line as Title" = "Use First Line as Title";
 
 /* Settings */
@@ -411,6 +411,12 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibility";
+
+/* No comment provided by engineer. */
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Website";
 
 /* No comment provided by engineer. */
 "Wrong password" = "Wrong password";

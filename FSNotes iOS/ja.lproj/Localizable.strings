@@ -10,9 +10,6 @@
 /* Settings */
 "Advanced" = "プロ";
 
-/* Settings */
-"Icon" = "アイコン";
-
 /* Archive in sidebar */
 "Archive" = "アーカイブ";
 
@@ -36,6 +33,12 @@
 
 /* No comment provided by engineer. */
 "Cancel" = "キャンセル";
+
+/* No comment provided by engineer. */
+"Change Creation Date" = "作成日";
+
+/* Settings */
+"Check Spelling" = "スペルチェック";
 
 /* No comment provided by engineer. */
 "Code" = "コード";
@@ -62,10 +65,10 @@
 "Create folder:" = "新規フォルダ:";
 
 /* No comment provided by engineer. */
-"Creation Date" = "作成日";
+"Create Web Page" = "ウェブページの作成";
 
 /* No comment provided by engineer. */
-"Change Creation Date" = "作成日";
+"Creation Date" = "作成日";
 
 /* Main view popover table */
 "Decrypt" = "Decrypt";
@@ -77,6 +80,9 @@
 "Delete" = "削除";
 
 /* No comment provided by engineer. */
+"Delete Web Page" = "ウェブページを削除する";
+
+/* No comment provided by engineer. */
 "Documents" = "ドキュメント";
 
 /* No comment provided by engineer. */
@@ -86,7 +92,7 @@
 "Duplicate" = "複製";
 
 /* Settings */
-"Dynamic Type" = "Dynamic Type";
+"Dynamic Type" = "ダイナミックタイプ";
 
 /* Settings */
 "Editor" = "エディタ";
@@ -95,7 +101,7 @@
 "Empty Bin" = "ゴミ箱を空にする";
 
 /* Main view popover table */
-"Encrypt" = "Encrypt";
+"Encrypt" = "エンクリプト";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "フォルダ名を入力";
@@ -123,9 +129,6 @@
 
 /* Settings */
 "Files Naming" = "ファイル命名";
-
-/* No comment provided by engineer. */
-"Focus in search field" = "検索フィールドにフォーカス";
 
 /* No comment provided by engineer. */
 "Folder name:" = "フォルダ名:";
@@ -164,19 +167,19 @@
 "Git" = "Git";
 
 /* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
 "Git Settings" = "Git settings";
 
 /* No comment provided by engineer. */
 "History" = "履歴";
 
 /* Settings */
-"Website" = "ホームページ";
-
-/* Settings */
 "iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"Icons" = "Icons";
+"Icon" = "アイコン";
 
 /* No comment provided by engineer. */
 "Images source:" = "画像ソース:";
@@ -191,6 +194,9 @@
 "Invalid Password" = "無効なパスワードです";
 
 /* Settings */
+"Library" = "サイドバー";
+
+/* Settings */
 "Line Spacing" = "行間隔";
 
 /* Settings */
@@ -200,10 +206,13 @@
 "Lock" = "ロック";
 
 /* Settings */
-"Master" = "Master";
+"Master" = "マスター";
 
 /* No comment provided by engineer. */
 "Master password:" = "マスターパスワード:";
+
+/* Settings */
+"MathJax" = "MathJax";
 
 /* No comment provided by engineer. */
 "Modification Date" = "変更日";
@@ -237,13 +246,13 @@
 "Passphrase" = "Passphrase";
 
 /* No comment provided by engineer. */
-"Password" = "Password";
+"Password" = "パスワード";
 
 /* No comment provided by engineer. */
-"Password has been successfully changed" = "Password has been successfully changed";
+"Password has been successfully changed" = "パスワードの変更に成功しました";
 
 /* No comment provided by engineer. */
-"Password:" = "Password:";
+"Password:" = "パスワード";
 
 /* No comment provided by engineer. */
 "Photos" = "画像";
@@ -258,28 +267,19 @@
 "Please enter valid password" = "有効なパスワードを入力してください";
 
 /* No comment provided by engineer. */
-"Please try again" = "Please try again";
-
-/* No comment provided by engineer. */
-"Preview" = "プレビュー";
-
-/* No comment provided by engineer. */
-"Preview MathJax" = "MathJaxをプレビュー";
+"Please try again" = "再度お試しください";
 
 /* No comment provided by engineer. */
 "Private Key" = "Private key";
-
-/* Settings */
-"Project" = "プロジェクト";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "削除するプロジェクト ❌";
 
 /* No comment provided by engineer. */
-"Public Key (optional)" = "Public key (optional)";
+"Public Key (optional)" = "Public key (任意)";
 
 /* No comment provided by engineer. */
-"Pull (every 30 sec)" = "Pull (every 30 sec)";
+"Pull (every 30 sec)" = "Pull (30秒ごと)";
 
 /* No comment provided by engineer. */
 "Remove Encryption" = "ロックを削除";
@@ -309,13 +309,13 @@
 "Rename tag:" = "タグの名称変更:";
 
 /* No comment provided by engineer. */
-"Save" = "Save";
+"Save" = "セーブ";
 
 /* No comment provided by engineer. */
 "Save Clipboard" = "クリップボードの内容を保存";
 
 /* No comment provided by engineer. */
-"Save Revision" = "Save revision";
+"Save Revision" = "バージョンを保存";
 
 /* No comment provided by engineer. */
 "Saved versions" = "保存されたバージョン";
@@ -327,7 +327,7 @@
 "Search or create" = "検索または新規作成";
 
 /* Settings */
-"Security" = "Security";
+"Security" = "セキュリティ";
 
 /* Main view popover table */
 "Select" = "選択";
@@ -344,14 +344,11 @@
 /* No comment provided by engineer. */
 "Show Notes in \"Notes\" and \"Todo\"" = "\"すべて\" と \"タスク\" にノートを表示";
 
-/* Settings */
-"Library" = "サイドバー";
-
 /* No comment provided by engineer. */
 "Sort By" = "表示順序";
 
 /* Settings */
-"Check Spelling" = "スペルチェック";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "ストレージ";
@@ -366,7 +363,7 @@
 "Theme" = "テーマ";
 
 /* No comment provided by engineer. */
-"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "補足：古いノートを使うには、古いキーで別途復号化し、再度暗号化する必要があります。";
 
 /* No comment provided by engineer. */
 "Title" = "タイトル";
@@ -390,13 +387,16 @@
 "Untagged" = "タグなし";
 
 /* No comment provided by engineer. */
-"Use First Line as Title" = "Use first line as title";
+"Update" = "アップデート";
+
+/* No comment provided by engineer. */
+"Use First Line as Title" = "最初の行をタイトルとして使用する";
 
 /* Settings */
 "Use Inline Tags" = "インラインタグを使用する";
 
 /* No comment provided by engineer. */
-"Verify Password" = "Verify password";
+"Verify Password" = "パスワードの確認";
 
 /* Settings */
 "Version" = "バージョン";
@@ -411,10 +411,16 @@
 "Visibility" = "可視性";
 
 /* No comment provided by engineer. */
-"Wrong password" = "Wrong password";
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "ホームページ";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "Wrong repeated password";
+"Wrong password" = "パスワードが違う";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "繰り返しのパスワードが違う";
 
 /* No comment provided by engineer. */
 "Сlearing history" = "履歴の削除";

@@ -10,9 +10,6 @@
 /* Settings */
 "Advanced" = "Estendido";
 
-/* Settings */
-"Icon" = "Icon";
-
 /* Archive in sidebar */
 "Archive" = "Arquivo";
 
@@ -36,6 +33,12 @@
 
 /* No comment provided by engineer. */
 "Cancel" = "Cancelar";
+
+/* No comment provided by engineer. */
+"Change Creation Date" = "Data Criada";
+
+/* Settings */
+"Check Spelling" = "Verificação Ortográfica";
 
 /* No comment provided by engineer. */
 "Code" = "Código";
@@ -62,13 +65,13 @@
 "Create folder:" = "Criar pasta:";
 
 /* No comment provided by engineer. */
-"Creation Date" = "Data de criação";
+"Create Web Page" = "Criar página da Web";
 
 /* No comment provided by engineer. */
-"Change Creation Date" = "Data Criada";
+"Creation Date" = "Data de criação";
 
 /* Main view popover table */
-"Decrypt" = "Decrypt";
+"Decrypt" = "Desencriptar";
 
 /* No comment provided by engineer. */
 "Default Keyboard" = "Teclado padrão";
@@ -77,10 +80,13 @@
 "Delete" = "Eliminar";
 
 /* No comment provided by engineer. */
+"Delete Web Page" = "Excluir página da Web";
+
+/* No comment provided by engineer. */
 "Documents" = "Documentos";
 
 /* No comment provided by engineer. */
-"Done" = "Done";
+"Done" = "Feito";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicada";
@@ -95,7 +101,7 @@
 "Empty Bin" = "Caixa vazia";
 
 /* Main view popover table */
-"Encrypt" = "Encrypt";
+"Encrypt" = "Encriptar";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Digite o nome da pasta";
@@ -123,9 +129,6 @@
 
 /* Settings */
 "Files Naming" = "Nomenclatura de arquivos";
-
-/* No comment provided by engineer. */
-"Focus in search field" = "Foco no campo de pesquisa";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Nome da pasta:";
@@ -164,19 +167,19 @@
 "Git" = "Git";
 
 /* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
 "Git Settings" = "Git settings";
 
 /* No comment provided by engineer. */
 "History" = "História";
 
 /* Settings */
-"Website" = "Página inicial";
-
-/* Settings */
 "iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"Icons" = "Icons";
+"Icon" = "Ícone";
 
 /* No comment provided by engineer. */
 "Images source:" = "Fonte das imagens:";
@@ -189,6 +192,9 @@
 
 /* No comment provided by engineer. */
 "Invalid Password" = "Palavra-passe inválida";
+
+/* Settings */
+"Library" = "Barra lateral";
 
 /* Settings */
 "Line Spacing" = "Espaçamento entre linhas";
@@ -204,6 +210,9 @@
 
 /* No comment provided by engineer. */
 "Master password:" = "Senha mestra:";
+
+/* Settings */
+"MathJax" = "MathJax";
 
 /* No comment provided by engineer. */
 "Modification Date" = "Data de modificação";
@@ -236,13 +245,13 @@
 "Passphrase" = "Passphrase";
 
 /* No comment provided by engineer. */
-"Password" = "Password";
+"Password" = "Palavra-passe";
 
 /* No comment provided by engineer. */
-"Password has been successfully changed" = "Password has been successfully changed";
+"Password has been successfully changed" = "A palavra-passe foi alterada com êxito";
 
 /* No comment provided by engineer. */
-"Password:" = "Password:";
+"Password:" = "Palavra-passe:";
 
 /* No comment provided by engineer. */
 "Photos" = "Fotos";
@@ -257,28 +266,19 @@
 "Please enter valid password" = "Por favor insira uma palavra-passe válida";
 
 /* No comment provided by engineer. */
-"Please try again" = "Please try again";
-
-/* No comment provided by engineer. */
-"Preview" = "Pré-visualizar";
-
-/* No comment provided by engineer. */
-"Preview MathJax" = "Pré-visualizar MathJax";
+"Please try again" = "Tente novamente";
 
 /* No comment provided by engineer. */
 "Private Key" = "Private key";
-
-/* Settings */
-"Project" = "Projeto";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Remover projeto❌";
 
 /* No comment provided by engineer. */
-"Public Key (optional)" = "Public key (optional)";
+"Public Key (optional)" = "Public key (facultativo)";
 
 /* No comment provided by engineer. */
-"Pull (every 30 sec)" = "Pull (every 30 sec)";
+"Pull (every 30 sec)" = "Pull (a cada 30 segundos)";
 
 /* No comment provided by engineer. */
 "Remove Encryption" = "Remover criptografia";
@@ -308,13 +308,13 @@
 "Rename tag:" = "Renomear tag:";
 
 /* No comment provided by engineer. */
-"Save" = "Save";
+"Save" = "Guardar";
 
 /* No comment provided by engineer. */
 "Save Clipboard" = "Salvar área de transferência";
 
 /* No comment provided by engineer. */
-"Save Revision" = "Save revision";
+"Save Revision" = "Guardar revisão";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Versões salvas";
@@ -326,7 +326,7 @@
 "Search or create" = "Pesquisar e criar";
 
 /* Settings */
-"Security" = "Security";
+"Security" = "Segurança";
 
 /* Main view popover table */
 "Select" = "Selecionar";
@@ -343,14 +343,11 @@
 /* No comment provided by engineer. */
 "Show Notes in \"Notes\" and \"Todo\"" = "Mostrar notas nas listas \"Notas\" e \"Tarefas\"";
 
-/* Settings */
-"Library" = "Barra lateral";
-
 /* No comment provided by engineer. */
 "Sort By" = "Ordenar por";
 
 /* Settings */
-"Check Spelling" = "Verificação Ortográfica";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Armazenamento";
@@ -365,7 +362,7 @@
 "Theme" = "Tema";
 
 /* No comment provided by engineer. */
-"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Sugestão: Para utilizar notas antigas, tem de as desencriptar separadamente com a chave antiga e encriptá-las novamente.";
 
 /* No comment provided by engineer. */
 "Title" = "Título";
@@ -389,13 +386,16 @@
 "Untagged" = "Sem etiqueta";
 
 /* No comment provided by engineer. */
+"Update" = "Actualização";
+
+/* No comment provided by engineer. */
 "Use First Line as Title" = "Utilizar a primeira linha como título";
 
 /* Settings */
 "Use Inline Tags" = "Utilizar etiquetas em linha";
 
 /* No comment provided by engineer. */
-"Verify Password" = "Verify password";
+"Verify Password" = "Verificar a palavra-passe";
 
 /* Settings */
 "Version" = "Versão";
@@ -410,10 +410,16 @@
 "Visibility" = "Visibilidade";
 
 /* No comment provided by engineer. */
-"Wrong password" = "Wrong password";
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Página inicial";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "Wrong repeated password";
+"Wrong password" = "Palavra-passe errada";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Palavra-passe repetida errada";
 
 /* No comment provided by engineer. */
 "Сlearing history" = "Aprendendo a história";

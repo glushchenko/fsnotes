@@ -10,9 +10,6 @@
 /* Settings */
 "Advanced" = "Profi";
 
-/* Settings */
-"Icon" = "Icône";
-
 /* Archive in sidebar */
 "Archive" = "Archiver";
 
@@ -36,6 +33,12 @@
 
 /* No comment provided by engineer. */
 "Cancel" = "Annuler";
+
+/* No comment provided by engineer. */
+"Change Creation Date" = "Date créée";
+
+/* Settings */
+"Check Spelling" = "Vérification orthographique";
 
 /* No comment provided by engineer. */
 "Code" = "Code";
@@ -62,10 +65,10 @@
 "Create folder:" = "Créer le dossier:";
 
 /* No comment provided by engineer. */
-"Creation Date" = "Date de création";
+"Create Web Page" = "Créer une page Web";
 
 /* No comment provided by engineer. */
-"Change Creation Date" = "Date créée";
+"Creation Date" = "Date de création";
 
 /* Main view popover table */
 "Decrypt" = "Decrypt";
@@ -75,6 +78,9 @@
 
 /* Table row action */
 "Delete" = "Supprimer";
+
+/* No comment provided by engineer. */
+"Delete Web Page" = "Supprimer la page Web";
 
 /* No comment provided by engineer. */
 "Documents" = "Des documents";
@@ -125,9 +131,6 @@
 "Files Naming" = "Nommage des fichiers";
 
 /* No comment provided by engineer. */
-"Focus in search field" = "Focus dans le champ de recherche";
-
-/* No comment provided by engineer. */
 "Folder name:" = "Nom de dossier :";
 
 /* No comment provided by engineer. */
@@ -164,19 +167,19 @@
 "Git" = "Git";
 
 /* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
 "Git Settings" = "Git settings";
 
 /* No comment provided by engineer. */
 "History" = "Histoire";
 
 /* Settings */
-"Website" = "Page d'accueil";
-
-/* Settings */
 "iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"Icons" = "Icons";
+"Icon" = "Icône";
 
 /* No comment provided by engineer. */
 "Images source:" = "Source des images:";
@@ -189,6 +192,9 @@
 
 /* No comment provided by engineer. */
 "Invalid Password" = "Mot de passe incorrect";
+
+/* Settings */
+"Library" = "Barre latérale";
 
 /* Settings */
 "Line Spacing" = "Interligne";
@@ -204,6 +210,9 @@
 
 /* No comment provided by engineer. */
 "Master password:" = "Mot de passe maître:";
+
+/* Settings */
+"MathJax" = "MathJax";
 
 /* No comment provided by engineer. */
 "Modification Date" = "Date de modification";
@@ -236,19 +245,19 @@
 "Passphrase" = "Passphrase";
 
 /* No comment provided by engineer. */
-"Password" = "Password";
+"Password" = "Mot de passe";
 
 /* No comment provided by engineer. */
-"Password has been successfully changed" = "Password has been successfully changed";
+"Password has been successfully changed" = "Le mot de passe a été modifié avec succès";
 
 /* No comment provided by engineer. */
-"Password:" = "Password:";
+"Password:" = "Mot de passe :";
 
 /* No comment provided by engineer. */
 "Photos" = "Photos";
 
 /* No comment provided by engineer. */
-"Picture removing" = "Picture removing";
+"Picture removing" = "Suppression de l'image";
 
 /* Table row action */
 "Pin" = "Épingler";
@@ -257,28 +266,19 @@
 "Please enter valid password" = "Merci de saisir un mot de passe correct";
 
 /* No comment provided by engineer. */
-"Please try again" = "Please try again";
-
-/* No comment provided by engineer. */
-"Preview" = "Aperçu";
-
-/* No comment provided by engineer. */
-"Preview MathJax" = "Aperçu MathJax";
+"Please try again" = "Veuillez réessayer";
 
 /* No comment provided by engineer. */
 "Private Key" = "Private key";
-
-/* Settings */
-"Project" = "Projet";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Suppression de projet ❌";
 
 /* No comment provided by engineer. */
-"Public Key (optional)" = "Public key (optional)";
+"Public Key (optional)" = "Public key (facultatif)";
 
 /* No comment provided by engineer. */
-"Pull (every 30 sec)" = "Pull (every 30 sec)";
+"Pull (every 30 sec)" = "Pull (toutes les 30 secondes)";
 
 /* No comment provided by engineer. */
 "Remove Encryption" = "Supprimer le cryptage";
@@ -314,7 +314,7 @@
 "Save Clipboard" = "Enregistrer le presse-papiers";
 
 /* No comment provided by engineer. */
-"Save Revision" = "Save revision";
+"Save Revision" = "Sauvegarder la révision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Versions enregistrées";
@@ -343,14 +343,11 @@
 /* No comment provided by engineer. */
 "Show Notes in \"Notes\" and \"Todo\"" = "Afficher les notes dans \"Notes\" et \"À faire\"";
 
-/* Settings */
-"Library" = "Barre latérale";
-
 /* No comment provided by engineer. */
 "Sort By" = "Trier par";
 
 /* Settings */
-"Check Spelling" = "Vérification orthographique";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Stockage";
@@ -365,7 +362,7 @@
 "Theme" = "Thème";
 
 /* No comment provided by engineer. */
-"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Conseil : pour utiliser d'anciennes notes, vous devez les décrypter séparément avec l'ancienne clé et les crypter à nouveau.";
 
 /* No comment provided by engineer. */
 "Title" = "Titre";
@@ -389,13 +386,16 @@
 "Untagged" = "Non étiqueté";
 
 /* No comment provided by engineer. */
+"Update" = "Mise à jour";
+
+/* No comment provided by engineer. */
 "Use First Line as Title" = "Utiliser la première ligne comme titre";
 
 /* Settings */
 "Use Inline Tags" = "Utiliser les tags en ligne";
 
 /* No comment provided by engineer. */
-"Verify Password" = "Verify password";
+"Verify Password" = "Vérifier le mot de passe";
 
 /* Settings */
 "Version" = "Version";
@@ -410,10 +410,16 @@
 "Visibility" = "Visibilité";
 
 /* No comment provided by engineer. */
-"Wrong password" = "Wrong password";
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Page d'accueil";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "Wrong repeated password";
+"Wrong password" = "Mot de passe erroné";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Mot de passe répété erroné";
 
 /* No comment provided by engineer. */
 "Сlearing history" = "Effacement de l'historique";
