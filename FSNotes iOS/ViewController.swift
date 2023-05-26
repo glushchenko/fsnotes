@@ -166,6 +166,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.contentInsetAdjustmentBehavior = .never
         notesTable.alwaysBounceVertical = true
 
+        if #available(iOS 15.0, *) {
+            sidebarTableView.sectionHeaderTopPadding = 0
+        }
+
         super.viewDidLoad()
     }
 

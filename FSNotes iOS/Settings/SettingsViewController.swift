@@ -15,7 +15,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var sections = [
         NSLocalizedString("General", comment: "Settings"),
-        NSLocalizedString("Storage", comment: "Settings"),
+        NSLocalizedString("Library", comment: "Settings"),
         NSLocalizedString("FSNotes", comment: "Settings")
     ]
 

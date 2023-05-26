@@ -42,58 +42,28 @@ class SidebarTableView: UITableView,
         return cell
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            return nil
+            return UIView()
         }
 
-        return ""
+        return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 0.5
+            return 5
         }
 
-        return 10
+        if section == 1 && UIApplication.getVC().storage.getNonSystemProjects().count == 0 {
+            return 0
+        }
+
+        return 25
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
-    }
-
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        if let view = view as? UITableViewHeaderFooterView {
-            let custom = UIView()
-            view.backgroundView = custom
-
-            var font: UIFont = UIFont.systemFont(ofSize: 15)
-
-            if #available(iOS 11.0, *) {
-                let fontMetrics = UIFontMetrics(forTextStyle: .caption1)
-                font = fontMetrics.scaledFont(for: font)
-            }
-
-            view.textLabel?.font = font.bold()
-            //view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let view = view as? UITableViewHeaderFooterView {
-            let custom = UIView()
-            view.backgroundView = custom
-            
-            var font: UIFont = UIFont.systemFont(ofSize: 15)
-            
-            if #available(iOS 11.0, *) {
-                let fontMetrics = UIFontMetrics(forTextStyle: .caption1)
-                font = fontMetrics.scaledFont(for: font)
-            }
-            
-            view.textLabel?.font = font.bold()
-            //view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
-        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

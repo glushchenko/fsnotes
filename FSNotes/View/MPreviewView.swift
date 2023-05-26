@@ -660,7 +660,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
 
     #if os(iOS)
-        let fontSize = UserDefaultsManagement.noteFont.pointSize - 3
+        let fontSize = UserDefaultsManagement.noteFont.pointSize
         let codeFontSize = fontSize
     #else
         let fontSize = UserDefaultsManagement.fontSize
@@ -680,11 +680,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 font-weight: bold;
             }
         
-            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; }
-            code, pre {font: \(codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; }
+            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; -webkit-text-size-adjust: none;}
+            code, pre {font: \(codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; -webkit-text-size-adjust: none; }
             img {display: block; margin: 0 auto;}
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
-            p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)
+            p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; -webkit-text-size-adjust: none; } \(codeStyle) \(css)
         
             #MathJax_Message+* {
                 margin-top: 0 !important;
