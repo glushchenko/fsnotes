@@ -4221,7 +4221,7 @@ Olena Hlushcneko</string>
                                     <constraint firstAttribute="height" constant="48" id="MFy-MR-qw2"/>
                                     <constraint firstAttribute="width" constant="48" id="gZm-qi-j99"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="dockIcon4" id="39f-ji-gqR"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="39f-ji-gqR"/>
                             </imageView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ia3-Pz-Sap">
                                 <rect key="frame" x="254" y="114" width="48" height="48"/>
@@ -4229,7 +4229,7 @@ Olena Hlushcneko</string>
                                     <constraint firstAttribute="width" constant="48" id="5dW-F7-UlS"/>
                                     <constraint firstAttribute="height" constant="48" id="taC-XE-nRT"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="dockIcon2" id="8UF-BS-zlW"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon_alt" id="8UF-BS-zlW"/>
                             </imageView>
                             <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="vJo-sa-P9T">
                                 <rect key="frame" x="269" y="90" width="18" height="18"/>
@@ -4911,8 +4911,9 @@ Olena Hlushcneko</string>
         <image name="NSLockLockedTemplate" width="19" height="19"/>
         <image name="NSQuickLookTemplate" width="26" height="17"/>
         <image name="NSShareTemplate" width="19" height="22"/>
-        <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
+        <image name="icon" width="1024" height="1024"/>
+        <image name="icon_alt" width="1024" height="1024"/>
         <image name="lock-closed" width="128" height="128"/>
         <image name="logo_editor" width="800" height="792"/>
         <image name="new_note_button" width="76" height="76"/>
