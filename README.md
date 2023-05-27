@@ -14,7 +14,7 @@ FSNotes is modern notes manager for macOS and iOS.
 
 ### Key features
 
-- **Markdown-first**. Also supports any plaintext and RTF files.
+- **Markdown-first**. Also supports any plaintext files.
 - **Fast and lightweight**. Works smoothly with 10k+ files.
 - **Access anywhere**. Sync with iCloud Drive or Dropbox.
 - **Multi-folder** storage.
@@ -40,7 +40,7 @@ FSNotes is modern notes manager for macOS and iOS.
 	<img src="https://fsnot.es/img/badge-download-on-the-app-store.svg" alt="">
 </a>
 
-<img width="300" alt="FSNotes for iOS" src="https://raw.githubusercontent.com/glushchenko/fsnotes-site/main/static/img/front/iOS-screen-1.webp"> <img width="300" alt="FSNotes for iOS" src="https://raw.githubusercontent.com/glushchenko/fsnotes-site/main/static/img/front/iOS-screen-2.webp">
+<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes6-ios/s1x.webp?v=1.0"> <img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes6-ios/s2x.webp?v=1.0">
 
 ### Key features
 
@@ -48,10 +48,13 @@ FSNotes is modern notes manager for macOS and iOS.
 - **3D Touch** and **configurable keyboard**.
 - **TextBundle** and **EncryptedTextBundle** containers.
 - **Pinned** notes kept in sync with the desktop app.
-- **Dynamic fonts** (iOS 11+).
-- **Night mode** by location or screen brightness.
+- **Dynamic fonts**.
+- **Dark mode**.
 - **Sharing** extension.
 - **Encrypted note** support.
+- **Encrypted folders** support.
+- **Git** integration.
+- **Web Pages** Creation.
 
 ## License
 
