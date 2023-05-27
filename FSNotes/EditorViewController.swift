@@ -152,7 +152,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         vcEditor?.userActivity?.needsSave = true
         
-        Storage.sharedInstance().saveNotesSettings()
+        Storage.shared().saveNotesSettings()
     }
     
     @IBAction func toggleMathJax(_ sender: NSMenuItem) {
@@ -404,7 +404,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         guard let vc = ViewController.shared() else { return }
         guard let notes = getSelectedNotes() else { return }
         
-        if let project = Storage.sharedInstance().getArchive() {
+        if let project = Storage.shared().getArchive() {
             vc.moveReq(notes: notes, project: project) { success in
                 guard success else { return }
                 
@@ -446,68 +446,37 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
               let note = getSelectedNotes()?.first else { return }
 
         let moveMenu = NSMenu()
+        let commits = note.getCommits()
 
-        do {
-            if let repository = try note.project.getRepository() {
-                let commits = getCommits(from: repository, by: note)
-                
-                // Port
-                if commits.count == 0 {
-                    return
-                }
+        // Port
+        if commits.count == 0 {
+            return
+        }
 
-                for commit in commits {
-                    let menuItem = NSMenuItem()
-                    menuItem.title = commit.getDate()
-                    menuItem.representedObject = commit
-                    menuItem.action = #selector(vc.checkoutRevision(_:))
-                    moveMenu.addItem(menuItem)
-                }
-                
-                let general = moveMenu.item(at: 0)
-                
-                // Main window
-                if cvc.isKind(of: ViewController.self),
-                   vc.notesTableView.selectedRow >= 0 {
-                    let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
-                    let x = vc.splitView.subviews[0].frame.width + 5
-                    moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
-                    return
-                }
-                
-                // Opened in new window
-                if cvc.isKind(of: NoteViewController.self) {
-                    moveMenu.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
-                }
-            }
-        } catch {
-            print(error)
+        for commit in commits {
+            let menuItem = NSMenuItem()
+            menuItem.title = commit.getDate()
+            menuItem.representedObject = commit
+            menuItem.action = #selector(vc.checkoutRevision(_:))
+            moveMenu.addItem(menuItem)
+        }
+
+        let general = moveMenu.item(at: 0)
+
+        // Main window
+        if cvc.isKind(of: ViewController.self),
+           vc.notesTableView.selectedRow >= 0 {
+            let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
+            let x = vc.splitView.subviews[0].frame.width + 5
+            moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
+            return
+        }
+
+        // Opened in new window
+        if cvc.isKind(of: NoteViewController.self) {
+            moveMenu.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
         }
     }
-    
-    public func getCommits(from repository: Repository, by note: Note) -> [Commit] {
-        let path = note.getGitPath().recode4byteString()
-        var commits = [Commit]()
-        
-        do {
-            let fileRevLog = try FileHistoryIterator(repository: repository, path: path)
-            
-            while let rev = fileRevLog.next() {
-                if let commit = try? repository.commitLookup(oid: rev) {
-                    commits.append(commit)
-                }
-            }
-            
-            if fileRevLog.checkFirstCommit() {
-                if let oid = fileRevLog.getLast(), let commit = try? repository.commitLookup(oid: oid) {
-                    commits.append(commit)
-                }
-            }
-        } catch {/*_*/}
-        
-        return commits
-    }
-    
     
     @IBAction func duplicate(_ sender: Any) {
         guard let notes = getSelectedNotes() else { return }
@@ -536,7 +505,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
             noteDupe.save()
 
-            Storage.sharedInstance().add(noteDupe)
+            Storage.shared().add(noteDupe)
             ViewController.shared()?.notesTableView.insertNew(note: noteDupe)
         }
     }
@@ -552,7 +521,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         panel.begin { (result) -> Void in
             if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
-                let project = vc.getSidebarProject() ?? Storage.sharedInstance().getMainProject()
+                let project = vc.getSidebarProject() ?? Storage.shared().getMainProject()
 
                 for url in urls {
                     _ = vc.copy(project: project, url: url)
@@ -879,11 +848,23 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             editor.saveImages()
 
             note.save(attributed: editor.attributedString())
+
+            updateLastEditedStatus()
             vc.reSort(note: note)
         }
 
         breakUndoTimer.invalidate()
         breakUndoTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(breakUndo), userInfo: nil, repeats: true)
+    }
+
+    private func updateLastEditedStatus() {
+        let editors = AppDelegate.getEditTextViews()
+
+        for editor in editors {
+            editor.isLastEdited = false
+        }
+
+        vcEditor?.isLastEdited = true
     }
             
     @objc func breakUndo() {
@@ -910,7 +891,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
         
         if sidebarProject == nil {
-            sidebarProject = Storage.sharedInstance().getRootProject()
+            sidebarProject = Storage.shared().getRootProject()
         }
         
         guard let project = sidebarProject else { return nil }
@@ -953,7 +934,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         // Project encrypted and unlocked – encrypt by default
         if let password = project.password {
             if note.encrypt(password: password) {
-                _ = note.unLock(password: password)
+                if note.unLock(password: password) {
+                    note.password = password
+                }
             }
         }
 

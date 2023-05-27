@@ -84,7 +84,7 @@ public class Note: NSObject  {
     // Make new
     
     init(name: String? = nil, project: Project? = nil, type: NoteType? = nil, cont: NoteContainer? = nil) {
-        let project = project ?? Storage.sharedInstance().getMainProject()
+        let project = project ?? Storage.shared().getMainProject()
         let name = name ?? String()
 
         self.project = project
@@ -157,7 +157,7 @@ public class Note: NSObject  {
     }
     
     public func loadProject() {
-        let sharedStorage = Storage.sharedInstance()
+        let sharedStorage = Storage.shared()
         
         if let project = sharedStorage.getProjectByNote(url: url) {
             self.project = project
@@ -315,7 +315,7 @@ public class Note: NSObject  {
     }
     
     func move(to: URL, project: Project? = nil, forceRewrite: Bool = false) -> Bool {
-        let sharedStorage = Storage.sharedInstance()
+        let sharedStorage = Storage.shared()
 
         do {
             var destination = to
@@ -370,7 +370,7 @@ public class Note: NSObject  {
                 self.url = dst
                 parseURL()
 
-                #if os(iOS)
+                #if IOS_APP
                     moveHistory(src: src, dst: dst)
                 #endif
             }
@@ -381,7 +381,7 @@ public class Note: NSObject  {
                 removePin()
             }
 
-            #if os(iOS)
+            #if IOS_APP
                 dropRevisions()
             #endif
         }
@@ -413,7 +413,7 @@ public class Note: NSObject  {
 
                 var resultingItemUrl: NSURL?
                 if #available(iOS 11.0, *) {
-                    if let trash = Storage.sharedInstance().getDefaultTrash() {
+                    if let trash = Storage.shared().getDefaultTrash() {
                         moveImages(to: trash)
                     }
 
@@ -436,7 +436,7 @@ public class Note: NSObject  {
 
             print("Note moved in custom Trash folder")
 
-            if let trash = Storage.sharedInstance().getDefaultTrash() {
+            if let trash = Storage.shared().getDefaultTrash() {
                 moveImages(to: trash)
             }
             
@@ -467,7 +467,7 @@ public class Note: NSObject  {
         }
 
         do {
-            guard let dst = Storage.sharedInstance().trashItem(url: url) else {
+            guard let dst = Storage.shared().trashItem(url: url) else {
                 var resultingItemUrl: NSURL?
                 try FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
 
@@ -480,7 +480,7 @@ public class Note: NSObject  {
                 return [self.url, originalURL]
             }
 
-            if let trash = Storage.sharedInstance().getDefaultTrash() {
+            if let trash = Storage.shared().getDefaultTrash() {
                 moveImages(to: trash)
             }
 
@@ -571,7 +571,7 @@ public class Note: NSObject  {
     }
     
     private func getDefaultTrashURL() -> URL? {
-        if let url = Storage.sharedInstance().getDefaultTrash()?.url {
+        if let url = Storage.shared().getDefaultTrash()?.url {
             return url
         }
 
@@ -613,7 +613,7 @@ public class Note: NSObject  {
     }
 
     @objc public func getPreviewForLabel() -> String {
-        if project.firstLineAsTitle {
+        if project.settings.isFirstLineAsTitle() {
             return preview
         }
 
@@ -623,7 +623,7 @@ public class Note: NSObject  {
     @objc func getDateForLabel() -> String {
         guard !UserDefaultsManagement.hideDate else { return String() }
 
-        guard let date = (project.sortBy == .creationDate || UserDefaultsManagement.sort == .creationDate)
+        guard let date = (project.settings.sortBy == .creationDate || UserDefaultsManagement.sort == .creationDate)
             ? creationDate
             : modifiedLocalAt
         else { return String() }
@@ -703,7 +703,7 @@ public class Note: NSObject  {
         
     #if CLOUDKIT || os(iOS)
         if cloudSave {
-            Storage.sharedInstance().saveCloudPins()
+            Storage.shared().saveCloudPins()
         }
     #elseif os(OSX)
         addLocalPin(url: url)
@@ -717,7 +717,7 @@ public class Note: NSObject  {
             
             #if CLOUDKIT || os(iOS)
             if cloudSave {
-                Storage.sharedInstance().saveCloudPins()
+                Storage.shared().saveCloudPins()
             }
             #elseif os(OSX)
                 removeLocalPin(url: url)
@@ -824,7 +824,7 @@ public class Note: NSObject  {
     }
     
     func getPrettifiedContent() -> String {
-        #if NOT_EXTENSION || os(OSX)
+        #if IOS_APP || os(OSX)
             let mutable = NotesTextProcessor.convertAppTags(in: self.content)
             let content = NotesTextProcessor.convertAppLinks(in: mutable)
             let result = cleanMetaData(content: content.string)
@@ -878,7 +878,7 @@ public class Note: NSObject  {
     }
 
     private func loadTitle() {
-        if !(UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+        if !project.settings.isFirstLineAsTitle() {
             title = url
                 .deletingPathExtension()
                 .pathComponents
@@ -896,8 +896,8 @@ public class Note: NSObject  {
     }
 
     public func save(attributed: NSAttributedString) {
-        Storage.sharedInstance().plainWriter.cancelAllOperations()
-        Storage.sharedInstance().plainWriter.addOperation {
+        Storage.shared().plainWriter.cancelAllOperations()
+        Storage.shared().plainWriter.addOperation {
             if let copy = attributed.copy() as? NSAttributedString {
                 let mutable = NSMutableAttributedString(attributedString: copy)
                 self.save(content: mutable)
@@ -985,9 +985,9 @@ public class Note: NSObject  {
             try FileManager.default.setAttributes(attributes, ofItemAtPath: dst.path)
 
             if decryptedTemporarySrc != nil {
-                Storage.sharedInstance().ciphertextWriter.cancelAllOperations()
-                Storage.sharedInstance().ciphertextWriter.addOperation {
-                    guard Storage.sharedInstance().ciphertextWriter.operationCount == 1 else { return }
+                Storage.shared().ciphertextWriter.cancelAllOperations()
+                Storage.shared().ciphertextWriter.addOperation {
+                    guard Storage.shared().ciphertextWriter.operationCount == 1 else { return }
                     self.writeEncrypted()
                 }
             } else {
@@ -1000,7 +1000,7 @@ public class Note: NSObject  {
         }
 
         if globalStorage {
-            Storage.sharedInstance().add(self)
+            Storage.shared().add(self)
         }
     }
 
@@ -1218,7 +1218,7 @@ public class Note: NSObject  {
     }
 #else
     public func loadTags() -> Bool {
-        _ = Storage.sharedInstance()
+        _ = Storage.shared()
 
         if UserDefaultsManagement.inlineTags {
             let changes = scanContentTags()
@@ -1476,7 +1476,7 @@ public class Note: NSObject  {
         let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
 
         if let first = components.first {
-            if UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle {
+            if project.settings.isFirstLineAsTitle() {
                 loadYaml(components: components)
 
                 if title.count == 0 {
@@ -1489,7 +1489,7 @@ public class Note: NSObject  {
                 self.preview = getPreviewLabel(with: components.joined(separator: " "))
             }
         } else {
-            if !(UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+            if !project.settings.isFirstLineAsTitle() {
                 loadTitleFromFileName()
             } else {
                 firstLineAsTitle = false
@@ -1796,7 +1796,7 @@ public class Note: NSObject  {
     }
 
     public func unLock(password: String) -> Bool {
-        let sharedStorage = Storage.sharedInstance()
+        let sharedStorage = Storage.shared()
 
         do {
             let name = url.deletingPathExtension().lastPathComponent
@@ -1860,7 +1860,6 @@ public class Note: NSObject  {
             try FileManager.default.removeItem(at: textPackURL)
             try FileManager.default.removeItem(at: originalSrc)
 
-            convertTextBundleToFlat(name: name)
             self.decryptedTemporarySrc = nil
 
             invalidateCache()
@@ -1892,7 +1891,6 @@ public class Note: NSObject  {
             try FileManager.default.moveItem(at: decSrcUrl, to: newURL)
 
             self.decryptedTemporarySrc = nil
-            convertTextBundleToFlat(name: name)
 
             load()
             parseURL()
@@ -1992,7 +1990,7 @@ public class Note: NSObject  {
         guard let temporaryURL = self.decryptedTemporarySrc else { return false }
 
         while true {
-            if Storage.sharedInstance().ciphertextWriter.operationCount == 0 {
+            if Storage.shared().ciphertextWriter.operationCount == 0 {
                 print("Note \"\(title)\" successfully locked.")
 
                 container = .encryptedTextPack
@@ -2029,15 +2027,13 @@ public class Note: NSObject  {
         }
 
         #if os(iOS)
-        if !project.firstLineAsTitle {
+        if !project.settings.isFirstLineAsTitle() {
             return getFileName()
         }
         #endif
 
         if title.count > 0 {
-            if title.isValidUUID && (
-                UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle
-            ) {
+            if title.isValidUUID && project.settings.isFirstLineAsTitle() {
                 return nil
             }
 
@@ -2056,34 +2052,6 @@ public class Note: NSObject  {
         }
 
         return nil
-    }
-
-    public func getGitPath() -> String {
-        var path = name
-
-    #if NOT_EXTENSION || os(OSX)
-        if let gitPath = project.getGitPath() {
-            path = gitPath + "/" + name
-        }
-        
-        if isTextBundle(), let text = getContentFileURL()?.lastPathComponent {
-            return path + "/" + text
-        }
-    #endif
-
-        return path
-    }
-    
-    public func getGitCheckoutPath() -> String {
-        var path = name.recode4byteString()
-
-    #if NOT_EXTENSION || os(OSX)
-        if let gitPath = project.getGitPath() {
-            path = gitPath + "/" + name
-        }
-    #endif
-
-        return path
     }
 
     public func rename(to name: String) {

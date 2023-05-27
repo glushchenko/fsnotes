@@ -51,13 +51,13 @@ public class Remote {
 //        
 //        // Define fetch options
 //        var fetchOptions = git_fetch_options()
-//        fetchOptions.version = 1
-//        fetchOptions.callbacks.version = 1
-//        fetchOptions.prune = GIT_FETCH_PRUNE_UNSPECIFIED
-//        fetchOptions.update_fetchhead = 1
+        fetchOptions.version = 1
+        fetchOptions.callbacks.version = 1
+        fetchOptions.prune = GIT_FETCH_PRUNE_UNSPECIFIED
+        fetchOptions.update_fetchhead = 1
         
         // Set progress
-        setTransfertProgressHandler(options: &fetchOptions.callbacks, progress: progress)
+        fetchOptions.callbacks.transfer_progress = ProgressDelegate.fetchProgressCallback
         
         
         // test authentication
@@ -82,7 +82,7 @@ public class Remote {
     /// - throws: GitError
     public func pull(signature: Signature, remote: Branch? = nil,
                      authentication: AuthenticationHandler? = nil,
-                     progress: Progress? = nil, project: Project? = nil) throws -> Bool {
+                     progress: Progress? = nil, project: Project? = nil) throws {
         
         // Fetch remote
         try fetch(authentication: authentication, progress: progress)
@@ -102,7 +102,7 @@ public class Remote {
         
         // Merge head
         let head = try repository.head()
-        return try head.merge(branch: remoteBranch, signature: signature, progress: progress, project: project)
+        _ = try head.merge(branch: remoteBranch, signature: signature, progress: progress)
     }
     
     /// Push a branch to remote
@@ -133,7 +133,8 @@ public class Remote {
 //        opts.callbacks.version = 1
         
         // Set progress
-        //setTransfertProgressHandler(options: &opts.callbacks, progress: progress)
+        pushOptions.callbacks.push_transfer_progress = ProgressDelegate.pushProgressCallback
+        pushOptions.callbacks.pack_progress = ProgressDelegate.packBuilderCallback
         
         // test authentication
         if (authentication != nil) {

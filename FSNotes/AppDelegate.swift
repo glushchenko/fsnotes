@@ -27,6 +27,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
     }
+    
+    public static var gitProgress: GitProgress?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         checkStorageChanges()
@@ -44,13 +46,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             NSApp.setActivationPolicy(.accessory)
         }
 
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         storage.loadNotesSettings()
         storage.loadDocuments()
         
-        // For notarized app
-        ProjectSettingsViewController.restoreSettings()
-
         // Cache
         DispatchQueue.global(qos: .background).async {
             for note in storage.noteList {
@@ -108,9 +107,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         AppDelegate.saveWindowsState()
         
-        Storage.sharedInstance().saveNotesSettings()
-        Storage.sharedInstance().saveAPIIds()
-        Storage.sharedInstance().saveUploadPaths()
+        Storage.shared().saveNotesSettings()
+        Storage.shared().saveAPIIds()
+        Storage.shared().saveUploadPaths()
         
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
@@ -405,7 +404,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func checkStorageChanges() {
-        if Storage.sharedInstance().shouldMovePrompt,
+        if Storage.shared().shouldMovePrompt,
             let local = UserDefaultsManagement.localDocumentsContainer,
             let iCloudDrive = UserDefaultsManagement.iCloudDocumentsContainer
         {

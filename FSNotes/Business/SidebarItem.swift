@@ -25,6 +25,24 @@ class SidebarItem {
         self.type = type
         self.icon = icon
         self.tag = tag
+
+    #if os(iOS)
+        self.icon = self.type.getIcon()
+
+        guard let project = project, type == .Project else { return }
+
+        if project.isEncrypted {
+            if project.isLocked() {
+                self.type = .ProjectEncryptedLocked
+            } else {
+                self.type = .ProjectEncryptedUnlocked
+            }
+        } else {
+            self.type = .Project
+        }
+
+        self.icon = self.type.getIcon()
+    #endif
     }
 
     public func getName() -> String {
@@ -61,5 +79,10 @@ class SidebarItem {
         let system: [SidebarItemType] = [.All, .Archive, .Trash, .Todo]
 
         return system.contains(type)
+    }
+
+    public func load(type: SidebarItemType) {
+        self.type = type
+        self.icon = type.getIcon()
     }
 }

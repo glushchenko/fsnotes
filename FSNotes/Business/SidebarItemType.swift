@@ -8,17 +8,14 @@
 
 #if os(OSX)
 import Cocoa
+#else
+import UIKit
 #endif
 
 enum SidebarItemType: Int {
     case Label = 0x00
     case All = 0x01
-    case Trash = 0x02
-
-    #if os(iOS)
-    case Category = 0x03
-    #endif
-    
+    case Trash = 0x02    
     case Archive = 0x05
     case Todo = 0x06
     case Inbox = 0x07
@@ -29,36 +26,28 @@ enum SidebarItemType: Int {
     case ProjectEncryptedLocked = 12
     case ProjectEncryptedUnlocked = 13
 
-    #if os(OSX)
-    public func getIcon(white: Bool = false) -> NSImage? {
-        var image: NSImage? = nil
-        
-        switch rawValue {
-        case 0x01:
-            image = NSImage(named: "sidebar_notes")
-        case 0x02:
-            image = NSImage(named: "sidebar_trash")
-        case 0x05:
-            image = NSImage(named: "sidebar_archive")
-        case 0x06:
-            image = NSImage(named: "sidebar_todo")
-        case 0x07:
-            image = NSImage(named: "sidebar_inbox")
-        case 0x08:
-            image = NSImage(named: "sidebar_tag")
-        case 0x09:
-            image = NSImage(named: "sidebar_project")
-        case 0x10:
-            image = NSImage(named: "sidebar_icloud_drive")
-        case 0x11:
-            image = NSImage(named: "sidebar_untagged")
-        case 12:
-            image = NSImage(named: "sidebar_project_encrypted_locked")
-        case 13:
-            image = NSImage(named: "sidebar_project_encrypted_unlocked")
-        default:
-            return nil
+    public var icon: String? {
+        switch self {
+        case .Label: return nil
+        case .All: return "sidebar_notes"
+        case .Trash: return "sidebar_trash"
+        case .Archive: return "sidebar_archive"
+        case .Todo: return "sidebar_todo"
+        case .Inbox: return "sidebar_inbox"
+        case .Tag: return "sidebar_tag"
+        case .Project: return "sidebar_project"
+        case .Header: return "sidebar_icloud_drive"
+        case .Untagged: return "sidebar_untagged"
+        case .ProjectEncryptedLocked: return "sidebar_project_encrypted_locked"
+        case .ProjectEncryptedUnlocked: return "sidebar_project_encrypted_unlocked"
         }
+    }
+    
+#if os(OSX)
+    public func getIcon(white: Bool = false) -> NSImage? {
+        guard let icon = icon else { return nil }
+
+        var image = NSImage(named: icon)
         
         if #available(macOS 10.14, *), UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
             return image?.tint(color: NSColor.controlAccentColor)
@@ -68,5 +57,11 @@ enum SidebarItemType: Int {
             return image
         }
     }
-    #endif
+#else
+    public func getIcon() -> UIImage? {
+        guard let icon = icon, let image = UIImage(named: icon) else { return nil }
+
+        return image.imageWithColor(color1: UIColor.mainTheme)
+    }
+#endif
 }

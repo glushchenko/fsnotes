@@ -1,8 +1,14 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "Add External Folder";
+
+/* Settings */
+"Advanced" = "Advanced";
 
 /* Archive in sidebar */
 "Archive" = "Archive";
@@ -16,23 +22,11 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Are you sure you want to delete this image?";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "Auto by screen brightness";
-
-/* Naming controller */
-"Auto rename by title" = "Auto rename by title";
-
 /* Settings */
 "Auto Rename By Title" = "Auto Rename By Title";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "Auto versioning";
-
 /* Settings */
 "Autocorrection" = "Autocorrection";
-
-/* No comment provided by engineer. */
-"Brightness level" = "Brightness level";
 
 /* Settings */
 "build" = "build";
@@ -41,10 +35,16 @@
 "Cancel" = "Cancel";
 
 /* No comment provided by engineer. */
+"Change Creation Date" = "Change Creation Date";
+
+/* Settings */
+"Check Spelling" = "Check Spelling";
+
+/* No comment provided by engineer. */
 "Code" = "Code";
 
 /* Settings */
-"Code block live highlighting" = "Code block live highlighting";
+"Code Block Live Highlighting" = "Code Block Live Highlighting";
 
 /* Settings */
 "Code Theme" = "Code Theme";
@@ -56,34 +56,37 @@
 "Container" = "Container";
 
 /* No comment provided by engineer. */
-"Copy plain text" = "Copy plain text";
+"Copy Plain Text" = "Copy Plain Text";
 
 /* Main view popover table */
-"Create folder" = "Create folder";
+"Create Folder" = "Create Folder";
 
 /* No comment provided by engineer. */
 "Create folder:" = "Create folder:";
 
 /* No comment provided by engineer. */
-"Creation date" = "Creation date";
+"Create Web Page" = "Create Web Page";
 
 /* No comment provided by engineer. */
-"Date created" = "Date created";
+"Creation Date" = "Creation Date";
 
-/* Settings */
-"Default Container" = "Default Container";
+/* Main view popover table */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
-"Default keyboard in editor" = "Default keyboard in editor";
+"Default Keyboard" = "Default Keyboard";
 
 /* Table row action */
 "Delete" = "Delete";
 
 /* No comment provided by engineer. */
-"Disabled" = "Disabled";
+"Delete Web Page" = "Delete Web Page";
 
 /* No comment provided by engineer. */
 "Documents" = "Documents";
+
+/* No comment provided by engineer. */
+"Done" = "Done";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicate";
@@ -97,8 +100,8 @@
 /* Main view popover table */
 "Empty Bin" = "Empty Bin";
 
-/* No comment provided by engineer. */
-"Enabled" = "Enabled";
+/* Main view popover table */
+"Encrypt" = "Encrypt";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Enter folder name";
@@ -118,17 +121,14 @@
 /* Settings */
 "Family" = "Family";
 
-/* Settings */
-"File format" = "File format";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "File with this name already exist";
 
 /* Settings */
-"Files Naming" = "Files Naming";
+"Files" = "Files";
 
-/* No comment provided by engineer. */
-"Focus in search field" = "Focus in search field";
+/* Settings */
+"Files Naming" = "Files Naming";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Folder name:";
@@ -137,13 +137,16 @@
 "Folder with this name already exist" = "Folder with this name already exist";
 
 /* Settings */
+"Folders" = "Folders";
+
+/* Settings */
 "Font" = "Font";
 
 /* Settings */
 "Font Family" = "Font Family";
 
 /* Settings */
-"Font size" = "Font size";
+"Font Size" = "Font Size";
 
 /* Settings */
 "Format: Untitled Note" = "Format: Untitled Note";
@@ -160,21 +163,30 @@
 /* Settings */
 "General" = "General";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
+"Git Settings" = "Git Settings";
+
 /* No comment provided by engineer. */
 "History" = "History";
 
 /* Settings */
-"Homepage" = "Homepage";
+"iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"iCloud Drive" = "iCloud Drive";
+"Icon" = "Icon";
 
 /* No comment provided by engineer. */
 "Images source:" = "Images source:";
 
 /* Main view popover table
    Settings */
-"Import notes" = "Import notes";
+"Import Notes" = "Import Notes";
 
 /* Inbox in sidebar */
 "Inbox" = "Inbox";
@@ -183,19 +195,28 @@
 "Invalid Password" = "Invalid Password";
 
 /* Settings */
+"Library" = "Library";
+
+/* Settings */
 "Line Spacing" = "Line Spacing";
 
 /* Settings */
-"Live images preview" = "Live images preview";
+"Live Images Preview" = "Live Images Preview";
 
 /* No comment provided by engineer. */
 "Lock" = "Lock";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "Master password:";
 
+/* Settings */
+"MathJax" = "MathJax";
+
 /* No comment provided by engineer. */
-"Modification date" = "Modification date";
+"Modification Date" = "Modification Date";
 
 /* Table row action */
 "More" = "More";
@@ -204,10 +225,7 @@
 "Move" = "Move";
 
 /* No comment provided by engineer. */
-"New document" = "New document";
-
-/* Settings */
-"Night Mode" = "Night Mode";
+"New Note" = "New Note";
 
 /* No comment provided by engineer. */
 "None" = "None";
@@ -217,13 +235,25 @@
 "Notes" = "Notes";
 
 /* No comment provided by engineer. */
-"Notes list" = "Notes list";
+"Notes List" = "Notes List";
 
 /* Main view popover table */
 "Open in Files.app" = "Open in Files.app";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open Note" = "Open Note";
+
+/* No comment provided by engineer. */
+"Passphrase" = "Passphrase";
+
+/* No comment provided by engineer. */
+"Password" = "Password";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "Password has been successfully changed";
+
+/* No comment provided by engineer. */
+"Password:" = "Password:";
 
 /* No comment provided by engineer. */
 "Photos" = "Photos";
@@ -238,34 +268,34 @@
 "Please enter valid password" = "Please enter valid password";
 
 /* No comment provided by engineer. */
-"Preview" = "Preview";
+"Please try again" = "Please try again";
 
-/* Settings */
-"Pro" = "Pro";
-
-/* Settings */
-"Project" = "Project";
+/* No comment provided by engineer. */
+"Private Key" = "Private Key";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Project removing ❌";
 
-/* Settings */
-"Projects" = "Projects";
+/* No comment provided by engineer. */
+"Public Key (optional)" = "Public Key (optional)";
 
 /* No comment provided by engineer. */
-"Remove encryption" = "Remove encryption";
+"Pull (every 30 sec)" = "Pull (every 30 sec)";
+
+/* No comment provided by engineer. */
+"Remove Encryption" = "Remove Encryption";
 
 /* Main view popover table */
-"Remove folder" = "Remove folder";
+"Remove Folder" = "Remove Folder";
 
 /* Main view popover table */
-"Remove tag" = "Remove tag";
+"Remove Tag" = "Remove Tag";
 
 /* No comment provided by engineer. */
 "Rename" = "Rename";
 
 /* Main view popover table */
-"Rename folder" = "Rename folder";
+"Rename Folder" = "Rename Folder";
 
 /* Popover table */
 "Rename folder:" = "Rename folder:";
@@ -274,22 +304,31 @@
 "Rename note:" = "Rename note:";
 
 /* Main view popover table */
-"Rename tag" = "Rename tag";
+"Rename Tag" = "Rename Tag";
 
 /* Popover table */
 "Rename tag:" = "Rename tag:";
 
 /* No comment provided by engineer. */
-"Save clipboard" = "Save clipboard";
+"Save" = "Save";
+
+/* No comment provided by engineer. */
+"Save Clipboard" = "Save Clipboard";
+
+/* No comment provided by engineer. */
+"Save Revision" = "Save Revision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Saved versions";
 
 /* No comment provided by engineer. */
-"Search" = "Search";
+"Search or Create" = "Search or Create";
 
 /* No comment provided by engineer. */
 "Search or create" = "Search or create";
+
+/* Settings */
+"Security" = "Security";
 
 /* Main view popover table */
 "Select" = "Select";
@@ -301,19 +340,16 @@
 "Share" = "Share";
 
 /* No comment provided by engineer. */
-"Show folder in sidebar" = "Show folder in sidebar";
+"Show Folder in Library" = "Show Folder in Library";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "Show notes in \"Notes\" and \"Todo\" lists";
-
-/* Settings */
-"Sidebar" = "Sidebar";
+"Show Notes in \"Notes\" and \"Todo\"" = "Show Notes in \"Notes\" and \"Todo\"";
 
 /* No comment provided by engineer. */
-"Sort by" = "Sort by";
+"Sort By" = "Sort By";
 
 /* Settings */
-"Spell Checking" = "Spell Checking";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Storage";
@@ -321,14 +357,14 @@
 /* Settings */
 "Support" = "Support";
 
-/* No comment provided by engineer. */
-"System" = "System";
-
 /* Settings */
-"Thanks to" = "Thanks to";
+"Thanks" = "Thanks";
 
 /* Settings */
 "Theme" = "Theme";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
 
 /* No comment provided by engineer. */
 "Title" = "Title";
@@ -344,22 +380,25 @@
 "Twitter" = "Twitter";
 
 /* No comment provided by engineer. */
-"Type" = "Type";
-
-/* No comment provided by engineer. */
 "Unlock" = "Unlock";
 
 /* Table row action */
-"UnPin" = "UnPin";
+"Unpin" = "Unpin";
 
 /* No comment provided by engineer. */
 "Untagged" = "Untagged";
 
 /* No comment provided by engineer. */
-"Use first line as title" = "Use first line as title";
+"Update" = "Update";
+
+/* No comment provided by engineer. */
+"Use First Line as Title" = "Use First Line as Title";
 
 /* Settings */
-"Use inline tags" = "Use inline tags";
+"Use Inline Tags" = "Use Inline Tags";
+
+/* No comment provided by engineer. */
+"Verify Password" = "Verify Password";
 
 /* Settings */
 "Version" = "Version";
@@ -368,13 +407,25 @@
 "View" = "View";
 
 /* Main view popover table */
-"View settings" = "View settings";
+"View Settings" = "View Settings";
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibility";
 
 /* No comment provided by engineer. */
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Website";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Wrong password";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Wrong repeated password";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "Сlearing history";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "Preview MathJax";
+"✅ - " = "✅ - ";

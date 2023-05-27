@@ -9,7 +9,6 @@
 import UIKit
 import MobileCoreServices
 import Social
-import NightNight
 import Kanna
 
 @objc(ShareViewController)
@@ -38,16 +37,12 @@ class ShareViewController: SLComposeServiceViewController {
         
         preferredContentSize = CGSize(width: 300, height: 300)
         navigationController!.navigationBar.topItem!.rightBarButtonItem!.title = NSLocalizedString("New note", comment: "")
-        navigationController?.navigationBar.backgroundColor = Colors.Header.normalResource
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.barTintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController!.navigationBar.tintColor = UIColor.mainTheme
 
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
         let font = UserDefaultsManagement.noteFont.italic().bold().withSize(16)
         label.text = "FSNotes"
         label.font = font
-        label.textColor = UIColor.white
         navigationController?.navigationBar.topItem?.titleView = label
     }
 
@@ -62,7 +57,10 @@ class ShareViewController: SLComposeServiceViewController {
 
             for item in 0...2 {
                 if let cell = table.cellForRow(at: IndexPath(item: item, section: 0)) {
-                    cell.textLabel?.textColor = UIColor(red:0.19, green:0.38, blue:0.57, alpha:1.0)
+                    //cell.textLabel?.textColor = UIColor(red:0.19, green:0.38, blue:0.57, alpha:1.0)
+                    if let fontSize = cell.textLabel?.font.pointSize {
+                        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
+                    }
                 }
             }
         }
@@ -129,7 +127,7 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [Any]! {
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         var urls = [URL]()
 
         if let inbox = UserDefaultsManagement.storageUrl {
@@ -200,7 +198,7 @@ class ShareViewController: SLComposeServiceViewController {
             let input = context.inputItems as? [NSExtensionItem] else { return }
 
         let note = note ?? Note(project: self.currentProject)
-        Storage.sharedInstance().add(note)
+        Storage.shared().add(note)
 
         var started = 0
         var finished = 0
@@ -312,7 +310,7 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     public func loadNotesFrom(project: Project) {
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
 
         if storage.getNotesBy(project: project).count == 0 {
             storage.loadNotes(project)

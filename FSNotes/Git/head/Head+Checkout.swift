@@ -44,10 +44,10 @@ extension Head {
     /// - throws: GitError 
     ///    - GitError.NOT_FOUND : if branch not found
     ///    - GitError.UNKNOW_ERROR : for unknow error
-    public func checkout(branch: Branch, progress: Progress? = nil) throws {
+    public func checkout(branch: Branch, progress: Progress? = nil, type: CheckoutType = .safe) throws {
         
         // Checkout new tree
-        try checkout(tree: try branch.revTree(), type: .safe, progress: progress)
+        try checkout(tree: try branch.revTree(), type: type, progress: progress)
         
         // Set head
         let error = git_repository_set_head(repository.pointer.pointee, branch.name)
@@ -88,13 +88,13 @@ extension Head {
         // Select checkout strategy
         var opts = git_checkout_options()
         opts.version = 1
-        
-        // Set progress
-        setCheckoutProgressHandler(options: &opts, progress: progress)
+        opts.progress_cb = ProgressDelegate.checkoutProgressCallback
         
         switch type {
         case .none:
             opts.checkout_strategy = GIT_CHECKOUT_NONE.rawValue;
+            opts.notify_cb = ProgressDelegate.checkoutIgnoreFilesProgressCallback
+            opts.notify_flags = GIT_CHECKOUT_NOTIFY_DIRTY.rawValue
         case .safe:
             opts.checkout_strategy = GIT_CHECKOUT_SAFE.rawValue;
         case .recreateMissing:
@@ -106,7 +106,7 @@ extension Head {
         // Checkout new tree
         let error = git_checkout_tree(repository.pointer.pointee, tree.tree.pointee, &opts);
         if (error != 0) {
-            throw gitUnknownError("Unable to chekcout to tree", code: error)
+            throw gitUnknownError("Unable to checkout to tree", code: error)
         }
     }
     
@@ -123,7 +123,8 @@ extension Head {
         opts.version = 1
         
         // Set progress
-        setCheckoutProgressHandler(options: &opts, progress: progress)
+        opts.progress_cb = ProgressDelegate.checkoutProgressCallback
+        //setCheckoutProgressHandler(options: &opts, progress: progress)
         
         let gType : git_reset_t
         
@@ -140,18 +141,6 @@ extension Head {
         let error = git_reset(repository.pointer.pointee, try targetCommit().pointer.pointee, gType, &opts)
         if (error != 0) {
             throw gitUnknownError("Unable to reset 'HEAD'", code: error)
-        }
-    }
-    
-    public func forceCheckout(branch: Branch, progress: Progress? = nil) throws {
-        
-        // Checkout new tree
-        try checkout(tree: try branch.revTree(), type: .force, progress: progress)
-        
-        // Set head
-        let error = git_repository_set_head(repository.pointer.pointee, branch.name)
-        if (error != 0) {
-            throw gitUnknownError("Unable to switch to '\(branch.name)' branch", code: error)
         }
     }
 }

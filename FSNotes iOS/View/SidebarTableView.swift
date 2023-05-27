@@ -9,7 +9,6 @@
 import Foundation
 
 import UIKit
-import NightNight
 import AudioToolbox
 
 class SidebarTableView: UITableView,
@@ -17,27 +16,9 @@ class SidebarTableView: UITableView,
     UITableViewDataSource,
     UITableViewDropDelegate {
 
-    @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}
-    @IBInspectable var endColor:     UIColor = .white { didSet { updateColors() }}
-    @IBInspectable var startLocation: Double =   0.05 { didSet { updateLocations() }}
-    @IBInspectable var endLocation:   Double =   0.95 { didSet { updateLocations() }}
-    @IBInspectable var horizontalMode:  Bool =  false { didSet { updatePoints() }}
-    @IBInspectable var diagonalMode:    Bool =  false { didSet { updatePoints() }}
-
-    var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
     private var sidebar: Sidebar = Sidebar()
     private var busyTrashReloading = false
-
     public var viewController: ViewController?
-
-    override class var layerClass: AnyClass { return CAGradientLayer.self }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updatePoints()
-        updateLocations()
-        updateColors()
-    }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return sidebar.items.count
@@ -61,50 +42,28 @@ class SidebarTableView: UITableView,
         return cell
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ""
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            return UIView()
+        }
+
+        return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
+        if section == 0 {
+            return 5
+        }
+
+        if section == 1 && UIApplication.getVC().storage.getNonSystemProjects().count == 0 {
+            return 0
+        }
+
+        return 25
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
-    }
-
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        if let view = view as? UITableViewHeaderFooterView {
-            let custom = UIView()
-            view.backgroundView = custom
-
-            var font: UIFont = UIFont.systemFont(ofSize: 15)
-
-            if #available(iOS 11.0, *) {
-                let fontMetrics = UIFontMetrics(forTextStyle: .caption1)
-                font = fontMetrics.scaledFont(for: font)
-            }
-
-            view.textLabel?.font = font.bold()
-            view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let view = view as? UITableViewHeaderFooterView {
-            let custom = UIView()
-            view.backgroundView = custom
-            
-            var font: UIFont = UIFont.systemFont(ofSize: 15)
-            
-            if #available(iOS 11.0, *) {
-                let fontMetrics = UIFontMetrics(forTextStyle: .caption1)
-                font = fontMetrics.scaledFont(for: font)
-            }
-            
-            view.textLabel?.font = font.bold()
-            view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
-        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -131,11 +90,16 @@ class SidebarTableView: UITableView,
             return
         }
 
+        if let project = sidebarItem.project, project.isLocked() {
+            vc.enableLockedProject()
+        } else {
+            vc.disableLockedProject()
+        }
+
         guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else {
             return
         }
 
-        vc.unloadSearchController()
         vc.notesTable.turnOffEditing()
 
         if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
@@ -171,6 +135,7 @@ class SidebarTableView: UITableView,
         }
 
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        vc.configureNavMenu(for: sidebarItem)
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
@@ -189,6 +154,14 @@ class SidebarTableView: UITableView,
                     vc.resizeSidebar(withAnimation: true)
                 }
             }
+        }
+    }
+
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+            let sidebarItem = self.sidebar.items[indexPath.section][indexPath.row]
+            let menu = self.viewController!.makeSidebarSettingsMenu(for: sidebarItem)
+            return menu
         }
     }
 
@@ -212,6 +185,7 @@ class SidebarTableView: UITableView,
         newQuery.project = sidebarItem.project
 
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        vc.configureNavMenu(for: sidebarItem)
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
@@ -244,16 +218,6 @@ class SidebarTableView: UITableView,
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
-
-        if let sidebarCell = cell as? SidebarTableCellView {
-            if let sidebarItem = (cell as! SidebarTableCellView).sidebarItem, sidebarItem.type == .Tag || sidebarItem.type == .Category {
-                sidebarCell.icon.constraints[1].constant = 0
-                sidebarCell.labelConstraint.constant = 0
-                sidebarCell.contentView.setNeedsLayout()
-                sidebarCell.contentView.layoutIfNeeded()
-            }
-        }
     }
 
     public func deselectAll() {
@@ -261,32 +225,6 @@ class SidebarTableView: UITableView,
             for path in paths {
                 deselectRow(at: path, animated: false)
             }
-        }
-    }
-
-    // MARK: Gradient settings
-    func updatePoints() {
-        if horizontalMode {
-            gradientLayer.startPoint = diagonalMode ? CGPoint(x: 1, y: 0) : CGPoint(x: 0, y: 0.5)
-            gradientLayer.endPoint   = diagonalMode ? CGPoint(x: 0, y: 1) : CGPoint(x: 1, y: 0.5)
-        } else {
-            gradientLayer.startPoint = diagonalMode ? CGPoint(x: 0, y: 0) : CGPoint(x: 0.5, y: 0)
-            gradientLayer.endPoint   = diagonalMode ? CGPoint(x: 1, y: 1) : CGPoint(x: 0.5, y: 1)
-        }
-    }
-
-    func updateLocations() {
-        gradientLayer.locations = [startLocation as NSNumber, endLocation as NSNumber]
-    }
-
-    func updateColors() {
-        if NightNight.theme == .night{
-            let startNightTheme = UIColor(red:0.14, green:0.14, blue:0.14, alpha:1.0)
-            let endNightTheme = UIColor(red:0.12, green:0.11, blue:0.12, alpha:1.0)
-
-            gradientLayer.colors    = [startNightTheme.cgColor, endNightTheme.cgColor]
-        } else {
-            gradientLayer.colors    = [startColor.cgColor, endColor.cgColor]
         }
     }
 
@@ -314,10 +252,10 @@ class SidebarTableView: UITableView,
             let pathList = item as [URL]
 
             for url in pathList {
-                guard let note = Storage.sharedInstance().getBy(url: url) else { continue }
+                guard let note = Storage.shared().getBy(url: url) else { continue }
 
                 switch sidebarItem.type {
-                case .Category, .Archive, .Inbox:
+                case .Project, .Archive, .Inbox:
                     guard let project = sidebarItem.project else { break }
                     self.move(note: note, in: project)
                 case .Trash:
@@ -329,6 +267,7 @@ class SidebarTableView: UITableView,
             }
 
             vc.notesTable.isEditing = false
+            vc.navigationController?.setToolbarHidden(true, animated: true)
         }
     }
 
@@ -384,6 +323,26 @@ class SidebarTableView: UITableView,
         }
     }
 
+    public func buildSearchQuery() -> SearchQuery? {
+        guard let indexPaths = UIApplication.getVC().sidebarTableView?.indexPathsForSelectedRows else { return nil }
+        let searchQuery = SearchQuery()
+
+        for indexPath in indexPaths {
+            let item = sidebar.items[indexPath.section][indexPath.row]
+            searchQuery.type = item.type
+
+            if let project = item.project {
+                searchQuery.project = project
+            }
+
+            if item.type == .Tag {
+                searchQuery.tag = item.name
+            }
+        }
+
+        return searchQuery
+    }
+
     public func getSidebarProjects() -> [Project]? {
         guard let indexPaths = UIApplication.getVC().sidebarTableView?.indexPathsForSelectedRows else { return nil }
 
@@ -399,7 +358,7 @@ class SidebarTableView: UITableView,
             return projects
         }
 
-        if let root = Storage.sharedInstance().getRootProject() {
+        if let root = Storage.shared().getRootProject() {
             return [root]
         }
 
@@ -440,10 +399,7 @@ class SidebarTableView: UITableView,
     }
 
     public func loadAllTags() {
-        guard
-            UserDefaultsManagement.inlineTags,
-            let vc = viewController
-        else { return }
+        guard UserDefaultsManagement.inlineTags, let vc = viewController else { return }
 
         unloadAllTags()
         var tags = [String]()
@@ -453,7 +409,7 @@ class SidebarTableView: UITableView,
             let notes = vc.notesTable.notes
             tags = getAllTags(notes: notes)
             break
-        case .Category:
+        case .Project, .ProjectEncryptedUnlocked:
             guard let project = vc.searchQuery.project else { return }
             tags = getAllTags(projects: [project])
             break
@@ -608,7 +564,7 @@ class SidebarTableView: UITableView,
             query.type = type
 
             if query.project != nil && type == .Tag {
-                query.type = .Category
+                query.type = .Project
             }
         }
 
@@ -698,7 +654,7 @@ class SidebarTableView: UITableView,
                 continue
             }
 
-            if !project.showInSidebar {
+            if !project.settings.showInSidebar {
                 continue
             }
             
@@ -716,7 +672,7 @@ class SidebarTableView: UITableView,
             indexPaths.append(IndexPath(row: index, section: 1))
         }
 
-        sidebar.items[1] = sorted.compactMap({ SidebarItem(name: $0.label, project: $0, type: .Category) })
+        sidebar.items[1] = sorted.compactMap({ SidebarItem(name: $0.label, project: $0, type: .Project) })
         insertRows(at: indexPaths, with: .fade)
     }
     

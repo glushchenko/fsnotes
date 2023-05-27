@@ -13,6 +13,16 @@ import Cgit2
 extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
+        guard let note = getSelectedNotes()?.first else { return }
+        if !note.hasGitRepository() {
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.informativeText = NSLocalizedString("Please init git repository before (Preferences -> Git -> Init/commit)", comment: "")
+            alert.messageText = NSLocalizedString("Repository not found", comment: "")
+            alert.runModal()
+            return
+        }
+
         guard let window = self.view.window else { return }
         if UserDefaultsManagement.askCommitMessage {
             let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 60))
@@ -47,26 +57,16 @@ extension EditorViewController {
     
     private func saveRevision(commitMessage: String? = nil) {
         guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
-        
-        ViewController.shared()?.gitQueue.addOperation({
-            let project = note.project.getRepositoryProject()
-            
-            do {
-                try project.commit(message: commitMessage)
-            } catch {
-                print("Commit error: \(error)")
-                return
+
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
+
+            defer {
+                ViewController.gitQueueOperationDate = nil
             }
 
-            // No hands – no mults
-            guard project.getGitOrigin() != nil else { return }
-            
             do {
-                try project.pull()
-                print("Pull successful")
-                
-                try project.push()
-                print("Push successful")
+                try note.project.saveRevision(commitMessage: commitMessage)
             } catch {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
@@ -92,15 +92,7 @@ extension EditorViewController {
 
         vc.prevCommit = commit
         
-        do {
-            if let repository = try note.project.getRepository() {
-                let commit = try repository.commitLookup(oid: commit.oid)
-                try repository.checkout(commit: commit, path: note.getGitCheckoutPath())
-                print("Successful checkout")
-            }
-        } catch {
-            print(error)
-        }
+        note.checkout(commit: commit)
 
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)
@@ -132,21 +124,20 @@ extension EditorViewController {
 
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
 
-        let storage = Storage.sharedInstance()
-        let projects = storage.getProjects()
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
 
-        ViewController.shared()?.gitQueue.addOperation({
+            defer {
+                ViewController.gitQueueOperationDate = nil
+            }
+
+            let storage = Storage.shared()
+            guard let projects = storage.getGitProjects() else { return }
+
             for project in projects {
-                if project.isTrash {
-                    continue
-                }
-
                 do {
-                    if project.isRoot || project.isArchive || project.isGitOriginExist()  {
+                    if project.hasRepository()  {
                         try project.commit()
-                        
-                        guard project.getGitOrigin() != nil else { continue }
-                        
                         try project.pull()
                         try project.push()
                     }
@@ -158,31 +149,32 @@ extension EditorViewController {
     }
     
     @IBAction private func pull(_ sender: Any) {
-        let storage = Storage.sharedInstance()
-        let projects = storage.getProjects()
 
-        // Skip on high load
-        if let qty = ViewController.shared()?.gitQueue.operationCount, qty > 5 {
-            print("Pull skipped")
-            return
-        }
-        
-        ViewController.shared()?.gitQueue.addOperation({
-            for project in projects {
-                if project.isTrash {
-                    continue
-                }
+        // Restart queue if operation stucked more then 2 minutes
+        if let date = ViewController.gitQueueOperationDate {
+            let diff = Int(Date().timeIntervalSince1970) - Int(date.timeIntervalSince1970)
+            let isBusy = ViewController.gitQueueBusy
 
-                if project.isRoot || project.isArchive || project.isGitOriginExist()  {
-                    do {
-                        guard project.getGitOrigin() != nil else { continue }
-                        
-                        try project.pull()
-                    } catch {
-                        print("Scheduled pull error: \(error)")
-                    }
-                }
+            if diff > 120 && !isBusy {
+
+                ViewController.gitQueue = OperationQueue()
+                ViewController.gitQueue.maxConcurrentOperationCount = 1
+
+                print("Git queue restart")
+            } else {
+                print("Git pull skipped")
+                return
             }
+        }
+
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
+
+            defer {
+                ViewController.gitQueueOperationDate = nil
+            }
+
+            Storage.shared().pullAll()
         })
     }
 

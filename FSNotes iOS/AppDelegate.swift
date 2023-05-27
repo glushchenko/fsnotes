@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import NightNight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var mainController: MainNavigationController?
 
+    public static var gitVC = [String: GitViewController]()
+    public static var gitProgress: GitProgress?
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
 
@@ -28,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             shouldPerformAdditionalDelegateHandling = false
         }
         
-        let newDocument = NSLocalizedString("New document", comment: "")
+        let newDocument = NSLocalizedString("New Note", comment: "")
         let shortcutNew = UIMutableApplicationShortcutItem(
             type: ShortcutIdentifier.makeNew.type,
             localizedTitle: newDocument,
@@ -37,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userInfo: nil
         )
 
-        let saveClipboard = NSLocalizedString("Save clipboard", comment: "")
+        let saveClipboard = NSLocalizedString("Save Clipboard", comment: "")
         let shortcutNewClipboard = UIMutableApplicationShortcutItem(
             type: ShortcutIdentifier.clipboard.type,
             localizedTitle: saveClipboard,
@@ -46,12 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userInfo: nil
         )
 
-        let search = NSLocalizedString("Search", comment: "")
-        let focus = NSLocalizedString("Focus in search field", comment: "")
+        let search = NSLocalizedString("Search or Create", comment: "")
         let shortcutSearch = UIMutableApplicationShortcutItem(
             type: ShortcutIdentifier.search.type,
             localizedTitle: search,
-            localizedSubtitle: focus,
+            localizedSubtitle: "",
             icon: UIApplicationShortcutIcon(type: .search),
             userInfo: nil
         )
@@ -257,6 +258,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             UserDefaultsManagement.currentNote = url
         }
+    }
+
+    public static func getGitVC(for project: Project) -> GitViewController {
+        if let gitVC = AppDelegate.gitVC[project.settingsKey] {
+            return gitVC
+        }
+
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let gvc = storyBoard.instantiateViewController(withIdentifier: "gitSettingsViewController") as! GitViewController
+        gvc.setProject(project)
+
+        AppDelegate.gitVC[project.settingsKey] = gvc
+
+        return gvc
+    }
+
+    public static func getGitVCOptional(for project: Project) -> GitViewController? {
+        if let gitVC = AppDelegate.gitVC[project.settingsKey] {
+            return gitVC
+        }
+
+        return nil
     }
 }
 

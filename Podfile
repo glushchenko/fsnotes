@@ -1,15 +1,13 @@
 use_frameworks!
 
-MAC_TARGET_VERSION = '10.12'
-IOS_TARGET_VERSION = '12'
+MAC_TARGET_VERSION = '10.14'
+IOS_TARGET_VERSION = '14'
 
 def mac_pods
     pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
 end
 
 def ios_pods
-    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
-    pod 'DKImagePickerController', '4.3.1'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'DropDown', '2.3.13'
     pod 'SwipeCellKit', :git => 'https://github.com/glushchenko/SwipeCellKit.git', :branch => 'develop'
@@ -66,7 +64,6 @@ target 'FSNotes iOS Share Extension' do
     platform :ios, IOS_TARGET_VERSION
 
     pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
-    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'Kanna', '~> 5.0.0'
@@ -86,6 +83,29 @@ post_install do |installer|
       end
       source_files.delete dummyM
       puts "Deleting source file #{dummy.inspect} from target #{target.inspect}."
+    end
+
+    if target.name == 'libcmark_gfm-macOS' ||
+      target.name == 'MASShortcut' ||
+      target.name == 'SSZipArchive-macOS' ||
+      target.name == 'RNCryptor-macOS'
+
+      target.build_configurations.each do |config|
+        config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.14'
+      end
+    end
+
+    if target.name == 'SSZipArchive-iOS' ||
+      target.name == 'RNCryptor-iOS' ||
+      target.name == 'Kanna' ||
+      target.name == 'Highlightr-iOS' ||
+      target.name == 'DropDown' ||
+      target.name == 'DKCamera' ||
+      target.name == 'CropViewController'
+
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      end
     end
   end
 end

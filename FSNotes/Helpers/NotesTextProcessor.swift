@@ -13,7 +13,6 @@ import Highlightr
     import MASShortcut
 #else
     import UIKit
-    import NightNight
 #endif
 
 public class NotesTextProcessor {
@@ -96,31 +95,19 @@ public class NotesTextProcessor {
 
     public static var codeBackground: UIColor {
         get {
-            if NightNight.theme == .night {
-                return UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
-            } else {
-                return UIColor(red:0.94, green:0.95, blue:0.95, alpha:1.0)
-            }
+            return UIColor.codeBackground
         }
     }
 
     public static var codeSpanBackground: UIColor {
         get {
-            if NightNight.theme == .night {
-                return UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
-            } else {
-                return UIColor(red:0.94, green:0.95, blue:0.95, alpha:1.0)
-            }
+            return UIColor.codeBackground
         }
     }
     
     open var highlightColor: UIColor {
         get {
-            if NightNight.theme == .night {
-                return UIColor(red:0.20, green:0.55, blue:0.07, alpha:1.0)
-            } else {
-                return UIColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
-            }
+            return UIColor.highlightColor
         }
     }
 
@@ -510,11 +497,7 @@ public class NotesTextProcessor {
         attributedString.fixAttributes(in: paragraphRange)
 
         #if os(iOS)
-            if NightNight.theme == .night {
-                attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: paragraphRange)
-            } else {
-                attributedString.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
-            }
+        attributedString.addAttribute(.foregroundColor, value: UIColor.blackWhite, range: paragraphRange)
         #else
             attributedString.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
             attributedString.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
@@ -588,11 +571,7 @@ public class NotesTextProcessor {
         attributedString.fixAttributes(in: paragraphRange)
 
         #if os(iOS)
-            if NightNight.theme == .night {
-                attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: paragraphRange)
-            } else {
-                attributedString.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
-            }
+            attributedString.addAttribute(.foregroundColor, value: UIColor.blackWhite, range: paragraphRange)
         #else
             attributedString.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
             attributedString.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
@@ -730,7 +709,7 @@ public class NotesTextProcessor {
             }
         }
 
-        #if NOT_EXTENSION || os(OSX)
+        #if IOS_APP || os(OSX)
         // We detect and process inline anchors (links)
         NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -826,12 +805,7 @@ public class NotesTextProcessor {
             if let link = appLink.addingPercentEncoding(withAllowedCharacters: .alphanumerics) {
 
             #if os(iOS)
-                let color =
-                    NightNight.theme == .night
-                        ? UIColor(red: 0.00, green: 0.45, blue: 0.15, alpha: 1.00)
-                        : UIColor(red: 0.29, green: 0.35, blue: 0.60, alpha: 1.00)
-
-                attributedString.addAttribute(.foregroundColor, value: color, range: innerRange)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.wikiColor, range: innerRange)
             #endif
 
                 attributedString.addAttribute(.link, value: "fsnotes://find?id=" + link, range: _range)

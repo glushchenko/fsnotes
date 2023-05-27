@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class ProViewController: UITableViewController {
     private var sections = [
@@ -21,21 +20,16 @@ class ProViewController: UITableViewController {
 
     private var rows = [
         [
-            NSLocalizedString("Default keyboard in editor", comment: ""),
-            NSLocalizedString("Use inline tags", comment: ""),
-            NSLocalizedString("Auto versioning", comment: "")
+            NSLocalizedString("Default Keyboard", comment: ""),
+            NSLocalizedString("Use Inline Tags", comment: "")
         ], [
-            NSLocalizedString("Sort by", comment: ""),
-            NSLocalizedString("Sidebar", comment: "")
+            NSLocalizedString("Sort By", comment: ""),
+            NSLocalizedString("Library", comment: "")
         ]
     ]
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
-        self.title = NSLocalizedString("Pro", comment: "Settings")
+        self.title = NSLocalizedString("Advanced", comment: "Settings")
         super.viewDidLoad()
     }
 
@@ -66,19 +60,11 @@ class ProViewController: UITableViewController {
         let cell = UITableViewCell()
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
 
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
-
         if indexPath.section == 0 {
             switch indexPath.row {
             case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.inlineTags
-                break
-            case 2:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.autoVersioning
                 break
             default:
                 break
@@ -101,9 +87,6 @@ class ProViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
         if indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
         }
@@ -130,13 +113,6 @@ class ProViewController: UITableViewController {
             vc.resizeSidebar(withAnimation: true)
 
             UIApplication.getEVC().resetToolbar()
-        case 2:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-             UserDefaultsManagement.autoVersioning = uiSwitch.isOn
-
-             if !uiSwitch.isOn {
-                 autoVersioningPrompt()
-             }
         default:
             return
         }
@@ -148,7 +124,7 @@ class ProViewController: UITableViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
-            let revisions = Storage.shared().getRevisionsHistory()
+            let revisions = Storage.shared().getRevisionsHistoryDocumentsSupport()
             do {
                 try FileManager.default.removeItem(at: revisions)
             } catch {

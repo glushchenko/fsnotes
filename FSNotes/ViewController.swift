@@ -25,7 +25,7 @@ class ViewController: EditorViewController,
     public var fsManager: FileSystemEventManager?
     public var projectSettingsViewController: ProjectSettingsViewController?
 
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
     var timer = Timer()
     var sidebarTimer = Timer()
     
@@ -33,7 +33,10 @@ class ViewController: EditorViewController,
     
     var tagsScannerQueue = [Note]()
     
-    public let gitQueue = OperationQueue()
+    public static var gitQueue = OperationQueue()
+    public static var gitQueueBusy: Bool = false
+    public static var gitQueueOperationDate: Date?
+
     public var prevCommit: Commit?
 
     /* Git */
@@ -167,6 +170,9 @@ class ViewController: EditorViewController,
         
         loadBookmarks(data: UserDefaultsManagement.sftpAccessData)
         loadBookmarks(data: UserDefaultsManagement.gitPrivateKeyData)
+
+        settingsMigation()
+        cacheGitRepositories()
         
         loadMoveMenu()
         loadSortBySetting()
@@ -176,8 +182,8 @@ class ViewController: EditorViewController,
             self.registerKeyValueObserver()
         #endif
         
-        searchQueue.maxConcurrentOperationCount = 1
-        gitQueue.maxConcurrentOperationCount = 1
+        ViewController.gitQueue.maxConcurrentOperationCount = 1
+        ViewController.gitQueue.maxConcurrentOperationCount = 1
         
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
     }
@@ -244,6 +250,15 @@ class ViewController: EditorViewController,
                    let id = menuItem.identifier?.rawValue, vc.notesTableView.limitedActionsList.contains(id) {
 
                     return false
+                }
+
+                if menuItem.identifier?.rawValue == "note.saveRevision"
+                    || menuItem.identifier?.rawValue == "note.history" {
+                    if let note = note {
+                        let hasCommits = note.project.hasCommitsDiffsCache()
+                        menuItem.isHidden = !hasCommits
+                        return hasCommits
+                    }
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
@@ -1108,12 +1123,12 @@ class ViewController: EditorViewController,
             editor.clear()
             var content = String()
 
-            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.sharedInstance().getRootProject()
+            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getRootProject()
 
             if UserDefaultsManagement.fileFormat == .Markdown,
                 UserDefaultsManagement.naming == .autoRename,
                 UserDefaultsManagement.autoInsertHeader,
-                UserDefaultsManagement.firstLineAsTitle || selectedProject?.firstLineAsTitle == true {
+                UserDefaultsManagement.firstLineAsTitle || selectedProject?.settings.firstLineAsTitle == true {
                 content.append("# \(value)\n\n")
             }
 
@@ -1453,7 +1468,7 @@ class ViewController: EditorViewController,
             if search.stringValue.count == 0 {
                 if UserDefaultsManagement.sort == .modificationDate
                     && UserDefaultsManagement.sortDirection == true
-                    && note.project.sortBy == .none {
+                    && note.project.settings.sortBy == .none {
 
                     if let index = notesTableView.noteList.firstIndex(of: note) {
                         moveNoteToTop(note: index)
@@ -1467,7 +1482,7 @@ class ViewController: EditorViewController,
             // Reloading nstextview in multiple windows
             
             for editor in editors {
-                if editor.note == note, let window = editor.window, !window.isKeyWindow {
+                if editor.note == note, !editor.isLastEdited, let window = editor.window, !window.isKeyWindow {
                     editor.editorViewController?.refillEditArea(force: true)
                 }
             }
@@ -1613,7 +1628,7 @@ class ViewController: EditorViewController,
      Load titles in cases sort by Title
      */
     private func preLoadNoteTitles(in project: Project) {
-        if (UserDefaultsManagement.sort == .title || project.sortBy == .title) && (UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+        if (UserDefaultsManagement.sort == .title || project.settings.sortBy == .title) && project.settings.isFirstLineAsTitle() {
             let notes = storage.noteList.filter({ $0.project == project })
             for note in notes {
                 note.loadPreviewInfo()
@@ -1670,7 +1685,7 @@ class ViewController: EditorViewController,
                 || type == .Inbox && note.project.isDefault
                 || type == .Trash
                 || type == .Untagged && note.tags.count == 0
-                || type == .Todo && note.project.showInCommon
+                || type == .Todo && note.project.settings.showInCommon
                 || type == .Archive && note.project.isArchive
                 || !UserDefaultsManagement.inlineTags && tags != nil
                 || projects?.contains(note.project) == true
@@ -1751,7 +1766,7 @@ class ViewController: EditorViewController,
     func makeNoteShortcut() {
         let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string)
         if (clipboard != nil) {
-            let project = Storage.sharedInstance().getMainProject()
+            let project = Storage.shared().getMainProject()
             _ = createNote(content: clipboard!, project: project)
             
             let notification = NSUserNotification()
@@ -1972,32 +1987,27 @@ class ViewController: EditorViewController,
         let historyMenu = noteMenu.item(withTitle: title)
         historyMenu?.submenu?.removeAllItems()
         historyMenu?.isEnabled = false
+        historyMenu?.isHidden = !note.project.hasCommitsDiffsCache()
 
         guard notes.count == 0x01 else { return }
 
         DispatchQueue.main.async {
-            do {
-                if let repository = try note.project.getRepository() {
-                    let commits = self.getCommits(from: repository, by: note)
-                    
-                    guard commits.count > 0 else {
-                        historyMenu?.isEnabled = false
-                        return
-                    }
-    
-                    for commit in commits {
-                        let menuItem = NSMenuItem()
-                        menuItem.title = commit.getDate()
-                        menuItem.representedObject = commit
-                        menuItem.action = #selector(vc.checkoutRevision(_:))
-                        historyMenu?.submenu?.addItem(menuItem)
-                    }
-    
-                    historyMenu?.isEnabled = true
-                }
-            } catch {
-                print(error)
+            let commits = note.getCommits()
+
+            guard commits.count > 0 else {
+                historyMenu?.isEnabled = false
+                return
             }
+
+            for commit in commits {
+                let menuItem = NSMenuItem()
+                menuItem.title = commit.getDate()
+                menuItem.representedObject = commit
+                menuItem.action = #selector(vc.checkoutRevision(_:))
+                historyMenu?.submenu?.addItem(menuItem)
+            }
+
+            historyMenu?.isEnabled = true
         }
     }
 
@@ -2053,6 +2063,13 @@ class ViewController: EditorViewController,
                                 }
                             }
                         }
+                    }
+                }
+                
+                if key.startsWith(string: "es.fsnot.project-settings") {
+                    let settingsKey = key.replacingOccurrences(of: "es.fsnot.project-settings", with: "")
+                    if let project = storage.getProjectBy(settingsKey: settingsKey) {
+                        project.reloadSettings()
                     }
                 }
             }
@@ -2125,7 +2142,7 @@ class ViewController: EditorViewController,
             let prev = vc.notesTableView.historyPosition - 1
             let prevUrl = vc.notesTableView.history[prev]
 
-            if let note = Storage.sharedInstance().getBy(url: prevUrl) {
+            if let note = Storage.shared().getBy(url: prevUrl) {
                 vc.notesTableView.saveNavigationHistory(note: note)
                 vc.cleanSearchAndEditArea(completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
@@ -2143,7 +2160,7 @@ class ViewController: EditorViewController,
             let next = vc.notesTableView.historyPosition + 1
             let nextUrl = vc.notesTableView.history[next]
 
-            if let note = Storage.sharedInstance().getBy(url: nextUrl) {
+            if let note = Storage.shared().getBy(url: nextUrl) {
                 vc.cleanSearchAndEditArea(completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
                 })
@@ -2219,7 +2236,7 @@ class ViewController: EditorViewController,
         guard let name = userActivity.userInfo?["note-file-name"] as? String,
             let position = userActivity.userInfo?["position"] as? String,
             let state = userActivity.userInfo?["state"] as? String,
-            let note = Storage.sharedInstance().getBy(name: name)
+            let note = Storage.shared().getBy(name: name)
         else { return }
 
         vcEditor?.changePreviewState(state == "preview")
@@ -2333,6 +2350,54 @@ class ViewController: EditorViewController,
             }
             
             note.convertContainer(to: newContainer)
+        }
+    }
+
+    #if os(macOS)
+    private func settingsMigation() {
+
+        let project = storage.getDefault()
+    
+        // Transfer private git key to default project
+        if UserDefaultsManagement.gitPrivateKeyData != nil {
+            if let accessData = UserDefaultsManagement.gitPrivateKeyData,
+                let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+                for bookmark in bookmarks {
+                    if let data = try? Data(contentsOf: bookmark.key) {
+                        
+                        project?.settings.gitPrivateKey = data
+                        project?.saveSettings()
+                        
+                        UserDefaultsManagement.gitPrivateKeyData = nil
+                    }
+                    break
+                }
+            }
+        }
+        
+        // Transfer origin
+        if UserDefaultsManagement.gitOrigin != nil {
+            project?.settings.setOrigin(UserDefaultsManagement.gitOrigin)
+            project?.saveSettings()
+            
+            UserDefaultsManagement.gitOrigin = ""
+        }
+        
+        // Transfer passphrase
+        if UserDefaultsManagement.gitPassphrase.count > 0 {
+            project?.settings.gitPrivateKeyPassphrase = UserDefaultsManagement.gitPassphrase
+            project?.saveSettings()
+            
+            UserDefaultsManagement.gitPassphrase = ""
+        }
+    }
+    #endif
+
+    private func cacheGitRepositories() {
+        DispatchQueue.global(qos: .background).async {
+            _ = Storage.shared().getProjects().filter({ $0.hasRepository() }).map({
+                $0.cacheHistory()
+            })
         }
     }
 }

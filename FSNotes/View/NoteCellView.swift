@@ -376,7 +376,7 @@ class NoteCellView: NSTableCellView {
 
         if let viewController = ViewController.shared(),
             let sidebarItem = viewController.getSidebarItem(),
-            let sort = sidebarItem.project?.sortBy,
+            let sort = sidebarItem.project?.settings.sortBy,
             sort == .creationDate,
             let date = note.getCreationDateForLabel() {
             self.date.stringValue = date

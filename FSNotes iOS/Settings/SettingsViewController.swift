@@ -7,34 +7,36 @@
 //
 
 import UIKit
-import NightNight
 import StoreKit
 import CoreServices
+import AudioToolbox
 
 class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var sections = [
         NSLocalizedString("General", comment: "Settings"),
-        NSLocalizedString("Storage", comment: "Settings"),
+        NSLocalizedString("Library", comment: "Settings"),
         NSLocalizedString("FSNotes", comment: "Settings")
     ]
 
     var rows = [
         [
-            NSLocalizedString("File format", comment: "Settings"),
+            NSLocalizedString("Files", comment: "Settings"),
             NSLocalizedString("Editor", comment: "Settings"),
-            NSLocalizedString("Night Mode", comment: "Settings"),
-            NSLocalizedString("Pro", comment: "Settings"),
+            NSLocalizedString("Security", comment: "Settings"),
+            NSLocalizedString("Git", comment: "Settings"),
+            NSLocalizedString("Icon", comment: "Settings"),
+            NSLocalizedString("Advanced", comment: "Settings"),
         ], [
             NSLocalizedString("iCloud Drive", comment: "Settings"),
             NSLocalizedString("Add External Folder", comment: "Settings"),
-            NSLocalizedString("Projects", comment: "Settings"),
-            NSLocalizedString("Import notes", comment: "Settings")
+            NSLocalizedString("Folders", comment: "Settings"),
+            NSLocalizedString("Import Notes", comment: "Settings")
         ], [
             NSLocalizedString("Support", comment: "Settings"),
-            NSLocalizedString("Homepage", comment: "Settings"),
+            NSLocalizedString("Website", comment: "Settings"),
             NSLocalizedString("Twitter", comment: "Settings"),
-            NSLocalizedString("Thanks to", comment: "Settings")
+            NSLocalizedString("Thanks", comment: "Settings")
         ]
     ]
 
@@ -42,8 +44,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         [
             "settings-icons-format",
             "settings-icons-editor",
-            "settings-icons-night",
-            "settings-icons-pro",
+            "settings-icons-security",
+            "settings-icons-git",
+            "settings-icons-icon",
+            "settings-icons-pro"
         ], [
             "settings-icons-cloud",
             "settings-icons-external",
@@ -57,18 +61,15 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [4, 4, 4]
+    var rowsInSection = [6, 4, 4]
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         title = NSLocalizedString("Settings", comment: "Sidebar settings")
-        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
         navigationItem.rightBarButtonItem = Buttons.getRateUs(target: self, selector: #selector(rateUs))
 
         super.viewDidLoad()
 
         let version = UILabel(frame: CGRect(x: 8, y: 30, width: tableView.frame.width, height: 60))
-        version.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         version.font = version.font.withSize(17).bold()
 
         if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
@@ -86,6 +87,9 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         tableView.tableFooterView = version
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        initZeroNavigationBackground()
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
@@ -102,23 +106,14 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
         if indexPath.section == 0x02 && indexPath.row == 0x01 {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         }
 
-        let view = UIView()
         let iconName = icons[indexPath.section][indexPath.row]
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
         cell.imageView?.image = image(UIImage(named: iconName)!, withSize: CGSize(width: 40, height: 40))
 
@@ -141,7 +136,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 2:
                 cell.accessoryType = .disclosureIndicator
             case 3:
-                cell.detailTextLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+                cell.detailTextLabel?.textColor = UIColor.blackWhite
                 cell.detailTextLabel?.numberOfLines = 0
                 cell.detailTextLabel?.lineBreakMode = .byWordWrapping
                 cell.detailTextLabel?.text = NSLocalizedString("Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
@@ -167,6 +162,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+
         var lvc: UIViewController?
         
         if indexPath.section == 0x00 {
@@ -176,8 +175,13 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 1:
                 lvc = SettingsEditorViewController()
             case 2:
-                lvc = NightModeViewController(style: .grouped)
+                lvc = SecurityViewController()
             case 3:
+                guard let project = Storage.shared().getDefault() else { return }
+                lvc = AppDelegate.getGitVC(for: project)
+            case 4:
+                lvc = AppIconViewController()
+            case 5:
                 lvc = ProViewController()
             default:
                 return
@@ -240,34 +244,14 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         }
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 25, y: 7, width: view.frame.size.width, height: 50))
-
-        // add label
-        let label = UILabel(frame: CGRect(x: 25, y: 7, width: headerView.frame.size.width, height: 50))
-        label.text = sections[section]
-        label.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-        headerView.addSubview(label)
-
-
-        // bottom border
-        let borderBottom = CALayer()
-        borderBottom.mixedBackgroundColor = MixedColor(normal: 0xcdcdcf, night: 0x19191a)
-        borderBottom.frame = CGRect(x: 0, y: 49.5, width: headerView.frame.size.width, height: 0.5)
-        headerView.layer.addSublayer(borderBottom)
-
-        headerView.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        return headerView
-    }
-
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let storageUrl = UserDefaultsManagement.storageUrl else { return }
 
         if let url = urls.first, url.pathExtension == "zip" {
-            let storage = Storage.sharedInstance()
+            let storage = Storage.shared()
             let viewController = UIApplication.getVC()
 
-            let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+            let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
             viewController.configureIndicator(indicator: indicator, view: self.tableView)
             viewController.startAnimation(indicator: indicator)
 
@@ -297,7 +281,12 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     @objc func rateUs() {
-        SKStoreReviewController.requestReview()
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            DispatchQueue.main.async {
+                AudioServicesPlaySystemSound(1519)
+                SKStoreReviewController.requestReview(in: scene)
+            }
+        }
     }
 
     @objc func done() {
@@ -310,15 +299,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         UserDefaultsManagement.iCloudDrive = uiSwitch.isOn
 
-        let vc = UIApplication.getVC()
-        Storage.instance = nil
-
-        vc.storage = Storage.shared()
-        vc.sidebarTableView.reloadSidebar()
-        vc.viewDidLoad()
+        UIApplication.getVC().reloadDatabase()
 
         if !uiSwitch.isOn {
-            vc.stopCloudDriveSyncEngine()
+            UIApplication.getVC().stopCloudDriveSyncEngine()
         }
     }
 }

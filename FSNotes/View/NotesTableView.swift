@@ -16,7 +16,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     var noteList = [Note]()
     var defaultCell = NoteCellView()
     var pinnedCell = NoteCellView()
-    var storage = Storage.sharedInstance()
+    var storage = Storage.shared()
 
     public var history = [URL]()
     public var historyPosition = 0
@@ -308,7 +308,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
-        if (clickedRow > -1 && selectedRow < 0) {
+        if clickedRow > -1 {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
 
@@ -331,6 +331,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 limitedActionsList.contains(identifier)
             {
                 menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
+            }
+
+            if menuItem.identifier?.rawValue == "note.saveRevision" {
+                if let note = note {
+                    let hasCommits = note.project.hasCommitsDiffsCache()
+                    menuItem.isHidden = !hasCommits
+                }
             }
             
             if menuItem.identifier?.rawValue == "fileMenu.pinUnpin" {
@@ -496,7 +503,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 if let note = storage.getBy(url: src) {
                     storage.removeBy(note: note)
 
-                    if let destination = Storage.sharedInstance().getProjectByNote(url: dst) {
+                    if let destination = Storage.shared().getProjectByNote(url: dst) {
                         note.moveImages(to: destination)
                     }
                 }

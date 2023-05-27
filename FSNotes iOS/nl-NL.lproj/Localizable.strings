@@ -1,8 +1,14 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "Externe map";
+
+/* Settings */
+"Advanced" = "Verlengd";
 
 /* Archive in sidebar */
 "Archive" = "Archief";
@@ -16,23 +22,11 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Weet je zeker dat je deze afbeelding wilt verwijderen?";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "Automatisch op schermhelderheid";
-
-/* Naming controller */
-"Auto rename by title" = "Automatisch hernoemen op titel";
-
 /* Settings */
 "Auto Rename By Title" = "Naam wijzigen op titel";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "Automatische versiebeheer";
-
 /* Settings */
 "Autocorrection" = "Autocorrectie";
-
-/* No comment provided by engineer. */
-"Brightness level" = "Helderheidsniveau";
 
 /* Settings */
 "build" = "build";
@@ -41,10 +35,16 @@
 "Cancel" = "Annuleer";
 
 /* No comment provided by engineer. */
+"Change Creation Date" = "Datum gecreeërd";
+
+/* Settings */
+"Check Spelling" = "Spellingcheck";
+
+/* No comment provided by engineer. */
 "Code" = "Code";
 
 /* Settings */
-"Code block live highlighting" = "Codeblok live markering";
+"Code Block Live Highlighting" = "Codeblok live markering";
 
 /* Settings */
 "Code Theme" = "Code thema";
@@ -56,34 +56,37 @@
 "Container" = "Container";
 
 /* No comment provided by engineer. */
-"Copy plain text" = "Kopieer platte tekst";
+"Copy Plain Text" = "Kopieer platte tekst";
 
 /* Main view popover table */
-"Create folder" = "Map aanmaken";
+"Create Folder" = "Map aanmaken";
 
 /* No comment provided by engineer. */
 "Create folder:" = "Map aanmaken:";
 
 /* No comment provided by engineer. */
-"Creation date" = "Aanmaakdatum";
+"Create Web Page" = "Create Web Page";
 
 /* No comment provided by engineer. */
-"Date created" = "Datum gecreeërd";
+"Creation Date" = "Aanmaakdatum";
 
-/* Settings */
-"Default Container" = "Standaard Container";
+/* Main view popover table */
+"Decrypt" = "Decrypt";
 
 /* No comment provided by engineer. */
-"Default keyboard in editor" = "Standaard toetsenbord";
+"Default Keyboard" = "Standaard toetsenbord";
 
 /* Table row action */
 "Delete" = "Verwijderen";
 
 /* No comment provided by engineer. */
-"Disabled" = "Uitgeschakeld";
+"Delete Web Page" = "Webpagina verwijderen";
 
 /* No comment provided by engineer. */
 "Documents" = "Documenten";
+
+/* No comment provided by engineer. */
+"Done" = "Gedaan";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicaat";
@@ -97,8 +100,8 @@
 /* Main view popover table */
 "Empty Bin" = "Lege bak";
 
-/* No comment provided by engineer. */
-"Enabled" = "Ingeschakeld";
+/* Main view popover table */
+"Encrypt" = "Versleutel";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Ga naar onze mape";
@@ -118,17 +121,14 @@
 /* Settings */
 "Family" = "Lettertype familie";
 
-/* Settings */
-"File format" = "Bestandsformaat";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "Bestand met deze naam bestaat al";
 
 /* Settings */
-"Files Naming" = "Naamgeving van bestanden";
+"Files" = "Bestandsformaat";
 
-/* No comment provided by engineer. */
-"Focus in search field" = "Focus in zoekveld";
+/* Settings */
+"Files Naming" = "Naamgeving van bestanden";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Naam van de map:";
@@ -137,13 +137,16 @@
 "Folder with this name already exist" = "Map met deze naam bestaat al";
 
 /* Settings */
+"Folders" = "Mappen";
+
+/* Settings */
 "Font" = "Lettertype";
 
 /* Settings */
 "Font Family" = "Lettertypefamilie";
 
 /* Settings */
-"Font size" = "Lettertypegrootte";
+"Font Size" = "Lettertypegrootte";
 
 /* Settings */
 "Format: Untitled Note" = "Formaat: Untitled Note";
@@ -160,20 +163,29 @@
 /* Settings */
 "General" = "Algemeen";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
+"Git Settings" = "Git settings";
+
 /* No comment provided by engineer. */
 "History" = "Geschiedenis";
 
 /* Settings */
-"Homepage" = "Startpagina";
+"iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"iCloud Drive" = "iCloud Drive";
+"Icon" = "Icoon";
 
 /* No comment provided by engineer. */
 "Images source:" = "Afbeeldingen bron:";
 
 /* Main view popover table - Settings */
-"Import notes" = "Importeren notities";
+"Import Notes" = "Importeren notities";
 
 /* Inbox in sidebar */
 "Inbox" = "Postvak In";
@@ -182,19 +194,28 @@
 "Invalid Password" = "Ongeldig wachtwoord";
 
 /* Settings */
+"Library" = "Zijbalk";
+
+/* Settings */
 "Line Spacing" = "Regelafstand";
 
 /* Settings */
-"Live images preview" = "Toon afbeeldingen in de editor";
+"Live Images Preview" = "Toon afbeeldingen in de editor";
 
 /* No comment provided by engineer. */
 "Lock" = "Vergrendel";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "Master wachtwoord:";
 
+/* Settings */
+"MathJax" = "MathJax";
+
 /* No comment provided by engineer. */
-"Modification date" = "Wijzigingsdatum";
+"Modification Date" = "Wijzigingsdatum";
 
 /* Table row action */
 "More" = "Nog steeds";
@@ -203,10 +224,7 @@
 "Move" = "Verplaats";
 
 /* No comment provided by engineer. */
-"New document" = "Nieuw document";
-
-/* Settings */
-"Night Mode" = "Nachtstand";
+"New Note" = "Nieuw document";
 
 /* No comment provided by engineer. */
 "None" = "Standaard";
@@ -215,13 +233,25 @@
 "Notes" = "Notities";
 
 /* No comment provided by engineer. */
-"Notes list" = "Notitielijst";
+"Notes List" = "Notitielijst";
 
 /* Main view popover table */
 "Open in Files.app" = "Openen in Files.app";
 
 /* Document opened */
-"Open note" = "Open notitie";
+"Open Note" = "Open notitie";
+
+/* No comment provided by engineer. */
+"Passphrase" = "Passphrase";
+
+/* No comment provided by engineer. */
+"Password" = "Wachtwoord";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "Wachtwoord is succesvol gewijzigd";
+
+/* No comment provided by engineer. */
+"Password:" = "Wachtwoord:";
 
 /* No comment provided by engineer. */
 "Photos" = "Foto's";
@@ -236,34 +266,34 @@
 "Please enter valid password" = "Voer a.u.b. geldig wachtwoord in";
 
 /* No comment provided by engineer. */
-"Preview" = "Voorvertoning";
+"Please try again" = "Probeer het opnieuw";
 
-/* Settings */
-"Pro" = "Verlengd";
-
-/* Settings */
-"Project" = "Project";
+/* No comment provided by engineer. */
+"Private Key" = "Private key";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Project verwijderen ❌";
 
-/* Settings */
-"Projects" = "Projecten";
+/* No comment provided by engineer. */
+"Public Key (optional)" = "Public key (optionele)";
 
 /* No comment provided by engineer. */
-"Remove encryption" = "Verwijder versleuteling";
+"Pull (every 30 sec)" = "Pull (elke 30 sec)";
+
+/* No comment provided by engineer. */
+"Remove Encryption" = "Verwijder versleuteling";
 
 /* Main view popover table */
-"Remove folder" = "Verwijder map";
+"Remove Folder" = "Verwijder map";
 
 /* Main view popover table */
-"Remove tag" = "Tag verwijderen";
+"Remove Tag" = "Tag verwijderen";
 
 /* No comment provided by engineer. */
 "Rename" = "Hernoemen";
 
 /* Main view popover table */
-"Rename folder" = "Naam map wijzigen";
+"Rename Folder" = "Naam map wijzigen";
 
 /* Popover table */
 "Rename folder:" = "Naam map wijzigen:";
@@ -272,22 +302,31 @@
 "Rename note:" = "Hernoem notitie:";
 
 /* Main view popover table */
-"Rename tag" = "Hernoem tag";
+"Rename Tag" = "Hernoem tag";
 
 /* Popover table */
 "Rename tag:" = "Hernoem tag:";
 
 /* No comment provided by engineer. */
-"Save clipboard" = "Bewaar klembord";
+"Save" = "Save";
+
+/* No comment provided by engineer. */
+"Save Clipboard" = "Bewaar klembord";
+
+/* No comment provided by engineer. */
+"Save Revision" = "Bewaar revisie";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Opgeslagen versies";
 
 /* No comment provided by engineer. */
-"Search" = "Zoeken";
+"Search or Create" = "Zoeken";
 
 /* No comment provided by engineer. */
 "Search or create" = "Zoek en creëer";
+
+/* Settings */
+"Security" = "Beveiliging";
 
 /* Main view popover table */
 "Select" = "Selecteer";
@@ -299,19 +338,16 @@
 "Share" = "Delen";
 
 /* No comment provided by engineer. */
-"Show folder in sidebar" = "Toon map in zijbalk";
+"Show Folder in Library" = "Toon map in zijbalk";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "Toon notities in \"Notes\" en \"Todo\" lijsten";
-
-/* Settings */
-"Sidebar" = "Zijbalk";
+"Show Notes in \"Notes\" and \"Todo\"" = "Toon notities in \"Notes\" en \"Todo\" lijsten";
 
 /* No comment provided by engineer. */
-"Sort by" = "Sorteer op";
+"Sort By" = "Sorteer op";
 
 /* Settings */
-"Spell Checking" = "Spellingcheck";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Opslag";
@@ -319,14 +355,14 @@
 /* Settings */
 "Support" = "Ondersteuning";
 
-/* No comment provided by engineer. */
-"System" = "Systeem";
-
 /* Settings */
-"Thanks to" = "Dankzij";
+"Thanks" = "Dankzij";
 
 /* Settings */
 "Theme" = "Thema";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: Om oude notities te gebruiken, moet je ze apart ontsleutelen met de oude sleutel en opnieuw versleutelen.";
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
@@ -341,22 +377,25 @@
 "Twitter" = "Twitter";
 
 /* No comment provided by engineer. */
-"Type" = "Type";
-
-/* No comment provided by engineer. */
 "Unlock" = "Ontgrendel";
 
 /* Table row action */
-"UnPin" = "VerwijderPin";
+"Unpin" = "VerwijderPin";
 
 /* No comment provided by engineer. */
 "Untagged" = "Niet getagd";
 
 /* No comment provided by engineer. */
-"Use first line as title" = "Gebruik eerste regel als titel";
+"Update" = "Update";
+
+/* No comment provided by engineer. */
+"Use First Line as Title" = "Gebruik eerste regel als titel";
 
 /* Settings */
-"Use inline tags" = "Gebruik inline tags";
+"Use Inline Tags" = "Gebruik inline tags";
+
+/* No comment provided by engineer. */
+"Verify Password" = "Wachtwoord verifiëren";
 
 /* Settings */
 "Version" = "Versie";
@@ -365,13 +404,25 @@
 "View" = "Visie";
 
 /* Main view popover table */
-"View settings" = "Bekijk instellingen";
+"View Settings" = "Bekijk instellingen";
 
 /* No comment provided by engineer. */
 "Visibility" = "Zichtbaarheid";
 
 /* No comment provided by engineer. */
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Startpagina";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Verkeerd wachtwoord";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Verkeerd herhaald wachtwoord";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "Geschiedenis leren";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "Voorvertoning MathJax";
+"✅ - " = "✅ - ";

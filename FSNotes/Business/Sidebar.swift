@@ -11,7 +11,7 @@ typealias Image = NSImage
 
 class Sidebar {
     var list = [Any]()
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
     public var items = [[SidebarItem]]()
     
     init() {
@@ -43,7 +43,7 @@ class Sidebar {
         }
 
         if UserDefaultsManagement.sidebarVisibilityTrash {
-            let trashProject = Storage.sharedInstance().getDefaultTrash()
+            let trashProject = Storage.shared().getDefaultTrash()
             let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), project: trashProject, type: .Trash)
             system.append(trash)
         }
@@ -60,13 +60,13 @@ class Sidebar {
             let icon = NSImage(named: "sidebar_icloud_drive")
             list.append(SidebarItem(name: name, project: defaultProject, type: .Header, icon: icon))
 
-            let subDefault = defaultProject.child.sorted(by: { $0.priority < $1.priority })
+            let subDefault = defaultProject.child.sorted(by: { $0.settings.priority < $1.settings.priority })
             for project in subDefault {
                 list.append(project)
             }
         }
 
-        let externalProjects = storage.getExternalProjects().sorted(by: { $0.priority < $1.priority })
+        let externalProjects = storage.getExternalProjects().sorted(by: { $0.settings.priority < $1.settings.priority })
         if externalProjects.count > 0 {
             let icon = NSImage(named: "sidebar_external")
             let name = NSLocalizedString("External Folders", comment: "")

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class CodeFontViewController: UITableViewController {
     private var fontFamilyNames = [
@@ -17,10 +16,6 @@ class CodeFontViewController: UITableViewController {
     ]
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
         title = NSLocalizedString("Font Family", comment: "Settings")
 
         super.viewDidLoad()
@@ -31,13 +26,6 @@ class CodeFontViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
-        //if UserDefaultsManagement.codeFontName == nil && indexPath.row == 0 {
-        //    cell.accessoryType = .checkmark
-        //}
-
         if fontFamilyNames[indexPath.row] == UserDefaultsManagement.codeFont.familyName {
             cell.accessoryType = .checkmark
         }
@@ -63,13 +51,7 @@ class CodeFontViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-
         cell.textLabel?.text = fontFamilyNames[indexPath.row]
-
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
-
         return cell
     }
 

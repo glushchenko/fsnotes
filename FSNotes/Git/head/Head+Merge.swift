@@ -103,7 +103,7 @@ extension Head {
     /// - throws: GitError
     ///
     /// - returns: True if branch is merged or false if conflicted files
-    public func merge(branch: Branch, signature: Signature, progress: Progress? = nil, project: Project? = nil) throws -> Bool {
+    public func merge(branch: Branch, signature: Signature, progress: Progress? = nil) throws -> Bool {
         
         // Analysis branch
         let mergeType = try analysis(branch: branch)
@@ -115,7 +115,7 @@ extension Head {
             try fastForward(branch: branch, signature: signature, progress: progress)
             return true
         case .normal:
-            return try normalMerge(branch: branch, signature: signature, progress: progress, project: project)
+            return try normalMerge(branch: branch, signature: signature, progress: progress)
         case .none:
             throw GitError.unableToMerge(msg: "Unmergeable branch \(branch)")
         }
@@ -129,12 +129,16 @@ extension Head {
     ///
     /// - throws: GitError
     private func fastForward(branch: Branch, signature: Signature, progress: Progress? = nil) throws {
-        
-        // Update reference target
-        try targetReference().updateTargetCommit(commit: try branch.targetCommit(), message: "Merge '\(branch.name)': Fast forward")
-        
-        // Checkout force
-        try checkout(tree: revTree(), type: .force, progress: progress)
+        do {
+            // Dry run for detect dirty
+            try checkout(tree: revTree(), type: .none, progress: progress)
+
+            // All fine – force checkout
+            try targetReference().updateTargetCommit(commit: try branch.targetCommit(), message: "Merge '\(branch.name)': Fast forward")
+            try checkout(tree: revTree(), type: .force, progress: progress)
+        } catch {
+            throw GitError.uncommittedConflict
+        }
     }
 
     /// Internal normal merge
@@ -146,7 +150,7 @@ extension Head {
     /// - throws: GitError
     ///
     /// - returns: True if branch is merged or false if conflicted files
-    private func normalMerge(branch: Branch, signature: Signature, progress: Progress? = nil, project: Project? = nil) throws -> Bool {
+    public func normalMerge(branch: Branch, signature: Signature, progress: Progress? = nil) throws -> Bool {
         
         // Merge index
         let mergeIndexPtr = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
@@ -196,7 +200,7 @@ extension Head {
             checkout_opts.checkout_strategy = GIT_CHECKOUT_ALLOW_CONFLICTS.rawValue
             
             // Set progress
-            setCheckoutProgressHandler(options: &checkout_opts, progress: progress)
+            checkout_opts.progress_cb = ProgressDelegate.checkoutProgressCallback
             
             // Merge
             error = git_merge(repository.pointer.pointee, annotatedCommit, 1, &merge_opts, &checkout_opts)
@@ -249,7 +253,10 @@ extension Head {
             guard result == GIT_OK.rawValue else {
                 return nil
             }
-            paths.append(String(cString: entry!.pointee.path))
+
+            if let entry = entry {
+                paths.append(String(cString: entry.pointee.path))
+            }
         }
         return paths
     }

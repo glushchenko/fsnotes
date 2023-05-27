@@ -1,8 +1,14 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "Внешняя директория";
+
+/* Settings */
+"Advanced" = "Advanced";
 
 /* Archive in sidebar */
 "Archive" = "Архив";
@@ -16,23 +22,11 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Вы уверены, что хотите удалить это изображение?";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "Автоматически от яркости экрана";
-
-/* Naming controller */
-"Auto rename by title" = "Автоматически по заголовку";
-
 /* Settings */
 "Auto Rename By Title" = "По заголовку";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "Автоверсионирование";
-
 /* Settings */
 "Autocorrection" = "Aвтоисправление";
-
-/* No comment provided by engineer. */
-"Brightness level" = "Уровень яркости";
 
 /* Settings */
 "build" = "билд";
@@ -41,10 +35,16 @@
 "Cancel" = "Отменить";
 
 /* No comment provided by engineer. */
+"Change Creation Date" = "Change Creation Date";
+
+/* Settings */
+"Check Spelling" = "Check Spelling";
+
+/* No comment provided by engineer. */
 "Code" = "Блок кода";
 
 /* Settings */
-"Code block live highlighting" = "Подсвечивать код";
+"Code Block Live Highlighting" = "Code Block Live Highlighting";
 
 /* Settings */
 "Code Theme" = "Тема кода";
@@ -56,34 +56,37 @@
 "Container" = "Контейнер";
 
 /* No comment provided by engineer. */
-"Copy plain text" = "Скопировать текст";
+"Copy Plain Text" = "Copy Plain Text";
 
 /* Main view popover table */
-"Create folder" = "Создать папку";
+"Create Folder" = "Create Folder";
 
 /* No comment provided by engineer. */
 "Create folder:" = "Создать папку:";
 
 /* No comment provided by engineer. */
-"Creation date" = "Дате создания";
+"Create Web Page" = "Create Web Page";
 
 /* No comment provided by engineer. */
-"Date created" = "Дата создания";
+"Creation Date" = "Creation Date";
+
+/* Main view popover table */
+"Decrypt" = "Decrypt";
 
 /* Settings */
-"Default Container" = "Контейнер по умолчанию";
-
-/* No comment provided by engineer. */
-"Default keyboard in editor" = "Клавиатура по умолчанию";
+"Default Keyboard" = "Default Keyboard";
 
 /* Table row action */
 "Delete" = "Удалить";
 
 /* No comment provided by engineer. */
-"Disabled" = "Отключен";
+"Delete Web Page" = "Delete Web Page";
 
 /* No comment provided by engineer. */
 "Documents" = "Документы";
+
+/* No comment provided by engineer. */
+"Done" = "Done";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Создать копию";
@@ -97,8 +100,8 @@
 /* Main view popover table */
 "Empty Bin" = "Очистить корзину";
 
-/* No comment provided by engineer. */
-"Enabled" = "Включен";
+/* Main view popover table */
+"Encrypt" = "Encrypt";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Введите название папки";
@@ -118,17 +121,14 @@
 /* Settings */
 "Family" = "Семейство шрифтов";
 
-/* Settings */
-"File format" = "Формат файла";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл с таким именем уже существует";
 
 /* Settings */
-"Files Naming" = "Именование файлов";
+"Files" = "Files";
 
-/* No comment provided by engineer. */
-"Focus in search field" = "Фокус в поле поиска";
+/* Settings */
+"Files Naming" = "Именование файлов";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Название папки:";
@@ -137,13 +137,16 @@
 "Folder with this name already exist" = "Папка с таким именем уже существует";
 
 /* Settings */
+"Folders" = "Folders";
+
+/* Settings */
 "Font" = "Шрифт";
 
 /* Settings */
 "Font Family" = "Семейство шрифтов";
 
 /* Settings */
-"Font size" = "Размер шрифта";
+"Font Size" = "Font Size";
 
 /* Settings */
 "Format: Untitled Note" = "Формат: Untitled Note";
@@ -160,20 +163,29 @@
 /* Settings */
 "General" = "Основные";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
+"Git Settings" = "Git Settings";
+
 /* No comment provided by engineer. */
 "History" = "История";
 
 /* Settings */
-"Homepage" = "Домашняя страница";
+"iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"iCloud Drive" = "iCloud Drive";
+"Icon" = "Icon";
 
 /* No comment provided by engineer. */
 "Images source:" = "Источник изображения:";
 
-/* Main view popover table - Settings */
-"Import notes" = "Импортировать";
+/* Settings */
+"Import Notes" = "Import Notes";
 
 /* Inbox in sidebar */
 "Inbox" = "Входящие";
@@ -182,19 +194,28 @@
 "Invalid Password" = "Неверный пароль";
 
 /* Settings */
+"Library" = "Library";
+
+/* Settings */
 "Line Spacing" = "Межстрочный интервал";
 
 /* Settings */
-"Live images preview" = "Показывать изображения";
+"Live Images Preview" = "Live Images Preview";
 
 /* No comment provided by engineer. */
 "Lock" = "Заблокировать";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "Мастер пароль:";
 
+/* Settings */
+"MathJax" = "MathJax";
+
 /* No comment provided by engineer. */
-"Modification date" = "Дате модификации";
+"Modification Date" = "Modification Date";
 
 /* Table row action */
 "More" = "Ещё";
@@ -203,10 +224,7 @@
 "Move" = "Переместить";
 
 /* No comment provided by engineer. */
-"New document" = "Создать заметку";
-
-/* Settings */
-"Night Mode" = "Ночной режим";
+"New Note" = "New Note";
 
 /* No comment provided by engineer. */
 "None" = "Умолчанию";
@@ -215,13 +233,25 @@
 "Notes" = "Заметки";
 
 /* No comment provided by engineer. */
-"Notes list" = "Список заметок";
+"Notes List" = "Notes List";
 
 /* Main view popover table */
 "Open in Files.app" = "Открыть в Files.app";
 
 /* Document opened */
-"Open note" = "Открытая заметка";
+"Open Note" = "Open Note";
+
+/* No comment provided by engineer. */
+"Passphrase" = "Passphrase";
+
+/* No comment provided by engineer. */
+"Password" = "Password";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "Password has been successfully changed";
+
+/* No comment provided by engineer. */
+"Password:" = "Password:";
 
 /* No comment provided by engineer. */
 "Photos" = "Фото";
@@ -236,34 +266,34 @@
 "Please enter valid password" = "Введите действующий пароль";
 
 /* No comment provided by engineer. */
-"Preview" = "Предпросмотр";
+"Please try again" = "Please try again";
 
-/* Settings */
-"Pro" = "Расширенные";
-
-/* Settings */
-"Project" = "Проект";
+/* No comment provided by engineer. */
+"Private Key" = "Private Key";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Удаление проекта ❌";
 
-/* Settings */
-"Projects" = "Проекты";
+/* No comment provided by engineer. */
+"Public Key (optional)" = "Public Key (optional)";
 
 /* No comment provided by engineer. */
-"Remove encryption" = "Снять шифрование";
+"Pull (every 30 sec)" = "Pull (every 30 sec)";
+
+/* No comment provided by engineer. */
+"Remove Encryption" = "Remove Encryption";
 
 /* Main view popover table */
-"Remove folder" = "Удалить папку";
+"Remove Folder" = "Remove Folder";
 
 /* Main view popover table */
-"Remove tag" = "Удалить тег";
+"Remove Tag" = "Remove Tag";
 
 /* No comment provided by engineer. */
 "Rename" = "Переименовать";
 
 /* Main view popover table */
-"Rename folder" = "Переименовать папку";
+"Rename Folder" = "Rename Folder";
 
 /* Popover table */
 "Rename folder:" = "Переименовать папку:";
@@ -272,22 +302,31 @@
 "Rename note:" = "Переименовать заметку:";
 
 /* Main view popover table */
-"Rename tag" = "Переименовать тег";
+"Rename Tag" = "Rename Tag";
 
 /* Popover table */
 "Rename tag:" = "Переименовать тег:";
 
 /* No comment provided by engineer. */
-"Save clipboard" = "Сохранить буфер обмена";
+"Save" = "Save";
+
+/* No comment provided by engineer. */
+"Save Clipboard" = "Save Clipboard";
+
+/* No comment provided by engineer. */
+"Save Revision" = "Save Revision";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Сохраненные версии";
 
 /* No comment provided by engineer. */
-"Search" = "Поиск";
+"Search or create" = "Найти или создать";
 
 /* No comment provided by engineer. */
-"Search or create" = "Найти или создать";
+"Search or Create" = "Search or Create";
+
+/* Settings */
+"Security" = "Security";
 
 /* Main view popover table */
 "Select" = "Выбрать";
@@ -299,19 +338,16 @@
 "Share" = "Поделиться";
 
 /* No comment provided by engineer. */
-"Show folder in sidebar" = "Показывать проект в боковой панели";
+"Show Folder in Library" = "Show Folder in Library";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "Показывать документы в списках \"Заметки\" и \"Todo\"";
+"Show Notes in \"Notes\" and \"Todo\"" = "Show Notes in \"Notes\" and \"Todo\"";
 
 /* Settings */
-"Sidebar" = "Боковая панель";
-
-/* No comment provided by engineer. */
-"Sort by" = "Сортировать по";
+"Sort By" = "Sort By";
 
 /* Settings */
-"Spell Checking" = "Проверка орфографии";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Хранилище";
@@ -319,14 +355,14 @@
 /* Settings */
 "Support" = "Поддержка";
 
-/* No comment provided by engineer. */
-"System" = "Система";
-
 /* Settings */
-"Thanks to" = "Спасибо";
+"Thanks" = "Thanks";
 
 /* Settings */
 "Theme" = "Тема";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовку";
@@ -341,22 +377,25 @@
 "Twitter" = "Twitter";
 
 /* No comment provided by engineer. */
-"Type" = "Тип";
-
-/* No comment provided by engineer. */
 "Unlock" = "Разблокировать";
 
 /* Table row action */
-"UnPin" = "Открепить";
+"Unpin" = "Unpin";
 
 /* No comment provided by engineer. */
 "Untagged" = "Без тегов";
 
 /* No comment provided by engineer. */
-"Use first line as title" = "Первая строка как заголовок";
+"Update" = "Update";
 
-/* Settings */
-"Use inline tags" = "Встроенные теги";
+/* No comment provided by engineer. */
+"Use First Line as Title" = "Use First Line as Title";
+
+/* No comment provided by engineer. */
+"Use Inline Tags" = "Use Inline Tags";
+
+/* No comment provided by engineer. */
+"Verify Password" = "Verify Password";
 
 /* Settings */
 "Version" = "Версия";
@@ -365,13 +404,25 @@
 "View" = "Вид";
 
 /* Main view popover table */
-"View settings" = "Настройки вида";
+"View Settings" = "View Settings";
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимость";
 
 /* No comment provided by engineer. */
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Website";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Wrong password";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Wrong repeated password";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "Очистка истории";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "Предпросмотр MathJax";
+"✅ - " = "✅ - ";

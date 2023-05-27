@@ -10,14 +10,20 @@ import Foundation
 
 class StaticSshKeyDelegate : SshKeyDelegate {
     let privateUrl: URL
+    let publicUrl: URL?
     let passphrase: String
     
-    init(privateUrl: URL, passphrase: String) {
+    init(privateUrl: URL, passphrase: String, publicUrl: URL? = nil) {
         self.privateUrl = privateUrl
+        self.publicUrl = publicUrl
         self.passphrase = passphrase
     }
     
     public func get(username: String?, url: URL?) -> SshKeyData {
-        return RawSshKeyData(username: username, privateKey: privateUrl, passphrase: passphrase)
+        if let publicUrl = self.publicUrl {
+            return RawSshKeyData(username: username, privateKey: privateUrl, publicKey: publicUrl, passphrase: passphrase)
+        }
+
+        return RawSshKeyData(username: username, privateKey: privateUrl, publicKey: nil, passphrase: passphrase)
     }
 }

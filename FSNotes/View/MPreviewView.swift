@@ -11,7 +11,6 @@ import Highlightr
 import SSZipArchive
 
 #if os(iOS)
-import NightNight
 import MobileCoreServices
 import AudioToolbox
 #else
@@ -333,7 +332,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
 
                 for file in fileList {
-                    print(file)
                     if customCSS != nil && file == "css" {
                         continue
                     }
@@ -448,7 +446,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
 #if os(iOS)
         platform = "ios"
-        if NightNight.theme == .night && archivePath == nil {
+        if UITraitCollection.current.userInterfaceStyle == .dark && archivePath == nil {
             appearance = "darkmode"
         }
 #else
@@ -542,8 +540,16 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                         .share-button:hover .sites {
                           display: inline-block;
                         }
+
+                        h1 {
+                            margin-top: 0px;
+                        }
+
+                        body {
+                            margin: 0 20px;
+                        }
             
-                        @media screen and (max-width: 400px) {
+                        @media screen and (max-width: 600px) {
                             .share-button .label {
                                 display: none;
                             }
@@ -559,7 +565,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                     <span class="footer__span">Powered by <a href="https://fsnot.es" target="_blank">FSNotes App</a> <img class="logo" src="https://fsnot.es/img/icon.webp" style="margin: 0 0 -10px 0;"></span>
                     <a class="share-button" href="\(archivePath!)" style="float: right; text-decoration: none;">
                         <span class="label" style="vertical-align: middle;">Download</span>
-                        <span style="display: inline-block; height: 17px; width: 17px; vertical-align: middle;">
+                        <span style="display: inline-block; height: 22px; width: 22px; vertical-align: middle;">
                             <svg viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M4 19h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7zM14 9h5l-7 7-7-7h5V3h4v6z"/></svg>
                         </span>
                     </a>
@@ -653,6 +659,14 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         // Line height compute
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
 
+    #if os(iOS)
+        let fontSize = UserDefaultsManagement.noteFont.pointSize
+        let codeFontSize = fontSize
+    #else
+        let fontSize = UserDefaultsManagement.fontSize
+        let codeFontSize = UserDefaultsManagement.codeFontSize
+    #endif
+
         var result = """
             @font-face {
                 font-family: 'Source Code Pro';
@@ -666,11 +680,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 font-weight: bold;
             }
         
-            body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; }
-            code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; }
+            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; -webkit-text-size-adjust: none;}
+            code, pre {font: \(codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; -webkit-text-size-adjust: none; }
             img {display: block; margin: 0 auto;}
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
-            p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)
+            p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; -webkit-text-size-adjust: none; } \(codeStyle) \(css)
         
             #MathJax_Message+* {
                 margin-top: 0 !important;

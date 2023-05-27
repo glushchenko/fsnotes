@@ -94,7 +94,7 @@ class PreferencesAdvancedViewController: NSViewController {
             markdownPreviewCSS.url = preview
         }
         
-        if let url = Storage.sharedInstance().getDefaultTrash()?.url {
+        if let url = Storage.shared().getDefaultTrash()?.url {
             trashPath.url = url
         }
     }
@@ -120,7 +120,7 @@ class PreferencesAdvancedViewController: NSViewController {
                 UserDefaultsManagement.archiveDirectory = url
                 self.archivePathControl.url = url
 
-                let storage = Storage.sharedInstance()
+                let storage = Storage.shared()
                 guard let vc = ViewController.shared() else { return }
 
                 if let archive = storage.getArchive() {
@@ -209,7 +209,7 @@ class PreferencesAdvancedViewController: NSViewController {
     
     @IBAction func trash(_ sender: NSButton) {
         let openPanel = NSOpenPanel()
-        openPanel.directoryURL = Storage.sharedInstance().getDefaultTrash()?.url
+        openPanel.directoryURL = Storage.shared().getDefaultTrash()?.url
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
@@ -232,7 +232,7 @@ class PreferencesAdvancedViewController: NSViewController {
                 UserDefaultsManagement.trashURL = url
                 self.trashPath.url = url
                 
-                Storage.sharedInstance().getDefaultTrash()?.url = url
+                Storage.shared().getDefaultTrash()?.url = url
                 self.restart()
             }
         }

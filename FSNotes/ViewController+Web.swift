@@ -12,8 +12,10 @@ import Shout
 extension ViewController {
     
     @IBAction func removeWebNote(_ sender: NSMenuItem) {
-        if !UserDefaultsManagement.customWebServer {
-            deleteAPI()
+        if !UserDefaultsManagement.customWebServer, let note = getCurrentNote() {
+            deleteAPI(note: note, completion: {
+                self.notesTableView.reloadRow(note: note)
+            })
             return
         }
         
@@ -39,8 +41,19 @@ extension ViewController {
     }
         
     @IBAction func uploadWebNote(_ sender: NSMenuItem) {
-        if !UserDefaultsManagement.customWebServer {
-            createAPI()
+        if !UserDefaultsManagement.customWebServer, let note = getCurrentNote() {
+            createAPI(note: note, completion: { url in
+                DispatchQueue.main.async {
+                    self.notesTableView.reloadRow(note: note)
+                    guard let url = url else { return }
+
+                    let pasteboard = NSPasteboard.general
+                    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+                    pasteboard.setString(url.absoluteString, forType: NSPasteboard.PasteboardType.string)
+
+                    NSWorkspace.shared.open(url)
+                }
+            })
             return
         }
         
@@ -92,8 +105,6 @@ extension ViewController {
                     }
                     
                     if !imageDirCreationDone {
-                        let imageDirName = image.path.split(separator: "/")[0]
-                    
                         try ssh.execute("mkdir -p \(remoteDir)/i")
                         imageDirCreationDone = true
                     }
@@ -164,7 +175,7 @@ extension ViewController {
         }
     }
     
-    private func uploadError(text: String) {
+    public func uploadError(text: String) {
         let alert = NSAlert()
         alert.alertStyle = .critical
         alert.informativeText = NSLocalizedString("Upload error", comment: "")
@@ -172,168 +183,7 @@ extension ViewController {
         alert.beginSheetModal(for: self.view.window!)
     }
     
-    private func deleteAPI() {
-        guard let note = getCurrentNote(),
-              let noteId = note.apiId else { return }
-        
-        let api = UserDefaultsManagement.apiPath
-        let boundary = generateBoundaryString()
-        let session = URLSession.shared
-        let url = URL(string: "\(api)?method=delete")!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        let key = UserDefaultsManagement.uploadKey
-        let parameters = ["key" : key, "note_id": noteId]
-
-        do {
-            request.httpBody = try createBody(with: parameters, filePathKey: "file", urls: [], boundary: boundary)
-        } catch {
-            print("Request creation: \(error)")
-            return
-        }
-        
-        let task = session.dataTask(with: request) { data, response, error in
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) && error == nil
-            else {
-                self.showAlert(message: "FSNotes server is down at this moment, please try later")
-                return
-            }
-            
-            guard let responseData = data else {
-                self.showAlert(message: "Empty response")
-              return
-            }
-
-            let decoder = JSONDecoder()
-            if let api = try? decoder.decode(APIResponse.self, from: responseData) {
-                if let msg = api.error {
-                    self.showAlert(message: msg)
-                } else if let _ = api.id {
-                    note.apiId = nil
-                    self.storage.saveAPIIds()
-                    
-                    self.notesTableView.reloadRow(note: note)
-                }
-            }
-        }
-          
-        task.resume()
-    }
-    
-    private func createAPI() {
-        let web = UserDefaultsManagement.webPath
-        let api = UserDefaultsManagement.apiPath
-        
-        guard let note = getCurrentNote() else { return }
-        
-        let dst = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Upload")
-        try? FileManager.default.removeItem(at: dst)
-        
-        guard let localURL = MPreviewView.buildPage(for: note, at: dst, web: true) else { return }
-        
-        let zipUrl = localURL.deletingLastPathComponent().appendingPathComponent(note.getLatinName()).appendingPathExtension("zip")
-        let privateKey = UserDefaultsManagement.uploadKey
-        
-        var parameters = ["key" : privateKey]
-        if let noteId = note.apiId {
-            parameters["note_id"] = noteId
-        }
-        
-        let boundary = generateBoundaryString()
-        
-        let method = note.apiId != nil ? "update" : "create"
-        let url = URL(string: "\(api)?method=\(method)")!
-        
-        let session = URLSession.shared
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        var urls = [URL]()
-        let items = note.getAllImages()
-        
-        for item in items {
-            urls.append(item.url)
-        }
-        
-        urls.append(localURL)
-        urls.append(zipUrl)
-        
-        guard let body = try? createBody(with: parameters, filePathKey: "file", urls: urls, boundary: boundary) else { return }
-        request.httpBody = body
-        
-        let task = session.dataTask(with: request) { data, response, error in
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) && error == nil
-            else {
-                self.showAlert(message: "FSNotes server is down at this moment, please try later")
-                return
-            }
-            
-            guard let responseData = data else {
-                self.showAlert(message: "Empty response")
-              return
-            }
-
-            let decoder = JSONDecoder()
-            if let api = try? decoder.decode(APIResponse.self, from: responseData) {
-                if let msg = api.error {
-                    self.showAlert(message: msg)
-                } else if let noteId = api.id {
-                    note.apiId = noteId
-                    self.storage.saveAPIIds()
-                    
-                    let resultUrl = "\(web)\(noteId)/"
-                    let pasteboard = NSPasteboard.general
-                    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-                    pasteboard.setString(resultUrl, forType: NSPasteboard.PasteboardType.string)
-                    
-                    self.notesTableView.reloadRow(note: note)
-                    
-                    NSWorkspace.shared.open(URL(string: resultUrl)!)
-                }
-            }
-        }
-          
-        task.resume()
-    }
-    
-    private func createBody(with parameters: [String: String]? = nil, filePathKey: String, urls: [URL], boundary: String) throws -> Data {
-        var body = Data()
-        
-        parameters?.forEach { (key, value) in
-            body.append("--\(boundary)\r\n")
-            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-            body.append("\(value)\r\n")
-        }
-        
-        var i = 0
-        for url in urls {
-            i += 1
-            
-            let filename = url.lastPathComponent
-            let data = try Data(contentsOf: url)
-            
-            body.append("--\(boundary)\r\n")
-            body.append("Content-Disposition: form-data; name=\"entity_\(i)\"; filename=\"\(filename)\"\r\n")
-            body.append("Content-Type: \(url.mimeType)\r\n\r\n")
-            body.append(data)
-            body.append("\r\n")
-        }
-        
-        body.append("--\(boundary)--\r\n")
-        return body
-    }
-
-    private func generateBoundaryString() -> String {
-        return "Boundary-\(UUID().uuidString)"
-    }
-    
-    private func showAlert(message: String) {
+    public func showAlert(message: String) {
         DispatchQueue.main.async {
             let alert = NSAlert()
             alert.alertStyle = .critical
@@ -342,30 +192,4 @@ extension ViewController {
             alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in }
         }
     }
-}
-
-extension URL {
-    var mimeType: String {
-        guard
-            let identifier = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)?.takeRetainedValue(),
-            let mimeType = UTTypeCopyPreferredTagWithClass(identifier, kUTTagClassMIMEType)?.takeRetainedValue() as String?
-        else {
-            return "application/octet-stream"
-        }
-
-        return mimeType
-    }
-}
-
-extension Data {
-    mutating func append(_ string: String, using encoding: String.Encoding = .utf8) {
-        if let data = string.data(using: encoding) {
-            append(data)
-        }
-    }
-}
-
-struct APIResponse: Codable {
-    var id: String?
-    var error: String?
 }

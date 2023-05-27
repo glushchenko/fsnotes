@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 
 class SettingsEditorViewController: UITableViewController {
     private var noteTableUpdater = Timer()
@@ -20,25 +19,26 @@ class SettingsEditorViewController: UITableViewController {
         NSLocalizedString("Code", comment: "")
     ]
 
-    private var rowsInSection = [2, 3, 1, 3, 2]
+    private var rowsInSection = [2, 4, 1, 3, 2]
 
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
     private var rows = [
         [
             NSLocalizedString("Autocorrection", comment: "Settings"),
-            NSLocalizedString("Spell Checking", comment: "Settings"),
+            NSLocalizedString("Check Spelling", comment: "Settings"),
         ],
         [
-            NSLocalizedString("Code block live highlighting", comment: "Settings"),
-            NSLocalizedString("Live images preview", comment: "Settings"),
-            NSLocalizedString("Preview MathJax", comment: "Settings"),
+            NSLocalizedString("Code Block Live Highlighting", comment: "Settings"),
+            NSLocalizedString("Live Images Preview", comment: "Settings"),
+            NSLocalizedString("MathJax", comment: "Settings"),
+            NSLocalizedString("SoulverCore", comment: "Settings"),
         ],
         [""],
         [
             NSLocalizedString("Family", comment: "Settings"),
             NSLocalizedString("Dynamic Type", comment: "Settings"),
-            NSLocalizedString("Font size", comment: "Settings")
+            NSLocalizedString("Font Size", comment: "Settings")
         ],
         [
             NSLocalizedString("Font", comment: "Settings"),
@@ -47,10 +47,6 @@ class SettingsEditorViewController: UITableViewController {
     ]
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
         title = NSLocalizedString("Editor", comment: "Settings")
 
         super.viewDidLoad()
@@ -74,11 +70,6 @@ class SettingsEditorViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -107,10 +98,6 @@ class SettingsEditorViewController: UITableViewController {
         let cell = UITableViewCell()
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
 
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
-
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -135,6 +122,9 @@ class SettingsEditorViewController: UITableViewController {
             case 2:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.mathJaxPreview
+            case 3:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.soulverPreview
             default:
                 return cell
             }
@@ -176,7 +166,7 @@ class SettingsEditorViewController: UITableViewController {
                 label.translatesAutoresizingMaskIntoConstraints = false
 
                 counter.text = String(Double(UserDefaultsManagement.fontSize))
-                counter.mixedTextColor = MixedColor(normal: UIColor.gray, night: UIColor.white)
+                counter.textColor = UIColor.blackWhite
                 counter.translatesAutoresizingMaskIntoConstraints = false
 
                 cell.contentView.addSubview(label)
@@ -252,6 +242,9 @@ class SettingsEditorViewController: UITableViewController {
             case 2:
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
                 UserDefaultsManagement.mathJaxPreview = uiSwitch.isOn
+            case 3:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.soulverPreview = uiSwitch.isOn
             default:
                 return
             }

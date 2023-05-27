@@ -1536,7 +1536,7 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.AutoVersioning)
         }
     }
-
+    
     static var iCloudDrive: Bool {
         get {
             if let result = shared?.object(forKey: Constants.iCloudDrive) as? Bool {

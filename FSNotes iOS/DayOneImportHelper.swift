@@ -109,8 +109,8 @@ class DayOneImportHelper {
 
         let project = storage.createProject(name: "Diary")
         project.parent = rootProject
-        project.sortBy = .creationDate
-        project.firstLineAsTitle = true
+        project.settings.sortBy = .creationDate
+        project.settings.firstLineAsTitle = true
         project.saveSettings()
 
         return project

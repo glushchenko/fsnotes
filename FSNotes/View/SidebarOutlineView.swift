@@ -20,7 +20,7 @@ class SidebarOutlineView: NSOutlineView,
     public var sidebarItems: [Any]? = nil
     public var viewDelegate: ViewController? = nil
     
-    public var storage = Storage.sharedInstance()
+    public var storage = Storage.shared()
     public var isFirstLaunch = true
     public var selectNote: Note? = nil
 
@@ -316,7 +316,7 @@ class SidebarOutlineView: NSOutlineView,
         if let data = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
             let url = URL(fileURLWithPath: data)
             
-            guard let project = Storage.sharedInstance().getProjectBy(url: url) else { return false }
+            guard let project = Storage.shared().getProjectBy(url: url) else { return false }
             
             // Get src index for child and root folders
             var srcIndex: Int?
@@ -377,9 +377,9 @@ class SidebarOutlineView: NSOutlineView,
 
         // tags
         if let tag = item as? FSTag {
-            if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
+            if urls.count > 0, Storage.shared().getBy(url: urls.first!) != nil {
                 for url in urls {
-                    if let note = Storage.sharedInstance().getBy(url: url) {
+                    if let note = Storage.shared().getBy(url: url) {
                         note.addTag(tag.getFullName())
                         _ = note.scanContentTags()
                         viewDelegate?.notesTableView.reloadRow(note: note)
@@ -407,10 +407,10 @@ class SidebarOutlineView: NSOutlineView,
 
         guard let project = maybeProject else { return false }
 
-        if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
+        if urls.count > 0, Storage.shared().getBy(url: urls.first!) != nil {
             var notes = [Note]()
             for url in urls {
-                if let note = Storage.sharedInstance().getBy(url: url) {
+                if let note = Storage.shared().getBy(url: url) {
                     notes.append(note)
                 }
             }
@@ -471,7 +471,7 @@ class SidebarOutlineView: NSOutlineView,
         if let archivedData = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
             let url = URL(fileURLWithPath: archivedData)
             
-            guard let project = Storage.sharedInstance().getProjectBy(url: url) else {
+            guard let project = Storage.shared().getProjectBy(url: url) else {
                 return NSDragOperation()
             }
             
@@ -492,7 +492,7 @@ class SidebarOutlineView: NSOutlineView,
            let urlsUnarchived = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL] {
             urls = urlsUnarchived
 
-            if let url = urls.first, Storage.sharedInstance().getBy(url: url) != nil {
+            if let url = urls.first, Storage.shared().getBy(url: url) != nil {
                 isLocalNote = true
             }
             
@@ -985,11 +985,16 @@ class SidebarOutlineView: NSOutlineView,
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
         guard let window = self.window else { return }
-        guard let vc = ViewController.shared() else { return }
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
-        vc.gitQueue.addOperation({
-            let project = project.getRepositoryProject()
+        ViewController.gitQueue.addOperation({
+            ViewController.gitQueueOperationDate = Date()
+
+            defer {
+                ViewController.gitQueueOperationDate = nil
+            }
+
+            guard let project = project.getGitProject() else { return }
             
             do {
                 try project.commit()
@@ -1046,15 +1051,9 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     public func decrypt(projects: [Project], password: String) {
-        guard let vc = ViewController.shared() else { return }
-        
         var decryptedQty = 0
         for project in projects {
             let decrypted = project.decrypt(password: password)
-            for note in decrypted {
-                vc.notesTableView.reloadRow(note: note)
-            }
-            
             decryptedQty = decrypted.count
             self.showTags(notes: decrypted)
         }
@@ -1065,6 +1064,8 @@ class SidebarOutlineView: NSOutlineView,
         }
         
         DispatchQueue.main.async {
+            guard let vc = ViewController.shared() else { return }
+
             vc.notesTableView.disableLockedProject()
             vc.updateTable()
             
@@ -1073,14 +1074,13 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     public func encrypt(projects: [Project], password: String) {
-        guard let vc = ViewController.shared() else { return }
-        
         for project in projects {
             let encrypted = project.encrypt(password: password)
             self.hideTags(notes: encrypted)
         }
         
         DispatchQueue.main.async {
+            guard let vc = ViewController.shared() else { return }
             vc.notesTableView.enableLockedProject()
             
             self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])
@@ -1100,16 +1100,7 @@ class SidebarOutlineView: NSOutlineView,
         
         var locked = [Note]()
         for project in projects {
-            let notes = storage.getNotesBy(project: project)
-            for note in notes {
-                if note.lock() {
-                    locked.append(note)
-                }
-            }
-            
-            if locked.count > 0 {
-                project.password = nil
-            }
+            locked.append(contentsOf: project.lock())
         }
         
         hideTags(notes: locked)
@@ -1133,32 +1124,24 @@ class SidebarOutlineView: NSOutlineView,
     
     public func unlock(projects: [Project], password: String, action: String? = nil) {
         var unlocked = [Note]()
-        var unlockedQty = 0
         var isEmptyDir = false
         
         for project in projects {
-            let notes = self.storage.getNotesBy(project: project)
-            
-            if notes.count == 0 {
+            let result = project.unlock(password: password)
+
+            // no notes
+            if result.0.count == 0 {
                 isEmptyDir = true
-                project.password = password
                 continue
             }
-            
-            for note in notes {
-                if note.unLock(password: password) {
-                    project.password = password
-                    
-                    unlocked.append(note)
-                    unlockedQty += 1
-                }
-            }
+
+            unlocked.append(contentsOf: result.1)
         }
         
         self.showTags(notes: unlocked)
         
         DispatchQueue.main.async {
-            if unlockedQty > 0 || (projects.count == 1 && isEmptyDir) {
+            if unlocked.count > 0 || (projects.count == 1 && isEmptyDir) {
                 guard let vc = ViewController.shared() else { return }
                 
                 vc.notesTableView.disableLockedProject()
@@ -1273,7 +1256,7 @@ class SidebarOutlineView: NSOutlineView,
     private func saveOrderFor(projects: [Project]) {
         var i = 0
         for project in projects {
-            project.priority = i
+            project.settings.priority = i
             i += 1
             
             project.saveSettings()
@@ -1528,7 +1511,7 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         for project in projects {
-            if project.showNestedFoldersContent, !project.isEncrypted, let child = project.getAllChild() {
+            if project.settings.showNestedFoldersContent, !project.isEncrypted, let child = project.getAllChild() {
                 for item in child {
                     if !projects.contains(item) {
                         projects.append(item)
@@ -1861,7 +1844,7 @@ class SidebarOutlineView: NSOutlineView,
 
 
         if selectedItem?.type == .All || projects == nil {
-            projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive && $0.showInCommon })
+            projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive && $0.settings.showInCommon })
         }
 
         if let projects = projects {

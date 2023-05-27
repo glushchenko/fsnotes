@@ -41,7 +41,7 @@ class Storage {
     private var trashURL = URL(string: String())
     private var archiveURL = URL(string: String())
 
-    private let lastNewsDate = "2022-02-20"
+    private let lastNewsDate = "2023-05-25"
     public var isFinishedTagsLoading = false
     public var isCrashedLastTime = false
 
@@ -128,6 +128,7 @@ class Storage {
 
         projects.append(project)
 
+        assignTree(for: project)
         assignTrash(by: project.url)
         assignArchive()
         assignBookmarks()
@@ -142,14 +143,24 @@ class Storage {
         ciphertextWriter.qualityOfService = .userInteractive
 
         let revHistory = getRevisionsHistory()
-        if !FileManager.default.directoryExists(atUrl: revHistory) {
-            try? FileManager.default.createDirectory(at: revHistory, withIntermediateDirectories: true, attributes: nil)
+        let revHistoryDS = getRevisionsHistoryDocumentsSupport()
+
+        if FileManager.default.directoryExists(atUrl: revHistory) {
+            try? FileManager.default.moveItem(at: revHistory, to: revHistoryDS)
+        }
+
+        if !FileManager.default.directoryExists(atUrl: revHistoryDS) {
+            try? FileManager.default.createDirectory(at: revHistoryDS, withIntermediateDirectories: true, attributes: nil)
         }
     }
 
     public static func shared() -> Storage {
         guard let storage = self.instance else {
+        #if os(OSX)
+            self.instance = Storage()
+        #else
             self.instance = Storage(micro: true)
+        #endif
             return self.instance!
         }
         return storage
@@ -330,7 +341,7 @@ class Storage {
         projects.append(project)
         parent?.child.append(project)
         
-        if let sorted = parent?.child.sorted(by: { $0.priority < $1.priority }) {
+        if let sorted = parent?.child.sorted(by: { $0.settings.priority < $1.settings.priority }) {
             parent?.child = sorted
         }
 
@@ -489,15 +500,6 @@ class Storage {
     public func getBookmarks() -> [URL] {
         return bookmarks
     }
-    
-    // macOS
-    public static func sharedInstance() -> Storage {
-        guard let storage = self.instance else {
-            self.instance = Storage()
-            return self.instance!
-        }
-        return storage
-    }
 
     public func loadDocuments() {
         let startingPoint = Date()
@@ -552,7 +554,7 @@ class Storage {
             !$0.isDefault
             && !$0.isTrash
             && !$0.isArchive
-            && $0.showInSidebar
+            && $0.settings.showInSidebar
         })
     }
         
@@ -622,13 +624,13 @@ class Storage {
         var sortDirection: SortDirection
         var sort: SortBy
 
-        if let project = project, project.sortBy != .none {
-            sortDirection = project.sortDirection
+        if let project = project, project.settings.sortBy != .none {
+            sortDirection = project.settings.sortDirection
         } else {
             sortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
         }
         
-        if let sortBy = project?.sortBy, sortBy != .none {
+        if let sortBy = project?.settings.sortBy, sortBy != .none {
             sort = sortBy
         } else {
             sort = UserDefaultsManagement.sort
@@ -666,7 +668,7 @@ class Storage {
     func loadNotes(_ item: Project, loadContent: Bool = false) {
         var currentUrl: URL?
                 
-        #if NOT_EXTENSION
+        #if IOS_APP
             currentUrl = UIApplication.getEVC().editArea.note?.url
         #endif
         
@@ -888,15 +890,15 @@ class Storage {
         if let word = word {
             notes = notes
                 .filter{
-                    $0.title.contains(word) && $0.project.firstLineAsTitle
-                        || $0.fileName.contains(word) && !$0.project.firstLineAsTitle
+                    $0.title.contains(word) && $0.project.settings.isFirstLineAsTitle()
+                    || $0.fileName.contains(word) && !$0.project.settings.isFirstLineAsTitle()
 
                 }
                 .filter({ !$0.isTrash() })
 
             guard notes.count > 0 else { return nil }
 
-            var titles = notes.map{ String($0.project.firstLineAsTitle ? $0.title : $0.fileName) }
+            var titles = notes.map{ String($0.project.settings.isFirstLineAsTitle() ? $0.title : $0.fileName) }
 
             titles = Array(Set(titles))
             titles = titles
@@ -926,7 +928,7 @@ class Storage {
 
         let titles = notes
             .filter({ !$0.isTrash() })
-            .map{ String($0.project.firstLineAsTitle ? $0.title : $0.fileName ) }
+            .map{ String($0.project.settings.isFirstLineAsTitle() ? $0.title : $0.fileName ) }
             .filter({ $0.count > 0 })
             .filter({ !$0.starts(with: "![](") })
             .prefix(100)
@@ -1242,7 +1244,7 @@ class Storage {
     }
 
     public func trashItem(url: URL) -> URL? {
-        guard let trashURL = Storage.sharedInstance().getDefaultTrash()?.url else { return nil }
+        guard let trashURL = Storage.shared().getDefaultTrash()?.url else { return nil }
 
         let fileName = url.deletingPathExtension().lastPathComponent
         let fileExtension = url.pathExtension
@@ -1305,7 +1307,7 @@ class Storage {
         guard UserDefaultsManagement.copyWelcome else { return }
         guard noteList.isEmpty else { return }
 
-        let welcomeFileName = "FSNotes 4.0 for iOS.textbundle"
+        let welcomeFileName = "Meet FSNotes 6.textbundle"
 
         guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(welcomeFileName)") else { return }
 
@@ -1352,7 +1354,7 @@ class Storage {
     }
 
     public func getNews() -> URL? {
-        let file = "FSNotes 5.0 Change Log.textbundle"
+        let file = "Meet FSNotes 6.textbundle"
 
         guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(file)") else { return nil }
 
@@ -1511,6 +1513,13 @@ class Storage {
 
         return revisionsUrl
     }
+
+    public func getRevisionsHistoryDocumentsSupport() -> URL {
+        let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
+        let revisionsUrl = documentDir.appendingPathComponent(".revisions")
+
+        return revisionsUrl
+    }
     
     public func saveUploadPaths() {
         let notes = noteList.filter({ $0.uploadPath != nil })
@@ -1589,6 +1598,70 @@ class Storage {
             if let data = unarchivedData[note.url], let state = data["preview"] as? Bool {
                 note.previewState = state
             }
+        }
+    }
+        
+    public func getGitKeysDir() -> URL? {
+        guard let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first?
+            .appendingPathComponent("Keys", isDirectory: true) else { return nil }
+        
+        if !FileManager.default.fileExists(atPath: url.path) {
+            try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        }
+        
+        return url
+    }
+    
+    public func getProjectBy(settingsKey: String) -> Project? {
+        return
+            projects.first(where: {
+                return (
+                    $0.settingsKey == settingsKey
+                )
+            })
+    }
+
+    public func hasOrigins() -> Bool {
+        return projects.first(where: {
+            return (
+                $0.settings.gitOrigin != nil && $0.settings.gitOrigin!.count > 0
+            )
+        }) != nil
+    }
+
+    public func getGitProjects() -> [Project]? {
+        return projects.filter({
+            return (
+                $0.settings.gitOrigin != nil && $0.settings.gitOrigin!.count > 0
+            )
+        })
+    }
+
+    public func loadProjectParents() {
+        guard let rootURL = getDefault()?.url else { return }
+
+        let rootPath = rootURL.path
+        let projects = findAllProjectsExceptDefault()
+        var dirs = [String]()
+
+        for project in projects {
+            let projectPath = project.url.path
+            if projectPath.startsWith(string: rootPath) {
+                let result = projectPath.replacingOccurrences(of: rootPath + "/", with: "")
+                dirs.append(result)
+            }
+        }
+
+        let sortedDirs = dirs.sorted(by: { $0.filter{ $0 == "/" }.count < $1.filter{ $0 == "/" }.count })
+        for dir in sortedDirs {
+            let projectURL = rootURL.appendingPathComponent(dir, isDirectory: true)
+            let childProject = getProjectBy(url: projectURL)
+
+            let parentURL = projectURL.deletingLastPathComponent()
+            let parentProject = getProjectBy(url: parentURL)
+
+            childProject?.parent = parentProject
         }
     }
 }

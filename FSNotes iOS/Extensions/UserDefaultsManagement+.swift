@@ -7,10 +7,11 @@
 //
 
 import Foundation
-import NightNight
+import UIKit
 
 extension UserDefaultsManagement {
     private struct Constants {
+        static let appIcon = "appIcon"
         static let codeTheme = "codeTheme"
         static let currentNote = "currentNote"
         static let currentLocation = "currentLocation"
@@ -24,13 +25,26 @@ extension UserDefaultsManagement {
         static let ProjectsKeyNew = "ProjectsKeyNew"
     }
 
+    static var appIcon: Int {
+        get {
+            if let theme = shared?.integer(forKey: Constants.appIcon) {
+                return theme
+            }
+
+            return 1
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.appIcon)
+        }
+    }
+
     static var codeTheme: String {
         get {
             if let theme = shared?.object(forKey: Constants.codeTheme) as? String {
                 return theme
             }
 
-            if NightNight.theme == .night {
+            if UITraitCollection.current.userInterfaceStyle == .dark {
                 return "monokai-sublime"
             }
 
@@ -94,7 +108,7 @@ extension UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.editorAutocorrection) as? Bool {
                 return result
             }
-            return false
+            return true
         }
         set {
             shared?.set(newValue, forKey: Constants.editorAutocorrection)

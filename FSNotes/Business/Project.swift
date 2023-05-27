@@ -28,22 +28,7 @@ public class Project: Equatable {
     public var isVirtual = false
     public var isExternal: Bool = false
 
-    public var sortDirection: SortDirection = .desc
-
-    public var showInCommon: Bool
-    public var showInSidebar: Bool = true
-    public var showNestedFoldersContent: Bool = true
-
-    #if os(iOS)
-    public var firstLineAsTitle: Bool = true
-    #else
-    public var firstLineAsTitle: Bool = false
-    #endif
-
-    public var priority: Int = 0
-    public var gitOrigin: String?
-    
-    public var sortBy: SortBy = .none
+    public var settings: ProjectSettings
     public var metaCache = [NoteMeta]()
     
     // all notes loaded with cache diff comparsion
@@ -57,7 +42,13 @@ public class Project: Equatable {
     
     public var isEncrypted = false
     public var password: String?
-    public var settingsList: Data?
+
+    public var settingsKey = String()
+    public var commitsCache = [String: [String]]()
+
+    public var isCleanGit = false
+    public var gitStatus: String?
+    public var isActiveGit = false
 
     init(storage: Storage,
          url: URL,
@@ -79,20 +70,111 @@ public class Project: Equatable {
         self.isArchive = isArchive
         self.isExternal = isExternal
         self.isVirtual = isVirtual
+        self.label = String()
 
-        showInCommon = (isTrash || isArchive) ? false : true
-
+        settings = ProjectSettings()
+            
         #if os(iOS)
         if isRoot && isDefault {
-            showInSidebar = false
+            settings.showInSidebar = false
         }
         #endif
 
-        self.label = String()
-
+        settingsKey = getSettingsKey()
+        
         loadLabel(label)
         isCloudDrive = isCloudDriveFolder(url: url)
-        loadSettings()
+        
+        // Init sort for default project
+        if self.label == "Welcome" {
+            settings.sortBy = .title
+            settings.sortDirection = .asc
+        }
+        
+        if let settings = getSettings() {
+            self.settings = settings
+        }
+        
+        if isTrash || isArchive {
+            settings.showInCommon = false
+        }
+        
+        // Backward compatibility
+        if settings.gitOrigin == nil, self.isDefault, let origin = UserDefaultsManagement.gitOrigin {
+            settings.setOrigin(origin)
+        }
+    }
+    
+    public func getLongSettingsKey() -> String {
+        return "es.fsnot.project-settings\(settingsKey)"
+    }
+    
+    public func saveSettings() {
+        do {
+            NSKeyedArchiver.setClassName("ProjectSettings", for: ProjectSettings.self)
+            let data = try NSKeyedArchiver.archivedData(withRootObject: settings, requiringSecureCoding: true)
+            let key = getLongSettingsKey()
+            
+            #if CLOUDKIT || os(iOS)
+                let keyStore = NSUbiquitousKeyValueStore()
+                keyStore.set(data, forKey: key)
+                keyStore.synchronize()
+            #else
+                if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                    let url = documentDir.appendingPathComponent(key)
+                    try? data.write(to: url)
+                }
+            #endif
+        } catch {
+            print("Settings arc error: \(error.localizedDescription)")
+        }
+    }
+        
+    public func getSettings() -> ProjectSettings? {
+        let key = getLongSettingsKey()
+        var data: Data?
+                
+        #if CLOUDKIT || os(iOS)
+            let keyStore = NSUbiquitousKeyValueStore()
+            data = keyStore.data(forKey: key)
+        #else
+            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                let url = documentDir.appendingPathComponent(key)
+                data = try? Data(contentsOf: url)
+            }
+        #endif
+        
+        NSKeyedUnarchiver.setClass(ProjectSettings.self, forClassName: "ProjectSettings")
+        if let data = data, let settings = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ProjectSettings.self, from: data) {
+            return settings
+        }
+        
+        return nil
+    }
+    
+    public func reloadSettings() {
+        if let settings = getSettings() {
+            self.settings = settings
+        }
+    }
+    
+    public func getSettingsKey() -> String {
+        var prefix = String()
+        
+        // iCloud Documents
+        if let path = getCloudDriveRelativePath() {
+            prefix = "i\(path)"
+            
+        // Local documents
+        } else if let path = getLocalDocumentsRelativePath() {
+            prefix = "l\(path)"
+            
+        // External
+        } else {
+            prefix = "e\(url.path)"
+        }
+        
+        return prefix.md5
     }
 
     public static func == (lhs: Project, rhs: Project) -> Bool {
@@ -302,6 +384,30 @@ public class Project: Equatable {
         
         return false
     }
+   
+    private func getCloudDriveRelativePath() -> String? {
+        if let iCloudDir =
+            FileManager.default.url(forUbiquityContainerIdentifier: nil)?
+                .appendingPathComponent("Documents", isDirectory: true)
+                .standardized,
+           
+            url.path.contains(iCloudDir.path) {
+            
+            return url.path.replacingOccurrences(of: iCloudDir.path, with: "")
+        }
+        
+        return nil
+    }
+    
+    private func getLocalDocumentsRelativePath() -> String? {
+        if let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first,
+            url.path.contains(documentDir.path) {
+            
+            return url.path.replacingOccurrences(of: documentDir.path, with: "")
+        }
+        
+        return nil
+    }
     
     public func getParent() -> Project {
         if isRoot {
@@ -316,7 +422,7 @@ public class Project: Equatable {
     }
     
     public func isVisibleInCommon() -> Bool {
-        if !showInCommon {
+        if !settings.showInCommon {
             return false
         }
         
@@ -324,7 +430,7 @@ public class Project: Equatable {
                 
         while parent != nil {
             if let unwrapped = parent?.parent {
-                if !unwrapped.showInCommon {
+                if !unwrapped.settings.showInCommon {
                     return false
                 }
                 
@@ -332,10 +438,10 @@ public class Project: Equatable {
                 continue
             }
             
-            return parent?.showInCommon == true
+            return parent?.settings.showInCommon == true
         }
         
-        return showInCommon
+        return settings.showInCommon
     }
 
     public func getNestedLabel() -> String {
@@ -378,136 +484,111 @@ public class Project: Equatable {
         
         return "FSNotes › \(label)"
     }
-
-    public func saveSettings() {
-        let data = [
-            "sortBy": sortBy.rawValue,
-            "sortDirection": sortDirection.rawValue,
-            "showInCommon": showInCommon,
-            "showInSidebar": showInSidebar,
-            "firstLineAsTitle": firstLineAsTitle,
-            "showNestedFoldersContent": showNestedFoldersContent,
-            "priority": priority,
-            "gitOrigin": gitOrigin ?? ""
-        ] as [String : Any]
-
-    #if os(OSX)
-        if let relativePath = getRelativePath() {
-            let keyStore = NSUbiquitousKeyValueStore()
-            let key = relativePath.count == 0 ? "root-directory" : relativePath
-
-            keyStore.set(data, forKey: key)
-            keyStore.synchronize()
-            return
-        } else {
-            settingsList = try? NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
-            
-            ProjectSettingsViewController.saveSettings()
-            return
-        }
-    #endif
-
-        UserDefaultsManagement.shared?.set(data, forKey: url.path.md5)
-    }
-
-    public func loadSettings() {
-        if label == "Welcome" {
-            sortBy = .title
-            sortDirection = .asc
-        }
-
-    #if os(OSX)
-        var settings: [String : Any]?
-        
-        if let relativePath = getRelativePath() {
-            let key = relativePath.count == 0 ? "root-directory" : relativePath
-
-            if let result = NSUbiquitousKeyValueStore().dictionary(forKey: key) {
-                settings = result
-            }
-        } else if let data = self.settingsList,
-            let result = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] {
-            settings = result
-        }
-        
-        guard let settings = settings else { return }
-        
-        if let common = settings["showInCommon"] as? Bool {
-            self.showInCommon = common
-        }
-
-        if let sidebar = settings["showInSidebar"] as? Bool {
-            self.showInSidebar = sidebar
-        }
-
-        if let sidebar = settings["showNestedFoldersContent"] as? Bool {
-            self.showNestedFoldersContent = sidebar
-        }
-
-        if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
-            if sort != .none {
-                sortBy = sort
-
-                if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
-                    sortDirection = direction
-                }
-            }
-        }
-
-        if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
-            self.firstLineAsTitle = firstLineAsTitle
-        } else {
-            self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-        }
-        
-        if let priority = settings["priority"] as? Int {
-            self.priority = priority
-        }
-        
-        if let origin = settings["gitOrigin"] as? String {
-            self.gitOrigin = origin
-        }
-        
-        return
-    #endif
-
-        if let settings = UserDefaultsManagement.shared?.object(forKey: url.path.md5) as? NSObject {
-            if let common = settings.value(forKey: "showInCommon") as? Bool {
-                self.showInCommon = common
-            }
-
-            if let sidebar = settings.value(forKey: "showInSidebar") as? Bool {
-                self.showInSidebar = sidebar
-            }
-
-            if let sidebar = settings.value(forKey: "showNestedFoldersContent") as? Bool {
-                self.showNestedFoldersContent = sidebar
-            }
-
-            if let sortString = settings.value(forKey: "sortBy") as? String,
-                let sort = SortBy(rawValue: sortString)
-            {
-                if sort != .none {
-                    sortBy = sort
-
-                    if let directionString = settings.value(forKey: "sortDirection") as? String,
-                        let direction = SortDirection(rawValue: directionString) {
-                        sortDirection = direction
-                    }
-                }
-            }
-
-            if let firstLineAsTitle = settings.value(forKey: "firstLineAsTitle") as? Bool {
-                self.firstLineAsTitle = firstLineAsTitle
-            } else {
-                self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-            }
-
-            return
-        }
-
-        self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-    }
+    
+//    public func loadSettings() {
+//        return
+//
+//        if label == "Welcome" {
+//            sortBy = .title
+//            sortDirection = .asc
+//        }
+//
+//    #if os(OSX)
+//        var settings: [String : Any]?
+//
+//        if let relativePath = getRelativePath() {
+//            let key = relativePath.count == 0 ? "root-directory" : relativePath
+//
+//            if let result = NSUbiquitousKeyValueStore().dictionary(forKey: key) {
+//                settings = result
+//            }
+//        } else if let data = self.settingsList,
+//            let result = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] {
+//            settings = result
+//        }
+//
+//        guard let settings = settings else { return }
+//
+//        if let common = settings["showInCommon"] as? Bool {
+//            self.showInCommon = common
+//        }
+//
+//        if let sidebar = settings["showInSidebar"] as? Bool {
+//            self.showInSidebar = sidebar
+//        }
+//
+//        if let sidebar = settings["showNestedFoldersContent"] as? Bool {
+//            self.showNestedFoldersContent = sidebar
+//        }
+//
+//        if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
+//            if sort != .none {
+//                sortBy = sort
+//
+//                if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
+//                    sortDirection = direction
+//                }
+//            }
+//        }
+//
+//        if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
+//            self.firstLineAsTitle = firstLineAsTitle
+//        } else {
+//            self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+//        }
+//
+//        if let priority = settings["priority"] as? Int {
+//            self.priority = priority
+//        }
+//
+//        if let origin = settings["gitOrigin"] as? String {
+//            self.gitOrigin = origin
+//        }
+//
+//        return
+//    #endif
+//
+//        if let settings = UserDefaultsManagement.shared?.object(forKey: getPathChecksum()) as? NSObject {
+//            if let common = settings.value(forKey: "showInCommon") as? Bool {
+//                self.showInCommon = common
+//            }
+//
+//            if let sidebar = settings.value(forKey: "showInSidebar") as? Bool {
+//                self.showInSidebar = sidebar
+//            }
+//
+//            if let sidebar = settings.value(forKey: "showNestedFoldersContent") as? Bool {
+//                self.showNestedFoldersContent = sidebar
+//            }
+//
+//            if let sortString = settings.value(forKey: "sortBy") as? String,
+//                let sort = SortBy(rawValue: sortString)
+//            {
+//                if sort != .none {
+//                    sortBy = sort
+//
+//                    if let directionString = settings.value(forKey: "sortDirection") as? String,
+//                        let direction = SortDirection(rawValue: directionString) {
+//                        sortDirection = direction
+//                    }
+//                }
+//            }
+//
+//            if let firstLineAsTitle = settings.value(forKey: "firstLineAsTitle") as? Bool {
+//                self.firstLineAsTitle = firstLineAsTitle
+//            } else {
+//                self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+//            }
+//
+//            if let originString = settings.value(forKey: "gitOrigin") as? String {
+//                gitOrigin = originString
+//            }
+//
+//            return
+//        }
+//
+//        self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+//    }
 
     public func getRelativePath() -> String? {
         if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
@@ -517,6 +598,20 @@ public class Project: Equatable {
         }
 
         return nil
+    }
+    
+    public func getPathChecksum() -> String {
+        if !UserDefaultsManagement.iCloudDrive, let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            var path = url.path.replacingOccurrences(of: documentDir.path, with: "")
+            
+            if path == "" {
+                path = "Local"
+            }
+            
+            return path.md5
+        } else {
+            return url.path.md5
+        }
     }
 
     public func getMd5CheckSum() -> String {
@@ -547,12 +642,8 @@ public class Project: Equatable {
         }
     }
 
-    public func getShortSign() -> String {
-        return String(getParent().url.path.md5.prefix(4))
-    }
-
     public func getAllTags() -> [String] {
-        let notes = Storage.sharedInstance().noteList.filter({ $0.project == self })
+        let notes = Storage.shared().noteList.filter({ $0.project == self })
 
         var tags: Set<String> = []
         for note in notes {
@@ -630,7 +721,7 @@ public class Project: Equatable {
     }
 
     public func getHistoryURL() -> URL? {
-        let url = storage.getRevisionsHistory()
+        let url = storage.getRevisionsHistoryDocumentsSupport()
 
         return url.appendingPathComponent(getMd5CheckSum())
     }
@@ -714,5 +805,41 @@ public class Project: Equatable {
         isEncrypted = false
         
         return decrypted
+    }
+
+    public func unlock(password: String) -> ([Note], [Note]) {
+        let notes = self.storage.getNotesBy(project: self)
+        var unlocked = [Note]()
+
+        if notes.count == 0 {
+            self.password = password
+            return (notes, unlocked)
+        }
+
+        for note in notes {
+            if note.unLock(password: password) {
+                self.password = password
+                unlocked.append(note)
+            }
+        }
+
+        return (notes, unlocked)
+    }
+
+    public func lock() -> [Note] {
+        var locked = [Note]()
+        let notes = self.storage.getNotesBy(project: self)
+
+        for note in notes {
+            if note.lock() {
+                locked.append(note)
+            }
+        }
+
+        if locked.count > 0 {
+            password = nil
+        }
+
+        return locked
     }
 }

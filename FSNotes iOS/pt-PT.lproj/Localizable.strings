@@ -1,8 +1,14 @@
 /* Settings */
 "+" = "+";
 
+/* No comment provided by engineer. */
+"..." = "...";
+
 /* Settings */
 "Add External Folder" = "Pasta Externa";
+
+/* Settings */
+"Advanced" = "Estendido";
 
 /* Archive in sidebar */
 "Archive" = "Arquivo";
@@ -16,23 +22,11 @@
 /* No comment provided by engineer. */
 "Are you sure you want to delete this image?" = "Tem certeza de que deseja apagar esta imagem?";
 
-/* No comment provided by engineer. */
-"Auto by screen brightness" = "Automático pelo brilho do ecrã";
-
-/* Naming controller */
-"Auto rename by title" = "Renomeação automática por título";
-
 /* Settings */
 "Auto Rename By Title" = "Renomeação automática por título";
 
-/* No comment provided by engineer. */
-"Auto versioning" = "Versão automática";
-
 /* Settings */
 "Autocorrection" = "Auto correção";
-
-/* No comment provided by engineer. */
-"Brightness level" = "Nível de brilho";
 
 /* Settings */
 "build" = "versão";
@@ -41,10 +35,16 @@
 "Cancel" = "Cancelar";
 
 /* No comment provided by engineer. */
+"Change Creation Date" = "Data Criada";
+
+/* Settings */
+"Check Spelling" = "Verificação Ortográfica";
+
+/* No comment provided by engineer. */
 "Code" = "Código";
 
 /* Settings */
-"Code block live highlighting" = "Realçar bloco de código";
+"Code Block Live Highlighting" = "Realçar bloco de código";
 
 /* Settings */
 "Code Theme" = "Tema do código";
@@ -56,34 +56,37 @@
 "Container" = "Container";
 
 /* No comment provided by engineer. */
-"Copy plain text" = "Copiar texto simples";
+"Copy Plain Text" = "Copiar texto simples";
 
 /* Main view popover table */
-"Create folder" = "Criar pasta";
+"Create Folder" = "Criar pasta";
 
 /* No comment provided by engineer. */
 "Create folder:" = "Criar pasta:";
 
 /* No comment provided by engineer. */
-"Creation date" = "Data de criação";
+"Create Web Page" = "Criar página da Web";
 
 /* No comment provided by engineer. */
-"Date created" = "Data Criada";
+"Creation Date" = "Data de criação";
 
-/* Settings */
-"Default Container" = "Recipiente por defeito";
+/* Main view popover table */
+"Decrypt" = "Desencriptar";
 
 /* No comment provided by engineer. */
-"Default keyboard in editor" = "Teclado padrão";
+"Default Keyboard" = "Teclado padrão";
 
 /* Table row action */
 "Delete" = "Eliminar";
 
 /* No comment provided by engineer. */
-"Disabled" = "Inactivo";
+"Delete Web Page" = "Excluir página da Web";
 
 /* No comment provided by engineer. */
 "Documents" = "Documentos";
+
+/* No comment provided by engineer. */
+"Done" = "Feito";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicada";
@@ -97,8 +100,8 @@
 /* Main view popover table */
 "Empty Bin" = "Caixa vazia";
 
-/* No comment provided by engineer. */
-"Enabled" = "Activo";
+/* Main view popover table */
+"Encrypt" = "Encriptar";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "Digite o nome da pasta";
@@ -118,17 +121,14 @@
 /* Settings */
 "Family" = "Família de fontes";
 
-/* Settings */
-"File format" = "Formato de arquivo";
-
 /* No comment provided by engineer. */
 "File with this name already exist" = "Já existe um ficheiro com este nome";
 
 /* Settings */
-"Files Naming" = "Nomenclatura de arquivos";
+"Files" = "Formato de arquivo";
 
-/* No comment provided by engineer. */
-"Focus in search field" = "Foco no campo de pesquisa";
+/* Settings */
+"Files Naming" = "Nomenclatura de arquivos";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Nome da pasta:";
@@ -137,13 +137,16 @@
 "Folder with this name already exist" = "Já existe uma pasta com este nome";
 
 /* Settings */
+"Folders" = "Pastas";
+
+/* Settings */
 "Font" = "Letra";
 
 /* Settings */
 "Font Family" = "Família do tipo de letra";
 
 /* Settings */
-"Font size" = "Tamanho da letra";
+"Font Size" = "Tamanho da letra";
 
 /* Settings */
 "Format: Untitled Note" = "Formato: Untitled Note";
@@ -160,20 +163,29 @@
 /* Settings */
 "General" = "Geral";
 
+/* Settings */
+"Git" = "Git";
+
+/* Main view popover table */
+"Git Add/commit/push" = "Git Add/commit/push";
+
+/* Main view popover table */
+"Git Settings" = "Git settings";
+
 /* No comment provided by engineer. */
 "History" = "História";
 
 /* Settings */
-"Homepage" = "Página inicial";
+"iCloud Drive" = "iCloud Drive";
 
 /* Settings */
-"iCloud Drive" = "iCloud Drive";
+"Icon" = "Ícone";
 
 /* No comment provided by engineer. */
 "Images source:" = "Fonte das imagens:";
 
 /* Main view popover table - Settings */
-"Import notes" = "Importar notas";
+"Import Notes" = "Importar notas";
 
 /* Inbox in sidebar */
 "Inbox" = "Caixa de entrada";
@@ -182,19 +194,28 @@
 "Invalid Password" = "Palavra-passe inválida";
 
 /* Settings */
+"Library" = "Barra lateral";
+
+/* Settings */
 "Line Spacing" = "Espaçamento entre linhas";
 
 /* Settings */
-"Live images preview" = "Pré-visualização de imagens";
+"Live Images Preview" = "Pré-visualização de imagens";
 
 /* No comment provided by engineer. */
 "Lock" = "Trancar";
 
+/* Settings */
+"Master" = "Master";
+
 /* No comment provided by engineer. */
 "Master password:" = "Senha mestra:";
 
+/* Settings */
+"MathJax" = "MathJax";
+
 /* No comment provided by engineer. */
-"Modification date" = "Data de modificação";
+"Modification Date" = "Data de modificação";
 
 /* Table row action */
 "More" = "Todavía";
@@ -203,10 +224,7 @@
 "Move" = "Mover";
 
 /* No comment provided by engineer. */
-"New document" = "Novo Documento";
-
-/* Settings */
-"Night Mode" = "Modo Noturno";
+"New Note" = "Novo Documento";
 
 /* No comment provided by engineer. */
 "None" = "Por padrão";
@@ -215,13 +233,25 @@
 "Notes" = "Notas";
 
 /* No comment provided by engineer. */
-"Notes list" = "Lista de notas";
+"Notes List" = "Lista de notas";
 
 /* Main view popover table */
 "Open in Files.app" = "Abra em Files.app";
 
 /* Document opened */
-"Open note" = "Abrir nota";
+"Open Note" = "Abrir nota";
+
+/* No comment provided by engineer. */
+"Passphrase" = "Passphrase";
+
+/* No comment provided by engineer. */
+"Password" = "Palavra-passe";
+
+/* No comment provided by engineer. */
+"Password has been successfully changed" = "A palavra-passe foi alterada com êxito";
+
+/* No comment provided by engineer. */
+"Password:" = "Palavra-passe:";
 
 /* No comment provided by engineer. */
 "Photos" = "Fotos";
@@ -236,34 +266,34 @@
 "Please enter valid password" = "Por favor insira uma palavra-passe válida";
 
 /* No comment provided by engineer. */
-"Preview" = "Pré-visualizar";
+"Please try again" = "Tente novamente";
 
-/* Settings */
-"Pro" = "Estendido";
-
-/* Settings */
-"Project" = "Projeto";
+/* No comment provided by engineer. */
+"Private Key" = "Private key";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "Remover projeto❌";
 
-/* Settings */
-"Projects" = "Projetos";
+/* No comment provided by engineer. */
+"Public Key (optional)" = "Public key (facultativo)";
 
 /* No comment provided by engineer. */
-"Remove encryption" = "Remover criptografia";
+"Pull (every 30 sec)" = "Pull (a cada 30 segundos)";
+
+/* No comment provided by engineer. */
+"Remove Encryption" = "Remover criptografia";
 
 /* Main view popover table */
-"Remove folder" = "Remover pasta";
+"Remove Folder" = "Remover pasta";
 
 /* Main view popover table */
-"Remove tag" = "Remover tag";
+"Remove Tag" = "Remover tag";
 
 /* No comment provided by engineer. */
 "Rename" = "Renomear";
 
 /* Main view popover table */
-"Rename folder" = "Renomear pasta";
+"Rename Folder" = "Renomear pasta";
 
 /* Popover table */
 "Rename folder:" = "Renomear pasta:";
@@ -272,22 +302,31 @@
 "Rename note:" = "Renomear nota:";
 
 /* Main view popover table */
-"Rename tag" = "Renomear tag";
+"Rename Tag" = "Renomear tag";
 
 /* Popover table */
 "Rename tag:" = "Renomear tag:";
 
 /* No comment provided by engineer. */
-"Save clipboard" = "Salvar área de transferência";
+"Save" = "Guardar";
+
+/* No comment provided by engineer. */
+"Save Clipboard" = "Salvar área de transferência";
+
+/* No comment provided by engineer. */
+"Save Revision" = "Guardar revisão";
 
 /* No comment provided by engineer. */
 "Saved versions" = "Versões salvas";
 
 /* No comment provided by engineer. */
-"Search" = "Procurar";
+"Search or Create" = "Procurar";
 
 /* No comment provided by engineer. */
 "Search or create" = "Pesquisar e criar";
+
+/* Settings */
+"Security" = "Segurança";
 
 /* Main view popover table */
 "Select" = "Selecionar";
@@ -299,19 +338,16 @@
 "Share" = "Partilhar";
 
 /* No comment provided by engineer. */
-"Show folder in sidebar" = "Mostrar pasta na barra lateral";
+"Show Folder in Library" = "Mostrar pasta na barra lateral";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "Mostrar notas nas listas \"Notas\" e \"Tarefas\"";
-
-/* Settings */
-"Sidebar" = "Barra lateral";
+"Show Notes in \"Notes\" and \"Todo\"" = "Mostrar notas nas listas \"Notas\" e \"Tarefas\"";
 
 /* No comment provided by engineer. */
-"Sort by" = "Ordenar por";
+"Sort By" = "Ordenar por";
 
 /* Settings */
-"Spell Checking" = "Verificação Ortográfica";
+"SoulverCore" = "SoulverCore";
 
 /* Settings */
 "Storage" = "Armazenamento";
@@ -319,14 +355,14 @@
 /* Settings */
 "Support" = "Suporte";
 
-/* No comment provided by engineer. */
-"System" = "Sistema";
-
 /* Settings */
-"Thanks to" = "Graças a";
+"Thanks" = "Graças a";
 
 /* Settings */
 "Theme" = "Tema";
+
+/* No comment provided by engineer. */
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Sugestão: Para utilizar notas antigas, tem de as desencriptar separadamente com a chave antiga e encriptá-las novamente.";
 
 /* No comment provided by engineer. */
 "Title" = "Título";
@@ -341,22 +377,25 @@
 "Twitter" = "Twitter";
 
 /* No comment provided by engineer. */
-"Type" = "Tipo";
-
-/* No comment provided by engineer. */
 "Unlock" = "Destrancar";
 
 /* Table row action */
-"UnPin" = "Soltar";
+"Unpin" = "Soltar";
 
 /* No comment provided by engineer. */
 "Untagged" = "Sem etiqueta";
 
 /* No comment provided by engineer. */
-"Use first line as title" = "Utilizar a primeira linha como título";
+"Update" = "Actualização";
+
+/* No comment provided by engineer. */
+"Use First Line as Title" = "Utilizar a primeira linha como título";
 
 /* Settings */
-"Use inline tags" = "Utilizar etiquetas em linha";
+"Use Inline Tags" = "Utilizar etiquetas em linha";
+
+/* No comment provided by engineer. */
+"Verify Password" = "Verificar a palavra-passe";
 
 /* Settings */
 "Version" = "Versão";
@@ -365,13 +404,25 @@
 "View" = "Visualizar";
 
 /* Main view popover table */
-"View settings" = "Definições de visualização";
+"View Settings" = "Definições de visualização";
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilidade";
 
 /* No comment provided by engineer. */
+"Web sharing error" = "Web sharing error";
+
+/* Settings */
+"Website" = "Página inicial";
+
+/* No comment provided by engineer. */
+"Wrong password" = "Palavra-passe errada";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Palavra-passe repetida errada";
+
+/* No comment provided by engineer. */
 "Сlearing history" = "Aprendendo a história";
 
 /* No comment provided by engineer. */
-"Preview MathJax" = "Pré-visualizar MathJax";
+"✅ - " = "✅ - ";

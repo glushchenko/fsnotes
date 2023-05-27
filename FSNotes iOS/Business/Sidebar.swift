@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 typealias Image = UIImage
 
 enum SidebarSection: Int {
@@ -33,8 +32,7 @@ class Sidebar {
                 SidebarItem(
                     name: NSLocalizedString("Inbox", comment: ""),
                     project: project,
-                    type: .Inbox,
-                    icon: getImage(named: "sidebar_inbox")
+                    type: .Inbox
                 )
             )
         }
@@ -55,8 +53,7 @@ class Sidebar {
                 SidebarItem(
                     name: NSLocalizedString("Notes", comment: ""),
                     project: fakeNotesProject,
-                    type: .All,
-                    icon: getImage(named: "sidebar_home")
+                    type: .All
                 )
             )
         }
@@ -77,8 +74,7 @@ class Sidebar {
                 SidebarItem(
                     name: NSLocalizedString("Todo", comment: ""),
                     project: fakeTodoProject,
-                    type: .Todo,
-                    icon: getImage(named: "sidebar_todo")
+                    type: .Todo
                 )
             )
         }
@@ -88,8 +84,7 @@ class Sidebar {
             let untagged =
                 SidebarItem(
                     name: NSLocalizedString("Untagged", comment: ""),
-                    type: .Untagged,
-                    icon: getImage(named: "sidebar_untagged")
+                    type: .Untagged
                 )
 
             system.append(untagged)
@@ -101,8 +96,7 @@ class Sidebar {
                 SidebarItem(
                     name: NSLocalizedString("Archive", comment: ""),
                     project: archiveProject,
-                    type: .Archive,
-                    icon: getImage(named: "sidebar_archive")
+                    type: .Archive
                 )
             )
         }
@@ -113,8 +107,7 @@ class Sidebar {
                 SidebarItem(
                     name: NSLocalizedString("Trash", comment: ""),
                     project: Storage.shared().getDefaultTrash(),
-                    type: .Trash,
-                    icon: getImage(named: "sidebar_trash")
+                    type: .Trash
                 )
             )
         }
@@ -127,20 +120,16 @@ class Sidebar {
             .getAvailableProjects()
             .sorted(by: { $0.label < $1.label })
             .map({
-                SidebarItem(name: $0.label, project: $0, type: .Category)
+                SidebarItem(
+                    name: $0.label,
+                    project: $0,
+                    type: .Project
+                )
             })
 
         items.append(projects)
 
         // Tags - section 2
         items.append([])
-    }
-
-    private func getImage(named: String) -> Image? {
-        if let image = UIImage(named: named) {
-            return image.imageWithColor(color1: .white)
-        }
-        
-        return nil
     }
 }

@@ -7,93 +7,85 @@
 //
 
 import Foundation
-
 import Cgit2
 
+#if os(iOS)
+import UIKit
+#else
+import AppKit
+#endif
+
 /// Define progress protocol
-public class Progress : Any {
-    
-    /// Progress
-    ///
-    /// - parameter current: Current entry
-    /// - parameter total:   Total entry
-    /// - parameter action:  action (transfert, checkout, ...)
-    /// - parameter info:    info (Path, ...)
-    func progress(current: Int, total: Int, action: String?, info: String?) {
-        NSLog(" - \(current) / \(total) -> \(action) : \(info)")
-    }
-}
+public class GitProgress {
+    public var project: Project
 
-/// Set transfert handler
-///
-/// - parameter options:  git_remote_callbacks
-/// - parameter progress: Progress may be nil
-func setTransfertProgressHandler(options: inout git_remote_callbacks, progress: Progress?) {
+#if os(iOS)
+    public var statusTextField: UITextField
     
-    if let progress = progress {
-        
-        // Convert handler to payload pointer
-        options.payload = Unmanaged<Progress>
-            .passUnretained(progress)
-            .toOpaque()
-        
-        // Create lambda
-        options.transfer_progress = { stats, payload in
-            
-            // Find payload
-            if let payload = payload {
-                
-                // Transformation du pointer en wrapper
-                let progress = Unmanaged<Progress>
-                    .fromOpaque(payload)
-                    .takeUnretainedValue()
-                
-                if let stats = stats {
-                    // Call handler
-                    progress.progress(current: Int(stats.pointee.received_objects),
-                                      total: Int(stats.pointee.total_objects),
-                                      action: "transfert",
-                                      info: nil)
-                }
-            }
-            
-            
-            return 0
+    init(statusTextField: UITextField, project: Project) {
+        self.statusTextField = statusTextField
+        self.project = project
+    }
+#else
+    public var statusTextField: NSTextField
+
+    init(statusTextField: NSTextField, project: Project) {
+        self.statusTextField = statusTextField
+        self.project = project
+    }
+#endif
+    
+    func log(current: Int, total: Int, action: String) {
+        let message = "git \(action): chunk \(current) from \(total)"
+        send(message: message)
+    }
+    
+    func log(message: String) {
+        project.gitStatus = message
+        send(message: message)
+    }
+
+    func send(message: String) {
+        print(message)
+
+        DispatchQueue.main.async {
+            #if os(iOS)
+                self.statusTextField.text = message
+            #else
+                self.statusTextField.stringValue = message
+            #endif
         }
     }
 }
 
-/// Set checkout handler
-///
-/// - parameter options:  git_checkout_options
-/// - parameter progress: Progress may be nil
-func setCheckoutProgressHandler(options: inout git_checkout_options, progress: Progress?) {
-    
-    if let progress = progress {
-        
-        // Convert handler to payload pointer
-        options.progress_payload = Unmanaged<Progress>
-            .passUnretained(progress)
-            .toOpaque()
-        
-        // Create lambda
-        options.progress_cb = { path, cur, tot, payload in
-            
-            // Find payload
-            if let payload = payload {
-                
-                // Transformation du pointer en wrapper
-                let progress = Unmanaged<Progress>
-                    .fromOpaque(payload)
-                    .takeUnretainedValue()
-                
-                // Call handler
-                progress.progress(current: cur,
-                                  total: tot,
-                                  action: "transfert",
-                                  info: path == nil ? nil : git_string_converter(path!))
-            }
+final class ProgressDelegate {
+    static let checkoutIgnoreFilesProgressCallback: git_checkout_notify_cb = {a,b,c,d,e,f in
+        // Dirty found – skip checkout, commit before
+        if a.rawValue == 2 {
+            return -1
         }
 
+        return 0
+    }
+
+    static let fetchProgressCallback: git_transfer_progress_cb = { stats, payload in
+        if let stats = stats {
+            AppDelegate.gitProgress?.log(current: Int(stats.pointee.received_objects), total: Int(stats.pointee.total_objects), action: "fetch")
+        }
+        return 0
+    }
+    
+    static let pushProgressCallback: git_push_transfer_progress_cb = { current, total, bytes, payload in
+        AppDelegate.gitProgress?.log(current: Int(current), total: Int(total), action: "push")
+        return 0
+    }
+    
+    static let packBuilderCallback: git_packbuilder_progress = { stage, current, total, payload in
+        AppDelegate.gitProgress?.log(current: Int(current), total: Int(total), action: "pack")
+        return 0
+    }
+
+    static let checkoutProgressCallback: git_checkout_progress_cb = { path, completed, total, payload in
+        AppDelegate.gitProgress?.log(current: Int(completed), total: Int(total), action: "checkout")
     }
 }

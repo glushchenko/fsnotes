@@ -110,14 +110,13 @@ extension UIImage {
     public static func emptyImage(with size: CGSize) -> UIImage? {
         let renderer = UIGraphicsImageRenderer(size: size)
         let img = renderer.image { ctx in
-            if #available(iOS 11.0, *), let border = UIColor(named: "pictureBorder") {
-                ctx.cgContext.setStrokeColor(border.cgColor)
-                ctx.cgContext.setLineWidth(1)
+            let border = UIColor.blackWhite
+            ctx.cgContext.setStrokeColor(border.cgColor)
+            ctx.cgContext.setLineWidth(1)
 
-                let rectangle = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-                ctx.cgContext.addRect(rectangle)
-                ctx.cgContext.drawPath(using: .stroke)
-            }
+            let rectangle = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            ctx.cgContext.addRect(rectangle)
+            ctx.cgContext.drawPath(using: .stroke)
         }
         return img
     }

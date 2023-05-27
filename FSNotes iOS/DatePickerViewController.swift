@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import NightNight
 
 class DatePickerViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -21,15 +20,10 @@ class DatePickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
-
-        navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationBar.mixedTintColor = Colors.buttonText
-        navigationBar.mixedBarTintColor = Colors.Header
-        navigationBar.mixedBackgroundColor = Colors.Header
-        bottomSafeView.mixedBackgroundColor = Colors.Header
-
-        updateNavigationBarBackground()
+        navigationBar.barTintColor = UIColor.sidebar
+        navigationBar.tintColor = UIColor.mainTheme
+        navigationBar.backgroundColor = UIColor.sidebar
+        bottomSafeView.backgroundColor = UIColor.sidebar
 
         if #available(iOS 14.0, *) {
             datePicker.preferredDatePickerStyle = .inline
@@ -61,29 +55,11 @@ class DatePickerViewController: UIViewController {
         dismiss(animated: true)
     }
 
-    @objc public func updateNavigationBarBackground() {
-        if #available(iOS 13.0, *) {
-            var color = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
-            if NightNight.theme == .night {
-                color = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            }
-
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = color
-            appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
-            navigationBar.standardAppearance = appearance
-            navigationBar.scrollEdgeAppearance = appearance
-        }
-    }
-
     private func initButtons() {
         let leftString = NSLocalizedString("Cancel", comment: "")
         navItem.leftBarButtonItem = UIBarButtonItem(title: leftString, style: .plain, target: self, action: #selector(closeController))
 
-        let saveImage = UIImage(named: "saveButton")?.resize(maxWidthHeight: 32)
-        let saveBarButton = UIBarButtonItem(image: saveImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(saveDate))
+        let saveBarButton = UIBarButtonItem(title: NSLocalizedString("Update", comment: ""), style: .plain, target: self, action: #selector(saveDate))
 
         navItem.rightBarButtonItem = saveBarButton
     }

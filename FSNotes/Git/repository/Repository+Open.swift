@@ -108,6 +108,7 @@ extension Repository {
         // General checkouts
         opts.checkout_opts.version = 1
         opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE.rawValue
+        opts.checkout_opts.progress_cb = ProgressDelegate.checkoutProgressCallback
         
         // General fetchs
         opts.fetch_opts.version = 1
@@ -117,7 +118,7 @@ extension Repository {
         opts.fetch_opts.proxy_opts.version = 1
 
         // Set fetch progress
-        setTransfertProgressHandler(options: &opts.fetch_opts.callbacks, progress: progress)
+        opts.fetch_opts.callbacks.transfer_progress = ProgressDelegate.fetchProgressCallback
         
         // Check handler
         if (authentication != nil) {

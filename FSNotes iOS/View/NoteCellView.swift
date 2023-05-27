@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import NightNight
 import SwipeCellKit
 
 class NoteCellView: SwipeTableViewCell {
@@ -59,37 +58,40 @@ class NoteCellView: SwipeTableViewCell {
         self.note = note
 
         date.attributedText = NSAttributedString(string: getDate())
+        preview.textColor = UIColor.previewColor
 
-        title.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-        preview.mixedTextColor = MixedColor(normal: 0x7f8ea7, night: 0xd9dee5)
-        
-        if note.isEncrypted() {
-            let name = note.isUnlocked() ? "padlock-unlocked-ios" : "padlock-locked-ios"
-            pin.image = UIImage(named: name)
+        if note.isPublished() {
+            pin.image = UIImage(systemName: "globe")
+            pin.isHidden = false
+        } else if note.isEncrypted() {
+            let name = note.isUnlocked() ? "lock.open" : "lock"
+            pin.image = UIImage(systemName: name)
             pin.isHidden = false
         } else {
-            var imageName = ""
-            if NightNight.theme == .night {
-                imageName = "_white"
-            }
-
-            pin.image = UIImage(named: "pin\(imageName).png" )
+            pin.image = UIImage(systemName: "pin")
             pin.isHidden = !note.isPinned
         }
 
-        var font = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
-        if let name = UserDefaultsManagement.fontName, let unwrappedFont = UIFont(name: name, size: CGFloat(UserDefaultsManagement.fontSize)) {
-            font = unwrappedFont
-        }
+        pin.tintColor = UIColor.mainTheme
 
-        let fontMetrics = UIFontMetrics(forTextStyle: .headline)
+        let font = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.DefaultFontSize), weight: .semibold)
+        let fontMetrics = UIFontMetrics(forTextStyle: .title1)
         let scaledFont = fontMetrics.scaledFont(for: font)
         title.font = scaledFont
-        date.font = scaledFont
+
+        let dateFont = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.DefaultFontSize - 2), weight: .regular)
+        let dateFontMetrics = UIFontMetrics(forTextStyle: .title3)
+        let dateScaledFont = dateFontMetrics.scaledFont(for: dateFont)
+        date.font = dateScaledFont
+
+        let previewFont = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.DefaultFontSize - 2), weight: .regular)
+        let previewFontMetrics = UIFontMetrics(forTextStyle: .title3)
+        let previewScaledFont = previewFontMetrics.scaledFont(for: previewFont)
+        preview.font = previewScaledFont
     }
 
     public func getDate() -> String {
-        if let sort = note?.project.sortBy,
+        if let sort = note?.project.settings.sortBy,
             sort == .creationDate,
             let date = note?.getCreationDateForLabel()
         {

@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import NightNight
 import CoreServices
 
 class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     private var projects: [Project]
 
     init() {
-        let storage = Storage.sharedInstance()
+        let storage = Storage.shared()
         self.projects = storage.getProjects()
 
         super.init(style: .plain)
@@ -25,10 +24,6 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-
         let addProject = Buttons.getAdd(target: self, selector: #selector(newAlert))
 
         var buttons = [UIBarButtonItem]()
@@ -42,8 +37,8 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         self.navigationItem.rightBarButtonItems = buttons
 
-        self.projects = Storage.sharedInstance().getProjects()
-        self.title = NSLocalizedString("Projects", comment: "Settings")
+        self.projects = Storage.shared().getProjects()
+        self.title = NSLocalizedString("Folders", comment: "Settings")
 
         super.viewDidLoad()
     }
@@ -65,9 +60,6 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             }
         }
 
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
         cell.accessoryType = .disclosureIndicator
 
         return cell
@@ -75,11 +67,6 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.projects.count
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -206,7 +193,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         }
 
         self.tableView.reloadData()
-        Storage.sharedInstance().removeBy(project: project)
+        Storage.shared().removeBy(project: project)
 
         let vc = UIApplication.getVC()
         vc.reloadNotesTable() {
@@ -227,7 +214,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
             SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
-            let storage = Storage.sharedInstance()
+            let storage = Storage.shared()
             let project = Project(
                 storage: storage,
                 url: url,

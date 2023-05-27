@@ -69,8 +69,14 @@ public class StatusIterator : Sequence, IteratorProtocol {
             if entry == nil {
                 return nil
             }
-            
-            return try? Status(entry: entry!)
+
+            do {
+                let result = try Status(entry: entry!)
+                return result
+            } catch {
+                print(error.localizedDescription)
+                return nil
+            }
         } else {
             return nil
         }

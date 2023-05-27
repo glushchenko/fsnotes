@@ -11,16 +11,18 @@ import Foundation
 import Cgit2
 
 /// Iterate to file history
-public class FileHistoryIterator : RevisionIterator {
+public class FileHistoryIterator: RevisionIterator {
     
     // File path
     private let path: String
+    private let project: Project?
     
     // Previous commit oid
     private var previousOid: OID? = nil
     private var lastFetchedOid: OID? = nil
     
-    public init(repository: Repository, path: String, refspec: String = "HEAD") throws {
+    public init(repository: Repository, path: String, refspec: String = "HEAD", project: Project? = nil) throws {
+        self.project = project
         
         // Set path
         self.path = path
@@ -88,6 +90,32 @@ public class FileHistoryIterator : RevisionIterator {
         return nil
     }
     
+    public func cacheDiff() -> OID? {
+        guard let oid = super.next() else {
+            return nil
+        }
+        
+        guard let pOid = previousOid else {
+            previousOid = oid
+            return oid
+        }
+        
+        do {
+            let currentCommit = try repository.commitLookup(oid: oid)
+            let tree = try currentCommit.tree()
+            
+            let previousCommit = try repository.commitLookup(oid: pOid)
+            let previousTree = try previousCommit.tree()
+            
+            let diff = try previousTree.diff(other: tree)
+            _ = diff.find(byPath: path, oid: oid, project: project)
+        } catch {/*_*/}
+        
+        previousOid = oid
+        
+        return oid
+    }
+    
     private func diffPrev(tree: Tree, oid: OID) -> OID? {
         guard let pOid = previousOid else { return next() }
         
@@ -102,7 +130,7 @@ public class FileHistoryIterator : RevisionIterator {
             let diff = try previousTree.diff(other: tree)
             
             // Find
-            if !diff.find(byPath: path, oid: oid) {
+            if !diff.find(byPath: path, oid: oid, project: project) {
                 
                 // Set previous and find next
                 previousOid = oid
