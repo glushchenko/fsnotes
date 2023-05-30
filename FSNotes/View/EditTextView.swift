@@ -1316,7 +1316,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
 
-        if event.keyCode == kVK_Return && !hasMarkedText() {
+        if event.keyCode == kVK_Return && !hasMarkedText() && isEditable {
             breakUndoCoalescing()
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.newLine()
@@ -1770,7 +1770,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     @IBAction func shiftLeft(_ sender: Any) {
-        guard let note = self.note else { return }
+        guard let note = self.note, isEditable else { return }
         let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
 
         textStorageProcessor?.shouldForceRescan = true
@@ -1778,7 +1778,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     @IBAction func shiftRight(_ sender: Any) {
-        guard let note = self.note else { return }
+        guard let note = self.note, isEditable else { return }
         let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
 
         textStorageProcessor?.shouldForceRescan = true
@@ -1813,7 +1813,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     @IBAction func insertFileOrImage(_ sender: Any) {
-        guard let note = self.note else { return }
+        guard let note = self.note, isEditable else { return }
 
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = true
@@ -1840,6 +1840,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     @IBAction func insertCodeBlock(_ sender: NSButton) {
+        guard isEditable else { return }
+
         let currentRange = selectedRange()
 
         if currentRange.length > 0 {
@@ -1870,6 +1872,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     @IBAction func insertCodeSpan(_ sender: NSMenuItem) {
+        guard isEditable else { return }
+
         let currentRange = selectedRange()
 
         if currentRange.length > 0 {
@@ -1918,7 +1922,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     private func getTextFormatter() -> TextFormatter? {
-        guard let note = self.note else { return nil }
+        guard let note = self.note, isEditable else { return nil }
         
         return TextFormatter(textView: self, note: note)
     }

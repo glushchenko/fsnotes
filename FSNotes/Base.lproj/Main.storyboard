@@ -2496,7 +2496,7 @@ Gw
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="dockIcon4" id="FCd-Ar-efh"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
                                 <rect key="frame" x="208" y="486" width="67" height="17"/>
@@ -2539,7 +2539,7 @@ All rights reserved.</string>
                                 <rect key="frame" x="18" y="106" width="446" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
-                                    <string key="title">Roman Kliuchkovych — kmstrr@gmail.com
+                                    <string key="title">Dylan Seeger — https://www.lovably.com
 Olena Hlushcneko</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -4911,7 +4911,6 @@ Olena Hlushcneko</string>
         <image name="NSLockLockedTemplate" width="19" height="19"/>
         <image name="NSQuickLookTemplate" width="26" height="17"/>
         <image name="NSShareTemplate" width="19" height="22"/>
-        <image name="dockIcon4" width="64" height="64"/>
         <image name="icon" width="1024" height="1024"/>
         <image name="icon_alt" width="1024" height="1024"/>
         <image name="lock-closed" width="128" height="128"/>
