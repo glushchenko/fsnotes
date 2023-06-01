@@ -902,17 +902,21 @@ class NotesTableView: UITableView,
         guard let popOver = activityVC.popoverPresentationController else { return }
         popOver.permittedArrowDirections = .up
 
-        if presentController.isKind(of: EditorViewController.self) {
-            popOver.sourceView = presentController.view
-            popOver.sourceRect = CGRect(x: presentController.view.bounds.midX, y: 80, width: 0, height: 0)
+        let notesTable = UIApplication.getVC().notesTable
+        let editorView = UIApplication.getEVC().editArea
 
-        } else if
-            let presentController = presentController as? ViewController,
-            let notesTable = presentController.notesTable, let i = notesTable.notes.firstIndex(where: {$0 === note}),
-            let rowView = notesTable.cellForRow(at: IndexPath(row: i, section: 0)) {
+        if let topViewController = presentController.topViewController {
+            if topViewController.isKind(of: EditorViewController.self) {
+                popOver.sourceView = editorView
+                popOver.sourceRect = CGRect(x: editorView!.bounds.midX, y: 80, width: 0, height: 0)
 
-            popOver.sourceView = rowView
-            popOver.sourceRect = CGRect(x: presentController.view.bounds.midX, y: rowView.frame.height, width: 10, height: 10)
+            } else if topViewController.isKind(of: ViewController.self),
+                let i = notesTable?.notes.firstIndex(where: {$0 === note}),
+                let rowView = notesTable?.cellForRow(at: IndexPath(row: i, section: 0)) {
+
+                popOver.sourceView = rowView
+                popOver.sourceRect = CGRect(x: notesTable!.bounds.midX, y: rowView.frame.height, width: 10, height: 10)
+            }
         }
     }
 
