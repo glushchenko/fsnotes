@@ -68,11 +68,18 @@ extension EditorViewController {
             do {
                 try note.project.saveRevision(commitMessage: commitMessage)
             } catch {
+                var message = String()
+                if let error = error as? GitError {
+                    message = error.associatedValue()
+                } else {
+                    message = error.localizedDescription
+                }
+
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.alertStyle = .critical
-                    alert.informativeText = NSLocalizedString("Git error", comment: "")
-                    alert.messageText = error.localizedDescription
+                    alert.informativeText = message
+                    alert.messageText = NSLocalizedString("Git error", comment: "")
                     alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in }
                 }
             }
