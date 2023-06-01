@@ -120,6 +120,13 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivity.ActivityType.addToReadingList]
 
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            guard let popOver = activityVC.popoverPresentationController else { return }
+            popOver.permittedArrowDirections = .down
+            popOver.sourceView = view
+            popOver.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+        }
+
         present(activityVC, animated: true, completion: nil)
     }
 
