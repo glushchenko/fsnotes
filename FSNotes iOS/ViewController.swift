@@ -95,6 +95,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
         super.viewWillAppear(animated)
+        if let searchQuery = sidebarTableView.buildSearchQuery() {
+            reloadNotesTable(with: searchQuery)
+        } else {
+            reloadNotesTable(with: SearchQuery(type: .Inbox))
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
