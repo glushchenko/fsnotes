@@ -61,17 +61,12 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
 
     override func textDidEndEditing(_ notification: Notification) {
-        if let editor = self.currentEditor(), editor.selectedRange.length > 0 {
-            editor.replaceCharacters(in: editor.selectedRange, with: "")
-            window?.makeFirstResponder(nil)
-        }
-
         self.skipAutocomplete = false
         self.lastQuery = String()
         self.lastQueryLength = 0
 
         addRecent(query: stringValue)
-        
+
         if stringValue.count == 0 {
             search()
         }

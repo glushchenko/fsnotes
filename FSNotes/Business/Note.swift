@@ -123,13 +123,14 @@ public class Note: NSObject  {
     }
 
     func getMeta() -> NoteMeta {
+        let date = creationDate ?? Date()
         return NoteMeta(
             url: url,
             imageUrl: imageUrl,
             title: title,
             preview: preview,
             modificationDate: modifiedLocalAt,
-            creationDate: creationDate!,
+            creationDate: date,
             pinned: isPinned
         )
     }

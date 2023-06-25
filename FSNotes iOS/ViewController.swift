@@ -549,7 +549,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func loadNews() {
-        guard storage.isReadedNewsOutdated() else { return }
+        guard storage.isReadedNewsOutdated(),
+            let newsURL = storage.getNews(),
+            let defaultProject = storage.getDefault() else { return }
 
         let isLandscape = UIDevice.current.orientation.isLandscape
         newsPopup?.removeFromSuperview()
@@ -570,10 +572,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         let height = screeenHeight * 0.75
-        let note = Note(
-            url: storage.getNews()!,
-            with: storage.getDefault()!
-        )
+        let note = Note(url: newsURL, with: defaultProject)
         note.load()
 
         let frame = CGRect(
