@@ -8,7 +8,7 @@
 "Add External Folder" = "添加外部文件夹";
 
 /* Settings */
-"Advanced" = "Advanced";
+"Advanced" = "高级";
 
 /* Archive in sidebar */
 "Archive" = "存档";
@@ -35,16 +35,16 @@
 "Cancel" = "取消";
 
 /* No comment provided by engineer. */
-"Change Creation Date" = "Change Creation Date";
+"Change Creation Date" = "更改创建日期";
 
 /* Settings */
-"Check Spelling" = "Check Spelling";
+"Check Spelling" = "检查拼写";
 
 /* No comment provided by engineer. */
 "Code" = "代码字体";
 
 /* Settings */
-"Code Block Live Highlighting" = "Code Block Live Highlighting";
+"Code Block Live Highlighting" = "代码块实时高亮";
 
 /* Settings */
 "Code Theme" = "代码主题";
@@ -56,37 +56,37 @@
 "Container" = "容器";
 
 /* No comment provided by engineer. */
-"Copy Plain Text" = "Copy Plain Text";
+"Copy Plain Text" = "拷贝纯文本";
 
 /* Main view popover table */
-"Create Folder" = "Create Folder";
+"Create Folder" = "创建文件夹";
 
 /* No comment provided by engineer. */
 "Create folder:" = "创建文件夹:";
 
 /* No comment provided by engineer. */
-"Create Web Page" = "Create Web Page";
+"Create Web Page" = "创建网页";
 
 /* No comment provided by engineer. */
-"Creation Date" = "Creation Date";
+"Creation Date" = "创建日期";
 
 /* Main view popover table */
-"Decrypt" = "Decrypt";
+"Decrypt" = "解密";
 
 /* Settings */
-"Default Keyboard" = "Default Keyboard";
+"Default Keyboard" = "默认键盘";
 
 /* Table row action */
 "Delete" = "删除";
 
 /* No comment provided by engineer. */
-"Delete Web Page" = "Delete Web Page";
+"Delete Web Page" = "删除网页";
 
 /* No comment provided by engineer. */
 "Documents" = "文件";
 
 /* No comment provided by engineer. */
-"Done" = "Done";
+"Done" = "完成";
 
 /* No comment provided by engineer. */
 "Duplicate" = "生成副本";
@@ -101,7 +101,7 @@
 "Empty Bin" = "清空回收站";
 
 /* Main view popover table */
-"Encrypt" = "Encrypt";
+"Encrypt" = "加密";
 
 /* No comment provided by engineer. */
 "Enter folder name" = "输入文件夹名称";
@@ -125,7 +125,7 @@
 "File with this name already exist" = "具有此名称的文件已存在";
 
 /* Settings */
-"Files" = "Files";
+"Files" = "文件";
 
 /* Settings */
 "Files Naming" = "文件命名";
@@ -137,7 +137,7 @@
 "Folder with this name already exist" = "具有此名称的文件夹已存在";
 
 /* Settings */
-"Folders" = "Folders";
+"Folders" = "文件夹";
 
 /* Settings */
 "Font" = "字体";
@@ -146,7 +146,7 @@
 "Font Family" = "字体册";
 
 /* Settings */
-"Font Size" = "Font Size";
+"Font Size" = "字体大小";
 
 /* Settings */
 "Format: Untitled Note" = "格式:无标题笔记";
@@ -167,10 +167,10 @@
 "Git" = "Git";
 
 /* Main view popover table */
-"Git Add/commit/push" = "Git Add/commit/push";
+"Git Add/commit/push" = "Git 添加/提交/推送";
 
 /* Main view popover table */
-"Git Settings" = "Git Settings";
+"Git Settings" = "Git 设置";
 
 /* No comment provided by engineer. */
 "History" = "笔记历史版本";
@@ -179,13 +179,13 @@
 "iCloud Drive" = "iCloud 同步";
 
 /* Settings */
-"Icon" = "Icon";
+"Icon" = "图标";
 
 /* No comment provided by engineer. */
 "Images source:" = "图片来源:";
 
 /* Settings */
-"Import Notes" = "Import Notes";
+"Import Notes" = "导入笔记";
 
 /* Inbox in sidebar */
 "Inbox" = "收集箱";
@@ -194,19 +194,19 @@
 "Invalid Password" = "密码无效";
 
 /* Settings */
-"Library" = "Library";
+"Library" = "文库";
 
 /* Settings */
 "Line Spacing" = "行距";
 
 /* Settings */
-"Live Images Preview" = "Live Images Preview";
+"Live Images Preview" = "实况图像预览";
 
 /* No comment provided by engineer. */
 "Lock" = "上锁";
 
 /* Settings */
-"Master" = "Master";
+"Master" = "主分支";
 
 /* No comment provided by engineer. */
 "Master password:" = "主密码:";
@@ -215,7 +215,7 @@
 "MathJax" = "MathJax";
 
 /* No comment provided by engineer. */
-"Modification Date" = "Modification Date";
+"Modification Date" = "修改日期";
 
 /* Table row action */
 "More" = "更多";
@@ -224,7 +224,7 @@
 "Move" = "移动";
 
 /* No comment provided by engineer. */
-"New Note" = "New Note";
+"New Note" = "新建笔记";
 
 /* No comment provided by engineer. */
 "None" = "无";
@@ -234,25 +234,25 @@
 "Notes" = "所有笔记";
 
 /* No comment provided by engineer. */
-"Notes List" = "Notes List";
+"Notes List" = "笔记列表";
 
 /* Main view popover table */
 "Open in Files.app" = "在文件应用打开所在位置";
 
 /* Document opened */
-"Open Note" = "Open Note";
+"Open Note" = "打卡笔记";
 
 /* No comment provided by engineer. */
-"Passphrase" = "Passphrase";
+"Passphrase" = "密码锁";
 
 /* No comment provided by engineer. */
-"Password" = "Password";
+"Password" = "密码";
 
 /* No comment provided by engineer. */
-"Password has been successfully changed" = "Password has been successfully changed";
+"Password has been successfully changed" = "密码已被成功修改";
 
 /* No comment provided by engineer. */
-"Password:" = "Password:";
+"Password:" = "密码:";
 
 /* No comment provided by engineer. */
 "Photos" = "照片";
@@ -267,34 +267,34 @@
 "Please enter valid password" = "请输入有效密码";
 
 /* No comment provided by engineer. */
-"Please try again" = "Please try again";
+"Please try again" = "请再试一试";
 
 /* No comment provided by engineer. */
-"Private Key" = "Private Key";
+"Private Key" = "私密密钥";
 
 /* No comment provided by engineer. */
 "Project removing ❌" = "项目删除 ❌";
 
 /* No comment provided by engineer. */
-"Public Key (optional)" = "Public Key (optional)";
+"Public Key (optional)" = "公共密钥 (可选)";
 
 /* No comment provided by engineer. */
-"Pull (every 30 sec)" = "Pull (every 30 sec)";
+"Pull (every 30 sec)" = "Pull (每隔 30 秒)";
 
 /* No comment provided by engineer. */
-"Remove Encryption" = "Remove Encryption";
+"Remove Encryption" = "移除加密";
 
 /* Main view popover table */
-"Remove Folder" = "Remove Folder";
+"Remove Folder" = "移除文件夹";
 
 /* Main view popover table */
-"Remove Tag" = "Remove Tag";
+"Remove Tag" = "移除标签";
 
 /* No comment provided by engineer. */
 "Rename" = "重命名";
 
 /* Main view popover table */
-"Rename Folder" = "Rename Folder";
+"Rename Folder" = "重命名文件夹";
 
 /* Popover table */
 "Rename folder:" = "重命名文件夹:";
@@ -303,31 +303,31 @@
 "Rename note:" = "重命名笔记:";
 
 /* Main view popover table */
-"Rename Tag" = "Rename Tag";
+"Rename Tag" = "重命名标签";
 
 /* Popover table */
 "Rename tag:" = "重命名标签:";
 
 /* No comment provided by engineer. */
-"Save" = "Save";
+"Save" = "保存";
 
 /* No comment provided by engineer. */
-"Save Clipboard" = "Save Clipboard";
+"Save Clipboard" = "保存剪贴板";
 
 /* No comment provided by engineer. */
-"Save Revision" = "Save Revision";
+"Save Revision" = "保存修订版";
 
 /* No comment provided by engineer. */
-"Saved versions" = "保存的版本";
+"Saved versions" = "保存的历史版本";
 
 /* No comment provided by engineer. */
 "Search or create" = "搜索或创建";
 
 /* No comment provided by engineer. */
-"Search or Create" = "Search or Create";
+"Search or Create" = "搜索或创作";
 
 /* Settings */
-"Security" = "Security";
+"Security" = "安全性";
 
 /* Main view popover table */
 "Select" = "选择";
@@ -339,13 +339,13 @@
 "Share" = "分享";
 
 /* No comment provided by engineer. */
-"Show Folder in Library" = "Show Folder in Library";
+"Show Folder in Library" = "在文库中显示文件夹";
 
 /* No comment provided by engineer. */
-"Show Notes in \"Notes\" and \"Todo\"" = "Show Notes in \"Notes\" and \"Todo\"";
+"Show Notes in \"Notes\" and \"Todo\"" = "显示笔记在 \"笔记\" 和 \"待办\"";
 
 /* Settings */
-"Sort By" = "Sort By";
+"Sort By" = "排序方式";
 
 /* Settings */
 "SoulverCore" = "SoulverCore";
@@ -357,13 +357,13 @@
 "Support" = "支持";
 
 /* Settings */
-"Thanks" = "Thanks";
+"Thanks" = "感谢";
 
 /* Settings */
 "Theme" = "主题";
 
 /* No comment provided by engineer. */
-"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again.";
+"Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." = "小贴士:要使用旧的笔记，您必须用旧的密钥单独解密，并再次加密。";
 
 /* No comment provided by engineer. */
 "Title" = "标题";
@@ -382,22 +382,22 @@
 "Unlock" = "开锁";
 
 /* Table row action */
-"Unpin" = "Unpin";
+"Unpin" = "取消置顶";
 
 /* No comment provided by engineer. */
 "Untagged" = "未标记";
 
 /* No comment provided by engineer. */
-"Update" = "Update";
+"Update" = "更新";
 
 /* No comment provided by engineer. */
-"Use First Line as Title" = "Use First Line as Title";
+"Use First Line as Title" = "使用第一行作为标题";
 
 /* No comment provided by engineer. */
-"Use Inline Tags" = "Use Inline Tags";
+"Use Inline Tags" = "使用内联标签";
 
 /* No comment provided by engineer. */
-"Verify Password" = "Verify Password";
+"Verify Password" = "验证密码";
 
 /* Settings */
 "Version" = "版本";
@@ -406,22 +406,22 @@
 "View" = "视图";
 
 /* Main view popover table */
-"View Settings" = "View Settings";
+"View Settings" = "查看设置";
 
 /* No comment provided by engineer. */
 "Visibility" = "可见性";
 
 /* No comment provided by engineer. */
-"Web sharing error" = "Web sharing error";
+"Web sharing error" = "网站分享错误";
 
 /* Settings */
-"Website" = "Website";
+"Website" = "生成网站";
 
 /* No comment provided by engineer. */
-"Wrong password" = "Wrong password";
+"Wrong password" = "密码错误";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "Wrong repeated password";
+"Wrong repeated password" = "重复密码错误";
 
 /* No comment provided by engineer. */
 "Сlearing history" = "清空此笔记的历史版本";
