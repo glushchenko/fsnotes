@@ -84,6 +84,7 @@ class SidebarTableView: UITableView,
         guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else { return }
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
+        guard vc.searchQuery.project != sidebarItem.project else { return }
 
         if let project = vc.searchQuery.project, getIndexPathBy(project: project) == indexPath, vc.notesTable.isEditing {
             vc.notesTable.toggleSelectAll()
@@ -137,7 +138,6 @@ class SidebarTableView: UITableView,
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
         vc.configureNavMenu(for: sidebarItem)
         
-        guard vc.searchQuery.project != newQuery.project else { return }
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
