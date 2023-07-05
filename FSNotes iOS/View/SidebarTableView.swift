@@ -137,11 +137,9 @@ class SidebarTableView: UITableView,
 
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
         vc.configureNavMenu(for: sidebarItem)
-        
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
-                
                 vc.setNavTitle(folder: name)
 
                 guard vc.notesTable.notes.count > 0 else {
