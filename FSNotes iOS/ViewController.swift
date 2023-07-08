@@ -1252,6 +1252,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
             self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
             self.sidebarTableLeadingConstraint.constant = 0
+            self.sidebarTableWidth.constant = self.maxSidebarWidth
             self.view.layoutIfNeeded()
         }) { _ in
             UserDefaultsManagement.sidebarIsOpened = true
