@@ -261,7 +261,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 let helper = DayOneImportHelper(url: url, storage: storage)
                 guard let project = helper.check() else { return }
 
-                DispatchQueue.main.async {
+                OperationQueue.main.addOperation {
                     self.view.isUserInteractionEnabled = true
 
                     viewController.sidebarTableView.insertRows(projects: [project])

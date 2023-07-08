@@ -128,7 +128,6 @@ class Storage {
 
         projects.append(project)
 
-        assignTree(for: project)
         assignTrash(by: project.url)
         assignArchive()
         assignBookmarks()

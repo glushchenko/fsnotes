@@ -618,7 +618,10 @@ extension ViewController: UIDocumentPickerDelegate {
             )
 
             storage.assignTree(for: project)
-            mvc.sidebarTableView.insertRows(projects: [project])
+
+            OperationQueue.main.addOperation {
+                mvc.sidebarTableView.insertRows(projects: [project])
+            }
         }
 
         let title = NSLocalizedString("Cancel", comment: "")
@@ -645,24 +648,27 @@ extension ViewController: UIDocumentPickerDelegate {
         )
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+            OperationQueue.main.addOperation {
+                mvc.sidebarTableView.removeRows(projects: [selectedProject])
 
-            mvc.sidebarTableView.removeRows(projects: [selectedProject])
+                if !selectedProject.isExternal {
+                    try? FileManager.default.removeItem(at: selectedProject.url)
+                }
 
-            if !selectedProject.isExternal {
-                try? FileManager.default.removeItem(at: selectedProject.url)
+                Storage.shared().remove(project: selectedProject)
             }
-
-            Storage.shared().remove(project: selectedProject)
         }))
 
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
         }))
 
         if selectedProject.isExternal {
-            let bookmark = SandboxBookmark.sharedInstance()
-            bookmark.remove(url: selectedProject.url)
+            OperationQueue.main.addOperation {
+                let bookmark = SandboxBookmark.sharedInstance()
+                bookmark.remove(url: selectedProject.url)
 
-            mvc.sidebarTableView.removeRows(projects: [selectedProject])
+                mvc.sidebarTableView.removeRows(projects: [selectedProject])
+            }
         } else {
             mvc.present(alert, animated: true, completion: nil)
         }
@@ -682,34 +688,36 @@ extension ViewController: UIDocumentPickerDelegate {
         })
 
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
-            guard let name = alertController.textFields?[0].text, name.count > 0 else {
-                return
+            OperationQueue.main.addOperation {
+                guard let name = alertController.textFields?[0].text, name.count > 0 else {
+                    return
+                }
+
+                let newDir = selectedProject.url
+                    .deletingLastPathComponent()
+                    .appendingPathComponent(name, isDirectory: true)
+
+                do {
+                    try FileManager.default.moveItem(at: selectedProject.url, to: newDir)
+                } catch {
+                    print(error)
+                    return
+                }
+
+                mvc.sidebarTableView.removeRows(projects: [selectedProject])
+                mvc.storage.unload(project: selectedProject)
+
+                selectedProject.url = newDir
+                selectedProject.loadLabel()
+
+                mvc.storage.loadNotes(selectedProject, loadContent: true)
+                mvc.sidebarTableView.insertRows(projects: [selectedProject])
+                mvc.sidebarTableView.select(project: selectedProject)
+
+                // Load tags for new urls
+                let notes = selectedProject.getNotes()
+                mvc.sidebarTableView.loadTags(notes: notes)
             }
-
-            let newDir = selectedProject.url
-                .deletingLastPathComponent()
-                .appendingPathComponent(name, isDirectory: true)
-
-            do {
-                try FileManager.default.moveItem(at: selectedProject.url, to: newDir)
-            } catch {
-                print(error)
-                return
-            }
-
-            mvc.sidebarTableView.removeRows(projects: [selectedProject])
-            mvc.storage.unload(project: selectedProject)
-
-            selectedProject.url = newDir
-            selectedProject.loadLabel()
-
-            mvc.storage.loadNotes(selectedProject, loadContent: true)
-            mvc.sidebarTableView.insertRows(projects: [selectedProject])
-            mvc.sidebarTableView.select(project: selectedProject)
-
-            // Load tags for new urls
-            let notes = selectedProject.getNotes()
-            mvc.sidebarTableView.loadTags(notes: notes)
         }
 
         let cancel = NSLocalizedString("Cancel", comment: "")

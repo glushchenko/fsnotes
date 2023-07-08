@@ -402,7 +402,7 @@ class CloudDriveManager {
             note.forceLoad(skipCreateDate: true)
         }
 
-        DispatchQueue.main.async {
+        OperationQueue.main.addOperation {
             self.delegate.notesTable.removeRows(notes: delete)
             self.delegate.notesTable.insertRows(notes: insert)
             self.delegate.notesTable.reloadRows(notes: change)

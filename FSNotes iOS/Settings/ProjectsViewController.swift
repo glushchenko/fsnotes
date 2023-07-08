@@ -141,7 +141,9 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             storage.assignTree(for: project)
             self.tableView.reloadData()
 
-            UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
+            OperationQueue.main.addOperation {
+                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
+            }
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
@@ -197,7 +199,9 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         let vc = UIApplication.getVC()
         vc.reloadNotesTable() {
-            vc.sidebarTableView.removeRows(projects: [project])
+            OperationQueue.main.addOperation {
+                vc.sidebarTableView.removeRows(projects: [project])
+            }
         }
     }
 
@@ -229,10 +233,12 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             storage.assignTree(for: project)
             storage.loadNotes(project, loadContent: true)
 
-            UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
-
-            self.projects.append(project)
-            self.tableView.reloadData()
+            OperationQueue.main.addOperation {
+                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
+                
+                self.projects.append(project)
+                self.tableView.reloadData()
+            }
         } catch {
             print(error)
         }

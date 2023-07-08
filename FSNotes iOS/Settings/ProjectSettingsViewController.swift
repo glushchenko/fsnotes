@@ -180,14 +180,16 @@ class ProjectSettingsViewController: UITableViewController {
             } else {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
 
-                project.settings.showInSidebar = uiSwitch.isOn
+                self.project.settings.showInSidebar = uiSwitch.isOn
 
-                if !uiSwitch.isOn {
-                    let at = IndexPath(row: 0, section: 0)
-                    vc.sidebarTableView.tableView(vc.sidebarTableView, didSelectRowAt: at)
-                    vc.sidebarTableView.removeRows(projects: [project])
-                } else {
-                    vc.sidebarTableView.insertRows(projects: [project])
+                OperationQueue.main.addOperation {
+                    if !uiSwitch.isOn {
+                        let at = IndexPath(row: 0, section: 0)
+                        vc.sidebarTableView.tableView(vc.sidebarTableView, didSelectRowAt: at)
+                        vc.sidebarTableView.removeRows(projects: [self.project])
+                    } else {
+                        vc.sidebarTableView.insertRows(projects: [self.project])
+                    }
                 }
             }
         } else if indexPath.section == 0x02 {

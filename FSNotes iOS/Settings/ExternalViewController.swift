@@ -40,14 +40,16 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
             storage.assignTree(for: project)
             storage.loadNotes(project, loadContent: true)
 
-            UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
-            _ = UIApplication.getNC()?.popViewController(animated: true)
-
-            if !UserDefaultsManagement.sidebarIsOpened {
-                UIApplication.getVC().toggleSidebar()
+            OperationQueue.main.addOperation {
+                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
+                _ = UIApplication.getNC()?.popViewController(animated: true)
+                
+                if !UserDefaultsManagement.sidebarIsOpened {
+                    UIApplication.getVC().toggleSidebar()
+                }
+                
+                UIApplication.getVC().sidebarTableView.select(project: project)
             }
-
-            UIApplication.getVC().sidebarTableView.select(project: project)
         } catch {
             print(error)
         }

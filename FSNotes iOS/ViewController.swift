@@ -1525,7 +1525,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UserDefaultsManagement.projects =
             self.storage.getNonSystemProjects().compactMap({ $0.url })
 
-        DispatchQueue.main.async {
+        OperationQueue.main.addOperation {
             self.sidebarTableView.removeRows(projects: results.0)
             self.sidebarTableView.insertRows(projects: results.1)
         }
