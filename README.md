@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/glushchenko/fsnotes.svg?branch=master)](https://travis-ci.com/glushchenko/fsnotes)
-
 # FSNotes
 
 FSNotes is modern notes manager for macOS and iOS.
