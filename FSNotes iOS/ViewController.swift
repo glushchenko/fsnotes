@@ -1233,12 +1233,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if UserDefaultsManagement.sidebarIsOpened {
             self.sidebarTableLeadingConstraint.constant = 0
             self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+
+            self.notesTable.dragInteractionEnabled = true
+            self.sidebarTableView.isUserInteractionEnabled = true
         } else {
             self.notesTableLeadingConstraint.constant = 0
             self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
 
             // blue/blck pre safe area
             leftPreSafeArea.backgroundColor = UIColor.sidebar
+
+            self.notesTable.dragInteractionEnabled = false
+            self.sidebarTableView.isUserInteractionEnabled = false
         }
     }
 
