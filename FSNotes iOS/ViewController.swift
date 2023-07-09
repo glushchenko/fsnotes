@@ -341,7 +341,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
         searchController.searchBar.searchBarStyle = .minimal
-        searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")        
+        searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")
         searchController.searchBar.returnKeyType = .done
         searchController.searchBar.showsCancelButton = false
         searchController.searchBar.autocapitalizationType = .none
@@ -555,8 +555,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     private func loadNews() {
         guard storage.isReadedNewsOutdated(),
-            let newsURL = storage.getNews(),
-            let defaultProject = storage.getDefault() else { return }
+              let newsURL = storage.getNews(),
+              let defaultProject = storage.getDefault() else { return }
 
         let isLandscape = UIDevice.current.orientation.isLandscape
         newsPopup?.removeFromSuperview()
@@ -611,15 +611,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func saveProjectURLs() {
         UserDefaultsManagement.projects =
-            storage.getProjects()
-                .filter({ !$0.isTrash && !$0.isArchive && !$0.isDefault })
-                .compactMap({ $0.url })
+        storage.getProjects()
+            .filter({ !$0.isTrash && !$0.isArchive && !$0.isDefault })
+            .compactMap({ $0.url })
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let recognizer = gestureRecognizer as? UIPanGestureRecognizer {
             if recognizer.translation(in: self.view).x > 0 && !UserDefaultsManagement.sidebarIsOpened
-            || recognizer.translation(in: self.view).x < 0 &&
+                || recognizer.translation(in: self.view).x < 0 &&
                 UserDefaultsManagement.sidebarIsOpened {
                 return true
             }
@@ -708,14 +708,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.checkNew()
             }
 
-//            if viewController.gitQueueState.operationCount == 0 {
-//                viewController.gitQueueState.addOperation {
-//                    Storage.shared().checkGitState()
-//                    DispatchQueue.main.async {
-//                        self.updateNotesCounter()
-//                    }
-//                }
-//            }
+            //            if viewController.gitQueueState.operationCount == 0 {
+            //                viewController.gitQueueState.addOperation {
+            //                    Storage.shared().checkGitState()
+            //                    DispatchQueue.main.async {
+            //                        self.updateNotesCounter()
+            //                    }
+            //                }
+            //            }
         })
     }
 
@@ -865,11 +865,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             if !notes.isEmpty {
                 modifiedNotesList =
-                    self.storage.sortNotes(
-                        noteList: notes,
-                        filter: query.getFilter(),
-                        project: query.project
-                    )
+                self.storage.sortNotes(
+                    noteList: notes,
+                    filter: query.getFilter(),
+                    project: query.project
+                )
             }
 
             if operation.isCancelled {
@@ -910,11 +910,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func isNoteInsertionAllowed() -> Bool {
-        if let searchBar = navigationController?.navigationItem.searchController?.searchBar {
+        if let searchBar = getSearchBar() {
             return !searchBar.isFirstResponder
         }
 
         return true
+    }
+
+    public func getSearchBar() -> UISearchBar? {
+        return navigationItem.searchController?.searchBar 
     }
 
     public func isFitInCurrentSearchQuery(note: Note) -> Bool {

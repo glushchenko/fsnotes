@@ -339,6 +339,10 @@ class SidebarTableView: UITableView,
             if item.type == .Tag {
                 searchQuery.tag = item.name
             }
+
+            if let filter = UIApplication.getVC().getSearchBar()?.text {
+                searchQuery.setFilter(filter)
+            }
         }
 
         return searchQuery

@@ -47,4 +47,8 @@ class SearchQuery {
     public func getFilter() -> String? {
         return terms?.joined(separator: " ")
     }
+
+    public func setFilter(_ filter: String) {
+        terms = filter.split(separator: " ")
+    }
 }
