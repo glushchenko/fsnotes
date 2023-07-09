@@ -27,20 +27,20 @@ class ShareViewController: SLComposeServiceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if #available(iOS 13.0, *) {
-            _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: .main) { (_) in
-                if let layoutContainerView = self.view.subviews.last {
-                    layoutContainerView.frame.size.height += 45
-                }
-            }
-        }
+//        if #available(iOS 13.0, *) {
+//            _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: .main) { (_) in
+//                if let layoutContainerView = self.view.subviews.last {
+//                    layoutContainerView.frame.size.height += 45
+//                }
+//            }
+//        }
         
         preferredContentSize = CGSize(width: 300, height: 300)
         navigationController!.navigationBar.topItem!.rightBarButtonItem!.title = NSLocalizedString("New note", comment: "")
         navigationController!.navigationBar.tintColor = UIColor.mainTheme
 
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
-        let font = UserDefaultsManagement.noteFont.italic().bold().withSize(16)
+        let font = UserDefaultsManagement.noteFont.italic().bold().withSize(18)
         label.text = "FSNotes"
         label.font = font
         navigationController?.navigationBar.topItem?.titleView = label
@@ -59,7 +59,7 @@ class ShareViewController: SLComposeServiceViewController {
                 if let cell = table.cellForRow(at: IndexPath(item: item, section: 0)) {
                     //cell.textLabel?.textColor = UIColor(red:0.19, green:0.38, blue:0.57, alpha:1.0)
                     if let fontSize = cell.textLabel?.font.pointSize {
-                        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
+                        //cell.textLabel?.font = UIFont.boldSystemFont(ofSize: fontSize)
                     }
                 }
             }
@@ -138,7 +138,6 @@ class ShareViewController: SLComposeServiceViewController {
             urls.append(archive)
         }
 
-        urls.append(contentsOf: UserDefaultsManagement.projects)
         storage.loadProjects(from: urls)
 
         projectItem?.title = NSLocalizedString("Project", comment: "")
@@ -152,45 +151,45 @@ class ShareViewController: SLComposeServiceViewController {
             self.pushConfigurationViewController(controller)
         }
 
-        appendItem?.title = NSLocalizedString("Append to", comment: "")
+//        appendItem?.title = NSLocalizedString("Append to", comment: "")
+//
+//        DispatchQueue.global().async {
+//            if let projectURL = UserDefaultsManagement.lastSelectedURL,
+//                let project = storage.getProjectBy(url: projectURL)
+//            {
+//                self.currentProject = project
+//                self.loadNotesFrom(project: project)
+//            }
+//
+//            DispatchQueue.main.async {
+//                self.projectItem?.value = self.currentProject?.label
+//            }
+//
+//            if let note = self.notes?.first {
+//                note.load()
+//                note.loadPreviewInfo()
+//
+//                DispatchQueue.main.async {
+//                    self.appendItem?.value = note.getName()
+//                    self.appendItem?.tapHandler = {
+//                        self.save(note: note)
+//                    }
+//                }
+//            }
+//        }
+//
+//        guard let select = SLComposeSheetConfigurationItem() else { return [] }
+//        select.title = NSLocalizedString("Choose for append", comment: "")
+//        select.tapHandler = {
+//            if let notes = self.notes {
+//                let controller = NotesListController()
+//                controller.delegate = self
+//                controller.setNotes(notes: notes)
+//                self.pushConfigurationViewController(controller)
+//            }
+//        }
 
-        DispatchQueue.global().async {
-            if let projectURL = UserDefaultsManagement.lastSelectedURL,
-                let project = storage.getProjectBy(url: projectURL)
-            {
-                self.currentProject = project
-                self.loadNotesFrom(project: project)
-            }
-
-            DispatchQueue.main.async {
-                self.projectItem?.value = self.currentProject?.label
-            }
-
-            if let note = self.notes?.first {
-                note.load()
-                note.loadPreviewInfo()
-
-                DispatchQueue.main.async {
-                    self.appendItem?.value = note.getName()
-                    self.appendItem?.tapHandler = {
-                        self.save(note: note)
-                    }
-                }
-            }
-        }
-
-        guard let select = SLComposeSheetConfigurationItem() else { return [] }
-        select.title = NSLocalizedString("Choose for append", comment: "")
-        select.tapHandler = {
-            if let notes = self.notes {
-                let controller = NotesListController()
-                controller.delegate = self
-                controller.setNotes(notes: notes)
-                self.pushConfigurationViewController(controller)
-            }
-        }
-
-        return [self.projectItem!, self.appendItem!, select]
+        return [self.projectItem!]
     }
 
     public func save(note: Note? = nil) {
