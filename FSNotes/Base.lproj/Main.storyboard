@@ -903,6 +903,13 @@ CA
                         <font key="font" metaFont="menu" size="14"/>
                     </tabView>
                     <connections>
+                        <outlet property="advancedTabViewItem" destination="0v6-hJ-g1F" id="fkv-5e-W3u"/>
+                        <outlet property="editorTabViewItem" destination="1OI-UI-JVH" id="VIK-r5-1g0"/>
+                        <outlet property="generalTabViewItem" destination="rNR-GY-ptT" id="ks6-RP-bh1"/>
+                        <outlet property="gitTabViewItem" destination="wxM-bE-TE9" id="eqH-R3-Qyb"/>
+                        <outlet property="libraryTabViewItem" destination="sue-zm-fiI" id="PhQ-e7-ZK7"/>
+                        <outlet property="securityTabViewItem" destination="eYm-FV-50h" id="E9A-Wf-dJb"/>
+                        <outlet property="webTabViewItem" destination="Ng2-HH-bmY" id="Yfx-1v-kow"/>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>
                         <segue destination="P2a-yk-5Rx" kind="relationship" relationship="tabItems" id="HER-xL-S6y"/>
                         <segue destination="ssC-ed-19K" kind="relationship" relationship="tabItems" id="ppI-q9-PJm"/>
