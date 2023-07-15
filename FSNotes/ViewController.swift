@@ -542,6 +542,14 @@ class ViewController: EditorViewController,
             name: NSNotification.Name(rawValue: "AppleColorPreferencesChangedNotification"),
             object: nil
         )
+
+        DistributedNotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onAccentColorChanged(note:)),
+            name: NSNotification.Name(rawValue: "AppleInterfaceThemeChangedNotification"),
+            object: nil
+        )
+
     }
 
     private func configureSidebarAndNotesList() {
@@ -2221,9 +2229,7 @@ class ViewController: EditorViewController,
     }
     
     @objc func onAccentColorChanged(note: NSNotification) {
-        if #available(macOS 10.14, *) {
-            sidebarOutlineView.reloadSidebar()
-        }
+        sidebarOutlineView.reloadSidebar()
     }
 
     @objc func onUserSwitch(note: NSNotification) {
