@@ -1669,6 +1669,10 @@ class SidebarOutlineView: NSOutlineView,
         vc.sidebarOutlineView.reloadData()
         vc.sidebarOutlineView.selectRowIndexes([selected], byExtendingSelection: false)
 
+        if let project = getSelectedProject(), project.isLocked() {
+            vc.notesTableView.enableLockedProject()
+        }
+
         vc.sidebarOutlineView.loadAllTags()
     }
     
