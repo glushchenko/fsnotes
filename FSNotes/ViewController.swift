@@ -47,7 +47,8 @@ class ViewController: EditorViewController,
     }
 
     // MARK: - IBOutlets
-    @IBOutlet var emptyEditAreaImage: NSImageView!
+    @IBOutlet weak var nonSelectedLabel: NSTextField!
+
     @IBOutlet weak var splitView: EditorSplitView!
     @IBOutlet var editor: EditTextView!
     @IBOutlet weak var editAreaScroll: EditorScrollView!
@@ -640,8 +641,8 @@ class ViewController: EditorViewController,
         
         vcEditor = editor
         vcTitleLabel = titleLabel
-        vcEmptyEditAreaImage = emptyEditAreaImage
         vcEditorScrollView = editAreaScroll
+        vcNonSelectedLabel = nonSelectedLabel
         
         super.initView()
     }

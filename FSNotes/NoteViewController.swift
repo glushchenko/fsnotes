@@ -10,8 +10,7 @@ import Foundation
 import AppKit
 
 class NoteViewController: EditorViewController, NSWindowDelegate {
-    
-    @IBOutlet weak var emptyEditAreaImage: NSImageView!
+
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var previewButton: NSButton!
     @IBOutlet weak var lockUnlockButton: NSButton!
@@ -21,6 +20,8 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
     @IBOutlet weak var editorScrollView: EditorScrollView!
     @IBOutlet weak var titleBarView: TitleBarView!
     
+    @IBOutlet weak var nonSelectedLabel: NSTextField!
+
     public func initWindow() {
         view.window?.title = "New note"
         view.window?.titleVisibility = .hidden
@@ -35,7 +36,7 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
         
         vcEditor = editor
         vcTitleLabel = titleLabel
-        vcEmptyEditAreaImage = emptyEditAreaImage
+        vcNonSelectedLabel = nonSelectedLabel
         vcEditorScrollView = editorScrollView
         
         editor.updateTextContainerInset()

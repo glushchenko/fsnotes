@@ -131,6 +131,9 @@
 "Git error" = "Git error";
 
 /* No comment provided by engineer. */
+"git error" = "git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push erreur";
 
 /* No comment provided by engineer. */
@@ -167,6 +170,9 @@
 "Lock All Encrypted" = "Verrouiller tout crypté";
 
 /* No comment provided by engineer. */
+"Locked" = "Verrouillé";
+
+/* No comment provided by engineer. */
 "Make Link" = "Make Link";
 
 /* No comment provided by engineer. */
@@ -192,6 +198,9 @@
 
 /* No comment provided by engineer. */
 "No" = "Non";
+
+/* No comment provided by engineer. */
+"None Selected" = "Aucune sélection";
 
 /* No comment provided by engineer. */
 "Note with name \"%@\" already exists in selected directory." = "La note avec le nom \"%@\" existe déjà dans le répertoire sélectionné.";
@@ -230,6 +239,9 @@
 "Please enter tags (comma separated):" = "Veuillez saisir des balises (séparées par des virgules) :";
 
 /* No comment provided by engineer. */
+"Please init git repository before (Preferences -> Git -> Init/commit)" = "Please init git repository before (Preferences -> Git -> Init/commit)";
+
+/* No comment provided by engineer. */
 "Please select private and public key" = "Veuillez sélectionner une clé privée et une clé publique";
 
 /* No comment provided by engineer. */
@@ -237,9 +249,6 @@
 
 /* No comment provided by engineer. */
 "Please try again" = "Veuillez réessayer";
-
-/* No comment provided by engineer. */
-"Settings" = "Préférences";
 
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Quitter FSNotes";
@@ -272,7 +281,13 @@
 "Rename Tags" = "Renommer les libelés";
 
 /* No comment provided by engineer. */
+"Repository not found" = "Repository not found";
+
+/* No comment provided by engineer. */
 "Search and create" = "Rechercher et créer";
+
+/* No comment provided by engineer. */
+"Settings" = "Préférences";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Localiser dans le Finder";
@@ -376,3 +391,12 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Oui";
+
+/*
+ Localizable.strings
+ FSNotes
+ 
+ Created by Oleksandr Glushchenko on 7/4/18.
+ Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+ */
+"Preferences" = "";

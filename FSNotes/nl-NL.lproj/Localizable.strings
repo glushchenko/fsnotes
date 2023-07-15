@@ -131,6 +131,9 @@
 "Git error" = "Git error";
 
 /* No comment provided by engineer. */
+"git error" = "git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push error";
 
 /* No comment provided by engineer. */
@@ -167,6 +170,9 @@
 "Lock All Encrypted" = "Vergrendel alle versleutelde";
 
 /* No comment provided by engineer. */
+"Locked" = "Gesloten";
+
+/* No comment provided by engineer. */
 "Make Link" = "Make Link";
 
 /* No comment provided by engineer. */
@@ -192,6 +198,9 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+/* No comment provided by engineer. */
+"None Selected" = "Geen geselecteerd";
 
 /* No comment provided by engineer. */
 "Note with name \"%@\" already exists in selected directory." = "Opmerking met de naam \"%@\" bestaat al in de geselecteerde map.";
@@ -230,6 +239,9 @@
 "Please enter tags (comma separated):" = "Voer a.u.b. tags (kommagescheiden) in:";
 
 /* No comment provided by engineer. */
+"Please init git repository before (Preferences -> Git -> Init/commit)" = "Please init git repository before (Preferences -> Git -> Init/commit)";
+
+/* No comment provided by engineer. */
 "Please select private and public key" = "Selecteer a.u.b. privé en openbare sleutel";
 
 /* No comment provided by engineer. */
@@ -237,9 +249,6 @@
 
 /* No comment provided by engineer. */
 "Please try again" = "Probeer het a.u.b. opnieuw";
-
-/* No comment provided by engineer. */
-"Settings" = "Voorkeuren";
 
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Stop FSNotes";
@@ -272,7 +281,13 @@
 "Rename Tags" = "Hernoemen tags";
 
 /* No comment provided by engineer. */
+"Repository not found" = "Repository not found";
+
+/* No comment provided by engineer. */
 "Search and create" = "Zoek en creëer";
+
+/* No comment provided by engineer. */
+"Settings" = "Voorkeuren";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Toon in Finder";
@@ -376,3 +391,12 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Ja";
+
+/*
+ Localizable.strings
+ FSNotes
+ 
+ Created by Oleksandr Glushchenko on 7/4/18.
+ Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+ */
+"Preferences" = "";

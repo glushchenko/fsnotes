@@ -131,6 +131,9 @@
 "Git error" = "Git error";
 
 /* No comment provided by engineer. */
+"git error" = "git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push 오류";
 
 /* No comment provided by engineer. */
@@ -167,6 +170,9 @@
 "Lock All Encrypted" = "모든 암호화 된 노트 잠금";
 
 /* No comment provided by engineer. */
+"Locked" = "잠김";
+
+/* No comment provided by engineer. */
 "Make Link" = "Make Link";
 
 /* No comment provided by engineer. */
@@ -192,6 +198,9 @@
 
 /* No comment provided by engineer. */
 "No" = "아니";
+
+/* No comment provided by engineer. */
+"None Selected" = "선택되지 않음";
 
 /* No comment provided by engineer. */
 "Note with name \"%@\" already exists in selected directory." = "이름이 있는 메모 \"%@\" 선택한 디렉토리에 이미 존재합니다.";
@@ -230,6 +239,9 @@
 "Please enter tags (comma separated):" = "태그를 입력하십시오（콤마로 구분）：";
 
 /* No comment provided by engineer. */
+"Please init git repository before (Preferences -> Git -> Init/commit)" = "Please init git repository before (Preferences -> Git -> Init/commit)";
+
+/* No comment provided by engineer. */
 "Please select private and public key" = "개인 키와 공개 키를 선택하세요.";
 
 /* No comment provided by engineer. */
@@ -237,9 +249,6 @@
 
 /* No comment provided by engineer. */
 "Please try again" = "다시 시도하십시오";
-
-/* No comment provided by engineer. */
-"Settings" = "환경설정";
 
 /* No comment provided by engineer. */
 "Quit FSNotes" = "FSNotes 종료";
@@ -272,7 +281,13 @@
 "Rename Tags" = "태그 이름 바꾸기";
 
 /* No comment provided by engineer. */
+"Repository not found" = "Repository not found";
+
+/* No comment provided by engineer. */
 "Search and create" = "검색 및 추가";
+
+/* No comment provided by engineer. */
+"Settings" = "환경설정";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Finder에서 보기";
@@ -376,3 +391,12 @@
 
 /* No comment provided by engineer. */
 "Yes" = "예";
+
+/*
+ Localizable.strings
+ FSNotes
+ 
+ Created by Oleksandr Glushchenko on 7/4/18.
+ Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+ */
+"Preferences" = "";

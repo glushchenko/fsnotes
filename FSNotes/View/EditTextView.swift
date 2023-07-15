@@ -316,7 +316,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let note = self.note, note.type == .Markdown else { return super.mouseDown(with: event) }
         guard note.container != .encryptedTextPack else {
             editorViewController?.unLock(notes: [note])
-            editorViewController?.vcEmptyEditAreaImage?.isHidden = false
+            editorViewController?.vcNonSelectedLabel?.isHidden = false
             return
         }
         
@@ -351,7 +351,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     override func mouseMoved(with event: NSEvent) {
-        if let isHidden = editorViewController?.vcEmptyEditAreaImage?.isHidden as? Bool, !isHidden {
+        if let isHidden = editorViewController?.vcNonSelectedLabel?.isHidden as? Bool, !isHidden {
             NSCursor.arrow.set()
             return
         }
@@ -980,15 +980,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             NSPasteboard.noteType
         ])
 
-        if let emptyEditAreaImage = editorViewController?.vcEmptyEditAreaImage {
-            emptyEditAreaImage.isHidden = true
+        if let label = editorViewController?.vcNonSelectedLabel {
+            label.isHidden = true
 
             if note.container == .encryptedTextPack {
-                emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
-                emptyEditAreaImage.isHidden = false
+                label.stringValue = NSLocalizedString("Locked", comment: "")
+                label.isHidden = false
             } else {
-                emptyEditAreaImage.image = NSImage(named: "logo_editor")
-                emptyEditAreaImage.isHidden = true
+                label.stringValue = NSLocalizedString("None Selected", comment: "")
+                label.isHidden = true
             }
         }
     
@@ -1128,9 +1128,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         window?.title = AppDelegate.appTitle
         
-        if let emptyEditAreaImage = editorViewController?.vcEmptyEditAreaImage {
-            emptyEditAreaImage.image = NSImage(named: "logo_editor")
-            emptyEditAreaImage.isHidden = false
+        if let label = editorViewController?.vcNonSelectedLabel {
+            label.stringValue = NSLocalizedString("None Selected", comment: "")
+            label.isHidden = false
             editorViewController?.dropTitle()
         }
         

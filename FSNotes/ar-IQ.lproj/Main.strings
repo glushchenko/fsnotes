@@ -4,9 +4,6 @@
 /* Class = "NSTextFieldCell"; placeholderString = "example.com"; ObjectID = "0Qp-Is-dNs"; */
 "0Qp-Is-dNs.placeholderString" = "example.com";
 
-/* Class = "NSTextFieldCell"; title = "Push credentials:"; ObjectID = "0ZZ-AS-LlN"; */
-"0ZZ-AS-LlN.title" = "Push أوراق اعتماد:";
-
 /* Class = "NSTextFieldCell"; title = "Translators:"; ObjectID = "13t-eQ-kOr"; */
 "13t-eQ-kOr.title" = "مترجمين:";
 
@@ -24,6 +21,9 @@
 
 /* Class = "NSMenuItem"; title = "xcode"; ObjectID = "1Tz-tN-qVO"; */
 "1Tz-tN-qVO.title" = "xcode";
+
+/* Class = "NSButtonCell"; title = "Remove"; ObjectID = "1Uk-jy-0qP"; */
+"1Uk-jy-0qP.title" = "Remove";
 
 /* Class = "NSMenuItem"; title = "FSNotes"; ObjectID = "1Xt-HY-uBw"; */
 "1Xt-HY-uBw.title" = "FSNotes";
@@ -64,6 +64,9 @@
 /* Class = "NSMenu"; title = "Speech"; ObjectID = "3rS-ZA-NoH"; */
 "3rS-ZA-NoH.title" = "كلام";
 
+/* Class = "NSTextFieldCell"; title = "None Selected"; ObjectID = "3rt-IC-kru"; */
+"3rt-IC-kru.title" = "None Selected ";
+
 /* Class = "NSMenuItem"; title = "Open External"; ObjectID = "3tV-h0-YEb"; */
 "3tV-h0-YEb.title" = "فتح";
 
@@ -88,11 +91,8 @@
 /* Class = "NSMenuItem"; title = "Quit FSNotes"; ObjectID = "4sb-4s-VLi"; */
 "4sb-4s-VLi.title" = "الخروج من FSNotes";
 
-/* Class = "NSTextFieldCell"; placeholderString = "https://github.com/glushchenko/fsnotes.git"; ObjectID = "4Sj-5v-Clo"; */
+/* Class = "NSTextFieldCell"; placeholderString = "git@github.com:username/repo.git"; ObjectID = "4Sj-5v-Clo"; */
 "4Sj-5v-Clo.placeholderString" = "https://github.com/glushchenko/fsnotes.git";
-
-/* Class = "NSTextFieldCell"; title = "git@github.com:test/notes.git"; ObjectID = "4Sj-5v-Clo"; */
-"4Sj-5v-Clo.title" = "git@github.com:test/notes.git";
 
 /* Class = "NSTextFieldCell"; title = "Note List Location:"; ObjectID = "54i-GK-spQ"; */
 "54i-GK-spQ.title" = "موقع قائمة الملاحظة";
@@ -166,6 +166,9 @@
 /* Class = "NSTextFieldCell"; title = "Note Color:"; ObjectID = "8oP-79-BAN"; */
 "8oP-79-BAN.title" = "لون الملاحظة:";
 
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "9Gu-fA-XLk"; */
+"9Gu-fA-XLk.title" = "Table View Cell";
+
 /* Class = "NSMenuItem"; title = "Substitutions"; ObjectID = "9ic-FL-obx"; */
 "9ic-FL-obx.title" = "استبدالات";
 
@@ -177,6 +180,9 @@
 
 /* Class = "NSMenuItem"; title = "Smart Copy/Paste"; ObjectID = "9yt-4B-nSM"; */
 "9yt-4B-nSM.title" = "نسخ/لصق الذكي";
+
+/* Class = "NSTextFieldCell"; placeholderString = "empty log"; ObjectID = "a1w-ll-Djh"; */
+"a1w-ll-Djh.placeholderString" = "empty log";
 
 /* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "A5V-Wm-if2"; */
 "A5V-Wm-if2.title" = "تصغير";
@@ -190,9 +196,6 @@
 /* Class = "NSMenuItem"; title = "monokai-sublime"; ObjectID = "AaQ-hp-VpR"; */
 "AaQ-hp-VpR.title" = "monokai-sublime";
 
-/* Class = "NSSecureTextFieldCell"; placeholderString = "ghp_if6C09slkds893klssd9032sdklCC"; ObjectID = "AEC-HT-Gd6"; */
-"AEC-HT-Gd6.placeholderString" = "ghp_if6C09slkds893klssd9032sdklCC";
-
 /* Class = "NSButtonCell"; title = "Upload and test initial data"; ObjectID = "aGv-BR-Oc8"; */
 "aGv-BR-Oc8.title" = "تحميل واختبار البيانات الأولية";
 
@@ -202,7 +205,7 @@
 /* Class = "NSTextFieldCell"; title = "Repositories:"; ObjectID = "ASf-hd-2fT"; */
 "ASf-hd-2fT.title" = "المستودعات:";
 
-/* Class = "NSTextFieldCell"; title = "Git origin:"; ObjectID = "Atd-Fs-Chq"; */
+/* Class = "NSTextFieldCell"; title = "Origin:"; ObjectID = "Atd-Fs-Chq"; */
 "Atd-Fs-Chq.title" = "Git origin:";
 
 /* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
@@ -256,7 +259,7 @@
 /* Class = "NSTextFieldCell"; title = "Note List Spacing:"; ObjectID = "bXK-wP-sZc"; */
 "bXK-wP-sZc.title" = "التباعد في قائمة الملاحظات";
 
-/* Class = "NSMenu"; title = "Sidebar"; ObjectID = "BYI-2F-BJo"; */
+/* Class = "NSMenu"; title = "Library"; ObjectID = "BYI-2F-BJo"; */
 "BYI-2F-BJo.title" = "مجلد";
 
 /* Class = "NSMenu"; title = "Transformations"; ObjectID = "c8a-y6-VQd"; */
@@ -270,6 +273,9 @@
 
 /* Class = "NSMenuItem"; title = "Header 6"; ObjectID = "cq7-SM-dez"; */
 "cq7-SM-dez.title" = "عنوان ٦";
+
+/* Class = "NSButtonCell"; title = "Remove"; ObjectID = "cQ8-sF-a4g"; */
+"cQ8-sF-a4g.title" = "Remove";
 
 /* Class = "NSTextFieldCell"; title = "Format:"; ObjectID = "ctD-Qn-kDS"; */
 "ctD-Qn-kDS.title" = "تنسيق:";
@@ -303,6 +309,9 @@
 
 /* Class = "NSMenuItem"; title = "Shift Left"; ObjectID = "DeU-hy-pvi"; */
 "DeU-hy-pvi.title" = "تحول اليسار";
+
+/* Class = "NSTextFieldCell"; placeholderString = "no key"; ObjectID = "doI-Mu-yZG"; */
+"doI-Mu-yZG.placeholderString" = "no key";
 
 /* Class = "NSButtonCell"; title = "Separate .git in project dir (except iCloud Drive)"; ObjectID = "dop-ho-N26"; */
 "dop-ho-N26.title" = "Separate .git in project dir (except iCloud Drive)";
@@ -348,6 +357,9 @@
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "Ehk-CU-fbX"; */
 "Ehk-CU-fbX.title" = "مجموعة";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Eho-1T-xjz"; */
+"Eho-1T-xjz.title" = "Text Cell";
 
 /* Class = "NSMenuItem"; title = "Strikethrough"; ObjectID = "EK1-kN-kK3"; */
 "EK1-kN-kK3.title" = "نص يتوسطه خط";
@@ -406,9 +418,6 @@
 /* Class = "NSTextFieldCell"; title = "Default Storage:"; ObjectID = "fmS-eE-nne"; */
 "fmS-eE-nne.title" = "الخزن الافتراضي:";
 
-/* Class = "NSTextFieldCell"; placeholderString = "glushchenko"; ObjectID = "fqf-qt-2y7"; */
-"fqf-qt-2y7.placeholderString" = "glushchenko";
-
 /* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "FQV-5x-ffs"; */
 "FQV-5x-ffs.title" = "تقريب";
 
@@ -421,7 +430,7 @@
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
 "fsF-5N-tWg.title" = "مصنوع من ❤️ في أوكرانيا 🇺🇦 ";
 
-/* Class = "NSMenuItem"; title = "Sidebar"; ObjectID = "Fuh-qO-nt2"; */
+/* Class = "NSMenuItem"; title = "Library"; ObjectID = "Fuh-qO-nt2"; */
 "Fuh-qO-nt2.title" = "مجلد";
 
 /* Class = "NSMenuItem"; title = "Rename Folder"; ObjectID = "fzU-ZR-Ubv"; */
@@ -456,6 +465,9 @@
 
 /* Class = "NSButtonCell"; title = "FSNotes Server"; ObjectID = "gFA-SA-v9T"; */
 "gFA-SA-v9T.title" = "خادم FSNotes";
+
+/* Class = "NSTextFieldCell"; title = "None Selected"; ObjectID = "Gg5-NO-KIQ"; */
+"Gg5-NO-KIQ.title" = "None Selected ";
 
 /* Class = "NSTextFieldCell"; title = "Web:"; ObjectID = "ghI-ln-bql"; */
 "ghI-ln-bql.title" = "Web:";
@@ -550,6 +562,9 @@
 /* Class = "NSMenuItem"; title = "Shift Right"; ObjectID = "IPu-Ll-IBE"; */
 "IPu-Ll-IBE.title" = "تحول اليمين";
 
+/* Class = "NSTextFieldCell"; placeholderString = "no key"; ObjectID = "iQ9-lm-lFb"; */
+"iQ9-lm-lFb.placeholderString" = "no key";
+
 /* Class = "NSWindow"; title = "FSNotes"; ObjectID = "IQv-IB-iLA"; */
 "IQv-IB-iLA.title" = "FSNotes";
 
@@ -564,9 +579,6 @@
 
 /* Class = "NSMenuItem"; title = "Custom"; ObjectID = "j8S-CW-gCM"; */
 "j8S-CW-gCM.title" = "مخصص";
-
-/* Class = "NSPathCell"; placeholderString = "~/.ssh/id_rsa"; ObjectID = "jce-O1-mzi"; */
-"jce-O1-mzi.placeholderString" = "~/.ssh/id_rsa";
 
 /* Class = "NSMenuItem"; title = "Pin/Unpin"; ObjectID = "jFN-Dp-LON"; */
 "jFN-Dp-LON.title" = "دبوس / إلغاء التثبيت";
@@ -607,9 +619,6 @@
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "عرض الكل";
 
-/* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "kFX-as-1oC"; */
-"kFX-as-1oC.title" = "كلمة المرور:";
-
 /* Class = "NSMenuItem"; title = "Lock/Unlock"; ObjectID = "kg2-3u-V99"; */
 "kg2-3u-V99.title" = "فقل/فتح الفقل";
 
@@ -631,7 +640,7 @@
 /* Class = "NSButtonCell"; title = "Custom worktree"; ObjectID = "l5q-h8-hfU"; */
 "l5q-h8-hfU.title" = "Custom worktree";
 
-/* Class = "NSWindow"; title = "Settings"; ObjectID = "ldu-U8-PD1"; */
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "ldu-U8-PD1"; */
 "ldu-U8-PD1.title" = "التفضيلات";
 
 /* Class = "NSMenuItem"; title = "Header 3"; ObjectID = "Lmy-lE-9MZ"; */
@@ -645,6 +654,9 @@
 
 /* Class = "NSMenuItem"; title = "Bold"; ObjectID = "LTw-w4-tEo"; */
 "LTw-w4-tEo.title" = "سميك";
+
+/* Class = "NSButtonCell"; title = "Private key"; ObjectID = "LZ2-uY-6YK"; */
+"LZ2-uY-6YK.title" = "Private key";
 
 /* Class = "NSButtonCell"; title = "Hide FSNotes when activating another application"; ObjectID = "M29-fW-FJa"; */
 "M29-fW-FJa.title" = "إخفاء FSNotes عند تفعيل تطبيق آخر";
@@ -711,6 +723,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Touch ID:"; ObjectID = "Nw2-km-iDW"; */
 "Nw2-km-iDW.title" = "بصمة الاصبع:";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "o2f-1e-Dvp"; */
+"o2f-1e-Dvp.title" = "Reset";
 
 /* Class = "NSButtonCell"; title = "Show in Terminal"; ObjectID = "o6a-px-wp7"; */
 "o6a-px-wp7.title" = "اظهار فيTerminal";
@@ -799,7 +814,7 @@
 /* Class = "NSMenuItem"; title = "Report Bugs or Feature Requests"; ObjectID = "Q9n-yE-Ul0"; */
 "Q9n-yE-Ul0.title" = "تبليغ عن خطأ برمجي او  طلب ميزة جديدة";
 
-/* Class = "NSTextFieldCell"; title = "Or use .ssh private key (Recommended):"; ObjectID = "Qkz-nR-Fh5"; */
+/* Class = "NSTextFieldCell"; title = "Git repository:"; ObjectID = "Qkz-nR-Fh5"; */
 "Qkz-nR-Fh5.title" = "أو استخدم المفتاح الخاص .ssh (موصى به):";
 
 /* Class = "NSMenuItem"; title = "Format: yyyy-MM-dd hh.mm.ss a"; ObjectID = "qn1-vy-8oB"; */
@@ -856,6 +871,9 @@
 /* Class = "NSMenuItem"; title = "System"; ObjectID = "rSZ-Wo-Rtj"; */
 "rSZ-Wo-Rtj.title" = "النظام";
 
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "RtS-EA-VK2"; */
+"RtS-EA-VK2.title" = "Text Cell";
+
 /* Class = "NSMenuItem"; title = "Delete Folder"; ObjectID = "RuM-sf-kcZ"; */
 "RuM-sf-kcZ.title" = "حذف المجلد";
 
@@ -867,6 +885,9 @@
 
 /* Class = "NSMenuItem"; title = "Reveal in Finder"; ObjectID = "rXU-X3-UjC"; */
 "rXU-X3-UjC.title" = "فتح المجلد";
+
+/* Class = "NSSecureTextFieldCell"; placeholderString = "passphrase"; ObjectID = "rzB-ln-uyl"; */
+"rzB-ln-uyl.placeholderString" = "passphrase";
 
 /* Class = "NSMenuItem"; title = "Jump to Selection"; ObjectID = "S0p-oC-mLd"; */
 "S0p-oC-mLd.title" = "الانتقال الى المحدد";
@@ -937,7 +958,7 @@
 /* Class = "NSButtonCell"; title = "First line as title"; ObjectID = "tMJ-Dj-OZc"; */
 "tMJ-Dj-OZc.title" = "اول سطر كعنوان";
 
-/* Class = "NSTabViewController"; title = "Settings"; ObjectID = "tR0-Uj-4tB"; */
+/* Class = "NSTabViewController"; title = "Preferences"; ObjectID = "tR0-Uj-4tB"; */
 "tR0-Uj-4tB.title" = "التفضيلات";
 
 /* Class = "NSMenuItem"; title = "Data Detectors"; ObjectID = "tRr-pd-1PS"; */
@@ -979,6 +1000,9 @@
 /* Class = "NSMenuItem"; title = "github"; ObjectID = "v1K-9W-2aB"; */
 "v1K-9W-2aB.title" = "github";
 
+/* Class = "NSTextFieldCell"; placeholderString = "empty log"; ObjectID = "v9k-wu-2xL"; */
+"v9k-wu-2xL.placeholderString" = "empty log";
+
 /* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
 "Vdr-fp-XzO.title" = "إخفاء الآخرين";
 
@@ -1015,7 +1039,7 @@
 /* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "wa2-sX-NOx"; */
 "wa2-sX-NOx.placeholderString" = "اختياري";
 
-/* Class = "NSPathCell"; placeholderString = "~/.ssh/id_rsa"; ObjectID = "wDP-Yg-13R"; */
+/* Class = "NSPathCell"; placeholderString = "id_rsa key is not selected"; ObjectID = "wDP-Yg-13R"; */
 "wDP-Yg-13R.placeholderString" = "~/.ssh/id_rsa";
 
 /* Class = "NSMenuItem"; title = "Paste and Match Style"; ObjectID = "WeT-3V-zwk"; */
@@ -1032,6 +1056,9 @@
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "مساعدة";
+
+/* Class = "NSTextFieldCell"; title = "Passphrase:"; ObjectID = "WsG-JA-VQd"; */
+"WsG-JA-VQd.title" = "Passphrase:";
 
 /* Class = "NSMenuItem"; title = "Auto Rename By Title"; ObjectID = "wW6-4n-sve"; */
 "wW6-4n-sve.title" = "إعادة تسمية تلقائية بالعنوان";
@@ -1087,11 +1114,17 @@
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "xxB-ic-LFu"; */
 "xxB-ic-LFu.title" = "بلا";
 
+/* Class = "NSSecureTextFieldCell"; placeholderString = "passphrase"; ObjectID = "xyK-fE-4CD"; */
+"xyK-fE-4CD.placeholderString" = "passphrase";
+
 /* Class = "NSMenuItem"; title = "Find…"; ObjectID = "Xz5-n4-O0W"; */
 "Xz5-n4-O0W.title" = "ابحث ...";
 
 /* Class = "NSMenuItem"; title = "Toggle Container"; ObjectID = "y4W-TV-iZ3"; */
 "y4W-TV-iZ3.title" = "Toggle Container";
+
+/* Class = "NSTextFieldCell"; title = "Git repository"; ObjectID = "ybG-au-Sf4"; */
+"ybG-au-Sf4.title" = "Git repository";
 
 /* Class = "NSMenuItem"; title = "Find and Replace…"; ObjectID = "YEy-JH-Tfz"; */
 "YEy-JH-Tfz.title" = "بحث واستبدال ...";
@@ -1129,8 +1162,8 @@
 /* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */
 "Ze0-SZ-STw.title" = "قم بعمل نسخة احتياطية يدويًا";
 
-/* Class = "NSTextFieldCell"; title = "Username:"; ObjectID = "ZEX-Eh-68T"; */
-"ZEX-Eh-68T.title" = "اسم المستخدم:";
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "zoX-MN-b3x"; */
+"zoX-MN-b3x.title" = "Table View Cell";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
 "ZqK-gu-KdQ.title" = "لاحظ التحديد التلقائي عند مطابقة النص الأساسي";

@@ -131,6 +131,9 @@
 "Git error" = "Git error";
 
 /* No comment provided by engineer. */
+"git error" = "git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push שְׁגִיאָה";
 
 /* No comment provided by engineer. */
@@ -167,6 +170,9 @@
 "Lock All Encrypted" = "נעל פתקים מוצפנים";
 
 /* No comment provided by engineer. */
+"Locked" = "Locked";
+
+/* No comment provided by engineer. */
 "Make Link" = "Make Link";
 
 /* No comment provided by engineer. */
@@ -192,6 +198,9 @@
 
 /* No comment provided by engineer. */
 "No" = "לא";
+
+/* No comment provided by engineer. */
+"None Selected" = "None Selected";
 
 /* No comment provided by engineer. */
 "Note with name \"%@\" already exists in selected directory." = "פתק בשם \"%@\" כבר קיים בתיקיה הנבחרת.";
@@ -230,6 +239,9 @@
 "Please enter tags (comma separated):" = "נא הכנס תגים (מופרדים בפסיק):";
 
 /* No comment provided by engineer. */
+"Please init git repository before (Preferences -> Git -> Init/commit)" = "Please init git repository before (Preferences -> Git -> Init/commit)";
+
+/* No comment provided by engineer. */
 "Please select private and public key" = "אנא בחר מפתח פרטי וציבורי";
 
 /* No comment provided by engineer. */
@@ -237,9 +249,6 @@
 
 /* No comment provided by engineer. */
 "Please try again" = "נסה שוב";
-
-/* No comment provided by engineer. */
-"Settings" = "העדפות";
 
 /* No comment provided by engineer. */
 "Quit FSNotes" = "סיים את FSNotes";
@@ -272,7 +281,13 @@
 "Rename Tags" = "שנה שמות תגים";
 
 /* No comment provided by engineer. */
+"Repository not found" = "Repository not found";
+
+/* No comment provided by engineer. */
 "Search and create" = "חיפוש ויצירה";
+
+/* No comment provided by engineer. */
+"Settings" = "העדפות";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "הצג ב-Finder";
@@ -376,3 +391,12 @@
 
 /* No comment provided by engineer. */
 "Yes" = "כן";
+
+/*
+ Localizable.strings
+ FSNotes
+ 
+ Created by Oleksandr Glushchenko on 7/4/18.
+ Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+ */
+"Preferences" = "";

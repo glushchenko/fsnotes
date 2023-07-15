@@ -18,7 +18,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     public var vcEditor: EditTextView?
     public var vcTitleLabel: TitleTextField?
-    public var vcEmptyEditAreaImage: NSImageView?
+    public var vcNonSelectedLabel: NSTextField?
     
     public var vcPreviewButton: NSButton?
     public var vcShareButton: NSButton?
@@ -829,7 +829,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         if let ntv = ViewController.shared()?.notesTableView, ntv.selectedRow > -1 {
             vcEditor?.isEditable = true
-            vcEmptyEditAreaImage?.isHidden = true
+            vcNonSelectedLabel?.isHidden = true
         }
     }
         

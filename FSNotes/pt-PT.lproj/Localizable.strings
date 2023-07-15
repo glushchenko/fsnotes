@@ -131,6 +131,9 @@
 "Git error" = "Git error";
 
 /* No comment provided by engineer. */
+"git error" = "git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push erro";
 
 /* No comment provided by engineer. */
@@ -167,6 +170,9 @@
 "Lock All Encrypted" = "Bloquear Todos os Criptografados";
 
 /* No comment provided by engineer. */
+"Locked" = "Bloqueado";
+
+/* No comment provided by engineer. */
 "Make Link" = "Make Link";
 
 /* No comment provided by engineer. */
@@ -192,6 +198,9 @@
 
 /* No comment provided by engineer. */
 "No" = "Não";
+
+/* No comment provided by engineer. */
+"None Selected" = "Nenhum selecionado";
 
 /* No comment provided by engineer. */
 "Note with name \"%@\" already exists in selected directory." = "Já existe uma nota com o nome \"%@\" no directório selecionado.";
@@ -230,6 +239,9 @@
 "Please enter tags (comma separated):" = "Por favor insira as etiquetas (separadas por vírgulas):";
 
 /* No comment provided by engineer. */
+"Please init git repository before (Preferences -> Git -> Init/commit)" = "Please init git repository before (Preferences -> Git -> Init/commit)";
+
+/* No comment provided by engineer. */
 "Please select private and public key" = "Por favor, selecione a chave privada e pública";
 
 /* No comment provided by engineer. */
@@ -237,9 +249,6 @@
 
 /* No comment provided by engineer. */
 "Please try again" = "Volte a tentar por favor";
-
-/* No comment provided by engineer. */
-"Settings" = "Preferências";
 
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Sair do FSNotes";
@@ -272,7 +281,13 @@
 "Rename Tags" = "Renomear Etiquetas";
 
 /* No comment provided by engineer. */
+"Repository not found" = "Repository not found";
+
+/* No comment provided by engineer. */
 "Search and create" = "Pesquisar e criar";
+
+/* No comment provided by engineer. */
+"Settings" = "Preferências";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Mostrar no Finder";
@@ -376,3 +391,12 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Sim";
+
+/*
+ Localizable.strings
+ FSNotes
+ 
+ Created by Oleksandr Glushchenko on 7/4/18.
+ Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+ */
+"Preferences" = "";

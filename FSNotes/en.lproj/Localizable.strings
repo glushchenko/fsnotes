@@ -131,6 +131,9 @@
 "Git error" = "Git error";
 
 /* No comment provided by engineer. */
+"git error" = "git error";
+
+/* No comment provided by engineer. */
 "Git push error" = "Git push error";
 
 /* No comment provided by engineer. */
@@ -167,6 +170,9 @@
 "Lock All Encrypted" = "Lock All Encrypted";
 
 /* No comment provided by engineer. */
+"Locked" = "Locked";
+
+/* No comment provided by engineer. */
 "Make Link" = "Make Link";
 
 /* No comment provided by engineer. */
@@ -192,6 +198,9 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+/* No comment provided by engineer. */
+"None Selected" = "None Selected";
 
 /* No comment provided by engineer. */
 "Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
@@ -228,6 +237,9 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
+
+/* No comment provided by engineer. */
+"Please init git repository before (Preferences -> Git -> Init/commit)" = "Please init git repository before (Preferences -> Git -> Init/commit)";
 
 /* No comment provided by engineer. */
 "Please select private and public key" = "Please select private and public key";
@@ -278,7 +290,13 @@
 "Rename Tags" = "Rename Tags";
 
 /* No comment provided by engineer. */
+"Repository not found" = "Repository not found";
+
+/* No comment provided by engineer. */
 "Search and create" = "Search and create";
+
+/* No comment provided by engineer. */
+"Settings" = "Settings";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Show in Finder";
