@@ -48,9 +48,11 @@ enum SidebarItemType: Int {
         guard let icon = icon else { return nil }
 
         let image = NSImage(named: icon)
-        
+
         if UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
             return image?.tint(color: NSColor.controlAccentColor)
+        } else if white && !NSAppearance.current.isDark {
+            return image?.tint(color: .white)
         } else {
             return image?.tint(color: NSColor(red: 0.00, green: 0.57, blue: 1.00, alpha: 1.00))
         }
