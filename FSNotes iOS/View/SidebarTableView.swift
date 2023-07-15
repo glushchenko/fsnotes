@@ -137,6 +137,7 @@ class SidebarTableView: UITableView,
 
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
         vc.configureNavMenu(for: sidebarItem)
+        vc.navigationItem.searchController?.searchBar.text = ""
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
@@ -339,10 +340,10 @@ class SidebarTableView: UITableView,
             if item.type == .Tag {
                 searchQuery.tag = item.name
             }
+        }
 
-            if let filter = UIApplication.getVC().getSearchBar()?.text {
-                searchQuery.setFilter(filter)
-            }
+        if let filter = UIApplication.getVC().getSearchBar()?.text, filter.count > 0 {
+            searchQuery.setFilter(filter)
         }
 
         return searchQuery
