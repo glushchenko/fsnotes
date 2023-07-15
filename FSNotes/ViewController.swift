@@ -63,7 +63,7 @@ class ViewController: EditorViewController,
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var newNoteTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var lockedFolder: NSImageView!
+    @IBOutlet weak var lockedFolder: NSTextField!
     @IBOutlet weak var newNoteButton: NSButton!
     @IBOutlet weak var titleLabel: TitleTextField! {
         didSet {

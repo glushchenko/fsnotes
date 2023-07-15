@@ -28,7 +28,7 @@ class PrefsViewController: NSTabViewController  {
         if #available(macOS 11.0, *) {
             let general = NSImage.init(systemSymbolName: "gearshape", accessibilityDescription: nil)
             let library = NSImage.init(systemSymbolName: "sidebar.left", accessibilityDescription: nil)
-            let editor = NSImage.init(systemSymbolName: "doc.plaintext", accessibilityDescription: nil)
+            let editor = NSImage.init(systemSymbolName: "doc.richtext", accessibilityDescription: nil)
             let security = NSImage.init(systemSymbolName: "lock", accessibilityDescription: nil)
             let git = NSImage.init(systemSymbolName: "arrow.triangle.pull", accessibilityDescription: nil)
             let web = NSImage.init(systemSymbolName: "globe", accessibilityDescription: nil)

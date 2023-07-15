@@ -13,6 +13,9 @@
 /* Class = "NSMenuItem"; title = "2 Spaces"; ObjectID = "1HB-X5-pmA"; */
 "1HB-X5-pmA.title" = "缩进 2 个空格";
 
+/* Class = "NSTextFieldCell"; title = "Locked"; ObjectID = "1Kl-ap-nkv"; */
+"1Kl-ap-nkv.title" = "锁定";
+
 /* Class = "NSMenuItem"; title = "Title"; ObjectID = "1qV-pJ-ZQT"; */
 "1qV-pJ-ZQT.title" = "标题";
 
@@ -640,7 +643,7 @@
 /* Class = "NSButtonCell"; title = "Custom worktree"; ObjectID = "l5q-h8-hfU"; */
 "l5q-h8-hfU.title" = "自定义工作目录";
 
-/* Class = "NSWindow"; title = "Settings"; ObjectID = "ldu-U8-PD1"; */
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "ldu-U8-PD1"; */
 "ldu-U8-PD1.title" = "偏好设置";
 
 /* Class = "NSMenuItem"; title = "Header 3"; ObjectID = "Lmy-lE-9MZ"; */
