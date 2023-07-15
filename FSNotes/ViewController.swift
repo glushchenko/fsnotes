@@ -502,6 +502,10 @@ class ViewController: EditorViewController,
 
         sidebarOutlineView.selectionHighlightStyle = .regular
 
+        if let color = NSColor(named: "sidebar") {
+            sidebarOutlineView.backgroundColor = color
+        }
+
         self.sidebarSplitView.autosaveName = "SidebarSplitView"
         self.splitView.autosaveName = "EditorSplitView"
 

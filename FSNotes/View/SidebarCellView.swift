@@ -80,7 +80,7 @@ class SidebarCellView: NSTableCellView {
         } else {
             label.textColor = NSColor(named: "color_not_selected")
             icon.image = type?.getIcon()
-            rowView.backgroundColor = NSColor(named: "background_not_selected")!
+            rowView.backgroundColor = .clear
         }
     }
 
@@ -90,7 +90,7 @@ class SidebarCellView: NSTableCellView {
         } else {
             label.textColor = .white
         }
-        
+
         icon.image = type?.getIcon(white: true)
 
         guard let rowView = self.superview as? SidebarTableRowView else { return }

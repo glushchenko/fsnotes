@@ -1579,7 +1579,7 @@ CA
                             <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm" customClass="SidebarSplitView" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="951" height="600"/>
                                 <subviews>
-                                    <customView autoresizesSubviews="NO" misplaced="YES" id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
+                                    <customView autoresizesSubviews="NO" misplaced="YES" id="5sB-7J-vgE">
                                         <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
