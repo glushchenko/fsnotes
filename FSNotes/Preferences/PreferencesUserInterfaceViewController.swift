@@ -42,7 +42,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
     override func viewDidAppear() {
         guard let window = self.view.window else { return }
-        window.title = NSLocalizedString("Preferences", comment: "")
+        window.title = NSLocalizedString("Settings", comment: "")
 
         if (UserDefaultsManagement.horizontalOrientation) {
             horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 1)

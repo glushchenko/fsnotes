@@ -14,7 +14,7 @@ import FSNotesCore_macOS
 class PrefsViewController: NSTabViewController  {
 
     override func viewDidLoad() {
-        self.title = "Preferences"
+        self.title = "Settings"
         super.viewDidLoad()
     }
 

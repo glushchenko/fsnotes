@@ -631,7 +631,7 @@
 /* Class = "NSButtonCell"; title = "Custom worktree"; ObjectID = "l5q-h8-hfU"; */
 "l5q-h8-hfU.title" = "Custom worktree";
 
-/* Class = "NSWindow"; title = "Preferences"; ObjectID = "ldu-U8-PD1"; */
+/* Class = "NSWindow"; title = "Settings"; ObjectID = "ldu-U8-PD1"; */
 "ldu-U8-PD1.title" = "環境設定…";
 
 /* Class = "NSMenuItem"; title = "Header 3"; ObjectID = "Lmy-lE-9MZ"; */
@@ -937,7 +937,7 @@
 /* Class = "NSButtonCell"; title = "First line as title"; ObjectID = "tMJ-Dj-OZc"; */
 "tMJ-Dj-OZc.title" = "最初の行をタイトルとして使用";
 
-/* Class = "NSTabViewController"; title = "Preferences"; ObjectID = "tR0-Uj-4tB"; */
+/* Class = "NSTabViewController"; title = "Settings"; ObjectID = "tR0-Uj-4tB"; */
 "tR0-Uj-4tB.title" = "設定";
 
 /* Class = "NSMenuItem"; title = "Data Detectors"; ObjectID = "tRr-pd-1PS"; */

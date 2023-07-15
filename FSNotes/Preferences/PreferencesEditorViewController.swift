@@ -37,7 +37,7 @@ class PreferencesEditorViewController: NSViewController {
     }
 
     override func viewDidAppear() {
-        self.view.window!.title = NSLocalizedString("Preferences", comment: "")
+        self.view.window!.title = NSLocalizedString("Settings", comment: "")
 
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
 

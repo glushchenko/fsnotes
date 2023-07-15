@@ -39,7 +39,7 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     }
 
     override func viewDidAppear() {
-        self.view.window!.title = NSLocalizedString("Preferences", comment: "")
+        self.view.window!.title = NSLocalizedString("Settings", comment: "")
 
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
 

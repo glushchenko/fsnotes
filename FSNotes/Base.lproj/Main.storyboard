@@ -4053,15 +4053,15 @@ Olena Hlushcneko</string>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7WR-qL-UhC" customClass="EditorScrollView" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
                                 <clipView key="contentView" drawsBackground="NO" id="3Ao-pL-uMJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="465" height="338"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="16L-Vf-Qjb" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="465" height="338"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="480" height="338"/>
+                                            <size key="minSize" width="465" height="338"/>
                                             <size key="maxSize" width="480" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -4072,7 +4072,7 @@ Olena Hlushcneko</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Nlj-zs-ZtW">
-                                    <rect key="frame" x="464" y="0.0" width="16" height="338"/>
+                                    <rect key="frame" x="465" y="0.0" width="15" height="338"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
