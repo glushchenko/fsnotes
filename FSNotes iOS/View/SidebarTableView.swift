@@ -55,10 +55,6 @@ class SidebarTableView: UITableView,
             return 5
         }
 
-        if section == 1 && UIApplication.getVC().storage.getNonSystemProjects().count == 0 {
-            return 0
-        }
-
         return 25
     }
 
