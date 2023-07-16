@@ -1238,7 +1238,7 @@ CA
         <scene sceneID="vmk-ef-Yif">
             <objects>
                 <viewController title="Layout" id="P2a-yk-5Rx" customClass="PreferencesUserInterfaceViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" horizontalHuggingPriority="100" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
+                    <view key="view" horizontalHuggingPriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
                         <rect key="frame" x="0.0" y="0.0" width="458" height="407"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WQh-GR-hUT">

@@ -64,6 +64,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     override func becomeFirstResponder() -> Bool {
+        let result = super.becomeFirstResponder()
+
         DispatchQueue.main.async {
             let selectedRowIndexes = self.selectedRowIndexes
             for i in selectedRowIndexes {
@@ -71,10 +73,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
 
-        return super.becomeFirstResponder()
+        return result
     }
 
     override func resignFirstResponder() -> Bool {
+        let result = super.resignFirstResponder()
+
         DispatchQueue.main.async {
             let selectedRowIndexes = self.selectedRowIndexes
             for i in selectedRowIndexes {
@@ -82,7 +86,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
 
-        return super.resignFirstResponder()
+        return result
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -176,7 +180,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
 
-        if let row = self.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
+        if noteList.count >= row + 1, let row = self.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
             cell.renderPin()
         }
     }
