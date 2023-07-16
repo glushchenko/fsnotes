@@ -1111,8 +1111,8 @@
 /* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "xWi-IK-gJS"; */
 "xWi-IK-gJS.placeholderString" = "optional";
 
-/* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
-"xX0-9b-KDq.title" = "Syntax automatisch hervorheben (Neustart erforderlich)";
+/* Class = "NSButtonCell"; title = "Code block live highlighting"; ObjectID = "xX0-9b-KDq"; */
+"xX0-9b-KDq.title" = "Syntax automatisch hervorheben";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "xxB-ic-LFu"; */
 "xxB-ic-LFu.title" = "None";

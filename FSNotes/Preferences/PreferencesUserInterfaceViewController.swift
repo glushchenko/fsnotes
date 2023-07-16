@@ -12,7 +12,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
-    @IBOutlet weak var fontPreview: NSTextField!
     @IBOutlet weak var cellSpacing: NSSlider!
     @IBOutlet weak var noteFontLabel: NSTextField!
     @IBOutlet weak var noteFontColor: NSColorWell!
@@ -32,7 +31,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setFontPreview()
 
         let hideBackgroundOption = UserDefaultsManagement.appearanceType != .Custom
 
@@ -116,13 +114,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         vc.notesTableView.reloadData()
     }
 
-    @IBAction func setFont(_ sender: NSButton) {
-        let fontManager = NSFontManager.shared
-        fontManager.setSelectedFont(UserDefaultsManagement.noteFont, isMultiple: false)
-        fontManager.orderFrontFontPanel(self)
-        fontManager.target = self
-    }
-
     @IBAction func setFontColor(_ sender: NSColorWell) {
         Storage.shared().resetCacheAttributes()
         
@@ -198,53 +189,5 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
-    }
-
-    @IBAction func changeFont(_ sender: Any?) {
-        let fontManager = NSFontManager.shared
-        let newFont = fontManager.convert(UserDefaultsManagement.noteFont)
-        UserDefaultsManagement.noteFont = newFont
-
-        reloadFont()
-    }
-    
-    @IBAction func resetFont(_ sender: Any) {
-        UserDefaultsManagement.fontName = nil
-        
-        reloadFont()
-    }
-    
-    private func reloadFont() {
-        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-        try? FileManager.default.removeItem(at: webkitPreview)
-
-        Storage.shared().resetCacheAttributes()
-
-        let editors = AppDelegate.getEditTextViews()
-        for editor in editors {
-            if let evc = editor.editorViewController {
-                MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
-
-                evc.refillEditArea(force: true)
-            }
-        }
-
-        setFontPreview()
-    }
-    
-    private func setFontPreview() {
-        fontPreview.font = NSFont(name: UserDefaultsManagement.noteFont.fontName, size: 13)
-        fontPreview.stringValue = "\(UserDefaultsManagement.noteFont.fontName) \(UserDefaultsManagement.noteFont.pointSize)pt"
-    }
-
-    private func restart() {
-        let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
-        let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
-        let task = Process()
-        task.launchPath = "/usr/bin/open"
-        task.arguments = [path]
-        task.launch()
-        exit(0)
     }
 }

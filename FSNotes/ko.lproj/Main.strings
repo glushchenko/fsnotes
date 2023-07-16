@@ -1111,8 +1111,8 @@
 /* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "xWi-IK-gJS"; */
 "xWi-IK-gJS.placeholderString" = "선택 과목";
 
-/* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
-"xX0-9b-KDq.title" = "코드 영역 실시간 강조 (앱 재시작 필요)";
+/* Class = "NSButtonCell"; title = "Code block live highlighting"; ObjectID = "xX0-9b-KDq"; */
+"xX0-9b-KDq.title" = "코드 영역 실시간 강조";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "xxB-ic-LFu"; */
 "xxB-ic-LFu.title" = "없음";

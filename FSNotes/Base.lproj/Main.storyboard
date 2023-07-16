@@ -1238,17 +1238,9 @@ CA
         <scene sceneID="vmk-ef-Yif">
             <objects>
                 <viewController title="Layout" id="P2a-yk-5Rx" customClass="PreferencesUserInterfaceViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" horizontalHuggingPriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
-                        <rect key="frame" x="0.0" y="0.0" width="458" height="435"/>
+                    <view key="view" horizontalHuggingPriority="100" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
+                        <rect key="frame" x="0.0" y="0.0" width="458" height="407"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-a9-vnf">
-                                <rect key="frame" x="33" y="272" width="68" height="16"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note Font:" id="bJC-he-nDV">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WQh-GR-hUT">
                                 <rect key="frame" x="33" y="241" width="73" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note Color:" id="8oP-79-BAN">
@@ -1282,7 +1274,7 @@ CA
                                 </connections>
                             </button>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X4v-hO-tFb">
-                                <rect key="frame" x="153" y="350" width="272" height="28"/>
+                                <rect key="frame" x="153" y="322" width="272" height="28"/>
                                 <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="65" tickMarkPosition="above" sliderType="linear" id="hkY-Mc-VIz">
                                     <connections>
                                         <binding destination="feO-BX-gQb" name="value" keyPath="values.cellSpacing" id="Ixh-K9-pnZ"/>
@@ -1303,7 +1295,7 @@ CA
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lcQ-Xe-fI2">
-                                <rect key="frame" x="20" y="306" width="418" height="5"/>
+                                <rect key="frame" x="20" y="278" width="418" height="5"/>
                             </box>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kBX-OV-8sO">
                                 <rect key="frame" x="33" y="100" width="152" height="18"/>
@@ -1316,7 +1308,7 @@ CA
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h8R-h7-V5R">
-                                <rect key="frame" x="152" y="325" width="88" height="25"/>
+                                <rect key="frame" x="152" y="297" width="88" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Small" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="11" imageScaling="proportionallyDown" inset="2" selectedItem="8AQ-IN-Edm" id="Wo8-7N-6sB">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -1333,7 +1325,7 @@ CA
                                 </connections>
                             </popUpButton>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="oZC-jG-fL4">
-                                <rect key="frame" x="153" y="368" width="53" height="48"/>
+                                <rect key="frame" x="153" y="340" width="53" height="48"/>
                                 <buttonCell key="cell" type="radio" title="Side" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="q7c-Fz-aaj">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1343,7 +1335,7 @@ CA
                                 </connections>
                             </button>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="lkd-Oe-1Xz">
-                                <rect key="frame" x="234" y="383" width="49" height="18"/>
+                                <rect key="frame" x="234" y="355" width="49" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Top" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="K2F-dD-Jhr">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1353,7 +1345,7 @@ CA
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-TG-JXR">
-                                <rect key="frame" x="33" y="358" width="116" height="16"/>
+                                <rect key="frame" x="33" y="330" width="116" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note List Spacing:" id="bXK-wP-sZc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1371,7 +1363,7 @@ CA
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GN8-Yw-N26">
-                                <rect key="frame" x="33" y="332" width="116" height="16"/>
+                                <rect key="frame" x="33" y="304" width="116" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Preview Font Size:" id="xJQ-ch-Xlp">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1392,23 +1384,13 @@ CA
                                 <rect key="frame" x="20" y="135" width="418" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b18-fM-0tk">
-                                <rect key="frame" x="33" y="384" width="118" height="16"/>
+                                <rect key="frame" x="33" y="356" width="118" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note List Location:" id="54i-GK-spQ">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f8R-08-jeb">
-                                <rect key="frame" x="308" y="263" width="55" height="32"/>
-                                <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ehk-CU-fbX">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="setFont:" target="P2a-yk-5Rx" id="WbJ-5i-YRP"/>
-                                </connections>
-                            </button>
                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="OZO-BG-4Lc">
                                 <rect key="frame" x="282" y="235" width="69" height="27"/>
                                 <constraints>
@@ -1439,37 +1421,13 @@ CA
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Az-gx-yGL">
-                                <rect key="frame" x="107" y="268" width="200" height="23"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="23" id="WJm-ms-0QH"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="vvG-Pm-uN1"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Font preview" drawsBackground="YES" usesSingleLineMode="YES" id="eKQ-lM-8Z4" customClass="VerticallyAlignedTextFieldCell" customModule="FSNotes" customModuleProvider="target">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L2J-w9-lFQ">
-                                <rect key="frame" x="361" y="263" width="69" height="32"/>
-                                <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rbM-i0-QFp">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="resetFont:" target="P2a-yk-5Rx" id="7Zq-Ji-g9x"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="kBX-OV-8sO" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="1Xz-yx-yJY"/>
                             <constraint firstItem="GN8-Yw-N26" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" priority="10" constant="35" id="2B3-me-RK4"/>
-                            <constraint firstItem="L2J-w9-lFQ" firstAttribute="centerY" secondItem="f8R-08-jeb" secondAttribute="centerY" id="36I-wS-tJE"/>
                             <constraint firstItem="X4v-hO-tFb" firstAttribute="leading" secondItem="MAi-TG-JXR" secondAttribute="trailing" constant="8" symbolic="YES" id="48c-Lv-H2G"/>
                             <constraint firstItem="GN8-Yw-N26" firstAttribute="top" secondItem="MAi-TG-JXR" secondAttribute="bottom" constant="10" id="5WH-gS-efP"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qW8-n9-YAx" secondAttribute="trailing" constant="35" id="6IG-wf-q1h"/>
-                            <constraint firstAttribute="trailing" secondItem="L2J-w9-lFQ" secondAttribute="trailing" constant="35" id="6tw-G8-EPl"/>
                             <constraint firstAttribute="bottom" secondItem="Yn6-yP-tkd" secondAttribute="bottom" constant="35" id="791-s2-Cik"/>
                             <constraint firstItem="h8R-h7-V5R" firstAttribute="leading" secondItem="GN8-Yw-N26" secondAttribute="trailing" constant="8" symbolic="YES" id="7ad-nt-WKk"/>
                             <constraint firstItem="lkd-Oe-1Xz" firstAttribute="leading" secondItem="oZC-jG-fL4" secondAttribute="trailing" priority="100" constant="30" id="8YL-3B-vfT"/>
@@ -1486,21 +1444,16 @@ CA
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="h8R-h7-V5R" secondAttribute="trailing" constant="20" symbolic="YES" id="LWk-4s-dHF"/>
                             <constraint firstItem="oZC-jG-fL4" firstAttribute="top" secondItem="GGR-Nj-xCY" secondAttribute="top" constant="20" symbolic="YES" id="NeJ-be-NV0"/>
                             <constraint firstItem="GN8-Yw-N26" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="PIj-7A-OEp"/>
-                            <constraint firstItem="f8R-08-jeb" firstAttribute="leading" secondItem="7Az-gx-yGL" secondAttribute="trailing" constant="8" symbolic="YES" id="QRN-YS-zVG"/>
                             <constraint firstItem="FFS-iV-L6i" firstAttribute="top" secondItem="kBX-OV-8sO" secondAttribute="bottom" constant="6" symbolic="YES" id="R5n-u4-z2g"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FFS-iV-L6i" secondAttribute="trailing" constant="20" symbolic="YES" id="UYU-pg-OGA"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Hy2-6l-V6s" secondAttribute="trailing" constant="20" symbolic="YES" id="VBP-ry-ssb"/>
                             <constraint firstItem="qW8-n9-YAx" firstAttribute="top" secondItem="9b2-ti-sGJ" secondAttribute="bottom" constant="20" id="VIV-Ix-ZxD"/>
-                            <constraint firstItem="L2J-w9-lFQ" firstAttribute="leading" secondItem="f8R-08-jeb" secondAttribute="trailing" constant="12" symbolic="YES" id="XLA-Ju-xT0"/>
                             <constraint firstItem="OZO-BG-4Lc" firstAttribute="centerY" secondItem="Fes-ue-brx" secondAttribute="centerY" id="YIj-Nr-8UN"/>
                             <constraint firstItem="X4v-hO-tFb" firstAttribute="leading" secondItem="oZC-jG-fL4" secondAttribute="leading" id="ZLa-Hm-xOb"/>
                             <constraint firstItem="o3v-hr-61f" firstAttribute="centerY" secondItem="WQh-GR-hUT" secondAttribute="centerY" id="agL-Kd-1da"/>
                             <constraint firstItem="oZC-jG-fL4" firstAttribute="leading" secondItem="b18-fM-0tk" secondAttribute="trailing" constant="6" symbolic="YES" id="azl-TP-aVz"/>
-                            <constraint firstItem="f8R-08-jeb" firstAttribute="centerY" secondItem="7Az-gx-yGL" secondAttribute="centerY" id="bTB-Kg-zbl"/>
                             <constraint firstItem="lcQ-Xe-fI2" firstAttribute="top" secondItem="h8R-h7-V5R" secondAttribute="bottom" constant="20" id="chn-NP-3IO"/>
-                            <constraint firstItem="7Az-gx-yGL" firstAttribute="leading" secondItem="QvM-a9-vnf" secondAttribute="trailing" constant="8" symbolic="YES" id="dLh-eg-CTs"/>
                             <constraint firstItem="MAi-TG-JXR" firstAttribute="top" secondItem="b18-fM-0tk" secondAttribute="bottom" constant="10" id="dR4-kh-o2j"/>
-                            <constraint firstItem="QvM-a9-vnf" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="dly-XC-TMv"/>
                             <constraint firstItem="lcQ-Xe-fI2" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="20" symbolic="YES" id="doc-8n-mmV"/>
                             <constraint firstItem="thJ-9r-qKd" firstAttribute="top" secondItem="uTG-yn-jge" secondAttribute="bottom" constant="20" id="dvO-WY-ARM"/>
                             <constraint firstItem="qW8-n9-YAx" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="e8g-nN-84g"/>
@@ -1513,14 +1466,13 @@ CA
                             <constraint firstItem="uTG-yn-jge" firstAttribute="top" secondItem="qW8-n9-YAx" secondAttribute="bottom" constant="6" symbolic="YES" id="iHA-sQ-B09"/>
                             <constraint firstItem="h8R-h7-V5R" firstAttribute="leading" secondItem="X4v-hO-tFb" secondAttribute="leading" id="j3B-Ni-p6X"/>
                             <constraint firstItem="b18-fM-0tk" firstAttribute="top" secondItem="GGR-Nj-xCY" secondAttribute="top" constant="35" id="kFz-5j-ggC"/>
-                            <constraint firstItem="QvM-a9-vnf" firstAttribute="top" secondItem="lcQ-Xe-fI2" secondAttribute="bottom" constant="20" id="ldm-th-fCT"/>
                             <constraint firstItem="MAi-TG-JXR" firstAttribute="centerY" secondItem="X4v-hO-tFb" secondAttribute="centerY" id="mDo-It-zI3"/>
                             <constraint firstItem="Fes-ue-brx" firstAttribute="leading" secondItem="o3v-hr-61f" secondAttribute="trailing" constant="25" id="mjr-RD-tnn"/>
+                            <constraint firstItem="o3v-hr-61f" firstAttribute="top" secondItem="lcQ-Xe-fI2" secondAttribute="bottom" constant="20" id="oct-eN-xAG"/>
                             <constraint firstItem="9b2-ti-sGJ" firstAttribute="top" secondItem="o3v-hr-61f" secondAttribute="bottom" constant="20" id="pT2-Cx-GiZ"/>
                             <constraint firstItem="OZO-BG-4Lc" firstAttribute="leading" secondItem="Fes-ue-brx" secondAttribute="trailing" constant="8" symbolic="YES" id="q69-dS-WZM"/>
                             <constraint firstItem="o3v-hr-61f" firstAttribute="leading" secondItem="WQh-GR-hUT" secondAttribute="trailing" constant="8" symbolic="YES" id="qla-rr-pd2"/>
                             <constraint firstItem="h8R-h7-V5R" firstAttribute="firstBaseline" secondItem="GN8-Yw-N26" secondAttribute="firstBaseline" id="qz0-AQ-dQb"/>
-                            <constraint firstItem="7Az-gx-yGL" firstAttribute="centerY" secondItem="QvM-a9-vnf" secondAttribute="centerY" id="riY-ec-JOt"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kBX-OV-8sO" secondAttribute="trailing" constant="20" symbolic="YES" id="svc-hM-Y19"/>
                             <constraint firstItem="MAi-TG-JXR" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="uBY-2Y-nIG"/>
                             <constraint firstItem="thJ-9r-qKd" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="20" symbolic="YES" id="vY7-YB-8eK"/>
@@ -1529,7 +1481,6 @@ CA
                             <constraint firstAttribute="trailing" secondItem="X4v-hO-tFb" secondAttribute="trailing" constant="35" id="xuU-r0-TfP"/>
                             <constraint firstItem="b18-fM-0tk" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="y97-Zb-est"/>
                             <constraint firstItem="Hy2-6l-V6s" firstAttribute="top" secondItem="FFS-iV-L6i" secondAttribute="bottom" constant="6" symbolic="YES" id="z5l-B7-eVh"/>
-                            <constraint firstItem="o3v-hr-61f" firstAttribute="top" secondItem="7Az-gx-yGL" secondAttribute="bottom" constant="8" symbolic="YES" id="zos-78-7bs"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1537,7 +1488,6 @@ CA
                         <outlet property="backgroundLabel" destination="Fes-ue-brx" id="bBK-oZ-D7e"/>
                         <outlet property="cellSpacing" destination="X4v-hO-tFb" id="r4Y-4Z-kV3"/>
                         <outlet property="firstLineAsTitle" destination="Yn6-yP-tkd" id="Ap9-EI-2Tb"/>
-                        <outlet property="fontPreview" destination="7Az-gx-yGL" id="nDv-ud-PZh"/>
                         <outlet property="hideDate" destination="Hy2-6l-V6s" id="Tfc-Ur-PnR"/>
                         <outlet property="hideImagesPreview" destination="kBX-OV-8sO" id="tgI-8X-Re0"/>
                         <outlet property="hidePreview" destination="FFS-iV-L6i" id="6e2-Xa-nly"/>
@@ -3567,11 +3517,11 @@ Olena Hlushcneko</string>
             <objects>
                 <viewController title="Editor" id="ssC-ed-19K" customClass="PreferencesEditorViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GY1-6c-5uL">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="495"/>
+                        <rect key="frame" x="0.0" y="0.0" width="498" height="556"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-4N-l26">
-                                <rect key="frame" x="134" y="454" width="4" height="17"/>
+                                <rect key="frame" x="134" y="515" width="4" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="vNg-wB-rdP">
                                     <font key="font" metaFont="system"/>
@@ -3580,8 +3530,8 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kcg-vn-Dwj">
-                                <rect key="frame" x="33" y="443" width="347" height="18"/>
-                                <buttonCell key="cell" type="check" title="Code block live highlighting (app restart required)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xX0-9b-KDq">
+                                <rect key="frame" x="33" y="504" width="445" height="18"/>
+                                <buttonCell key="cell" type="check" title="Code block live highlighting" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xX0-9b-KDq">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -3590,10 +3540,10 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2ZF-VY-6Ij">
-                                <rect key="frame" x="20" y="179" width="360" height="5"/>
+                                <rect key="frame" x="20" y="179" width="458" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UiV-vt-WHK">
-                                <rect key="frame" x="38" y="390" width="86" height="16"/>
+                                <rect key="frame" x="105" y="451" width="86" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Code Theme:" id="6F0-Cb-DVX">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3601,7 +3551,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xZA-pB-1nm">
-                                <rect key="frame" x="144" y="384" width="144" height="25"/>
+                                <rect key="frame" x="211" y="445" width="144" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="github" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="v1K-9W-2aB" id="ai1-t2-fc1">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -3642,7 +3592,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rmv-ik-PYa">
-                                <rect key="frame" x="53" y="362" width="71" height="16"/>
+                                <rect key="frame" x="120" y="423" width="71" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Code Font:" id="63m-us-3j9">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3650,8 +3600,9 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="5" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B07-UG-KXb">
-                                <rect key="frame" x="147" y="359" width="169" height="21"/>
+                                <rect key="frame" x="214" y="420" width="200" height="21"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="R1T-FG-MnJ"/>
                                     <constraint firstAttribute="height" constant="21" id="vzd-qe-6Ha"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Code Font" drawsBackground="YES" usesSingleLineMode="YES" id="Shc-VO-eTc" customClass="VerticallyAlignedTextFieldCell" customModule="FSNotes" customModuleProvider="target">
@@ -3661,7 +3612,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JQw-9h-UpN">
-                                <rect key="frame" x="33" y="421" width="347" height="18"/>
+                                <rect key="frame" x="33" y="482" width="445" height="18"/>
                                 <buttonCell key="cell" type="check" title="Highlight indented code blocks" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7D9-lM-GXX">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3671,10 +3622,10 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BAc-kR-eMo">
-                                <rect key="frame" x="20" y="336" width="360" height="5"/>
+                                <rect key="frame" x="20" y="336" width="458" height="5"/>
                             </box>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ons-S0-fcz">
-                                <rect key="frame" x="33" y="144" width="347" height="18"/>
+                                <rect key="frame" x="33" y="144" width="445" height="18"/>
                                 <buttonCell key="cell" type="check" title="Live images preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wG8-3A-BMJ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3684,7 +3635,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cj1-ab-Sv6">
-                                <rect key="frame" x="33" y="122" width="347" height="18"/>
+                                <rect key="frame" x="33" y="122" width="445" height="18"/>
                                 <buttonCell key="cell" type="check" title="Focus in editor when selecting note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="r2R-xe-eCA">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3694,7 +3645,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="APN-cG-GJc">
-                                <rect key="frame" x="33" y="100" width="347" height="18"/>
+                                <rect key="frame" x="33" y="100" width="445" height="18"/>
                                 <buttonCell key="cell" type="check" title="Restore cursor position" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3iM-ZV-3Gf">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3704,7 +3655,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gk5-il-WSG">
-                                <rect key="frame" x="33" y="78" width="347" height="18"/>
+                                <rect key="frame" x="33" y="78" width="445" height="18"/>
                                 <buttonCell key="cell" type="check" title="Automatically insert closing braces and close quotes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ypO-g0-1Xo">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3714,7 +3665,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cMm-a9-mcN">
-                                <rect key="frame" x="38" y="274" width="86" height="20"/>
+                                <rect key="frame" x="105" y="274" width="86" height="20"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Line Spacing:" id="iUm-Zm-zeg">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3722,35 +3673,35 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-ya-69N">
-                                <rect key="frame" x="145" y="268" width="222" height="28"/>
+                                <rect key="frame" x="212" y="268" width="253" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="50" tickMarkPosition="above" sliderType="linear" id="fZA-cO-0ac"/>
                                 <connections>
                                     <action selector="lineSpacing:" target="ssC-ed-19K" id="Sqq-6a-XQe"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dmd-5j-kY7">
-                                <rect key="frame" x="145" y="218" width="222" height="28"/>
+                                <rect key="frame" x="212" y="218" width="253" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="311" maxValue="1000" doubleValue="1000" tickMarkPosition="above" sliderType="linear" id="csk-Ct-cff"/>
                                 <connections>
                                     <action selector="imagesWidth:" target="ssC-ed-19K" id="SCj-iP-0p1"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gl0-rI-S66">
-                                <rect key="frame" x="145" y="194" width="222" height="28"/>
+                                <rect key="frame" x="212" y="194" width="253" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="200" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="UC2-tH-UtC"/>
                                 <connections>
                                     <action selector="marginSize:" target="ssC-ed-19K" id="Hhx-hm-H5O"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-Se-i0R">
-                                <rect key="frame" x="145" y="242" width="222" height="28"/>
+                                <rect key="frame" x="212" y="242" width="253" height="28"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="100" maxValue="1000" doubleValue="300" tickMarkPosition="above" sliderType="linear" id="w1e-Tq-0qv"/>
                                 <connections>
                                     <action selector="lineWidth:" target="ssC-ed-19K" id="sMF-LC-b8U"/>
                                 </connections>
                             </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vrr-sG-fOD">
-                                <rect key="frame" x="33" y="226" width="91" height="16"/>
+                                <rect key="frame" x="100" y="226" width="91" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Images Width:" id="ltm-qj-nke">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3758,7 +3709,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3el-ze-TIn">
-                                <rect key="frame" x="45" y="202" width="79" height="16"/>
+                                <rect key="frame" x="112" y="202" width="79" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Margin Size:" id="r69-B6-vT3">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3766,7 +3717,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bEN-ep-bl6">
-                                <rect key="frame" x="51" y="250" width="73" height="16"/>
+                                <rect key="frame" x="118" y="250" width="73" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Line Width:" id="Izt-6v-pKO">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3774,7 +3725,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fYl-Tw-kcO">
-                                <rect key="frame" x="317" y="353" width="55" height="32"/>
+                                <rect key="frame" x="415" y="414" width="55" height="32"/>
                                 <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7od-TM-cUB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3784,7 +3735,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="GnH-BV-JGa">
-                                <rect key="frame" x="39" y="302" width="85" height="16"/>
+                                <rect key="frame" x="106" y="302" width="85" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Indent Using:" id="P4M-cL-lfo">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3792,7 +3743,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XOm-C4-sCs">
-                                <rect key="frame" x="33" y="56" width="347" height="18"/>
+                                <rect key="frame" x="33" y="56" width="445" height="18"/>
                                 <buttonCell key="cell" type="check" title="Scan inline tags" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="g5W-YF-jAC">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3802,7 +3753,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="RxO-oS-Sa7" userLabel="Indent using">
-                                <rect key="frame" x="144" y="296" width="96" height="25"/>
+                                <rect key="frame" x="211" y="296" width="96" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Tab" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ncv-c4-Dmg" id="r8k-ev-75i" userLabel="Indent using">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -3825,7 +3776,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </popUpButton>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mLR-t7-nz0">
-                                <rect key="frame" x="33" y="34" width="347" height="18"/>
+                                <rect key="frame" x="33" y="34" width="445" height="18"/>
                                 <buttonCell key="cell" type="check" title="Clickable links" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="N8h-ep-HFG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3834,10 +3785,52 @@ Olena Hlushcneko</string>
                                     <action selector="highlightLinks:" target="ssC-ed-19K" id="jLx-rM-jlz"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-a9-vnf">
+                                <rect key="frame" x="123" y="391" width="68" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note Font:" id="bJC-he-nDV">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f8R-08-jeb">
+                                <rect key="frame" x="415" y="382" width="55" height="32"/>
+                                <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ehk-CU-fbX">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="setNoteFont:" target="ssC-ed-19K" id="pW9-zD-3Cd"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Az-gx-yGL">
+                                <rect key="frame" x="214" y="387" width="200" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="WJm-ms-0QH"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="vvG-Pm-uN1"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Font preview" drawsBackground="YES" usesSingleLineMode="YES" id="eKQ-lM-8Z4" customClass="VerticallyAlignedTextFieldCell" customModule="FSNotes" customModuleProvider="target">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L2J-w9-lFQ">
+                                <rect key="frame" x="207" y="352" width="69" height="32"/>
+                                <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rbM-i0-QFp">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetFont:" target="ssC-ed-19K" id="NQf-w0-5nf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="JQw-9h-UpN" firstAttribute="trailing" secondItem="Kcg-vn-Dwj" secondAttribute="trailing" id="02H-uq-Sdc"/>
+                            <constraint firstItem="QvM-a9-vnf" firstAttribute="trailing" secondItem="rmv-ik-PYa" secondAttribute="trailing" id="03S-qV-blX"/>
                             <constraint firstItem="Kcg-vn-Dwj" firstAttribute="top" secondItem="GY1-6c-5uL" secondAttribute="top" constant="35" id="16x-O6-2mQ"/>
+                            <constraint firstItem="L2J-w9-lFQ" firstAttribute="leading" secondItem="7Az-gx-yGL" secondAttribute="leading" id="1Dq-H8-Q22"/>
                             <constraint firstItem="UiV-vt-WHK" firstAttribute="top" secondItem="JQw-9h-UpN" secondAttribute="bottom" constant="16" id="1WW-6P-W4Y"/>
                             <constraint firstItem="Vrr-sG-fOD" firstAttribute="trailing" secondItem="3el-ze-TIn" secondAttribute="trailing" id="1hh-K9-SSl"/>
                             <constraint firstItem="ons-S0-fcz" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="2Cp-M1-ufZ"/>
@@ -3845,6 +3838,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="UiV-vt-WHK" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="2lG-y5-kAR"/>
                             <constraint firstItem="XOm-C4-sCs" firstAttribute="trailing" secondItem="gk5-il-WSG" secondAttribute="trailing" id="2tZ-iJ-9IK"/>
                             <constraint firstItem="3el-ze-TIn" firstAttribute="top" secondItem="Vrr-sG-fOD" secondAttribute="bottom" constant="8" symbolic="YES" id="39i-sb-qOk"/>
+                            <constraint firstItem="f8R-08-jeb" firstAttribute="leading" secondItem="7Az-gx-yGL" secondAttribute="trailing" constant="8" symbolic="YES" id="3PJ-mf-t4z"/>
                             <constraint firstItem="ons-S0-fcz" firstAttribute="trailing" secondItem="cj1-ab-Sv6" secondAttribute="trailing" id="4GN-Le-MtL"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RxO-oS-Sa7" secondAttribute="trailing" constant="35" id="55U-mx-Vne"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="5OV-Wf-0cj"/>
@@ -3857,6 +3851,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="DQU-Se-i0R" firstAttribute="centerY" secondItem="bEN-ep-bl6" secondAttribute="centerY" id="B21-9b-4sR"/>
                             <constraint firstItem="B07-UG-KXb" firstAttribute="leading" secondItem="rmv-ik-PYa" secondAttribute="trailing" constant="25" id="BHd-tb-ZsE"/>
                             <constraint firstAttribute="bottom" secondItem="mLR-t7-nz0" secondAttribute="bottom" constant="35" id="CJs-0J-F6C"/>
+                            <constraint firstItem="7Az-gx-yGL" firstAttribute="trailing" secondItem="B07-UG-KXb" secondAttribute="trailing" id="CW3-MY-m5U"/>
                             <constraint firstAttribute="trailing" secondItem="2ZF-VY-6Ij" secondAttribute="trailing" constant="20" symbolic="YES" id="D8I-T5-4p8"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xZA-pB-1nm" secondAttribute="trailing" constant="20" symbolic="YES" id="DSh-tg-WcT"/>
                             <constraint firstItem="mLR-t7-nz0" firstAttribute="top" secondItem="XOm-C4-sCs" secondAttribute="bottom" constant="6" symbolic="YES" id="DgG-Yj-rRQ"/>
@@ -3869,12 +3864,12 @@ Olena Hlushcneko</string>
                             <constraint firstItem="BAc-kR-eMo" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="20" symbolic="YES" id="K6Z-iF-q6Y"/>
                             <constraint firstItem="ons-S0-fcz" firstAttribute="leading" secondItem="cj1-ab-Sv6" secondAttribute="leading" id="LCQ-Ur-6nQ"/>
                             <constraint firstItem="APN-cG-GJc" firstAttribute="top" secondItem="cj1-ab-Sv6" secondAttribute="bottom" constant="6" symbolic="YES" id="LGD-FQ-WZw"/>
+                            <constraint firstItem="7Az-gx-yGL" firstAttribute="leading" secondItem="QvM-a9-vnf" secondAttribute="trailing" constant="25" id="LJ1-fc-86S"/>
                             <constraint firstItem="3el-ze-TIn" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="O2p-SW-ast"/>
                             <constraint firstItem="XOm-C4-sCs" firstAttribute="leading" secondItem="gk5-il-WSG" secondAttribute="leading" id="P9v-lq-1Ux"/>
                             <constraint firstItem="3el-ze-TIn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="Pmz-9g-Jg0"/>
                             <constraint firstItem="dmd-5j-kY7" firstAttribute="centerY" secondItem="Vrr-sG-fOD" secondAttribute="centerY" id="Q0D-dd-tAH"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="trailing" secondItem="cMm-a9-mcN" secondAttribute="trailing" id="Qi0-PG-9KU"/>
-                            <constraint firstItem="BAc-kR-eMo" firstAttribute="top" secondItem="B07-UG-KXb" secondAttribute="bottom" constant="20" id="QpM-sd-zcR"/>
                             <constraint firstItem="gk5-il-WSG" firstAttribute="top" secondItem="APN-cG-GJc" secondAttribute="bottom" constant="6" symbolic="YES" id="Sg9-sq-BPZ"/>
                             <constraint firstItem="cj1-ab-Sv6" firstAttribute="trailing" secondItem="APN-cG-GJc" secondAttribute="trailing" id="T31-tC-3Yq"/>
                             <constraint firstItem="gl0-rI-S66" firstAttribute="leading" secondItem="dmd-5j-kY7" secondAttribute="leading" id="Tbi-1h-Edj"/>
@@ -3896,13 +3891,17 @@ Olena Hlushcneko</string>
                             <constraint firstItem="T2k-ya-69N" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RxO-oS-Sa7" secondAttribute="leading" id="cfN-oc-fEV"/>
                             <constraint firstItem="mLR-t7-nz0" firstAttribute="leading" secondItem="XOm-C4-sCs" secondAttribute="leading" id="djq-aH-p2t"/>
                             <constraint firstItem="2ZF-VY-6Ij" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="20" symbolic="YES" id="djv-bU-ozQ"/>
+                            <constraint firstItem="7Az-gx-yGL" firstAttribute="centerY" secondItem="QvM-a9-vnf" secondAttribute="centerY" id="dol-sg-1VZ"/>
+                            <constraint firstItem="f8R-08-jeb" firstAttribute="centerY" secondItem="7Az-gx-yGL" secondAttribute="centerY" id="duo-fC-TLc"/>
                             <constraint firstItem="dmd-5j-kY7" firstAttribute="leading" secondItem="Vrr-sG-fOD" secondAttribute="trailing" constant="25" id="e51-0R-Mte"/>
                             <constraint firstItem="ons-S0-fcz" firstAttribute="top" secondItem="2ZF-VY-6Ij" secondAttribute="bottom" constant="20" id="eS6-Jq-GvZ"/>
+                            <constraint firstItem="L2J-w9-lFQ" firstAttribute="top" secondItem="7Az-gx-yGL" secondAttribute="bottom" constant="8" symbolic="YES" id="ecc-mo-zqp"/>
                             <constraint firstItem="JQw-9h-UpN" firstAttribute="leading" secondItem="Kcg-vn-Dwj" secondAttribute="leading" id="etb-Fc-rhQ"/>
                             <constraint firstItem="fYl-Tw-kcO" firstAttribute="leading" secondItem="B07-UG-KXb" secondAttribute="trailing" constant="8" symbolic="YES" id="f4G-5z-TRd"/>
                             <constraint firstItem="T2k-ya-69N" firstAttribute="centerY" secondItem="cMm-a9-mcN" secondAttribute="centerY" id="fgE-pX-PaK"/>
                             <constraint firstItem="gl0-rI-S66" firstAttribute="trailing" secondItem="dmd-5j-kY7" secondAttribute="trailing" id="hOS-9W-dXD"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="trailing" secondItem="Vrr-sG-fOD" secondAttribute="trailing" id="hTm-Ni-1JP"/>
+                            <constraint firstItem="BAc-kR-eMo" firstAttribute="top" secondItem="L2J-w9-lFQ" secondAttribute="bottom" constant="20" symbolic="YES" id="hte-q3-w1v"/>
                             <constraint firstItem="Vrr-sG-fOD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="iUt-eQ-y1G"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="top" secondItem="cMm-a9-mcN" secondAttribute="bottom" constant="8" symbolic="YES" id="igi-Sh-eKk"/>
                             <constraint firstItem="GnH-BV-JGa" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="iva-Gv-xfl"/>
@@ -3917,11 +3916,13 @@ Olena Hlushcneko</string>
                             <constraint firstItem="DQU-Se-i0R" firstAttribute="leading" secondItem="bEN-ep-bl6" secondAttribute="trailing" constant="25" id="qR4-bx-Yvu"/>
                             <constraint firstItem="xZA-pB-1nm" firstAttribute="leading" secondItem="UiV-vt-WHK" secondAttribute="trailing" constant="25" id="rIl-Ed-uYN"/>
                             <constraint firstAttribute="trailing" secondItem="fYl-Tw-kcO" secondAttribute="trailing" constant="35" id="rb6-2g-dvg"/>
+                            <constraint firstItem="7Az-gx-yGL" firstAttribute="top" secondItem="B07-UG-KXb" secondAttribute="bottom" constant="10" symbolic="YES" id="t7Z-Fy-QdR"/>
                             <constraint firstItem="DQU-Se-i0R" firstAttribute="leading" secondItem="T2k-ya-69N" secondAttribute="leading" id="tbH-DJ-3Mt"/>
                             <constraint firstItem="2ZF-VY-6Ij" firstAttribute="top" secondItem="3el-ze-TIn" secondAttribute="bottom" constant="20" id="uQn-Tx-nFn"/>
                             <constraint firstItem="JQw-9h-UpN" firstAttribute="top" secondItem="Kcg-vn-Dwj" secondAttribute="bottom" constant="6" symbolic="YES" id="v0j-1M-zVw"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="vH1-tR-yNz"/>
                             <constraint firstItem="rmv-ik-PYa" firstAttribute="centerY" secondItem="B07-UG-KXb" secondAttribute="centerY" id="xg5-Ka-fyG"/>
+                            <constraint firstItem="GnH-BV-JGa" firstAttribute="trailing" secondItem="QvM-a9-vnf" secondAttribute="trailing" id="yef-tJ-6pg"/>
                             <constraint firstItem="mLR-t7-nz0" firstAttribute="trailing" secondItem="XOm-C4-sCs" secondAttribute="trailing" id="zc0-G9-yAY"/>
                         </constraints>
                     </view>
@@ -3930,6 +3931,7 @@ Olena Hlushcneko</string>
                         <outlet property="clickableLinks" destination="mLR-t7-nz0" id="Obm-sY-z1U"/>
                         <outlet property="codeBlockHighlight" destination="Kcg-vn-Dwj" id="7yz-yx-8Tu"/>
                         <outlet property="codeFont" destination="B07-UG-KXb" id="3G7-e5-Ckw"/>
+                        <outlet property="fontPreview" destination="7Az-gx-yGL" id="Glc-ZA-s8C"/>
                         <outlet property="highlightIndentedCodeBlocks" destination="JQw-9h-UpN" id="ogm-Wb-2dv"/>
                         <outlet property="imagesWidth" destination="dmd-5j-kY7" id="cti-S4-1DA"/>
                         <outlet property="inEditorFocus" destination="cj1-ab-Sv6" id="KG5-A9-BXB"/>
@@ -3945,7 +3947,7 @@ Olena Hlushcneko</string>
                 </viewController>
                 <customObject id="bsT-UP-VdO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1844" y="628"/>
+            <point key="canvasLocation" x="1853" y="682"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="ixM-Cu-fRC">
