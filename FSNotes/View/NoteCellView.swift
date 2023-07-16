@@ -37,14 +37,6 @@ class NoteCellView: NSTableCellView {
         }
     }
 
-    override func viewWillDraw() {
-        if let originY = UserDefaultsManagement.cellViewFrameOriginY {
-            adjustTopMargin(margin: originY)
-        }
-
-        super.viewWillDraw()
-    }
-    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
@@ -76,15 +68,9 @@ class NoteCellView: NSTableCellView {
         applyPreviewStyle()
         applyTextColors()
 
-        var margin = 0
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages{
-
             self.note?.loadPreviewInfo()
-
-            margin = self.note?.imageUrl?.count ?? 0 > 0 ? 58 : 0
         }
-        
-        pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing) + CGFloat(margin)
     }
 
     public func configure(note: Note) {
@@ -183,6 +169,14 @@ class NoteCellView: NSTableCellView {
             return super.backgroundStyle;
         }
     }
+
+    public func isSelected() -> Bool {
+        if let rowView = self.superview as? NSTableRowView, rowView.isSelected, window?.firstResponder == superview?.superview {
+            return true
+        }
+
+        return false
+    }
     
     public func applyTextColors() {
         if let rowView = self.superview as? NSTableRowView, rowView.isSelected {
@@ -224,21 +218,44 @@ class NoteCellView: NSTableCellView {
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
             if note.isPublished() {
-                pin.image = NSImage(named: "web")
+                if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: "globe", accessibilityDescription: nil) {
+                    var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+                    let color = isSelected() ? NSColor.white : .controlAccentColor
+                    config = config.applying(.init(paletteColors: [color]))
+                    pin.image = image.withSymbolConfiguration(config)
+                } else {
+                    pin.image = NSImage(named: "web")
+                    pin.image?.size = NSSize(width: 14, height: 14)
+                }
+
                 pin.isHidden = false
-                pin.image?.size = NSSize(width: 14, height: 14)
             } else if note.isEncrypted() {
-                let name = note.isUnlocked() ? "lock-open" : "lock-closed"
-                pin.image = NSImage(named: name)
+                let systemName = note.isUnlocked() ? "lock.open" : "lock"
+                if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: systemName, accessibilityDescription: nil) {
+                    var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+                    let color = isSelected() ? NSColor.white : .controlAccentColor
+                    config = config.applying(.init(paletteColors: [color]))
+                    pin.image = image.withSymbolConfiguration(config)
+                } else {
+                    let name = note.isUnlocked() ? "lock-open" : "lock-closed"
+                    pin.image = NSImage(named: name)
+                    pin.image?.size = NSSize(width: 14, height: 14)
+                }
                 pin.isHidden = false
-                pin.image?.size = NSSize(width: 14, height: 14)
             } else {
-                pin.image = NSImage(named: "pin")
+                if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: "pin", accessibilityDescription: nil) {
+                    var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+                    let color = isSelected() ? NSColor.white : .controlAccentColor
+                    config = config.applying(.init(paletteColors: [color]))
+                    pin.image = image.withSymbolConfiguration(config)
+                } else {
+                    pin.image = NSImage(named: "pin")
+                    pin.image?.size = NSSize(width: 14, height: 14)
+                }
+
                 pin.isHidden = !note.isPinned
             }
         }
-
-        adjustPinPosition()
     }
 
     public func styleImageView(imageView: ImageView) {

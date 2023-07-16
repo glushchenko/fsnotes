@@ -30,6 +30,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         "note.history"
     ]
 
+    private var selectedHistory: IndexSet?
+
     override func draw(_ dirtyRect: NSRect) {
         allowsTypeSelect = false
         self.gridColor = NSColor.clear
@@ -59,6 +61,28 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return true
+    }
+
+    override func becomeFirstResponder() -> Bool {
+        DispatchQueue.main.async {
+            let selectedRowIndexes = self.selectedRowIndexes
+            for i in selectedRowIndexes {
+                self.renderPinFor(row: i)
+            }
+        }
+
+        return super.becomeFirstResponder()
+    }
+
+    override func resignFirstResponder() -> Bool {
+        DispatchQueue.main.async {
+            let selectedRowIndexes = self.selectedRowIndexes
+            for i in selectedRowIndexes {
+                self.renderPinFor(row: i)
+            }
+        }
+
+        return super.resignFirstResponder()
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -146,10 +170,32 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         // Title + preview
         return height
     }
+
+    func renderPinFor(row: NSInteger) {
+        if row < 0 {
+            return
+        }
+
+        if let row = self.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
+            cell.renderPin()
+        }
+    }
     
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
+        if let history = selectedHistory {
+            let selectedRowIndexes = selectedRowIndexes
+            for i in history {
+                if !selectedRowIndexes.contains(i) {
+                    renderPinFor(row: i)
+                }
+            }
+        }
+
+        selectedHistory = selectedRowIndexes
+
         let vc = self.window?.contentViewController as! ViewController
+        renderPinFor(row: selectedRow)
 
         if vc.editAreaScroll.isFindBarVisible {
             let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
