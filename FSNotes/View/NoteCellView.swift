@@ -220,7 +220,8 @@ class NoteCellView: NSTableCellView {
             if note.isPublished() {
                 if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: "globe", accessibilityDescription: nil) {
                     var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
-                    let color = isSelected() ? NSColor.white : .controlAccentColor
+                    let accentColor = UserDefaults.standard.value(forKey: "AppleAccentColor") != nil ? .controlAccentColor : NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
+                    let color = isSelected() ? NSColor.white : accentColor
                     config = config.applying(.init(paletteColors: [color]))
                     pin.image = image.withSymbolConfiguration(config)
                 } else {
@@ -233,7 +234,8 @@ class NoteCellView: NSTableCellView {
                 let systemName = note.isUnlocked() ? "lock.open" : "lock"
                 if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: systemName, accessibilityDescription: nil) {
                     var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
-                    let color = isSelected() ? NSColor.white : .controlAccentColor
+                    let accentColor = UserDefaults.standard.value(forKey: "AppleAccentColor") != nil ? .controlAccentColor : NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
+                    let color = isSelected() ? NSColor.white : accentColor
                     config = config.applying(.init(paletteColors: [color]))
                     pin.image = image.withSymbolConfiguration(config)
                 } else {
@@ -245,7 +247,8 @@ class NoteCellView: NSTableCellView {
             } else {
                 if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: "pin", accessibilityDescription: nil) {
                     var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
-                    let color = isSelected() ? NSColor.white : .controlAccentColor
+                    let accentColor = UserDefaults.standard.value(forKey: "AppleAccentColor") != nil ? .controlAccentColor : NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
+                    let color = isSelected() ? NSColor.white : accentColor
                     config = config.applying(.init(paletteColors: [color]))
                     pin.image = image.withSymbolConfiguration(config)
                 } else {

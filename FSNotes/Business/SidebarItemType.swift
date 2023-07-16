@@ -54,7 +54,7 @@ enum SidebarItemType: Int {
         } else if white && !NSAppearance.current.isDark {
             return image?.tint(color: .white)
         } else {
-            return image?.tint(color: NSColor(red: 0.00, green: 0.57, blue: 1.00, alpha: 1.00))
+            return image?.tint(color: NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00))
         }
     }
 #else

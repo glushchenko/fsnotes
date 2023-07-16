@@ -42,7 +42,7 @@ class SidebarHeaderCellView: NSTableCellView {
 
         } else {
             label.textColor = .gray
-            rowView.backgroundColor = NSColor(named: "background_not_selected")!
+            rowView.backgroundColor = .clear
         }
     }
 
