@@ -121,6 +121,7 @@ extension NSMutableAttributedString {
 
                 let color = UserDataService.instance.isDark ? NSColor.white : NSColor.black
                 addAttribute(.strikethroughColor, value: color, range: parRange)
+                addAttribute(.strikethroughStyle, value: 1, range: parRange)
 
                 replaceCharacters(in: range, with: checked)
             }
