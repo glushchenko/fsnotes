@@ -666,36 +666,46 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func readSelection(from pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
-        guard let note = self.note else { return false }
-        
-        if note.type == .RichText {
-            return super.readSelection(from: pboard, type: type)
-        }
-
-        if var data = pboard.data(forType: type) {
-            var ext = "pdf"
-
-            if !data.isPDF {
-                ext = "jpg"
+        if let note = self.note, var data = pboard.data(forType: type) {
+            if type == .tiff || type == .png {
+                var ext = "jpg"
                 let image = NSImage(data: data)
+                
                 if let imageData = image?.jpgData {
                     data = imageData
+                    
+                    textStorageProcessor?.shouldForceRescan = true
+                    saveClipboard(data: data, note: note, ext: ext)
+                    saveTextStorageContent(to: note)
+                    note.save()
+                    
+                    if let container = textContainer {
+                        textStorage?.sizeAttachmentImages(container: container)
+                    }
+                    
+                    return true
                 }
+                
+                return false
             }
-
-            textStorageProcessor?.shouldForceRescan = true
-            saveClipboard(data: data, note: note, ext: ext)
-            saveTextStorageContent(to: note)
-            note.save()
-
-            if let container = textContainer {
-                textStorage?.sizeAttachmentImages(container: container)
+            
+            if data.isPDF {
+                var ext = "pdf"
+                
+                textStorageProcessor?.shouldForceRescan = true
+                saveClipboard(data: data, note: note, ext: ext)
+                saveTextStorageContent(to: note)
+                note.save()
+                
+                if let container = textContainer {
+                    textStorage?.sizeAttachmentImages(container: container)
+                }
+                
+                return true
             }
-
-            return true
         }
 
-        return false
+        return super.readSelection(from: pboard, type: type)
     }
 
     override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
