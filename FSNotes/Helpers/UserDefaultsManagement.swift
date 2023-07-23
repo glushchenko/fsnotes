@@ -1040,18 +1040,6 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var savePasswordInKeychain: Bool {
-        get {
-            if let result = shared?.object(forKey: Constants.SaveInKeychain) as? Bool {
-                return result
-            }
-            return true
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.SaveInKeychain)
-        }
-    }
-
     static var hideDate: Bool {
         get {
             if let result = shared?.object(forKey: Constants.HideDate) as? Bool {

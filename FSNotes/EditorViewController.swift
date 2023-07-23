@@ -101,10 +101,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     }
                 }
 
-                if success && isTypedByUser {
-                    self.save(password: password)
-                }
-
                 DispatchQueue.main.async {
                     ViewController.shared()?.notesTableView.reloadRow(note: note)
                 }
@@ -661,10 +657,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                         DispatchQueue.main.async {
                             self.reloadAllOpenedWindows(note: note)
                         }
-
-                        if isTypedByUser {
-                            self.save(password: password)
-                        }
                     }
                 }
                 
@@ -743,25 +735,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             }
 
             field.becomeFirstResponder()
-        }
-    }
-
-    private func save(password: String) {
-        guard password.count > 0, UserDefaultsManagement.savePasswordInKeychain else { return }
-
-        let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-
-        var oldPassword = String()
-        do {
-            oldPassword = try item.readPassword()
-        } catch {/*_*/}
-
-        do {
-            guard oldPassword.count == 0 else { return }
-
-            try item.savePassword(password)
-        } catch {
-            print("Master password saving error: \(error)")
         }
     }
 

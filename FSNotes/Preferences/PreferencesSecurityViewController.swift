@@ -15,7 +15,6 @@ class PreferencesSecurityViewController: NSViewController {
     @IBOutlet weak var lockOnScreenActivated: NSButton!
     @IBOutlet weak var lockWhenFastUser: NSButton!
     @IBOutlet weak var allowTouchID: NSButton!
-    @IBOutlet weak var saveInKeychain: NSButton!
     @IBOutlet weak var masterPassword: NSButton!
 
     override func viewDidLoad() {
@@ -23,7 +22,6 @@ class PreferencesSecurityViewController: NSViewController {
         lockOnScreenActivated.state = UserDefaultsManagement.lockOnSleep ? .on : .off
         lockWhenFastUser.state = UserDefaultsManagement.lockOnUserSwitch ? .on : .off
         allowTouchID.state = UserDefaultsManagement.allowTouchID ? .on : .off
-        saveInKeychain.state = UserDefaultsManagement.savePasswordInKeychain ? .on : .off
         masterPassword.isEnabled = UserDefaultsManagement.allowTouchID
 
         if #available(OSX 10.12.2, *), UserDefaultsManagement.allowTouchID {
@@ -69,16 +67,10 @@ class PreferencesSecurityViewController: NSViewController {
         masterPassword.isEnabled = UserDefaultsManagement.allowTouchID
     }
 
-    @IBAction func saveInKeychain(_ sender: NSButton) {
-        UserDefaultsManagement.savePasswordInKeychain = (sender.state == .on)
-    }
-
     private func disableTouchID() {
         masterPassword.isEnabled = false
         allowTouchID.isEnabled = false
         allowTouchID.state = .off
-        saveInKeychain.isEnabled = false
-        saveInKeychain.state = .off
     }
 
 }
