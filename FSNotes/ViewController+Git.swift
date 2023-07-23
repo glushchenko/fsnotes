@@ -67,6 +67,8 @@ extension EditorViewController {
 
             do {
                 try note.getGitProject()?.saveRevision(commitMessage: commitMessage)
+            } catch GitError.noAddedFiles {
+                // pass
             } catch {
                 var message = String()
                 if let error = error as? GitError {
