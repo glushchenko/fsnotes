@@ -1129,6 +1129,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
     }
     
+    public func lockEncryptedView() {
+        textStorage?.setAttributedString(NSAttributedString())
+        markdownView?.removeFromSuperview()
+        markdownView = nil
+
+        isEditable = false
+        
+        if let label = editorViewController?.vcNonSelectedLabel {
+            label.stringValue = NSLocalizedString("Locked", comment: "")
+            label.isHidden = false
+        }
+    }
+    
     public func clear() {
         textStorage?.setAttributedString(NSAttributedString())
         markdownView?.removeFromSuperview()

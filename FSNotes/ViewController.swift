@@ -1352,8 +1352,19 @@ class ViewController: EditorViewController,
         let projects = storage.getProjects().filter({ $0.isEncrypted && !$0.isLocked() })
         sidebarOutlineView.lock(projects: projects)
         
-        let isUnlocked = editor.note?.isUnlocked() ?? false
+        let editors = AppDelegate.getEditTextViews()
+        var unlockedEditors = [EditTextView]()
         
+        for editor in editors {
+            if let note = editor.note, note.isUnlocked() {
+                unlockedEditors.append(editor)
+            }
+        }
+        
+        for editor in unlockedEditors {
+            editor.lockEncryptedView()
+        }
+    
         let notes = storage.noteList.filter({ $0.isUnlocked() })
         for note in notes {
             if note.lock() {
@@ -1362,10 +1373,7 @@ class ViewController: EditorViewController,
             }
         }
         
-        if isUnlocked {
-            editor.clear()
-            NSApp.mainWindow?.makeFirstResponder(notesTableView)
-        }
+        NSApp.mainWindow?.makeFirstResponder(notesTableView)
     }
         
     @available(macOS 10.14, *)
