@@ -1111,7 +1111,9 @@ class SidebarOutlineView: NSOutlineView,
             vc.editor.clear()
         }
         
-        reloadData(forRowIndexes: selectedRowIndexes, columnIndexes: [0])
+        for project in projects {
+            reloadItem(project)
+        }
         
         // Lock all editors
         let editors = AppDelegate.getEditTextViews()
