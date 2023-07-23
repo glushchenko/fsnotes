@@ -9,7 +9,7 @@
 import Cocoa
 import Shout
 
-class PreferencesWebViewController: NSViewController {
+class PreferencesWebViewController: NSViewController, NSTextFieldDelegate {
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 512)
@@ -37,6 +37,14 @@ class PreferencesWebViewController: NSViewController {
         if !UserDefaultsManagement.customWebServer {
             toggleState(state: false)
         }
+        
+        username.delegate = self
+        port.delegate = self
+        path.delegate = self
+        web.delegate = self
+        username.delegate = self
+        password.delegate = self
+        passphrase.delegate = self
     }
 
     
@@ -197,6 +205,10 @@ class PreferencesWebViewController: NSViewController {
             
             alert.alertStyle = .informational
             alert.messageText = NSLocalizedString("Connection established successfully 🤟", comment: "")
+        } catch let sshError as SSHError {
+            alert.alertStyle = .critical
+            alert.informativeText = sshError.description
+            alert.messageText = NSLocalizedString("SSH error", comment: "")
         } catch {
             alert.alertStyle = .critical
             alert.informativeText = error.localizedDescription
@@ -243,6 +255,28 @@ class PreferencesWebViewController: NSViewController {
     @IBAction func resetWebKeys(_ sender: NSButton) {
         UserDefaultsManagement.sftpAccessData = nil
         rsaPath.url = nil
+    }
+    
+    func controlTextDidChange(_ notification: Notification) {
+        guard let textField = notification.object as? NSTextField, let value = textField.identifier?.rawValue else { return }
+
+        switch value {
+        case "settingsWebHost":
+            UserDefaultsManagement.sftpHost = host.stringValue
+        case "settingsWebPort":
+            UserDefaultsManagement.sftpPort = Int32(port.stringValue) ?? 22
+        case "settingsWebPath":
+            UserDefaultsManagement.sftpPath = path.stringValue
+        case "settingsWebWeb":
+            UserDefaultsManagement.sftpWeb = web.stringValue
+        case "settingsWebUsername":
+            UserDefaultsManagement.sftpUsername = username.stringValue
+        case "settingsWebPassword":
+            UserDefaultsManagement.sftpPassword = password.stringValue
+        case "settingsWebPassphrase":
+            UserDefaultsManagement.sftpPassphrase = passphrase.stringValue
+        default: break
+        }
     }
 }
 

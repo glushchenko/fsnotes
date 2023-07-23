@@ -4588,7 +4588,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QTV-x3-Da5">
+                            <textField identifier="settingsWebHost" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QTV-x3-Da5">
                                 <rect key="frame" x="229" y="403" width="136" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="example.com" drawsBackground="YES" id="0Qp-Is-dNs">
                                     <font key="font" metaFont="system"/>
@@ -4599,7 +4599,7 @@ Olena Hlushcneko</string>
                                     <action selector="host:" target="X76-X8-PbG" id="zMJ-6q-0Zn"/>
                                 </connections>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qqs-mC-mg8">
+                            <textField identifier="settingsWebPort" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qqs-mC-mg8">
                                 <rect key="frame" x="229" y="372" width="72" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="22" drawsBackground="YES" id="uHf-35-KHR">
                                     <font key="font" metaFont="system"/>
@@ -4660,7 +4660,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XxT-6E-AmS">
+                            <textField identifier="settingsWebWeb" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XxT-6E-AmS">
                                 <rect key="frame" x="229" y="310" width="134" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="https://example.com/" drawsBackground="YES" id="mr6-e8-9hL">
                                     <font key="font" metaFont="system"/>
@@ -4679,7 +4679,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-E6-jpV">
+                            <textField identifier="settingsWebPath" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-E6-jpV">
                                 <rect key="frame" x="229" y="341" width="136" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="/var/www/example.com" drawsBackground="YES" id="bdD-JA-K8P">
                                     <font key="font" metaFont="system"/>
@@ -4690,7 +4690,7 @@ Olena Hlushcneko</string>
                                     <action selector="path:" target="X76-X8-PbG" id="R8S-gD-woK"/>
                                 </connections>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M2V-5H-D91">
+                            <textField identifier="settingsWebUsername" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M2V-5H-D91">
                                 <rect key="frame" x="229" y="231" width="136" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="hlushchenko" drawsBackground="YES" id="4gs-Bc-GHG">
                                     <font key="font" metaFont="system"/>
@@ -4717,7 +4717,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <secureTextField verticalHuggingPriority="750" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ycX-Lf-Ogr">
+                            <secureTextField identifier="settingsWebPassword" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ycX-Lf-Ogr">
                                 <rect key="frame" x="229" y="200" width="136" height="21"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="optional" drawsBackground="YES" usesSingleLineMode="YES" id="xWi-IK-gJS">
                                     <font key="font" metaFont="system"/>
@@ -4745,7 +4745,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="oHV-K7-pRq">
                                 <rect key="frame" x="20" y="73" width="418" height="5"/>
                             </box>
-                            <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XUd-k8-fNm">
+                            <secureTextField identifier="settingsWebPassphrase" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XUd-k8-fNm">
                                 <rect key="frame" x="229" y="91" width="136" height="22"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="optional" drawsBackground="YES" usesSingleLineMode="YES" id="wa2-sX-NOx">
                                     <font key="font" metaFont="system"/>
