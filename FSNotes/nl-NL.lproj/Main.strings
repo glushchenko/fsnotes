@@ -1054,9 +1054,6 @@
 /* Class = "NSMenuItem"; title = "Hide/Show Note List"; ObjectID = "WHt-T4-l9c"; */
 "WHt-T4-l9c.title" = "Verbergen/tonen notitielijst";
 
-/* Class = "NSButtonCell"; title = "Save Master Password in Keychain"; ObjectID = "wM5-nS-jjt"; */
-"wM5-nS-jjt.title" = "Sla het hoofdwachtwoord op in de sleutelhanger";
-
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "Help";
 

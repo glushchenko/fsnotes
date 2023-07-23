@@ -37,6 +37,10 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     public var lastSnapshot: Int = 0
     public var pullTimer = Timer()
     
+    public var encPassword: NSSecureTextField?
+    public var encVerifyPassword: NSSecureTextField?
+    public var encCompletionHandler: ((String) -> Void)?
+    
     public func initView() {
         vcEditor?.delegate = self
     }
@@ -62,47 +66,48 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     // MARK: Window bar actions
     
     @IBAction func toggleNotesLock(_ sender: Any) {
-        guard var notes = getSelectedNotes() else { return }
+        guard let notes = getSelectedNotes(), let first = notes.first else { return }
         
-        notes = lockUnlocked(notes: notes)
-        guard notes.count > 0 else { return }
-
-        getMasterPassword() { password, isTypedByUser in
-            guard password.count > 0 else { return }
-
-            for note in notes {
-                var success = false
-
-                if note.container == .encryptedTextPack {
-                    success = note.unLock(password: password)
-                    if success {
-                        if notes.count == 0x01 {
-                            note.password = password
-                            DispatchQueue.main.async {
-                                self.reloadAllOpenedWindows(note: note)
-                            }
-                        }
-
-                        let insertTags = note.scanContentTags().0
-                        DispatchQueue.main.async {
-                            ViewController.shared()?.sidebarOutlineView?.addTags(insertTags)
-                        }
-                    }
-                } else {
-                    success = note.encrypt(password: password)
-                    if success {
-                        note.password = nil
-
-                        DispatchQueue.main.async {
-                            self.reloadAllOpenedWindows(note: note)
-                            
-                            ViewController.shared()?.focusTable()
-                        }
+        // Lock unlocked
+        if first.isUnlocked() {
+            _ = lockUnlocked(notes: notes)
+            return
+        }
+        
+        // Unlock encrypted
+        if first.container == .encryptedTextPack {
+            getMasterPassword() { password in
+                guard password.count > 0 else { return }
+                
+                for note in notes {
+                    guard note.isEncryptedAndLocked(), note.unLock(password: password) else { continue }
+                    
+                    let insertTags = note.scanContentTags().0
+                    
+                    DispatchQueue.main.async {
+                        self.reloadAllOpenedWindows(note: note)
+                        
+                        ViewController.shared()?.sidebarOutlineView?.addTags(insertTags)
+                        ViewController.shared()?.notesTableView.reloadRow(note: note)
                     }
                 }
-
-                DispatchQueue.main.async {
-                    ViewController.shared()?.notesTableView.reloadRow(note: note)
+            }
+            
+            return
+        }
+        
+        // Encrypt plain
+        getMasterPassword(forEncrypt: true) { password in
+            for note in notes {
+                if !note.isEncrypted(), note.encrypt(password: password) {
+                    note.password = nil
+                    
+                    DispatchQueue.main.async {
+                        self.reloadAllOpenedWindows(note: note)
+                        
+                        ViewController.shared()?.focusTable()
+                        ViewController.shared()?.notesTableView.reloadRow(note: note)
+                    }
                 }
             }
         }
@@ -262,7 +267,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         guard notes.count > 0 else { return }
 
         UserDataService.instance.fsUpdatesDisabled = true
-        getMasterPassword() { password, isTypedByUser in
+        getMasterPassword() { password in
             for note in notes {
                 if note.container == .encryptedTextPack {
                     let success = note.unEncrypt(password: password)
@@ -637,7 +642,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     }
     
     public func unLock(notes: [Note]) {
-        getMasterPassword() { password, isTypedByUser in
+        getMasterPassword() { password in
             guard password.count > 0 else { return }
 
             var i = 0
@@ -677,20 +682,28 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
     }
 
-    public func getMasterPassword(completion: @escaping (String, Bool) -> ()) {
+    public func getMasterPassword(forEncrypt: Bool = false, completion: @escaping (String) -> ()) {
         if #available(OSX 10.12.2, *), UserDefaultsManagement.allowTouchID {
             let context = LAContext()
             context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
 
             guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
-                masterPasswordPrompt(completion: completion)
+                masterPasswordPrompt(validation: forEncrypt, completion: completion)
                 return
             }
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To access secure data") { (success, evaluateError) in
                 
+                // Skip if cancelled
+                if let error = evaluateError as NSError? {
+                    if error.code == LAError.userCancel.rawValue || error.code == LAError.appCancel.rawValue {
+                        return
+                    }
+                }
+                
+                // Press enter password or failed TouchID
                 if !success {
-                    self.masterPasswordPrompt(completion: completion)
+                    self.masterPasswordPrompt(validation: forEncrypt, completion: completion)
 
                     return
                 }
@@ -699,36 +712,139 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
                     let password = try item.readPassword()
 
-                    completion(password, false)
+                    completion(password)
                     return
                 } catch {
-                    print(error)
+                    print("Keychain error: \(error.localizedDescription)")
                 }
 
-                self.masterPasswordPrompt(completion: completion)
+                // No password in keychain
+                self.masterPasswordPrompt(validation: forEncrypt, completion: completion)
             }
         } else {
-            masterPasswordPrompt(completion: completion)
+            
+            // Bio is not available or disabled
+            masterPasswordPrompt(validation: forEncrypt, completion: completion)
         }
     }
     
-    private func masterPasswordPrompt(completion: @escaping (String, Bool) -> ()) {
+    @IBAction func onOkClick(_ sender: Any?) {
+        guard
+            let passwordField = encPassword,
+            let verifyPasswordField = encVerifyPassword,
+            let window = self.view.window
+        else { return }
+        
+        if passwordField.stringValue.count == 0 {
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.informativeText = NSLocalizedString("Please try again", comment: "")
+            alert.messageText = NSLocalizedString("Empty password", comment: "")
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in }
+            return
+        }
+        
+        if passwordField.stringValue != verifyPasswordField.stringValue {
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.informativeText = NSLocalizedString("Please try again", comment: "")
+            alert.messageText = NSLocalizedString("Wrong repeated password", comment: "")
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in }
+            return
+        }
+        
+        if let encCompletionHandler = encCompletionHandler {
+            encCompletionHandler(passwordField.stringValue)
+        }
+        
+        self.alert?.window.close()
+    }
+    
+    private func masterPasswordPrompt(validation: Bool = false, completion: @escaping (String) -> ()) {
         DispatchQueue.main.async {
             guard let window = self.view.window else { return }
 
             self.alert = NSAlert()
             guard let alert = self.alert else { return }
+            alert.alertStyle = .informational
+        
+            if validation {
+                alert.messageText = NSLocalizedString("Enter an encryption password:", comment: "")
+                
+                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+                
+                alert.buttons[0].target = self
+                alert.buttons[0].action = #selector(self.onOkClick(_:))
 
+                // Create the NSTextFields and labels
+                let newPasswordLabel = NSTextField(labelWithString: NSLocalizedString("Password:", comment: ""))
+                let newPasswordField = NSSecureTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
+                let repeatPasswordLabel = NSTextField(labelWithString: NSLocalizedString("Verify Password:", comment: ""))
+                let repeatPasswordField = NSSecureTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
+                
+                self.encPassword = newPasswordField
+                self.encVerifyPassword = repeatPasswordField
+                self.encCompletionHandler = completion
+                
+                newPasswordLabel.alignment = .right
+                repeatPasswordLabel.alignment = .right
+
+                // Add the labels and text fields to a custom view
+                let containerView = NSView(frame: NSRect(x: 0, y: 0, width: 400, height: 60))
+                containerView.translatesAutoresizingMaskIntoConstraints = false
+
+                newPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
+                newPasswordField.translatesAutoresizingMaskIntoConstraints = false
+                repeatPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
+                repeatPasswordField.translatesAutoresizingMaskIntoConstraints = false
+
+                containerView.addSubview(newPasswordLabel)
+                containerView.addSubview(newPasswordField)
+                containerView.addSubview(repeatPasswordLabel)
+                containerView.addSubview(repeatPasswordField)
+
+                // Set the custom view as the accessory view for the NSAlert
+                alert.accessoryView = containerView
+
+                // Define constraints
+                NSLayoutConstraint.activate([
+                    newPasswordLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+                    newPasswordLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+                    newPasswordField.leadingAnchor.constraint(equalTo: newPasswordLabel.trailingAnchor, constant: 8),
+                    newPasswordField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
+                    newPasswordField.widthAnchor.constraint(equalToConstant: 200),
+                    newPasswordField.centerYAnchor.constraint(equalTo: newPasswordLabel.centerYAnchor),
+
+                    repeatPasswordLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+                    repeatPasswordLabel.topAnchor.constraint(equalTo: newPasswordLabel.bottomAnchor, constant: 8),
+                    repeatPasswordField.leadingAnchor.constraint(equalTo: repeatPasswordLabel.trailingAnchor, constant: 8),
+                    repeatPasswordField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
+                    repeatPasswordField.widthAnchor.constraint(equalToConstant: 200),
+                    repeatPasswordField.centerYAnchor.constraint(equalTo: repeatPasswordLabel.centerYAnchor),
+
+                    containerView.widthAnchor.constraint(equalToConstant: 400),
+                    containerView.heightAnchor.constraint(equalToConstant: 60),
+                ])
+
+                // Show the NSAlert
+                alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+                    self.alert = nil
+                }
+
+                newPasswordField.becomeFirstResponder()
+                return
+            }
+            
             let field = NSSecureTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+            alert.accessoryView = field
             alert.messageText = NSLocalizedString("Master password:", comment: "")
             alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")
-            alert.accessoryView = field
-            alert.alertStyle = .informational
             alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
             alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                    completion(field.stringValue, true)
+                    completion(field.stringValue)
                 }
 
                 self.alert = nil

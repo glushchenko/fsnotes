@@ -110,6 +110,9 @@
 "Encrypt" = "Encrypt";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "Voer een coderingswachtwoord in:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Voer Hoofdwachtwoord in";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+
+/* No comment provided by engineer. */
+"Password:" = "Wachtwoord:";
 
 /* No comment provided by engineer. */
 "Path not available" = "Pad niet beschikbaar";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL is gekopieerd naar klembord";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "Wachtwoord verifiëren:";
 
 /* Menu */
 "View" = "Weergave";

@@ -110,6 +110,9 @@
 "Encrypt" = "加密";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "输入加密密码:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "输入管理员密码";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "否则，您的笔记数据库将在以下位置可用：";
+
+/* No comment provided by engineer. */
+"Password:" = "密码:";
 
 /* No comment provided by engineer. */
 "Path not available" = "路径不可用";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL已复制到剪贴板";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "验证密码:";
 
 /* Menu */
 "View" = "视图";

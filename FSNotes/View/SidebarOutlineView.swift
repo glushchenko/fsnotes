@@ -1022,10 +1022,12 @@ class SidebarOutlineView: NSOutlineView,
         
         guard let firstProject = projects.first  else { return }
         
-        vc.getMasterPassword() { password, _ in
-            if firstProject.isEncrypted {
+        if firstProject.isEncrypted {
+            vc.getMasterPassword() { password in
                 self.decrypt(projects: projects, password: password)
-            } else {
+            }
+        } else {
+            vc.getMasterPassword(forEncrypt: true) { password in
                 self.encrypt(projects: projects, password: password)
             }
         }
@@ -1037,14 +1039,14 @@ class SidebarOutlineView: NSOutlineView,
         
         guard let firstProject = projects.first  else { return }
         
-        // Lock
+        // Lock password exist
         if firstProject.password != nil {
             lock(projects: projects)
             
         // Unlock
         } else {
             let action = sender.identifier?.rawValue
-            vc.getMasterPassword() { password, _ in
+            vc.getMasterPassword() { password in
                 self.unlock(projects: projects, password: password, action: action)
             }
         }

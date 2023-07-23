@@ -1829,8 +1829,9 @@ public class Note: NSObject  {
 
             load(tags: false)
             loadTitle()
-            
             invalidateCache()
+            
+            self.password = password
 
             return true
         } catch {

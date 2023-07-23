@@ -21,10 +21,13 @@ class PreferencesSecurityViewController: NSViewController {
         lockOnSleep.state = UserDefaultsManagement.lockOnSleep ? .on : .off
         lockOnScreenActivated.state = UserDefaultsManagement.lockOnSleep ? .on : .off
         lockWhenFastUser.state = UserDefaultsManagement.lockOnUserSwitch ? .on : .off
+        
         allowTouchID.state = UserDefaultsManagement.allowTouchID ? .on : .off
+        allowTouchID.isEnabled = true
+        
         masterPassword.isEnabled = UserDefaultsManagement.allowTouchID
-
-        if #available(OSX 10.12.2, *), UserDefaultsManagement.allowTouchID {
+        
+        if #available(OSX 10.12.2, *) {
             let context = LAContext()
             if !context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
                 disableTouchID()

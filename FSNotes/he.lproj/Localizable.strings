@@ -110,6 +110,9 @@
 "Encrypt" = "הצפין";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "הזן סיסמת הצפנה:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "הכנס סיסמה ראשית";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "אחרת, אחסון פתקיך יהיה נגיש ב:";
+
+/* No comment provided by engineer. */
+"Password:" = "סיסמה:";
 
 /* No comment provided by engineer. */
 "Path not available" = "הנתיב אינו זמין";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "הכתובת הועתקה";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "אמת את הסיסמה:";
 
 /* Menu */
 "View" = "תצוגה";

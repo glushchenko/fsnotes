@@ -110,6 +110,9 @@
 "Encrypt" = "تشفير";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "أدخل كلمة مرور تشفير:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "ادخل كلمة المرور الاساسية";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "وإلا، ستكون قاعدة بيانات الملاحظات متوفرة على: ";
+
+/* No comment provided by engineer. */
+"Password:" = "كلمة المرور:";
 
 /* No comment provided by engineer. */
 "Path not available" = "المسار غير متوفر";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "تم نسخ الرابط";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "اكد كلمة المرور:";
 
 /* Menu */
 "View" = "عرض";

@@ -1054,9 +1054,6 @@
 /* Class = "NSMenuItem"; title = "Hide/Show Note List"; ObjectID = "WHt-T4-l9c"; */
 "WHt-T4-l9c.title" = "Спрятать/показать список заметок";
 
-/* Class = "NSButtonCell"; title = "Save Master Password in Keychain"; ObjectID = "wM5-nS-jjt"; */
-"wM5-nS-jjt.title" = "Хранить мастер пароль в связке";
-
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "Помощь";
 
@@ -1111,7 +1108,7 @@
 /* Class = "NSSecureTextFieldCell"; placeholderString = "optional"; ObjectID = "xWi-IK-gJS"; */
 "xWi-IK-gJS.placeholderString" = "необязательный";
 
-/* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
+/* Class = "NSButtonCell"; title = "Code block live highlighting"; ObjectID = "xX0-9b-KDq"; */
 "xX0-9b-KDq.title" = "Живая подсветка кода (необходим перезапуск)";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "xxB-ic-LFu"; */

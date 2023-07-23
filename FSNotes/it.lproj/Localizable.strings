@@ -110,6 +110,9 @@
 "Encrypt" = "Crittografa";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "Inserire una password di crittografia:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Inserisci la Master Password";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Altrimenti, il database delle tue note sarà disponibile su: ";
+
+/* No comment provided by engineer. */
+"Password:" = "Password:";
 
 /* No comment provided by engineer. */
 "Path not available" = "Percorso non disponibile";
@@ -366,6 +372,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "L'URL è stato copiato negli appunti";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "Verifica password:";
 
 /* Menu */
 "View" = "Vista";

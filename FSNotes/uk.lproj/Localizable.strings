@@ -110,6 +110,9 @@
 "Encrypt" = "Зашифрувати";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "Введіть пароль шифрування:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Введіть мастер пароль";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Інакше база даних ваших нотаток буде доступна за адресою: ";
+
+/* No comment provided by engineer. */
+"Password:" = "Пароль:";
 
 /* No comment provided by engineer. */
 "Path not available" = "Шлях недоступний";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "Посилання було скопійовано в буфер обміну";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "Підтвердіть пароль:";
 
 /* Menu */
 "View" = "Вид";

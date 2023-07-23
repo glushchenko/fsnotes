@@ -758,7 +758,7 @@ class ViewController: EditorViewController,
         
         // Encrypted and locked
         if project.isEncrypted && project.isLocked() {
-            getMasterPassword() { password, _ in
+            getMasterPassword() { password in
                 self.sidebarOutlineView.unlock(projects: [project], password: password)
                 if project.password != nil {
                     self.move(notes: notes, project: project)

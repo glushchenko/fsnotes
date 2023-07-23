@@ -110,6 +110,9 @@
 "Encrypt" = "암호화";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "암호화 비밀번호를 입력하세요:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "마스터 암호 입력";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "그렇지 않으면 메모 데이터베이스를 다음에서 사용할 수 있습니다.";
+
+/* No comment provided by engineer. */
+"Password:" = "비밀번호:";
 
 /* No comment provided by engineer. */
 "Path not available" = "경로를 사용할 수 없음";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL이 클립보드에 복사되었습니다";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "비밀번호 확인:";
 
 /* Menu */
 "View" = "보기";

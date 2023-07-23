@@ -110,6 +110,9 @@
 "Encrypt" = "Verschlüsseln";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "Geben Sie ein Verschlüsselungspasswort ein:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Geben Sie das Master Passwort ein";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+
+/* No comment provided by engineer. */
+"Password:" = "Passwort:";
 
 /* No comment provided by engineer. */
 "Path not available" = "Path not available";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL wurde in die Zwischenablage kopiert";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "Passwort bestätigen:";
 
 /* Menu */
 "View" = "Ansicht";

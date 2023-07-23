@@ -110,6 +110,9 @@
 "Encrypt" = "暗号化する";
 
 /* No comment provided by engineer. */
+"Enter an encryption password:" = "暗号化パスワードを入力:";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "マスターパスワードを入力する";
 
 /* No comment provided by engineer. */
@@ -216,6 +219,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "あるいは、データベースは次の場所で利用できます: ";
+
+/* No comment provided by engineer. */
+"Password:" = "パスワード:";
 
 /* No comment provided by engineer. */
 "Path not available" = "無効なパスです";
@@ -367,6 +373,9 @@
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "クリップボードにURLがコピーされました";
+
+/* No comment provided by engineer. */
+"Verify Password:" = "パスワードの確認:";
 
 /* Menu */
 "View" = "表示";

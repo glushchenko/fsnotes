@@ -4421,11 +4421,11 @@ Olena Hlushcneko</string>
             <objects>
                 <viewController title="Security" id="PXw-YJ-q6A" customClass="PreferencesSecurityViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="kQa-Jx-cRD">
-                        <rect key="frame" x="0.0" y="0.0" width="476" height="368"/>
+                        <rect key="frame" x="0.0" y="0.0" width="476" height="324"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bAD-aT-6wv">
-                                <rect key="frame" x="43" y="284" width="110" height="18"/>
+                                <rect key="frame" x="43" y="240" width="110" height="18"/>
                                 <buttonCell key="cell" type="check" title="Lock on sleep" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ve2-qz-vtH">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -4435,7 +4435,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jxK-y9-8yA">
-                                <rect key="frame" x="43" y="262" width="214" height="18"/>
+                                <rect key="frame" x="43" y="218" width="214" height="18"/>
                                 <buttonCell key="cell" type="check" title="Lock on screen saver activated" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IlF-tS-GFG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -4445,7 +4445,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VyD-5q-zrb">
-                                <rect key="frame" x="43" y="240" width="179" height="18"/>
+                                <rect key="frame" x="43" y="196" width="179" height="18"/>
                                 <buttonCell key="cell" type="check" title="Lock when user switched" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8dk-Cf-bSg">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -4455,7 +4455,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3K8-4C-o6B">
-                                <rect key="frame" x="33" y="317" width="410" height="16"/>
+                                <rect key="frame" x="33" y="273" width="410" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Auto-lock for Encrypted Notes:" id="fzY-c6-DaK">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4463,7 +4463,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LfK-G8-GaN">
-                                <rect key="frame" x="43" y="136" width="212" height="18"/>
+                                <rect key="frame" x="43" y="92" width="212" height="18"/>
                                 <buttonCell key="cell" type="check" title="Allow Touch ID to unlock notes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="KST-y3-KvM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -4473,23 +4473,13 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vfa-TJ-FAD">
-                                <rect key="frame" x="33" y="169" width="410" height="16"/>
+                                <rect key="frame" x="33" y="125" width="410" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Touch ID:" id="Nw2-km-iDW">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eoX-AC-xuA">
-                                <rect key="frame" x="43" y="114" width="235" height="18"/>
-                                <buttonCell key="cell" type="check" title="Save Master Password in Keychain" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wM5-nS-jjt">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="saveInKeychain:" target="PXw-YJ-q6A" id="DTh-fX-VH3"/>
-                                </connections>
-                            </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="O2e-aX-dha">
                                 <rect key="frame" x="20" y="82" width="436" height="5"/>
                             </box>
@@ -4512,7 +4502,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9JU-4V-Lgp">
-                                <rect key="frame" x="20" y="208" width="436" height="5"/>
+                                <rect key="frame" x="20" y="164" width="436" height="5"/>
                             </box>
                         </subviews>
                         <constraints>
@@ -4535,11 +4525,8 @@ Olena Hlushcneko</string>
                             <constraint firstItem="9JU-4V-Lgp" firstAttribute="top" secondItem="VyD-5q-zrb" secondAttribute="bottom" constant="30" id="Z04-fQ-8yg"/>
                             <constraint firstItem="VyD-5q-zrb" firstAttribute="leading" secondItem="jxK-y9-8yA" secondAttribute="leading" id="aqd-rE-yGh"/>
                             <constraint firstItem="bAD-aT-6wv" firstAttribute="top" secondItem="3K8-4C-o6B" secondAttribute="bottom" constant="16" id="fFg-s9-fzj"/>
-                            <constraint firstItem="eoX-AC-xuA" firstAttribute="top" secondItem="LfK-G8-GaN" secondAttribute="bottom" constant="6" symbolic="YES" id="gbJ-u2-zgf"/>
                             <constraint firstItem="6jD-2w-AAk" firstAttribute="top" secondItem="O2e-aX-dha" secondAttribute="bottom" constant="30" id="iQF-qQ-BDu"/>
                             <constraint firstItem="bAD-aT-6wv" firstAttribute="leading" secondItem="3K8-4C-o6B" secondAttribute="leading" constant="10" id="iSZ-VD-TJ5"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="eoX-AC-xuA" secondAttribute="trailing" constant="20" symbolic="YES" id="jAv-J6-lC9"/>
-                            <constraint firstItem="O2e-aX-dha" firstAttribute="top" secondItem="eoX-AC-xuA" secondAttribute="bottom" constant="30" id="mtv-vb-LPv"/>
                             <constraint firstAttribute="trailing" secondItem="9JU-4V-Lgp" secondAttribute="trailing" constant="20" symbolic="YES" id="oFF-vD-5WC"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LfK-G8-GaN" secondAttribute="trailing" constant="20" symbolic="YES" id="oLB-xt-JDv"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bAD-aT-6wv" secondAttribute="trailing" constant="20" symbolic="YES" id="q6z-LL-7IU"/>
@@ -4548,7 +4535,7 @@ Olena Hlushcneko</string>
                             <constraint firstAttribute="trailing" secondItem="3K8-4C-o6B" secondAttribute="trailing" constant="35" id="w1c-eH-UpP"/>
                             <constraint firstAttribute="bottom" secondItem="2GG-sE-P9s" secondAttribute="bottom" constant="35" id="wUp-oC-N9d"/>
                             <constraint firstItem="jxK-y9-8yA" firstAttribute="top" secondItem="bAD-aT-6wv" secondAttribute="bottom" constant="6" symbolic="YES" id="xeX-Hb-ENz"/>
-                            <constraint firstItem="eoX-AC-xuA" firstAttribute="leading" secondItem="LfK-G8-GaN" secondAttribute="leading" id="zLn-Tm-Row"/>
+                            <constraint firstItem="O2e-aX-dha" firstAttribute="top" secondItem="LfK-G8-GaN" secondAttribute="bottom" constant="8" symbolic="YES" id="zb5-T6-esO"/>
                         </constraints>
                     </view>
                     <connections>
@@ -4557,7 +4544,6 @@ Olena Hlushcneko</string>
                         <outlet property="lockOnSleep" destination="bAD-aT-6wv" id="CIt-n9-zYN"/>
                         <outlet property="lockWhenFastUser" destination="VyD-5q-zrb" id="FYT-qZ-W5I"/>
                         <outlet property="masterPassword" destination="2GG-sE-P9s" id="YwE-Mx-evI"/>
-                        <outlet property="saveInKeychain" destination="eoX-AC-xuA" id="zDO-t1-NfO"/>
                     </connections>
                 </viewController>
                 <customObject id="8cl-fg-jNQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
