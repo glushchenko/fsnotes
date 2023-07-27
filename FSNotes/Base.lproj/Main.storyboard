@@ -124,7 +124,7 @@ CA
                                         </menuItem>
                                         <menuItem title="Rename" keyEquivalent="r" identifier="fileMenu.rename" id="jLq-8F-n0X">
                                             <connections>
-                                                <action selector="renameMenu:" target="L4m-js-agn" id="H0Y-Fe-qfr"/>
+                                                <action selector="renameMenu:" target="L4m-js-agn" id="FBx-sU-Gor"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Delete" identifier="fileMenu.delete" id="TjZ-PX-YVo">
@@ -132,7 +132,7 @@ CA
 CA
 </string>
                                             <connections>
-                                                <action selector="deleteNote:" target="L4m-js-agn" id="AiT-JP-62A"/>
+                                                <action selector="deleteNote:" target="Ady-hI-5gd" id="tg5-Eq-4q9"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Force Delete" alternate="YES" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
@@ -141,7 +141,7 @@ CA
 </string>
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="deleteNote:" target="L4m-js-agn" id="NiM-WS-564"/>
+                                                <action selector="deleteNote:" target="Ady-hI-5gd" id="3Cr-W0-jGL"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Pin/Unpin" keyEquivalent="8" identifier="fileMenu.togglePin" id="You-zo-rbl">

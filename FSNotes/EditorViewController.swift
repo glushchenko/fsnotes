@@ -11,7 +11,7 @@ import AppKit
 import LocalAuthentication
 import WebKit
 
-class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDelegate {
+class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDelegate, NSMenuItemValidation {
     
     public var alert: NSAlert?
     public var noteLoading: ProgressState = .none
@@ -43,6 +43,283 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     
     public func initView() {
         vcEditor?.delegate = self
+    }
+    
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        guard let vc = ViewController.shared() else { return false}
+        
+        // Current note
+        var note = vc.editor.note
+        
+        if note == nil {
+            note = vc.getSelectedNotes()?.first
+        }
+        
+        let ident = menuItem.identifier?.rawValue
+        
+        if let title = menuItem.menu?.identifier?.rawValue {
+            switch title {
+            case "fsnotesMenu":
+                if menuItem.identifier?.rawValue == "emptyTrashMenu" {
+                    menuItem.keyEquivalentModifierMask = UserDefaultsManagement.focusInEditorOnNoteSelect
+                            ? [.command, .option, .shift]
+                            : [.command, .shift]
+                    return true
+                }
+            case "fileMenu":
+
+                if vc.notesTableView.selectedRowIndexes.count > 1,
+                   let id = menuItem.identifier?.rawValue, vc.notesTableView.limitedActionsList.contains(id) {
+
+                    return false
+                }
+
+                if menuItem.identifier?.rawValue == "note.saveRevision"
+                    || menuItem.identifier?.rawValue == "note.history" {
+                    if let note = note {
+                        let hasCommits = note.project.hasCommitsDiffsCache()
+                        menuItem.isHidden = !hasCommits
+                        return hasCommits
+                    }
+                }
+
+                if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
+                    if let note = note, note.isEncrypted() {
+                        menuItem.isHidden = false
+                        return true
+                    } else {
+                        menuItem.isHidden = true
+                        return false
+                    }
+                }
+                        
+                if menuItem.identifier?.rawValue == "fileMenu.print" {
+                    if let note = note, note.isEncryptedAndLocked() {
+                        return false
+                    }
+                    
+                    if vc.notesTableView.selectedRowIndexes.count > 1 {
+                        return false
+                    }
+
+                    if vcEditor?.note != nil {
+                        return true
+                    }
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.newInNewWindow" {
+                    return true
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.rename" {
+                    if let cvc = NSApplication.shared.keyWindow?.contentViewController, cvc.isKind(of: NoteViewController.self) {
+                        menuItem.isHidden = true
+                        return false
+                    }
+                    
+                    menuItem.isHidden = false
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.delete" {
+                    guard vc.view.window?.firstResponder == vc.notesTableView,
+                        let cvc = NSApplication.shared.keyWindow?.contentViewController,
+                        cvc.isKind(of: ViewController.self)
+                    else {
+                        return false
+                    }
+                    
+                    menuItem.keyEquivalentModifierMask =
+                        UserDefaultsManagement.focusInEditorOnNoteSelect
+                        ? [.command, .option]
+                        : [.command]
+                }
+
+                if menuItem.identifier?.rawValue ==  "fileMenu.changeCreationDate" {
+                    menuItem.title = NSLocalizedString("Change Creation Date", comment: "Menu")
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.toggleContainer" {
+                    if let note = note, note.container != .encryptedTextPack {
+                        menuItem.title = note.container == .none
+                            ? NSLocalizedString("Convert to TextBundle", comment: "")
+                            : NSLocalizedString("Convert to Plain", comment: "")
+                        
+                        menuItem.isEnabled = true
+                    } else {
+                        menuItem.isEnabled = false
+                    }
+                }
+
+                if menuItem.identifier?.rawValue == "fileMenu.tags" {
+                    if UserDefaultsManagement.inlineTags {
+                        menuItem.isHidden = true
+                        return false
+                    } else {
+                        menuItem.isHidden = false
+                    }
+                }
+
+                if menuItem.identifier?.rawValue == "fileMenu.history" {
+                    if vc.notesTableView.selectedRowIndexes.count > 1 {
+                        return false
+                    }
+
+                    if vcEditor?.note != nil {
+                        return true
+                    }
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.move" {
+                    if vcEditor?.note != nil {
+                        return true
+                    }
+                }
+
+                if menuItem.identifier?.rawValue == "fileMenu.togglePin" {
+                    if let note = note {
+                        menuItem.title = note.isPinned
+                            ? NSLocalizedString("Unpin", comment: "")
+                            : NSLocalizedString("Pin", comment: "")
+                        
+                        return true
+                    }
+                    
+                    return false
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.toggleLock" {
+                    if let note = note {
+                        menuItem.title = note.isEncryptedAndLocked()
+                            ? NSLocalizedString("Unlock", comment: "")
+                            : NSLocalizedString("Lock", comment: "")
+                        
+                        return true
+                    }
+                    
+                    return false
+                }
+
+                if ["fileMenu.new",
+                    "fileMenu.searchAndCreate",
+                    "fileMenu.import"
+                   ].contains(menuItem.identifier?.rawValue)
+                {
+                    return true
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.removeOverSSH" {
+                    if let note = vcEditor?.note, !note.isEncrypted(), note.uploadPath != nil || note.apiId != nil {
+                       menuItem.isHidden = false
+                       return true
+                   } else {
+                       menuItem.isHidden = true
+                       return false
+                   }
+                }
+                
+                if menuItem.identifier?.rawValue == "fileMenu.uploadOverSSH" {
+                    if let note = vc.editor.note, !note.isEncrypted() {
+                        if note.uploadPath != nil || note.apiId != nil {
+                            menuItem.title = NSLocalizedString("Update Web Page", comment: "")
+                        } else {
+                            menuItem.title = NSLocalizedString("Create Web Page", comment: "")
+                        }
+                        
+                        menuItem.isHidden = false
+                        
+                        return true
+                    } else {
+                        menuItem.isHidden = true
+                        
+                        return false
+                    }
+                }
+                
+                if vc.notesTableView.selectedRow == -1 {
+                    return false
+                }
+
+                break
+            case "folderMenu":
+                if ["folderMenu.attachStorage"].contains(menuItem.identifier?.rawValue) {
+                    return true
+                }
+                
+                guard let p = vc.getSidebarProject(), !p.isTrash else {
+                    return false
+                }
+            case "findMenu":
+                if ["findMenu.find",
+                    "findMenu.findAndReplace",
+                    "findMenu.next",
+                    "findMenu.prev"
+                ].contains(menuItem.identifier?.rawValue), vc.notesTableView.selectedRow > -1 {
+                    return true
+                }
+
+                return vc.editAreaScroll.isFindBarVisible || vc.editor.hasFocus()
+            case "showInSidebar":
+                switch menuItem.tag {
+                case 1:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityInbox ? .on : .off
+                case 2:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityNotes ? .on : .off
+                case 3:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityTodo ? .on : .off
+                case 4:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityArchive ? .on : .off
+                case 5:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityTrash ? .on : .off
+                case 6:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityUntagged ? .on : .off
+                default:
+                    break
+                }
+            case "viewMenu":
+                
+                switch ident {
+                case "previewMathJax":
+                    menuItem.state = UserDefaultsManagement.mathJaxPreview ? .on : .off
+                    break
+                    
+                case "viewMenu.previewSoulver":
+                    menuItem.state = UserDefaultsManagement.soulverPreview ? .on : .off
+                    break
+                    
+                case "viewMenu.historyBack":
+                    if vc.notesTableView.historyPosition == 0 {
+                        return false
+                    }
+                    break
+                    
+                case "viewMenu.historyForward":
+                    if vc.notesTableView.historyPosition == vc.notesTableView.history.count - 1 {
+                        return false
+                    }
+                    break
+                    
+                case "view.toggleNoteList":
+                    menuItem.title = vc.isVisibleNoteList()
+                        ? NSLocalizedString("Hide Note List", comment: "")
+                        : NSLocalizedString("Show Note List", comment: "")
+                    break
+                    
+                case "view.toggleSidebar":
+                    menuItem.title = vc.isVisibleSidebar()
+                        ? NSLocalizedString("Hide Sidebar", comment: "")
+                        : NSLocalizedString("Show Sidebar", comment: "")
+                    break
+                    
+                default:
+                    break
+                }
+                
+            default:
+                break
+            }
+        }
+        
+        return true
     }
     
     public func getSelectedNotes() -> [Note]? {
@@ -320,87 +597,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         field.becomeFirstResponder()
     }
     
-    // MARK: Move menu
-    
-    @IBAction func deleteNote(_ sender: Any) {
-        var forceRemove = false
-
-        if let menuItem = sender as? NSMenuItem,
-            menuItem.identifier?.rawValue == "fileMenu.forceRemove" ||
-            menuItem.identifier?.rawValue == "context.fileMenu.forceRemove" {
-            forceRemove = true
-        }
-
-        guard let vc = ViewController.shared() else { return }
-        guard let notes = getSelectedNotes() else { return }
-
-        let si = vc.getSidebarItem()
-        if si?.isTrash() == true || forceRemove {
-            vc.removeForever()
-            
-            // Call from window, close it!
-            if let cvc = NSApplication.shared.keyWindow?.contentViewController,
-               cvc.isKind(of: NoteViewController.self) {
-                DispatchQueue.main.async {
-                    self.view.window?.close()
-                }
-            }
-            
-            return
-        }
-        
-        let selectedRow = vc.notesTableView.selectedRowIndexes.min()
-
-        UserDataService.instance.searchTrigger = true
-
-        vc.notesTableView.removeByNotes(notes: notes)
-
-        // Delete tags
-        for note in notes {
-            let tags = note.tags
-            note.tags.removeAll()
-            vc.sidebarOutlineView.removeTags(tags)
-        }
-
-        vc.storage.removeNotes(notes: notes) { urls in
-            if let md = AppDelegate.mainWindowController {
-                let undoManager = md.notesListUndoManager
-
-                if let ntv = vc.notesTableView {
-                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
-                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
-                }
-
-                if let i = selectedRow, i > -1 {
-                    if vc.notesTableView.noteList.count > i {
-                        vc.notesTableView.selectRow(i)
-                    } else {
-                        vc.notesTableView.selectRow(vc.notesTableView.noteList.count - 1)
-                    }
-                }
-
-                UserDataService.instance.searchTrigger = false
-            }
-
-            vc.editor.clear()
-        }
-        
-        // Call from window, close it!
-        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
-           cvc.isKind(of: NoteViewController.self) {
-            DispatchQueue.main.async {
-                self.view.window?.close()
-            }
-            return
-        }
-
-        // If is main window – focus to notes list
-        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
-           cvc.isKind(of: ViewController.self) {
-            NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
-        }
-    }
-    
     @IBAction func archiveNote(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         guard let notes = getSelectedNotes() else { return }
@@ -543,6 +739,141 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                cvc.isKind(of: NoteViewController.self) {
                 self.updateTitle(note: notes.first!)
             }
+        }
+    }
+    
+    @IBAction func toggleContainer(_ sender: NSMenuItem) {
+        guard let notes = getSelectedNotes() else { return }
+        
+        var newContainer: NoteContainer = .textBundleV2
+        if notes.first?.container == .textBundle || notes.first?.container == .textBundleV2 {
+            newContainer = .none
+        }
+        
+        for note in notes {
+            if note.container == .encryptedTextPack {
+                continue
+            }
+            
+            note.convertContainer(to: newContainer)
+        }
+    }
+    
+    @IBAction func openWindow(_ sender: Any) {
+        guard let currentNote = ViewController.shared()?.notesTableView.getSelectedNote() else { return }
+     
+        openInNewWindow(note: currentNote)
+    }
+    
+    @IBAction func moveMenu(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        
+        // Move menu right from notes table view
+        
+        if let cvc = NSApplication.shared.keyWindow?.contentViewController, cvc.isKind(of: ViewController.self) {
+            if vc.notesTableView.selectedRow >= 0 {
+                vc.loadMoveMenu()
+
+                let moveTitle = NSLocalizedString("Move", comment: "Menu")
+                let moveMenu = vc.noteMenu.item(withTitle: moveTitle)
+                let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
+                let x = vc.splitView.subviews[0].frame.width + 5
+                let general = moveMenu?.submenu?.item(at: 0)
+
+                moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
+            }
+            
+            return
+            
+        // Move menu right from window
+            
+        } else {
+            vc.loadMoveMenu()
+            
+            let moveTitle = NSLocalizedString("Move", comment: "Menu")
+            let moveMenu = vc.noteMenu.item(withTitle: moveTitle)
+            let general = moveMenu?.submenu?.item(at: 0)
+            
+            moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: view.frame.width + 10, y: view.frame.height - 5), in: view)
+        }
+    }
+    
+    @IBAction func deleteNote(_ sender: Any) {
+        var forceRemove = false
+
+        if let menuItem = sender as? NSMenuItem,
+            menuItem.identifier?.rawValue == "fileMenu.forceRemove" ||
+            menuItem.identifier?.rawValue == "context.fileMenu.forceRemove" {
+            forceRemove = true
+        }
+
+        guard let vc = ViewController.shared() else { return }
+        guard let notes = getSelectedNotes() else { return }
+
+        let si = vc.getSidebarItem()
+        if si?.isTrash() == true || forceRemove {
+            vc.removeForever()
+            
+            // Call from window, close it!
+            if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+               cvc.isKind(of: NoteViewController.self) {
+                DispatchQueue.main.async {
+                    self.view.window?.close()
+                }
+            }
+            
+            return
+        }
+        
+        let selectedRow = vc.notesTableView.selectedRowIndexes.min()
+
+        UserDataService.instance.searchTrigger = true
+
+        vc.notesTableView.removeByNotes(notes: notes)
+
+        // Delete tags
+        for note in notes {
+            let tags = note.tags
+            note.tags.removeAll()
+            vc.sidebarOutlineView.removeTags(tags)
+        }
+
+        vc.storage.removeNotes(notes: notes) { urls in
+            if let md = AppDelegate.mainWindowController {
+                let undoManager = md.notesListUndoManager
+
+                if let ntv = vc.notesTableView {
+                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
+                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
+                }
+
+                if let i = selectedRow, i > -1 {
+                    if vc.notesTableView.noteList.count > i {
+                        vc.notesTableView.selectRow(i)
+                    } else {
+                        vc.notesTableView.selectRow(vc.notesTableView.noteList.count - 1)
+                    }
+                }
+
+                UserDataService.instance.searchTrigger = false
+            }
+
+            vc.editor.clear()
+        }
+        
+        // Call from window, close it!
+        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+           cvc.isKind(of: NoteViewController.self) {
+            DispatchQueue.main.async {
+                self.view.window?.close()
+            }
+            return
+        }
+
+        // If is main window – focus to notes list
+        if let cvc = NSApplication.shared.keyWindow?.contentViewController,
+           cvc.isKind(of: ViewController.self) {
+            NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
         }
     }
     

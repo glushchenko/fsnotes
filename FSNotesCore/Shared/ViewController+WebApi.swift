@@ -54,7 +54,7 @@ extension ViewController {
                     self.showAlert(message: msg)
                 } else if let _ = api.id {
                     note.apiId = nil
-                    self.storage.saveAPIIds()
+                    Storage.shared().saveAPIIds()
 
                     completion?()
                 }
@@ -123,7 +123,7 @@ extension ViewController {
                     self.showAlert(message: msg)
                 } else if let noteId = api.id {
                     note.apiId = noteId
-                    self.storage.saveAPIIds()
+                    Storage.shared().saveAPIIds()
 
                     let resultUrl = "\(web)\(noteId)/"
                     let url = URL(string: resultUrl)!

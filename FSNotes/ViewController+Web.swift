@@ -9,12 +9,16 @@
 import Cocoa
 import Shout
 
-extension ViewController {
+extension EditorViewController {
+    
+    public func getCurrentNote() -> Note? {
+        return vcEditor?.note
+    }
     
     @IBAction func removeWebNote(_ sender: NSMenuItem) {
         if !UserDefaultsManagement.customWebServer, let note = getCurrentNote() {
-            deleteAPI(note: note, completion: {
-                self.notesTableView.reloadRow(note: note)
+            ViewController.shared()?.deleteAPI(note: note, completion: {
+                ViewController.shared()?.notesTableView.reloadRow(note: note)
             })
             return
         }
@@ -29,10 +33,10 @@ extension ViewController {
                 
                 note.uploadPath = nil
                 
-                self.storage.saveUploadPaths()
+                Storage.shared().saveUploadPaths()
                 
                 DispatchQueue.main.async {
-                    self.notesTableView.reloadRow(note: note)
+                    ViewController.shared()?.notesTableView.reloadRow(note: note)
                 }
             } catch {
                 print(error, error.localizedDescription)
@@ -42,9 +46,9 @@ extension ViewController {
         
     @IBAction func uploadWebNote(_ sender: NSMenuItem) {
         if !UserDefaultsManagement.customWebServer, let note = getCurrentNote() {
-            createAPI(note: note, completion: { url in
+            ViewController.shared()?.createAPI(note: note, completion: { url in
                 DispatchQueue.main.async {
-                    self.notesTableView.reloadRow(note: note)
+                    ViewController.shared()?.notesTableView.reloadRow(note: note)
                     guard let url = url else { return }
 
                     let pasteboard = NSPasteboard.general
@@ -114,8 +118,8 @@ extension ViewController {
 
                 if #available(macOS 10.14, *) {
                     DispatchQueue.main.async {
-                        self.sendNotification()
-                        self.notesTableView.reloadRow(note: note)
+                        ViewController.shared()?.sendNotification()
+                        ViewController.shared()?.notesTableView.reloadRow(note: note)
                         
                         NSWorkspace.shared.open(URL(string: resultUrl)!)
                     }
@@ -125,7 +129,7 @@ extension ViewController {
                 
                 note.uploadPath = remoteDir
                 
-                self.storage.saveUploadPaths()
+                Storage.shared().saveUploadPaths()
             } catch {
                 print(error, error.localizedDescription)
             }
