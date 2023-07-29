@@ -119,7 +119,7 @@
 "Extension" = "文件后缀格式";
 
 /* Settings */
-"Family" = "字体册";
+"Family" = "字体集";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "具有此名称的文件已存在";
@@ -143,7 +143,7 @@
 "Font" = "字体";
 
 /* Settings */
-"Font Family" = "字体册";
+"Font Family" = "字体集";
 
 /* Settings */
 "Font Size" = "字体大小";
@@ -176,7 +176,7 @@
 "History" = "笔记历史版本";
 
 /* Settings */
-"iCloud Drive" = "iCloud 同步";
+"iCloud Drive" = "iCloud 云同步";
 
 /* Settings */
 "Icon" = "图标";
@@ -206,13 +206,13 @@
 "Lock" = "上锁";
 
 /* Settings */
-"Master" = "主分支";
+"Master" = "管理员";
 
 /* No comment provided by engineer. */
 "Master password:" = "主密码:";
 
 /* Settings */
-"MathJax" = "MathJax";
+"MathJax" = "MathJax 数学公式";
 
 /* No comment provided by engineer. */
 "Modification Date" = "修改日期";
@@ -348,7 +348,7 @@
 "Sort By" = "排序方式";
 
 /* Settings */
-"SoulverCore" = "SoulverCore";
+"SoulverCore" = "SoulverCore(评估表达式)";
 
 /* Settings */
 "Storage" = "存储";
@@ -415,7 +415,7 @@
 "Web sharing error" = "网站分享错误";
 
 /* Settings */
-"Website" = "生成网站";
+"Website" = "官方网站";
 
 /* No comment provided by engineer. */
 "Wrong password" = "密码错误";
