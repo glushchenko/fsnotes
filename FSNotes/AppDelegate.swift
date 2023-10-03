@@ -499,6 +499,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         return true
     }
     
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+        return true
+    }
+    
     public static func getEditTextViews() -> [EditTextView] {
         var views = [EditTextView]()
         
