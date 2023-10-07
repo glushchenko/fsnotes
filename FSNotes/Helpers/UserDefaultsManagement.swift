@@ -55,6 +55,7 @@ public class UserDefaultsManagement {
         static let AutomaticLinkDetection = "automaticLinkDetection"
         static let AutomaticTextReplacement = "automaticTextReplacement"
         static let AutomaticDashSubstitution = "automaticDashSubstitution"
+        static let AutomaticConflictsResolution = "automaticConflictsResolution"
         static let BackupManually = "backupManually"
         static let BgColorKey = "bgColorKeyed"
         static let CacheDiff = "cacheDiff"
@@ -895,6 +896,18 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var automaticConflictsResolution: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutomaticConflictsResolution) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutomaticConflictsResolution)
+        }
+    }
+    
     static var showInMenuBar: Bool {
         get {
             if let result = shared?.object(forKey: Constants.ShowInMenuBar) as? Bool {
@@ -1291,6 +1304,10 @@ public class UserDefaultsManagement {
     
     static var soulverPreview: Bool {
         get {
+            if #unavailable(OSX 10.15, iOS 14.0) {
+                return false
+            }
+            
             if let result = shared?.object(forKey: Constants.SoulverPreview) as? Bool {
                 return result
             }

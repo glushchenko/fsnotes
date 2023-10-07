@@ -914,7 +914,7 @@ class SidebarOutlineView: NSOutlineView,
         vc.notesTableView.reloadData()
 
         // Remove unused header
-        if storage.getExternalProjects().count == 0 {
+        if vc.isVisibleSidebar(), storage.getExternalProjects().count == 0 {
             let name = NSLocalizedString("External Folders", comment: "")
             if let index = sidebarItems?.firstIndex(where: {
                 ($0 as? SidebarItem)?.type == .Header &&
@@ -1378,7 +1378,7 @@ class SidebarOutlineView: NSOutlineView,
 
 
     public func removeProject(project: Project) {
-        guard storage.projectExist(url: project.url) else { return }
+        guard let vc = ViewController.shared(), storage.projectExist(url: project.url) else { return }
 
         selectedProjects?.removeAll(where: { $0 === project })
 
@@ -1390,6 +1390,8 @@ class SidebarOutlineView: NSOutlineView,
 
         self.storage.removeBy(project: project)
 
+        guard vc.isVisibleSidebar() else { return }
+        
         if let parent = project.parent, !parent.isRoot {
             if let index = parent.child.firstIndex(of: project) {
                 parent.child.removeAll(where: { $0 == project })
@@ -1422,12 +1424,14 @@ class SidebarOutlineView: NSOutlineView,
 
         storage.noteList.append(contentsOf: notes)
 
-        if !parent.isRoot || parent.isExternal {
-            insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
-        } else {
-            let position = getRootProjectPosition(for: project)
-            sidebarItems?.insert(project, at: position)
-            self.insertItems(at: [position], inParent: nil, withAnimation: .effectFade)
+        if let vc = ViewController.shared(), vc.isVisibleSidebar() {
+            if !parent.isRoot || parent.isExternal {
+                insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
+            } else {
+                let position = getRootProjectPosition(for: project)
+                sidebarItems?.insert(project, at: position)
+                self.insertItems(at: [position], inParent: nil, withAnimation: .effectFade)
+            }
         }
 
         viewDelegate?.fsManager?.reloadObservedFolders()
@@ -1742,6 +1746,10 @@ class SidebarOutlineView: NSOutlineView,
     public func remove(tagName: String) {
         let tags = tagName.components(separatedBy: "/")
         guard let parent = tags.first else { return }
+        
+        if let vc = ViewController.shared(), !vc.isVisibleSidebar() {
+            return
+        }
 
         if let tag = sidebarItems?.first(where: {($0 as? FSTag)?.getName() == parent }) as? FSTag {
             if tags.count == 1 {
@@ -1931,6 +1939,8 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func addTag(tag: String) {
+        guard let vc = ViewController.shared(), vc.isVisibleSidebar() else { return }
+        
         var subtags = tag.components(separatedBy: "/")
         let firstLevelName = subtags.first
 
@@ -2005,6 +2015,8 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func deleteRoot(tag: String) {
+        guard let vc = ViewController.shared(), vc.isVisibleSidebar() else { return }
+        
         let subtags = tag.components(separatedBy: "/")
 
         if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? FSTag)?.name == subtags.first }) {
@@ -2028,22 +2040,24 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
-        beginUpdates()
-        for index in selectedRowIndexes.reversed() {
-            if let tag = item(atRow: index) as? FSTag {
-                if let parentTag = tag.getParent() {
-                    if let childIndex = tag.getParent()?.child.firstIndex(where: { $0 === tag }) {
-                        tag.parent?.removeChild(tag: tag)
-                        removeItems(at: [childIndex], inParent: parentTag, withAnimation: [])
+        if let vc = ViewController.shared(), vc.isVisibleSidebar() {
+            beginUpdates()
+            for index in selectedRowIndexes.reversed() {
+                if let tag = item(atRow: index) as? FSTag {
+                    if let parentTag = tag.getParent() {
+                        if let childIndex = tag.getParent()?.child.firstIndex(where: { $0 === tag }) {
+                            tag.parent?.removeChild(tag: tag)
+                            removeItems(at: [childIndex], inParent: parentTag, withAnimation: [])
+                        }
+                    } else if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? FSTag) === tag }) {
+                        sidebarItems?.remove(at: sidebarIndex)
+                        removeItems(at: [sidebarIndex], inParent: nil, withAnimation: [])
                     }
-                } else if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? FSTag) === tag }) {
-                    sidebarItems?.remove(at: sidebarIndex)
-                    removeItems(at: [sidebarIndex], inParent: nil, withAnimation: [])
                 }
             }
+            endUpdates()
         }
-        endUpdates()
-
+        
         viewDelegate?.editor.clear()
     }
 

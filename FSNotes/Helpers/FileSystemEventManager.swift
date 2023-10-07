@@ -59,7 +59,7 @@ class FileSystemEventManager {
             let fullUrl = self.handleTextBundle(url: url)
 
             // Resolve conflicts if exist
-            if let note = self.storage.getBy(url: fullUrl) {
+            if UserDefaultsManagement.automaticConflictsResolution, let note = self.storage.getBy(url: fullUrl) {
                 self.resolveConflict(url: note.url)
             }
 

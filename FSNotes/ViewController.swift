@@ -303,39 +303,44 @@ class ViewController: EditorViewController,
         }
 
         DispatchQueue.main.async {
-            self.configureSidebar()
-
-            if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
-                if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
-                    let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
-
-                    let index = self.sidebarOutlineView.row(forItem: sidebarItem)
-                    self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
-                } else if let lastURL = UserDefaultsManagement.lastProjectURL,
-                    let project = self.storage.getProjectBy(url: lastURL) {
-
-                    let items = self.sidebarOutlineView.row(forItem: project)
-                    self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
-                }
+            if self.isVisibleSidebar() {
+                self.configureSidebar()
                 
+                if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
+                    if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
+                        let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
+                        let index = self.sidebarOutlineView.row(forItem: sidebarItem)
+                        self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                    } else if let lastURL = UserDefaultsManagement.lastProjectURL, let project = self.storage.getProjectBy(url: lastURL) {
+                        let items = self.sidebarOutlineView.row(forItem: project)
+                        self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
+                    } else {
+                        self.configureNoteList()
+                    }
+                    
+                    return
+                }
+            }
+
+            self.configureNoteList()
+        }
+    }
+    
+    private func configureNoteList() {
+        updateTable() {
+            if UserDefaultsManagement.copyWelcome {
+                DispatchQueue.main.async {
+                    self.sidebarOutlineView.expandItem(self.storage.getRootProject())
+                    let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
+                    let index = self.sidebarOutlineView.row(forItem: welcome)
+                    self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                }
+
+                UserDefaultsManagement.copyWelcome = false
                 return
             }
 
-            self.updateTable() {
-                if UserDefaultsManagement.copyWelcome {
-                    DispatchQueue.main.async {
-                        self.sidebarOutlineView.expandItem(self.storage.getRootProject())
-                        let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
-                        let index = self.sidebarOutlineView.row(forItem: welcome)
-                        self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
-                    }
-
-                    UserDefaultsManagement.copyWelcome = false
-                    return
-                }
-
-                self.restoreOpenedWindows()
-            }
+            self.restoreOpenedWindows()
         }
     }
 

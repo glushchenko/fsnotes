@@ -28,7 +28,8 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet weak var defaultExtension: NSPopUpButton!
     @IBOutlet weak var fileContainer: NSPopUpButton!
     @IBOutlet weak var filesNaming: NSPopUpButton!
-
+    @IBOutlet weak var automaticConflictsResolution: NSButton!
+    
     //MARK: global variables
 
     let storage = Storage.shared()
@@ -60,6 +61,8 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         let ext = UserDefaultsManagement.noteExtension
         defaultExtension.selectItem(withTitle: "." + ext)
 
+        automaticConflictsResolution.state = UserDefaultsManagement.automaticConflictsResolution ? .on : .off
+        
         externalEditorApp.delegate = self
     }
 
@@ -155,7 +158,11 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
             UserDefaultsManagement.naming = naming
         }
     }
-
+    
+    @IBAction func automaticConflictsResolution(_ sender: NSButton) {
+        UserDefaultsManagement.automaticConflictsResolution = sender.state == .on
+    }
+    
     func restart() {
         let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
         let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString

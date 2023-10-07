@@ -179,7 +179,7 @@ class CloudDriveManager {
                 note.creationDate = creationDate
 
                 notesModificationQueue.append(note)
-                resolveConflict(url: url)
+                //resolveConflict(url: url)
 
                 continue
             }
