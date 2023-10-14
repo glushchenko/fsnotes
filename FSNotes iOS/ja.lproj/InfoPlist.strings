@@ -1,9 +1,0 @@
-"NSCameraUsageDescription" = "撮影した写真をノートに追加できるようにするため";
-
-"NSFaceIDUsageDescription" = "FaceIDによるノートの暗号化・復号化のため";
-
-"NSLocationWhenInUseUsageDescription" = "画像を挿入した際にリクエストされます";
-
-"NSPhotoLibraryAddUsageDescription" = "挿入した画像をライブラリに保存する際に必要です";
-
-"NSPhotoLibraryUsageDescription" = "画像をノートに挿入する際に必要です";
