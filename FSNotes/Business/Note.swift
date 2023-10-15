@@ -1316,7 +1316,7 @@ public class Note: NSObject  {
             return false
         }
 
-        if tag.allSatisfy({ $0.isHexDigit }) {
+        if tag.isHexColor() {
             return false
         }
 

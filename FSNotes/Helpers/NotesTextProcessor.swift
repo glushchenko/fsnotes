@@ -968,7 +968,7 @@ public class NotesTextProcessor {
                 }
 
                 var substring = attributedString.mutableString.substring(with: range)
-                guard !substring.isNumber && !substring.allSatisfy({ $0.isHexDigit }) else { return }
+                guard !substring.isNumber && !substring.isHexColor() else { return }
 
                 range = NSRange(location: range.location - 1, length: range.length + 1)
                 substring = attributedString.mutableString.substring(with: range)

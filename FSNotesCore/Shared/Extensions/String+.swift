@@ -203,6 +203,10 @@ public extension String {
 
         return self
     }
+
+    func isHexColor() -> Bool {
+        return self.count == 6 && self.allSatisfy({ $0.isHexDigit })
+    }
 }
 
 extension StringProtocol where Index == String.Index {
