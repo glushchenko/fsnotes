@@ -50,6 +50,7 @@ class PreferencesAdvancedViewController: NSViewController {
             LanguageType(rawValue: 0x08),
             LanguageType(rawValue: 0x09),
             LanguageType(rawValue: 10),
+            LanguageType(rawValue: 14),
             LanguageType(rawValue: 11),
             LanguageType(rawValue: 12),
             LanguageType(rawValue: 13)

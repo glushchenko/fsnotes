@@ -2,7 +2,6 @@
   "sourceLanguage" : "en",
   "strings" : {
     "Add" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -85,7 +84,6 @@
       }
     },
     "Add External Folder..." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -169,7 +167,6 @@
     },
     "Archive" : {
       "comment" : "Sidebar label",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -252,7 +249,6 @@
       }
     },
     "Are you really want to remove %d tag(s)? This action can not be undone." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -335,7 +331,6 @@
       }
     },
     "Are you sure you want to irretrievably delete %d note(s)?" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -418,7 +413,6 @@
       }
     },
     "Are you sure you want to remove project \"%@\" and all files inside?" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -501,7 +495,7 @@
       }
     },
     "Back up storage" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -585,7 +579,6 @@
     },
     "Cancel" : {
       "comment" : "Delete menu",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -669,7 +662,7 @@
     },
     "Change creation date" : {
       "comment" : "Menu",
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -753,7 +746,6 @@
     },
     "Change Creation Date" : {
       "comment" : "Menu",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -836,7 +828,6 @@
       }
     },
     "Check Grammar With Spelling" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -919,7 +910,6 @@
       }
     },
     "Check Spelling While Typing" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1002,7 +992,6 @@
       }
     },
     "Clear" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1085,7 +1074,6 @@
       }
     },
     "Commit message:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1168,7 +1156,6 @@
       }
     },
     "Connection established successfully 🤟" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1251,7 +1238,6 @@
       }
     },
     "Convert to Plain" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1334,7 +1320,6 @@
       }
     },
     "Convert to TextBundle" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1417,7 +1402,6 @@
       }
     },
     "Copy HTML" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1500,7 +1484,6 @@
       }
     },
     "Copy Link" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1583,7 +1566,6 @@
       }
     },
     "Copy Plain Text" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1666,7 +1648,6 @@
       }
     },
     "Correct Spelling Automatically" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1749,7 +1730,6 @@
       }
     },
     "Create Web Page" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1833,7 +1813,7 @@
     },
     "Creation date:" : {
       "comment" : "Menu",
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1916,7 +1896,6 @@
       }
     },
     "Current password does not match with password in keychain" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1999,7 +1978,6 @@
       }
     },
     "Data Detectors" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2082,7 +2060,6 @@
       }
     },
     "Decrypt" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2165,7 +2142,6 @@
       }
     },
     "Default storage path should not be equal to Git path." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2248,7 +2224,6 @@
       }
     },
     "Delete" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2331,7 +2306,6 @@
       }
     },
     "Delete Folder" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2414,7 +2388,6 @@
       }
     },
     "Delete Tag" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2497,7 +2470,6 @@
       }
     },
     "Detach storage" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2580,7 +2552,7 @@
       }
     },
     "Do you want force checkout?" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2663,7 +2635,6 @@
       }
     },
     "Do you want to move current notes in the new destination?" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2746,7 +2717,6 @@
       }
     },
     "Documents" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2829,7 +2799,6 @@
       }
     },
     "Edit Link…" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2912,7 +2881,6 @@
       }
     },
     "Empty password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2995,7 +2963,6 @@
       }
     },
     "Encrypt" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3078,7 +3045,6 @@
       }
     },
     "Enter an encryption password:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3161,7 +3127,6 @@
       }
     },
     "Enter Master Password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3244,7 +3209,6 @@
       }
     },
     "External Folders" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3327,7 +3291,6 @@
       }
     },
     "Folder with name '%@' already exist" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3410,7 +3373,6 @@
       }
     },
     "Font" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3493,7 +3455,7 @@
       }
     },
     "FSNotes [edit]" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3576,7 +3538,7 @@
       }
     },
     "FSNotes [preview]" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3659,7 +3621,6 @@
       }
     },
     "git error" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3742,7 +3703,6 @@
       }
     },
     "Git error" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3825,7 +3785,7 @@
       }
     },
     "Git push error" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3908,7 +3868,7 @@
       }
     },
     "Git repository already exists, delete it and clone again??" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3991,7 +3951,6 @@
       }
     },
     "Hide Note List" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4074,7 +4033,6 @@
       }
     },
     "Hide Sidebar" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4157,7 +4115,6 @@
       }
     },
     "History" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4240,7 +4197,6 @@
       }
     },
     "iCloud Drive" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4323,7 +4279,6 @@
       }
     },
     "Inbox" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4406,7 +4361,7 @@
       }
     },
     "Libgit2 error" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4489,7 +4444,7 @@
       }
     },
     "Libgit2 error: (code)" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4655,7 +4610,6 @@
       }
     },
     "Lock" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4738,7 +4692,6 @@
       }
     },
     "Lock All Encrypted" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4821,7 +4774,6 @@
       }
     },
     "Locked" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4904,7 +4856,6 @@
       }
     },
     "Make Link" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -4987,7 +4938,6 @@
       }
     },
     "Master password:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5071,7 +5021,6 @@
     },
     "Move" : {
       "comment" : "Menu",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5154,7 +5103,6 @@
       }
     },
     "New" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5237,7 +5185,7 @@
       }
     },
     "New folder" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5320,7 +5268,6 @@
       }
     },
     "New project" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5403,7 +5350,7 @@
       }
     },
     "New RTF" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5486,7 +5433,6 @@
       }
     },
     "New Window" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5569,7 +5515,6 @@
       }
     },
     "No" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5652,7 +5597,6 @@
       }
     },
     "None Selected" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5735,7 +5679,6 @@
       }
     },
     "Note with name \"%@\" already exists in selected directory." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5819,7 +5762,6 @@
     },
     "Notes" : {
       "comment" : "Sidebar label",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5902,7 +5844,6 @@
       }
     },
     "OK" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5986,7 +5927,6 @@
     },
     "Open note" : {
       "comment" : "Document opened",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6069,7 +6009,6 @@
       }
     },
     "Otherwise, the database of your notes will be available at: " : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6152,7 +6091,6 @@
       }
     },
     "Password:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6235,7 +6173,6 @@
       }
     },
     "Path not available" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6318,7 +6255,6 @@
       }
     },
     "Pin" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6402,7 +6338,6 @@
     },
     "Please enter image title:" : {
       "comment" : "Edit area",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6485,7 +6420,6 @@
       }
     },
     "Please enter password for current note" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6568,7 +6502,6 @@
       }
     },
     "Please enter project name:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6651,7 +6584,6 @@
       }
     },
     "Please enter tag name:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6735,7 +6667,7 @@
     },
     "Please enter tags (comma separated):" : {
       "comment" : "Menu",
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6818,7 +6750,6 @@
       }
     },
     "Please init git repository before (Preferences -> Git -> Init/commit)" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6901,7 +6832,6 @@
       }
     },
     "Please select private and public key" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6984,7 +6914,6 @@
       }
     },
     "Please select private key" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7067,7 +6996,6 @@
       }
     },
     "Please try again" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7234,7 +7162,6 @@
       }
     },
     "Quit FSNotes" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7317,7 +7244,6 @@
       }
     },
     "Recents" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7400,7 +7326,6 @@
       }
     },
     "Recents Search" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7484,7 +7409,6 @@
     },
     "Remove" : {
       "comment" : "Delete menu",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7567,7 +7491,6 @@
       }
     },
     "Remove Link" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7650,7 +7573,6 @@
       }
     },
     "Remove note(s)" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7733,7 +7655,6 @@
       }
     },
     "Remove Tags" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7816,7 +7737,6 @@
       }
     },
     "Rename Folder" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7899,7 +7819,6 @@
       }
     },
     "Rename Tag" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7982,7 +7901,6 @@
       }
     },
     "Rename Tags" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8065,7 +7983,6 @@
       }
     },
     "Repository not found" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8148,7 +8065,6 @@
       }
     },
     "Search and create" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8231,7 +8147,6 @@
       }
     },
     "Settings" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8314,7 +8229,7 @@
       }
     },
     "Show in Finder" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8397,7 +8312,6 @@
       }
     },
     "Show Note List" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8480,7 +8394,6 @@
       }
     },
     "Show Sidebar" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8563,7 +8476,7 @@
       }
     },
     "Show view options" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8646,7 +8559,6 @@
       }
     },
     "Smart Copy/Paste" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8729,7 +8641,6 @@
       }
     },
     "Smart Dashes" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8812,7 +8723,6 @@
       }
     },
     "Smart Links" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8895,7 +8805,6 @@
       }
     },
     "Smart Quotes" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -8979,7 +8888,6 @@
     },
     "Sort by" : {
       "comment" : "View menu",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9062,7 +8970,6 @@
       }
     },
     "Spelling and Grammar" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9145,7 +9052,6 @@
       }
     },
     "SSH error" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9228,7 +9134,6 @@
       }
     },
     "Substitutions" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9311,8 +9216,7 @@
       }
     },
     "Tags" : {
-      "comment" : "Menu\n   Sidebar label",
-      "extractionState" : "migrated",
+      "comment" : "Sidebar label",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9395,7 +9299,6 @@
       }
     },
     "Text Replacement" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9479,7 +9382,6 @@
     },
     "This action cannot be undone." : {
       "comment" : "Delete menu",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9562,7 +9464,6 @@
       }
     },
     "Todo" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9645,7 +9546,7 @@
       }
     },
     "Toggle preview" : {
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9729,7 +9630,6 @@
     },
     "Trash" : {
       "comment" : "Sidebar label",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9812,7 +9712,6 @@
       }
     },
     "Underline" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9895,7 +9794,6 @@
       }
     },
     "Unlock" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9978,7 +9876,6 @@
       }
     },
     "Unpin" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10061,7 +9958,6 @@
       }
     },
     "Untagged" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10228,7 +10124,6 @@
       }
     },
     "Update Web Page" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10311,7 +10206,6 @@
       }
     },
     "Upload error" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10394,7 +10288,6 @@
       }
     },
     "URL has been copied to clipboard" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10477,7 +10370,6 @@
       }
     },
     "Verify Password:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10561,7 +10453,6 @@
     },
     "View" : {
       "comment" : "Menu",
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10644,7 +10535,6 @@
       }
     },
     "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10727,7 +10617,6 @@
       }
     },
     "We can not move \"{DST_PATH}\" because this item already exist in selected destination." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10810,7 +10699,6 @@
       }
     },
     "Web" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10893,7 +10781,6 @@
       }
     },
     "Web publishing error" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10976,7 +10863,6 @@
       }
     },
     "Wrong password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -11059,7 +10945,6 @@
       }
     },
     "Wrong repeated password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -11142,7 +11027,6 @@
       }
     },
     "Yes" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
