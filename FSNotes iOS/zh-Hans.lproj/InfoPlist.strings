@@ -1,9 +1,0 @@
-"NSCameraUsageDescription" = "需要在笔记中附加照片";
-
-"NSFaceIDUsageDescription" = "注意使用 Face 进行加密和解密";
-
-"NSLocationWhenInUseUsageDescription" = "附上照片时请求";
-
-"NSPhotoLibraryAddUsageDescription" = "需要权限才能在照片应用中写入图像";
-
-"NSPhotoLibraryUsageDescription" = "需要在笔记中附加图像";

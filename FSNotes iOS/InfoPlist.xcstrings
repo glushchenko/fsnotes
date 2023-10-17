@@ -1,0 +1,301 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "NSCameraUsageDescription" : {
+      "extractionState" : "migrated",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie müssen ein Foto zu Notizen hinzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs for attach photo in notes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs for attach photo in notes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E' necessario per poter aggiungere foto nelle note"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "撮影した写真をノートに追加できるようにするため"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behoeften voor het bijvoegen van foto in notities"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necessário para anexar fotos às notas"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потреби вкладати фото в нотатки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要在笔记中附加照片"
+          }
+        }
+      }
+    },
+    "NSFaceIDUsageDescription" : {
+      "extractionState" : "migrated",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver- und Entschlüsselung mit FaceID"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note encryption and decryption with FaceID"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note encryption and decryption with FaceID"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crittografia e decrittografia delle note con FaceID"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FaceIDによるノートの暗号化・復号化のため"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let op codering en decodering met FaceID"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criptografar e descriptografar com FaceID"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шифрування та дешифрування за допомогою FaceID"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注意使用 Face 进行加密和解密"
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "extractionState" : "migrated",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird beim Anhängen eines Fotos angefordert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requested when photo attached"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requested when photo attached"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E' richiesto quando viene allegata una foto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像を挿入した際にリクエストされます"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gevraagd wanneer foto bijgevoegd"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necessário quando existem fotos anexadas"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потрібен дозвіл коли додається фотографія у нотатку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "附上照片时请求"
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "extractionState" : "migrated",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfordert eine Berechtigung zum Aufzeichnen von Bildern in der Foto-App"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs permission to write images in photos app"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs permission to write images in photos app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E' necessario il permesso in scrittura per salvare immagini nell'app Foto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "挿入した画像をライブラリに保存する際に必要です"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heeft toestemming nodig om afbeeldingen in de foto-app te schrijven"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precisa de permissão para escrever imagens no aplicativo de fotos"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потрібен дозвіл на запис зображень у додаток для фотографій"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要权限才能在照片应用中写入图像"
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryUsageDescription" : {
+      "extractionState" : "migrated",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfordert das Anhängen von Bildern an Notizen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs for attach images in notes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Needs for attach images in notes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E' necessario per allegare immagini nelle note"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像をノートに挿入する際に必要です"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behoeften voor het toevoegen van afbeeldingen in notities"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necessário para anexar imagens às notas"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потрібен дозвіл коли додається зображення у нотатку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要在笔记中附加图像"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
