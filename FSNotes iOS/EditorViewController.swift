@@ -389,7 +389,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         // New line
         if text == "\n" {
-            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            let formatter = TextFormatter(textView: self.editArea, note: note)
             formatter.newLine()
 
             return false
@@ -397,7 +397,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         // Tab
         if text == "\t" {
-            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            let formatter = TextFormatter(textView: self.editArea, note: note)
             formatter.tabKey()
 
             return false
@@ -1068,14 +1068,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     @objc func codeBlockButton() {
         if let note = note {
-            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            let formatter = TextFormatter(textView: editArea, note: note)
             formatter.codeBlock()
         }
     }
 
     @objc func quotePressed() {
         if let note = note {
-            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            let formatter = TextFormatter(textView: editArea, note: note)
             formatter.quote()
 
             AudioServicesPlaySystemSound(1519)
@@ -1093,7 +1093,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     @objc func orderedListPressed() {
         if let note = note {
-            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            let formatter = TextFormatter(textView: editArea, note: note)
             formatter.list()
 
             AudioServicesPlaySystemSound(1519)
@@ -1102,7 +1102,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     @objc func numberedListPressed() {
         if let note = note {
-            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            let formatter = TextFormatter(textView: editArea, note: note)
             formatter.orderedList()
 
             AudioServicesPlaySystemSound(1519)

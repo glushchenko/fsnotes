@@ -1317,6 +1317,20 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if event.keyCode == kVK_Tab && !hasMarkedText(){
             breakUndoCoalescing()
             
+            let formatter = TextFormatter(textView: self, note: note)
+            if formatter.isListParagraph() {
+                textStorageProcessor?.shouldForceRescan = true
+                
+                if NSEvent.modifierFlags.contains(.shift) {
+                    formatter.unTab()
+                } else {
+                    formatter.tab()
+                }
+                
+                breakUndoCoalescing()
+                return
+            }
+            
             if UserDefaultsManagement.indentUsing == 0x01 {
                 let tab = TextFormatter.getAttributedCode(string: "  ")
                 insertText(tab, replacementRange: selectedRange())
@@ -1332,16 +1346,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
 
             super.keyDown(with: event)
-
-//            shiftRight(NSMenuItem())
-//            breakUndoCoalescing()
-            
             return
         }
 
         if event.keyCode == kVK_Return && !hasMarkedText() && isEditable {
             breakUndoCoalescing()
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            let formatter = TextFormatter(textView: self, note: note)
             formatter.newLine()
             breakUndoCoalescing()
             return
@@ -1794,7 +1804,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     @IBAction func shiftLeft(_ sender: Any) {
         guard let note = self.note, isEditable else { return }
-        let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+        let f = TextFormatter(textView: self, note: note)
 
         textStorageProcessor?.shouldForceRescan = true
         f.unTab()
@@ -1802,7 +1812,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     @IBAction func shiftRight(_ sender: Any) {
         guard let note = self.note, isEditable else { return }
-        let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+        let f = TextFormatter(textView: self, note: note)
 
         textStorageProcessor?.shouldForceRescan = true
         f.tab()

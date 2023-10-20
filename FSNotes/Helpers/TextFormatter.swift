@@ -39,9 +39,7 @@ public class TextFormatter {
     private var isAutomaticQuoteSubstitutionEnabled: Bool = false
     private var isAutomaticDashSubstitutionEnabled: Bool = false
     
-    private var shouldScanMarkdown: Bool
-    
-    init(textView: TextView, note: Note, shouldScanMarkdown: Bool = true) {
+    init(textView: TextView, note: Note) {
         range = textView.selectedRange
         
         #if os(OSX)
@@ -72,8 +70,6 @@ public class TextFormatter {
             textView.isAutomaticQuoteSubstitutionEnabled = false
             textView.isAutomaticDashSubstitutionEnabled = false
         #endif
-        
-        self.shouldScanMarkdown = note.isMarkdown() ? shouldScanMarkdown : false
     }
     
     func getString() -> NSMutableAttributedString {
@@ -629,6 +625,21 @@ public class TextFormatter {
         } else {
             setSelectedRange(NSMakeRange(range.upperBound + 4, 0))
         }
+    }
+    
+    public func isListParagraph() -> Bool {
+        guard let currentPR = getParagraphRange() else { return false }
+        let paragraph = storage.attributedSubstring(from: currentPR).string
+        
+        if TextFormatter.getAutocompleteCharsMatch(string: paragraph) != nil {
+            return true
+        }
+
+        if TextFormatter.getAutocompleteDigitsMatch(string: paragraph) != nil {
+            return true
+        }
+        
+        return false
     }
 
     public func tabKey() {
