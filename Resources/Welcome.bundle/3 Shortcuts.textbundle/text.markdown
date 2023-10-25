@@ -4,7 +4,7 @@ FSNotes respects mouseless usage, it is shortcuts friendly app.
 
 The most important combination you must learn:
 
-`cmd - backtick` - disable / enable preview mode.
+`cmd - slash` - disable / enable preview mode.
 
 Alternative: you can do same in menu bar `View - Toggle Preview`
 
@@ -25,7 +25,7 @@ Alternative: you can do same in menu bar `View - Toggle Preview`
 - `esc` - move cursor into search bar and clear edit/search fields
 - `cmd + L` - move cursor into search bar
 - `tab` - go to next field
-- `cmd + backtick` - preview mode (markdown only)
+- `cmd + slash` - preview mode (markdown only)
 - `up, down arrows` - select note
 - `cmd + j` - next note
 - `cmd + k` - previous note
