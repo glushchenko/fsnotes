@@ -18,7 +18,9 @@ extension EditorViewController {
     @IBAction func removeWebNote(_ sender: NSMenuItem) {
         if !UserDefaultsManagement.customWebServer, let note = getCurrentNote() {
             ViewController.shared()?.deleteAPI(note: note, completion: {
-                ViewController.shared()?.notesTableView.reloadRow(note: note)
+                DispatchQueue.main.async {
+                    ViewController.shared()?.notesTableView.reloadRow(note: note)
+                }
             })
             return
         }
