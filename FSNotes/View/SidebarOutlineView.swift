@@ -735,7 +735,9 @@ class SidebarOutlineView: NSOutlineView,
         vd.updateTable() {
             if self.isFirstLaunch {
                 DispatchQueue.main.async {
+                    vd.importAndCreate()
                     vd.restoreOpenedWindows()
+                    
                     self.isFirstLaunch = false
                 }
             }

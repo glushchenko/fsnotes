@@ -201,26 +201,6 @@ class ViewController: EditorViewController,
         if UserDefaultsManagement.fullScreen {
             view.window?.toggleFullScreen(nil)
         }
-
-        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
-            if let url = appDelegate.searchQuery {
-                appDelegate.searchQuery = nil
-                appDelegate.search(url: url)
-                return
-            }
-
-            if let urls = appDelegate.urls {
-                appDelegate.importNotes(urls: urls)
-                return
-            }
-
-            if nil != appDelegate.newName || nil != appDelegate.newContent {
-                let name = appDelegate.newName ?? ""
-                let content = appDelegate.newContent ?? ""
-                
-                appDelegate.create(name: name, content: content)
-            }
-        }
     }
     
     // MARK: - Initial configuration
@@ -302,32 +282,30 @@ class ViewController: EditorViewController,
             return
         }
 
-        DispatchQueue.main.async {
-            if self.isVisibleSidebar() {
-                self.configureSidebar()
-                
-                if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
-                    if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
-                        let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
-                        let index = self.sidebarOutlineView.row(forItem: sidebarItem)
-                        self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
-                    } else if let lastURL = UserDefaultsManagement.lastProjectURL, let project = self.storage.getProjectBy(url: lastURL) {
-                        let items = self.sidebarOutlineView.row(forItem: project)
-                        self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
-                    } else {
-                        self.configureNoteList()
-                    }
-                    
-                    return
+        if isVisibleSidebar() {
+           configureSidebar()
+            
+            if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
+                if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
+                    let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
+                    let index = self.sidebarOutlineView.row(forItem: sidebarItem)
+                    self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                } else if let lastURL = UserDefaultsManagement.lastProjectURL, let project = self.storage.getProjectBy(url: lastURL) {
+                    let items = self.sidebarOutlineView.row(forItem: project)
+                    self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
+                } else {
+                    self.configureNoteList()
                 }
+                
+                return
             }
-
-            self.configureNoteList()
         }
+
+        configureNoteList()
     }
     
     private func configureNoteList() {
-        updateTable() {
+        updateTable() {            
             if UserDefaultsManagement.copyWelcome {
                 DispatchQueue.main.async {
                     self.sidebarOutlineView.expandItem(self.storage.getRootProject())
@@ -341,6 +319,7 @@ class ViewController: EditorViewController,
             }
 
             self.restoreOpenedWindows()
+            self.importAndCreate()
         }
     }
 
@@ -2050,6 +2029,30 @@ class ViewController: EditorViewController,
         if mainKey {
             NSApp.activate(ignoringOtherApps: true)
             self.view.window?.makeKeyAndOrderFront(self)
+        }
+    }
+    
+    // Important call after initial updateTable
+    
+    public func importAndCreate() {
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
+            if let url = appDelegate.searchQuery {
+                appDelegate.searchQuery = nil
+                appDelegate.search(url: url)
+                return
+            }
+
+            if let urls = appDelegate.urls {
+                appDelegate.importNotes(urls: urls)
+                return
+            }
+
+            if nil != appDelegate.newName || nil != appDelegate.newContent {
+                let name = appDelegate.newName ?? ""
+                let content = appDelegate.newContent ?? ""
+                
+                appDelegate.create(name: name, content: content)
+            }
         }
     }
     
