@@ -122,6 +122,7 @@ public class UserDefaultsManagement {
         static let Preview = "preview"
         static let PreviewFontSize = "previewFontSize"
         static let ProjectsKey = "projects"
+        static let ProjectsKeyNew = "ProjectsKeyNew"
         static let RecentSearches = "recentSearches"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let PullInterval = "pullInterval"
@@ -1813,6 +1814,25 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
+        }
+    }
+    
+    static var projects: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
+
+            if let data = defaults.data(forKey: Constants.ProjectsKeyNew), let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
+
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+                defaults.set(data, forKey: Constants.ProjectsKeyNew)
+            }
         }
     }
 }

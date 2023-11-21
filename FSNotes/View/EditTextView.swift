@@ -969,6 +969,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+        if !note.isLoaded {
+            note.load()
+        }
+        
         textStorage?.setAttributedString(NSAttributedString(string: ""))
         
         // Hack for invalidate prev layout data (order is important, only before fill)

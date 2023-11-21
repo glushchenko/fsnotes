@@ -35,7 +35,7 @@ public class Project: Equatable {
     public var isReadyForCacheSaving = false
 
     // if notes loaded from cache validation with fs needed
-    public var cacheUsedDiffValidationNeeded = false
+    public var isNeededCacheValidation = false
 
     public var child = [Project]()
     public var isExpanded = false
@@ -293,9 +293,13 @@ public class Project: Equatable {
                 notes.append(note)
             }
 
-            self.cacheUsedDiffValidationNeeded = true
+            print("From cache: \(notes.count)")
+            
+            isNeededCacheValidation = true
         } else {
             notes = fetchNotes()
+            
+            print("From disk: \(notes.count)")
         }
 
         notes = loadPins(for: notes)
@@ -841,5 +845,26 @@ public class Project: Equatable {
         }
 
         return locked
+    }
+    
+    public func checkNotesCacheDiff(isGit: Bool = false) -> ([Note], [Note], [Note]) {
+        // if not cached – load all results for cache
+        // (not loaded instantly because is resource consumption operation, loaded later in background)
+        guard isNeededCacheValidation || isGit else {
+
+            _ = storage.noteList
+                .filter({ $0.project == self })
+                .map({ $0.load() })
+
+            isReadyForCacheSaving = true
+            return ([], [], [])
+        }
+
+
+        let results = checkFSAndMemoryDiff()
+
+        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
+        
+        return results
     }
 }

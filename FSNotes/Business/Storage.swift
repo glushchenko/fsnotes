@@ -42,7 +42,6 @@ class Storage {
     private var archiveURL = URL(string: String())
 
     private let lastNewsDate = "2023-05-25"
-    public var isFinishedTagsLoading = false
     public var isCrashedLastTime = false
 
     private var relativeInlineImagePaths = [String]()
@@ -51,88 +50,41 @@ class Storage {
     public var ciphertextWriter = OperationQueue.init()
     
     init() {
-        let storageType = UserDefaultsManagement.storageType
+        
+        // Load root
         let bookmark = SandboxBookmark.sharedInstance()
-        bookmarks = bookmark.load()
+        _ = bookmark.load()
         
-        guard let url = UserDefaultsManagement.storageUrl else { return }
-
-        if UserDefaultsManagement.storageType != storageType
-            && storageType == .local
-            && UserDefaultsManagement.storageType == .iCloudDrive {
-            shouldMovePrompt = true
-        }
-
-        initWelcome(storage: url)
-
-        var name = url.lastPathComponent
-        if let iCloudURL = getCloudDrive(), iCloudURL == url {
-            name = "iCloud Drive"
-        }
-
-        let project = Project(storage: self, url: url, label: name, isRoot: true, isDefault: true)
-
-        assignTree(for: project)
-        assignTrash(by: project.url)
-
-        for url in bookmarks {
-            if url.pathExtension == "css" {
-                continue
-            }
-
-            guard !projectExist(url: url) else {
-                continue
-            }
-
-            if url == UserDefaultsManagement.archiveDirectory
-                || url == UserDefaultsManagement.gitStorage {
-                continue
-            }
-
-            let project = Project(storage: self, url: url, label: url.lastPathComponent, isRoot: true, isExternal: true)
-            assignTree(for: project)
-        }
-
-        let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
-
-        if let archive = UserDefaultsManagement.archiveDirectory {
-            let project = Project(storage: self, url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
-            assignTree(for: project)
-        }
-
-        plainWriter.maxConcurrentOperationCount = 1
-        plainWriter.qualityOfService = .userInteractive
-
-        ciphertextWriter.maxConcurrentOperationCount = 1
-        ciphertextWriter.qualityOfService = .userInteractive
-        
-        for project in projects {
-            loadNotes(project)
-        }
-    }
-
-    // iOS
-    
-    init(micro: Bool) {
+        let storageType = UserDefaultsManagement.storageType
         guard let url = getRoot() else { return }
+        
         removeCachesIfCrashed()
 
+    #if os(OSX)
+        if storageType == .local && UserDefaultsManagement.storageType == .iCloudDrive {
+            shouldMovePrompt = true
+        }
+    #endif
+
+        let name = getDefaultName(url: url)
         let project =
             Project(
                 storage: self,
                 url: url,
-                label: "iCloud Drive",
+                label: name,
                 isRoot: true,
                 isDefault: true
             )
-
+        
         projects.append(project)
-
+        
         assignTrash(by: project.url)
         assignArchive()
         assignBookmarks()
-
+                
         loadCachedProjects()
+        loadProjectParents()
+        
         checkWelcome()
 
         plainWriter.maxConcurrentOperationCount = 1
@@ -140,7 +92,10 @@ class Storage {
 
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
-
+        
+        loadCachedNotes()
+        
+    #if os(iOS)
         let revHistory = getRevisionsHistory()
         let revHistoryDS = getRevisionsHistoryDocumentsSupport()
 
@@ -151,18 +106,23 @@ class Storage {
         if !FileManager.default.directoryExists(atUrl: revHistoryDS) {
             try? FileManager.default.createDirectory(at: revHistoryDS, withIntermediateDirectories: true, attributes: nil)
         }
+    #endif
     }
 
     public static func shared() -> Storage {
         guard let storage = self.instance else {
-        #if os(OSX)
             self.instance = Storage()
-        #else
-            self.instance = Storage(micro: true)
-        #endif
             return self.instance!
         }
         return storage
+    }
+    
+    private func getDefaultName(url: URL) -> String {
+        var name = url.lastPathComponent
+        if let iCloudURL = getCloudDrive(), iCloudURL == url {
+            name = "iCloud Drive"
+        }
+        return name
     }
 
     public func loadCachedProjects() {
@@ -172,19 +132,26 @@ class Storage {
             _ = addProject(url: url)
         }
     }
+    
+    public func loadCachedNotes() {
+        for project in projects {
+            project.loadNotes()
+        }
+        
+        _ = restoreCloudPins()
+        loadNotesSettings()
+    }
 
     public func getRoot() -> URL? {
-        #if targetEnvironment(simulator)
+        #if targetEnvironment(simulator) || os(OSX)
             return UserDefaultsManagement.storageUrl
         #endif
-
-        let ubiquityContainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
 
         if !UserDefaultsManagement.iCloudDrive {
             return getLocalDocuments()
         }
         
-        guard let iCloudDocumentsURL = ubiquityContainer?
+        guard let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?
             .appendingPathComponent("Documents")
             .standardized
         else { return getLocalDocuments() }
@@ -428,21 +395,10 @@ class Storage {
         }
     }
 
-    public func loadAllTags() {
+    public func loadNotesContent() {
         for note in noteList {
             note.load()
-            _ = note.loadTags()
         }
-
-        isFinishedTagsLoading = true
-    }
-
-    public func loadAllTagsOnly() {
-        for note in noteList {
-            _ = note.loadTags()
-        }
-
-        isFinishedTagsLoading = true
     }
 
     public func getProjectDocuments(project: Project) -> [URL] {
@@ -453,6 +409,13 @@ class Storage {
         let bookmark = SandboxBookmark.sharedInstance()
         bookmarks = bookmark.load()
         for bookmark in bookmarks {
+            if bookmark.pathExtension == "css" 
+                || projectExist(url: bookmark)
+                || UserDefaultsManagement.archiveDirectory == bookmark
+                || UserDefaultsManagement.gitStorage == bookmark {
+                continue
+            }
+            
             let externalProject =
                 Project(storage: self,
                         url: bookmark,
@@ -498,20 +461,6 @@ class Storage {
     
     public func getBookmarks() -> [URL] {
         return bookmarks
-    }
-
-    public func loadDocuments() {
-        let startingPoint = Date()
-
-        _ = restoreCloudPins()
-
-        for note in noteList {
-            note.fastLoad()
-        }
-
-        print("Loaded \(noteList.count) notes for \(startingPoint.timeIntervalSinceNow * -1) seconds")
-
-        noteList = sortNotes(noteList: noteList, filter: "")
     }
 
     public func resetCacheAttributes() {
@@ -695,14 +644,9 @@ class Storage {
                 }
             #endif
 
-            #if os(OSX)
+            if loadContent {
                 note.load()
-                note.loadPreviewInfo()
-            #else
-                if loadContent {
-                    note.load()
-                }
-            #endif
+            }
 
             if note.isTextBundle() && !note.isFullLoadedTextBundle() {
                 continue
@@ -1261,26 +1205,6 @@ class Storage {
         return destination
     }
 
-    public func initWelcome(storage: URL) {
-        guard UserDefaultsManagement.copyWelcome else { return }
-
-        guard let bundlePath = Bundle.main.path(forResource: "Welcome", ofType: ".bundle") else { return }
-
-        let bundle = URL(fileURLWithPath: bundlePath)
-        let url = storage.appendingPathComponent("Welcome")
-
-        try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
-
-        do {
-            let files = try FileManager.default.contentsOfDirectory(atPath: bundle.path)
-            for file in files {
-                try FileManager.default.copyItem(atPath: "\(bundle.path)/\(file)", toPath: "\(url.path)/\(file)")
-            }
-        } catch {
-            print("Initial copy error: \(error)")
-        }
-    }
-
     public func getCache(key: String) -> Data? {
         guard let cacheDir =
             NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return nil }
@@ -1303,24 +1227,44 @@ class Storage {
     }
 
     private func checkWelcome() {
-        guard UserDefaultsManagement.copyWelcome else { return }
-        guard noteList.isEmpty else { return }
+        #if os(OSX)
+            guard let storageUrl = getDefault()?.url else { return }
+            guard UserDefaultsManagement.copyWelcome else { return }
+            guard let bundlePath = Bundle.main.path(forResource: "Welcome", ofType: ".bundle") else { return }
 
-        let welcomeFileName = "Meet FSNotes 6.textbundle"
+            let bundle = URL(fileURLWithPath: bundlePath)
+            let url = storageUrl.appendingPathComponent("Welcome")
 
-        guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(welcomeFileName)") else { return }
+            try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
 
-        guard let dst = getDefault()?.url.appendingPathComponent(welcomeFileName) else { return }
-
-        do {
-            if !FileManager.default.fileExists(atPath: dst.path) {
-                try FileManager.default.copyItem(atPath: src.path, toPath: dst.path)
+            do {
+                let files = try FileManager.default.contentsOfDirectory(atPath: bundle.path)
+                for file in files {
+                    try FileManager.default.copyItem(atPath: "\(bundle.path)/\(file)", toPath: "\(url.path)/\(file)")
+                }
+            } catch {
+                print("Initial copy error: \(error)")
             }
-        } catch {
-            print("Initial copy error: \(error)")
-        }
+        #else
+            guard UserDefaultsManagement.copyWelcome else { return }
+            guard noteList.isEmpty else { return }
 
-        UserDefaultsManagement.copyWelcome = false
+            let welcomeFileName = "Meet FSNotes 6.textbundle"
+
+            guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(welcomeFileName)") else { return }
+
+            guard let dst = getDefault()?.url.appendingPathComponent(welcomeFileName) else { return }
+
+            do {
+                if !FileManager.default.fileExists(atPath: dst.path) {
+                    try FileManager.default.copyItem(atPath: src.path, toPath: dst.path)
+                }
+            } catch {
+                print("Initial copy error: \(error)")
+            }
+
+            UserDefaultsManagement.copyWelcome = false
+        #endif
     }
 
     public func getWelcome() -> URL? {
@@ -1361,6 +1305,8 @@ class Storage {
     }
 
     public func fetchNonSystemProjectURLs() -> [URL] {
+        guard let main = getDefault() else { return [URL]() }
+        
         var projectURLs = [URL]()
 
         if let main = getDefault(),
@@ -1372,6 +1318,7 @@ class Storage {
                 if standardizedURL == archiveURL
                     || standardizedURL == trashURL
                     || standardizedURL == main.url
+                    || standardizedURL == UserDefaultsManagement.archiveDirectory
                 {
                     continue
                 }
@@ -1384,7 +1331,10 @@ class Storage {
         let urls = sandbox.load()
 
         for url in urls {
-            if !projectURLs.contains(url) {
+            if !projectURLs.contains(url)
+                && url != main.url
+                && url != UserDefaultsManagement.archiveDirectory {
+
                 projectURLs.append(url)
             }
         }
@@ -1417,7 +1367,12 @@ class Storage {
             foundAdded.append(project)
             projects.append(project)
         }
+        
+        loadProjectParents()
 
+        // Save projects cache
+        UserDefaultsManagement.projects = getNonSystemProjects().compactMap({ $0.url })
+        
         return (foundRemoved, foundAdded)
     }
 

@@ -70,7 +70,6 @@ class Sidebar {
         if externalProjects.count > 0 {
             let icon = NSImage(named: "sidebar_external")
             let name = NSLocalizedString("External Folders", comment: "")
-            list.append(SidebarItem(name: "", type: .Label))
             list.append(SidebarItem(name: name, type: .Header, icon: icon))
 
             for project in externalProjects {

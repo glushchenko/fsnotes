@@ -136,15 +136,22 @@ class ViewController: EditorViewController,
 
     // MARK: - Overrides
     
-    override func viewDidLoad() {
-        DispatchQueue.global().async {
-            self.storage.loadAllTagsOnly()
+    override func viewDidAppear() {
+        // Restore window position
 
-            DispatchQueue.main.async {
-                self.sidebarOutlineView.loadAllTags()
-            }
+        if sidebarOutlineView.isFirstLaunch, let x = UserDefaultsManagement.lastScreenX, let y = UserDefaultsManagement.lastScreenY {
+            view.window?.setFrameOrigin(NSPoint(x: x, y: y))
+
+            UserDefaultsManagement.lastScreenX = nil
+            UserDefaultsManagement.lastScreenY = nil
         }
 
+        if UserDefaultsManagement.fullScreen {
+            view.window?.toggleFullScreen(nil)
+        }
+    }
+    
+    public func appLoading() {
         newNoteButton.image =
             NSImage(imageLiteralResourceName: "new_note_button")
                 .resize(to: CGSize(width: 30, height: 30))
@@ -160,7 +167,6 @@ class ViewController: EditorViewController,
         configureShortcuts()
         configureDelegates()
         configureLayout()
-        configureSidebarAndNotesList()
         configureEditor()
 
         fsManager = FileSystemEventManager(storage: storage, delegate: self)
@@ -187,19 +193,54 @@ class ViewController: EditorViewController,
         
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
     }
+    
+    public func preLoadProjectsData() {
+        appLoading()
 
-    override func viewDidAppear() {
-        // Restore window position
-
-        if sidebarOutlineView.isFirstLaunch, let x = UserDefaultsManagement.lastScreenX, let y = UserDefaultsManagement.lastScreenY {
-            view.window?.setFrameOrigin(NSPoint(x: x, y: y))
-
-            UserDefaultsManagement.lastScreenX = nil
-            UserDefaultsManagement.lastScreenY = nil
+        DispatchQueue.main.async {
+            self.configureSidebarAndNotesList()
         }
+        
+        DispatchQueue.global().async {
+            let storage = self.storage
+            
+            let projectsLoading = Date()
+            let results = storage.checkFSAndMemoryDiff()
 
-        if UserDefaultsManagement.fullScreen {
-            view.window?.toggleFullScreen(nil)
+            OperationQueue.main.addOperation {
+                self.sidebarOutlineView.removeRows(projects: results.0)
+                self.sidebarOutlineView.insertRows(projects: results.1)
+            }
+            
+            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
+
+            let diffLoading = Date()
+            for project in storage.getProjects() {
+                let changes = project.checkNotesCacheDiff()
+                self.notesTableView.doVisualChanges(results: changes)
+            }
+            
+            print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
+            
+            let tagsPoint = Date()
+            _ = storage.restoreCloudPins()
+            storage.loadNotesSettings()
+            storage.loadNotesContent()
+            
+            DispatchQueue.main.async {
+                self.sidebarOutlineView.loadAllTags()
+            }
+            
+            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+            
+            let highlightCachePoint = Date()
+            for note in storage.noteList {
+                if note.type == .Markdown {
+                    note.cache(backgroundThread: true)
+                }
+            }
+            
+            print("3. Notes attributes cache for \(storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
         }
     }
     
@@ -217,7 +258,9 @@ class ViewController: EditorViewController,
         
         self.shareButton.sendAction(on: .leftMouseDown)
         self.setTableRowHeight()
-        self.sidebarOutlineView.sidebarItems = Sidebar().getList()
+        
+        let sidebarList = Sidebar().getList()
+        self.sidebarOutlineView.sidebarItems = sidebarList
 
         sidebarOutlineView.selectionHighlightStyle = .regular
 
@@ -283,16 +326,24 @@ class ViewController: EditorViewController,
         }
 
         if isVisibleSidebar() {
-           configureSidebar()
+            configureSidebar()
             
             if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
                 if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
                     let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
-                    let index = self.sidebarOutlineView.row(forItem: sidebarItem)
-                    self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                    let item = self.sidebarOutlineView.row(forItem: sidebarItem)
+                    if item > -1 {
+                        self.sidebarOutlineView.selectRowIndexes([item], byExtendingSelection: false)
+                    } else {
+                        self.configureNoteList()
+                    }
                 } else if let lastURL = UserDefaultsManagement.lastProjectURL, let project = self.storage.getProjectBy(url: lastURL) {
-                    let items = self.sidebarOutlineView.row(forItem: project)
-                    self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
+                    let item = self.sidebarOutlineView.row(forItem: project)
+                    if item > -1 {
+                        self.sidebarOutlineView.selectRowIndexes([item], byExtendingSelection: false)
+                    } else {
+                        self.configureNoteList()
+                    }
                 } else {
                     self.configureNoteList()
                 }
@@ -318,8 +369,10 @@ class ViewController: EditorViewController,
                 return
             }
 
-            self.restoreOpenedWindows()
-            self.importAndCreate()
+            DispatchQueue.main.async {
+                self.restoreOpenedWindows()
+                self.importAndCreate()
+            }
         }
     }
 
@@ -528,7 +581,7 @@ class ViewController: EditorViewController,
             _ = note.move(to: destination, project: project)
 
             if !isFit(note: note, shouldLoadMain: true) {
-                notesTableView.removeByNotes(notes: [note])
+                notesTableView.removeRows(notes: [note])
 
                 if let i = selectedRow, i > -1 {
                     if notesTableView.noteList.count > i {
@@ -1158,7 +1211,7 @@ class ViewController: EditorViewController,
                 vc.editor.clear()
                 vc.storage.removeNotes(notes: notes, completely: true) { _ in
                     DispatchQueue.main.async {
-                        vc.notesTableView.removeByNotes(notes: notes)
+                        vc.notesTableView.removeRows(notes: notes)
                         if let i = selectedRow, i > -1 {
                             vc.notesTableView.selectRow(i)
                         }

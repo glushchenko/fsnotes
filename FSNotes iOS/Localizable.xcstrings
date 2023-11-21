@@ -2,15 +2,8 @@
   "sourceLanguage" : "en",
   "strings" : {
     "..." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "..."
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "..."
@@ -62,15 +55,8 @@
     },
     "+" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "+"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "+"
@@ -121,15 +107,8 @@
       }
     },
     "✅ - " : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "✅ - "
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "✅ - "
@@ -181,18 +160,11 @@
     },
     "Add External Folder" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Externer Ordner"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add External Folder"
           }
         },
         "fr" : {
@@ -241,18 +213,11 @@
     },
     "Advanced" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profi"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Advanced"
           }
         },
         "fr" : {
@@ -300,19 +265,12 @@
       }
     },
     "Archive" : {
-      "comment" : "Archive in sidebar",
-      "extractionState" : "migrated",
+      "comment" : "Sidebar label\nArchive in sidebar",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Archiv"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archive"
           }
         },
         "fr" : {
@@ -360,18 +318,11 @@
       }
     },
     "Are you sure you want to delete all versions of this note?" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Möchten Sie wirklich alle Versionen dieser Notiz löschen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you sure you want to delete all versions of this note?"
           }
         },
         "fr" : {
@@ -419,18 +370,11 @@
       }
     },
     "Are you sure you want to delete the history of all notes?" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Möchten Sie den Verlauf aller Notizen wirklich löschen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you sure you want to delete the history of all notes?"
           }
         },
         "fr" : {
@@ -478,18 +422,11 @@
       }
     },
     "Are you sure you want to delete this image?" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Möchten Sie dieses Bild wirklich löschen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you sure you want to delete this image?"
           }
         },
         "fr" : {
@@ -538,18 +475,11 @@
     },
     "Auto Rename By Title" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nach Titel umbenennen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auto Rename By Title"
           }
         },
         "fr" : {
@@ -598,18 +528,11 @@
     },
     "Autocorrection" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autokorrektur"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Autocorrection"
           }
         },
         "fr" : {
@@ -658,18 +581,11 @@
     },
     "build" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "version"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "build"
           }
         },
         "fr" : {
@@ -717,18 +633,11 @@
       }
     },
     "Cancel" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abbrechen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
           }
         },
         "fr" : {
@@ -776,18 +685,11 @@
       }
     },
     "Change Creation Date" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Datum erstellt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Change Creation Date"
           }
         },
         "fr" : {
@@ -836,18 +738,11 @@
     },
     "Check Spelling" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rechtschreibung prüfen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check Spelling"
           }
         },
         "fr" : {
@@ -895,15 +790,8 @@
       }
     },
     "Code" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Code"
@@ -955,18 +843,11 @@
     },
     "Code Block Live Highlighting" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Code hervorheben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code Block Live Highlighting"
           }
         },
         "fr" : {
@@ -1015,18 +896,11 @@
     },
     "Code Theme" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Code-Design"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code Theme"
           }
         },
         "fr" : {
@@ -1074,18 +948,11 @@
       }
     },
     "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Совместимо с DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf."
           }
         },
         "fr" : {
@@ -1134,15 +1001,8 @@
     },
     "Container" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Container"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Container"
@@ -1193,18 +1053,11 @@
       }
     },
     "Copy Plain Text" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text kopieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy Plain Text"
           }
         },
         "fr" : {
@@ -1253,18 +1106,11 @@
     },
     "Create Folder" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner erstellen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create Folder"
           }
         },
         "fr" : {
@@ -1312,18 +1158,11 @@
       }
     },
     "Create folder:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner erstellen:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create folder:"
           }
         },
         "fr" : {
@@ -1371,18 +1210,11 @@
       }
     },
     "Create Web Page" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web-Seite erstellen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create Web Page"
           }
         },
         "fr" : {
@@ -1430,18 +1262,11 @@
       }
     },
     "Creation Date" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erstelldatum"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Creation Date"
           }
         },
         "fr" : {
@@ -1490,18 +1315,11 @@
     },
     "Decrypt" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entschlüsseln"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Decrypt"
           }
         },
         "fr" : {
@@ -1549,18 +1367,12 @@
       }
     },
     "Default Keyboard" : {
-      "extractionState" : "migrated",
+      "comment" : "Settings",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Standard-Tastatur"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Default Keyboard"
           }
         },
         "fr" : {
@@ -1609,18 +1421,11 @@
     },
     "Delete" : {
       "comment" : "Table row action",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Löschen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
           }
         },
         "fr" : {
@@ -1668,18 +1473,11 @@
       }
     },
     "Delete Web Page" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web-Seite löschen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete Web Page"
           }
         },
         "fr" : {
@@ -1727,18 +1525,11 @@
       }
     },
     "Documents" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dokumente"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Documents"
           }
         },
         "fr" : {
@@ -1786,18 +1577,11 @@
       }
     },
     "Done" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erledigt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
           }
         },
         "fr" : {
@@ -1845,18 +1629,11 @@
       }
     },
     "Duplicate" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplikat"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Duplicate"
           }
         },
         "fr" : {
@@ -1905,18 +1682,11 @@
     },
     "Dynamic Type" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dynamische Schriftart"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dynamic Type"
           }
         },
         "fr" : {
@@ -1965,18 +1735,11 @@
     },
     "Editor" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editorin"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editor"
           }
         },
         "fr" : {
@@ -2025,18 +1788,11 @@
     },
     "Empty Bin" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Leerer Behälter"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Empty Bin"
           }
         },
         "fr" : {
@@ -2085,18 +1841,11 @@
     },
     "Encrypt" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verschlüsseln Sie"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Encrypt"
           }
         },
         "fr" : {
@@ -2144,18 +1893,11 @@
       }
     },
     "Enter folder name" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordnername eingeben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter folder name"
           }
         },
         "fr" : {
@@ -2203,18 +1945,11 @@
       }
     },
     "Enter Master Password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passwort eingeben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter Master Password"
           }
         },
         "fr" : {
@@ -2262,18 +1997,11 @@
       }
     },
     "Enter new tag name" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tag eingeben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter new tag name"
           }
         },
         "fr" : {
@@ -2321,18 +2049,11 @@
       }
     },
     "Enter note name" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notizname eingeben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter note name"
           }
         },
         "fr" : {
@@ -2381,18 +2102,11 @@
     },
     "Extension" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dateiformat"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extension"
           }
         },
         "fr" : {
@@ -2441,18 +2155,11 @@
     },
     "Family" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schriftfamilie"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Family"
           }
         },
         "fr" : {
@@ -2500,18 +2207,11 @@
       }
     },
     "File with this name already exist" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eine Datei mit diesem Namen existiert bereits"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File with this name already exist"
           }
         },
         "fr" : {
@@ -2560,18 +2260,11 @@
     },
     "Files" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Datei Format"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Files"
           }
         },
         "fr" : {
@@ -2620,18 +2313,11 @@
     },
     "Files Naming" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dateinamen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Files Naming"
           }
         },
         "fr" : {
@@ -2679,18 +2365,11 @@
       }
     },
     "Folder name:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordnername:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folder name:"
           }
         },
         "fr" : {
@@ -2738,18 +2417,11 @@
       }
     },
     "Folder with this name already exist" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ein Ordner mit diesem Namen existiert bereits"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folder with this name already exist"
           }
         },
         "fr" : {
@@ -2798,18 +2470,11 @@
     },
     "Folders" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folders"
           }
         },
         "fr" : {
@@ -2858,18 +2523,11 @@
     },
     "Font" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schrift"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Font"
           }
         },
         "fr" : {
@@ -2918,18 +2576,11 @@
     },
     "Font Family" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schriftart"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Font Family"
           }
         },
         "fr" : {
@@ -2978,18 +2629,11 @@
     },
     "Font Size" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schriftgröße"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Font Size"
           }
         },
         "fr" : {
@@ -3038,15 +2682,8 @@
     },
     "Format: Untitled Note" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Format: Untitled Note"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Format: Untitled Note"
@@ -3098,15 +2735,8 @@
     },
     "Format: yyyy-MM-dd hh.mm.ss a" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Format: yyyy-MM-dd hh.mm.ss a"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Format: yyyy-MM-dd hh.mm.ss a"
@@ -3158,15 +2788,8 @@
     },
     "Format: yyyyMMddHHmmss" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Format: yyyyMMddHHmmss"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Format: yyyyMMddHHmmss"
@@ -3218,15 +2841,8 @@
     },
     "FSNotes" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "FSNotes"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -3278,18 +2894,11 @@
     },
     "General" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Allgemein"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "General"
           }
         },
         "fr" : {
@@ -3338,15 +2947,8 @@
     },
     "Git" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
@@ -3398,15 +3000,8 @@
     },
     "Git Add/commit/push" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git Add/commit/push"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git Add/commit/push"
@@ -3458,18 +3053,11 @@
     },
     "Git Settings" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git settings"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git Settings"
           }
         },
         "fr" : {
@@ -3517,18 +3105,11 @@
       }
     },
     "History" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geschichte"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "History"
           }
         },
         "fr" : {
@@ -3577,15 +3158,8 @@
     },
     "iCloud Drive" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud Drive"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud Drive"
@@ -3637,15 +3211,8 @@
     },
     "Icon" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Icon"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icon"
@@ -3696,18 +3263,11 @@
       }
     },
     "Images source:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bildquelle:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Images source:"
           }
         },
         "fr" : {
@@ -3755,19 +3315,12 @@
       }
     },
     "Import Notes" : {
-      "comment" : "Main view popover table\n   Settings",
-      "extractionState" : "migrated",
+      "comment" : "Main view popover table\nSettings",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import Notes"
           }
         },
         "fr" : {
@@ -3816,18 +3369,11 @@
     },
     "Inbox" : {
       "comment" : "Inbox in sidebar",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eingang"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inbox"
           }
         },
         "fr" : {
@@ -3875,18 +3421,11 @@
       }
     },
     "Invalid Password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ungültiges Passwort"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid Password"
           }
         },
         "fr" : {
@@ -3935,18 +3474,11 @@
     },
     "Library" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seitenleiste"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Library"
           }
         },
         "fr" : {
@@ -3995,18 +3527,11 @@
     },
     "Line Spacing" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zeilenabstand"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Line Spacing"
           }
         },
         "fr" : {
@@ -4055,18 +3580,11 @@
     },
     "Live Images Preview" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bilder аnzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live Images Preview"
           }
         },
         "fr" : {
@@ -4114,18 +3632,12 @@
       }
     },
     "Lock" : {
-      "extractionState" : "migrated",
+      "comment" : "Main view popover table",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sperren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lock"
           }
         },
         "fr" : {
@@ -4174,15 +3686,8 @@
     },
     "Master" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Master"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Master"
@@ -4233,18 +3738,11 @@
       }
     },
     "Master password:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Master Passwort:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Master password:"
           }
         },
         "fr" : {
@@ -4293,15 +3791,8 @@
     },
     "MathJax" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MathJax"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "MathJax"
@@ -4352,18 +3843,11 @@
       }
     },
     "Modification Date" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Änderungsdatum"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modification Date"
           }
         },
         "fr" : {
@@ -4412,18 +3896,11 @@
     },
     "More" : {
       "comment" : "Table row action",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mehr"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "More"
           }
         },
         "fr" : {
@@ -4472,18 +3949,11 @@
     },
     "Move" : {
       "comment" : "Move view",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bewegen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Move"
           }
         },
         "fr" : {
@@ -4531,18 +4001,11 @@
       }
     },
     "New Note" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Neues Dokument"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Note"
           }
         },
         "fr" : {
@@ -4590,18 +4053,11 @@
       }
     },
     "None" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Standard"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "None"
           }
         },
         "fr" : {
@@ -4649,19 +4105,12 @@
       }
     },
     "Notes" : {
-      "comment" : "Notes in sidebar\n   Sidebar items",
-      "extractionState" : "migrated",
+      "comment" : "Sidebar items\nSidebar label\nNotes in sidebar",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notizen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notes"
           }
         },
         "fr" : {
@@ -4709,18 +4158,11 @@
       }
     },
     "Notes List" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notizenliste"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notes List"
           }
         },
         "fr" : {
@@ -4769,18 +4211,11 @@
     },
     "Open in Files.app" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "In Files.app öffnen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open in Files.app"
           }
         },
         "fr" : {
@@ -4829,18 +4264,11 @@
     },
     "Open Note" : {
       "comment" : "Document opened",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geöffnete Notiz"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Note"
           }
         },
         "fr" : {
@@ -4888,15 +4316,8 @@
       }
     },
     "Passphrase" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passphrase"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passphrase"
@@ -4947,18 +4368,11 @@
       }
     },
     "Password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passwort"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password"
           }
         },
         "fr" : {
@@ -5006,18 +4420,11 @@
       }
     },
     "Password has been successfully changed" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Das Passwort wurde erfolgreich geändert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password has been successfully changed"
           }
         },
         "fr" : {
@@ -5065,18 +4472,11 @@
       }
     },
     "Password:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passwort:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password:"
           }
         },
         "fr" : {
@@ -5124,18 +4524,11 @@
       }
     },
     "Photos" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotos"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Photos"
           }
         },
         "fr" : {
@@ -5183,18 +4576,11 @@
       }
     },
     "Picture removing" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bild entfernen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Picture removing"
           }
         },
         "fr" : {
@@ -5243,18 +4629,11 @@
     },
     "Pin" : {
       "comment" : "Table row action",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fixieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pin"
           }
         },
         "fr" : {
@@ -5302,18 +4681,11 @@
       }
     },
     "Please enter valid password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bitte geben Sie ein gültiges Passwort ein"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please enter valid password"
           }
         },
         "fr" : {
@@ -5361,18 +4733,11 @@
       }
     },
     "Please try again" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bitte versuchen Sie es erneut"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please try again"
           }
         },
         "fr" : {
@@ -5420,18 +4785,11 @@
       }
     },
     "Private Key" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Private key"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Private Key"
           }
         },
         "fr" : {
@@ -5479,18 +4837,11 @@
       }
     },
     "Project removing ❌" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Projekt entfernen ❌"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Project removing ❌"
           }
         },
         "fr" : {
@@ -5538,18 +4889,11 @@
       }
     },
     "Public Key (optional)" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Public key (optional)"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Public Key (optional)"
           }
         },
         "fr" : {
@@ -5597,18 +4941,11 @@
       }
     },
     "Pull (every 30 sec)" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pull (alle 30 Sekunden)"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pull (every 30 sec)"
           }
         },
         "fr" : {
@@ -5656,18 +4993,11 @@
       }
     },
     "Remove Encryption" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verschlüsselung entfernen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove Encryption"
           }
         },
         "fr" : {
@@ -5716,18 +5046,11 @@
     },
     "Remove Folder" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner enfernen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove Folder"
           }
         },
         "fr" : {
@@ -5776,18 +5099,11 @@
     },
     "Remove Tag" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tag entfernen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove Tag"
           }
         },
         "fr" : {
@@ -5835,18 +5151,11 @@
       }
     },
     "Rename" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Umbenennen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename"
           }
         },
         "fr" : {
@@ -5895,18 +5204,11 @@
     },
     "Rename Folder" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner umbenennen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename Folder"
           }
         },
         "fr" : {
@@ -5955,18 +5257,11 @@
     },
     "Rename folder:" : {
       "comment" : "Popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner löschen:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename folder:"
           }
         },
         "fr" : {
@@ -6014,18 +5309,11 @@
       }
     },
     "Rename note:" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notiz umbenennen:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename note:"
           }
         },
         "fr" : {
@@ -6074,18 +5362,11 @@
     },
     "Rename Tag" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tag umbenennen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename Tag"
           }
         },
         "fr" : {
@@ -6134,18 +5415,11 @@
     },
     "Rename tag:" : {
       "comment" : "Popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tag umbenennen:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename tag:"
           }
         },
         "fr" : {
@@ -6193,18 +5467,11 @@
       }
     },
     "Save" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Speichern Sie"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
           }
         },
         "fr" : {
@@ -6252,18 +5519,11 @@
       }
     },
     "Save Clipboard" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kopieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save Clipboard"
           }
         },
         "fr" : {
@@ -6311,18 +5571,11 @@
       }
     },
     "Save Revision" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Revision speichern"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save Revision"
           }
         },
         "fr" : {
@@ -6370,18 +5623,11 @@
       }
     },
     "Saved versions" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gespeicherte Versionen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved versions"
           }
         },
         "fr" : {
@@ -6429,18 +5675,11 @@
       }
     },
     "Search or create" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Suchen oder erstellen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search or create"
           }
         },
         "fr" : {
@@ -6488,18 +5727,11 @@
       }
     },
     "Search or Create" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Suchen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search or Create"
           }
         },
         "fr" : {
@@ -6548,18 +5780,11 @@
     },
     "Security" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sicherheit"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Security"
           }
         },
         "fr" : {
@@ -6608,15 +5833,8 @@
     },
     "Select" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select"
@@ -6668,18 +5886,11 @@
     },
     "Settings" : {
       "comment" : "Sidebar settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Einstellungen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings"
           }
         },
         "fr" : {
@@ -6727,18 +5938,11 @@
       }
     },
     "Share" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Teilen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share"
           }
         },
         "fr" : {
@@ -6786,18 +5990,11 @@
       }
     },
     "Show Folder in Library" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Projekt in Seitenleiste anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Folder in Library"
           }
         },
         "fr" : {
@@ -6845,18 +6042,11 @@
       }
     },
     "Show Notes in \"Notes\" and \"Todo\"" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notizen in \"Notizen\" und \"Todo\" anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Notes in \"Notes\" and \"Todo\""
           }
         },
         "fr" : {
@@ -6904,18 +6094,12 @@
       }
     },
     "Sort By" : {
-      "extractionState" : "migrated",
+      "comment" : "Settings",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sortieren nach"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sort By"
           }
         },
         "fr" : {
@@ -6964,15 +6148,8 @@
     },
     "SoulverCore" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "SoulverCore"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "SoulverCore"
@@ -7024,7 +6201,7 @@
     },
     "Storage" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
+      "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -7084,15 +6261,8 @@
     },
     "Support" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Support"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Support"
@@ -7142,20 +6312,16 @@
         }
       }
     },
+    "Tags" : {
+      "comment" : "Sidebar label"
+    },
     "Thanks" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dank an"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thanks"
           }
         },
         "fr" : {
@@ -7204,18 +6370,11 @@
     },
     "Theme" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Thema"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theme"
           }
         },
         "fr" : {
@@ -7263,18 +6422,11 @@
       }
     },
     "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tipp: Um alte Notizen zu verwenden, müssen Sie sie separat mit dem alten Schlüssel entschlüsseln und erneut verschlüsseln."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again."
           }
         },
         "fr" : {
@@ -7322,18 +6474,11 @@
       }
     },
     "Title" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Titel"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Title"
           }
         },
         "fr" : {
@@ -7381,16 +6526,9 @@
       }
     },
     "Todo" : {
-      "comment" : "Sidebar items\n   Todo in sidebar",
-      "extractionState" : "migrated",
+      "comment" : "Sidebar items\nTodo in sidebar",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todo"
@@ -7441,19 +6579,12 @@
       }
     },
     "Trash" : {
-      "comment" : "Trash in sidebar",
-      "extractionState" : "migrated",
+      "comment" : "Sidebar label\nTrash in sidebar",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Papierkorb"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trash"
           }
         },
         "fr" : {
@@ -7502,15 +6633,8 @@
     },
     "Twitter" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Twitter"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
@@ -7561,18 +6685,12 @@
       }
     },
     "Unlock" : {
-      "extractionState" : "migrated",
+      "comment" : "Main view popover table",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entsperren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlock"
           }
         },
         "fr" : {
@@ -7621,18 +6739,11 @@
     },
     "Unpin" : {
       "comment" : "Table row action",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loslösen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unpin"
           }
         },
         "fr" : {
@@ -7680,18 +6791,12 @@
       }
     },
     "Untagged" : {
-      "extractionState" : "migrated",
+      "comment" : "Sidebar settings",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ungetaggt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Untagged"
           }
         },
         "fr" : {
@@ -7739,15 +6844,8 @@
       }
     },
     "Update" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Update"
@@ -7798,18 +6896,11 @@
       }
     },
     "Use First Line as Title" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erste Zeile als Titel"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use First Line as Title"
           }
         },
         "fr" : {
@@ -7858,18 +6949,11 @@
     },
     "Use Inline Tags" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inlinetags verwenden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Inline Tags"
           }
         },
         "fr" : {
@@ -7917,18 +7001,11 @@
       }
     },
     "Verify Password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passwort überprüfen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verify Password"
           }
         },
         "fr" : {
@@ -7977,15 +7054,8 @@
     },
     "Version" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version"
@@ -8036,18 +7106,12 @@
       }
     },
     "View" : {
-      "extractionState" : "migrated",
+      "comment" : "Settings",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sicht"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View"
           }
         },
         "fr" : {
@@ -8096,18 +7160,11 @@
     },
     "View Settings" : {
       "comment" : "Main view popover table",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Einstellungen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View Settings"
           }
         },
         "fr" : {
@@ -8155,18 +7212,11 @@
       }
     },
     "Visibility" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sichtbarkeit"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visibility"
           }
         },
         "fr" : {
@@ -8214,15 +7264,8 @@
       }
     },
     "Web sharing error" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Web sharing error"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web sharing error"
@@ -8274,18 +7317,11 @@
     },
     "Website" : {
       "comment" : "Settings",
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Startseite"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Website"
           }
         },
         "fr" : {
@@ -8333,18 +7369,11 @@
       }
     },
     "Wrong password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falsches Passwort"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wrong password"
           }
         },
         "fr" : {
@@ -8392,18 +7421,11 @@
       }
     },
     "Wrong repeated password" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falsches wiederholtes Passwort"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wrong repeated password"
           }
         },
         "fr" : {
@@ -8451,18 +7473,11 @@
       }
     },
     "Сlearing history" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verlauf löschen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сlearing history"
           }
         },
         "fr" : {

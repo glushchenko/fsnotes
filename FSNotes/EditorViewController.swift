@@ -829,7 +829,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         UserDataService.instance.searchTrigger = true
 
-        vc.notesTableView.removeByNotes(notes: notes)
+        vc.notesTableView.removeRows(notes: notes)
 
         // Delete tags
         for note in notes {

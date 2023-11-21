@@ -419,7 +419,7 @@ class SidebarOutlineView: NSOutlineView,
                 vc.editor.clear()
                 vc.storage.removeNotes(notes: notes) { _ in
                     DispatchQueue.main.async {
-                        vc.notesTableView.removeByNotes(notes: notes)
+                        vc.notesTableView.removeRows(notes: notes)
                     }
                 }
             } else {
@@ -694,7 +694,6 @@ class SidebarOutlineView: NSOutlineView,
 
         if UserDefaultsManagement.inlineTags,
             view.item(atRow: i) as? FSTag == nil,
-            storage.isFinishedTagsLoading,
             hasChangedProjectsState || hasChangedSidebarItemsState {
 
             reloadTags()
@@ -1408,6 +1407,34 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
     }
+    
+    public func insertRows(projects: [Project]) {
+        for project in projects {
+            insert(project: project)
+        }
+    }
+    
+    public func removeRows(projects: [Project]) {
+        for project in projects {
+            removeProject(project: project)
+        }
+    }
+    
+    public func insert(project: Project) {
+        guard let parent = storage.findParent(url: project.url) else { return }
+        
+        if let vc = ViewController.shared(), vc.isVisibleSidebar() {
+            if !parent.isRoot || parent.isExternal {
+                insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
+            } else {
+                let position = getRootProjectPosition(for: project)
+                sidebarItems?.insert(project, at: position)
+                self.insertItems(at: [position], inParent: nil, withAnimation: .effectFade)
+            }
+        }
+
+        viewDelegate?.fsManager?.reloadObservedFolders()
+    }
 
     public func insertProject(url: URL) {
         guard !storage.projectExist(url: url) else { return }
@@ -1425,18 +1452,8 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         storage.noteList.append(contentsOf: notes)
-
-        if let vc = ViewController.shared(), vc.isVisibleSidebar() {
-            if !parent.isRoot || parent.isExternal {
-                insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
-            } else {
-                let position = getRootProjectPosition(for: project)
-                sidebarItems?.insert(project, at: position)
-                self.insertItems(at: [position], inParent: nil, withAnimation: .effectFade)
-            }
-        }
-
-        viewDelegate?.fsManager?.reloadObservedFolders()
+        
+        insert(project: project)
     }
     
     public func createProject(name: String, parent: Project) {

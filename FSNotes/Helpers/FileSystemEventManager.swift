@@ -244,7 +244,7 @@ class FileSystemEventManager {
         self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
             DispatchQueue.main.async {
                 if self.delegate.notesTableView.numberOfRows > 0 {
-                    self.delegate.notesTableView.removeByNotes(notes: [note])
+                    self.delegate.notesTableView.removeRows(notes: [note])
                 }
             }
         }

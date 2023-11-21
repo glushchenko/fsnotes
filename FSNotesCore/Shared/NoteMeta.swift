@@ -16,4 +16,5 @@ public struct NoteMeta: Codable {
     var modificationDate: Date
     var creationDate: Date
     var pinned: Bool
+    var tags: [String]
 }

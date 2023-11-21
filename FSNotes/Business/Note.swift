@@ -115,6 +115,7 @@ public class Note: NSObject  {
         modifiedLocalAt = meta.modificationDate
         creationDate = meta.creationDate
         isPinned = meta.pinned
+        tags = meta.tags
         self.project = project
 
         super.init()
@@ -131,7 +132,8 @@ public class Note: NSObject  {
             preview: preview,
             modificationDate: modifiedLocalAt,
             creationDate: date,
-            pinned: isPinned
+            pinned: isPinned,
+            tags: tags
         )
     }
 
@@ -208,16 +210,6 @@ public class Note: NSObject  {
         }
     }
 
-    func fastLoad() {
-        if let attributedString = getContent() {
-            cacheHash = nil
-            content = NSMutableAttributedString(attributedString: attributedString)
-        }
-
-        loadFileName()
-        isLoaded = true
-    }
-
     func load(tags: Bool = true) {
         if let attributedString = getContent() {
             cacheHash = nil
@@ -225,14 +217,11 @@ public class Note: NSObject  {
         }
 
         loadFileName()
-
-        #if os(iOS)
-            loadPreviewInfo()
-        #else
-            if !isTrash() && !project.isArchive && tags {
-                loadTags()
-            }
-        #endif
+        loadPreviewInfo()
+        
+        if !isTrash() && !project.isArchive && tags {
+            loadTags()
+        }
 
         isLoaded = true
     }
@@ -1210,30 +1199,12 @@ public class Note: NSObject  {
         return name.localizedStandardContains(terms) || content.string.localizedStandardContains(terms)
     }
 
-#if os(OSX)
     public func loadTags() {
         if UserDefaultsManagement.inlineTags {
             _ = scanContentTags()
-            return
         }
     }
-#else
-    public func loadTags() -> Bool {
-        _ = Storage.shared()
-
-        if UserDefaultsManagement.inlineTags {
-            let changes = scanContentTags()
-            let qty = changes.0.count + changes.1.count
-
-            if (qty > 0) {
-                return true
-            }
-        }
-
-        return false
-    }
-#endif
-
+    
     public func scanContentTags() -> ([String], [String]) {
         var added = [String]()
         var removed = [String]()

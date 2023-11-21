@@ -1,8 +1,48 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "FSNotes"
+          }
+        }
+      }
+    },
+    "CFBundleGetInfoString" : {
+      "comment" : "Get Info string",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "FSNotes"
+          }
+        }
+      }
+    },
+    "Markdown" : {
+
+    },
     "NSCameraUsageDescription" : {
-      "extractionState" : "migrated",
+      "comment" : "Privacy - Camera Usage Description",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -12,7 +52,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "Needs for attach photo in notes"
           }
         },
@@ -61,7 +101,8 @@
       }
     },
     "NSFaceIDUsageDescription" : {
-      "extractionState" : "migrated",
+      "comment" : "Privacy - Face ID Usage Description",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -71,7 +112,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "Note encryption and decryption with FaceID"
           }
         },
@@ -119,8 +160,21 @@
         }
       }
     },
+    "NSHumanReadableCopyright" : {
+      "comment" : "Copyright (human-readable)",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : ""
+          }
+        }
+      }
+    },
     "NSLocationWhenInUseUsageDescription" : {
-      "extractionState" : "migrated",
+      "comment" : "Privacy - Location When In Use Usage Description",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -130,7 +184,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "Requested when photo attached"
           }
         },
@@ -179,7 +233,8 @@
       }
     },
     "NSPhotoLibraryAddUsageDescription" : {
-      "extractionState" : "migrated",
+      "comment" : "Privacy - Photo Library Additions Usage Description",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -189,7 +244,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "Needs permission to write images in photos app"
           }
         },
@@ -238,7 +293,8 @@
       }
     },
     "NSPhotoLibraryUsageDescription" : {
-      "extractionState" : "migrated",
+      "comment" : "Privacy - Photo Library Usage Description",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -248,7 +304,7 @@
         },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "new",
             "value" : "Needs for attach images in notes"
           }
         },
@@ -295,6 +351,9 @@
           }
         }
       }
+    },
+    "TextBundle" : {
+
     }
   },
   "version" : "1.0"

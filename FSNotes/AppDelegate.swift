@@ -45,20 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
             NSApp.setActivationPolicy(.accessory)
         }
-
-        let storage = Storage.shared()
-        storage.loadNotesSettings()
-        storage.loadDocuments()
-        
-        // Cache
-        DispatchQueue.global(qos: .background).async {
-            for note in storage.noteList {
-                if note.type == .Markdown {
-                    note.cache(backgroundThread: true)
-                }
-            }
-            print("Notes attributes cache: \(storage.noteList.count)")
-        }
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -94,6 +80,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         AppDelegate.mainWindowController = mainWC
         mainWC.window?.makeKeyAndOrderFront(nil)
+        
+        // Init here, as viewDidLoad can be called multiple times
+        //
+        
+        ViewController.shared()?.preLoadProjectsData()
     }
         
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -105,6 +96,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        UserDefaultsManagement.crashedLastTime = false
+        
         AppDelegate.saveWindowsState()
         
         Storage.shared().saveNotesSettings()
@@ -133,6 +126,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             UserDefaultsManagement.lastScreenX = Int(x)
             UserDefaultsManagement.lastScreenY = Int(y)
         }
+        
+        Storage.shared().saveProjectsCache()
+        
+        print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")
     }
     
     private static func saveWindowsState() {

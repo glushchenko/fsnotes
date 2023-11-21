@@ -137,8 +137,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
-        loadInbox()
-
         startCloudDriveSyncEngine()
 
         configureUI()
@@ -189,12 +187,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         gitPullTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(self.addPullTask), userInfo: nil, repeats: true)
     }
         
-    public func loadInbox() {
-        guard let project = storage.getDefault() else { return }
-
-        project.loadNotes()
-    }
-
     public func startCloudDriveSyncEngine(completion: (() -> ())? = nil) {
         guard UserDefaultsManagement.iCloudDrive else { return }
 
@@ -438,35 +430,31 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         DispatchQueue.global(qos: .userInteractive).async {
             let storage = self.storage
-
             let projectsLoading = Date()
-            self.checkProjectsCacheDiff()
-            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
+            let results = storage.checkFSAndMemoryDiff()
 
-            let cacheLoading = Date()
-            let projects = storage.findAllProjectsExceptDefault()
-
-            for project in projects {
-                project.loadNotes()
+            OperationQueue.main.addOperation {
+                self.sidebarTableView.removeRows(projects: results.0)
+                self.sidebarTableView.insertRows(projects: results.1)
             }
-
-            storage.loadProjectParents()
-
-            print("1. Cache loading finished in \(cacheLoading.timeIntervalSinceNow * -1) seconds")
+            
+            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
 
             let diffLoading = Date()
             for project in storage.getProjects() {
-                self.checkNotesCacheDiff(for: project)
+                let changes = project.checkNotesCacheDiff()
+                self.notesTable.doVisualChanges(results: changes)
             }
 
-            print("2. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
+            print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
 
             // enable iCloud Drive updates after projects structure formalized
             self.cloudDriveManager?.metadataQuery.enableUpdates()
 
             let tagsPoint = Date()
-            storage.loadAllTags()
-            print("3. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+            storage.loadNotesContent()
+            
+            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
             DispatchQueue.main.async {
                 self.resizeSidebar(withAnimation: true)
@@ -609,13 +597,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     }
 
-    public func saveProjectURLs() {
-        UserDefaultsManagement.projects =
-        storage.getProjects()
-            .filter({ !$0.isTrash && !$0.isArchive && !$0.isDefault })
-            .compactMap({ $0.url })
-    }
-
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let recognizer = gestureRecognizer as? UIPanGestureRecognizer {
             if recognizer.translation(in: self.view).x > 0 && !UserDefaultsManagement.sidebarIsOpened
@@ -724,11 +705,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for project in projects {
                 if let childProjects = project.getAllChild() {
                     for childProject in childProjects {
-                        self.checkNotesCacheDiff(for: childProject, isGit: true)
+                        let changes = childProject.checkNotesCacheDiff(isGit: true)
+                        self.notesTable.doVisualChanges(results: changes)
                     }
                 }
 
-                self.checkNotesCacheDiff(for: project, isGit: true)
+                let changes = project.checkNotesCacheDiff(isGit: true)
+                self.notesTable.doVisualChanges(results: changes)
             }
         }
     }
@@ -1531,46 +1514,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             notesTableLeadingConstraint.constant = maxSidebarWidth
             sidebarTableWidth.constant = notesTableLeadingConstraint.constant
-        }
-    }
-
-    public func checkProjectsCacheDiff() {
-        let results = storage.checkFSAndMemoryDiff()
-
-        // Save projects cache
-        UserDefaultsManagement.projects =
-            self.storage.getNonSystemProjects().compactMap({ $0.url })
-
-        OperationQueue.main.addOperation {
-            self.sidebarTableView.removeRows(projects: results.0)
-            self.sidebarTableView.insertRows(projects: results.1)
-        }
-    }
-
-    public func checkNotesCacheDiff(for project: Project, isGit: Bool = false) {
-        let storage = Storage.shared()
-
-        // if not cached – load all results for cache
-        // (not loaded instantly because is resource consumption operation, loaded later in background)
-        guard project.cacheUsedDiffValidationNeeded || isGit else {
-
-            _ = storage.noteList
-                .filter({ $0.project == project })
-                .map({ $0.load() })
-
-            project.isReadyForCacheSaving = true
-            return
-        }
-
-
-        let results = project.checkFSAndMemoryDiff()
-
-        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
-
-        DispatchQueue.main.async {
-            self.notesTable.removeRows(notes: results.0)
-            self.notesTable.insertRows(notes: results.1)
-            self.notesTable.reloadRows(notes: results.2)
         }
     }
 

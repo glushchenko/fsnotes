@@ -150,8 +150,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
             if row < noteList.count {
                 let note = noteList[row]
-                note.loadPreviewInfo()
-
+                if !note.isLoaded && !note.isLoadedFromCache {
+                    note.load()
+                }
+                
                 if let urls = note.imageUrl, urls.count > 0 {
                     let previewCharsQty = note.preview.count
 
@@ -529,7 +531,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
     }
     
-    func removeByNotes(notes: [Note]) {
+    public func removeRows(notes: [Note]) {
         guard let vc = ViewController.shared() else { return }
 
         beginUpdates()
@@ -544,6 +546,18 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         if UserDefaultsManagement.inlineTags {
             vc.sidebarOutlineView.removeTags(notes: notes)
+        }
+    }
+    
+    public func insertRows(notes: [Note]) {
+        for note in notes {
+            insertNew(note: note)
+        }
+    }
+    
+    private func reloadRows(notes: [Note]) {
+        for note in notes {
+            reloadRow(note: note)
         }
     }
     
@@ -648,5 +662,17 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     public func clean() {
         noteList.removeAll()
         reloadData()
+    }
+    
+    public func doVisualChanges(results: ([Note], [Note], [Note])) {
+        guard results.0.count > 0 || results.1.count > 0 || results.2.count > 0 else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.removeRows(notes: results.0)
+            self.insertRows(notes: results.1)
+            self.reloadRows(notes: results.2)
+        }
     }
 }
