@@ -319,12 +319,6 @@ class ViewController: EditorViewController,
     }
 
     private func configureSidebarAndNotesList() {
-
-        // When opened via fsnotes:// scheme – skip (use viewDidAppear)
-        if let appDelegate = NSApplication.shared.delegate as? AppDelegate, appDelegate.searchQuery != nil {
-            return
-        }
-
         if isVisibleSidebar() {
             configureSidebar()
             
