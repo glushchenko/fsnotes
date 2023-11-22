@@ -10,8 +10,8 @@ import Cocoa
 
 class PreferencesEditorViewController: NSViewController {
 
-    @IBOutlet weak var codeFont: NSTextField!
-    @IBOutlet weak var fontPreview: NSTextField!
+    @IBOutlet weak var codeFontPreview: NSTextField!
+    @IBOutlet weak var noteFontPreview: NSTextField!
     @IBOutlet weak var codeBlockHighlight: NSButton!
     @IBOutlet weak var highlightIndentedCodeBlocks: NSButton!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
@@ -30,12 +30,6 @@ class PreferencesEditorViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 495)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setCodeFont()
-        setFontPreview()
     }
 
     override func viewDidAppear() {
@@ -64,6 +58,9 @@ class PreferencesEditorViewController: NSViewController {
         inlineTags.state = UserDefaultsManagement.inlineTags ? .on : .off
         
         clickableLinks.state = UserDefaultsManagement.clickableLinks ? .on : .off
+        
+        setCodeFontPreview()
+        setNoteFontPreview()
     }
 
     //MARK: global variables
@@ -194,15 +191,6 @@ class PreferencesEditorViewController: NSViewController {
         exit(0)
     }
 
-    @IBAction func setFont(_ sender: NSButton) {
-        let fontManager = NSFontManager.shared
-        fontManager.setSelectedFont(UserDefaultsManagement.codeFont, isMultiple: false)
-
-        fontManager.orderFrontFontPanel(self)
-        fontManager.target = self
-        fontManager.action = #selector(changeFont(_:))
-    }
-
     @IBAction func indentUsing(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else {
             return
@@ -225,26 +213,6 @@ class PreferencesEditorViewController: NSViewController {
                 evc.refillEditArea(force: true)
             }
         }
-    }
-
-    @IBAction func changeFont(_ sender: Any?) {
-        let fontManager = NSFontManager.shared
-        let newFont = fontManager.convert(UserDefaultsManagement.codeFont)
-        UserDefaultsManagement.codeFont = newFont
-        NotesTextProcessor.codeFont = newFont
-
-        Storage.shared().resetCacheAttributes()
-
-        let editors = AppDelegate.getEditTextViews()
-        for editor in editors {
-            if let evc = editor.editorViewController {
-                MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
-                evc.refillEditArea(force: true)
-            }
-        }
-        
-        setCodeFont()
     }
 
     @IBAction func inlineTags(_ sender: NSButton) {
@@ -291,14 +259,14 @@ class PreferencesEditorViewController: NSViewController {
         }
     }
     
-    
-    private func setCodeFont() {
-        let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
-
-        codeFont.font = NSFont(name: familyName, size: 13)
-        codeFont.stringValue = "\(familyName) \(UserDefaultsManagement.codeFont.pointSize)pt"
+    @IBAction func setCodeFont(_ sender: NSButton) {
+        let fontManager = NSFontManager.shared
+        fontManager.setSelectedFont(UserDefaultsManagement.codeFont, isMultiple: false)
+        fontManager.orderFrontFontPanel(self)
+        fontManager.target = self
+        fontManager.action = #selector(changeCodeFont(_:))
     }
-
+    
     @IBAction func setNoteFont(_ sender: NSButton) {
         let fontManager = NSFontManager.shared
         fontManager.setSelectedFont(UserDefaultsManagement.noteFont, isMultiple: false)
@@ -307,43 +275,60 @@ class PreferencesEditorViewController: NSViewController {
         fontManager.action = #selector(changeNoteFont(_:))
     }
 
+    @IBAction func changeCodeFont(_ sender: Any?) {
+        let fontManager = NSFontManager.shared
+        let newFont = fontManager.convert(UserDefaultsManagement.codeFont)
+        UserDefaultsManagement.codeFont = newFont
+        NotesTextProcessor.codeFont = newFont
+        
+        reloadFonts()
+        setCodeFontPreview()
+    }
+
     @IBAction func changeNoteFont(_ sender: Any?) {
         let fontManager = NSFontManager.shared
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont)
         UserDefaultsManagement.noteFont = newFont
 
-        reloadFont()
+        reloadFonts()
+        setNoteFontPreview()
     }
 
     @IBAction func resetFont(_ sender: Any) {
         UserDefaultsManagement.fontName = nil
         UserDefaultsManagement.codeFontName = "Source Code Pro"
 
-        setCodeFont()
-        reloadFont()
+        reloadFonts()
+        setCodeFontPreview()
+        setNoteFontPreview()
     }
 
-    private func reloadFont() {
+    private func reloadFonts() {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
         Storage.shared().resetCacheAttributes()
 
         let editors = AppDelegate.getEditTextViews()
+        
         for editor in editors {
             if let evc = editor.editorViewController {
                 MPreviewView.template = nil
                 NotesTextProcessor.hl = nil
-
                 evc.refillEditArea(force: true)
             }
         }
+    }
+    
+    private func setCodeFontPreview() {
+        let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
 
-        setFontPreview()
+        codeFontPreview.font = NSFont(name: familyName, size: 13)
+        codeFontPreview.stringValue = "\(familyName) \(UserDefaultsManagement.codeFont.pointSize)pt"
     }
 
-    private func setFontPreview() {
-        fontPreview.font = NSFont(name: UserDefaultsManagement.noteFont.fontName, size: 13)
-        fontPreview.stringValue = "\(UserDefaultsManagement.noteFont.fontName) \(UserDefaultsManagement.noteFont.pointSize)pt"
+    private func setNoteFontPreview() {
+        noteFontPreview.font = NSFont(name: UserDefaultsManagement.noteFont.fontName, size: 13)
+        noteFontPreview.stringValue = "\(UserDefaultsManagement.noteFont.fontName) \(UserDefaultsManagement.noteFont.pointSize)pt"
     }
 }
