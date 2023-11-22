@@ -272,11 +272,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let event = NSApp.currentEvent!
 
         if event.type == NSEvent.EventType.leftMouseUp {
+            
+            // Hide active not hidden and not miniaturized
+            if !NSApp.isHidden && NSApp.isActive {
+                if let mainWindow = AppDelegate.mainWindowController?.window, !mainWindow.isMiniaturized {
+                    NSApp.hide(nil)
+                    return
+                }
+            }
+            
+            NSApp.unhide(nil)
             NSApp.activate(ignoringOtherApps: true)
             
             AppDelegate.mainWindowController?.window?.makeKeyAndOrderFront(nil)
-            AppDelegate.mainWindowController?.window?.resignKey()
-        
             ViewController.shared()?.search.becomeFirstResponder()
             
             return
