@@ -213,7 +213,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         self.note = note
-        if !note.isLoaded || note.project.isExternal {
+        if !note.isLoaded {
             note.load()
         }
 

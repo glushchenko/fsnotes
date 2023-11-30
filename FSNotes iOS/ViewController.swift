@@ -78,6 +78,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     // Project for import picker
     public var selectedProject: Project?
+    private var initialLoadingState = false
 
     override func viewWillAppear(_ animated: Bool) {
         configureSearchController()
@@ -159,7 +160,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadNotches()
         loadPreSafeArea()
 
-        preLoadProjectsData()
+        if !initialLoadingState {
+            preLoadProjectsData()
+            initialLoadingState = true
+        }
+        
         loadNews()
         restoreLastController()
 
@@ -424,15 +429,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: inboxIndex)
         }
     }
-
+    
     public func preLoadProjectsData() {
         guard Storage.shared().getRoot() != nil else { return }
 
         DispatchQueue.global(qos: .userInteractive).async {
             let storage = self.storage
-            let projectsLoading = Date()
-            let results = storage.checkFSAndMemoryDiff()
 
+            let projectsLoading = Date()
+            let results = storage.getProjectDiffs()
+            
             OperationQueue.main.addOperation {
                 self.sidebarTableView.removeRows(projects: results.0)
                 self.sidebarTableView.insertRows(projects: results.1)
@@ -445,15 +451,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 let changes = project.checkNotesCacheDiff()
                 self.notesTable.doVisualChanges(results: changes)
             }
-
+            
             print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
 
             // enable iCloud Drive updates after projects structure formalized
             self.cloudDriveManager?.metadataQuery.enableUpdates()
 
             let tagsPoint = Date()
+            storage.loadNotesCloudPins()
+            storage.loadNotesSettings()
             storage.loadNotesContent()
-            
+                        
             print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
             DispatchQueue.main.async {

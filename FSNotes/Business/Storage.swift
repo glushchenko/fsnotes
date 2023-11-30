@@ -19,7 +19,7 @@ class Storage {
     public static var instance: Storage? = nil
     
     public var noteList = [Note]()
-    private var projects = [Project]()
+    public var projects = [Project]()
     private var imageFolders = [URL]()
     public var tags = [String]()
 
@@ -128,6 +128,13 @@ class Storage {
         
         // Trash
         getDefaultTrash()?.loadNotes()
+        
+        // Root boookmarks
+        for project in projects {
+            if project.isBookmark {
+                project.loadNotes()
+            }
+        }
 
         if let urls = getCachedTree() {
             for url in urls {
@@ -230,29 +237,7 @@ class Storage {
     public func getDefaultTrash() -> Project? {
         return projects.first(where: { $0.isTrash })
     }
-    
-    private func chechSub(url: URL, parent: Project) -> [Project] {
-        var parent = parent
-        var added = [Project]()
-
-        if let urls = getSubFolders(url: url) {
-            for url in urls {
-                let standardizedURL = (url as URL).standardized
-                let parentURL = standardizedURL.deletingLastPathComponent()
-
-                if let foundParent = projects.first(where: { $0.url == parentURL}) {
-                    parent = foundParent
-                }
-
-                if let project = addProject(url: standardizedURL, parent: parent) {
-                    added.append(project)
-                }
-            }
-        }
         
-        return added
-    }
-    
     public func insert(url: URL, bookmark: Bool = false) -> [Project]? {
         if projectExist(url: url)
             || url.lastPathComponent == "i"
@@ -283,56 +268,6 @@ class Storage {
         }
         
         return insert
-    }
-
-    public func addProject(url: URL, parent: Project? = nil) -> Project? {
-        return nil
-        
-        var parent = parent
-
-        if parent == nil {
-            let parentUrl = url.deletingLastPathComponent()
-            guard let project = getProjectBy(url: parentUrl) else {
-                return nil
-            }
-
-            parent = project
-        }
-
-        if projects.count > 100 {
-            return nil
-        }
-
-        guard !projectExist(url: url),
-            url.lastPathComponent != "i",
-            url.lastPathComponent != "files",
-            url.lastPathComponent != "assets",
-            url.lastPathComponent != ".icloud",
-            !url.path.contains(".git"),
-            !url.path.contains(".revisions"),
-            !url.path.contains(".Trash"),
-            !url.path.contains(".cache"),
-            !url.path.contains("Trash"),
-            !url.path.contains("/."),
-            !url.path.contains(".textbundle") else {
-            return nil
-        }
-
-        let project = Project(
-            storage: self,
-            url: url,
-            label: url.lastPathComponent,
-            parent: parent
-        )
-
-        projects.append(project)
-        parent?.child.append(project)
-        
-        if let sorted = parent?.child.sorted(by: { $0.settings.priority < $1.settings.priority }) {
-            parent?.child = sorted
-        }
-
-        return project
     }
 
     private func assignTrash(by url: URL) {
@@ -396,24 +331,6 @@ class Storage {
         projects.removeAll(where: { $0.url == project.url })
     }
 
-    public func assignTree(for project: Project, completion: ((_ notes: [Project]) -> ())? = nil) {
-        var added = [Project]()
-
-        if !projects.contains(project) {
-            projects.append(project)
-            added.append(project)
-        }
-
-        if (project.isDefault) {
-            let addedSubProjects = chechSub(url: project.url, parent: project)
-            added = added + addedSubProjects
-        }
-
-        if let completion = completion {
-            completion(added)
-        }
-    }
-
     public func loadNotesContent() {
         for note in noteList {
             note.load()
@@ -427,6 +344,7 @@ class Storage {
     public func assignBookmarks() {
         let bookmark = SandboxBookmark.sharedInstance()
         bookmarks = bookmark.load()
+        
         for url in bookmarks {
             if url.pathExtension == "css" 
                 || projectExist(url: url)
@@ -905,51 +823,6 @@ class Storage {
             completion(nil)
         }
     }
-        
-    func getSubFolders(url: URL) -> [NSURL]? {
-        var isFinishedEnumerationProcess = false
-        
-        #if os(OSX)
-            // Reset root storage after 30 seconds timeout
-            DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
-                
-                // Reset storage path
-                if !isFinishedEnumerationProcess {
-                    
-                    // Remove bookmark
-                    let bookmark = SandboxBookmark.sharedInstance()
-                    bookmark.resetBookmarksDb()
-                    
-                    // Reset storage url
-                    UserDefaultsManagement.customStoragePath = nil
-
-                    let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
-                    let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
-                    let task = Process()
-                    task.launchPath = "/usr/bin/open"
-                    task.arguments = [path]
-                    task.launch()
-                    exit(0)
-                }
-            }
-        #endif
-        
-        guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey], options: FileManager.DirectoryEnumerationOptions()) else { return nil }
-
-        let lastPath = ["assets", ".cache", "i", ".Trash", ".icloud", "textbundle"]
-
-        // Load from disk (long process)
-        let urls = fileEnumerator.allObjects.filter {
-            !lastPath.contains(($0 as? NSURL)!.lastPathComponent!)
-            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true
-            && (try? ($0 as? URL)?.resourceValues(forKeys: [.isPackageKey]))?.isPackage == false
-            && ($0 as? URL)?.isHidden() == false
-        } as! [NSURL]
-        
-        isFinishedEnumerationProcess = true
-        
-        return urls
-    }
 
     private func fetchAllDirectories(url: URL) -> [URL]? {
         guard let fileEnumerator =
@@ -1019,24 +892,6 @@ class Storage {
                 $0.isTrash()
             }
     }
-
-    #if os(iOS)
-    public func createProject(name: String) -> Project {
-        let storageURL = UserDefaultsManagement.storageUrl!
-
-        var url = storageURL.appendingPathComponent(name)
-
-        if FileManager.default.fileExists(atPath: url.path, isDirectory: nil) {
-            url = storageURL.appendingPathComponent("\(name) \(String(Date().toMillis()))")
-        }
-
-        let project = Project(storage: self, url: url)
-        project.createImagesDirectory()
-
-        assignTree(for: project)
-        return project
-    }
-    #endif
 
     public func initNote(url: URL) -> Note? {
         guard let project = self.getProjectByNote(url: url) else { return nil }
@@ -1123,6 +978,29 @@ class Storage {
 
         return (removed, added)
     }
+    
+    public func loadNotesCloudPins() {
+    #if CLOUDKIT || os(iOS)
+        let keyStore = NSUbiquitousKeyValueStore()
+        keyStore.synchronize()
+
+        if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
+            if let pinned = getPinned() {
+                for note in pinned {
+                    if !names.contains(note.name) {
+                        note.removePin(cloudSave: false)
+                    }
+                }
+            }
+
+            for name in names {
+                if let note = getBy(name: name), !note.isPinned {
+                    note.addPin(cloudSave: false)
+                }
+            }
+        }
+    #endif
+    }
 
     public func getPinned() -> [Note]? {
         return noteList.filter({ $0.isPinned })
@@ -1131,6 +1009,8 @@ class Storage {
     public func remove(project: Project) {
         if let index = projects.firstIndex(of: project) {
             projects.remove(at: index)
+            
+            cleanCachedTree(url: project.url)
         }
     }
 
@@ -1202,6 +1082,8 @@ class Storage {
         for project in projects {
             project.saveCache()
         }
+        
+        saveCachedTree()
     }
 
     public func cleanUnlocked() {
@@ -1356,6 +1238,10 @@ class Storage {
         projects.append(contentsOf: insert)
         
         saveCachedTree()
+        
+        for insertItem in insert {
+            insertItem.loadNotes()
+        }
 
         return (remove, insert)
     }
@@ -1648,6 +1534,7 @@ class Storage {
             
             do {
                 try data.write(to: url)
+                print("Sidebar tree caching is finished")
             } catch {
                 print("Sidebar caching error")
             }

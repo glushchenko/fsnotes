@@ -266,6 +266,7 @@
     },
     "Archive" : {
       "comment" : "Sidebar label\nArchive in sidebar",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

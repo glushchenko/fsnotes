@@ -107,8 +107,14 @@ class DayOneImportHelper {
     private func createDiaryProject() -> Project? {
         guard let rootProject = storage.getDefault() else { return nil }
 
-        let project = storage.createProject(name: "Diary")
-        project.parent = rootProject
+        let name = "Diary"
+        var url = rootProject.url.appendingPathComponent(name)
+        
+        if FileManager.default.fileExists(atPath: url.path, isDirectory: nil) {
+            url = rootProject.url.appendingPathComponent("\(name) \(String(Date().toMillis()))")
+        }
+
+        let project = Project(storage: storage, url: url, parent: rootProject)
         project.settings.sortBy = .creationDate
         project.settings.firstLineAsTitle = true
         project.saveSettings()

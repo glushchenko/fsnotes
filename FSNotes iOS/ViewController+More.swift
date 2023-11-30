@@ -601,20 +601,10 @@ extension ViewController: UIDocumentPickerDelegate {
                 return
             }
 
-            let storage = Storage.shared()
-            let project = Project(
-                storage: storage,
-                url: newDir,
-                label: name,
-                isTrash: false,
-                parent: selectedProject,
-                isDefault: false
-            )
-
-            storage.assignTree(for: project)
-
-            OperationQueue.main.addOperation {
-                mvc.sidebarTableView.insertRows(projects: [project])
+            if let projects = Storage.shared().insert(url: newDir) {
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                }
             }
         }
 

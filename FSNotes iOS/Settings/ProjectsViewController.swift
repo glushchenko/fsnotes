@@ -126,21 +126,12 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 return
             }
 
-            let storage = Storage.shared()
-            let project = Project(
-                storage: storage,
-                url: newDir,
-                label: name,
-                isTrash: false,
-                parent: self.projects.first!,
-                isDefault: false
-            )
-
-            storage.assignTree(for: project)
-            self.tableView.reloadData()
-
-            OperationQueue.main.addOperation {
-                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
+            if let projects = Storage.shared().insert(url: newDir) {
+                self.tableView.reloadData()
+                
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                }
             }
         }
 
@@ -216,23 +207,13 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
             SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
-            let storage = Storage.shared()
-            let project = Project(
-                storage: storage,
-                url: url,
-                label: url.lastPathComponent,
-                isTrash: false,
-                isDefault: false
-            )
-
-            storage.assignTree(for: project)
-            storage.loadNotes(project, loadContent: true)
-
-            OperationQueue.main.addOperation {
-                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
-                
-                self.projects.append(project)
-                self.tableView.reloadData()
+            if let projects = Storage.shared().insert(url: url) {
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                    
+                    self.projects.append(contentsOf: projects)
+                    self.tableView.reloadData()
+                }
             }
         } catch {
             print(error)

@@ -205,10 +205,6 @@ class ViewController: EditorViewController,
 
             let projectsLoading = Date()
             let results = storage.getProjectDiffs()
-            
-            for insert in results.1 {
-                insert.loadNotes()
-            }
 
             OperationQueue.main.addOperation {
                 self.sidebarOutlineView.removeRows(projects: results.0)
@@ -226,7 +222,7 @@ class ViewController: EditorViewController,
             print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
             
             let tagsPoint = Date()
-            _ = storage.restoreCloudPins()
+            storage.loadNotesCloudPins()
             storage.loadNotesSettings()
             storage.loadNotesContent()
             

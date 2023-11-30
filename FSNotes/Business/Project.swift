@@ -612,14 +612,6 @@ public class Project: Equatable {
         return url.path.md5
     }
 
-    public func createImagesDirectory() {
-        do {
-            try FileManager.default.createDirectory(at: url.appendingPathComponent("i"), withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            print(error)
-        }
-    }
-
     public func remove() {
         do {
             try FileManager.default.removeItem(at: url)
@@ -728,6 +720,15 @@ public class Project: Equatable {
         }
 
         return projects
+    }
+    
+    public func getChildProjectsByURL() -> [Project] {
+        return storage
+            .projects
+            .filter({ !$0.url.path.startsWith(string: url.path) })
+            .sorted(by: {
+                $0.url.path.components(separatedBy: "/").count < $1.url.path.components(separatedBy: "/").count
+            })
     }
 
     public func getHistoryURL() -> URL? {
@@ -954,7 +955,8 @@ public class Project: Equatable {
                 try (url as NSURL).getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
 
                 if isDirectoryResourceValue as? Bool == true,
-                    isPackageResourceValue as? Bool == false {
+                    isPackageResourceValue as? Bool == false,
+                    url.isHidden() == false {
                     
                     i = i + 1
                     fin.append(url)

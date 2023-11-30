@@ -25,27 +25,20 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
             if storage.projectExist(url: url) {
                 return
             }
-
-            let project = Project(
-                storage: storage,
-                url: url,
-                label: url.lastPathComponent,
-                isTrash: false,
-                isDefault: false
-            )
-
-            storage.assignTree(for: project)
-            storage.loadNotes(project, loadContent: true)
-
-            OperationQueue.main.addOperation {
-                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
-                _ = UIApplication.getNC()?.popViewController(animated: true)
-                
-                if !UserDefaultsManagement.sidebarIsOpened {
-                    UIApplication.getVC().toggleSidebar()
+            
+            if let projects = Storage.shared().insert(url: url) {
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                    _ = UIApplication.getNC()?.popViewController(animated: true)
+                    
+                    if !UserDefaultsManagement.sidebarIsOpened {
+                        UIApplication.getVC().toggleSidebar()
+                    }
+                    
+                    if let project = projects.first {
+                        UIApplication.getVC().sidebarTableView.select(project: project)
+                    }
                 }
-                
-                UIApplication.getVC().sidebarTableView.select(project: project)
             }
         } catch {
             print(error)
