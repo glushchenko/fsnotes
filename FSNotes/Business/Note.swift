@@ -219,7 +219,7 @@ public class Note: NSObject  {
         loadFileName()
         loadPreviewInfo()
         
-        if !isTrash() && !project.isArchive && tags {
+        if !isTrash() && tags {
             loadTags()
         }
 
@@ -1187,14 +1187,6 @@ public class Note: NSObject  {
         return project.isTrash
     }
     
-    public func isInArchive() -> Bool {
-        guard UserDefaultsManagement.archiveDirectory != nil else {
-            return false
-        }
-        
-        return project.isArchive
-    }
-
     public func contains<S: StringProtocol>(terms: [S]) -> Bool {
         return name.localizedStandardContains(terms) || content.string.localizedStandardContains(terms)
     }

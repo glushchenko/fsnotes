@@ -257,7 +257,7 @@ class SidebarTableView: UITableView,
                 guard let note = Storage.shared().getBy(url: url) else { continue }
 
                 switch sidebarItem.type {
-                case .Project, .Archive, .Inbox:
+                case .Project, .Inbox:
                     guard let project = sidebarItem.project else { break }
                     self.move(note: note, in: project)
                 case .Trash:
@@ -364,7 +364,7 @@ class SidebarTableView: UITableView,
             return projects
         }
 
-        if let root = Storage.shared().getRootProject() {
+        if let root = Storage.shared().getDefault() {
             return [root]
         }
 

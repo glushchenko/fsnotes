@@ -60,7 +60,6 @@ class ViewController: EditorViewController,
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
     @IBOutlet weak var showInSidebar: NSMenuItem!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var newNoteTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var lockedFolder: NSTextField!
     @IBOutlet weak var newNoteButton: NSButton!
@@ -203,9 +202,13 @@ class ViewController: EditorViewController,
         
         DispatchQueue.global().async {
             let storage = self.storage
-            
+
             let projectsLoading = Date()
-            let results = storage.checkFSAndMemoryDiff()
+            let results = storage.getProjectDiffs()
+            
+            for insert in results.1 {
+                insert.loadNotes()
+            }
 
             OperationQueue.main.addOperation {
                 self.sidebarOutlineView.removeRows(projects: results.0)
@@ -353,7 +356,6 @@ class ViewController: EditorViewController,
         updateTable() {            
             if UserDefaultsManagement.copyWelcome {
                 DispatchQueue.main.async {
-                    self.sidebarOutlineView.expandItem(self.storage.getRootProject())
                     let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
                     let index = self.sidebarOutlineView.row(forItem: welcome)
                     self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
@@ -905,7 +907,7 @@ class ViewController: EditorViewController,
             editor.clear()
             var content = String()
 
-            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getRootProject()
+            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getDefault()
 
             if UserDefaultsManagement.fileFormat == .Markdown,
                 UserDefaultsManagement.naming == .autoRename,
@@ -1443,13 +1445,12 @@ class ViewController: EditorViewController,
                     || type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
                     || self.isMatched(note: note, terms: terms!)
             ) && (
-                type == .All && !note.project.isArchive && note.project.isVisibleInCommon() 
+                type == .All && note.project.isVisibleInCommon()
                 || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
                 || type == .Inbox && note.project.isDefault
                 || type == .Trash
                 || type == .Untagged && note.tags.count == 0
                 || type == .Todo && note.project.settings.showInCommon
-                || type == .Archive && note.project.isArchive
                 || !UserDefaultsManagement.inlineTags && tags != nil
                 || projects?.contains(note.project) == true
             ) && (
@@ -1706,14 +1707,6 @@ class ViewController: EditorViewController,
             noteMenu.removeItem(tagsMenu)
         }
         
-        if !note.isInArchive() {
-            let archiveMenu = NSMenuItem()
-            archiveMenu.title = NSLocalizedString("Archive", comment: "Sidebar label")
-            archiveMenu.action = #selector(vc.archiveNote(_:))
-            moveMenu.addItem(archiveMenu)
-            moveMenu.addItem(NSMenuItem.separator())
-        }
-        
         if !note.isTrash() {
             let trashMenu = NSMenuItem()
             trashMenu.title = NSLocalizedString("Trash", comment: "Sidebar label")
@@ -1725,7 +1718,7 @@ class ViewController: EditorViewController,
                 
         let projects = storage.getProjects()
         for item in projects {
-            if note.project == item || item.isTrash || item.isArchive {
+            if note.project == item || item.isTrash {
                 continue
             }
             
@@ -1842,19 +1835,16 @@ class ViewController: EditorViewController,
     func checkSidebarConstraint() {
         if sidebarSplitView.subviews[0].frame.width > 50 {
             searchTopConstraint.constant = 8
-            //newNoteTopConstraint.constant = 2
             return
         }
         
         if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
             
             searchTopConstraint.constant = CGFloat(25)
-            //newNoteTopConstraint.constant = CGFloat(20)
             return
         }
         
         searchTopConstraint.constant = 8
-        //newNoteTopConstraint.constant = 2
     }
         
     @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {

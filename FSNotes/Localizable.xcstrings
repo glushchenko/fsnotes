@@ -179,6 +179,7 @@
     },
     "Archive" : {
       "comment" : "Sidebar label",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -3443,6 +3444,7 @@
       }
     },
     "External Folders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

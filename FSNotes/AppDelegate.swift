@@ -416,14 +416,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    private func isCustomArchive() -> Bool {
-        if let defaultArchive = UserDefaultsManagement.storageUrl?.appendingPathComponent("Archive", isDirectory: true), defaultArchive == UserDefaultsManagement.archiveDirectory {
-            return false
-        }
-
-        return true
-    }
-
     public func promptToMoveDatabase(from currentURL: URL, to url : URL, messageText: String) {
         let alert = NSAlert()
         alert.messageText = messageText
@@ -436,18 +428,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         if alert.runModal() == .alertSecondButtonReturn {
             move(from: currentURL, to: url)
-
-            if !isCustomArchive(),
-               let localArchive =
-                    UserDefaultsManagement.localDocumentsContainer?
-                    .appendingPathComponent("Archive", isDirectory: true),
-
-               let cloudArchive =
-                    UserDefaultsManagement.iCloudDocumentsContainer?
-                    .appendingPathComponent("Archive", isDirectory: true) {
-
-                move(from: localArchive, to: cloudArchive)
-            }
 
             let localTrash = currentURL.appendingPathComponent("Trash", isDirectory: true)
             let cloudTrash = url.appendingPathComponent("Trash", isDirectory: true)
@@ -475,7 +455,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                     try FileManager.default.moveItem(at: item, to: dst)
                 } catch {
 
-                    if ["Archive", "Trash", "Welcome"].contains(fileName) {
+                    if ["Trash", "Welcome"].contains(fileName) {
                         continue
                     }
 

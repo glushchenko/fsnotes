@@ -61,8 +61,6 @@ extension ViewController: UIDocumentPickerDelegate {
             popoverActions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .All, .Todo:
             popoverActions = [.settingsFolder, .multipleSelection]
-        case .Archive:
-            popoverActions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
             popoverActions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Project:
@@ -223,8 +221,6 @@ extension ViewController: UIDocumentPickerDelegate {
             actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .All, .Todo:
             actions = [.settingsFolder, .multipleSelection]
-        case .Archive:
-            actions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
             actions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Project:
@@ -611,10 +607,8 @@ extension ViewController: UIDocumentPickerDelegate {
                 url: newDir,
                 label: name,
                 isTrash: false,
-                isRoot: false,
                 parent: selectedProject,
-                isDefault: false,
-                isArchive: false
+                isDefault: false
             )
 
             storage.assignTree(for: project)
@@ -651,7 +645,7 @@ extension ViewController: UIDocumentPickerDelegate {
             OperationQueue.main.addOperation {
                 mvc.sidebarTableView.removeRows(projects: [selectedProject])
 
-                if !selectedProject.isExternal {
+                if !selectedProject.isBookmark {
                     try? FileManager.default.removeItem(at: selectedProject.url)
                 }
 
@@ -662,7 +656,7 @@ extension ViewController: UIDocumentPickerDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
         }))
 
-        if selectedProject.isExternal {
+        if selectedProject.isBookmark {
             OperationQueue.main.addOperation {
                 let bookmark = SandboxBookmark.sharedInstance()
                 bookmark.remove(url: selectedProject.url)

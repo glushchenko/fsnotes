@@ -20,13 +20,11 @@ public class Project: Equatable {
     public var label: String
     var isTrash: Bool
     var isCloudDrive: Bool = false
-    var isRoot: Bool
-    var parent: Project?
+    public var parent: Project?
     var isDefault: Bool
-    var isArchive: Bool
 
     public var isVirtual = false
-    public var isExternal: Bool = false
+    public var isBookmark: Bool = false
 
     public var settings: ProjectSettings
     public var metaCache = [NoteMeta]()
@@ -54,28 +52,24 @@ public class Project: Equatable {
          url: URL,
          label: String? = nil,
          isTrash: Bool = false,
-         isRoot: Bool = false,
          parent: Project? = nil,
          isDefault: Bool = false,
-         isArchive: Bool = false,
-         isExternal: Bool = false,
+         isBookmark: Bool = false,
          isVirtual: Bool = false
     ) {
         self.storage = storage
         self.url = url.standardized
         self.isTrash = isTrash
-        self.isRoot = isRoot
         self.parent = parent
         self.isDefault = isDefault
-        self.isArchive = isArchive
-        self.isExternal = isExternal
+        self.isBookmark = isBookmark
         self.isVirtual = isVirtual
         self.label = String()
 
         settings = ProjectSettings()
             
         #if os(iOS)
-        if isRoot && isDefault {
+        if isDefault {
             settings.showInSidebar = false
         }
         #endif
@@ -95,7 +89,7 @@ public class Project: Equatable {
             self.settings = settings
         }
         
-        if isTrash || isArchive {
+        if isTrash {
             settings.showInCommon = false
         }
         
@@ -414,7 +408,7 @@ public class Project: Equatable {
     }
     
     public func getParent() -> Project {
-        if isRoot {
+        if isDefault || isBookmark {
             return self
         }
         
@@ -470,8 +464,8 @@ public class Project: Equatable {
     }
 
     public func getFullLabel() -> String {
-        if isRoot  {
-            if isExternal {
+        if isDefault || isBookmark {
+            if isBookmark {
                 return "External › " + label
             }
             
@@ -480,10 +474,6 @@ public class Project: Equatable {
 
         if isTrash {
             return "Trash"
-        }
-
-        if isArchive {
-            return label
         }
         
         return "FSNotes › \(label)"
@@ -723,6 +713,22 @@ public class Project: Equatable {
 
         return projects
     }
+    
+    public func getChildProjects() -> [Project]? {
+        var projects = [Project]()
+
+        for item in child {
+            if item.child.count > 0 {
+                if let sub = item.getAllChild() {
+                    projects.append(contentsOf: sub)
+                }
+            } else {
+                projects.append(item)
+            }
+        }
+
+        return projects
+    }
 
     public func getHistoryURL() -> URL? {
         let url = storage.getRevisionsHistoryDocumentsSupport()
@@ -866,5 +872,110 @@ public class Project: Equatable {
         print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
         
         return results
+    }
+    
+    public func getProjectsFSAndMemoryDiff() -> ([Project], [Project]) {
+        var foundRemoved = [Project]()
+        var foundAdded = [Project]()
+
+        var memoryProjects = [Project]()
+        var fileSystemURLs = [URL]()
+        
+        if let child = getChildProjects() {
+            memoryProjects = child
+        }
+        
+        if let fsURLs = fetchAllDirectories() {
+            fileSystemURLs = fsURLs
+        }
+
+        let cachedProjects = Set(memoryProjects.compactMap({ $0.url }))
+        let currentProjects = Set(fileSystemURLs)
+
+        let removed = cachedProjects.subtracting(currentProjects)
+        let added = currentProjects.subtracting(cachedProjects)
+
+        for removeURL in removed {
+            if let project = memoryProjects.first(where: { $0.url == removeURL }) {
+                foundRemoved.append(project)
+            }
+        }
+
+        for addURL in added {
+            let project = Project(storage: storage, url: addURL)
+            foundAdded.append(project)
+        }
+        
+        foundAdded = foundAdded.sorted(by: {
+            $0.url.path.components(separatedBy: "/").count < $1.url.path.components(separatedBy: "/").count
+        })
+                
+        foundRemoved = foundRemoved.sorted(by: {
+            $0.url.path.components(separatedBy: "/").count > $1.url.path.components(separatedBy: "/").count
+        })
+                        
+        return (foundRemoved, foundAdded)
+    }
+    
+    private func fetchAllDirectories() -> [URL]? {
+        guard let fileEnumerator =
+            FileManager.default.enumerator(
+                at: url, includingPropertiesForKeys: nil,
+                options: FileManager.DirectoryEnumerationOptions()
+            )
+        else { return nil }
+
+        let extensions = ["md", "markdown", "txt", "rtf", "fountain", "textbundle", "etp", "jpg", "png", "gif", "jpeg", "json", "JPG", "PNG", ".icloud", ".cache", ".Trash", "i"]
+
+        let urls = fileEnumerator.allObjects.compactMap({ $0 as? URL })
+            .filter({
+                !extensions.contains($0.pathExtension)
+                && !extensions.contains($0.lastPathComponent)
+                && !$0.path.contains("/assets")
+                && !$0.path.contains("/.cache")
+                && !$0.path.contains("/files")
+                && !$0.path.contains("/.Trash")
+                && !$0.path.contains("/Trash")
+                && !$0.path.contains(".textbundle")
+                && !$0.path.contains(".revisions")
+                && !$0.path.contains("/.git")
+                && $0 != UserDefaultsManagement.trashURL
+            })
+
+        var fin = [URL]()
+        var i = 0
+
+        for url in urls {
+            do {
+                var isDirectoryResourceValue: AnyObject?
+                try (url as NSURL).getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
+
+                var isPackageResourceValue: AnyObject?
+                try (url as NSURL).getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
+
+                if isDirectoryResourceValue as? Bool == true,
+                    isPackageResourceValue as? Bool == false {
+                    
+                    i = i + 1
+                    fin.append(url)
+                }
+            }
+            catch let error as NSError {
+                print("Error: ", error.localizedDescription)
+            }
+
+            if i > 200 {
+                break
+            }
+        }
+
+        return fin
+    }
+    
+    public func loadNotesContent() {
+        let notes = getNotes()
+        for note in notes {
+            note.load()
+        }
     }
 }

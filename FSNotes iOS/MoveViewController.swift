@@ -81,7 +81,7 @@ class MoveViewController: UITableViewController {
 
         if let projects = self.projects {
             let project = projects[indexPath.row]
-            if !project.isTrash || !project.isArchive {
+            if !project.isTrash {
                 cell.textLabel?.text = project.getFullLabel()
             }
         }
@@ -144,10 +144,8 @@ class MoveViewController: UITableViewController {
                 url: newDir,
                 label: name,
                 isTrash: false,
-                isRoot: false,
                 parent: allProjects[0],
-                isDefault: false,
-                isArchive: false
+                isDefault: false
             )
 
             self.projects?.append(project)

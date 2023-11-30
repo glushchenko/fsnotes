@@ -596,23 +596,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         field.becomeFirstResponder()
     }
-    
-    @IBAction func archiveNote(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        guard let notes = getSelectedNotes() else { return }
         
-        if let project = Storage.shared().getArchive() {
-            vc.moveReq(notes: notes, project: project) { success in
-                guard success else { return }
-                
-                if let cvc = NSApplication.shared.keyWindow?.contentViewController,
-                    cvc.isKind(of: NoteViewController.self) {
-                    self.updateTitle(note: notes.first!)
-                }
-            }
-        }
-    }
-    
     @IBAction func createInNewWindow(_ sender: Any) {
         var content = String()
         
@@ -1311,7 +1295,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
         
         if sidebarProject == nil {
-            sidebarProject = Storage.shared().getRootProject()
+            sidebarProject = Storage.shared().getDefault()
         }
         
         guard let project = sidebarProject else { return nil }

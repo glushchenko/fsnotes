@@ -46,7 +46,6 @@ public class UserDefaultsManagement {
         static let AppearanceTypeKey = "appearanceType"
         static let AskCommitMessage = "askCommitMessage"
         static let ApiBookmarksData = "apiBookmarksData"
-        static let ArchiveDirectoryKey = "archiveDirectory"
         static let AutoInsertHeader = "autoInsertHeader"
         static let AutoVersioning = "autoVersioning"
         static let AutomaticSpellingCorrection = "automaticSpellingCorrection"
@@ -666,48 +665,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.ShowDockIcon)
-        }
-    }
-    
-    static var archiveDirectory: URL? {
-        get {
-            #if os(OSX)
-            if let path = shared?.object(forKey: Constants.ArchiveDirectoryKey) as? String {
-                var isDirectory = ObjCBool(true)
-                let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
-
-                if (exists && isDirectory.boolValue) {
-                    return URL(fileURLWithPath: path, isDirectory: true)
-                } else {
-                    self.archiveDirectory = nil
-                    print("Archive path not accessible, settings resetted to default")
-                }
-            }
-            #endif
-
-            if let archive = storageUrl?.appendingPathComponent("Archive", isDirectory: true) {
-                if !FileManager.default.fileExists(atPath: archive.path) {
-                    do {
-                        try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
-                        
-                        return archive
-                    } catch {
-                        print(error)
-                    }
-                } else {
-                    return archive
-                }
-            }
-            
-            return nil
-        }
-        
-        set {
-            if let url = newValue {
-                shared?.set(url.path, forKey: Constants.ArchiveDirectoryKey)
-            } else {
-                shared?.set(nil, forKey: Constants.ArchiveDirectoryKey)
-            }
         }
     }
     

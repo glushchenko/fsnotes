@@ -950,16 +950,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     && searchQuery.project != nil
                     && note.project == searchQuery.project
                 )
-            || searchQuery.project != nil && searchQuery.project!.isRoot
+            || searchQuery.project != nil && (searchQuery.project!.isDefault || searchQuery.project!.isBookmark)
                 && note.project.parent == searchQuery.project
                 && searchQuery.type != .Inbox
-            || searchQuery.type == .Archive
-                && note.project.isArchive
             || searchQuery.type == .Todo
-                && !note.project.isArchive
                 && note.project.settings.showInCommon
             || searchQuery.type == .Inbox
-                && note.project.isRoot
                 && note.project.isDefault
             || searchQuery.type == .Untagged && note.tags.count == 0
         else {
@@ -1303,7 +1299,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let inbox = NSLocalizedString("Inbox", comment: "Inbox in sidebar")
         let notes = NSLocalizedString("Notes", comment: "Notes in sidebar")
         let todo = NSLocalizedString("Todo", comment: "Todo in sidebar")
-        let archive = NSLocalizedString("Archive", comment: "Archive in sidebar")
         let trash = NSLocalizedString("Trash", comment: "Trash in sidebar")
 
         var sidebarItems = [String]()
@@ -1314,7 +1309,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         sidebarItems = tags + Storage.shared().getProjects().map({ $0.label })
-            + [settings, inbox, notes, todo, archive, trash, untagged]
+            + [settings, inbox, notes, todo, trash, untagged]
 
         for item in sidebarItems {
             let labelWidth = (item as NSString).size(withAttributes: [.font: font]).width + 55

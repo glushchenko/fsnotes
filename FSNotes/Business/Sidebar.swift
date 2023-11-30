@@ -37,11 +37,6 @@ class Sidebar {
             system.append(todo)
         }
 
-        if UserDefaultsManagement.sidebarVisibilityArchive, let archiveProject = storage.getArchive() {
-            let archive = SidebarItem(name: NSLocalizedString("Archive", comment: ""), project: archiveProject, type: .Archive)
-            system.append(archive)
-        }
-
         if UserDefaultsManagement.sidebarVisibilityTrash {
             let trashProject = Storage.shared().getDefaultTrash()
             let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), project: trashProject, type: .Trash)
@@ -52,32 +47,16 @@ class Sidebar {
             list = system
         }
 
-        //list.append(SidebarItem(name: "", type: .Label))
+        list.append(SidebarItem(name: "projects", type: .Separator))
 
-
-        if let defaultProject = storage.getDefault() {
-            let name = getDefaultLabelName(project: defaultProject)
-            let icon = NSImage(named: "sidebar_icloud_drive")
-            list.append(SidebarItem(name: name, project: defaultProject, type: .Header, icon: icon))
-
-            let subDefault = defaultProject.child.sorted(by: { $0.settings.priority < $1.settings.priority })
-            for project in subDefault {
+        let projects = storage.getSidebarProjects()
+        if projects.count > 0 {
+            for project in projects {
                 list.append(project)
             }
         }
 
-        let externalProjects = storage.getExternalProjects().sorted(by: { $0.settings.priority < $1.settings.priority })
-        if externalProjects.count > 0 {
-            let icon = NSImage(named: "sidebar_external")
-            let name = NSLocalizedString("External Folders", comment: "")
-            list.append(SidebarItem(name: name, type: .Header, icon: icon))
-
-            for project in externalProjects {
-                list.append(project)
-            }
-        }
-
-        list.append(SidebarItem(name: "", type: .Label))
+        list.append(SidebarItem(name: "tags", type: .Separator))
     }
     
     public func getList() -> [Any] {

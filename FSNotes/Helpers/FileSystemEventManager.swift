@@ -124,7 +124,9 @@ class FileSystemEventManager {
                     srcProject?.moveSrc = nil
                 } else {
                     if FileManager.default.directoryExists(atUrl: dirURL) {
-                        self.delegate.sidebarOutlineView.insertProject(url: dirURL)
+                        if let projects = self.storage.insert(url: dirURL) {
+                            self.delegate.sidebarOutlineView.insertRows(projects: projects)
+                        }
                     }
                 }
             }
@@ -142,7 +144,10 @@ class FileSystemEventManager {
         if event.dirCreated || (
             event.dirChange && dirURL.hasNonHiddenBit()
         ) {
-            self.delegate.sidebarOutlineView.insertProject(url: dirURL)
+            if let projects = self.storage.insert(url: dirURL) {
+                self.delegate.sidebarOutlineView.insertRows(projects: projects)
+            }
+            
             return
         }
     }

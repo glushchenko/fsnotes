@@ -105,7 +105,7 @@ class DayOneImportHelper {
     }
 
     private func createDiaryProject() -> Project? {
-        guard let rootProject = storage.getRootProject() else { return nil }
+        guard let rootProject = storage.getDefault() else { return nil }
 
         let project = storage.createProject(name: "Diary")
         project.parent = rootProject

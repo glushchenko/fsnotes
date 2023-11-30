@@ -55,7 +55,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         if self.projects.count > 0 {
             let project = projects[indexPath.row]
-            if !project.isTrash || !project.isArchive {
+            if !project.isTrash {
                 cell.textLabel?.text = project.getFullLabel()
             }
         }
@@ -132,10 +132,8 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 url: newDir,
                 label: name,
                 isTrash: false,
-                isRoot: false,
                 parent: self.projects.first!,
-                isDefault: false,
-                isArchive: false
+                isDefault: false
             )
 
             storage.assignTree(for: project)
@@ -165,7 +163,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     private func delete(project: Project) {
-        if project.isExternal {
+        if project.isBookmark {
             self.removeProject(project: project)
 
             SandboxBookmark.sharedInstance().remove(url: project.url)
@@ -224,10 +222,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 url: url,
                 label: url.lastPathComponent,
                 isTrash: false,
-                isRoot: true,
-                isDefault: false,
-                isArchive: false,
-                isExternal: true
+                isDefault: false
             )
 
             storage.assignTree(for: project)

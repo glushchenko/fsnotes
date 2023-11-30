@@ -140,8 +140,8 @@ class CloudDriveManager {
 
                 // Add new
                 if storage.getProjectBy(url: url) == nil {
-                    if let project = storage.addProject(url: url) {
-                        projectsInsertionQueue.append(project)
+                    if let projects = storage.insert(url: url) {
+                        projectsInsertionQueue.append(contentsOf: projects)
                     }
                 }
 

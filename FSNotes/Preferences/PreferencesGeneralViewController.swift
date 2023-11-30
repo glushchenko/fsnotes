@@ -88,11 +88,6 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
 
                 self.defaultStoragePath.stringValue = url.path
 
-                // Resets archive if not bookmarked
-                if let archiveURL = UserDefaultsManagement.archiveDirectory, !activeBookmars.contains(archiveURL) {
-                    UserDefaultsManagement.archiveDirectory = nil
-                }
-
                 if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
                     let message = NSLocalizedString("Do you want to move current notes in the new destination?", comment: "");
                     appDelegate.promptToMoveDatabase(from: currentURL, to: url, messageText: message)

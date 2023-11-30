@@ -11037,7 +11037,7 @@
     },
     "dys-2Q-lfZ.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Archive Storage:\"; ObjectID = \"dys-2Q-lfZ\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -16545,7 +16545,7 @@
     },
     "hGi-4f-mtY.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Change\"; ObjectID = \"hGi-4f-mtY\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

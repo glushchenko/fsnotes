@@ -134,10 +134,6 @@ class ShareViewController: SLComposeServiceViewController {
             urls.append(inbox)
         }
 
-        if let archive = UserDefaultsManagement.archiveDirectory {
-            urls.append(archive)
-        }
-
         storage.loadProjects(from: urls)
 
         projectItem?.title = NSLocalizedString("Project", comment: "")

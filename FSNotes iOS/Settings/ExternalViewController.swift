@@ -31,10 +31,7 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
                 url: url,
                 label: url.lastPathComponent,
                 isTrash: false,
-                isRoot: true,
-                isDefault: false,
-                isArchive: false,
-                isExternal: true
+                isDefault: false
             )
 
             storage.assignTree(for: project)
