@@ -522,6 +522,16 @@ class ViewController: EditorViewController,
         
     // Ask project password before move to encrypted
     public func moveReq(notes: [Note], project: Project, completion: @escaping (Bool) -> ()) {
+        for note in notes {
+            if note.isEncrypted() {
+                let alert = NSAlert()
+                alert.alertStyle = .critical
+                alert.informativeText = NSLocalizedString("You cannot move an already encrypted note to an encrypted directory. You must first decrypt the note and repeat the steps.", comment: "")
+                alert.messageText = NSLocalizedString("Move error", comment: "")
+                alert.runModal()
+                return
+            }
+        }
         
         // Encrypted and locked
         if project.isEncrypted && project.isLocked() {

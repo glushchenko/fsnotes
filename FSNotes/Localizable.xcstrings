@@ -5476,6 +5476,94 @@
         }
       }
     },
+    "Move error" : {
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نقل خطأ"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler beim Verschieben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error de movimiento"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de déplacement"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שגיאת העברה"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Errore di spostamento"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動エラー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동 오류"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout bij verplaatsen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao mover"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro de deslocação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка перемещения"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка переміщення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动错误"
+          }
+        }
+      }
+    },
     "New" : {
       "localizations" : {
         "ar-IQ" : {
@@ -11916,6 +12004,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "是的"
+          }
+        }
+      }
+    },
+    "You cannot move an already encrypted note to an encrypted directory. You must first decrypt the note and repeat the steps." : {
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا يمكنك نقل ملاحظة مشفرة بالفعل إلى دليل مشفر. يجب عليك أولاً فك تشفير الملاحظة وتكرار الخطوات."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie können eine bereits verschlüsselte Notiz nicht in ein verschlüsseltes Verzeichnis verschieben. Sie müssen die Notiz zuerst entschlüsseln und die Schritte wiederholen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No puedes mover una nota ya encriptada a un directorio encriptado. Primero debes desencriptar la nota y repetir los pasos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous ne pouvez pas déplacer une note déjà cryptée vers un répertoire crypté. Vous devez d'abord décrypter la note et répéter les étapes."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לא ניתן להעביר פתק שכבר מוצפן לספרייה מוצפנת. תחילה עליך לפענח את הפתק ולחזור על השלבים."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è possibile spostare una nota già crittografata in una directory crittografata. È necessario prima decifrare la nota e ripetere i passaggi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでに暗号化されたノートを暗号化されたディレクトリに移動することはできません。まずノートの暗号化を解除し、手順を繰り返す必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 암호화된 노트는 암호화된 디렉토리로 옮길 수 없습니다. 먼저 노트의 암호를 해독하고 단계를 반복하셔야 합니다."
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt een reeds gecodeerde notitie niet verplaatsen naar een gecodeerde map. Je moet de notitie eerst decoderen en de stappen herhalen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é possível mover uma nota já criptografada para um diretório criptografado. Você deve primeiro descriptografar a nota e repetir as etapas."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é possível mover uma nota já encriptada para um diretório encriptado. Deve primeiro desencriptar a nota e repetir os passos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нельзя переместить уже зашифрованную заметку в зашифрованный каталог. Необходимо сначала расшифровать заметку и повторить действия."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ви не можете перемістити вже зашифровану нотатку до зашифрованого каталогу. Ви повинні спочатку розшифрувати нотатку і повторити кроки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法将已加密的备忘移动到加密目录。您必须首先解密备忘，然后重复上述步骤。"
           }
         }
       }
