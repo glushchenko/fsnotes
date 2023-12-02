@@ -1363,6 +1363,18 @@
         }
       }
     },
+    "2qG-Cv-rhe.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Empty Trash\"; ObjectID = \"2qG-Cv-rhe\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Empty Trash"
+          }
+        }
+      }
+    },
     "2un-du-hJz.title" : {
       "comment" : "Class = \"NSViewController\"; title = \"Git\"; ObjectID = \"2un-du-hJz\";",
       "extractionState" : "extracted_with_value",
@@ -29187,6 +29199,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "前置全部窗口"
+          }
+        }
+      }
+    },
+    "s7a-BE-t62.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Empty Trash\"; ObjectID = \"s7a-BE-t62\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Empty Trash"
           }
         }
       }

@@ -92,7 +92,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func mouseDown(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         
-        if let selectedProject = vc.getSidebarProject(),
+        if let selectedProject = vc.sidebarOutlineView.getSelectedProject(),
             selectedProject.isLocked()
         {
             vc.sidebarOutlineView.toggleFolderLock(NSMenuItem())

@@ -57,6 +57,18 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         let ident = menuItem.identifier?.rawValue
         
+        if ident == "context.folderMenu.emptyBin" || ident == "folderMenu.emptyBin" {
+            if let p = vc.sidebarOutlineView.getSelectedProject(), p.isTrash {
+                menuItem.isHidden = false
+                menuItem.isEnabled = true
+                return true
+            } else {
+                menuItem.isHidden = true
+                menuItem.isEnabled = false
+                return false
+            }
+        }
+        
         if let title = menuItem.menu?.identifier?.rawValue {
             switch title {
             case "fsnotesMenu":
@@ -243,10 +255,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             case "folderMenu":
                 if ["folderMenu.attachStorage"].contains(menuItem.identifier?.rawValue) {
                     return true
-                }
-                
-                guard let p = vc.getSidebarProject(), !p.isTrash else {
-                    return false
                 }
             case "findMenu":
                 if ["findMenu.find",
@@ -702,7 +710,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         panel.begin { (result) -> Void in
             if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
-                let project = vc.getSidebarProject() ?? Storage.shared().getMainProject()
+                let project = vc.sidebarOutlineView.getSelectedProject() ?? Storage.shared().getMainProject()
 
                 for url in urls {
                     _ = vc.copy(project: project, url: url)

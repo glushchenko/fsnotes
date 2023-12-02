@@ -725,7 +725,7 @@ public class Project: Equatable {
     public func getChildProjectsByURL() -> [Project] {
         return storage
             .projects
-            .filter({ !$0.url.path.startsWith(string: url.path) })
+            .filter({ $0.url.path.startsWith(string: url.path) && $0.url.path != url.path })
             .sorted(by: {
                 $0.url.path.components(separatedBy: "/").count < $1.url.path.components(separatedBy: "/").count
             })

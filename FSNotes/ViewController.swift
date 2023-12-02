@@ -928,7 +928,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         // Dusable notes creation if folder encrypted
-        if let project = vc.getSidebarProject(), project.isEncrypted, project.isLocked() {
+        if let project = vc.sidebarOutlineView.getSelectedProject(), project.isEncrypted, project.isLocked() {
             let menuItem = NSMenuItem()
             menuItem.identifier = NSUserInterfaceItemIdentifier("menu.newNote")
             vc.sidebarOutlineView.toggleFolderLock(menuItem)
@@ -1235,7 +1235,7 @@ class ViewController: EditorViewController,
                         moveNoteToTop(note: index)
                     }
                 } else {
-                    let project = getSidebarProject()
+                    let project = sidebarOutlineView.getSelectedProject()
                     sortAndMove(note: note, project: project)
                 }
             }
@@ -1251,23 +1251,6 @@ class ViewController: EditorViewController,
 
         updateViews.removeAll()
         notesTableView.endUpdates()
-    }
-
-    func getSidebarProject() -> Project? {
-        if sidebarOutlineView.selectedRow < 0 {
-            return nil
-        }
-        
-        if let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem,
-           sidebarItem.project != nil {
-            return sidebarItem.project
-        }
-
-        if let project = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? Project {
-            return project
-        }
-        
-        return nil
     }
     
     func getSidebarType() -> SidebarItemType? {

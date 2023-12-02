@@ -512,6 +512,12 @@ CA
                                                 <action selector="openSettings:" target="yxb-XH-bXh" id="0rs-lb-8mh"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Empty Trash" identifier="folderMenu.emptyBin" id="s7a-BE-t62">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="emptyTrash:" target="Ady-hI-5gd" id="5Rw-Fs-VMk"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -2268,6 +2274,12 @@ CA
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                             <connections>
                                 <action selector="openProjectViewSettings:" target="rPt-NT-nkU" id="kzR-77-haW"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Empty Trash" identifier="context.folderMenu.emptyBin" id="2qG-Cv-rhe">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="emptyTrash:" target="rPt-NT-nkU" id="ygS-gl-E8F"/>
                             </connections>
                         </menuItem>
                     </items>

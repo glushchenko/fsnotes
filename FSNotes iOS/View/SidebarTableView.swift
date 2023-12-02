@@ -683,6 +683,20 @@ class SidebarTableView: UITableView,
     }
     
     public func removeRows(projects: [Project]) {
+        
+        // Append and remove childs too if exist
+        var projects = projects
+        for item in projects {
+            let child = item.getChildProjectsByURL()
+            for childItem in child {
+                
+                // No project with url
+                if projects.first(where: { $0.url.path == childItem.url.path }) == nil {
+                    projects.append(childItem)
+                }
+            }
+        }
+        
         guard projects.count > 0, let vc = viewController else { return }
         var deselectCurrent = false
 
@@ -696,10 +710,13 @@ class SidebarTableView: UITableView,
                 }
 
                 vc.storage.remove(project: project)
-                sidebar.items[1].remove(at: index)
             }
         }
 
+        for project in projects {
+            sidebar.items[1].removeAll(where: { $0.project?.url.path == project.url.path })
+        }
+        
         deleteRows(at: indexPaths, with: .automatic)
 
         if deselectCurrent {

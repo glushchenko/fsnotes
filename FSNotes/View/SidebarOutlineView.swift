@@ -792,7 +792,7 @@ class SidebarOutlineView: NSOutlineView,
             as? ProjectSettingsViewController {
                 vc.projectSettingsViewController = controller
 
-            if let project = vc.getSidebarProject() {
+            if let project = vc.sidebarOutlineView.getSelectedProject() {
                 vc.presentAsSheet(controller)
                 controller.load(project: project)
             }
@@ -976,10 +976,10 @@ class SidebarOutlineView: NSOutlineView,
 
         vc.sidebarOutlineView.openProjectViewSettings(sender)
     }
-
+    
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
         guard let window = self.window else { return }
-        guard let project = ViewController.shared()?.getSidebarProject() else { return }
+        guard let project = ViewController.shared()?.sidebarOutlineView.getSelectedProject() else { return }
 
         ViewController.gitQueue.addOperation({
             ViewController.gitQueueOperationDate = Date()
@@ -1606,15 +1606,21 @@ class SidebarOutlineView: NSOutlineView,
         selectRowIndexes([i], byExtendingSelection: false)
     }
 
-    private func getSelectedProject() -> Project? {
+    public func getSelectedProject() -> Project? {
         guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return nil }
 
         if let project = v.item(atRow: v.selectedRow) as? Project {
             return project
         }
 
-        if let sidebarItem = v.item(atRow: v.selectedRow) as? SidebarItem, let project = sidebarItem.project {
-            return project
+        if let sidebarItem = v.item(atRow: v.selectedRow) as? SidebarItem {
+            if sidebarItem.type == .Inbox {
+                return vc.storage.getDefault()
+            }
+            
+            if let project = sidebarItem.project {
+                return project
+            }
         }
 
         return nil
