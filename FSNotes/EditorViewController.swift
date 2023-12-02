@@ -59,6 +59,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         if ident == "context.folderMenu.emptyBin" || ident == "folderMenu.emptyBin" {
             if let p = vc.sidebarOutlineView.getSelectedProject(), p.isTrash {
+                menuItem.title = NSLocalizedString("Empty Trash", comment: "")
                 menuItem.isHidden = false
                 menuItem.isEnabled = true
                 return true
@@ -76,6 +77,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     menuItem.keyEquivalentModifierMask = UserDefaultsManagement.focusInEditorOnNoteSelect
                             ? [.command, .option, .shift]
                             : [.command, .shift]
+                    
+                    menuItem.title = NSLocalizedString("Empty Trash", comment: "")
                     return true
                 }
             case "fileMenu":

@@ -518,14 +518,18 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
+    public func configureSidebarNavMenu() {
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+    }
+    
     @objc func removeNotes() {
         let notes = notesTable.getSelectedNotes()
         notesTable.removeAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -535,9 +539,7 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.dateAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -547,9 +549,7 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.duplicateAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -559,9 +559,7 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.moveAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -569,9 +567,7 @@ extension ViewController: UIDocumentPickerDelegate {
     @objc func cancel() {
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -853,6 +849,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 }
 
                 self.reloadNotesTable()
+                self.configureSidebarNavMenu()
             }
         }
     }
@@ -880,6 +877,8 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
                 self.sidebarTableView.select(project: selectedProject)
             }
+            
+            self.configureSidebarNavMenu()
         }
     }
 
