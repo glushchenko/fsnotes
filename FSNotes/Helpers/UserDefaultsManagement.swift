@@ -1325,18 +1325,6 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var sidebarVisibilityArchive: Bool {
-        get {
-            if let result = shared?.object(forKey: "sidebarVisibilityArchive") as? Bool {
-                return result
-            }
-            return true
-        }
-        set {
-            shared?.set(newValue, forKey: "sidebarVisibilityArchive")
-        }
-    }
-
     static var sidebarVisibilityTrash: Bool {
         get {
             if let result = shared?.object(forKey: "sidebarVisibilityTrash") as? Bool {

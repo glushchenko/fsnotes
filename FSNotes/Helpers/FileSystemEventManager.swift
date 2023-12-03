@@ -98,35 +98,23 @@ class FileSystemEventManager {
             // hide if exist and hidden (xattr "es.fsnot.hidden.dir")
             if event.dirChange {
                 if let project = project {
-                    delegate.sidebarOutlineView.removeProject(project: project)
+                    delegate.sidebarOutlineView.removeRows(projects: [project])
                 }
             }
             
             return
         }
 
-        let srcProject = self.storage.getProjects().first(where: { $0.moveSrc == dirURL })
-        let dstProject = self.storage.getProjects().first(where: { $0.moveDst == dirURL })
-
         if event.dirRenamed {
             if let project = project {
-                if dstProject != nil {
-                    dstProject?.moveDst = nil
-                } else {
-
-                    // hack: occasionally get rename event when created
-                    if !FileManager.default.fileExists(atPath: dirURL.path) {
-                        self.delegate.sidebarOutlineView.removeProject(project: project)
-                    }
+                // hack: occasionally get rename event when created
+                if !FileManager.default.fileExists(atPath: dirURL.path) {
+                    self.delegate.sidebarOutlineView.removeRows(projects: [project])
                 }
             } else {
-                if srcProject != nil {
-                    srcProject?.moveSrc = nil
-                } else {
-                    if FileManager.default.directoryExists(atUrl: dirURL) {
-                        if let projects = self.storage.insert(url: dirURL) {
-                            self.delegate.sidebarOutlineView.insertRows(projects: projects)
-                        }
+                if FileManager.default.directoryExists(atUrl: dirURL) {
+                    if let projects = self.storage.insert(url: dirURL) {
+                        self.delegate.sidebarOutlineView.insertRows(projects: projects)
                     }
                 }
             }
@@ -135,7 +123,7 @@ class FileSystemEventManager {
 
         if event.dirRemoved  {
             if let project = project {
-                self.delegate.sidebarOutlineView.removeProject(project: project)
+                self.delegate.sidebarOutlineView.removeRows(projects: [project])
             }
             return
         }

@@ -35,9 +35,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     private var isLandscape: Bool?
 
-    // used for non icloud changes detection
-    private var coreNote: CoreNote?
-
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
         storageQueue.qualityOfService = .userInitiated
@@ -216,22 +213,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if !note.isLoaded {
             note.load()
         }
-
-        // for projects added from another app spaces
-        // changes detector
-        
-//        if note.project.isExternal {
-//            if coreNote != nil {
-//                coreNote?.close()
-//            }
-//
-//            coreNote = CoreNote(note: note)
-//            coreNote?.open()
-//        } else {
-//            coreNote?.close()
-//            coreNote = nil
-//        }
-
         
         editArea.note = note
 

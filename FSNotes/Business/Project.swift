@@ -14,9 +14,6 @@ public class Project: Equatable {
 
     var url: URL
 
-    public var moveSrc: URL?
-    public var moveDst: URL?
-
     public var label: String
     var isTrash: Bool
     var isCloudDrive: Bool = false
@@ -203,13 +200,20 @@ public class Project: Equatable {
     public func saveCache() {
         guard isReadyForCacheSaving, let cacheURL = getCacheURL() else { return }
 
-        let notes = storage.noteList.filter({ $0.project == self })
+        var notes = storage.noteList.filter({ $0.project == self })
 
         for note in notes {
             if note.isEncrypted() {
                 _ = note.lock()
             }
         }
+        
+        // Deduplicate
+        let deduplicatedNotes = notes.reduce(into: [String: Note]()) { result, object in
+            result[object.url.path] = object
+        }.values
+        
+        notes = Array(deduplicatedNotes)
 
         let meta = notes.map({ $0.getMeta() })
         let jsonEncoder = JSONEncoder()

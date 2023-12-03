@@ -60,6 +60,7 @@
       }
     },
     "Choose for append" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

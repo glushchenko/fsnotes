@@ -1552,7 +1552,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
 
             if UserDefaultsManagement.naming == .autoRename {
-                let title = note.title.withoutSpecialCharacters.trunc(length: 64)
+                let title = note.title.trunc(length: 64)
 
                 if note.fileName != title && title.count > 0 && !note.isEncrypted() {
                     note.rename(to: title)

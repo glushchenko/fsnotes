@@ -277,8 +277,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityNotes ? .on : .off
                 case 3:
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityTodo ? .on : .off
-                case 4:
-                    menuItem.state = UserDefaultsManagement.sidebarVisibilityArchive ? .on : .off
                 case 5:
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityTrash ? .on : .off
                 case 6:

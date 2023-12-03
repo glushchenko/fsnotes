@@ -66,7 +66,6 @@ target 'FSNotes iOS Share Extension' do
     pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
-    pod 'Kanna', '~> 5.0.0'
 end
 
 post_install do |installer|
@@ -97,7 +96,6 @@ post_install do |installer|
 
     if target.name == 'SSZipArchive-iOS' ||
       target.name == 'RNCryptor-iOS' ||
-      target.name == 'Kanna' ||
       target.name == 'Highlightr-iOS' ||
       target.name == 'DropDown' ||
       target.name == 'DKCamera' ||

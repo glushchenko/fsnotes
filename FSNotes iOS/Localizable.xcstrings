@@ -948,7 +948,60 @@
         }
       }
     },
+    "Compatible with Bear and Ulysses (textbundle), markdown, txt, rtf." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kompatibel mit Bear und Ulysses (Textbundle), markdown, txt, rtf."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatible avec Bear et Ulysses (textbundle), markdown, txt, rtf."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibile con Bear and Ulysses (textbundle), markdown, txt, rtf."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bear and Ulysses (textbundle), markdown, txt, rtfと互換性があります"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibel met Bear en Ulysses (textbundle), markdown, txt, rtf."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatível com Bear e Ulysses (textbundle), markdown, txt, rtf."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сумісний з Bear and Ulysses (textbundle), markdown, txt, rtf."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "兼容 Bear(熊掌记) and Ulysses (textbundle),markdown,txt,rtf."
+          }
+        }
+      }
+    },
     "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

@@ -1847,8 +1847,6 @@ class ViewController: EditorViewController,
                 UserDefaultsManagement.sidebarVisibilityNotes = isChecked
             case 3:
                 UserDefaultsManagement.sidebarVisibilityTodo = isChecked
-            case 4:
-                UserDefaultsManagement.sidebarVisibilityArchive = isChecked
             case 5:
                 UserDefaultsManagement.sidebarVisibilityTrash = isChecked
             case 6:

@@ -75,7 +75,7 @@ class Storage {
                 isDefault: true
             )
         
-        projects.append(project)
+        insertProject(project: project)
         
         assignTrash(by: project.url)
         assignBookmarks()
@@ -104,7 +104,15 @@ class Storage {
         }
     #endif
     }
-
+    
+    public func insertProject(project: Project) {
+        if projectExist(url: project.url) {
+            return
+        }
+        
+        projects.append(project)
+    }
+    
     public static func shared() -> Storage {
         guard let storage = self.instance else {
             self.instance = Storage()
@@ -262,9 +270,11 @@ class Storage {
         insert.append(contentsOf: results.1)
                 
         for item in insert {
-            projects.append(item)
-            
-            item.loadNotes()
+            if !projectExist(url: item.url) {
+                insertProject(project: item)
+                
+                item.loadNotes()
+            }
         }
         
         return insert
@@ -297,7 +307,7 @@ class Storage {
         guard !projectExist(url: trashURL) else { return }
 
         let project = Project(storage: self, url: trashURL, isTrash: true)
-        projects.append(project)
+        insertProject(project: project)
 
         self.trashURL = trashURL
     }
@@ -319,14 +329,8 @@ class Storage {
     }
     
     public func removeBy(project: Project) {
-        let list = noteList.filter({ $0.project ==
+        self.noteList.removeAll(where: { $0.project ==
             project })
-        
-        for note in list {
-            if let i = noteList.firstIndex(where: {$0 === note}) {
-                noteList.remove(at: i)
-            }
-        }
         
         projects.removeAll(where: { $0.url == project.url })
     }
@@ -354,7 +358,7 @@ class Storage {
             
 
             let project = Project(storage: self, url: url, isBookmark: true)
-            projects.append(project)
+            insertProject(project: project)
         }
     }
     
@@ -557,25 +561,6 @@ class Storage {
         }
     }
     
-    public func unload(project: Project) {
-        let notes = noteList.filter({ $0.project == project })
-        for note in notes {
-            if let i = noteList.firstIndex(where: {$0 === note}) {
-                noteList.remove(at: i)
-            }
-        }
-    }
-
-    public func reLoadTrash() {
-        noteList.removeAll(where: { $0.isTrash() })
-
-        for project in projects {
-            if project.isTrash {
-                loadNotes(project, loadContent: true)
-            }
-        }
-    }
-
     public func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
         let url = url.standardized
 
@@ -1012,6 +997,8 @@ class Storage {
             
             cleanCachedTree(url: project.url)
         }
+        
+        removeBy(project: project)
     }
 
     public func getNotesBy(project: Project) -> [Note] {
@@ -1044,7 +1031,7 @@ class Storage {
                 project.label = NSLocalizedString("Inbox", comment: "") 
             }
 
-            self.projects.append(project)
+            insertProject(project: project)
         }
     }
 
@@ -1235,8 +1222,11 @@ class Storage {
             insert.append(contentsOf: results.1)
         }
         
-        projects.append(contentsOf: insert)
+        for insertItem in insert {
+            insertProject(project: insertItem)
+        }
         
+        loadProjectRelations()
         saveCachedTree()
         
         for insertItem in insert {
@@ -1244,47 +1234,6 @@ class Storage {
         }
 
         return (remove, insert)
-    }
-    
-    public func checkFSAndMemoryDiff() -> ([Project], [Project]) {
-        var foundRemoved = [Project]()
-        var foundAdded = [Project]()
-
-        let memoryProjects = Storage.shared().getNonSystemProjects()
-        let fileSystemURLs = fetchNonSystemProjectURLs()
-
-        let cachedProjects = Set(memoryProjects.compactMap({ $0.url }))
-        let currentProjects = Set(fileSystemURLs)
-
-        let removed = cachedProjects.subtracting(currentProjects)
-        let added = currentProjects.subtracting(cachedProjects)
-
-        for removeURL in removed {
-            if let project = memoryProjects.first(where: { $0.url == removeURL }) {
-                foundRemoved.append(project)
-                remove(project: project)
-            }
-        }
-
-        for addURL in added {
-            let project = Project(storage: self, url: addURL)
-            foundAdded.append(project)
-            projects.append(project)
-        }
-        
-        foundAdded = foundAdded.sorted(by: {
-            $0.url.path.components(separatedBy: "/").count < $1.url.path.components(separatedBy: "/").count
-        })
-        
-        foundRemoved = foundRemoved.sorted(by: {
-            $0.url.path.components(separatedBy: "/").count > $1.url.path.components(separatedBy: "/").count
-        })
-        
-        loadProjectRelations()
-
-        saveCachedTree()
-    
-        return (foundRemoved, foundAdded)
     }
 
     public func importNote(url: URL) -> Note? {
@@ -1522,12 +1471,19 @@ class Storage {
     public func saveCachedTree() {
         guard let cacheDir = getCacheDir() else { return }
         
-        let urls =
+        var urls =
             getNonSystemProjects()
             .sorted(by: {
                 $0.url.path.components(separatedBy: "/").count < $1.url.path.components(separatedBy: "/").count
             })
             .compactMap({ $0.url })
+        
+        // Deduplicate
+        let deduplicatedUrls = urls.reduce(into: [String: URL]()) { result, object in
+            result[object.path] = object
+        }.values
+        
+        urls = Array(deduplicatedUrls)
         
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: urls, requiringSecureCoding: false) {
             let url = cacheDir.appendingPathComponent("sidebarTree")

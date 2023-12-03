@@ -775,7 +775,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let content = searchBar.text
         searchBar.text = ""
-        self.createNote(content: content, pasteboard: nil)
+        self.createNote(content: content)
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
@@ -1044,7 +1044,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UserDefaultsManagement.lastNews = storage.getNewsDate()
     }
 
-    public func createNote(content: String? = nil, pasteboard: Bool? = nil) {
+    public func createNote(content: String? = nil, pasteboard: Bool = false) {
         var currentProject: Project
         if let project = storage.getProjects().first {
             currentProject = project
@@ -1064,11 +1064,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             note.content = NSMutableAttributedString(string: content)
         }
 
-        note.write()
-
-        if pasteboard != nil {
-            savePasteboard(note: note)
+        if pasteboard {
+            if  let image = UIPasteboard.general.image,
+                let data = image.jpegData(compressionQuality: 1),
+                let imagePath = ImagesProcessor.writeFile(data: data, note: note)
+            {
+                note.content = NSMutableAttributedString(string: "![](\(imagePath))\n\n")
+            } else if let content = UIPasteboard.general.string {
+                note.content = NSMutableAttributedString(string: content)
+            }
         }
+        
+        note.save()
 
         let storage = Storage.shared()
         storage.add(note)
@@ -1141,7 +1148,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         note.save()
-        note.write()
     }
 
     public func importSavedInSharedExtension() {

@@ -911,10 +911,9 @@ class SidebarOutlineView: NSOutlineView,
 
         for item in projects {
             SandboxBookmark().removeBy(item.url)
-            sidebarOutlineView.removeProject(project: item)
-            
-            storage.cleanCachedTree(url: item.url)
         }
+        
+        sidebarOutlineView.removeRows(projects: projects)
 
         sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
         vc.notesTableView.reloadData()
@@ -1400,12 +1399,30 @@ class SidebarOutlineView: NSOutlineView,
         for project in projects {
             insert(project: project)
         }
+        
+        storage.loadProjectRelations()
     }
     
     public func removeRows(projects: [Project]) {
+        
+        // Append and remove childs too if exist
+        var projects = projects
+        for item in projects {
+            let child = item.getChildProjectsByURL()
+            for childItem in child {
+                
+                // No project with url
+                if projects.first(where: { $0.url.path == childItem.url.path }) == nil {
+                    projects.append(childItem)
+                }
+            }
+        }
+        
         for project in projects {
             remove(project: project)
         }
+        
+        storage.loadProjectRelations()
     }
     
     public func insert(project: Project) {
@@ -1431,13 +1448,7 @@ class SidebarOutlineView: NSOutlineView,
         
         viewDelegate?.fsManager?.reloadObservedFolders()
     }
-    
-    public func removeProject(project: Project) {
-        guard storage.projectExist(url: project.url) else { return }
-
-        remove(project: project)
-    }
-    
+        
     public func createProject(name: String, parent: Project) {
         guard name.count > 0 else { return }
         

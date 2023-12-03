@@ -851,6 +851,10 @@ public class Note: NSObject  {
                         type = .Markdown
                         container = .textBundle
                     }
+                    
+                    if let created = info.created {
+                        creationDate = Date(timeIntervalSince1970: TimeInterval(created))
+                    }
                 }
             }
             
@@ -956,7 +960,9 @@ public class Note: NSObject  {
             let fileWrapper = getFileWrapper(attributedString: attributedString)
 
             if isTextBundle() {
-                if !FileManager.default.fileExists(atPath: url.path) {
+                let jsonUrl = url.appendingPathComponent("info.json")
+                
+                if !FileManager.default.fileExists(atPath: jsonUrl.path) {
                     try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: false, attributes: nil)
 
                     self.writeTextBundleInfo(url: url)
@@ -1062,6 +1068,8 @@ public class Note: NSObject  {
     }
     
     private func getTextBundleJsonInfo() -> String {
+        let creationDate = self.creationDate ?? Date()
+        
         if let originalExtension = originalExtension {
             return """
             {
@@ -1069,7 +1077,8 @@ public class Note: NSObject  {
                 "type" : "\(type.uti)",
                 "creatorIdentifier" : "co.fluder.fsnotes",
                 "version" : 2,
-                "flatExtension" : "\(originalExtension)"
+                "flatExtension" : "\(originalExtension)",
+                "created" : \(Int(creationDate.timeIntervalSince1970))
             }
             """
         }
@@ -1079,7 +1088,8 @@ public class Note: NSObject  {
             "transient" : true,
             "type" : "\(type.uti)",
             "creatorIdentifier" : "co.fluder.fsnotes",
-            "version" : 2
+            "version" : 2,
+            "created" : \(Int(creationDate.timeIntervalSince1970))
         }
         """
     }

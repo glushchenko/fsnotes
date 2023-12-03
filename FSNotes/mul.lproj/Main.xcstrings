@@ -15969,7 +15969,7 @@
     },
     "H2T-Wj-CfA.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Archive\"; ObjectID = \"H2T-Wj-CfA\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

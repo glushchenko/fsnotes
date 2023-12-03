@@ -685,18 +685,14 @@ extension ViewController: UIDocumentPickerDelegate {
                 }
 
                 mvc.sidebarTableView.removeRows(projects: [selectedProject])
-                mvc.storage.unload(project: selectedProject)
 
-                selectedProject.url = newDir
-                selectedProject.loadLabel()
-
-                mvc.storage.loadNotes(selectedProject, loadContent: true)
-                mvc.sidebarTableView.insertRows(projects: [selectedProject])
-                mvc.sidebarTableView.select(project: selectedProject)
-
-                // Load tags for new urls
-                let notes = selectedProject.getNotes()
-                mvc.sidebarTableView.loadTags(notes: notes)
+                if let projects = self.storage.insert(url: newDir) {
+                    mvc.sidebarTableView.insertRows(projects: projects)
+                    
+                    if let first = projects.first {
+                        mvc.sidebarTableView.select(project: first)
+                    }
+                }
             }
         }
 
