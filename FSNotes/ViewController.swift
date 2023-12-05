@@ -171,7 +171,7 @@ class ViewController: EditorViewController,
         fsManager = FileSystemEventManager(storage: storage, delegate: self)
         fsManager?.start()
 
-        configureTranslation()
+        menuChangeCreationDate.title = NSLocalizedString("Change Creation Date", comment: "Menu")
         
         loadBookmarks(data: UserDefaultsManagement.sftpAccessData)
         loadBookmarks(data: UserDefaultsManagement.gitPrivateKeyData)
@@ -1650,12 +1650,6 @@ class ViewController: EditorViewController,
         }
     }
     
-    private func configureTranslation() {
-        let creationDate = NSLocalizedString("Change Creation Date", comment: "Menu")
-
-        menuChangeCreationDate.title = creationDate
-    }
-    
     private func loadBookmarks(data: Data?) {
         if let accessData = data,
             let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
@@ -1705,14 +1699,14 @@ class ViewController: EditorViewController,
             moveMenu.addItem(NSMenuItem.separator())
         }
                 
-        let projects = storage.getProjects()
+        let projects = storage.getSortedProjects()
         for item in projects {
             if note.project == item || item.isTrash {
                 continue
             }
             
             let menuItem = NSMenuItem()
-            menuItem.title = item.getFullLabel()
+            menuItem.title = item.getNestedLabel()
             menuItem.representedObject = item
             menuItem.action = #selector(vc.moveNote(_:))
             moveMenu.addItem(menuItem)

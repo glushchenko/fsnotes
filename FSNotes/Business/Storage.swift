@@ -341,10 +341,6 @@ class Storage {
         }
     }
 
-    public func getProjectDocuments(project: Project) -> [URL] {
-        return readDirectory(project.url).map({ $0.0 as URL })
-    }
-
     public func assignBookmarks() {
         let bookmark = SandboxBookmark.sharedInstance()
         bookmarks = bookmark.load()
@@ -516,95 +512,6 @@ class Storage {
         }
         
         return note.isPinned && !next.isPinned
-    }
-
-    func loadNotes(_ item: Project, loadContent: Bool = false) {
-        var currentUrl: URL?
-                
-        #if IOS_APP
-            currentUrl = UIApplication.getEVC().editArea.note?.url
-        #endif
-        
-        let documents = readDirectory(item.url)
-        let pins = UserDefaultsManagement.pinList
-
-        for document in documents {
-            if currentUrl == document.0 {
-                continue
-            }
-
-            let note = Note(url: document.0, with: item)
-            if document.0.pathComponents.isEmpty {
-                continue
-            }
-            
-            note.modifiedLocalAt = document.1
-            note.creationDate = document.2
-            note.project = item
-            
-            #if CLOUDKIT
-            #else
-                if pins.contains(note.url.path) {
-                    note.isPinned = true
-                }
-            #endif
-
-            if loadContent {
-                note.load()
-            }
-
-            if note.isTextBundle() && !note.isFullLoadedTextBundle() {
-                continue
-            }
-
-            noteList.append(note)
-        }
-    }
-    
-    public func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
-        let url = url.standardized
-
-        do {
-            let files =
-                try FileManager.default.contentsOfDirectory(
-                    at: url,
-                    includingPropertiesForKeys: [
-                        .contentModificationDateKey,
-                        .creationDateKey,
-                        .typeIdentifierKey
-                    ],
-                    options:.skipsHiddenFiles
-                )
-            
-            return
-                files.filter {
-                    allowedExtensions.contains($0.pathExtension)
-                    || self.isValidUTI(url: $0)
-                }.map {
-                    url in (
-                        url,
-                        (try? url.resourceValues(forKeys: [.contentModificationDateKey])
-                            )?.contentModificationDate ?? Date.distantPast,
-                        (try? url.resourceValues(forKeys: [.creationDateKey])
-                            )?.creationDate ?? Date.distantPast
-                    )
-                }.map {
-                    if $0.0.pathExtension == "textbundle" {
-                        return (
-                            URL(fileURLWithPath: $0.0.path, isDirectory: false),
-                            $0.1,
-                            $0.2
-                        )
-                    }
-
-                    return $0
-                }
-            
-        } catch {
-            print("Storage not found, url: \(url) – \(error)")
-        }
-        
-        return []
     }
 
     public func isValidNote(url: URL) -> Bool {
@@ -876,14 +783,6 @@ class Storage {
             noteList.filter {
                 $0.isTrash()
             }
-    }
-
-    public func initNote(url: URL) -> Note? {
-        guard let project = self.getProjectByNote(url: url) else { return nil }
-
-        let note = Note(url: url, with: project)
-
-        return note
     }
 
     private func cleanTrash() {
@@ -1237,14 +1136,27 @@ class Storage {
     }
 
     public func importNote(url: URL) -> Note? {
-        guard getBy(url: url) == nil, let note = initNote(url: url) else { return nil }
-
-        note.loadFileWithAttributes()
-
+        guard getBy(url: url) == nil, 
+            let project = self.getProjectByNote(url: url)
+        else { return nil }
+        
+        let note = Note(url: url, with: project)
+        
         if note.isTextBundle() && !note.isFullLoadedTextBundle() {
             return nil
         }
-
+        
+        note.load()
+        note.loadPreviewInfo()
+        
+        note.loadModifiedLocalAt()
+        note.loadCreationDate()
+        
+        loadPins(notes: [note])
+        add(note)
+        
+        print("FSWatcher import note: \"\(note.name)\"")
+        
         return note
     }
 
@@ -1530,6 +1442,10 @@ class Storage {
                 }
             }
         }
+    }
+    
+    public func getSortedProjects() -> [Project] {
+        return self.projects.sorted(by: {$0.url.path < $1.url.path})
     }
 }
 

@@ -176,7 +176,11 @@ class CloudDriveManager {
                 print("File changed: \(url)")
 
                 // Not updates in FS attributes, must be loaded from Cloud Drive Meta
-                note.creationDate = creationDate
+                if note.isTextBundle() {
+                    note.loadCreationDate()
+                } else {
+                    note.creationDate = creationDate
+                }
 
                 notesModificationQueue.append(note)
                 //resolveConflict(url: url)
@@ -215,7 +219,9 @@ class CloudDriveManager {
             }
 
             // Non exist yet, will add
-            importNote(url: url)
+            if let note = storage.importNote(url: url) {
+                notesInsertionQueue.append(note)
+            }
         }
 
         return completed
@@ -279,7 +285,9 @@ class CloudDriveManager {
             // i.e. revert from macOS trash to iCloud Drive
 
             if storage.isValidNote(url: url) {
-                self.importNote(url: url)
+                if let note = storage.importNote(url: url) {
+                    notesInsertionQueue.append(note)
+                }
             }
         }
 
@@ -309,17 +317,6 @@ class CloudDriveManager {
         }
 
         return removedMetadataItems.count
-    }
-
-    public func importNote(url: URL) {
-        guard let note = storage.importNote(url: url) else { return }
-
-        print("File imported: \(note.url)")
-
-        if !storage.contains(note: note) {
-            storage.noteList.append(note)
-            notesInsertionQueue.append(note)
-        }
     }
 
     public func resolveConflict(url: URL) {

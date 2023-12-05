@@ -189,6 +189,10 @@ public class Note: NSObject  {
             try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
 
             creationDate = userDate
+            
+            if isTextBundle() {
+                writeTextBundleInfo(url: getURL())
+            }
             return true
         } catch {
             print(error)
@@ -203,6 +207,11 @@ public class Note: NSObject  {
             try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
 
             creationDate = date
+            
+            if isTextBundle() {
+                writeTextBundleInfo(url: getURL())
+            }
+            
             return true
         } catch {
             print(error)
@@ -224,16 +233,6 @@ public class Note: NSObject  {
         }
 
         isLoaded = true
-    }
-
-    public func loadFileWithAttributes() {
-        load()
-        loadFileAttributes()
-    }
-
-    public func loadFileAttributes() {
-        loadCreationDate()
-        loadModifiedLocalAt()
     }
 
     func reload() -> Bool {
@@ -298,6 +297,18 @@ public class Note: NSObject  {
 
     public func getFileCreationDate() -> Date? {
         let url = getURL()
+        
+        if isTextBundle() {
+            let textBundleURL = url
+            let json = textBundleURL.appendingPathComponent("info.json")
+
+            if let jsonData = try? Data(contentsOf: json),
+               let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData),
+               let created = info.created {
+                
+                return Date(timeIntervalSince1970: TimeInterval(created))
+            }
+        }
 
         return
             (try? url.resourceValues(forKeys: [.creationDateKey]))?

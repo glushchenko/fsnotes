@@ -1419,6 +1419,12 @@ class SidebarOutlineView: NSOutlineView,
         }
         
         for project in projects {
+            
+            // Remove notes from NoteTableView
+            let notes = project.getNotes()
+            viewDelegate?.notesTableView.removeRows(notes: notes)
+            
+            // Remove projects from SidebarOutlineView
             remove(project: project)
         }
         

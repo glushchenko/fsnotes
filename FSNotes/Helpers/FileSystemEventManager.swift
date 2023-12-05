@@ -188,19 +188,7 @@ class FileSystemEventManager {
             return
         }
         
-        guard storage.getProjectByNote(url: url) != nil else {
-            return
-        }
-        
-        guard let note = storage.initNote(url: url) else { return }
-
-        note.load()
-        note.loadPreviewInfo()
-        note.loadModifiedLocalAt()
-        
-        print("FSWatcher import note: \"\(note.name)\"")
-        self.storage.add(note)
-        self.storage.loadPins(notes: [note])
+        guard let note = storage.importNote(url: url) else { return }
         
         DispatchQueue.main.async {
             if let url = UserDataService.instance.focusOnImport,

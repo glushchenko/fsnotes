@@ -1151,16 +1151,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func importSavedInSharedExtension() {
+        var notes = [Note]()
+        
         for url in UserDefaultsManagement.importURLs {
-            guard let note = storage.importNote(url: url) else { return }
-
-            if !storage.contains(note: note) {
-                storage.noteList.append(note)
-                notesTable.insertRows(notes: [note])
-
-                print("File imported: \(note.url)")
+            if let note = storage.importNote(url: url) {
+                notes.append(note)
             }
         }
+        
+        notesTable.insertRows(notes: notes)
 
         UserDefaultsManagement.importURLs = []
     }
