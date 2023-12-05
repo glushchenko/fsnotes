@@ -702,50 +702,19 @@ public class Note: NSObject  {
     func addPin(cloudSave: Bool = true) {
         isPinned = true
         
-    #if CLOUDKIT || os(iOS)
         if cloudSave {
             Storage.shared().saveCloudPins()
         }
-    #elseif os(OSX)
-        addLocalPin(url: url)
-    #endif
-
     }
 
     func removePin(cloudSave: Bool = true) {
         if isPinned {
             isPinned = false
             
-            #if CLOUDKIT || os(iOS)
             if cloudSave {
                 Storage.shared().saveCloudPins()
             }
-            #elseif os(OSX)
-                removeLocalPin(url: url)
-            #endif
         }
-    }
-
-    public func addLocalPin(url: URL) {
-        var pins = UserDefaultsManagement.pinList
-
-        if !pins.contains(url.path) {
-            pins.append(url.path)
-        }
-
-        UserDefaultsManagement.pinList = pins
-    }
-
-    public func removeLocalPin(url: URL) {
-        var pins = UserDefaultsManagement.pinList
-
-        if pins.contains(url.path) {
-            if let index = pins.firstIndex(of: url.path) {
-                pins.remove(at: index)
-            }
-        }
-
-        UserDefaultsManagement.pinList = pins
     }
     
     func togglePin() {

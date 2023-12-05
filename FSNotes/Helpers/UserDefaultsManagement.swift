@@ -117,7 +117,6 @@ public class UserDefaultsManagement {
         static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
         static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
-        static let PinListKey = "pinList"
         static let Preview = "preview"
         static let PreviewFontSize = "previewFontSize"
         static let ProjectsKey = "projects"
@@ -1448,19 +1447,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.RecentSearches)
-        }
-    }
-
-    static var pinList: [String] {
-        get {
-            if let value = shared?.array(forKey: Constants.PinListKey) as? [String] {
-                return value
-            }
-
-            return [String]()
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.PinListKey)
         }
     }
 

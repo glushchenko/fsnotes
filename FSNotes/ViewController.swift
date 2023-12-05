@@ -155,8 +155,6 @@ class ViewController: EditorViewController,
             NSImage(imageLiteralResourceName: "new_note_button")
                 .resize(to: CGSize(width: 30, height: 30))
 
-        //newNoteButton.setButtonType(.momentaryLight)
-
         storage.restoreUploadPaths()
         storage.restoreAPIIds()
         
@@ -183,11 +181,8 @@ class ViewController: EditorViewController,
         loadSortBySetting()
         checkSidebarConstraint()
         
-        #if CLOUDKIT
-            self.registerKeyValueObserver()
-        #endif
+        registerKeyValueObserver()
         
-        ViewController.gitQueue.maxConcurrentOperationCount = 1
         ViewController.gitQueue.maxConcurrentOperationCount = 1
         
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
@@ -1628,11 +1623,10 @@ class ViewController: EditorViewController,
         }
 
         notesTableView.noteList = resorted
-        
-        //notesTableView.reloadData(forRowIndexes: newIndexes, columnIndexes: [0])
-        //notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
-        
         notesTableView.endUpdates()
+        
+        //notesTableView.reloadData()
+        //notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
     }
 
     func external(selectedNotes: [Note]) {
@@ -1773,35 +1767,27 @@ class ViewController: EditorViewController,
     }
     
     func registerKeyValueObserver() {
-        let keyStore = NSUbiquitousKeyValueStore()
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(ubiquitousKeyValueStoreDidChange(_:)),
+            name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+            object: NSUbiquitousKeyValueStore.default)
+
+        if NSUbiquitousKeyValueStore.default.synchronize() == false {
+            fatalError("This app was not built with the proper entitlement requests.")
+        }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.ubiquitousKeyValueStoreDidChange), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: keyStore)
-        
-        keyStore.synchronize()
+        NSUbiquitousKeyValueStore.default.synchronize()
     }
     
-    @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
+    @objc func ubiquitousKeyValueStoreDidChange(_ notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
                 if key == "co.fluder.fsnotes.pins.shared" {
-                    let changedNotes = storage.restoreCloudPins()
-
-                    if let notes = changedNotes.added {
-                        for note in notes {
-                            if let i = notesTableView.getIndex(note) {
-                                self.moveNoteToTop(note: i)
-                            }
-                        }
-                    }
-
+                    
+                    let changedNotes = storage.getUpdatedPins()
+                    
                     DispatchQueue.main.async {
-                        if let notes = changedNotes.removed {
-                            for note in notes {
-                                if let i = self.notesTableView.getIndex(note) {
-                                    self.notesTableView.reloadData(forRowIndexes: [i], columnIndexes: [0])
-                                }
-                            }
-                        }
+                        ViewController.shared()?.pin(selectedNotes: changedNotes)
                     }
                 }
                 

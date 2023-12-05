@@ -800,7 +800,6 @@ class Storage {
     }
 
     public func saveCloudPins() {
-        #if CLOUDKIT || os(iOS)
         if let pinned = getPinned() {
             var names = [String]()
             for note in pinned {
@@ -813,7 +812,6 @@ class Storage {
 
             print("Pins successfully saved: \(names)")
         }
-        #endif
     }
 
     public func loadPins(notes: [Note]) {
@@ -837,7 +835,6 @@ class Storage {
         var added = [Note]()
         var removed = [Note]()
 
-        #if CLOUDKIT || os(iOS)
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
         
@@ -858,32 +855,37 @@ class Storage {
                 }
             }
         }
-        #endif
 
         return (removed, added)
     }
     
-    public func loadNotesCloudPins() {
-    #if CLOUDKIT || os(iOS)
+    public func getUpdatedPins() -> [Note] {
+        var notes = [Note]()
+
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
-
+        
         if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
             if let pinned = getPinned() {
                 for note in pinned {
                     if !names.contains(note.name) {
-                        note.removePin(cloudSave: false)
+                        notes.append(note)
                     }
                 }
             }
 
             for name in names {
                 if let note = getBy(name: name), !note.isPinned {
-                    note.addPin(cloudSave: false)
+                    notes.append(note)
                 }
             }
         }
-    #endif
+
+        return notes
+    }
+    
+    public func loadNotesCloudPins() {
+        _ = restoreCloudPins()
     }
 
     public func getPinned() -> [Note]? {

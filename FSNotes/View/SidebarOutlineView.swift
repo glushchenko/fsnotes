@@ -1442,8 +1442,11 @@ class SidebarOutlineView: NSOutlineView,
                 vc.sidebarOutlineView.sidebarItems?.insert(project, at: offset)
                 vc.sidebarOutlineView.insertItems(at: [offset], inParent: nil, withAnimation: .effectFade)
             } else {
-                parent.child.insert(project, at: 0)
-                vc.sidebarOutlineView.insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
+                if parent.child.filter({ $0.url == project.url }).count == 0 {
+                    parent.child.insert(project, at: 0)
+                    vc.sidebarOutlineView.insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
+                }
+                
                 vc.sidebarOutlineView.reloadItem(parent)
             }
         } else {
