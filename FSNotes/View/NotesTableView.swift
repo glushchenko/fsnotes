@@ -630,9 +630,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     public func reloadDate(note: Note) {
         DispatchQueue.main.async {
-            if let i = self.noteList.firstIndex(of: note) {
-                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
-                    cell.date.stringValue = note.getDateForLabel()
+            if self.numberOfRows > 0, let i = self.noteList.firstIndex(of: note) {
+                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView {
+                    if let cell = row.subviews.first as? NoteCellView {
+                        cell.date.stringValue = note.getDateForLabel()
+                    }
                 }
             }
         }

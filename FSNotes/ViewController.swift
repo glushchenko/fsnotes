@@ -204,6 +204,10 @@ class ViewController: EditorViewController,
             OperationQueue.main.addOperation {
                 self.sidebarOutlineView.removeRows(projects: results.0)
                 self.sidebarOutlineView.insertRows(projects: results.1)
+                
+                if results.0.count != 0 || results.1.count != 0 {
+                    self.updateTable()
+                }
             }
             
             print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
@@ -897,7 +901,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
 
         let value = sender.stringValue
@@ -941,7 +945,7 @@ class ViewController: EditorViewController,
         }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
 
         let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
@@ -953,7 +957,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
         
         _ = vc.createNote(type: .RichText)
@@ -1011,7 +1015,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
         
         _ = vc.createNote()
@@ -1088,13 +1092,6 @@ class ViewController: EditorViewController,
     }
     
     @IBAction func emptyTrash(_ sender: NSMenuItem) {
-        guard let vc = ViewController.shared() else { return }
-        
-        if let sidebarItem = vc.getSidebarItem(), sidebarItem.isTrash() {
-            let indexSet = IndexSet(integersIn: 0..<vc.notesTableView.noteList.count)
-            vc.notesTableView.removeRows(at: indexSet, withAnimation: .effectFade)
-        }
-        
         let notes = storage.getAllTrash()
         for note in notes {
             _ = note.removeFile()

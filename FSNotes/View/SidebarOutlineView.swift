@@ -2150,4 +2150,11 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
     }
+    
+    public func deselectAllRows() {
+        UserDefaultsManagement.lastSidebarItem = nil
+        UserDefaultsManagement.lastProjectURL = nil
+        
+        deselectAll(nil)
+    }
 }
