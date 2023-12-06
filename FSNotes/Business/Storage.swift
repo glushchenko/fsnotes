@@ -992,7 +992,7 @@ class Storage {
             do {
                 let files = try FileManager.default.contentsOfDirectory(atPath: bundle.path)
                 for file in files {
-                    try FileManager.default.copyItem(atPath: "\(bundle.path)/\(file)", toPath: "\(url.path)/\(file)")
+                    try? FileManager.default.copyItem(atPath: "\(bundle.path)/\(file)", toPath: "\(url.path)/\(file)")
                 }
             } catch {
                 print("Initial copy error: \(error)")

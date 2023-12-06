@@ -186,15 +186,10 @@ class ViewController: EditorViewController,
         ViewController.gitQueue.maxConcurrentOperationCount = 1
         
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
+        configureSidebarAndNotesList()
     }
     
-    public func preLoadProjectsData() {
-        appLoading()
-
-        DispatchQueue.main.async {
-            self.configureSidebarAndNotesList()
-        }
-        
+    public func preLoadProjectsData() {        
         DispatchQueue.global().async {
             let storage = self.storage
 
