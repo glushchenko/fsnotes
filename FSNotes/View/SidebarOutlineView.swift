@@ -1448,6 +1448,11 @@ class SidebarOutlineView: NSOutlineView,
                 }
                 
                 vc.sidebarOutlineView.reloadItem(parent)
+                
+                // Update label color 
+                if let row = rowView(atRow: row(forItem: parent), makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
+                    cell.applySelectedFirstResponder()
+                }
             }
         } else {
             let offset = lastProjectIndex + countProjects() + 1
