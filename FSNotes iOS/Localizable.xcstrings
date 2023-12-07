@@ -39,6 +39,12 @@
             "value" : "..."
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "..."
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -92,6 +98,12 @@
             "value" : "+"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -139,6 +151,12 @@
           }
         },
         "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "✅ - "
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "✅ - "
@@ -197,6 +215,12 @@
             "value" : "Pasta Externa"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить внешнюю папку"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -250,6 +274,12 @@
             "value" : "Estendido"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расширенные"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -260,60 +290,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高级"
-          }
-        }
-      }
-    },
-    "Archive" : {
-      "comment" : "Sidebar label\nArchive in sidebar",
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archiv"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archiver"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivio"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アーカイブ"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archief"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arquivo"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Архів"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "存档"
           }
         }
       }
@@ -354,6 +330,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tem certeza de que deseja excluir todas as versões desta nota?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите удалить все версии этой заметки?"
           }
         },
         "uk" : {
@@ -408,6 +390,12 @@
             "value" : "Tem certeza de que deseja excluir o histórico de todas as notas?"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите удалить историю всех заметок?"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -458,6 +446,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tem certeza de que deseja apagar esta imagem?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите удалить это изображение?"
           }
         },
         "uk" : {
@@ -513,6 +507,12 @@
             "value" : "Renomeação automática por título"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Авто переименование "
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -564,6 +564,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auto correção"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автокоррекция"
           }
         },
         "uk" : {
@@ -619,6 +625,12 @@
             "value" : "versão"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "сборка"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -671,6 +683,12 @@
             "value" : "Cancelar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отменить"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -721,6 +739,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Data Criada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить дату создания"
           }
         },
         "uk" : {
@@ -776,6 +800,12 @@
             "value" : "Verificação Ortográfica"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверять орфографию"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -826,6 +856,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Código"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Код"
           }
         },
         "uk" : {
@@ -881,6 +917,12 @@
             "value" : "Realçar bloco de código"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Живая подсветка кода"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -932,6 +974,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tema do código"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Код темы"
           }
         },
         "uk" : {
@@ -986,6 +1034,12 @@
             "value" : "Compatível com Bear e Ulysses (textbundle), markdown, txt, rtf."
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Совместим с Bear и Ulysses (textbundle), markdown, txt, rtf."
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -996,59 +1050,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "兼容 Bear(熊掌记) and Ulysses (textbundle),markdown,txt,rtf."
-          }
-        }
-      }
-    },
-    "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Совместимо с DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compatible avec DayOne JSON (zip), Bear et Ulysses (textbundle), markdown, txt, rtf."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compatibile con DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtfと互換性があります"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compatibel met DayOne JSON (zip), Bear en Ulysses (textbundle), markdown, txt, rtf."
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compatível com DayOne JSON (zip), Bear e Ulysses (textbundle), markdown, txt, rtf."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сумісний з DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "兼容 DayOne JSON (zip), Bear(熊掌记) and Ulysses (textbundle),markdown,txt,rtf."
           }
         }
       }
@@ -1090,6 +1091,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Container"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Контейнер"
           }
         },
         "uk" : {
@@ -1142,6 +1149,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copiar texto simples"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопировать обычный текст"
           }
         },
         "uk" : {
@@ -1197,6 +1210,12 @@
             "value" : "Criar pasta"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать папку"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1247,6 +1266,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Criar pasta:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать папку:"
           }
         },
         "uk" : {
@@ -1301,6 +1326,12 @@
             "value" : "Criar página da Web"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать веб-страницу"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1351,6 +1382,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Data de criação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата создания"
           }
         },
         "uk" : {
@@ -1406,6 +1443,12 @@
             "value" : "Desencriptar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расшифровать"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1457,6 +1500,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Teclado padrão"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавиатура по умолчанию"
           }
         },
         "uk" : {
@@ -1512,6 +1561,12 @@
             "value" : "Eliminar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1562,6 +1617,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Excluir página da Web"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить веб-страницу"
           }
         },
         "uk" : {
@@ -1616,6 +1677,12 @@
             "value" : "Documentos"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Документы"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1668,6 +1735,12 @@
             "value" : "Feito"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1718,6 +1791,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplicada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дублировать"
           }
         },
         "uk" : {
@@ -1773,6 +1852,12 @@
             "value" : "Tipo dinâmico"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Динамический шрифт"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1824,6 +1909,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактор"
           }
         },
         "uk" : {
@@ -1879,6 +1970,12 @@
             "value" : "Caixa vazia"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить корзину"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1930,6 +2027,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encriptar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зашифровать"
           }
         },
         "uk" : {
@@ -1984,6 +2087,12 @@
             "value" : "Digite o nome da pasta"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите имя папки"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2034,6 +2143,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Introduzir Palavra-passe Mestra"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите мастер-пароль"
           }
         },
         "uk" : {
@@ -2088,6 +2203,12 @@
             "value" : "Insira o novo nome da tag"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите новое имя тега"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2138,6 +2259,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Introduzir nome da nota"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите название заметки"
           }
         },
         "uk" : {
@@ -2193,6 +2320,12 @@
             "value" : "Extensão"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расширение"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2246,6 +2379,12 @@
             "value" : "Família de fontes"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Семья"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2296,6 +2435,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Já existe um ficheiro com este nome"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл с таким именем уже существует"
           }
         },
         "uk" : {
@@ -2351,6 +2496,12 @@
             "value" : "Formato de arquivo"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2402,6 +2553,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nomenclatura de arquivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Именование файлов"
           }
         },
         "uk" : {
@@ -2456,6 +2613,12 @@
             "value" : "Nome da pasta:"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название папки:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2506,6 +2669,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Já existe uma pasta com este nome"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка с таким именем уже существует"
           }
         },
         "uk" : {
@@ -2561,6 +2730,12 @@
             "value" : "Pastas"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папки"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2612,6 +2787,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Letra"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шрифт"
           }
         },
         "uk" : {
@@ -2667,6 +2848,12 @@
             "value" : "Família do tipo de letra"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Семейство шрифтов"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2718,6 +2905,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tamanho da letra"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Размер шрифта"
           }
         },
         "uk" : {
@@ -2773,6 +2966,12 @@
             "value" : "Formato: Untitled Note"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Формат: Без названия"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2824,6 +3023,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Formato: yyyy-MM-dd hh.mm.ss a"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Формат: yyyy-MM-dd hh.mm.ss a"
           }
         },
         "uk" : {
@@ -2879,6 +3084,12 @@
             "value" : "Formato: yyyyMMddHHmmss"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Формат: yyyyMMddHHmmss"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2927,6 +3138,12 @@
           }
         },
         "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -2985,6 +3202,12 @@
             "value" : "Geral"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Главные"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3033,6 +3256,12 @@
           }
         },
         "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
@@ -3091,6 +3320,12 @@
             "value" : "Git Add/commit/push"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git Add/commit/push"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3142,6 +3377,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки Git"
           }
         },
         "uk" : {
@@ -3196,6 +3437,12 @@
             "value" : "História"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3244,6 +3491,12 @@
           }
         },
         "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud Drive"
@@ -3302,6 +3555,12 @@
             "value" : "Ícone"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Иконка"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3352,6 +3611,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fonte das imagens:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Источник изображений:"
           }
         },
         "uk" : {
@@ -3407,6 +3672,12 @@
             "value" : "Importar notas"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Импортировать заметки"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3460,6 +3731,12 @@
             "value" : "Caixa de entrada"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Входящие"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3510,6 +3787,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Palavra-passe inválida"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверный пароль"
           }
         },
         "uk" : {
@@ -3565,6 +3848,12 @@
             "value" : "Barra lateral"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Библиотека"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3616,6 +3905,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Espaçamento entre linhas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расстояние между строками"
           }
         },
         "uk" : {
@@ -3671,6 +3966,12 @@
             "value" : "Pré-visualização de imagens"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предпросмотр изображений"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3722,6 +4023,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trancar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заблокировать"
           }
         },
         "uk" : {
@@ -3777,6 +4084,12 @@
             "value" : "Master"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мастер"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3829,6 +4142,12 @@
             "value" : "Senha mestra:"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мастер-пароль:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3877,6 +4196,12 @@
           }
         },
         "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MathJax"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "MathJax"
@@ -3934,6 +4259,12 @@
             "value" : "Data de modificação"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата модификации"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3985,6 +4316,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todavía"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ещё"
           }
         },
         "uk" : {
@@ -4040,6 +4377,12 @@
             "value" : "Mover"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4092,6 +4435,12 @@
             "value" : "Novo Documento"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая заметка"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4142,6 +4491,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por padrão"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет"
           }
         },
         "uk" : {
@@ -4197,6 +4552,12 @@
             "value" : "Notas"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заметки"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4247,6 +4608,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lista de notas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список заметок"
           }
         },
         "uk" : {
@@ -4302,6 +4669,12 @@
             "value" : "Abra em Files.app"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть в Files.app"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4353,6 +4726,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abrir nota"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть заметку"
           }
         },
         "uk" : {
@@ -4407,6 +4786,12 @@
             "value" : "Passphrase"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пассфраза"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4457,6 +4842,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Palavra-passe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль"
           }
         },
         "uk" : {
@@ -4511,6 +4902,12 @@
             "value" : "A palavra-passe foi alterada com êxito"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль был успешно изменен"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4561,6 +4958,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Palavra-passe:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль:"
           }
         },
         "uk" : {
@@ -4615,6 +5018,12 @@
             "value" : "Fotos"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4665,6 +5074,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remoção de imagem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаление изображения"
           }
         },
         "uk" : {
@@ -4720,6 +5135,12 @@
             "value" : "Fixar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрепить"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4770,6 +5191,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor insira uma palavra-passe válida"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, введите правильный пароль"
           }
         },
         "uk" : {
@@ -4824,6 +5251,12 @@
             "value" : "Tente novamente"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, попробуйте еще раз"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4874,6 +5307,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Private key"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приватный ключ"
           }
         },
         "uk" : {
@@ -4928,6 +5367,12 @@
             "value" : "Remover projeto❌"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Устранение проекта ❌"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4978,6 +5423,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Public key (facultativo)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открытый ключ (необязательно)"
           }
         },
         "uk" : {
@@ -5032,6 +5483,12 @@
             "value" : "Pull (a cada 30 segundos)"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pull (каждые 30 секунд)"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5082,6 +5539,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remover criptografia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить шифрование"
           }
         },
         "uk" : {
@@ -5137,6 +5600,12 @@
             "value" : "Remover pasta"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить папку"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5190,6 +5659,12 @@
             "value" : "Remover tag"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить тег"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5240,6 +5715,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renomear"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать"
           }
         },
         "uk" : {
@@ -5295,6 +5776,12 @@
             "value" : "Renomear pasta"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать папку"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5348,6 +5835,12 @@
             "value" : "Renomear pasta:"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать папку:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5398,6 +5891,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renomear nota:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать заметку:"
           }
         },
         "uk" : {
@@ -5453,6 +5952,12 @@
             "value" : "Renomear tag"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать тег"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5504,6 +6009,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renomear tag:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать тег:"
           }
         },
         "uk" : {
@@ -5558,6 +6069,12 @@
             "value" : "Guardar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5608,6 +6125,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salvar área de transferência"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить буфер обмена"
           }
         },
         "uk" : {
@@ -5662,6 +6185,12 @@
             "value" : "Guardar revisão"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить версию"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5712,6 +6241,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versões salvas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохраненные версии"
           }
         },
         "uk" : {
@@ -5766,6 +6301,12 @@
             "value" : "Pesquisar e criar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найти или создать"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5816,6 +6357,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Procurar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найти или создать"
           }
         },
         "uk" : {
@@ -5871,6 +6418,12 @@
             "value" : "Segurança"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Безопасность"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5922,6 +6475,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Selecionar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать"
           }
         },
         "uk" : {
@@ -5977,6 +6536,12 @@
             "value" : "Definições"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6027,6 +6592,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partilhar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться"
           }
         },
         "uk" : {
@@ -6081,6 +6652,12 @@
             "value" : "Mostrar pasta na barra lateral"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать папку в библиотеке"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6131,6 +6708,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar notas nas listas \"Notas\" e \"Tarefas\""
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать в \"Заметках\" и \"Тодо\""
           }
         },
         "uk" : {
@@ -6186,6 +6769,12 @@
             "value" : "Ordenar por"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сортировать по"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6234,6 +6823,12 @@
           }
         },
         "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SoulverCore"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "SoulverCore"
@@ -6299,6 +6894,12 @@
             "value" : "Armazenamento"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хранилище"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6352,6 +6953,12 @@
             "value" : "Suporte"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержка"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6367,7 +6974,63 @@
       }
     },
     "Tags" : {
-      "comment" : "Sidebar label"
+      "comment" : "Sidebar label",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tag"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タグ"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiquetas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теги"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мітки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签"
+          }
+        }
+      }
     },
     "Thanks" : {
       "comment" : "Settings",
@@ -6406,6 +7069,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Graças a"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спасибо"
           }
         },
         "uk" : {
@@ -6461,6 +7130,12 @@
             "value" : "Tema"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тема"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6513,6 +7188,12 @@
             "value" : "Sugestão: Para utilizar notas antigas, tem de as desencriptar separadamente com a chave antiga e encriptá-las novamente."
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Совет: Чтобы использовать старые заметки, необходимо отдельно расшифровать их с помощью старого ключа и снова зашифровать."
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6563,6 +7244,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Título"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заголовок"
           }
         },
         "uk" : {
@@ -6618,6 +7305,12 @@
             "value" : "Tarefa"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Туду"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6671,6 +7364,12 @@
             "value" : "Lixo"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Корзина"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6719,6 +7418,12 @@
           }
         },
         "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
@@ -6777,6 +7482,12 @@
             "value" : "Destrancar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разблокировать"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6828,6 +7539,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Soltar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открепить"
           }
         },
         "uk" : {
@@ -6883,6 +7600,12 @@
             "value" : "Sem etiqueta"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без метки"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6935,6 +7658,12 @@
             "value" : "Actualização"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновить"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6985,6 +7714,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Utilizar a primeira linha como título"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Первая строка как заголовок"
           }
         },
         "uk" : {
@@ -7040,6 +7775,12 @@
             "value" : "Utilizar etiquetas em linha"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте встроенные теги"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7090,6 +7831,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verificar a palavra-passe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить пароль"
           }
         },
         "uk" : {
@@ -7145,6 +7892,12 @@
             "value" : "Versão"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7196,6 +7949,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visualizar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вид"
           }
         },
         "uk" : {
@@ -7251,6 +8010,12 @@
             "value" : "Definições de visualização"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки вида"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7303,6 +8068,12 @@
             "value" : "Visibilidade"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видимость"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7353,6 +8124,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web sharing error"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка публикации веб-страниц"
           }
         },
         "uk" : {
@@ -7408,6 +8185,12 @@
             "value" : "Página inicial"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сайт"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7458,6 +8241,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Palavra-passe errada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверный пароль"
           }
         },
         "uk" : {
@@ -7512,6 +8301,12 @@
             "value" : "Palavra-passe repetida errada"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неправильный пароль"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7562,6 +8357,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aprendendo a história"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить историю"
           }
         },
         "uk" : {

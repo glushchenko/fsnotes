@@ -9,7 +9,6 @@
 import UIKit
 import MobileCoreServices
 import Social
-import Kanna
 
 @objc(ShareViewController)
 

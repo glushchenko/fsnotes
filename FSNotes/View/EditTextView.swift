@@ -668,14 +668,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func readSelection(from pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
         if let note = self.note, var data = pboard.data(forType: type) {
             if type == .tiff || type == .png {
-                var ext = "jpg"
                 let image = NSImage(data: data)
                 
                 if let imageData = image?.jpgData {
                     data = imageData
                     
                     textStorageProcessor?.shouldForceRescan = true
-                    saveClipboard(data: data, note: note, ext: ext)
+                    saveClipboard(data: data, note: note, ext: "jpg")
                     saveTextStorageContent(to: note)
                     note.save()
                     
@@ -690,10 +689,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
             
             if data.isPDF {
-                var ext = "pdf"
-                
                 textStorageProcessor?.shouldForceRescan = true
-                saveClipboard(data: data, note: note, ext: ext)
+                saveClipboard(data: data, note: note, ext: "pdf")
                 saveTextStorageContent(to: note)
                 note.save()
                 
