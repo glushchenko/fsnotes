@@ -291,16 +291,19 @@ public class Project: Equatable {
                 notes.append(note)
             }
 
-            print("From cache: \(notes.count)")
+            // print("From cache: \(notes.count)")
             
             isNeededCacheValidation = true
         } else {
             notes = fetchNotes()
             
-            print("From disk: \(notes.count)")
+            // print("From disk: \(notes.count)")
         }
 
+    #if CLOUDKIT || os(iOS)
         notes = loadPins(for: notes)
+    #endif
+        
         storage.noteList.append(contentsOf: notes)
     }
 
@@ -342,6 +345,7 @@ public class Project: Equatable {
     }
 
     public func loadPins(for notes: [Note]) -> [Note] {
+        #if CLOUDKIT || os(iOS)
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
 
@@ -352,6 +356,7 @@ public class Project: Equatable {
                 }
             }
         }
+        #endif
 
         return notes
     }

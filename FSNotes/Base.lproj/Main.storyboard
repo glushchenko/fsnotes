@@ -1715,7 +1715,7 @@ CA
                                                             <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="115" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
+                                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" alternatingRowBackgroundColors="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="115" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="1" height="1"/>

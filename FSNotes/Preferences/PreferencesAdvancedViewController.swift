@@ -141,15 +141,14 @@ class PreferencesAdvancedViewController: NSViewController {
             if result == .OK {
                 guard let url = openPanel.url else { return }
 
-                let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
+                let bookmarksManager = SandboxBookmark.sharedInstance()
 
                 if let currentURL = UserDefaultsManagement.trashURL {
-                    bookmark.remove(url: currentURL)
+                    bookmarksManager.remove(url: currentURL)
                 }
 
-                bookmark.store(url: url)
-                bookmark.save()
+                bookmarksManager.store(url: url)
+                bookmarksManager.save()
 
                 UserDefaultsManagement.trashURL = url
                 self.trashPath.url = url

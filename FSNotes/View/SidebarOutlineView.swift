@@ -235,7 +235,7 @@ class SidebarOutlineView: NSOutlineView,
 
             if let project = project {
                 menuItem.title = project.isBookmark
-                    ? NSLocalizedString("Detach storage", comment: "")
+                    ? NSLocalizedString("Detach Storage", comment: "")
                     : NSLocalizedString("Delete Folder", comment: "")
             }
 
@@ -1481,10 +1481,9 @@ class SidebarOutlineView: NSOutlineView,
             if result == .OK {
                 guard let url = openPanel.url else { return }
                 
-                let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
-                bookmark.store(url: url)
-                bookmark.save()
+                let bookmarksManager = SandboxBookmark.sharedInstance()
+                bookmarksManager.store(url: url)
+                bookmarksManager.save()
                 
                 if let results = self.storage.insert(url: url, bookmark: true) {
                     self.insertRows(projects: results)

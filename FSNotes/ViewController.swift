@@ -181,12 +181,17 @@ class ViewController: EditorViewController,
         loadSortBySetting()
         checkSidebarConstraint()
         
+    #if CLOUDKIT || os(iOS)
         registerKeyValueObserver()
+    #endif
         
         ViewController.gitQueue.maxConcurrentOperationCount = 1
         
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
-        configureSidebarAndNotesList()
+        
+        DispatchQueue.main.async {
+            self.configureSidebarAndNotesList()
+        }
     }
     
     public func preLoadProjectsData() {        

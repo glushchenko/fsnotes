@@ -35,7 +35,6 @@ class Storage {
         "etp" // Encrypted Text Pack
     ]
 
-    private var bookmarks = [URL]()
     public var shouldMovePrompt = false
 
     private var trashURL = URL(string: String())
@@ -52,8 +51,10 @@ class Storage {
     init() {
         
         // Load root
-        let bookmark = SandboxBookmark.sharedInstance()
-        _ = bookmark.load()
+        
+        print("A. Bookmarks loading is started")
+        let bookmarksManager = SandboxBookmark.sharedInstance()
+        bookmarksManager.load()
         
         let storageType = UserDefaultsManagement.storageType
         guard let url = getRoot() else { return }
@@ -342,8 +343,8 @@ class Storage {
     }
 
     public func assignBookmarks() {
-        let bookmark = SandboxBookmark.sharedInstance()
-        bookmarks = bookmark.load()
+        let bookmarksManager = SandboxBookmark.sharedInstance()
+        let bookmarks = bookmarksManager.getRestoredUrls()
         
         for url in bookmarks {
             if url.pathExtension == "css" 
@@ -362,10 +363,6 @@ class Storage {
         return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
     }
     
-    public func getBookmarks() -> [URL] {
-        return bookmarks
-    }
-
     public func resetCacheAttributes() {
         for note in self.noteList {
             note.cacheHash = nil
@@ -800,6 +797,7 @@ class Storage {
     }
 
     public func saveCloudPins() {
+        #if CLOUDKIT || os(iOS)
         if let pinned = getPinned() {
             var names = [String]()
             for note in pinned {
@@ -809,12 +807,14 @@ class Storage {
             let keyStore = NSUbiquitousKeyValueStore()
             keyStore.set(names, forKey: "co.fluder.fsnotes.pins.shared")
             keyStore.synchronize()
-
+        
             print("Pins successfully saved: \(names)")
         }
+        #endif
     }
 
     public func loadPins(notes: [Note]) {
+        #if CLOUDKIT || os(iOS)
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
 
@@ -829,12 +829,15 @@ class Storage {
                 success.append(note)
             }
         }
+        
+        #endif
     }
 
     public func restoreCloudPins() -> (removed: [Note]?, added: [Note]?) {
         var added = [Note]()
         var removed = [Note]()
 
+        #if CLOUDKIT || os(iOS)
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
         
@@ -855,6 +858,7 @@ class Storage {
                 }
             }
         }
+        #endif
 
         return (removed, added)
     }
@@ -862,6 +866,7 @@ class Storage {
     public func getUpdatedPins() -> [Note] {
         var notes = [Note]()
 
+        #if CLOUDKIT || os(iOS)
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
         
@@ -880,6 +885,7 @@ class Storage {
                 }
             }
         }
+        #endif
 
         return notes
     }
@@ -1065,8 +1071,8 @@ class Storage {
             projectURLs = getAllSubUrls(for: main.url)
         }
 
-        let sandbox = SandboxBookmark.sharedInstance()
-        let urls = sandbox.load()
+        let bookmarksManager = SandboxBookmark.sharedInstance()
+        let urls = bookmarksManager.getRestoredUrls()
 
         for url in urls {
             if !projectURLs.contains(url)
@@ -1404,7 +1410,7 @@ class Storage {
             
             do {
                 try data.write(to: url)
-                print("Sidebar tree caching is finished")
+                print("B. Sidebar tree caching is finished")
             } catch {
                 print("Sidebar caching error")
             }

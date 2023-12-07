@@ -77,11 +77,10 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
                 guard let url = openPanel.url else { return }
                 guard let currentURL = UserDefaultsManagement.storageUrl else { return }
 
-                let bookmark = SandboxBookmark.sharedInstance()
-                let activeBookmars = bookmark.load()
-                bookmark.remove(url: currentURL)
-                bookmark.store(url: url)
-                bookmark.save()
+                let bookmarksManager = SandboxBookmark.sharedInstance()
+                bookmarksManager.remove(url: currentURL)
+                bookmarksManager.store(url: url)
+                bookmarksManager.save()
 
                 UserDefaultsManagement.storageType = .custom
                 UserDefaultsManagement.customStoragePath = url.path
