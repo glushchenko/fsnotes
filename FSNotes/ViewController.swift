@@ -181,7 +181,7 @@ class ViewController: EditorViewController,
         loadSortBySetting()
         checkSidebarConstraint()
         
-    #if CLOUDKIT || os(iOS)
+    #if CLOUD_RELATED_BLOCK
         registerKeyValueObserver()
     #endif
         

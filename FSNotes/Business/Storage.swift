@@ -797,7 +797,7 @@ class Storage {
     }
 
     public func saveCloudPins() {
-        #if CLOUDKIT || os(iOS)
+        #if CLOUD_RELATED_BLOCK
         if let pinned = getPinned() {
             var names = [String]()
             for note in pinned {
@@ -814,7 +814,7 @@ class Storage {
     }
 
     public func loadPins(notes: [Note]) {
-        #if CLOUDKIT || os(iOS)
+        #if CLOUD_RELATED_BLOCK
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
 
@@ -837,7 +837,7 @@ class Storage {
         var added = [Note]()
         var removed = [Note]()
 
-        #if CLOUDKIT || os(iOS)
+        #if CLOUD_RELATED_BLOCK
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
         
@@ -866,7 +866,7 @@ class Storage {
     public func getUpdatedPins() -> [Note] {
         var notes = [Note]()
 
-        #if CLOUDKIT || os(iOS)
+        #if CLOUD_RELATED_BLOCK
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
         

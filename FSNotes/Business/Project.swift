@@ -106,7 +106,7 @@ public class Project: Equatable {
             let data = try NSKeyedArchiver.archivedData(withRootObject: settings, requiringSecureCoding: true)
             let key = getLongSettingsKey()
             
-            #if CLOUDKIT || os(iOS)
+            #if CLOUD_RELATED_BLOCK
                 let keyStore = NSUbiquitousKeyValueStore()
                 keyStore.set(data, forKey: key)
                 keyStore.synchronize()
@@ -125,7 +125,7 @@ public class Project: Equatable {
         let key = getLongSettingsKey()
         var data: Data?
                 
-        #if CLOUDKIT || os(iOS)
+        #if CLOUD_RELATED_BLOCK
             let keyStore = NSUbiquitousKeyValueStore()
             data = keyStore.data(forKey: key)
         #else
@@ -300,7 +300,7 @@ public class Project: Equatable {
             // print("From disk: \(notes.count)")
         }
 
-    #if CLOUDKIT || os(iOS)
+    #if CLOUD_RELATED_BLOCK
         notes = loadPins(for: notes)
     #endif
         
@@ -345,7 +345,7 @@ public class Project: Equatable {
     }
 
     public func loadPins(for notes: [Note]) -> [Note] {
-        #if CLOUDKIT || os(iOS)
+        #if CLOUD_RELATED_BLOCK
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
 

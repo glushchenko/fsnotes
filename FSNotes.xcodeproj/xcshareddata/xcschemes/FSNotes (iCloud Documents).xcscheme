@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
                BuildableName = "FSNotes.app"
-               BlueprintName = "FSNotes (iCloud Documents)"
+               BlueprintName = "FSNotes (iCloud)"
                ReferencedContainer = "container:FSNotes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,7 +32,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
             BuildableName = "FSNotes.app"
-            BlueprintName = "FSNotes (iCloud Documents)"
+            BlueprintName = "FSNotes (iCloud)"
             ReferencedContainer = "container:FSNotes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
             BuildableName = "FSNotes.app"
-            BlueprintName = "FSNotes (iCloud Documents)"
+            BlueprintName = "FSNotes (iCloud)"
             ReferencedContainer = "container:FSNotes.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -86,7 +86,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
             BuildableName = "FSNotes.app"
-            BlueprintName = "FSNotes (iCloud Documents)"
+            BlueprintName = "FSNotes (iCloud)"
             ReferencedContainer = "container:FSNotes.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
