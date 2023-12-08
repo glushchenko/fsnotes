@@ -268,8 +268,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         pboard.setString(title, forType: NSPasteboard.PasteboardType.string)
 
-        let data = NSKeyedArchiver.archivedData(withRootObject: urls)
-        pboard.setData(data, forType: NSPasteboard.noteType)
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: urls, requiringSecureCoding: false) {
+            pboard.setData(data, forType: NSPasteboard.noteType)
+        }
 
         return true
     }

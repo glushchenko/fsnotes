@@ -215,7 +215,7 @@ public class Project: Equatable {
         
         notes = Array(deduplicatedNotes)
 
-        let meta = notes.map({ $0.getMeta() })
+        let meta = notes.filter({ $0.isLoaded }).map({ $0.getMeta() })
         let jsonEncoder = JSONEncoder()
 
         do {
