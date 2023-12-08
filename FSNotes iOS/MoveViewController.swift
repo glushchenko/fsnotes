@@ -81,8 +81,10 @@ class MoveViewController: UITableViewController {
 
         if let projects = self.projects {
             let project = projects[indexPath.row]
-            if !project.isTrash {
-                cell.textLabel?.text = project.getFullLabel()
+            if project.isTrash {
+                cell.textLabel?.text = NSLocalizedString("Trash", comment: "")
+            } else {
+                cell.textLabel?.text = project.getNestedLabel()
             }
         }
 

@@ -8,3 +8,8 @@ line_length:
 
 disabled_rules: 
   - implicit_getter
+  - identifier_name
+
+cyclomatic_complexity: 20
+function_body_length: 100
+file_length: 1000

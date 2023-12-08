@@ -55,8 +55,10 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         if self.projects.count > 0 {
             let project = projects[indexPath.row]
-            if !project.isTrash {
-                cell.textLabel?.text = project.getFullLabel()
+            if project.isTrash {
+                cell.textLabel?.text = NSLocalizedString("Trash", comment: "")
+            } else {
+                cell.textLabel?.text = project.getNestedLabel()
             }
         }
 
