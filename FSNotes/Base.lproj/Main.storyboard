@@ -35,7 +35,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="KF2-I2-ZON"/>
-                                        <menuItem title="Empty Trash" identifier="emptyTrashMenu" id="G9H-Lg-TXE">
+                                        <menuItem identifier="emptyTrashMenu" id="G9H-Lg-TXE">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -512,6 +512,12 @@ CA
                                                 <action selector="openSettings:" target="yxb-XH-bXh" id="0rs-lb-8mh"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem identifier="folderMenu.emptyBin" id="s7a-BE-t62">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="emptyTrash:" target="Ady-hI-5gd" id="5Rw-Fs-VMk"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -756,12 +762,6 @@ CA
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="vD4-T3-64C"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Archive" state="on" tag="4" id="H2T-Wj-CfA">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="ksp-jO-2u1"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Trash" state="on" tag="5" id="RdI-N4-pR2">
@@ -1715,7 +1715,7 @@ CA
                                                             <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="115" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
+                                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" alternatingRowBackgroundColors="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="115" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="1" height="1"/>
@@ -2268,6 +2268,12 @@ CA
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                             <connections>
                                 <action selector="openProjectViewSettings:" target="rPt-NT-nkU" id="kzR-77-haW"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem identifier="context.folderMenu.emptyBin" id="2qG-Cv-rhe">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="emptyTrash:" target="rPt-NT-nkU" id="ygS-gl-E8F"/>
                             </connections>
                         </menuItem>
                     </items>
@@ -4140,27 +4146,9 @@ Olena Hlushcneko</string>
             <objects>
                 <viewController title="Advanced" id="mvt-gI-iG0" customClass="PreferencesAdvancedViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="tJA-7g-MI3">
-                        <rect key="frame" x="0.0" y="0.0" width="488" height="509"/>
+                        <rect key="frame" x="0.0" y="0.0" width="488" height="445"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <pathControl verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TgQ-6U-Kco">
-                                <rect key="frame" x="35" y="430" width="343" height="20"/>
-                                <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="NNM-sq-Yp5">
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <url key="url" string="file:///Applications/"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </pathCell>
-                            </pathControl>
-                            <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="npR-f6-xHj">
-                                <rect key="frame" x="379" y="423" width="81" height="32"/>
-                                <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hGi-4f-mtY">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="changeArchiveStorage:" target="mvt-gI-iG0" id="6gI-sS-Gam"/>
-                                </connections>
-                            </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F2w-YD-uv3">
                                 <rect key="frame" x="170" y="245" width="68" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Language:" id="dZD-Db-KHs">
@@ -4213,14 +4201,6 @@ Olena Hlushcneko</string>
                                 <rect key="frame" x="157" y="219" width="81" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="Tjy-Pz-wrj">
                                     <font key="font" usesAppearanceFont="YES"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yyd-fi-946">
-                                <rect key="frame" x="33" y="458" width="105" height="16"/>
-                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Archive Storage:" id="dys-2Q-lfZ">
-                                    <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -4292,7 +4272,7 @@ Olena Hlushcneko</string>
                                 <rect key="frame" x="20" y="69" width="448" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dpr-bZ-cmA">
-                                <rect key="frame" x="33" y="330" width="422" height="16"/>
+                                <rect key="frame" x="33" y="330" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Preview CSS:" id="Icf-3C-atz">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4329,7 +4309,10 @@ Olena Hlushcneko</string>
                                 </pathCell>
                             </pathControl>
                             <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Sd-jT-XTG">
-                                <rect key="frame" x="35" y="366" width="343" height="20"/>
+                                <rect key="frame" x="35" y="366" width="299" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="299" id="kd1-T1-cdp"/>
+                                </constraints>
                                 <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="l6e-gO-dWz">
                                     <font key="font" metaFont="smallSystem"/>
                                     <url key="url" string="file://localhost/Applications/"/>
@@ -4337,7 +4320,7 @@ Olena Hlushcneko</string>
                                 </pathCell>
                             </pathControl>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vab-UF-AXx">
-                                <rect key="frame" x="379" y="359" width="81" height="32"/>
+                                <rect key="frame" x="335" y="359" width="125" height="32"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BHF-CB-P9C">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -4351,9 +4334,6 @@ Olena Hlushcneko</string>
                             <constraint firstItem="eI4-Qa-xyg" firstAttribute="trailing" secondItem="qKm-Ud-lP4" secondAttribute="trailing" id="0u4-C9-SAS"/>
                             <constraint firstItem="y6q-2I-kvS" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="2hE-iU-x6l"/>
                             <constraint firstItem="Atm-xW-q1V" firstAttribute="top" secondItem="f0N-UJ-lzU" secondAttribute="bottom" constant="20" id="3XM-c4-bbc"/>
-                            <constraint firstAttribute="trailing" secondItem="dpr-bZ-cmA" secondAttribute="trailing" constant="35" id="47Q-7w-m7K"/>
-                            <constraint firstAttribute="trailing" secondItem="npR-f6-xHj" secondAttribute="trailing" constant="35" id="7Cu-pe-avp"/>
-                            <constraint firstItem="yyd-fi-946" firstAttribute="top" secondItem="tJA-7g-MI3" secondAttribute="top" constant="35" id="7qr-oX-vFw"/>
                             <constraint firstItem="eI4-Qa-xyg" firstAttribute="leading" secondItem="qKm-Ud-lP4" secondAttribute="leading" id="8es-Ur-KjK"/>
                             <constraint firstItem="ia3-Pz-Sap" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="centerX" constant="10" id="8ph-Kc-IOH"/>
                             <constraint firstItem="CPL-jT-YaF" firstAttribute="top" secondItem="F2w-YD-uv3" secondAttribute="bottom" constant="10" id="9yc-F5-LLk"/>
@@ -4362,14 +4342,14 @@ Olena Hlushcneko</string>
                             <constraint firstItem="qKm-Ud-lP4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="EUd-k3-l5h"/>
                             <constraint firstItem="f0N-UJ-lzU" firstAttribute="top" secondItem="SxW-70-Bdh" secondAttribute="bottom" constant="20" id="EXj-Vd-7Vj"/>
                             <constraint firstItem="f0N-UJ-lzU" firstAttribute="trailing" secondItem="eiE-QT-Gmx" secondAttribute="trailing" id="FjB-BL-eJT"/>
+                            <constraint firstItem="Fi8-x1-uYd" firstAttribute="top" secondItem="tJA-7g-MI3" secondAttribute="top" constant="35" id="G4O-CM-Qej"/>
                             <constraint firstItem="gGT-qO-FvD" firstAttribute="top" secondItem="ZXG-8N-Rny" secondAttribute="bottom" id="Gl4-za-NRT"/>
+                            <constraint firstItem="dpr-bZ-cmA" firstAttribute="leading" secondItem="y6q-2I-kvS" secondAttribute="leading" id="Lwz-KJ-DRK"/>
                             <constraint firstItem="ZXG-8N-Rny" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="NzG-7e-duV"/>
                             <constraint firstItem="CPL-jT-YaF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="Opz-Dy-0GD"/>
                             <constraint firstItem="GUv-gT-3bg" firstAttribute="centerY" secondItem="y6q-2I-kvS" secondAttribute="centerY" id="OvE-co-Un3"/>
-                            <constraint firstItem="Fi8-x1-uYd" firstAttribute="top" secondItem="TgQ-6U-Kco" secondAttribute="bottom" constant="20" id="Ovw-3i-LdQ"/>
                             <constraint firstItem="qKm-Ud-lP4" firstAttribute="leading" secondItem="F2w-YD-uv3" secondAttribute="trailing" constant="8" symbolic="YES" id="R71-hL-Y9k"/>
                             <constraint firstItem="SxW-70-Bdh" firstAttribute="centerX" secondItem="gGT-qO-FvD" secondAttribute="centerX" id="Sef-1z-bg4"/>
-                            <constraint firstItem="dpr-bZ-cmA" firstAttribute="leading" secondItem="yyd-fi-946" secondAttribute="leading" id="Sx9-34-u47"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Atm-xW-q1V" secondAttribute="trailing" constant="35" id="TkE-XR-BL0"/>
                             <constraint firstItem="Vab-UF-AXx" firstAttribute="leading" secondItem="8Sd-jT-XTG" secondAttribute="trailing" constant="8" symbolic="YES" id="TyP-xj-w0m"/>
                             <constraint firstAttribute="bottom" secondItem="Atm-xW-q1V" secondAttribute="bottom" constant="35" id="WkH-LJ-Vl2"/>
@@ -4381,34 +4361,27 @@ Olena Hlushcneko</string>
                             <constraint firstItem="y6q-2I-kvS" firstAttribute="top" secondItem="dpr-bZ-cmA" secondAttribute="bottom" constant="8" symbolic="YES" id="aKO-oh-gz4"/>
                             <constraint firstItem="F2w-YD-uv3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="ann-fg-Gal"/>
                             <constraint firstItem="gGT-qO-FvD" firstAttribute="trailing" secondItem="tJA-7g-MI3" secondAttribute="centerX" constant="-10" id="bHS-ps-F3f"/>
+                            <constraint firstItem="8Sd-jT-XTG" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="bn5-nx-5Qk"/>
                             <constraint firstItem="GUv-gT-3bg" firstAttribute="leading" secondItem="y6q-2I-kvS" secondAttribute="trailing" constant="10" id="bq5-1S-CuZ"/>
                             <constraint firstAttribute="trailing" secondItem="Vab-UF-AXx" secondAttribute="trailing" constant="35" id="bwB-om-0fG"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yyd-fi-946" secondAttribute="trailing" constant="35" id="ciB-8z-XYm"/>
-                            <constraint firstItem="TgQ-6U-Kco" firstAttribute="leading" secondItem="yyd-fi-946" secondAttribute="leading" id="cul-am-5PP"/>
                             <constraint firstItem="ia3-Pz-Sap" firstAttribute="top" secondItem="ZXG-8N-Rny" secondAttribute="bottom" id="dmU-oR-kA8"/>
-                            <constraint firstItem="8Sd-jT-XTG" firstAttribute="leading" secondItem="TgQ-6U-Kco" secondAttribute="leading" id="fgP-Qv-4TK"/>
                             <constraint firstItem="eI4-Qa-xyg" firstAttribute="centerY" secondItem="CPL-jT-YaF" secondAttribute="centerY" id="fmC-An-HMY"/>
                             <constraint firstAttribute="trailing" secondItem="Dxk-ZE-26V" secondAttribute="trailing" constant="35" id="hcm-lG-5wC"/>
                             <constraint firstItem="eiE-QT-Gmx" firstAttribute="trailing" secondItem="UMU-6c-hjh" secondAttribute="trailing" id="ikG-7H-gE3"/>
                             <constraint firstItem="F2w-YD-uv3" firstAttribute="top" secondItem="UMU-6c-hjh" secondAttribute="bottom" constant="20" id="jpe-aH-Vay"/>
                             <constraint firstItem="Vab-UF-AXx" firstAttribute="centerY" secondItem="8Sd-jT-XTG" secondAttribute="centerY" id="k4P-fz-iOV"/>
                             <constraint firstItem="qKm-Ud-lP4" firstAttribute="centerY" secondItem="F2w-YD-uv3" secondAttribute="centerY" id="kam-d1-dNX"/>
-                            <constraint firstItem="8Sd-jT-XTG" firstAttribute="trailing" secondItem="TgQ-6U-Kco" secondAttribute="trailing" id="m03-w2-T3a"/>
                             <constraint firstItem="SxW-70-Bdh" firstAttribute="top" secondItem="gGT-qO-FvD" secondAttribute="bottom" constant="8" symbolic="YES" id="mHT-Jj-C0L"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="eI4-Qa-xyg" secondAttribute="trailing" constant="35" id="npb-5h-VcA"/>
-                            <constraint firstItem="Atm-xW-q1V" firstAttribute="leading" secondItem="yyd-fi-946" secondAttribute="leading" id="o73-TS-1U6"/>
                             <constraint firstItem="vJo-sa-P9T" firstAttribute="top" secondItem="ia3-Pz-Sap" secondAttribute="bottom" constant="8" symbolic="YES" id="oPf-JU-jDe"/>
                             <constraint firstAttribute="trailing" secondItem="UMU-6c-hjh" secondAttribute="trailing" constant="20" symbolic="YES" id="sW8-G2-PYI"/>
-                            <constraint firstItem="npR-f6-xHj" firstAttribute="centerY" secondItem="TgQ-6U-Kco" secondAttribute="centerY" id="skM-Oz-hFX"/>
                             <constraint firstItem="ZXG-8N-Rny" firstAttribute="top" secondItem="eiE-QT-Gmx" secondAttribute="bottom" constant="20" id="uCa-UE-P7e"/>
                             <constraint firstItem="eiE-QT-Gmx" firstAttribute="top" secondItem="CPL-jT-YaF" secondAttribute="bottom" constant="20" id="uWn-jw-iOO"/>
                             <constraint firstItem="Dxk-ZE-26V" firstAttribute="centerY" secondItem="Atm-xW-q1V" secondAttribute="centerY" id="wMd-RG-lha"/>
                             <constraint firstItem="CPL-jT-YaF" firstAttribute="trailing" secondItem="F2w-YD-uv3" secondAttribute="trailing" id="wUA-ok-lMw"/>
                             <constraint firstItem="8Sd-jT-XTG" firstAttribute="top" secondItem="Fi8-x1-uYd" secondAttribute="bottom" constant="8" symbolic="YES" id="wdx-Xt-c5d"/>
                             <constraint firstItem="qKm-Ud-lP4" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="centerX" id="wrn-en-VJA"/>
-                            <constraint firstItem="yyd-fi-946" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="yXL-iN-4pB"/>
-                            <constraint firstItem="TgQ-6U-Kco" firstAttribute="top" secondItem="yyd-fi-946" secondAttribute="bottom" constant="8" symbolic="YES" id="yYG-ay-zWv"/>
-                            <constraint firstItem="npR-f6-xHj" firstAttribute="leading" secondItem="TgQ-6U-Kco" secondAttribute="trailing" constant="8" symbolic="YES" id="ymn-pq-pL5"/>
+                            <constraint firstItem="Atm-xW-q1V" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="yP7-6b-9AL"/>
                             <constraint firstItem="eiE-QT-Gmx" firstAttribute="leading" secondItem="UMU-6c-hjh" secondAttribute="leading" id="yvd-g9-W8U"/>
                             <constraint firstAttribute="trailing" secondItem="Fi8-x1-uYd" secondAttribute="trailing" constant="35" id="z0k-Lq-e92"/>
                             <constraint firstAttribute="trailing" secondItem="GUv-gT-3bg" secondAttribute="trailing" constant="35" id="zZH-rG-tE2"/>
@@ -4417,7 +4390,6 @@ Olena Hlushcneko</string>
                     <connections>
                         <outlet property="appearance" destination="eI4-Qa-xyg" id="u8k-hD-CkT"/>
                         <outlet property="appearanceLabel" destination="CPL-jT-YaF" id="94b-U7-xD4"/>
-                        <outlet property="archivePathControl" destination="TgQ-6U-Kco" id="s5H-Se-3Ap"/>
                         <outlet property="dockIconFirst" destination="SxW-70-Bdh" id="MhB-k7-XvP"/>
                         <outlet property="dockIconSecond" destination="vJo-sa-P9T" id="im8-M5-wmr"/>
                         <outlet property="languagePopUp" destination="qKm-Ud-lP4" id="iq8-FI-S7g"/>
@@ -4428,7 +4400,7 @@ Olena Hlushcneko</string>
                 </viewController>
                 <customObject id="uuN-ji-W5S" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4135" y="635"/>
+            <point key="canvasLocation" x="4135" y="634.5"/>
         </scene>
         <!--Security-->
         <scene sceneID="dgo-jz-dll">

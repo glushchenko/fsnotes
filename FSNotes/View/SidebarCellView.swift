@@ -19,15 +19,9 @@ class SidebarCellView: NSTableCellView {
         let cell = sender.superview as? SidebarCellView
 
         guard let project = cell?.objectValue as? Project else { return }
-
+        
         let src = project.url
         let dst = project.url.deletingLastPathComponent().appendingPathComponent(sender.stringValue, isDirectory: true)
-
-        project.url = dst
-        project.loadLabel()
-
-        project.moveSrc = src
-        project.moveDst = dst
 
         do {
             try FileManager.default.moveItem(at: src, to: dst)
@@ -37,15 +31,6 @@ class SidebarCellView: NSTableCellView {
             alert.messageText = error.localizedDescription
             alert.runModal()
         }
-
-        storage.unload(project: project)
-        storage.loadNotes(project)
-
-        guard let vc = self.window?.contentViewController as? ViewController else { return }
-        vc.fsManager?.restart()
-        vc.loadMoveMenu()
-        
-        vc.updateTable()
     }
 
     override var backgroundStyle: NSView.BackgroundStyle {

@@ -77,21 +77,15 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
                 guard let url = openPanel.url else { return }
                 guard let currentURL = UserDefaultsManagement.storageUrl else { return }
 
-                let bookmark = SandboxBookmark.sharedInstance()
-                let activeBookmars = bookmark.load()
-                bookmark.remove(url: currentURL)
-                bookmark.store(url: url)
-                bookmark.save()
+                let bookmarksManager = SandboxBookmark.sharedInstance()
+                bookmarksManager.remove(url: currentURL)
+                bookmarksManager.store(url: url)
+                bookmarksManager.save()
 
                 UserDefaultsManagement.storageType = .custom
                 UserDefaultsManagement.customStoragePath = url.path
 
                 self.defaultStoragePath.stringValue = url.path
-
-                // Resets archive if not bookmarked
-                if let archiveURL = UserDefaultsManagement.archiveDirectory, !activeBookmars.contains(archiveURL) {
-                    UserDefaultsManagement.archiveDirectory = nil
-                }
 
                 if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
                     let message = NSLocalizedString("Do you want to move current notes in the new destination?", comment: "");

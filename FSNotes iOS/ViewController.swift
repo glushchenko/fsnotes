@@ -78,6 +78,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     // Project for import picker
     public var selectedProject: Project?
+    private var initialLoadingState = false
 
     override func viewWillAppear(_ animated: Bool) {
         configureSearchController()
@@ -137,8 +138,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
-        loadInbox()
-
         startCloudDriveSyncEngine()
 
         configureUI()
@@ -161,7 +160,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadNotches()
         loadPreSafeArea()
 
-        preLoadProjectsData()
+        if !initialLoadingState {
+            preLoadProjectsData()
+            initialLoadingState = true
+        }
+        
         loadNews()
         restoreLastController()
 
@@ -189,12 +192,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         gitPullTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(self.addPullTask), userInfo: nil, repeats: true)
     }
         
-    public func loadInbox() {
-        guard let project = storage.getDefault() else { return }
-
-        project.loadNotes()
-    }
-
     public func startCloudDriveSyncEngine(completion: (() -> ())? = nil) {
         guard UserDefaultsManagement.iCloudDrive else { return }
 
@@ -301,11 +298,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func configureNotifications() {
-        let keyStore = NSUbiquitousKeyValueStore()
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(ubiquitousKeyValueStoreDidChange(_:)),
+            name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+            object: NSUbiquitousKeyValueStore.default)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ubiquitousKeyValueStoreDidChange), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: keyStore)
-
-        keyStore.synchronize()
+        if NSUbiquitousKeyValueStore.default.synchronize() == false {
+            fatalError("This app was not built with the proper entitlement requests.")
+        }
+        
+        NSUbiquitousKeyValueStore.default.synchronize()
 
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
@@ -432,7 +434,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: inboxIndex)
         }
     }
-
+    
     public func preLoadProjectsData() {
         guard Storage.shared().getRoot() != nil else { return }
 
@@ -440,33 +442,32 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let storage = self.storage
 
             let projectsLoading = Date()
-            self.checkProjectsCacheDiff()
-            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
-
-            let cacheLoading = Date()
-            let projects = storage.findAllProjectsExceptDefault()
-
-            for project in projects {
-                project.loadNotes()
+            let results = storage.getProjectDiffs()
+            
+            OperationQueue.main.addOperation {
+                self.sidebarTableView.removeRows(projects: results.0)
+                self.sidebarTableView.insertRows(projects: results.1)
             }
-
-            storage.loadProjectParents()
-
-            print("1. Cache loading finished in \(cacheLoading.timeIntervalSinceNow * -1) seconds")
+            
+            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
 
             let diffLoading = Date()
             for project in storage.getProjects() {
-                self.checkNotesCacheDiff(for: project)
+                let changes = project.checkNotesCacheDiff()
+                self.notesTable.doVisualChanges(results: changes)
             }
-
-            print("2. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
+            
+            print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
 
             // enable iCloud Drive updates after projects structure formalized
             self.cloudDriveManager?.metadataQuery.enableUpdates()
 
             let tagsPoint = Date()
-            storage.loadAllTags()
-            print("3. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+            storage.loadNotesCloudPins()
+            storage.loadNotesSettings()
+            storage.loadNotesContent()
+                        
+            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
             DispatchQueue.main.async {
                 self.resizeSidebar(withAnimation: true)
@@ -609,13 +610,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     }
 
-    public func saveProjectURLs() {
-        UserDefaultsManagement.projects =
-        storage.getProjects()
-            .filter({ !$0.isTrash && !$0.isArchive && !$0.isDefault })
-            .compactMap({ $0.url })
-    }
-
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let recognizer = gestureRecognizer as? UIPanGestureRecognizer {
             if recognizer.translation(in: self.view).x > 0 && !UserDefaultsManagement.sidebarIsOpened
@@ -654,7 +648,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
 
-    @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
+    @objc func ubiquitousKeyValueStoreDidChange(_ notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
                 if key == "co.fluder.fsnotes.pins.shared" {
@@ -724,11 +718,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for project in projects {
                 if let childProjects = project.getAllChild() {
                     for childProject in childProjects {
-                        self.checkNotesCacheDiff(for: childProject, isGit: true)
+                        let changes = childProject.checkNotesCacheDiff(isGit: true)
+                        self.notesTable.doVisualChanges(results: changes)
                     }
                 }
 
-                self.checkNotesCacheDiff(for: project, isGit: true)
+                let changes = project.checkNotesCacheDiff(isGit: true)
+                self.notesTable.doVisualChanges(results: changes)
             }
         }
     }
@@ -784,7 +780,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let content = searchBar.text
         searchBar.text = ""
-        self.createNote(content: content, pasteboard: nil)
+        self.createNote(content: content)
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
@@ -967,16 +963,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     && searchQuery.project != nil
                     && note.project == searchQuery.project
                 )
-            || searchQuery.project != nil && searchQuery.project!.isRoot
+            || searchQuery.project != nil && (searchQuery.project!.isDefault || searchQuery.project!.isBookmark)
                 && note.project.parent == searchQuery.project
                 && searchQuery.type != .Inbox
-            || searchQuery.type == .Archive
-                && note.project.isArchive
             || searchQuery.type == .Todo
-                && !note.project.isArchive
                 && note.project.settings.showInCommon
             || searchQuery.type == .Inbox
-                && note.project.isRoot
                 && note.project.isDefault
             || searchQuery.type == .Untagged && note.tags.count == 0
         else {
@@ -1057,7 +1049,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UserDefaultsManagement.lastNews = storage.getNewsDate()
     }
 
-    public func createNote(content: String? = nil, pasteboard: Bool? = nil) {
+    public func createNote(content: String? = nil, pasteboard: Bool = false) {
         var currentProject: Project
         if let project = storage.getProjects().first {
             currentProject = project
@@ -1077,11 +1069,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             note.content = NSMutableAttributedString(string: content)
         }
 
-        note.write()
-
-        if pasteboard != nil {
-            savePasteboard(note: note)
+        if pasteboard {
+            if  let image = UIPasteboard.general.image,
+                let data = image.jpegData(compressionQuality: 1),
+                let imagePath = ImagesProcessor.writeFile(data: data, note: note)
+            {
+                note.content = NSMutableAttributedString(string: "![](\(imagePath))\n\n")
+            } else if let content = UIPasteboard.general.string {
+                note.content = NSMutableAttributedString(string: content)
+            }
         }
+        
+        note.save()
 
         let storage = Storage.shared()
         storage.add(note)
@@ -1154,20 +1153,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         note.save()
-        note.write()
     }
 
     public func importSavedInSharedExtension() {
+        var notes = [Note]()
+        
         for url in UserDefaultsManagement.importURLs {
-            guard let note = storage.importNote(url: url) else { return }
-
-            if !storage.contains(note: note) {
-                storage.noteList.append(note)
-                notesTable.insertRows(notes: [note])
-
-                print("File imported: \(note.url)")
+            if let note = storage.importNote(url: url) {
+                notes.append(note)
             }
         }
+        
+        notesTable.insertRows(notes: notes)
 
         UserDefaultsManagement.importURLs = []
     }
@@ -1320,7 +1317,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let inbox = NSLocalizedString("Inbox", comment: "Inbox in sidebar")
         let notes = NSLocalizedString("Notes", comment: "Notes in sidebar")
         let todo = NSLocalizedString("Todo", comment: "Todo in sidebar")
-        let archive = NSLocalizedString("Archive", comment: "Archive in sidebar")
         let trash = NSLocalizedString("Trash", comment: "Trash in sidebar")
 
         var sidebarItems = [String]()
@@ -1331,7 +1327,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         sidebarItems = tags + Storage.shared().getProjects().map({ $0.label })
-            + [settings, inbox, notes, todo, archive, trash, untagged]
+            + [settings, inbox, notes, todo, trash, untagged]
 
         for item in sidebarItems {
             let labelWidth = (item as NSString).size(withAttributes: [.font: font]).width + 55
@@ -1531,46 +1527,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             notesTableLeadingConstraint.constant = maxSidebarWidth
             sidebarTableWidth.constant = notesTableLeadingConstraint.constant
-        }
-    }
-
-    public func checkProjectsCacheDiff() {
-        let results = storage.checkFSAndMemoryDiff()
-
-        // Save projects cache
-        UserDefaultsManagement.projects =
-            self.storage.getNonSystemProjects().compactMap({ $0.url })
-
-        OperationQueue.main.addOperation {
-            self.sidebarTableView.removeRows(projects: results.0)
-            self.sidebarTableView.insertRows(projects: results.1)
-        }
-    }
-
-    public func checkNotesCacheDiff(for project: Project, isGit: Bool = false) {
-        let storage = Storage.shared()
-
-        // if not cached – load all results for cache
-        // (not loaded instantly because is resource consumption operation, loaded later in background)
-        guard project.cacheUsedDiffValidationNeeded || isGit else {
-
-            _ = storage.noteList
-                .filter({ $0.project == project })
-                .map({ $0.load() })
-
-            project.isReadyForCacheSaving = true
-            return
-        }
-
-
-        let results = project.checkFSAndMemoryDiff()
-
-        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
-
-        DispatchQueue.main.async {
-            self.notesTable.removeRows(notes: results.0)
-            self.notesTable.insertRows(notes: results.1)
-            self.notesTable.reloadRows(notes: results.2)
         }
     }
 

@@ -55,8 +55,10 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         if self.projects.count > 0 {
             let project = projects[indexPath.row]
-            if !project.isTrash || !project.isArchive {
-                cell.textLabel?.text = project.getFullLabel()
+            if project.isTrash {
+                cell.textLabel?.text = NSLocalizedString("Trash", comment: "")
+            } else {
+                cell.textLabel?.text = project.getNestedLabel()
             }
         }
 
@@ -126,23 +128,12 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 return
             }
 
-            let storage = Storage.shared()
-            let project = Project(
-                storage: storage,
-                url: newDir,
-                label: name,
-                isTrash: false,
-                isRoot: false,
-                parent: self.projects.first!,
-                isDefault: false,
-                isArchive: false
-            )
-
-            storage.assignTree(for: project)
-            self.tableView.reloadData()
-
-            OperationQueue.main.addOperation {
-                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
+            if let projects = Storage.shared().insert(url: newDir) {
+                self.tableView.reloadData()
+                
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                }
             }
         }
 
@@ -165,7 +156,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     private func delete(project: Project) {
-        if project.isExternal {
+        if project.isBookmark {
             self.removeProject(project: project)
 
             SandboxBookmark.sharedInstance().remove(url: project.url)
@@ -218,26 +209,13 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
             SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
-            let storage = Storage.shared()
-            let project = Project(
-                storage: storage,
-                url: url,
-                label: url.lastPathComponent,
-                isTrash: false,
-                isRoot: true,
-                isDefault: false,
-                isArchive: false,
-                isExternal: true
-            )
-
-            storage.assignTree(for: project)
-            storage.loadNotes(project, loadContent: true)
-
-            OperationQueue.main.addOperation {
-                UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
-                
-                self.projects.append(project)
-                self.tableView.reloadData()
+            if let projects = Storage.shared().insert(url: url) {
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                    
+                    self.projects.append(contentsOf: projects)
+                    self.tableView.reloadData()
+                }
             }
         } catch {
             print(error)

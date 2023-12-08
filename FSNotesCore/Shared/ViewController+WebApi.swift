@@ -52,7 +52,7 @@ extension ViewController {
             if let api = try? decoder.decode(APIResponse.self, from: responseData) {
                 if let msg = api.error {
                     self.showAlert(message: msg)
-                } else if let _ = api.id {
+                } else if api.id != nil {
                     note.apiId = nil
                     Storage.shared().saveAPIIds()
 

@@ -1178,4 +1178,16 @@ class NotesTableView: UITableView,
             scrollToRow(at: indexPath, at: .top, animated: true)
         }
     }
+    
+    public func doVisualChanges(results: ([Note], [Note], [Note])) {
+        guard results.0.count > 0 || results.1.count > 0 || results.2.count > 0 else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.removeRows(notes: results.0)
+            self.insertRows(notes: results.1)
+            self.reloadRows(notes: results.2)
+        }
+    }
 }

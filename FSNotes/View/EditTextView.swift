@@ -668,14 +668,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func readSelection(from pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
         if let note = self.note, var data = pboard.data(forType: type) {
             if type == .tiff || type == .png {
-                var ext = "jpg"
                 let image = NSImage(data: data)
                 
                 if let imageData = image?.jpgData {
                     data = imageData
                     
                     textStorageProcessor?.shouldForceRescan = true
-                    saveClipboard(data: data, note: note, ext: ext)
+                    saveClipboard(data: data, note: note, ext: "jpg")
                     saveTextStorageContent(to: note)
                     note.save()
                     
@@ -690,10 +689,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
             
             if data.isPDF {
-                var ext = "pdf"
-                
                 textStorageProcessor?.shouldForceRescan = true
-                saveClipboard(data: data, note: note, ext: ext)
+                saveClipboard(data: data, note: note, ext: "pdf")
                 saveTextStorageContent(to: note)
                 note.save()
                 
@@ -969,6 +966,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+        if !note.isLoaded {
+            note.load()
+        }
+        
         textStorage?.setAttributedString(NSAttributedString(string: ""))
         
         // Hack for invalidate prev layout data (order is important, only before fill)
@@ -1548,7 +1549,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
 
             if UserDefaultsManagement.naming == .autoRename {
-                let title = note.title.withoutSpecialCharacters.trunc(length: 64)
+                let title = note.title.trunc(length: 64)
 
                 if note.fileName != title && title.count > 0 && !note.isEncrypted() {
                     note.rename(to: title)

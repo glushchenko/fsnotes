@@ -45,7 +45,6 @@ class ProjectListController: UITableViewController {
 
             let project = self.projects[indexPath.row]
 
-            delegate?.loadNotesFrom(project: project)
             delegate?.currentProject = self.projects[indexPath.row]
             delegate?.projectItem?.value = project.label
 

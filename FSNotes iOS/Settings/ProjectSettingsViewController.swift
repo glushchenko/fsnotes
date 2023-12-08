@@ -133,7 +133,6 @@ class ProjectSettingsViewController: UITableViewController {
                 uiSwitch.isOn = project.settings.showInCommon
                 uiSwitch.isEnabled =
                     !project.isDefault
-                    && !project.isArchive
                     && !project.isTrash
                     && !project.isVirtual
 
@@ -143,7 +142,6 @@ class ProjectSettingsViewController: UITableViewController {
                 uiSwitch.isOn = project.settings.showInSidebar
                 uiSwitch.isEnabled =
                     !project.isDefault
-                    && !project.isArchive
                     && !project.isTrash
                     && !project.isVirtual
 

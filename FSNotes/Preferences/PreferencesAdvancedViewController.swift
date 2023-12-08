@@ -13,7 +13,6 @@ class PreferencesAdvancedViewController: NSViewController {
         super.viewWillAppear()
     }
 
-    @IBOutlet weak var archivePathControl: NSPathControl!
     @IBOutlet weak var languagePopUp: NSPopUpButton!
     @IBOutlet weak var version: NSTextField!
     @IBOutlet weak var appearance: NSPopUpButton!
@@ -34,10 +33,6 @@ class PreferencesAdvancedViewController: NSViewController {
     }
 
     override func viewDidAppear() {
-        if let archiveDirectory = UserDefaultsManagement.archiveDirectory {
-            archivePathControl.url = archiveDirectory
-        }
-
         let languages = [
             LanguageType(rawValue: 0x00),
             LanguageType(rawValue: 0x01),
@@ -100,80 +95,6 @@ class PreferencesAdvancedViewController: NSViewController {
         }
     }
 
-    @IBAction func changeArchiveStorage(_ sender: Any) {
-        let openPanel = NSOpenPanel()
-        openPanel.directoryURL = UserDefaultsManagement.archiveDirectory
-        openPanel.allowsMultipleSelection = false
-        openPanel.canChooseDirectories = true
-        openPanel.canCreateDirectories = true
-        openPanel.canChooseFiles = false
-        openPanel.begin { (result) -> Void in
-            if result == .OK {
-                guard let url = openPanel.url else { return }
-                guard let currentURL = UserDefaultsManagement.archiveDirectory else { return }
-
-                let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
-                bookmark.remove(url: currentURL)
-                bookmark.store(url: url)
-                bookmark.save()
-
-                UserDefaultsManagement.archiveDirectory = url
-                self.archivePathControl.url = url
-
-                let storage = Storage.shared()
-                guard let vc = ViewController.shared() else { return }
-
-                if let archive = storage.getArchive() {
-                    archive.url = url
-                    storage.unload(project: archive)
-                    storage.loadNotes(archive)
-
-                    vc.fsManager?.restart()
-                    vc.notesTableView.reloadData()
-                    vc.sidebarOutlineView.reloadData()
-                    vc.sidebarOutlineView.selectSidebar(type: .Archive)
-                }
-            }
-        }
-    }
-
-//    @IBAction func changeMarkdownStyle(_ sender: Any) {
-//        let openPanel = NSOpenPanel()
-//        openPanel.allowsMultipleSelection = false
-//        openPanel.canChooseDirectories = false
-//        openPanel.canCreateDirectories = true
-//        openPanel.canChooseFiles = true
-//        openPanel.allowedFileTypes = ["css"]
-//        openPanel.begin { (result) -> Void in
-//            if result == .OK {
-//                guard let url = openPanel.url else { return }
-//
-//                let bookmark = SandboxBookmark.sharedInstance()
-//                _ = bookmark.load()
-//
-//                if let currentURL = UserDefaultsManagement.markdownPreviewCSS {
-//                    bookmark.remove(url: currentURL)
-//                }
-//
-//                bookmark.store(url: url)
-//                bookmark.save()
-//
-//                UserDefaultsManagement.markdownPreviewCSS = url
-//                self.markdownPreviewCSS.url = url
-//
-//                let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-//
-//                try? FileManager.default.removeItem(at: webkitPreview)
-//
-//                let editors = AppDelegate.getEditTextViews()
-//                for editor in editors {
-//                    editor.editorViewController?.refillEditArea()
-//                }
-//            }
-//        }
-//    }
-
     @IBAction func languagePopUp(_ sender: NSPopUpButton) {
         let type = LanguageType.withName(rawValue: sender.title)
 
@@ -220,15 +141,14 @@ class PreferencesAdvancedViewController: NSViewController {
             if result == .OK {
                 guard let url = openPanel.url else { return }
 
-                let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
+                let bookmarksManager = SandboxBookmark.sharedInstance()
 
                 if let currentURL = UserDefaultsManagement.trashURL {
-                    bookmark.remove(url: currentURL)
+                    bookmarksManager.remove(url: currentURL)
                 }
 
-                bookmark.store(url: url)
-                bookmark.save()
+                bookmarksManager.store(url: url)
+                bookmarksManager.save()
 
                 UserDefaultsManagement.trashURL = url
                 self.trashPath.url = url

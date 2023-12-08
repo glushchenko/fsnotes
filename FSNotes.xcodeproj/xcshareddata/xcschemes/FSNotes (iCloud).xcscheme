@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D75E337122462442006AD1C1"
+               BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
                BuildableName = "FSNotes.app"
-               BlueprintName = "FSNotes (Notarized)"
+               BlueprintName = "FSNotes (iCloud)"
                ReferencedContainer = "container:FSNotes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,9 +30,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D75E337122462442006AD1C1"
+            BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
             BuildableName = "FSNotes.app"
-            BlueprintName = "FSNotes (Notarized)"
+            BlueprintName = "FSNotes (iCloud)"
             ReferencedContainer = "container:FSNotes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -43,22 +43,36 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      enableAddressSanitizer = "YES"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
+      enableGPUValidationMode = "1"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D75E337122462442006AD1C1"
+            BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
             BuildableName = "FSNotes.app"
-            BlueprintName = "FSNotes (Notarized)"
+            BlueprintName = "FSNotes (iCloud)"
             ReferencedContainer = "container:FSNotes.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "CG_CONTEXT_SHOW_BACKTRACE"
+            value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "IDELogRedirectionPolicy"
+            value = "oslogToStdio"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -70,9 +84,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D75E337122462442006AD1C1"
+            BlueprintIdentifier = "D7E81C2B1F925B5F00416A91"
             BuildableName = "FSNotes.app"
-            BlueprintName = "FSNotes (Notarized)"
+            BlueprintName = "FSNotes (iCloud)"
             ReferencedContainer = "container:FSNotes.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

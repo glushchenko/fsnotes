@@ -139,7 +139,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 cell.detailTextLabel?.textColor = UIColor.blackWhite
                 cell.detailTextLabel?.numberOfLines = 0
                 cell.detailTextLabel?.lineBreakMode = .byWordWrapping
-                cell.detailTextLabel?.text = NSLocalizedString("Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
+                cell.detailTextLabel?.text = NSLocalizedString("Compatible with Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
             default:
                 return cell
             }
@@ -246,34 +246,6 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let storageUrl = UserDefaultsManagement.storageUrl else { return }
-
-        if let url = urls.first, url.pathExtension == "zip" {
-            let storage = Storage.shared()
-            let viewController = UIApplication.getVC()
-
-            let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
-            viewController.configureIndicator(indicator: indicator, view: self.tableView)
-            viewController.startAnimation(indicator: indicator)
-
-            self.view.isUserInteractionEnabled = false
-
-            DispatchQueue.global().async {
-                let helper = DayOneImportHelper(url: url, storage: storage)
-                guard let project = helper.check() else { return }
-
-                OperationQueue.main.addOperation {
-                    self.view.isUserInteractionEnabled = true
-
-                    viewController.sidebarTableView.insertRows(projects: [project])
-                    viewController.sidebarTableView.select(project: project)
-                    viewController.stopAnimation(indicator: indicator)
-
-                    self.done()
-                }
-            }
-
-            return
-        }
 
         for url in urls {
             try? FileManager.default.copyItem(at: url, to: storageUrl.appendingPathComponent(url.lastPathComponent))

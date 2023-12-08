@@ -33,7 +33,7 @@ class SandboxBookmark {
         return url.path
     }
     
-    func load() -> [URL] {
+    func load() {
         let path = bookmarkPath()
 
         if FileManager.default.fileExists(atPath: path), let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data] {
@@ -43,8 +43,6 @@ class SandboxBookmark {
                 _ = restore(bookmark)
             }
         }
-        
-        return successfullyRestored
     }
     
     func save() {
@@ -126,5 +124,13 @@ class SandboxBookmark {
         
         self.store(url: url)
         self.save()
+    }
+    
+    public func getRestoredUrls() -> [URL] {
+        if successfullyRestored.isEmpty {
+            load()
+        }
+        
+        return successfullyRestored
     }
 }
