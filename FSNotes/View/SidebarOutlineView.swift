@@ -370,7 +370,7 @@ class SidebarOutlineView: NSOutlineView,
 
         var urls = [URL]()
         if let data = info.draggingPasteboard.data(forType: NSPasteboard.noteType),
-           let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL] {
+           let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] {
             urls = unarchivedData
         }
 
@@ -402,6 +402,10 @@ class SidebarOutlineView: NSOutlineView,
 
         if let sidebarProject = item as? Project {
             maybeProject = sidebarProject
+        }
+        
+        if let sidebarItem = item as? SidebarItem, sidebarItem.type == .Inbox {
+            maybeProject = Storage.shared().getDefault()
         }
 
         guard let project = maybeProject else { return false }
@@ -488,7 +492,7 @@ class SidebarOutlineView: NSOutlineView,
         var urls = [URL]()
 
         if let archivedData = info.draggingPasteboard.data(forType: NSPasteboard.noteType),
-           let urlsUnarchived = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL] {
+           let urlsUnarchived = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: archivedData) as? [URL] {
             urls = urlsUnarchived
 
             if let url = urls.first, Storage.shared().getBy(url: url) != nil {
@@ -511,6 +515,8 @@ class SidebarOutlineView: NSOutlineView,
 
         guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
         switch sidebarItem.type {
+        case .Inbox:
+            return .move
         case .Trash:
             if isLocalNote {
                 return .move

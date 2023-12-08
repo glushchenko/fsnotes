@@ -621,7 +621,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         UIApplication.getVC().sidebarTableView.loadTags(notes: [note])
 
         if UserDefaultsManagement.naming == .autoRename {
-            let title = note.title.withoutSpecialCharacters.trunc(length: 64)
+            let title = note.title.trunc(length: 64)
 
             if note.fileName != title && title.count > 0 && !note.isEncrypted() {
                 UIApplication.getVC().notesTable.rename(note: note, to: title)
