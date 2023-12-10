@@ -98,7 +98,9 @@ class FileSystemEventManager {
             // hide if exist and hidden (xattr "es.fsnot.hidden.dir")
             if event.dirChange {
                 if let project = project {
-                    delegate.sidebarOutlineView.removeRows(projects: [project])
+                    OperationQueue.main.addOperation {
+                        self.delegate.sidebarOutlineView.removeRows(projects: [project])
+                    }
                 }
             }
             
@@ -109,12 +111,16 @@ class FileSystemEventManager {
             if let project = project {
                 // hack: occasionally get rename event when created
                 if !FileManager.default.fileExists(atPath: dirURL.path) {
-                    self.delegate.sidebarOutlineView.removeRows(projects: [project])
+                    OperationQueue.main.addOperation {
+                        self.delegate.sidebarOutlineView.removeRows(projects: [project])
+                    }
                 }
             } else {
                 if FileManager.default.directoryExists(atUrl: dirURL) {
                     if let projects = self.storage.insert(url: dirURL) {
-                        self.delegate.sidebarOutlineView.insertRows(projects: projects)
+                        OperationQueue.main.addOperation {
+                            self.delegate.sidebarOutlineView.insertRows(projects: projects)
+                        }
                     }
                 }
             }
@@ -123,7 +129,9 @@ class FileSystemEventManager {
 
         if event.dirRemoved  {
             if let project = project {
-                self.delegate.sidebarOutlineView.removeRows(projects: [project])
+                OperationQueue.main.addOperation {
+                    self.delegate.sidebarOutlineView.removeRows(projects: [project])
+                }
             }
             return
         }
@@ -133,7 +141,9 @@ class FileSystemEventManager {
             event.dirChange && dirURL.hasNonHiddenBit()
         ) {
             if let projects = self.storage.insert(url: dirURL) {
-                self.delegate.sidebarOutlineView.insertRows(projects: projects)
+                OperationQueue.main.addOperation {
+                    self.delegate.sidebarOutlineView.insertRows(projects: projects)
+                }
             }
             
             return
@@ -200,7 +210,9 @@ class FileSystemEventManager {
                 }
             } else {
                 if !note.isTrash() {
-                    self.delegate.notesTableView.insertNew(note: note)
+                    OperationQueue.main.addOperation {
+                        self.delegate.notesTableView.insertNew(note: note)
+                    }
                 }
             }
         }

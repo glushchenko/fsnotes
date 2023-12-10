@@ -79,13 +79,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         
         AppDelegate.mainWindowController = mainWC
-        ViewController.shared()?.appLoading()
-        
-        // Call before app loading and viewController delegateds inited
         mainWC.window?.makeKeyAndOrderFront(nil)
-        
-        // Init here, as viewDidLoad can be called multiple times
-        ViewController.shared()?.preLoadProjectsData()
     }
         
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

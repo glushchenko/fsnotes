@@ -1455,8 +1455,10 @@ class SidebarOutlineView: NSOutlineView,
                 
                 vc.sidebarOutlineView.reloadItem(parent)
                 
-                // Update label color 
-                if let row = rowView(atRow: row(forItem: parent), makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
+                let rowIndex = vc.sidebarOutlineView.row(forItem: parent)
+                
+                // Update label color
+                if rowIndex > 0, let row = vc.sidebarOutlineView.rowView(atRow: rowIndex, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
                     cell.applySelectedFirstResponder()
                 }
             }

@@ -24,6 +24,8 @@ class ViewController: EditorViewController,
     public var fsManager: FileSystemEventManager?
     public var projectSettingsViewController: ProjectSettingsViewController?
 
+    private var isPreLoaded = false
+    
     let storage = Storage.shared()
     var timer = Timer()
     var sidebarTimer = Timer()
@@ -135,22 +137,7 @@ class ViewController: EditorViewController,
 
     // MARK: - Overrides
     
-    override func viewDidAppear() {
-        // Restore window position
-
-        if sidebarOutlineView.isFirstLaunch, let x = UserDefaultsManagement.lastScreenX, let y = UserDefaultsManagement.lastScreenY {
-            view.window?.setFrameOrigin(NSPoint(x: x, y: y))
-
-            UserDefaultsManagement.lastScreenX = nil
-            UserDefaultsManagement.lastScreenY = nil
-        }
-
-        if UserDefaultsManagement.fullScreen {
-            view.window?.toggleFullScreen(nil)
-        }
-    }
-    
-    public func appLoading() {
+    override func viewDidLoad() {
         newNoteButton.image =
             NSImage(imageLiteralResourceName: "new_note_button")
                 .resize(to: CGSize(width: 30, height: 30))
@@ -191,10 +178,33 @@ class ViewController: EditorViewController,
         
         DispatchQueue.main.async {
             self.configureSidebarAndNotesList()
+            
+            self.preLoadProjectsData()
         }
     }
     
-    public func preLoadProjectsData() {        
+    override func viewDidAppear() {
+        // Restore window position
+
+        if sidebarOutlineView.isFirstLaunch, let x = UserDefaultsManagement.lastScreenX, let y = UserDefaultsManagement.lastScreenY {
+            view.window?.setFrameOrigin(NSPoint(x: x, y: y))
+
+            UserDefaultsManagement.lastScreenX = nil
+            UserDefaultsManagement.lastScreenY = nil
+        }
+
+        if UserDefaultsManagement.fullScreen {
+            view.window?.toggleFullScreen(nil)
+        }
+    }
+    
+    public func preLoadProjectsData() {  
+        if isPreLoaded {
+            return
+        }
+        
+        isPreLoaded = true
+        
         DispatchQueue.global().async {
             let storage = self.storage
 
