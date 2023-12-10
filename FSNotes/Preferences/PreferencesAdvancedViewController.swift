@@ -159,4 +159,38 @@ class PreferencesAdvancedViewController: NSViewController {
         }
     }
     
+    @IBAction func resetCaches(_ sender: Any) {
+        if let sidebarTreeURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent("sidebarTree") {
+            try? FileManager.default.removeItem(at: sidebarTreeURL)
+        }
+        
+        let projects = Storage.shared().getProjects()
+        for project in projects {
+            if let cacheUrl = project.getCacheURL() {
+                try? FileManager.default.removeItem(at: cacheUrl)
+            }
+        }
+        
+        restart()
+    }
+    
+    @IBAction func resetSettings(_ sender: Any) {
+        if let userDefaultsURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("Preferences").appendingPathComponent("co.fluder.FSNotes.plist") {
+            try? FileManager.default.removeItem(at: userDefaultsURL)
+        }
+        
+        if let editorsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("editors.settings") {
+            try? FileManager.default.removeItem(at: editorsURL)
+        }
+        
+        if let notesURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("notes.settings") {
+            try? FileManager.default.removeItem(at: notesURL)
+        }
+        
+        if let bookmarkUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Bookmarks.dict") {
+            try? FileManager.default.removeItem(at: bookmarkUrls)
+        }
+        
+        restart()
+    }
 }

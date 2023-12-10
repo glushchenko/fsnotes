@@ -200,7 +200,7 @@ public class Project: Equatable {
     public func saveCache() {
         guard isReadyForCacheSaving, let cacheURL = getCacheURL() else { return }
 
-        var notes = storage.noteList.filter({ $0.project == self })
+        var notes = storage.noteList.filter({ $0.project == self && $0.isLoaded })
 
         for note in notes {
             if note.isEncrypted() {
