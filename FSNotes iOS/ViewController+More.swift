@@ -61,8 +61,6 @@ extension ViewController: UIDocumentPickerDelegate {
             popoverActions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .All, .Todo:
             popoverActions = [.settingsFolder, .multipleSelection]
-        case .Archive:
-            popoverActions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
             popoverActions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Project:
@@ -223,8 +221,6 @@ extension ViewController: UIDocumentPickerDelegate {
             actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .All, .Todo:
             actions = [.settingsFolder, .multipleSelection]
-        case .Archive:
-            actions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
             actions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Project:
@@ -522,14 +518,18 @@ extension ViewController: UIDocumentPickerDelegate {
         }
     }
 
+    public func configureSidebarNavMenu() {
+        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
+            configureNavMenu(for: sidebarItem)
+        }
+    }
+    
     @objc func removeNotes() {
         let notes = notesTable.getSelectedNotes()
         notesTable.removeAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -539,9 +539,7 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.dateAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -551,9 +549,7 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.duplicateAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -563,9 +559,7 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.moveAction(notes: notes)
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -573,9 +567,7 @@ extension ViewController: UIDocumentPickerDelegate {
     @objc func cancel() {
         notesTable.turnOffEditing()
 
-        if let sidebarItem = UIApplication.getVC().lastSidebarItem {
-            configureNavMenu(for: sidebarItem)
-        }
+        configureSidebarNavMenu()
 
         navigationController?.setToolbarHidden(true, animated: true)
     }
@@ -605,22 +597,10 @@ extension ViewController: UIDocumentPickerDelegate {
                 return
             }
 
-            let storage = Storage.shared()
-            let project = Project(
-                storage: storage,
-                url: newDir,
-                label: name,
-                isTrash: false,
-                isRoot: false,
-                parent: selectedProject,
-                isDefault: false,
-                isArchive: false
-            )
-
-            storage.assignTree(for: project)
-
-            OperationQueue.main.addOperation {
-                mvc.sidebarTableView.insertRows(projects: [project])
+            if let projects = Storage.shared().insert(url: newDir) {
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                }
             }
         }
 
@@ -651,7 +631,7 @@ extension ViewController: UIDocumentPickerDelegate {
             OperationQueue.main.addOperation {
                 mvc.sidebarTableView.removeRows(projects: [selectedProject])
 
-                if !selectedProject.isExternal {
+                if !selectedProject.isBookmark {
                     try? FileManager.default.removeItem(at: selectedProject.url)
                 }
 
@@ -662,7 +642,7 @@ extension ViewController: UIDocumentPickerDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
         }))
 
-        if selectedProject.isExternal {
+        if selectedProject.isBookmark {
             OperationQueue.main.addOperation {
                 let bookmark = SandboxBookmark.sharedInstance()
                 bookmark.remove(url: selectedProject.url)
@@ -705,18 +685,14 @@ extension ViewController: UIDocumentPickerDelegate {
                 }
 
                 mvc.sidebarTableView.removeRows(projects: [selectedProject])
-                mvc.storage.unload(project: selectedProject)
 
-                selectedProject.url = newDir
-                selectedProject.loadLabel()
-
-                mvc.storage.loadNotes(selectedProject, loadContent: true)
-                mvc.sidebarTableView.insertRows(projects: [selectedProject])
-                mvc.sidebarTableView.select(project: selectedProject)
-
-                // Load tags for new urls
-                let notes = selectedProject.getNotes()
-                mvc.sidebarTableView.loadTags(notes: notes)
+                if let projects = self.storage.insert(url: newDir) {
+                    mvc.sidebarTableView.insertRows(projects: projects)
+                    
+                    if let first = projects.first {
+                        mvc.sidebarTableView.select(project: first)
+                    }
+                }
             }
         }
 
@@ -869,6 +845,7 @@ extension ViewController: UIDocumentPickerDelegate {
                 }
 
                 self.reloadNotesTable()
+                self.configureSidebarNavMenu()
             }
         }
     }
@@ -896,6 +873,8 @@ extension ViewController: UIDocumentPickerDelegate {
                 self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
                 self.sidebarTableView.select(project: selectedProject)
             }
+            
+            self.configureSidebarNavMenu()
         }
     }
 

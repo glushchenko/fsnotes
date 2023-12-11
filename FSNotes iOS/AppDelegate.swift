@@ -195,8 +195,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        if note == nil, let inbox = storage.getDefault() {
-            guard url.startAccessingSecurityScopedResource() else {
+        if let note = note {
+            UIApplication.getEVC().fill(note: note)
+            UIApplication.getVC().openEditorViewController()
+
+            print("File imported: \(note.url)")
+        } else {
+            
+            guard url.startAccessingSecurityScopedResource(), let inbox = storage.getDefault() else {
                 return false
             }
 
@@ -205,28 +211,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 try FileManager.default.copyItem(at: url, to: dst)
 
-                note = storage.importNote(url: dst)
-
-                if let note = note {
-                    note.forceLoad()
-
-                    if !storage.contains(note: note) {
-                        storage.noteList.append(note)
-
-                        vc.notesTable.insertRows(notes: [note])
-                        vc.updateNotesCounter()
-                    }
+                if let note = storage.importNote(url: dst) {
+                    vc.notesTable.insertRows(notes: [note])
+                    vc.updateNotesCounter()
                 }
             } catch {
                 print("Note opening error: \(error)")
             }
-        }
-
-        if let note = note {
-            UIApplication.getEVC().fill(note: note)
-            UIApplication.getVC().openEditorViewController()
-
-            print("File imported: \(note.url)")
         }
 
         return true

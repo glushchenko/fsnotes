@@ -23,6 +23,8 @@ class ViewController: EditorViewController,
     // MARK: - Properties
     public var fsManager: FileSystemEventManager?
     public var projectSettingsViewController: ProjectSettingsViewController?
+
+    private var isPreLoaded = false
     
     let storage = Storage.shared()
     var timer = Timer()
@@ -60,8 +62,6 @@ class ViewController: EditorViewController,
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
     @IBOutlet weak var showInSidebar: NSMenuItem!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var newNoteTopConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var lockedFolder: NSTextField!
     @IBOutlet weak var newNoteButton: NSButton!
     @IBOutlet weak var titleLabel: TitleTextField! {
@@ -137,20 +137,10 @@ class ViewController: EditorViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        DispatchQueue.global().async {
-            self.storage.loadAllTagsOnly()
-            
-            DispatchQueue.main.async {
-                self.sidebarOutlineView.loadAllTags()
-            }
-        }
-        
         newNoteButton.image =
-        NSImage(imageLiteralResourceName: "new_note_button")
-            .resize(to: CGSize(width: 30, height: 30))
-        
-        //newNoteButton.setButtonType(.momentaryLight)
-        
+            NSImage(imageLiteralResourceName: "new_note_button")
+                .resize(to: CGSize(width: 30, height: 30))
+
         storage.restoreUploadPaths()
         storage.restoreAPIIds()
         
@@ -160,13 +150,12 @@ class ViewController: EditorViewController,
         configureShortcuts()
         configureDelegates()
         configureLayout()
-        configureSidebarAndNotesList()
         configureEditor()
         
         fsManager = FileSystemEventManager(storage: storage, delegate: self)
         fsManager?.start()
-        
-        configureTranslation()
+
+        menuChangeCreationDate.title = NSLocalizedString("Change Creation Date", comment: "Menu")
         
         loadBookmarks(data: UserDefaultsManagement.sftpAccessData)
         loadBookmarks(data: UserDefaultsManagement.gitPrivateKeyData)
@@ -178,14 +167,19 @@ class ViewController: EditorViewController,
         loadSortBySetting()
         checkSidebarConstraint()
         
-#if CLOUDKIT
-        self.registerKeyValueObserver()
-#endif
+    #if CLOUD_RELATED_BLOCK
+        registerKeyValueObserver()
+    #endif
         
-        ViewController.gitQueue.maxConcurrentOperationCount = 1
         ViewController.gitQueue.maxConcurrentOperationCount = 1
         
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
+        
+        DispatchQueue.main.async {
+            self.configureSidebarAndNotesList()
+            
+            self.preLoadProjectsData()
+        }
     }
     
     override func viewDidAppear() {
@@ -203,6 +197,60 @@ class ViewController: EditorViewController,
         }
     }
     
+    public func preLoadProjectsData() {  
+        if isPreLoaded {
+            return
+        }
+        
+        isPreLoaded = true
+        
+        DispatchQueue.global().async {
+            let storage = self.storage
+
+            let projectsLoading = Date()
+            let results = storage.getProjectDiffs()
+
+            OperationQueue.main.addOperation {
+                self.sidebarOutlineView.removeRows(projects: results.0)
+                self.sidebarOutlineView.insertRows(projects: results.1)
+                
+                if results.0.count != 0 || results.1.count != 0 {
+                    self.updateTable()
+                }
+            }
+            
+            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
+
+            let diffLoading = Date()
+            for project in storage.getProjects() {
+                let changes = project.checkNotesCacheDiff()
+                self.notesTableView.doVisualChanges(results: changes)
+            }
+            
+            print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
+            
+            let tagsPoint = Date()
+            storage.loadNotesCloudPins()
+            storage.loadNotesSettings()
+            storage.loadNotesContent()
+            
+            DispatchQueue.main.async {
+                self.sidebarOutlineView.loadAllTags()
+            }
+            
+            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+            
+            let highlightCachePoint = Date()
+            for note in storage.noteList {
+                if note.type == .Markdown {
+                    note.cache(backgroundThread: true)
+                }
+            }
+            
+            print("3. Notes attributes cache for \(storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
+        }
+    }
+    
     // MARK: - Initial configuration
     
     private func configureLayout() {
@@ -217,8 +265,10 @@ class ViewController: EditorViewController,
         
         self.shareButton.sendAction(on: .leftMouseDown)
         self.setTableRowHeight()
-        self.sidebarOutlineView.sidebarItems = Sidebar().getList()
         
+        let sidebarList = Sidebar().getList()
+        self.sidebarOutlineView.sidebarItems = sidebarList
+
         sidebarOutlineView.selectionHighlightStyle = .regular
         
         if let color = NSColor(named: "sidebar") {
@@ -276,23 +326,25 @@ class ViewController: EditorViewController,
     }
     
     private func configureSidebarAndNotesList() {
-        
-        // When opened via fsnotes:// scheme – skip (use viewDidAppear)
-        if let appDelegate = NSApplication.shared.delegate as? AppDelegate, appDelegate.searchQuery != nil {
-            return
-        }
-        
         if isVisibleSidebar() {
             configureSidebar()
             
             if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
                 if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
                     let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
-                    let index = self.sidebarOutlineView.row(forItem: sidebarItem)
-                    self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                    let item = self.sidebarOutlineView.row(forItem: sidebarItem)
+                    if item > -1 {
+                        self.sidebarOutlineView.selectRowIndexes([item], byExtendingSelection: false)
+                    } else {
+                        self.configureNoteList()
+                    }
                 } else if let lastURL = UserDefaultsManagement.lastProjectURL, let project = self.storage.getProjectBy(url: lastURL) {
-                    let items = self.sidebarOutlineView.row(forItem: project)
-                    self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
+                    let item = self.sidebarOutlineView.row(forItem: project)
+                    if item > -1 {
+                        self.sidebarOutlineView.selectRowIndexes([item], byExtendingSelection: false)
+                    } else {
+                        self.configureNoteList()
+                    }
                 } else {
                     self.configureNoteList()
                 }
@@ -308,7 +360,6 @@ class ViewController: EditorViewController,
         updateTable() {
             if UserDefaultsManagement.copyWelcome {
                 DispatchQueue.main.async {
-                    self.sidebarOutlineView.expandItem(self.storage.getRootProject())
                     let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
                     let index = self.sidebarOutlineView.row(forItem: welcome)
                     self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
@@ -317,9 +368,11 @@ class ViewController: EditorViewController,
                 UserDefaultsManagement.copyWelcome = false
                 return
             }
-            
-            self.restoreOpenedWindows()
-            self.importAndCreate()
+
+            DispatchQueue.main.async {
+                self.restoreOpenedWindows()
+                self.importAndCreate()
+            }
         }
     }
     
@@ -477,6 +530,16 @@ class ViewController: EditorViewController,
     
     // Ask project password before move to encrypted
     public func moveReq(notes: [Note], project: Project, completion: @escaping (Bool) -> ()) {
+        for note in notes {
+            if note.isEncrypted() {
+                let alert = NSAlert()
+                alert.alertStyle = .critical
+                alert.informativeText = NSLocalizedString("You cannot move an already encrypted note to an encrypted directory. You must first decrypt the note and repeat the steps.", comment: "")
+                alert.messageText = NSLocalizedString("Move error", comment: "")
+                alert.runModal()
+                return
+            }
+        }
         
         // Encrypted and locked
         if project.isEncrypted && project.isLocked() {
@@ -528,8 +591,8 @@ class ViewController: EditorViewController,
             _ = note.move(to: destination, project: project)
             
             if !isFit(note: note, shouldLoadMain: true) {
-                notesTableView.removeByNotes(notes: [note])
-                
+                notesTableView.removeRows(notes: [note])
+
                 if let i = selectedRow, i > -1 {
                     if notesTableView.noteList.count > i {
                         notesTableView.selectRow(i)
@@ -867,7 +930,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
         
         let value = sender.stringValue
@@ -877,9 +940,9 @@ class ViewController: EditorViewController,
             search.stringValue = String()
             editor.clear()
             var content = String()
-            
-            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getRootProject()
-            
+
+            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getDefault()
+
             if UserDefaultsManagement.fileFormat == .Markdown,
                UserDefaultsManagement.naming == .autoRename,
                UserDefaultsManagement.autoInsertHeader,
@@ -903,7 +966,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         // Dusable notes creation if folder encrypted
-        if let project = vc.getSidebarProject(), project.isEncrypted, project.isLocked() {
+        if let project = vc.sidebarOutlineView.getSelectedProject(), project.isEncrypted, project.isLocked() {
             let menuItem = NSMenuItem()
             menuItem.identifier = NSUserInterfaceItemIdentifier("menu.newNote")
             vc.sidebarOutlineView.toggleFolderLock(menuItem)
@@ -911,7 +974,7 @@ class ViewController: EditorViewController,
         }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
         
         let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
@@ -923,7 +986,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
         
         _ = vc.createNote(type: .RichText)
@@ -981,7 +1044,7 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAllRows()
         }
         
         _ = vc.createNote()
@@ -1058,13 +1121,6 @@ class ViewController: EditorViewController,
     }
     
     @IBAction func emptyTrash(_ sender: NSMenuItem) {
-        guard let vc = ViewController.shared() else { return }
-        
-        if let sidebarItem = vc.getSidebarItem(), sidebarItem.isTrash() {
-            let indexSet = IndexSet(integersIn: 0..<vc.notesTableView.noteList.count)
-            vc.notesTableView.removeRows(at: indexSet, withAnimation: .effectFade)
-        }
-        
         let notes = storage.getAllTrash()
         for note in notes {
             _ = note.removeFile()
@@ -1178,7 +1234,7 @@ class ViewController: EditorViewController,
                 vc.editor.clear()
                 vc.storage.removeNotes(notes: notes, completely: true) { _ in
                     DispatchQueue.main.async {
-                        vc.notesTableView.removeByNotes(notes: notes)
+                        vc.notesTableView.removeRows(notes: notes)
                         if let i = selectedRow, i > -1 {
                             vc.notesTableView.selectRow(i)
                         }
@@ -1210,7 +1266,7 @@ class ViewController: EditorViewController,
                         moveNoteToTop(note: index)
                     }
                 } else {
-                    let project = getSidebarProject()
+                    let project = sidebarOutlineView.getSelectedProject()
                     sortAndMove(note: note, project: project)
                 }
             }
@@ -1226,23 +1282,6 @@ class ViewController: EditorViewController,
         
         updateViews.removeAll()
         notesTableView.endUpdates()
-    }
-    
-    func getSidebarProject() -> Project? {
-        if sidebarOutlineView.selectedRow < 0 {
-            return nil
-        }
-        
-        if let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem,
-           sidebarItem.project != nil {
-            return sidebarItem.project
-        }
-        
-        if let project = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? Project {
-            return project
-        }
-        
-        return nil
     }
     
     func getSidebarType() -> SidebarItemType? {
@@ -1428,30 +1467,29 @@ class ViewController: EditorViewController,
         }
         
         return !note.name.isEmpty
-        && (
-            filter.isEmpty && type != .Todo
-            || type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
-            || self.isMatched(note: note, terms: terms!)
-        ) && (
-            type == .All && !note.project.isArchive && note.project.isVisibleInCommon()
-            || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
-            || type == .Inbox && note.project.isDefault
-            || type == .Trash
-            || type == .Untagged && note.tags.count == 0
-            || type == .Todo && note.project.settings.showInCommon
-            || type == .Archive && note.project.isArchive
-            || !UserDefaultsManagement.inlineTags && tags != nil
-            || projects?.contains(note.project) == true
-        ) && (
-            type == .Trash && note.isTrash()
-            || type != .Trash && !note.isTrash()
-        ) && (
-            tags == nil
-            || UserDefaultsManagement.inlineTags && tags != nil && note.tags.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
-        ) && !(
-            note.project.isEncrypted &&
-            note.project.isLocked()
-        )
+            && (
+                filter.isEmpty && type != .Todo
+                    || type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
+                    || self.isMatched(note: note, terms: terms!)
+            ) && (
+                type == .All && note.project.isVisibleInCommon()
+                || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
+                || type == .Inbox && note.project.isDefault
+                || type == .Trash
+                || type == .Untagged && note.tags.count == 0
+                || type == .Todo && note.project.settings.showInCommon
+                || !UserDefaultsManagement.inlineTags && tags != nil
+                || projects?.contains(note.project) == true
+            ) && (
+                type == .Trash && note.isTrash()
+                    || type != .Trash && !note.isTrash()
+            ) && (
+                tags == nil
+                || UserDefaultsManagement.inlineTags && tags != nil && note.tags.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
+            ) && !(
+                note.project.isEncrypted &&
+                note.project.isLocked()
+            )
     }
     
     public func contains(tag name: String, in tags: [String]) -> Bool {
@@ -1628,11 +1666,10 @@ class ViewController: EditorViewController,
         }
         
         notesTableView.noteList = resorted
-        
-        //notesTableView.reloadData(forRowIndexes: newIndexes, columnIndexes: [0])
-        //notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
-        
         notesTableView.endUpdates()
+        
+        //notesTableView.reloadData()
+        //notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
     }
     
     func external(selectedNotes: [Note]) {
@@ -1648,12 +1685,6 @@ class ViewController: EditorViewController,
             
             NSWorkspace.shared.openFile(path, withApplication: UserDefaultsManagement.externalEditor)
         }
-    }
-    
-    private func configureTranslation() {
-        let creationDate = NSLocalizedString("Change Creation Date", comment: "Menu")
-        
-        menuChangeCreationDate.title = creationDate
     }
     
     private func loadBookmarks(data: Data?) {
@@ -1696,14 +1727,6 @@ class ViewController: EditorViewController,
             noteMenu.removeItem(tagsMenu)
         }
         
-        if !note.isInArchive() {
-            let archiveMenu = NSMenuItem()
-            archiveMenu.title = NSLocalizedString("Archive", comment: "Sidebar label")
-            archiveMenu.action = #selector(vc.archiveNote(_:))
-            moveMenu.addItem(archiveMenu)
-            moveMenu.addItem(NSMenuItem.separator())
-        }
-        
         if !note.isTrash() {
             let trashMenu = NSMenuItem()
             trashMenu.title = NSLocalizedString("Trash", comment: "Sidebar label")
@@ -1712,15 +1735,15 @@ class ViewController: EditorViewController,
             moveMenu.addItem(trashMenu)
             moveMenu.addItem(NSMenuItem.separator())
         }
-        
-        let projects = storage.getProjects()
+                
+        let projects = storage.getSortedProjects()
         for item in projects {
-            if note.project == item || item.isTrash || item.isArchive {
+            if note.project == item || item.isTrash {
                 continue
             }
             
             let menuItem = NSMenuItem()
-            menuItem.title = item.getFullLabel()
+            menuItem.title = item.getNestedLabel()
             menuItem.representedObject = item
             menuItem.action = #selector(vc.moveNote(_:))
             moveMenu.addItem(menuItem)
@@ -1787,35 +1810,27 @@ class ViewController: EditorViewController,
     }
     
     func registerKeyValueObserver() {
-        let keyStore = NSUbiquitousKeyValueStore()
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(ubiquitousKeyValueStoreDidChange(_:)),
+            name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+            object: NSUbiquitousKeyValueStore.default)
+
+        if NSUbiquitousKeyValueStore.default.synchronize() == false {
+            fatalError("This app was not built with the proper entitlement requests.")
+        }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.ubiquitousKeyValueStoreDidChange), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: keyStore)
-        
-        keyStore.synchronize()
+        NSUbiquitousKeyValueStore.default.synchronize()
     }
     
-    @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
+    @objc func ubiquitousKeyValueStoreDidChange(_ notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
                 if key == "co.fluder.fsnotes.pins.shared" {
-                    let changedNotes = storage.restoreCloudPins()
                     
-                    if let notes = changedNotes.added {
-                        for note in notes {
-                            if let i = notesTableView.getIndex(note) {
-                                self.moveNoteToTop(note: i)
-                            }
-                        }
-                    }
+                    let changedNotes = storage.getUpdatedPins()
                     
                     DispatchQueue.main.async {
-                        if let notes = changedNotes.removed {
-                            for note in notes {
-                                if let i = self.notesTableView.getIndex(note) {
-                                    self.notesTableView.reloadData(forRowIndexes: [i], columnIndexes: [0])
-                                }
-                            }
-                        }
+                        ViewController.shared()?.pin(selectedNotes: changedNotes)
                     }
                 }
                 
@@ -1832,19 +1847,16 @@ class ViewController: EditorViewController,
     func checkSidebarConstraint() {
         if sidebarSplitView.subviews[0].frame.width > 50 {
             searchTopConstraint.constant = 8
-            //newNoteTopConstraint.constant = 2
             return
         }
         
         if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
             
             searchTopConstraint.constant = CGFloat(25)
-            //newNoteTopConstraint.constant = CGFloat(20)
             return
         }
         
         searchTopConstraint.constant = 8
-        //newNoteTopConstraint.constant = 2
     }
     
     @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {
@@ -1852,20 +1864,18 @@ class ViewController: EditorViewController,
         let isChecked = sender.state == .on
         
         switch sender.tag {
-        case 1:
-            UserDefaultsManagement.sidebarVisibilityInbox = isChecked
-        case 2:
-            UserDefaultsManagement.sidebarVisibilityNotes = isChecked
-        case 3:
-            UserDefaultsManagement.sidebarVisibilityTodo = isChecked
-        case 4:
-            UserDefaultsManagement.sidebarVisibilityArchive = isChecked
-        case 5:
-            UserDefaultsManagement.sidebarVisibilityTrash = isChecked
-        case 6:
-            UserDefaultsManagement.sidebarVisibilityUntagged = isChecked
-        default:
-            break
+            case 1:
+                UserDefaultsManagement.sidebarVisibilityInbox = isChecked
+            case 2:
+                UserDefaultsManagement.sidebarVisibilityNotes = isChecked
+            case 3:
+                UserDefaultsManagement.sidebarVisibilityTodo = isChecked
+            case 5:
+                UserDefaultsManagement.sidebarVisibilityTrash = isChecked
+            case 6:
+                UserDefaultsManagement.sidebarVisibilityUntagged = isChecked
+            default:
+                break
         }
         
         ViewController.shared()?.sidebarOutlineView.reloadSidebar()

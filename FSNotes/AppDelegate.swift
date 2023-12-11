@@ -45,20 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
             NSApp.setActivationPolicy(.accessory)
         }
-
-        let storage = Storage.shared()
-        storage.loadNotesSettings()
-        storage.loadDocuments()
-        
-        // Cache
-        DispatchQueue.global(qos: .background).async {
-            for note in storage.noteList {
-                if note.type == .Markdown {
-                    note.cache(backgroundThread: true)
-                }
-            }
-            print("Notes attributes cache: \(storage.noteList.count)")
-        }
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -68,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         applyAppearance()
 
-        #if CLOUDKIT
+        #if CLOUD_RELATED_BLOCK
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
             
             if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
@@ -105,6 +91,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        UserDefaultsManagement.crashedLastTime = false
+        
         AppDelegate.saveWindowsState()
         
         Storage.shared().saveNotesSettings()
@@ -133,6 +121,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             UserDefaultsManagement.lastScreenX = Int(x)
             UserDefaultsManagement.lastScreenY = Int(y)
         }
+        
+        Storage.shared().saveProjectsCache()
+        
+        print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")
     }
     
     private static func saveWindowsState() {
@@ -275,11 +267,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let event = NSApp.currentEvent!
 
         if event.type == NSEvent.EventType.leftMouseUp {
+            
+            // Hide active not hidden and not miniaturized
+            if !NSApp.isHidden && NSApp.isActive {
+                if let mainWindow = AppDelegate.mainWindowController?.window, !mainWindow.isMiniaturized {
+                    NSApp.hide(nil)
+                    return
+                }
+            }
+            
+            NSApp.unhide(nil)
             NSApp.activate(ignoringOtherApps: true)
             
             AppDelegate.mainWindowController?.window?.makeKeyAndOrderFront(nil)
-            AppDelegate.mainWindowController?.window?.resignKey()
-        
             ViewController.shared()?.search.becomeFirstResponder()
             
             return
@@ -411,14 +411,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
-    private func isCustomArchive() -> Bool {
-        if let defaultArchive = UserDefaultsManagement.storageUrl?.appendingPathComponent("Archive", isDirectory: true), defaultArchive == UserDefaultsManagement.archiveDirectory {
-            return false
-        }
-
-        return true
-    }
-
     public func promptToMoveDatabase(from currentURL: URL, to url : URL, messageText: String) {
         let alert = NSAlert()
         alert.messageText = messageText
@@ -431,18 +423,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         if alert.runModal() == .alertSecondButtonReturn {
             move(from: currentURL, to: url)
-
-            if !isCustomArchive(),
-               let localArchive =
-                    UserDefaultsManagement.localDocumentsContainer?
-                    .appendingPathComponent("Archive", isDirectory: true),
-
-               let cloudArchive =
-                    UserDefaultsManagement.iCloudDocumentsContainer?
-                    .appendingPathComponent("Archive", isDirectory: true) {
-
-                move(from: localArchive, to: cloudArchive)
-            }
 
             let localTrash = currentURL.appendingPathComponent("Trash", isDirectory: true)
             let cloudTrash = url.appendingPathComponent("Trash", isDirectory: true)
@@ -470,7 +450,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                     try FileManager.default.moveItem(at: item, to: dst)
                 } catch {
 
-                    if ["Archive", "Trash", "Welcome"].contains(fileName) {
+                    if ["Trash", "Welcome"].contains(fileName) {
                         continue
                     }
 

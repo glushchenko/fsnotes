@@ -13,7 +13,6 @@ class SidebarViewController: UITableViewController {
         NSLocalizedString("Notes", comment: ""),
         NSLocalizedString("Todo", comment: ""),
         NSLocalizedString("Untagged", comment: ""),
-        NSLocalizedString("Archive", comment: ""),
         NSLocalizedString("Trash", comment: ""),
     ]
 
@@ -52,9 +51,6 @@ class SidebarViewController: UITableViewController {
         case 2:
             uiSwitch.isOn = UserDefaultsManagement.sidebarVisibilityUntagged
             break
-        case 3:
-            uiSwitch.isOn = UserDefaultsManagement.sidebarVisibilityArchive
-            break
         case 4:
             uiSwitch.isOn = UserDefaultsManagement.sidebarVisibilityTrash
             break
@@ -85,8 +81,6 @@ class SidebarViewController: UITableViewController {
             UserDefaultsManagement.sidebarVisibilityTodo = uiSwitch.isOn
         case 2:
             UserDefaultsManagement.sidebarVisibilityUntagged = uiSwitch.isOn
-        case 3:
-            UserDefaultsManagement.sidebarVisibilityArchive = uiSwitch.isOn
         case 4:
             UserDefaultsManagement.sidebarVisibilityTrash = uiSwitch.isOn
         default:

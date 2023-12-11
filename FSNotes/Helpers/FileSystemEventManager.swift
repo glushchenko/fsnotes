@@ -98,33 +98,29 @@ class FileSystemEventManager {
             // hide if exist and hidden (xattr "es.fsnot.hidden.dir")
             if event.dirChange {
                 if let project = project {
-                    delegate.sidebarOutlineView.removeProject(project: project)
+                    OperationQueue.main.addOperation {
+                        self.delegate.sidebarOutlineView.removeRows(projects: [project])
+                    }
                 }
             }
             
             return
         }
 
-        let srcProject = self.storage.getProjects().first(where: { $0.moveSrc == dirURL })
-        let dstProject = self.storage.getProjects().first(where: { $0.moveDst == dirURL })
-
         if event.dirRenamed {
             if let project = project {
-                if dstProject != nil {
-                    dstProject?.moveDst = nil
-                } else {
-
-                    // hack: occasionally get rename event when created
-                    if !FileManager.default.fileExists(atPath: dirURL.path) {
-                        self.delegate.sidebarOutlineView.removeProject(project: project)
+                // hack: occasionally get rename event when created
+                if !FileManager.default.fileExists(atPath: dirURL.path) {
+                    OperationQueue.main.addOperation {
+                        self.delegate.sidebarOutlineView.removeRows(projects: [project])
                     }
                 }
             } else {
-                if srcProject != nil {
-                    srcProject?.moveSrc = nil
-                } else {
-                    if FileManager.default.directoryExists(atUrl: dirURL) {
-                        self.delegate.sidebarOutlineView.insertProject(url: dirURL)
+                if FileManager.default.directoryExists(atUrl: dirURL) {
+                    if let projects = self.storage.insert(url: dirURL) {
+                        OperationQueue.main.addOperation {
+                            self.delegate.sidebarOutlineView.insertRows(projects: projects)
+                        }
                     }
                 }
             }
@@ -133,7 +129,9 @@ class FileSystemEventManager {
 
         if event.dirRemoved  {
             if let project = project {
-                self.delegate.sidebarOutlineView.removeProject(project: project)
+                OperationQueue.main.addOperation {
+                    self.delegate.sidebarOutlineView.removeRows(projects: [project])
+                }
             }
             return
         }
@@ -142,7 +140,12 @@ class FileSystemEventManager {
         if event.dirCreated || (
             event.dirChange && dirURL.hasNonHiddenBit()
         ) {
-            self.delegate.sidebarOutlineView.insertProject(url: dirURL)
+            if let projects = self.storage.insert(url: dirURL) {
+                OperationQueue.main.addOperation {
+                    self.delegate.sidebarOutlineView.insertRows(projects: projects)
+                }
+            }
+            
             return
         }
     }
@@ -195,19 +198,7 @@ class FileSystemEventManager {
             return
         }
         
-        guard storage.getProjectByNote(url: url) != nil else {
-            return
-        }
-        
-        guard let note = storage.initNote(url: url) else { return }
-
-        note.load()
-        note.loadPreviewInfo()
-        note.loadModifiedLocalAt()
-        
-        print("FSWatcher import note: \"\(note.name)\"")
-        self.storage.add(note)
-        self.storage.loadPins(notes: [note])
+        guard let note = storage.importNote(url: url) else { return }
         
         DispatchQueue.main.async {
             if let url = UserDataService.instance.focusOnImport,
@@ -219,7 +210,9 @@ class FileSystemEventManager {
                 }
             } else {
                 if !note.isTrash() {
-                    self.delegate.notesTableView.insertNew(note: note)
+                    OperationQueue.main.addOperation {
+                        self.delegate.notesTableView.insertNew(note: note)
+                    }
                 }
             }
         }
@@ -244,7 +237,7 @@ class FileSystemEventManager {
         self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
             DispatchQueue.main.async {
                 if self.delegate.notesTableView.numberOfRows > 0 {
-                    self.delegate.notesTableView.removeByNotes(notes: [note])
+                    self.delegate.notesTableView.removeRows(notes: [note])
                 }
             }
         }

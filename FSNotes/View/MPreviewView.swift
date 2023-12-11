@@ -351,12 +351,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         if let customCSS = customCSS {
             let styleDst = webkitPreview.appendingPathComponent("main.css", isDirectory: false)
-
-            do {
-                _ = try FileManager.default.copyItem(at: customCSS, to: styleDst)
-            } catch {
-                print(error)
-            }
+            try? FileManager.default.removeItem(at: styleDst)
+            try? FileManager.default.copyItem(at: customCSS, to: styleDst)
         }
 
         // Write generated index.html to temporary location.

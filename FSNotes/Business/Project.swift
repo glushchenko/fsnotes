@@ -14,19 +14,14 @@ public class Project: Equatable {
 
     var url: URL
 
-    public var moveSrc: URL?
-    public var moveDst: URL?
-
     public var label: String
     var isTrash: Bool
     var isCloudDrive: Bool = false
-    var isRoot: Bool
-    var parent: Project?
+    public var parent: Project?
     var isDefault: Bool
-    var isArchive: Bool
 
     public var isVirtual = false
-    public var isExternal: Bool = false
+    public var isBookmark: Bool = false
 
     public var settings: ProjectSettings
     public var metaCache = [NoteMeta]()
@@ -35,7 +30,7 @@ public class Project: Equatable {
     public var isReadyForCacheSaving = false
 
     // if notes loaded from cache validation with fs needed
-    public var cacheUsedDiffValidationNeeded = false
+    public var isNeededCacheValidation = false
 
     public var child = [Project]()
     public var isExpanded = false
@@ -54,28 +49,24 @@ public class Project: Equatable {
          url: URL,
          label: String? = nil,
          isTrash: Bool = false,
-         isRoot: Bool = false,
          parent: Project? = nil,
          isDefault: Bool = false,
-         isArchive: Bool = false,
-         isExternal: Bool = false,
+         isBookmark: Bool = false,
          isVirtual: Bool = false
     ) {
         self.storage = storage
         self.url = url.standardized
         self.isTrash = isTrash
-        self.isRoot = isRoot
         self.parent = parent
         self.isDefault = isDefault
-        self.isArchive = isArchive
-        self.isExternal = isExternal
+        self.isBookmark = isBookmark
         self.isVirtual = isVirtual
         self.label = String()
 
         settings = ProjectSettings()
             
         #if os(iOS)
-        if isRoot && isDefault {
+        if isDefault {
             settings.showInSidebar = false
         }
         #endif
@@ -95,7 +86,7 @@ public class Project: Equatable {
             self.settings = settings
         }
         
-        if isTrash || isArchive {
+        if isTrash {
             settings.showInCommon = false
         }
         
@@ -115,7 +106,7 @@ public class Project: Equatable {
             let data = try NSKeyedArchiver.archivedData(withRootObject: settings, requiringSecureCoding: true)
             let key = getLongSettingsKey()
             
-            #if CLOUDKIT || os(iOS)
+            #if CLOUD_RELATED_BLOCK
                 let keyStore = NSUbiquitousKeyValueStore()
                 keyStore.set(data, forKey: key)
                 keyStore.synchronize()
@@ -134,7 +125,7 @@ public class Project: Equatable {
         let key = getLongSettingsKey()
         var data: Data?
                 
-        #if CLOUDKIT || os(iOS)
+        #if CLOUD_RELATED_BLOCK
             let keyStore = NSUbiquitousKeyValueStore()
             data = keyStore.data(forKey: key)
         #else
@@ -209,15 +200,22 @@ public class Project: Equatable {
     public func saveCache() {
         guard isReadyForCacheSaving, let cacheURL = getCacheURL() else { return }
 
-        let notes = storage.noteList.filter({ $0.project == self })
+        var notes = storage.noteList.filter({ $0.project == self && $0.isLoaded })
 
         for note in notes {
             if note.isEncrypted() {
                 _ = note.lock()
             }
         }
+        
+        // Deduplicate
+        let deduplicatedNotes = notes.reduce(into: [String: Note]()) { result, object in
+            result[object.url.path] = object
+        }.values
+        
+        notes = Array(deduplicatedNotes)
 
-        let meta = notes.map({ $0.getMeta() })
+        let meta = notes.filter({ $0.isLoaded }).map({ $0.getMeta() })
         let jsonEncoder = JSONEncoder()
 
         do {
@@ -293,12 +291,19 @@ public class Project: Equatable {
                 notes.append(note)
             }
 
-            self.cacheUsedDiffValidationNeeded = true
+            // print("From cache: \(notes.count)")
+            
+            isNeededCacheValidation = true
         } else {
             notes = fetchNotes()
+            
+            // print("From disk: \(notes.count)")
         }
 
+    #if CLOUD_RELATED_BLOCK
         notes = loadPins(for: notes)
+    #endif
+        
         storage.noteList.append(contentsOf: notes)
     }
 
@@ -340,6 +345,7 @@ public class Project: Equatable {
     }
 
     public func loadPins(for notes: [Note]) -> [Note] {
+        #if CLOUD_RELATED_BLOCK
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
 
@@ -350,6 +356,7 @@ public class Project: Equatable {
                 }
             }
         }
+        #endif
 
         return notes
     }
@@ -410,7 +417,7 @@ public class Project: Equatable {
     }
     
     public func getParent() -> Project {
-        if isRoot {
+        if isDefault || isBookmark {
             return self
         }
         
@@ -466,8 +473,8 @@ public class Project: Equatable {
     }
 
     public func getFullLabel() -> String {
-        if isRoot  {
-            if isExternal {
+        if isDefault || isBookmark {
+            if isBookmark {
                 return "External › " + label
             }
             
@@ -476,10 +483,6 @@ public class Project: Equatable {
 
         if isTrash {
             return "Trash"
-        }
-
-        if isArchive {
-            return label
         }
         
         return "FSNotes › \(label)"
@@ -618,14 +621,6 @@ public class Project: Equatable {
         return url.path.md5
     }
 
-    public func createImagesDirectory() {
-        do {
-            try FileManager.default.createDirectory(at: url.appendingPathComponent("i"), withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            print(error)
-        }
-    }
-
     public func remove() {
         do {
             try FileManager.default.removeItem(at: url)
@@ -718,6 +713,31 @@ public class Project: Equatable {
         }
 
         return projects
+    }
+    
+    public func getChildProjects() -> [Project]? {
+        var projects = [Project]()
+
+        for item in child {
+            if item.child.count > 0 {
+                if let sub = item.getAllChild() {
+                    projects.append(contentsOf: sub)
+                }
+            } else {
+                projects.append(item)
+            }
+        }
+
+        return projects
+    }
+    
+    public func getChildProjectsByURL() -> [Project] {
+        return storage
+            .projects
+            .filter({ $0.url.path.startsWith(string: url.path) && $0.url.path != url.path })
+            .sorted(by: {
+                $0.url.path.components(separatedBy: "/").count < $1.url.path.components(separatedBy: "/").count
+            })
     }
 
     public func getHistoryURL() -> URL? {
@@ -841,5 +861,132 @@ public class Project: Equatable {
         }
 
         return locked
+    }
+    
+    public func checkNotesCacheDiff(isGit: Bool = false) -> ([Note], [Note], [Note]) {
+        // if not cached – load all results for cache
+        // (not loaded instantly because is resource consumption operation, loaded later in background)
+        guard isNeededCacheValidation || isGit else {
+
+            _ = storage.noteList
+                .filter({ $0.project == self })
+                .map({ $0.load() })
+
+            isReadyForCacheSaving = true
+            return ([], [], [])
+        }
+
+
+        let results = checkFSAndMemoryDiff()
+
+        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
+        
+        return results
+    }
+    
+    public func getProjectsFSAndMemoryDiff() -> ([Project], [Project]) {
+        var foundRemoved = [Project]()
+        var foundAdded = [Project]()
+
+        var memoryProjects = [Project]()
+        var fileSystemURLs = [URL]()
+        
+        if let child = getChildProjects() {
+            memoryProjects = child
+        }
+        
+        if let fsURLs = fetchAllDirectories() {
+            fileSystemURLs = fsURLs
+        }
+
+        let cachedProjects = Set(memoryProjects.compactMap({ $0.url }))
+        let currentProjects = Set(fileSystemURLs)
+
+        let removed = cachedProjects.subtracting(currentProjects)
+        let added = currentProjects.subtracting(cachedProjects)
+
+        for removeURL in removed {
+            if let project = memoryProjects.first(where: { $0.url == removeURL }) {
+                foundRemoved.append(project)
+            }
+        }
+
+        for addURL in added {
+            let project = Project(storage: storage, url: addURL)
+            foundAdded.append(project)
+        }
+        
+        foundAdded = foundAdded.sorted(by: {
+            $0.url.path.components(separatedBy: "/").count < $1.url.path.components(separatedBy: "/").count
+        })
+                
+        foundRemoved = foundRemoved.sorted(by: {
+            $0.url.path.components(separatedBy: "/").count > $1.url.path.components(separatedBy: "/").count
+        })
+                        
+        return (foundRemoved, foundAdded)
+    }
+    
+    private func fetchAllDirectories() -> [URL]? {
+        guard let fileEnumerator =
+            FileManager.default.enumerator(
+                at: url, includingPropertiesForKeys: nil,
+                options: FileManager.DirectoryEnumerationOptions()
+            )
+        else { return nil }
+
+        let extensions = ["md", "markdown", "txt", "rtf", "fountain", "textbundle", "etp", "jpg", "png", "gif", "jpeg", "json", "JPG", "PNG", ".icloud", ".cache", ".Trash", "i"]
+
+        let urls = fileEnumerator.allObjects.compactMap({ $0 as? URL })
+            .filter({
+                !extensions.contains($0.pathExtension)
+                && !extensions.contains($0.lastPathComponent)
+                && !$0.path.contains("/assets")
+                && !$0.path.contains("/.cache")
+                && !$0.path.contains("/files")
+                && !$0.path.contains("/.Trash")
+                && !$0.path.contains("/Trash")
+                && !$0.path.contains(".textbundle")
+                && !$0.path.contains(".revisions")
+                && !$0.path.contains("/.git")
+                && $0 != UserDefaultsManagement.trashURL
+            })
+
+        var fin = [URL]()
+        var i = 0
+
+        for url in urls {
+            do {
+                var isDirectoryResourceValue: AnyObject?
+                try (url as NSURL).getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
+
+                var isPackageResourceValue: AnyObject?
+                try (url as NSURL).getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
+
+                if isDirectoryResourceValue as? Bool == true,
+                    isPackageResourceValue as? Bool == false,
+                    url.isHidden() == false {
+                    
+                    i = i + 1
+                    fin.append(url)
+                }
+            }
+            catch let error as NSError {
+                print("Error: ", error.localizedDescription)
+            }
+
+            if i > 200 {
+                break
+            }
+        }
+
+        return fin
+    }
+    
+    public func loadNotesContent() {
+        let notes = getNotes()
+        for note in notes {
+            note.load()
+        }
     }
 }

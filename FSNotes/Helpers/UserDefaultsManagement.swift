@@ -46,7 +46,6 @@ public class UserDefaultsManagement {
         static let AppearanceTypeKey = "appearanceType"
         static let AskCommitMessage = "askCommitMessage"
         static let ApiBookmarksData = "apiBookmarksData"
-        static let ArchiveDirectoryKey = "archiveDirectory"
         static let AutoInsertHeader = "autoInsertHeader"
         static let AutoVersioning = "autoVersioning"
         static let AutomaticSpellingCorrection = "automaticSpellingCorrection"
@@ -118,10 +117,10 @@ public class UserDefaultsManagement {
         static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
         static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
-        static let PinListKey = "pinList"
         static let Preview = "preview"
         static let PreviewFontSize = "previewFontSize"
         static let ProjectsKey = "projects"
+        static let ProjectsKeyNew = "ProjectsKeyNew"
         static let RecentSearches = "recentSearches"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let PullInterval = "pullInterval"
@@ -665,48 +664,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.ShowDockIcon)
-        }
-    }
-    
-    static var archiveDirectory: URL? {
-        get {
-            #if os(OSX)
-            if let path = shared?.object(forKey: Constants.ArchiveDirectoryKey) as? String {
-                var isDirectory = ObjCBool(true)
-                let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
-
-                if (exists && isDirectory.boolValue) {
-                    return URL(fileURLWithPath: path, isDirectory: true)
-                } else {
-                    self.archiveDirectory = nil
-                    print("Archive path not accessible, settings resetted to default")
-                }
-            }
-            #endif
-
-            if let archive = storageUrl?.appendingPathComponent("Archive", isDirectory: true) {
-                if !FileManager.default.fileExists(atPath: archive.path) {
-                    do {
-                        try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
-                        
-                        return archive
-                    } catch {
-                        print(error)
-                    }
-                } else {
-                    return archive
-                }
-            }
-            
-            return nil
-        }
-        
-        set {
-            if let url = newValue {
-                shared?.set(url.path, forKey: Constants.ArchiveDirectoryKey)
-            } else {
-                shared?.set(nil, forKey: Constants.ArchiveDirectoryKey)
-            }
         }
     }
     
@@ -1367,18 +1324,6 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var sidebarVisibilityArchive: Bool {
-        get {
-            if let result = shared?.object(forKey: "sidebarVisibilityArchive") as? Bool {
-                return result
-            }
-            return true
-        }
-        set {
-            shared?.set(newValue, forKey: "sidebarVisibilityArchive")
-        }
-    }
-
     static var sidebarVisibilityTrash: Bool {
         get {
             if let result = shared?.object(forKey: "sidebarVisibilityTrash") as? Bool {
@@ -1502,19 +1447,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.RecentSearches)
-        }
-    }
-
-    static var pinList: [String] {
-        get {
-            if let value = shared?.array(forKey: Constants.PinListKey) as? [String] {
-                return value
-            }
-
-            return [String]()
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.PinListKey)
         }
     }
 
@@ -1813,6 +1745,25 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
+        }
+    }
+    
+    static var projects: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
+
+            if let data = defaults.data(forKey: Constants.ProjectsKeyNew), let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
+
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+                defaults.set(data, forKey: Constants.ProjectsKeyNew)
+            }
         }
     }
 }

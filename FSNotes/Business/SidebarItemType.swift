@@ -16,7 +16,6 @@ enum SidebarItemType: Int {
     case Label = 0x00
     case All = 0x01
     case Trash = 0x02    
-    case Archive = 0x05
     case Todo = 0x06
     case Inbox = 0x07
     case Tag = 0x08
@@ -25,13 +24,13 @@ enum SidebarItemType: Int {
     case Untagged = 0x11
     case ProjectEncryptedLocked = 12
     case ProjectEncryptedUnlocked = 13
+    case Separator = 14
 
     public var icon: String? {
         switch self {
         case .Label: return nil
         case .All: return "sidebar_notes"
         case .Trash: return "sidebar_trash"
-        case .Archive: return "sidebar_archive"
         case .Todo: return "sidebar_todo"
         case .Inbox: return "sidebar_inbox"
         case .Tag: return "sidebar_tag"
@@ -40,6 +39,7 @@ enum SidebarItemType: Int {
         case .Untagged: return "sidebar_untagged"
         case .ProjectEncryptedLocked: return "sidebar_project_encrypted_locked"
         case .ProjectEncryptedUnlocked: return "sidebar_project_encrypted_unlocked"
+        case .Separator: return nil
         }
     }
     

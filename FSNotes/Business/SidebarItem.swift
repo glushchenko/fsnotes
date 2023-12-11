@@ -54,7 +54,7 @@ class SidebarItem {
             return false
         }
 
-        if type == .Label {
+        if type == .Separator {
             return false
         }
         
@@ -76,7 +76,7 @@ class SidebarItem {
     }
 
     public func isSystem() -> Bool {
-        let system: [SidebarItemType] = [.All, .Archive, .Trash, .Todo]
+        let system: [SidebarItemType] = [.All, .Trash, .Todo]
 
         return system.contains(type)
     }

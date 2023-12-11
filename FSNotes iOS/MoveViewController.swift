@@ -81,8 +81,10 @@ class MoveViewController: UITableViewController {
 
         if let projects = self.projects {
             let project = projects[indexPath.row]
-            if !project.isTrash || !project.isArchive {
-                cell.textLabel?.text = project.getFullLabel()
+            if project.isTrash {
+                cell.textLabel?.text = NSLocalizedString("Trash", comment: "")
+            } else {
+                cell.textLabel?.text = project.getNestedLabel()
             }
         }
 
@@ -137,24 +139,16 @@ class MoveViewController: UITableViewController {
                 return
             }
 
-            let storage = Storage.shared()
-
-            let project = Project(
-                storage: storage,
-                url: newDir,
-                label: name,
-                isTrash: false,
-                isRoot: false,
-                parent: allProjects[0],
-                isDefault: false,
-                isArchive: false
-            )
-
-            self.projects?.append(project)
-            self.tableView.reloadData()
-
-            storage.assignTree(for: project)
-            self.notesTableView.viewDelegate?.sidebarTableView.reloadSidebar()
+            if let projects = Storage.shared().insert(url: newDir) {
+                OperationQueue.main.addOperation {
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                    
+                    self.projects?.append(contentsOf: projects)
+                    self.tableView.reloadData()
+                    
+                    self.notesTableView.viewDelegate?.sidebarTableView.reloadSidebar()
+                }
+            }
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }

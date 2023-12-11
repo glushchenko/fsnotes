@@ -2,18 +2,11 @@
   "sourceLanguage" : "en",
   "strings" : {
     "Append to" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zu einer Notiz hinzufügen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Append to"
           }
         },
         "fr" : {
@@ -67,18 +60,12 @@
       }
     },
     "Choose for append" : {
-      "extractionState" : "migrated",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eine Notiz zum Hinzufügen auswählen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose for append"
           }
         },
         "fr" : {
@@ -131,19 +118,15 @@
         }
       }
     },
+    "Inbox" : {
+
+    },
     "New note" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Speichern"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New note"
           }
         },
         "fr" : {
@@ -197,18 +180,11 @@
       }
     },
     "Project" : {
-      "extractionState" : "migrated",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zum Projekt hinzufügen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Project"
           }
         },
         "fr" : {

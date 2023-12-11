@@ -58,11 +58,10 @@ class PreferencesGitViewController: SettingsViewController {
 
                 let currentURL = UserDefaultsManagement.gitStorage
 
-                let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
-                bookmark.remove(url: currentURL)
-                bookmark.store(url: url)
-                bookmark.save()
+                let bookmarksManager = SandboxBookmark.sharedInstance()
+                bookmarksManager.remove(url: currentURL)
+                bookmarksManager.store(url: url)
+                bookmarksManager.save()
 
                 UserDefaultsManagement.gitStorage = url
                 self.repositoriesPath.url = url

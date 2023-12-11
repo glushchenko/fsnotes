@@ -115,6 +115,7 @@ public class Note: NSObject  {
         modifiedLocalAt = meta.modificationDate
         creationDate = meta.creationDate
         isPinned = meta.pinned
+        tags = meta.tags
         self.project = project
 
         super.init()
@@ -131,7 +132,8 @@ public class Note: NSObject  {
             preview: preview,
             modificationDate: modifiedLocalAt,
             creationDate: date,
-            pinned: isPinned
+            pinned: isPinned,
+            tags: tags
         )
     }
 
@@ -187,6 +189,10 @@ public class Note: NSObject  {
             try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
 
             creationDate = userDate
+            
+            if isTextBundle() {
+                writeTextBundleInfo(url: getURL())
+            }
             return true
         } catch {
             print(error)
@@ -201,21 +207,16 @@ public class Note: NSObject  {
             try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
 
             creationDate = date
+            
+            if isTextBundle() {
+                writeTextBundleInfo(url: getURL())
+            }
+            
             return true
         } catch {
             print(error)
             return false
         }
-    }
-
-    func fastLoad() {
-        if let attributedString = getContent() {
-            cacheHash = nil
-            content = NSMutableAttributedString(attributedString: attributedString)
-        }
-
-        loadFileName()
-        isLoaded = true
     }
 
     func load(tags: Bool = true) {
@@ -225,26 +226,13 @@ public class Note: NSObject  {
         }
 
         loadFileName()
-
-        #if os(iOS)
-            loadPreviewInfo()
-        #else
-            if !isTrash() && !project.isArchive && tags {
-                loadTags()
-            }
-        #endif
+        loadPreviewInfo()
+        
+        if !isTrash() && tags {
+            loadTags()
+        }
 
         isLoaded = true
-    }
-
-    public func loadFileWithAttributes() {
-        load()
-        loadFileAttributes()
-    }
-
-    public func loadFileAttributes() {
-        loadCreationDate()
-        loadModifiedLocalAt()
     }
 
     func reload() -> Bool {
@@ -309,6 +297,18 @@ public class Note: NSObject  {
 
     public func getFileCreationDate() -> Date? {
         let url = getURL()
+        
+        if isTextBundle() {
+            let textBundleURL = url
+            let json = textBundleURL.appendingPathComponent("info.json")
+
+            if let jsonData = try? Data(contentsOf: json),
+               let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData),
+               let created = info.created {
+                
+                return Date(timeIntervalSince1970: TimeInterval(created))
+            }
+        }
 
         return
             (try? url.resourceValues(forKeys: [.creationDateKey]))?
@@ -702,50 +702,19 @@ public class Note: NSObject  {
     func addPin(cloudSave: Bool = true) {
         isPinned = true
         
-    #if CLOUDKIT || os(iOS)
         if cloudSave {
             Storage.shared().saveCloudPins()
         }
-    #elseif os(OSX)
-        addLocalPin(url: url)
-    #endif
-
     }
 
     func removePin(cloudSave: Bool = true) {
         if isPinned {
             isPinned = false
             
-            #if CLOUDKIT || os(iOS)
             if cloudSave {
                 Storage.shared().saveCloudPins()
             }
-            #elseif os(OSX)
-                removeLocalPin(url: url)
-            #endif
         }
-    }
-
-    public func addLocalPin(url: URL) {
-        var pins = UserDefaultsManagement.pinList
-
-        if !pins.contains(url.path) {
-            pins.append(url.path)
-        }
-
-        UserDefaultsManagement.pinList = pins
-    }
-
-    public func removeLocalPin(url: URL) {
-        var pins = UserDefaultsManagement.pinList
-
-        if pins.contains(url.path) {
-            if let index = pins.firstIndex(of: url.path) {
-                pins.remove(at: index)
-            }
-        }
-
-        UserDefaultsManagement.pinList = pins
     }
     
     func togglePin() {
@@ -862,6 +831,10 @@ public class Note: NSObject  {
                         type = .Markdown
                         container = .textBundle
                     }
+                    
+                    if let created = info.created {
+                        creationDate = Date(timeIntervalSince1970: TimeInterval(created))
+                    }
                 }
             }
             
@@ -967,7 +940,9 @@ public class Note: NSObject  {
             let fileWrapper = getFileWrapper(attributedString: attributedString)
 
             if isTextBundle() {
-                if !FileManager.default.fileExists(atPath: url.path) {
+                let jsonUrl = url.appendingPathComponent("info.json")
+                
+                if !FileManager.default.fileExists(atPath: jsonUrl.path) {
                     try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: false, attributes: nil)
 
                     self.writeTextBundleInfo(url: url)
@@ -1073,6 +1048,8 @@ public class Note: NSObject  {
     }
     
     private func getTextBundleJsonInfo() -> String {
+        let creationDate = self.creationDate ?? Date()
+        
         if let originalExtension = originalExtension {
             return """
             {
@@ -1080,7 +1057,8 @@ public class Note: NSObject  {
                 "type" : "\(type.uti)",
                 "creatorIdentifier" : "co.fluder.fsnotes",
                 "version" : 2,
-                "flatExtension" : "\(originalExtension)"
+                "flatExtension" : "\(originalExtension)",
+                "created" : \(Int(creationDate.timeIntervalSince1970))
             }
             """
         }
@@ -1090,7 +1068,8 @@ public class Note: NSObject  {
             "transient" : true,
             "type" : "\(type.uti)",
             "creatorIdentifier" : "co.fluder.fsnotes",
-            "version" : 2
+            "version" : 2,
+            "created" : \(Int(creationDate.timeIntervalSince1970))
         }
         """
     }
@@ -1198,42 +1177,16 @@ public class Note: NSObject  {
         return project.isTrash
     }
     
-    public func isInArchive() -> Bool {
-        guard UserDefaultsManagement.archiveDirectory != nil else {
-            return false
-        }
-        
-        return project.isArchive
-    }
-
     public func contains<S: StringProtocol>(terms: [S]) -> Bool {
         return name.localizedStandardContains(terms) || content.string.localizedStandardContains(terms)
     }
 
-#if os(OSX)
     public func loadTags() {
         if UserDefaultsManagement.inlineTags {
             _ = scanContentTags()
-            return
         }
     }
-#else
-    public func loadTags() -> Bool {
-        _ = Storage.shared()
-
-        if UserDefaultsManagement.inlineTags {
-            let changes = scanContentTags()
-            let qty = changes.0.count + changes.1.count
-
-            if (qty > 0) {
-                return true
-            }
-        }
-
-        return false
-    }
-#endif
-
+    
     public func scanContentTags() -> ([String], [String]) {
         var added = [String]()
         var removed = [String]()

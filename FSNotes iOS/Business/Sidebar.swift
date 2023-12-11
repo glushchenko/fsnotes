@@ -90,17 +90,6 @@ class Sidebar {
             system.append(untagged)
         }
 
-        // Archive
-        if UserDefaultsManagement.sidebarVisibilityArchive, let archiveProject = storage.getArchive() {
-            system.append(
-                SidebarItem(
-                    name: NSLocalizedString("Archive", comment: ""),
-                    project: archiveProject,
-                    type: .Archive
-                )
-            )
-        }
-
         // Trash
         if UserDefaultsManagement.sidebarVisibilityTrash {
             system.append(

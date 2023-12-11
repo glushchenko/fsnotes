@@ -24,7 +24,7 @@ class SandboxBookmark {
         return sandbox
     }
 
-    public func load() -> [URL] {
+    public func load() {
         if let bookmarks = defaults?.object(forKey: bookmarksKey) as? [Data] {
             for bookmarkData in bookmarks {
                 do {
@@ -45,8 +45,6 @@ class SandboxBookmark {
                 }
             }
         }
-
-        return bookmarks.map({ $0.key })
     }
 
     public func save(data: Data) {
@@ -76,5 +74,9 @@ class SandboxBookmark {
 
         let values = bookmarks.map({ $0.value })
         save(data: values)
+    }
+    
+    public func getRestoredUrls() -> [URL] {
+        return bookmarks.map({ $0.key })
     }
 }

@@ -9,7 +9,6 @@
 import UIKit
 import MobileCoreServices
 import Social
-import Kanna
 
 @objc(ShareViewController)
 
@@ -26,14 +25,6 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        if #available(iOS 13.0, *) {
-//            _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: .main) { (_) in
-//                if let layoutContainerView = self.view.subviews.last {
-//                    layoutContainerView.frame.size.height += 45
-//                }
-//            }
-//        }
         
         preferredContentSize = CGSize(width: 300, height: 300)
         navigationController!.navigationBar.topItem!.rightBarButtonItem!.title = NSLocalizedString("New note", comment: "")
@@ -100,9 +91,6 @@ class ShareViewController: SLComposeServiceViewController {
                                     return
                                 }
 
-                                let data = url as NSURL
-                                self.checkInstagram(data: data)
-
                                 DispatchQueue.main.async {
                                     let preview = self.urlPreview ?? String()
                                     self.textView.text = "\(preview)\n\n\(url.absoluteString)".trimmingCharacters(in: .whitespacesAndNewlines)
@@ -134,10 +122,6 @@ class ShareViewController: SLComposeServiceViewController {
             urls.append(inbox)
         }
 
-        if let archive = UserDefaultsManagement.archiveDirectory {
-            urls.append(archive)
-        }
-
         storage.loadProjects(from: urls)
 
         projectItem?.title = NSLocalizedString("Project", comment: "")
@@ -150,44 +134,6 @@ class ShareViewController: SLComposeServiceViewController {
 
             self.pushConfigurationViewController(controller)
         }
-
-//        appendItem?.title = NSLocalizedString("Append to", comment: "")
-//
-//        DispatchQueue.global().async {
-//            if let projectURL = UserDefaultsManagement.lastSelectedURL,
-//                let project = storage.getProjectBy(url: projectURL)
-//            {
-//                self.currentProject = project
-//                self.loadNotesFrom(project: project)
-//            }
-//
-//            DispatchQueue.main.async {
-//                self.projectItem?.value = self.currentProject?.label
-//            }
-//
-//            if let note = self.notes?.first {
-//                note.load()
-//                note.loadPreviewInfo()
-//
-//                DispatchQueue.main.async {
-//                    self.appendItem?.value = note.getName()
-//                    self.appendItem?.tapHandler = {
-//                        self.save(note: note)
-//                    }
-//                }
-//            }
-//        }
-//
-//        guard let select = SLComposeSheetConfigurationItem() else { return [] }
-//        select.title = NSLocalizedString("Choose for append", comment: "")
-//        select.tapHandler = {
-//            if let notes = self.notes {
-//                let controller = NotesListController()
-//                controller.delegate = self
-//                controller.setNotes(notes: notes)
-//                self.pushConfigurationViewController(controller)
-//            }
-//        }
 
         return [self.projectItem!]
     }
@@ -209,7 +155,7 @@ class ShareViewController: SLComposeServiceViewController {
         if let instagram = self.instagram {
             note.append(image: instagram)
             note.append(string: NSMutableAttributedString(string: "\n\n" + self.textView.text))
-            note.write()
+            note.save()
             self.close()
             return
         }
@@ -240,7 +186,7 @@ class ShareViewController: SLComposeServiceViewController {
                                     note.append(string: NSMutableAttributedString(string: "\n\n" + self.textView.text))
                                 }
                                 
-                                note.write()
+                                note.save()
                                 self.close()
                                 return
                             }
@@ -251,7 +197,7 @@ class ShareViewController: SLComposeServiceViewController {
                             guard let url = URL(string: contentText) else {
                                 // File URL provided, but text is loaded in textView
                                 note.append(string: NSMutableAttributedString(string: contentText))
-                                note.write()
+                                note.save()
                                 self.close()
                                 return
                             }
@@ -266,7 +212,7 @@ class ShareViewController: SLComposeServiceViewController {
                                 note.append(string: string)
                             }
 
-                            note.write()
+                            note.save()
                             self.close()
                             return
                         }
@@ -276,7 +222,7 @@ class ShareViewController: SLComposeServiceViewController {
                             let prefix = self.getPrefix(for: note)
                             let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
                             note.append(string: string)
-                            note.write()
+                            note.save()
                             self.close()
                             return
                         }
@@ -306,53 +252,5 @@ class ShareViewController: SLComposeServiceViewController {
         }
 
         return "\n\n"
-    }
-
-    public func loadNotesFrom(project: Project) {
-        let storage = Storage.shared()
-
-        if storage.getNotesBy(project: project).count == 0 {
-            storage.loadNotes(project)
-        }
-
-        let notes = storage.noteList.filter({$0.project == project })
-        self.notes = storage.sortNotes(noteList: notes, filter: "")
-
-        if let notes = self.notes {
-            DispatchQueue.main.async {
-                if let note = notes.first {
-                    note.load()
-                    note.loadPreviewInfo()
-                    self.appendItem?.value = note.title
-                }
-            }
-        }
-    }
-
-    private func checkInstagram(data: NSURL) {
-        if let path = data.absoluteString, path.starts(with: "https://www.instagram.com") {
-            let html = try? String(contentsOf: data as URL)
-
-            if let doc = try? Kanna.HTML(html: html!, encoding: String.Encoding.utf8) {
-                if let metaSet = doc.head?.css("meta") {
-                    for meta in metaSet {
-                        if let property = meta["property"]?.lowercased {
-                            if property().hasPrefix("og:image"), let imagePath = meta["content"] {
-
-                                if let imURL = URL(string: imagePath), let instaData = try? Data(contentsOf: imURL) {
-                                    self.instagram = instaData
-
-                                    DispatchQueue.main.async {
-                                        self.textView.text = imURL.path
-                                    }
-                                }
-
-                                break
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

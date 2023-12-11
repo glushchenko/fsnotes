@@ -22,7 +22,6 @@ extension UserDefaultsManagement {
         static let editorSuggestions = "editorSuggestions"
         static let IsFirstLaunch = "isFirstLaunch"
         static let ImportURLsKey = "ImportURLs"
-        static let ProjectsKeyNew = "ProjectsKeyNew"
     }
 
     static var appIcon: Int {
@@ -255,26 +254,6 @@ extension UserDefaultsManagement {
     static var bgColor: Color {
         get {
             return self.DefaultBgColor
-        }
-    }
-
-    @available(iOS 11.0, *)
-    static var projects: [URL] {
-        get {
-            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
-
-            if let data = defaults.data(forKey: Constants.ProjectsKeyNew), let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] {
-                return urls
-            }
-
-            return []
-        }
-        set {
-            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
-
-            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
-                defaults.set(data, forKey: Constants.ProjectsKeyNew)
-            }
         }
     }
 }

@@ -57,6 +57,19 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         let ident = menuItem.identifier?.rawValue
         
+        if ident == "context.folderMenu.emptyBin" || ident == "folderMenu.emptyBin" {
+            if let p = vc.sidebarOutlineView.getSelectedProject(), p.isTrash {
+                menuItem.title = NSLocalizedString("Empty Trash", comment: "")
+                menuItem.isHidden = false
+                menuItem.isEnabled = true
+                return true
+            } else {
+                menuItem.isHidden = true
+                menuItem.isEnabled = false
+                return false
+            }
+        }
+        
         if let title = menuItem.menu?.identifier?.rawValue {
             switch title {
             case "fsnotesMenu":
@@ -64,6 +77,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     menuItem.keyEquivalentModifierMask = UserDefaultsManagement.focusInEditorOnNoteSelect
                             ? [.command, .option, .shift]
                             : [.command, .shift]
+                    
+                    menuItem.title = NSLocalizedString("Empty Trash", comment: "")
                     return true
                 }
             case "fileMenu":
@@ -244,10 +259,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                 if ["folderMenu.attachStorage"].contains(menuItem.identifier?.rawValue) {
                     return true
                 }
-                
-                guard let p = vc.getSidebarProject(), !p.isTrash else {
-                    return false
-                }
             case "findMenu":
                 if ["findMenu.find",
                     "findMenu.findAndReplace",
@@ -266,8 +277,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityNotes ? .on : .off
                 case 3:
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityTodo ? .on : .off
-                case 4:
-                    menuItem.state = UserDefaultsManagement.sidebarVisibilityArchive ? .on : .off
                 case 5:
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityTrash ? .on : .off
                 case 6:
@@ -596,23 +605,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         field.becomeFirstResponder()
     }
-    
-    @IBAction func archiveNote(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        guard let notes = getSelectedNotes() else { return }
         
-        if let project = Storage.shared().getArchive() {
-            vc.moveReq(notes: notes, project: project) { success in
-                guard success else { return }
-                
-                if let cvc = NSApplication.shared.keyWindow?.contentViewController,
-                    cvc.isKind(of: NoteViewController.self) {
-                    self.updateTitle(note: notes.first!)
-                }
-            }
-        }
-    }
-    
     @IBAction func createInNewWindow(_ sender: Any) {
         var content = String()
         
@@ -718,7 +711,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         panel.begin { (result) -> Void in
             if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
-                let project = vc.getSidebarProject() ?? Storage.shared().getMainProject()
+                let project = vc.sidebarOutlineView.getSelectedProject() ?? Storage.shared().getMainProject()
 
                 for url in urls {
                     _ = vc.copy(project: project, url: url)
@@ -829,7 +822,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         UserDataService.instance.searchTrigger = true
 
-        vc.notesTableView.removeByNotes(notes: notes)
+        vc.notesTableView.removeRows(notes: notes)
 
         // Delete tags
         for note in notes {
@@ -1311,7 +1304,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         }
         
         if sidebarProject == nil {
-            sidebarProject = Storage.shared().getRootProject()
+            sidebarProject = Storage.shared().getDefault()
         }
         
         guard let project = sidebarProject else { return nil }
