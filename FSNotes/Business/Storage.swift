@@ -460,6 +460,8 @@ class Storage {
                 ) {
                     return true
                 }
+                
+                return false
             }
             
             return sortQuery(note: $0, next: $1, project: project)
@@ -978,10 +980,6 @@ class Storage {
         }
         
         saveCachedTree()
-    }
-
-    public func cleanUnlocked() {
-        noteList.filter({ $0.isUnlocked() }).forEach({ $0.cleanOut() })
     }
 
     private func checkWelcome() {

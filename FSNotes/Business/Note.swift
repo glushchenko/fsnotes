@@ -106,7 +106,10 @@ public class Note: NSObject  {
 
     init(meta: NoteMeta, project: Project) {
         isLoadedFromCache = true
-        isParsed = true
+        
+        if meta.title.count > 0 {
+            isParsed = true
+        }
         
         url = meta.url
         imageUrl = meta.imageUrl
@@ -1370,7 +1373,7 @@ public class Note: NSObject  {
     public func loadPreviewInfo(text: String? = nil) {
         let content = text ?? self.content.string
 
-        if self.isParsed {
+        if title.count > 0 && self.isParsed {
             return
         }
 

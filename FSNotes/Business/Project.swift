@@ -200,7 +200,7 @@ public class Project: Equatable {
     public func saveCache() {
         guard isReadyForCacheSaving, let cacheURL = getCacheURL() else { return }
 
-        var notes = storage.noteList.filter({ $0.project == self && $0.isLoaded })
+        var notes = storage.noteList.filter({ $0.project == self })
 
         for note in notes {
             if note.isEncrypted() {
@@ -215,7 +215,7 @@ public class Project: Equatable {
         
         notes = Array(deduplicatedNotes)
 
-        let meta = notes.filter({ $0.isLoaded }).map({ $0.getMeta() })
+        let meta = notes.filter({ $0.isLoaded && $0.title.count > 0 }).map({ $0.getMeta() })
         let jsonEncoder = JSONEncoder()
 
         do {
