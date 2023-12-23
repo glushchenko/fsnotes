@@ -157,9 +157,9 @@ class PreferencesEditorViewController: NSViewController {
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
-            if let note = editor.note, let evc = editor.editorViewController, !editor.isPreviewEnabled() {
+            if let note = editor.note, let evc = editor.editorViewController {
                 NotesTextProcessor.highlight(note: note)
-                
+                evc.disablePreview()
                 evc.refillEditArea()
             }
         }

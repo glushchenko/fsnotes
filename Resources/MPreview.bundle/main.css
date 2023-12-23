@@ -20,7 +20,6 @@ html {
     -webkit-text-size-adjust: 115%
 }
 body {
-    margin: 0;
     max-width: 100%;
 }
 article,
@@ -254,7 +253,6 @@ img:not(footer img) {
     border-style: none;
     width: auto !important;
     width: 100%;
-    max-width: 678px;
     height: auto !important;
     max-height: 900px;
 }

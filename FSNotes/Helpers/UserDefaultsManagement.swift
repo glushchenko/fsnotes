@@ -1063,10 +1063,12 @@ public class UserDefaultsManagement {
     static var markdownPreviewCSS: URL? {
         get {
             if let applicationSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-                let previewCssUrl = applicationSupport.appendingPathComponent("preview.css")
+                let previewCssUrl = applicationSupport.appendingPathComponent("preview2023.css")
                 
                 if !FileManager.default.fileExists(atPath: previewCssUrl.path) {
-                    try? "".write(to: previewCssUrl, atomically: true, encoding: .utf8)
+                    if let cssUrl = Bundle.main.url(forResource: "MPreview", withExtension: "bundle")?.appendingPathComponent("main.css") {
+                        try? FileManager.default.copyItem(at: cssUrl, to: previewCssUrl)
+                    }
                 }
                 
                 return previewCssUrl

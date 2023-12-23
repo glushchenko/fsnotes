@@ -46,7 +46,7 @@ class FileSystemEventManager {
                 return
             }
 
-            if !self.storage.allowedExtensions.contains(url.pathExtension) && !self.storage.isValidUTI(url: url) {
+            if !self.storage.isValidNote(url: url) {
                 return
             }
             
@@ -171,10 +171,7 @@ class FileSystemEventManager {
     private func checkFile(url: URL, pathList: [String]) -> Bool {
         return (
             FileManager.default.fileExists(atPath: url.path)
-            && (
-                self.storage.allowedExtensions.contains(url.pathExtension)
-                || self.storage.isValidUTI(url: url)
-            )
+            && self.storage.isValidNote(url: url)
             && pathList.contains(url.deletingLastPathComponent().path)
         )
     }

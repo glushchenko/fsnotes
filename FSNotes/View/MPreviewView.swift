@@ -179,17 +179,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         } else {
             let htmlString = renderMarkdownHTML(markdown: markdownString)!
-            guard let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString) else { return }
-
-            var baseURL: URL?
-            if let path = Bundle.main.path(forResource: "MPreview", ofType: ".bundle") {
-                let url = NSURL.fileURL(withPath: path)
-                if let bundle = Bundle(url: url) {
-                    baseURL = bundle.url(forResource: "index", withExtension: "html")
-                }
+            
+            if let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString),
+               let baseURL = Bundle.main.url(forResource: "MPreview", withExtension: "bundle") {
+                loadHTMLString(pageHTMLString, baseURL: baseURL)
             }
-
-            loadHTMLString(pageHTMLString, baseURL: baseURL)
         }
     }
     
@@ -330,7 +324,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             // Copy bundle resources to temporary location.
             do {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
-
                 for file in fileList {
                     if customCSS != nil && file == "css" {
                         continue
@@ -609,7 +602,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         
         css +=
             useFixedImageHeight
-                ? String("img { max-width: 100%; max-height: 90vh; }")
+                ? String("img { max-height: 90vh; }")
                 : String()
 
         theme = theme ?? UserDefaultsManagement.codeTheme
@@ -641,7 +634,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         #if os(iOS)
             var width = 10
         #else
-            var width = ViewController.shared()!.editor.getWidth()
+            var width = Int(ViewController.shared()!.editor.getWidth())
         #endif
 
         if fullScreen {
@@ -662,6 +655,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let fontSize = UserDefaultsManagement.fontSize
         let codeFontSize = UserDefaultsManagement.codeFontSize
     #endif
+        
+        let maxImageWidth = Int(UserDefaultsManagement.imagesWidth)
 
         var result = """
             @font-face {
@@ -676,9 +671,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 font-weight: bold;
             }
         
-            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; -webkit-text-size-adjust: none;}
+            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px;}
             code, pre {font: \(codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; -webkit-text-size-adjust: none; }
-            img {display: block; margin: 0 auto;}
+            img {display: block; margin: 0 auto; max-width: \(maxImageWidth)px; }
+            img:not(footer img) { max-width: \(maxImageWidth)px; }
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
             p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; -webkit-text-size-adjust: none; } \(codeStyle) \(css)
         
