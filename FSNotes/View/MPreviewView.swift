@@ -182,7 +182,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             
             if let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString),
                let baseURL = Bundle.main.url(forResource: "MPreview", withExtension: "bundle") {
-                print(pageHTMLString)
                 loadHTMLString(pageHTMLString, baseURL: baseURL)
             }
         }
