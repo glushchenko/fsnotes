@@ -11315,6 +11315,12 @@
             "value" : "Wir stellen fest, dass Sie FSNotes aus dem Mac App Store mit Standardspeicher in iCloud Drive installiert haben. Möchten Sie die alte Datenbank in iCloud Drive verschieben?"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We have detected that you have installed FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database into iCloud Drive"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11354,7 +11360,7 @@
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?"
+            "value" : "We hebben gedetecteerd dat je FSNotes hebt geïnstalleerd vanuit Mac App Store met standaard opslag in iCloud Drive. Wil je oude database verplaatsen naar iCloud Drive?"
           }
         },
         "pt-BR" : {
