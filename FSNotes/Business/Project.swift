@@ -316,8 +316,7 @@ public class Project: Equatable {
 
             return
                 directoryFiles.filter {
-                    storage.allowedExtensions.contains($0.pathExtension)
-                    || storage.isValidUTI(url: $0)
+                    storage.isValidNote(url: $0)
                 }.map {
                     url in (
                         url,

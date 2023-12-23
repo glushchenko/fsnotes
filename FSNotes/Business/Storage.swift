@@ -514,7 +514,18 @@ class Storage {
     }
 
     public func isValidNote(url: URL) -> Bool {
-        return allowedExtensions.contains(url.pathExtension) || isValidUTI(url: url)
+        if allowedExtensions.contains(url.pathExtension) || isValidUTI(url: url) {
+            
+            // disallow parent dir with dot at start – https://github.com/glushchenko/fsnotes/issues/1653
+            let qty = url.pathComponents.count
+            if qty > 1 {
+                return !url.pathComponents[qty-2].startsWith(string: ".")
+            }
+            
+            return true
+        }
+        
+        return false
     }
     
     public func isValidUTI(url: URL) -> Bool {
