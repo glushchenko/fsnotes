@@ -551,8 +551,31 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     public func insertRows(notes: [Note]) {
+        guard let vc = self.window?.contentViewController as? ViewController else { return }
+        var insert = [Note]()
+        
         for note in notes {
-            insertNew(note: note)
+            if noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil,
+               vc.isFit(note: note, shouldLoadMain: true) {
+                insert.append(note)
+                noteList.append(contentsOf: insert)
+            }
+        }
+        
+        let projects = vc.sidebarOutlineView.getSidebarProjects()
+        self.noteList = vc.storage.sortNotes(noteList: self.noteList, filter: vc.search.stringValue, project: projects?.first)
+        
+        var indexSet = IndexSet()
+        for note in insert {
+            if let noteIndex = self.noteList.firstIndex(of: note) {
+                indexSet.insert(noteIndex)
+            }
+        }
+        
+        self.insertRows(at: indexSet, withAnimation: .effectFade)
+        
+        for note in insert {
+            vc.sidebarOutlineView.insertTags(note: note)
         }
     }
     
@@ -588,24 +611,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
         return i
-    }
-
-    public func insertNew(note: Note) {
-        guard let vc = self.window?.contentViewController as? ViewController else { return }
-
-        guard noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil else { return }
-
-        guard vc.isFit(note: note, shouldLoadMain: true) else { return }
-
-        let at = self.countVisiblePinned()
-        self.noteList.insert(note, at: at)
-        
-        self.beginUpdates()
-        self.insertRows(at: IndexSet(integer: at), withAnimation: .effectFade)
-        self.reloadData(forRowIndexes: IndexSet(integer: at), columnIndexes: [0])
-        self.endUpdates()
-
-        vc.sidebarOutlineView.insertTags(note: note)
     }
 
     public func reloadRow(note: Note) {

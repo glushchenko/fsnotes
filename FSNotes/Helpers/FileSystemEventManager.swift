@@ -208,7 +208,7 @@ class FileSystemEventManager {
             } else {
                 if !note.isTrash() {
                     OperationQueue.main.addOperation {
-                        self.delegate.notesTableView.insertNew(note: note)
+                        self.delegate.notesTableView.insertRows(notes: [note])
                     }
                 }
             }
@@ -278,6 +278,7 @@ class FileSystemEventManager {
             // reload view
 
             self.delegate.notesTableView.reloadRow(note: note)
+            self.delegate.reSort(note: note)
 
             let editors = AppDelegate.getEditTextViews()
             for editor in editors {
@@ -291,7 +292,9 @@ class FileSystemEventManager {
             if modificationDate != note.modifiedLocalAt || creationDate != note.creationDate {
                 note.modifiedLocalAt = modificationDate
                 note.creationDate = creationDate
+                
                 delegate.notesTableView.reloadDate(note: note)
+                delegate.reSort(note: note)
                 
                 // Reload images if note moved (cache invalidated)
                 note.loadPreviewInfo()

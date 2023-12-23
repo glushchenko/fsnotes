@@ -671,7 +671,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 font-weight: bold;
             }
         
-            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px;}
+            body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; -webkit-text-size-adjust: none;}
             code, pre {font: \(codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; -webkit-text-size-adjust: none; }
             img {display: block; margin: 0 auto; max-width: \(maxImageWidth)px; }
             img:not(footer img) { max-width: \(maxImageWidth)px; }

@@ -107,7 +107,7 @@ public class Note: NSObject  {
     init(meta: NoteMeta, project: Project) {
         isLoadedFromCache = true
         
-        if meta.title.count > 0 {
+        if meta.title.count > 0 || meta.imageUrl != nil {
             isParsed = true
         }
         
@@ -124,6 +124,10 @@ public class Note: NSObject  {
         super.init()
 
         parseURL(loadProject: false)
+    }
+    
+    public func isValidForCaching() -> Bool {
+        return isLoaded || title.count > 0 || isEncrypted() || imageUrl != nil
     }
 
     func getMeta() -> NoteMeta {
@@ -1202,46 +1206,42 @@ public class Note: NSObject  {
 
         var tags = [String]()
         
-        if var tempContent = content.copy() as? NSMutableAttributedString {
-            do {
-                let range = NSRange(location: 0, length: tempContent.length)
-                let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
-                
-                re.enumerateMatches(
-                    in: tempContent.string,
-                    options: matchingOptions,
-                    range: range,
-                    using: { (result, flags, stop) -> Void in
+        do {
+            let range = NSRange(location: 0, length: content.length)
+            let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
+            
+            re.enumerateMatches(
+                in: content.string,
+                options: matchingOptions,
+                range: range,
+                using: { (result, flags, stop) -> Void in
+                    
+                    guard var range = result?.range(at: 1) else { return }
+                    let cleanTag = content.mutableString.substring(with: range)
+                    
+                    range = NSRange(location: range.location - 1, length: range.length + 1)
+                    
+                    let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: range, string: content)
+                    let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: range)
+                    
+                    if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
                         
-                        guard var range = result?.range(at: 1) else { return }
-                        let cleanTag = tempContent.mutableString.substring(with: range)
+                        let parRange = content.mutableString.paragraphRange(for: range)
+                        let par = content.mutableString.substring(with: parRange)
+                        if par.starts(with: "    ") || par.starts(with: "\t") {
+                            return
+                        }
                         
-                        range = NSRange(location: range.location - 1, length: range.length + 1)
-                        
-                        let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: range, string: content)
-                        let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: range)
-                        
-                        if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
-                            
-                            let parRange = tempContent.mutableString.paragraphRange(for: range)
-                            let par = tempContent.mutableString.substring(with: parRange)
-                            if par.starts(with: "    ") || par.starts(with: "\t") {
-                                return
-                            }
-                            
-                            if cleanTag.last == "/" {
-                                tags.append(String(cleanTag.dropLast()))
-                            } else {
-                                tags.append(cleanTag)
-                            }
+                        if cleanTag.last == "/" {
+                            tags.append(String(cleanTag.dropLast()))
+                        } else {
+                            tags.append(cleanTag)
                         }
                     }
-                )
-            } catch {
-                print("Tags parsing: \(error)")
-            }
-            
-            tempContent = NSMutableAttributedString()
+                }
+            )
+        } catch {
+            print("Tags parsing: \(error)")
         }
 
         if tags.contains("notags") {
@@ -1377,7 +1377,7 @@ public class Note: NSObject  {
     public func loadPreviewInfo(text: String? = nil) {
         let content = text ?? self.content.string
 
-        if title.count > 0 && self.isParsed {
+        if (title.count > 0 || imageUrl != nil) && self.isParsed {
             return
         }
 

@@ -696,7 +696,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             noteDupe.save()
 
             Storage.shared().add(noteDupe)
-            ViewController.shared()?.notesTableView.insertNew(note: noteDupe)
+            ViewController.shared()?.notesTableView.insertRows(notes: [noteDupe])
         }
     }
     

@@ -215,7 +215,7 @@ public class Project: Equatable {
         
         notes = Array(deduplicatedNotes)
 
-        let meta = notes.filter({ $0.isLoaded && $0.title.count > 0 }).map({ $0.getMeta() })
+        let meta = notes.filter({ $0.isValidForCaching() }).map({ $0.getMeta() })
         let jsonEncoder = JSONEncoder()
 
         do {
@@ -877,6 +877,10 @@ public class Project: Equatable {
 
 
         let results = checkFSAndMemoryDiff()
+        
+        if results.1.count > 0 {
+            print(results)
+        }
 
         print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
         

@@ -436,7 +436,19 @@ class Storage {
     }
         
     func sortNotes(noteList: [Note], filter: String? = nil, project: Project? = nil, operation: BlockOperation? = nil) -> [Note] {
-
+        var noteList = noteList
+        
+        // Pre sort by creation and modified date, title
+        if let filter = filter, filter.count > 0 {
+            noteList = noteList.sorted(by: {
+                if let operation = operation, operation.isCancelled {
+                    return false
+                }
+                
+                return sortQuery(note: $0, next: $1, project: project)
+            })
+        }
+        
         return noteList.sorted(by: {
             if let operation = operation, operation.isCancelled {
                 return false
