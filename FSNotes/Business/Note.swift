@@ -1201,43 +1201,47 @@ public class Note: NSObject  {
         ]
 
         var tags = [String]()
-
-        do {
-            let range = NSRange(location: 0, length: content.length)
-            let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
-
-            re.enumerateMatches(
-                in: content.string,
-                options: matchingOptions,
-                range: range,
-                using: { (result, flags, stop) -> Void in
-
-                    guard var range = result?.range(at: 1) else { return }
-                    let cleanTag = content.mutableString.substring(with: range)
-
-                    range = NSRange(location: range.location - 1, length: range.length + 1)
-
-                    let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: range, string: content)
-                    let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: range)
-
-                    if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
-
-                        let parRange = content.mutableString.paragraphRange(for: range)
-                        let par = content.mutableString.substring(with: parRange)
-                        if par.starts(with: "    ") || par.starts(with: "\t") {
-                            return
-                        }
+        
+        if var tempContent = content.copy() as? NSMutableAttributedString {
+            do {
+                let range = NSRange(location: 0, length: tempContent.length)
+                let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
+                
+                re.enumerateMatches(
+                    in: tempContent.string,
+                    options: matchingOptions,
+                    range: range,
+                    using: { (result, flags, stop) -> Void in
                         
-                        if cleanTag.last == "/" {
-                            tags.append(String(cleanTag.dropLast()))
-                        } else {
-                            tags.append(cleanTag)
+                        guard var range = result?.range(at: 1) else { return }
+                        let cleanTag = tempContent.mutableString.substring(with: range)
+                        
+                        range = NSRange(location: range.location - 1, length: range.length + 1)
+                        
+                        let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: range, string: content)
+                        let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: range)
+                        
+                        if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
+                            
+                            let parRange = tempContent.mutableString.paragraphRange(for: range)
+                            let par = tempContent.mutableString.substring(with: parRange)
+                            if par.starts(with: "    ") || par.starts(with: "\t") {
+                                return
+                            }
+                            
+                            if cleanTag.last == "/" {
+                                tags.append(String(cleanTag.dropLast()))
+                            } else {
+                                tags.append(cleanTag)
+                            }
                         }
                     }
-                }
-            )
-        } catch {
-            print("Tags parsing: \(error)")
+                )
+            } catch {
+                print("Tags parsing: \(error)")
+            }
+            
+            tempContent = NSMutableAttributedString()
         }
 
         if tags.contains("notags") {
