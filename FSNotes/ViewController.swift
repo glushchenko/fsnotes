@@ -1365,11 +1365,6 @@ class ViewController: EditorViewController,
                     notes.append(note)
                 }
             }
-            
-            // Pre sort by creation and modified date, title
-            if filter.count > 0 {
-                notes = self.storage.sortNotes(noteList: notes, project: projects?.first, operation: operation)
-            }
 
             let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: filter, project: projects?.first, operation: operation)
             
