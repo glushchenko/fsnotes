@@ -113,7 +113,7 @@ class PreferencesEditorViewController: NSViewController {
                 editor.textStorage?.updateParagraphStyle()
 
                 MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
+                NotesTextProcessor.resetCaches()
 
                 evc.refillEditArea(force: true)
             }
@@ -141,7 +141,7 @@ class PreferencesEditorViewController: NSViewController {
                 editor.textStorage?.updateParagraphStyle()
 
                 MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
+                NotesTextProcessor.resetCaches()
 
                 evc.refillEditArea(force: true)
             }
@@ -174,7 +174,7 @@ class PreferencesEditorViewController: NSViewController {
                 editor.updateTextContainerInset()
 
                 MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
+                NotesTextProcessor.resetCaches()
 
                 evc.refillEditArea(force: true)
             }
@@ -208,7 +208,7 @@ class PreferencesEditorViewController: NSViewController {
                 editor.updateTextContainerInset()
     
                 MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
+                NotesTextProcessor.resetCaches()
     
                 evc.refillEditArea(force: true)
             }
@@ -281,7 +281,8 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.codeFont = newFont
         NotesTextProcessor.codeFont = newFont
         
-        reloadFonts()
+        ViewController.shared()?.reloadFonts()
+        
         setCodeFontPreview()
     }
 
@@ -290,7 +291,8 @@ class PreferencesEditorViewController: NSViewController {
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont)
         UserDefaultsManagement.noteFont = newFont
 
-        reloadFonts()
+        ViewController.shared()?.reloadFonts()
+
         setNoteFontPreview()
     }
 
@@ -298,28 +300,12 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.fontName = nil
         UserDefaultsManagement.codeFontName = "Source Code Pro"
 
-        reloadFonts()
+        ViewController.shared()?.reloadFonts()
+
         setCodeFontPreview()
         setNoteFontPreview()
     }
 
-    private func reloadFonts() {
-        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-        try? FileManager.default.removeItem(at: webkitPreview)
-
-        Storage.shared().resetCacheAttributes()
-
-        let editors = AppDelegate.getEditTextViews()
-        
-        for editor in editors {
-            if let evc = editor.editorViewController {
-                MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
-                evc.refillEditArea(force: true)
-            }
-        }
-    }
-    
     private func setCodeFontPreview() {
         let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
 
@@ -329,6 +315,9 @@ class PreferencesEditorViewController: NSViewController {
 
     private func setNoteFontPreview() {
         noteFontPreview.font = NSFont(name: UserDefaultsManagement.noteFont.fontName, size: 13)
-        noteFontPreview.stringValue = "\(UserDefaultsManagement.noteFont.fontName) \(UserDefaultsManagement.noteFont.pointSize)pt"
+
+        if let familyName = UserDefaultsManagement.noteFont.familyName {
+            noteFontPreview.stringValue = "\(familyName) \(UserDefaultsManagement.noteFont.pointSize)pt"
+        }
     }
 }

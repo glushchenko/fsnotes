@@ -1425,7 +1425,7 @@ class ViewController: EditorViewController,
         return true
     }
     
-    private func reloadFonts() {
+    public func reloadFonts() {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
@@ -1435,8 +1435,7 @@ class ViewController: EditorViewController,
         for editor in editors {
             if let evc = editor.editorViewController {
                 MPreviewView.template = nil
-                NotesTextProcessor.hl = nil
-
+                NotesTextProcessor.resetCaches()
                 evc.refillEditArea(force: true)
             }
         }

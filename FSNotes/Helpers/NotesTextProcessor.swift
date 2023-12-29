@@ -140,7 +140,12 @@ public class NotesTextProcessor {
         self.storage = storage
         self.range = range
     }
-        
+
+    public static func resetCaches() {
+        NotesTextProcessor.hl = nil
+        NotesTextProcessor.codeFont = UserDefaultsManagement.codeFont
+    }
+
     public static func getFencedCodeBlockRange(paragraphRange: NSRange, string: NSMutableAttributedString) -> NSRange? {
         guard UserDefaultsManagement.codeBlockHighlight else { return nil }
 
