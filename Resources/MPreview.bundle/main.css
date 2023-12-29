@@ -226,7 +226,6 @@ body {
     -webkit-text-size-adjust: 115%;
     color: #333;
     font-family: "sans-serif", "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 0.9em;
     line-height: 1.2;
     word-wrap: break-word;
     padding: 15px 0;
@@ -429,7 +428,6 @@ code {
     padding: .2em 0;
     line-height: 30px;
     margin: 0;
-    font-size: 85%;
     background-color: rgba(0, 0, 0, .04);
     border: 1px solid rgba(0, 0, 0, .04);
     border-radius: 3px;

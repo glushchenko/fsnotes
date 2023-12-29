@@ -198,7 +198,7 @@ class ViewController: EditorViewController,
         }
     }
     
-    public func preLoadProjectsData() {  
+    public func preLoadProjectsData() {
         if isPreLoaded {
             return
         }
@@ -358,7 +358,7 @@ class ViewController: EditorViewController,
     }
     
     private func configureNoteList() {
-        updateTable() {            
+        updateTable() {
             if UserDefaultsManagement.copyWelcome {
                 DispatchQueue.main.async {
                     let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
@@ -696,6 +696,26 @@ class ViewController: EditorViewController,
 
             if let fr = NSApp.mainWindow?.firstResponder, fr.isKind(of: NotesTableView.self) {
                 NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
+                return false
+            }
+        }
+        
+        // cmd + + to increase font size
+        if event.keyCode == kVK_ANSI_Equal {
+            if event.modifierFlags.contains(.command) {
+                UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize + 1)!
+                UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize + 1)!
+                reloadFonts()
+                return false
+            }
+        }
+
+        // cmd + - to decrease font size
+        if event.keyCode == kVK_ANSI_Minus {
+            if event.modifierFlags.contains(.command) {
+                UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize - 1)!
+                UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize - 1)!
+                reloadFonts()
                 return false
             }
         }
@@ -1403,6 +1423,22 @@ class ViewController: EditorViewController,
         }
         
         return true
+    }
+    
+    public func reloadFonts() {
+        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+        try? FileManager.default.removeItem(at: webkitPreview)
+
+        Storage.shared().resetCacheAttributes()
+
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                MPreviewView.template = nil
+                NotesTextProcessor.resetCaches()
+                evc.refillEditArea(force: true)
+            }
+        }
     }
 
     public func isFit(note: Note, filter: String = "", terms: [Substring]? = nil, shouldLoadMain: Bool = false, projects: [Project]? = nil, tags: [String]? = nil, type: SidebarItemType? = nil, sidebarName: String? = nil) -> Bool {

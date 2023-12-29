@@ -3751,7 +3751,7 @@ Olena Hlushcneko</string>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="setFont:" target="ssC-ed-19K" id="Ygn-jF-2Oi"/>
+                                    <action selector="setCodeFont:" target="ssC-ed-19K" id="Ygn-jF-2Oi"/>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="GnH-BV-JGa">
@@ -3950,8 +3950,8 @@ Olena Hlushcneko</string>
                         <outlet property="autocloseBrackets" destination="gk5-il-WSG" id="Iug-US-Weg"/>
                         <outlet property="clickableLinks" destination="mLR-t7-nz0" id="Obm-sY-z1U"/>
                         <outlet property="codeBlockHighlight" destination="Kcg-vn-Dwj" id="7yz-yx-8Tu"/>
-                        <outlet property="codeFont" destination="B07-UG-KXb" id="3G7-e5-Ckw"/>
-                        <outlet property="fontPreview" destination="7Az-gx-yGL" id="Glc-ZA-s8C"/>
+                        <outlet property="codeFontPreview" destination="B07-UG-KXb" id="3G7-e5-Ckw"/>
+                        <outlet property="noteFontPreview" destination="7Az-gx-yGL" id="Glc-ZA-s8C"/>
                         <outlet property="highlightIndentedCodeBlocks" destination="JQw-9h-UpN" id="ogm-Wb-2dv"/>
                         <outlet property="imagesWidth" destination="dmd-5j-kY7" id="cti-S4-1DA"/>
                         <outlet property="inEditorFocus" destination="cj1-ab-Sv6" id="KG5-A9-BXB"/>
