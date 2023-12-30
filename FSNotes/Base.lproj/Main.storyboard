@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -3951,7 +3951,6 @@ Olena Hlushcneko</string>
                         <outlet property="clickableLinks" destination="mLR-t7-nz0" id="Obm-sY-z1U"/>
                         <outlet property="codeBlockHighlight" destination="Kcg-vn-Dwj" id="7yz-yx-8Tu"/>
                         <outlet property="codeFontPreview" destination="B07-UG-KXb" id="3G7-e5-Ckw"/>
-                        <outlet property="noteFontPreview" destination="7Az-gx-yGL" id="Glc-ZA-s8C"/>
                         <outlet property="highlightIndentedCodeBlocks" destination="JQw-9h-UpN" id="ogm-Wb-2dv"/>
                         <outlet property="imagesWidth" destination="dmd-5j-kY7" id="cti-S4-1DA"/>
                         <outlet property="inEditorFocus" destination="cj1-ab-Sv6" id="KG5-A9-BXB"/>
@@ -3962,6 +3961,7 @@ Olena Hlushcneko</string>
                         <outlet property="liveImagesPreview" destination="ons-S0-fcz" id="jhA-O4-Jo7"/>
                         <outlet property="marginSize" destination="gl0-rI-S66" id="Apd-uE-KF3"/>
                         <outlet property="markdownCodeTheme" destination="xZA-pB-1nm" id="lkX-04-F8B"/>
+                        <outlet property="noteFontPreview" destination="7Az-gx-yGL" id="Glc-ZA-s8C"/>
                         <outlet property="restoreCursorButton" destination="APN-cG-GJc" id="oUp-xe-mh0"/>
                     </connections>
                 </viewController>
