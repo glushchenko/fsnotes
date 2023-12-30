@@ -716,8 +716,6 @@
 		D7CAD6AB20DD50A500FF4674 /* tag_red.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CAD6A920DD509800FF4674 /* tag_red.png */; };
 		D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
 		D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
-		D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
-		D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
 		D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CBAFF3214D42E5002ECD5A /* Colors.swift */; };
 		D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CBAFF5214D495A002ECD5A /* search_white.png */; };
 		D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CBAFF7214D4A07002ECD5A /* settings_white@3x.png */; };
@@ -1440,7 +1438,6 @@
 		D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesGitViewController.swift; sourceTree = "<group>"; };
 		D7CAD6A920DD509800FF4674 /* tag_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_red.png; sourceTree = "<group>"; };
 		D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextProcessor.swift; sourceTree = "<group>"; };
-		D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableRowView.swift; sourceTree = "<group>"; };
 		D7CBAFF3214D42E5002ECD5A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D7CBAFF5214D495A002ECD5A /* search_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_white.png; sourceTree = "<group>"; };
 		D7CBAFF7214D4A07002ECD5A /* settings_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_white@3x.png"; sourceTree = "<group>"; };
@@ -2367,7 +2364,6 @@
 				D7508FC71F337E850047AB76 /* SearchTextField.swift */,
 				D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */,
 				D7D372F6207BB09500AFBD9F /* SidebarOutlineView.swift */,
-				D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */,
 				D75EE7FC2078C5460055F159 /* SidebarCellView.swift */,
 				D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */,
 				D783B504208A1BFD00328A41 /* EditorSplitView.swift */,
@@ -3758,7 +3754,6 @@
 				D7EDEDFB219203C9000B8C1A /* NoteCellView+.swift in Sources */,
 				D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D73BCCEF28EB5EC4008B3BBC /* Head+Merge.swift in Sources */,
-				D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D7B4AC5E2471253100F3888A /* NoteMeta.swift in Sources */,
 				D730BD27222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7487FD821738A1900D09383 /* NSImage+.swift in Sources */,
@@ -3919,7 +3914,6 @@
 				D73BCCD528EB5EC4008B3BBC /* Remotes.swift in Sources */,
 				D73BCCD228EB5EC4008B3BBC /* Remote.swift in Sources */,
 				D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */,
-				D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D74D47A6256DFACE00D97647 /* NSTextStorage+.swift in Sources */,
 				D73BCC8D28EB5EC3008B3BBC /* Commit.swift in Sources */,
 				D7BA204D2186E3DD0064824B /* TitleBarView.swift in Sources */,

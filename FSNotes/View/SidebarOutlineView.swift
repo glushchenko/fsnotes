@@ -43,7 +43,7 @@ class SidebarOutlineView: NSOutlineView,
             scrollRowToVisible(rowIndex)
         }
 
-        if rowView(atRow: rowIndex, makeIfNecessary: false) as? SidebarTableRowView != nil {
+        if rowView(atRow: rowIndex, makeIfNecessary: false) != nil {
             if let menu = menu {
                 NSMenu.popUpContextMenu(menu, with: event, for: self)
             }
@@ -676,7 +676,7 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     func outlineView(_ outlineView: NSOutlineView, rowViewForItem item: Any) -> NSTableRowView? {
-        return SidebarTableRowView(frame: NSZeroRect)
+        return NSTableRowView(frame: NSZeroRect)
     }
 
     func outlineViewSelectionDidChange(_ notification: Notification) {

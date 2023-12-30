@@ -35,50 +35,24 @@ class SidebarCellView: NSTableCellView {
 
     override var backgroundStyle: NSView.BackgroundStyle {
         set {
-            applyBackgroundAndTextColors()
+            guard let rowView = self.superview as? NSTableRowView else { return }
+            
+            if !rowView.isSelected {
+                icon.image = type?.getIcon()
+            }
+
+            if window?.firstResponder == superview?.superview {
+                applySelectedFirstResponder()
+            } else {
+                icon.image = type?.getIcon()
+            }
         }
         get {
             return super.backgroundStyle;
         }
     }
 
-    public func applyBackgroundAndTextColors() {
-        guard let rowView = self.superview as? SidebarTableRowView else { return }
-
-        if rowView.isSelected {
-
-            // first responder
-
-            if window?.firstResponder == superview?.superview {
-                applySelectedFirstResponder()
-
-            // no first responder
-
-            } else {
-                label.textColor = NSColor(named: "color_selected_not_fr")
-                icon.image = type?.getIcon()
-                rowView.backgroundColor = NSColor(named: "background_selected_not_fr")!
-            }
-
-        // not selected
-
-        } else {
-            label.textColor = NSColor(named: "color_not_selected")
-            icon.image = type?.getIcon()
-            rowView.backgroundColor = .clear
-        }
-    }
-
     public func applySelectedFirstResponder() {
-        if #available(macOS 10.14, *), UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
-            label.textColor = NSColor(named: "color_not_selected")
-        } else {
-            label.textColor = .white
-        }
-
         icon.image = type?.getIcon(white: true)
-
-        guard let rowView = self.superview as? SidebarTableRowView else { return }
-        rowView.backgroundColor = NSColor(named: "background_selected_fr")!
     }
 }
