@@ -14,42 +14,9 @@ class SidebarHeaderCellView: NSTableCellView {
 
     override var backgroundStyle: NSView.BackgroundStyle {
         set {
-            applyBackgroundAndTextColors()
         }
         get {
             return super.backgroundStyle;
         }
-    }
-
-    public func applyBackgroundAndTextColors() {
-        guard let rowView = self.superview as? NSTableRowView else { return }
-
-        if rowView.isSelected {
-
-            // first responder
-
-            if window?.firstResponder == superview?.superview {
-                applySelectedFirstResponder()
-
-            // no first responder
-
-            } else {
-                label.textColor = NSColor(named: "color_selected_not_fr")
-                rowView.backgroundColor = NSColor(named: "background_selected_not_fr")!
-            }
-
-        // not selected
-
-        } else {
-            label.textColor = .gray
-            rowView.backgroundColor = .clear
-        }
-    }
-
-    public func applySelectedFirstResponder() {
-        label.textColor = .white
-
-        guard let rowView = self.superview as? NSTableRowView else { return }
-        rowView.backgroundColor = NSColor(named: "background_selected_fr")!
     }
 }
