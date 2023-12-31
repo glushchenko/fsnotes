@@ -922,8 +922,7 @@ class SidebarOutlineView: NSOutlineView,
         sidebarOutlineView.removeRows(projects: projects)
 
         sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
-        vc.notesTableView.reloadData()
-
+        vc.updateTable()
     }
 
     @IBAction func addProject(_ sender: Any) {
