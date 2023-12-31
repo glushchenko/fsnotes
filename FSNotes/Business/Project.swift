@@ -310,37 +310,36 @@ public class Project: Equatable {
     public func fetchAllDocuments(at url: URL) -> [(URL, Date, Date)] {
         let url = url.standardized
 
-        do {
-            let directoryFiles =
-                try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey, .typeIdentifierKey], options:.skipsHiddenFiles)
-
-            return
-                directoryFiles.filter {
-                    storage.isValidNote(url: $0)
-                }.map {
-                    url in (
-                        url,
-                        (try? url.resourceValues(forKeys: [.contentModificationDateKey])
-                            )?.contentModificationDate ?? Date.distantPast,
-                        (try? url.resourceValues(forKeys: [.creationDateKey])
-                            )?.creationDate ?? Date.distantPast
-                    )
-                }.map {
-                    if $0.0.pathExtension == "textbundle" {
-                        return (
-                            URL(fileURLWithPath: $0.0.path, isDirectory: false),
-                            $0.1,
-                            $0.2
-                        )
-                    }
-
-                    return $0
+        var directoryFiles = [URL]()
+        if let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants) {
+            while let file = enumerator.nextObject() as? URL {
+                if storage.isValidNote(url: file) {
+                    directoryFiles.append(file)
                 }
-        } catch {
-            print("Storage not found, url: \(url) – \(error)")
+            }
         }
 
-        return []
+        let results = directoryFiles.map {
+            url in (
+                url,
+                (try? url.resourceValues(forKeys: [.contentModificationDateKey])
+                    )?.contentModificationDate ?? Date.distantPast,
+                (try? url.resourceValues(forKeys: [.creationDateKey])
+                    )?.creationDate ?? Date.distantPast
+            )
+        }
+
+        return results.map {
+            if $0.0.pathExtension == "textbundle" {
+                return (
+                    URL(fileURLWithPath: $0.0.path, isDirectory: false),
+                    $0.1,
+                    $0.2
+                )
+            }
+
+            return $0
+        }
     }
 
     public func loadPins(for notes: [Note]) -> [Note] {

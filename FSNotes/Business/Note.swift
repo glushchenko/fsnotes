@@ -825,22 +825,27 @@ public class Note: NSObject  {
             name = url.lastPathComponent
             
             if isTextBundle() {
-                let info = url.appendingPathComponent("info.json")
-                
-                if let jsonData = try? Data(contentsOf: info),
-                    let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData) {
-                    
-                    if info.version == 0x02 {
-                        type = NoteType.withUTI(rawValue: info.type)
-                        container = .textBundleV2
-                        originalExtension = info.flatExtension
-                    } else {
-                        type = .Markdown
-                        container = .textBundle
-                    }
-                    
-                    if let created = info.created {
-                        creationDate = Date(timeIntervalSince1970: TimeInterval(created))
+                type = .Markdown
+                container = .textBundle
+
+                let infoUrl = url.appendingPathComponent("info.json")
+
+                if FileManager.default.fileExists(atPath: infoUrl.path) {
+                    do {
+                        let jsonData = try Data(contentsOf: infoUrl)
+                        let info = try JSONDecoder().decode(TextBundleInfo.self, from: jsonData)
+
+                        if info.version == 0x02 {
+                            type = NoteType.withUTI(rawValue: info.type)
+                            container = .textBundleV2
+                            originalExtension = info.flatExtension
+
+                            if let created = info.created {
+                                creationDate = Date(timeIntervalSince1970: TimeInterval(created))
+                            }
+                        }
+                    } catch {
+                        print("TB loading error \(error)")
                     }
                 }
             }
