@@ -296,7 +296,10 @@ public class Project: Equatable {
             isNeededCacheValidation = true
         } else {
             notes = fetchNotes()
-            
+            for newNote in notes {
+                newNote.load()
+            }
+
             // print("From disk: \(notes.count)")
         }
 

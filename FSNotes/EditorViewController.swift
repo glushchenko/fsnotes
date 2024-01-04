@@ -256,8 +256,21 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
                 break
             case "folderMenu":
-                if ["folderMenu.attachStorage"].contains(menuItem.identifier?.rawValue) {
+                if menuItem.identifier?.rawValue == "folderMenu.attach" {
+                    menuItem.isHidden = false
                     return true
+                }
+
+                if ident == "folderMenubar.new" || ident == "folderMenubar.new" {
+                    return vc.sidebarOutlineView.validateNewFolder(menuItem: menuItem)
+                }
+
+                if ident == "folderMenu.toggleEncryption" || ident == "folderMenubar.toggleEncryption" {
+                    return vc.sidebarOutlineView.validateEncryption(menuItem: menuItem)
+                }
+
+                if ident == "folderMenu.toggleLock" || ident == "folderMenubar.toggleLock" {
+                    return vc.sidebarOutlineView.validateLock(menuItem: menuItem)
                 }
             case "findMenu":
                 if ["findMenu.find",
@@ -348,7 +361,94 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         
         return nil
     }
-    
+
+    @IBAction func createFolder(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+              let sidebarOutlineView = vc.sidebarOutlineView else { return }
+
+        // Call from menu bar
+        if let sender = sender as? NSMenuItem, sender.identifier?.rawValue == "folderMenu.attach" {
+            sidebarOutlineView.addRoot()
+            return
+        }
+
+        // Call from popup menu or menu bar
+        var project = sidebarOutlineView.getSelectedProject()
+
+        if sender is SidebarCellView,
+            let cell = sender as? SidebarCellView,
+            let objectProject = cell.objectValue as? Project
+        {
+            project = objectProject
+        }
+
+        if project == nil {
+            project = Storage.shared().getDefault()
+        }
+
+        if let project = project {
+          guard let window = MainWindowController.shared() else { return }
+
+          let alert = NSAlert()
+          vc.alert = alert
+
+          let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+          alert.messageText = NSLocalizedString("New project", comment: "")
+          alert.informativeText = NSLocalizedString("Please enter project name:", comment: "")
+          alert.accessoryView = field
+          alert.alertStyle = .informational
+          alert.addButton(withTitle: NSLocalizedString("Add", comment: ""))
+          alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+          alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+              if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                  let name = field.stringValue
+                  sidebarOutlineView.createProject(name: name, parent: project)
+              }
+
+              NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
+              vc.alert = nil
+          }
+
+          field.becomeFirstResponder()
+        }
+    }
+
+    @IBAction func toggleFolderEncryption(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared(),
+            let projects = vc.sidebarOutlineView.getSelectedProjects() else { return }
+
+        guard let firstProject = projects.first  else { return }
+
+        if firstProject.isEncrypted {
+            vc.getMasterPassword() { password in
+                vc.sidebarOutlineView.decrypt(projects: projects, password: password)
+            }
+        } else {
+            vc.getMasterPassword(forEncrypt: true) { password in
+                vc.sidebarOutlineView.encrypt(projects: projects, password: password)
+            }
+        }
+    }
+
+    @IBAction func toggleFolderLock(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared(),
+            let projects = vc.sidebarOutlineView.getSelectedProjects() else { return }
+
+        guard let firstProject = projects.first  else { return }
+
+        // Lock password exist
+        if firstProject.password != nil {
+            vc.sidebarOutlineView.lock(projects: projects)
+
+        // Unlock
+        } else {
+            let action = sender.identifier?.rawValue
+            vc.getMasterPassword() { password in
+                vc.sidebarOutlineView.unlock(projects: projects, password: password, action: action)
+            }
+        }
+    }
+
     // MARK: Window bar actions
     
     @IBAction func toggleNotesLock(_ sender: Any) {

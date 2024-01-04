@@ -117,8 +117,8 @@ class FileSystemEventManager {
                 }
             } else {
                 if FileManager.default.directoryExists(atUrl: dirURL) {
-                    if let projects = self.storage.insert(url: dirURL) {
-                        OperationQueue.main.addOperation {
+                    OperationQueue.main.addOperation {
+                        if let projects = self.storage.insert(url: dirURL) {
                             self.delegate.sidebarOutlineView.insertRows(projects: projects)
                         }
                     }
@@ -140,12 +140,11 @@ class FileSystemEventManager {
         if event.dirCreated || (
             event.dirChange && dirURL.hasNonHiddenBit()
         ) {
-            if let projects = self.storage.insert(url: dirURL) {
-                OperationQueue.main.addOperation {
+            OperationQueue.main.addOperation {
+                if let projects = self.storage.insert(url: dirURL) {
                     self.delegate.sidebarOutlineView.insertRows(projects: projects)
                 }
             }
-            
             return
         }
     }

@@ -459,7 +459,7 @@ CA
                                         <menuItem title="Add External Folder..." identifier="folderMenu.attach" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
+                                                <action selector="createFolder:" target="Ady-hI-5gd" id="fZJ-Cq-oSM"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Back Up Now" keyEquivalent="S" identifier="folderMenu.backup" id="iIP-wI-OaZ">
@@ -467,10 +467,10 @@ CA
                                                 <action selector="makeSnapshot:" target="yxb-XH-bXh" id="N8G-4B-6U3"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Create Folder" keyEquivalent="N" identifier="folderMenu.new" id="SrH-fe-Hog">
+                                        <menuItem title="Create Folder" keyEquivalent="N" identifier="folderMenubar.new" id="SrH-fe-Hog">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
-                                                <action selector="addProject:" target="yxb-XH-bXh" id="txw-mB-jJk"/>
+                                                <action selector="createFolder:" target="Ady-hI-5gd" id="zjY-Sq-KJa"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Rename Folder" keyEquivalent="R" identifier="folderMenu.rename" id="Tap-iY-hyA">
@@ -2228,7 +2228,7 @@ CA
                         <menuItem title="Create Folder" keyEquivalent="N" identifier="folderMenu.new" id="3zv-SD-lSX">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
-                                <action selector="addProject:" target="rPt-NT-nkU" id="yjG-Jc-AJN"/>
+                                <action selector="createFolder:" target="urA-eK-bWB" id="6z1-Hl-rY3"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Rename Folder" keyEquivalent="R" identifier="folderMenu.rename" id="fzU-ZR-Ubv">
@@ -2249,13 +2249,13 @@ CA
                         <menuItem title="Encrypt Folder" keyEquivalent="1" identifier="folderMenu.toggleEncryption" id="dqy-22-ETG">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <connections>
-                                <action selector="toggleFolderEncryption:" target="rPt-NT-nkU" id="aKB-yt-u8e"/>
+                                <action selector="toggleEncrypt:" target="urA-eK-bWB" id="RRM-Tq-dQa"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Lock Folder" keyEquivalent="2" identifier="folderMenu.toggleLock" id="w7R-OL-Nfh">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <connections>
-                                <action selector="toggleFolderLock:" target="rPt-NT-nkU" id="5Qc-24-2Hz"/>
+                                <action selector="toggleLock:" target="urA-eK-bWB" id="nJU-ZP-2PN"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="goN-LO-L7l">

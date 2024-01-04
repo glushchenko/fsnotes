@@ -640,6 +640,14 @@ class ViewController: EditorViewController,
             return true
         }
 
+        if event.modifierFlags.contains(.shift)
+            && event.modifierFlags.contains(.option)
+            && event.keyCode == kVK_ANSI_N {
+
+            sidebarOutlineView.createFolder(NSMenuItem())
+            return false
+        }
+
         if event.keyCode == kVK_Delete && event.modifierFlags.contains(.command) && editor.hasFocus() {
             editor.deleteToBeginningOfLine(nil)
             return false
@@ -966,11 +974,11 @@ class ViewController: EditorViewController,
         
         guard let vc = ViewController.shared() else { return }
         
-        // Dusable notes creation if folder encrypted
+        // Disable notes creation if folder encrypted
         if let project = vc.sidebarOutlineView.getSelectedProject(), project.isEncrypted, project.isLocked() {
             let menuItem = NSMenuItem()
             menuItem.identifier = NSUserInterfaceItemIdentifier("menu.newNote")
-            vc.sidebarOutlineView.toggleFolderLock(menuItem)
+            vc.toggleFolderLock(menuItem)
             return
         }
         
