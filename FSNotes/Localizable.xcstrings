@@ -90,6 +90,7 @@
       }
     },
     "Add External Folder..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

@@ -95,7 +95,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if let selectedProject = vc.sidebarOutlineView.getSelectedProject(),
             selectedProject.isLocked()
         {
-            vc.sidebarOutlineView.toggleFolderLock(NSMenuItem())
+            vc.toggleFolderLock(NSMenuItem())
             return
         }
         
