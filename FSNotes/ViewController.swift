@@ -709,7 +709,7 @@ class ViewController: EditorViewController,
         }
         
         // cmd + + to increase font size
-        if event.keyCode == kVK_ANSI_Equal {
+        if event.charactersIgnoringModifiers == "=" {
             if event.modifierFlags.contains(.command) {
                 UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize + 1)!
                 UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize + 1)!
@@ -719,7 +719,7 @@ class ViewController: EditorViewController,
         }
 
         // cmd + - to decrease font size
-        if event.keyCode == kVK_ANSI_Minus {
+        if event.charactersIgnoringModifiers == "-" {
             if event.modifierFlags.contains(.command) {
                 UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize - 1)!
                 UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize - 1)!
