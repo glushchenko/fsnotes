@@ -1548,16 +1548,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 outline.addTags(added)
             }
 
-            if UserDefaultsManagement.naming == .autoRename {
-                let title = note.title.trunc(length: 64)
+            if let title = note.getAutoRenameTitle() {
+                note.rename(to: title)
 
-                if note.fileName != title && title.count > 0 && !note.isEncrypted() {
-                    note.rename(to: title)
-
-                    if let editorViewController = getEVC() {
-                        editorViewController.vcTitleLabel?.updateNotesTableView()
-                        editorViewController.updateTitle(note: note)
-                    }
+                if let editorViewController = getEVC() {
+                    editorViewController.vcTitleLabel?.updateNotesTableView()
+                    editorViewController.updateTitle(note: note)
                 }
             }
 

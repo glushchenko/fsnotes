@@ -2145,4 +2145,22 @@ public class Note: NSObject  {
         load()
         parseURL()
     }
+
+    public func getAutoRenameTitle() -> String? {
+        if UserDefaultsManagement.naming != .autoRename {
+            return nil
+        }
+
+        let title = title.trunc(length: 64)
+
+        if fileName == title || title.count == 0 || isEncrypted() {
+            return nil
+        }
+
+        if project.fileExist(fileName: title, ext: url.pathExtension) {
+            return nil
+        }
+
+        return title
+    }
 }
