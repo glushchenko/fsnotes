@@ -147,30 +147,30 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         let height = CGFloat(21 + UserDefaultsManagement.cellSpacing)
 
-        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
-            if row < noteList.count {
-                let note = noteList[row]
-                if !note.isLoaded && !note.isLoadedFromCache {
-                    note.load()
+        guard row < noteList.count else { return height }
+
+        let note = noteList[row]
+        if !note.isLoaded && !note.isLoadedFromCache {
+            note.load()
+        }
+
+        if !UserDefaultsManagement.horizontalOrientation
+            && !UserDefaultsManagement.hidePreviewImages,
+            let urls = note.imageUrl,
+            urls.count > 0{
+
+            if note.preview.count == 0 {
+                if note.getTitle() != nil {
+                    // Title + image
+                    return 79 + 17
                 }
-                
-                if let urls = note.imageUrl, urls.count > 0 {
-                    let previewCharsQty = note.preview.count
 
-                    if (previewCharsQty == 0) {
-                        if note.getTitle() != nil {
-                            // Title + image
-                            return 79 + 17
-                        }
-
-                        // Images only
-                        return 79
-                    }
-
-                    // Title + Prevew + Images
-                    return (height + 58)
-                }
+                // Images only
+                return 79
             }
+
+            // Title + Prevew + Images
+            return height + 58
         }
 
         // Title + preview

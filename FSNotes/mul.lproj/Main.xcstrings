@@ -5,16 +5,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Copyright © 2017-2023 Oleksandr Hlushchenko.\\nAll rights reserved.\"; ObjectID = \"0f7-Za-V0B\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Copyright © 2017-2023 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copyright © 2017-2023 Oleksandr Hlushchenko.\nВсе права защищены."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -1551,24 +1629,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新窗口中的新笔记"
-          }
-        }
-      }
-    },
-    "2ZQ-YX-F9M.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Table View Cell\"; ObjectID = \"2ZQ-YX-F9M\"; Note = \"#bc-ignore!\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Table View Cell"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Table View Cell"
           }
         }
       }
@@ -5321,16 +5381,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"2/23/11\"; ObjectID = \"9w3-fa-di3\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "2/23/11"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "2/23/11"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -7163,16 +7301,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"iCloud Drive\"; ObjectID = \"aX0-yU-aew\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "iCloud Drive"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud Drive"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -10253,16 +10469,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"v2.9.0\"; ObjectID = \"dgD-xe-DVG\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "v2.9.0"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "v2.9.0"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -11519,16 +11813,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Preview\"; ObjectID = \"EC3-YF-sGZ\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Preview"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Предпросмотр"
+            "value" : ""
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -15761,16 +16133,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"FSNotes\"; ObjectID = \"gWb-su-EdI\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "FSNotes"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -15967,98 +16417,98 @@
         }
       }
     },
-    "H2T-Wj-CfA.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Archive\"; ObjectID = \"H2T-Wj-CfA\";",
-      "extractionState" : "stale",
+    "gYQ-MC-Xwt.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Zoom Out\"; ObjectID = \"gYQ-MC-Xwt\";",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ارشيف"
+            "value" : "تصغير"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archiv"
+            "value" : "Verkleinern"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Archive"
+            "value" : "Zoom Out"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivo"
+            "value" : "Alejar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive"
+            "value" : "Dézoomer"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ארכיון"
+            "value" : "להקטין את התצוגה"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivio"
+            "value" : "Ingrandimento"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アーカイブ"
+            "value" : "ズームアウト"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아카이브"
+            "value" : "축소"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archief"
+            "value" : "Uitzoomen"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivo"
+            "value" : "Reduzir"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivo"
+            "value" : "Reduzir"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архив"
+            "value" : "Уменьшить"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архів"
+            "value" : "Зменшити"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "存档"
+            "value" : "缩小"
           }
         }
       }
@@ -18947,16 +19397,94 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"🔗fsnotes/contributors\"; ObjectID = \"jQ1-6K-9ar\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "🔗fsnotes/contributors"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "🔗fsnotes/contributors"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -20309,16 +20837,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"1\"; ObjectID = \"kqJ-Fr-EeB\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "1"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "1"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -20799,6 +21405,102 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "偏好设置"
+          }
+        }
+      }
+    },
+    "LFw-De-3DP.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Actual Size\"; ObjectID = \"LFw-De-3DP\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الحجم الأصلي"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tatsächliche Größe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Actual Size"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño real"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taille réelle"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "גודל אמיתי"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dimensione reale"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実寸"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실제 크기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Werkelijke grootte"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho real"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho real"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фактический размер"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фактичний розмір"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实际尺寸"
           }
         }
       }
@@ -23491,6 +24193,102 @@
         }
       }
     },
+    "NZK-ki-p6Z.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Zoom In\"; ObjectID = \"NZK-ki-p6Z\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تكبير"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einzoomen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Zoom In"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acercar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrandir"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לְהִתְמַקֵד"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingrandisci"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拡大表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "줌인"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inzoomen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aumentar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ampliar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увеличить"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Збільшити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放大"
+          }
+        }
+      }
+    },
     "o2f-1e-Dvp.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Reset\"; ObjectID = \"o2f-1e-Dvp\";",
       "extractionState" : "extracted_with_value",
@@ -24071,16 +24869,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"5\"; ObjectID = \"oeL-rE-fXz\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "5"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "5"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -26777,16 +27653,94 @@
       "comment" : "Class = \"NSWindow\"; title = \"Window\"; ObjectID = \"qod-hp-9wd\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Window"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Window"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -30443,16 +31397,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Dylan Seeger — https://www.lovably.com\\nOlena Hlushcneko\"; ObjectID = \"sWS-bo-99f\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
@@ -36509,16 +37541,94 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Name\"; ObjectID = \"y7T-Rc-etT\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Name"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Имя"
+            "value" : ""
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }

@@ -707,27 +707,7 @@ class ViewController: EditorViewController,
                 return false
             }
         }
-        
-        // cmd + + to increase font size
-        if event.keyCode == kVK_ANSI_Equal {
-            if event.modifierFlags.contains(.command) {
-                UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize + 1)!
-                UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize + 1)!
-                reloadFonts()
-                return false
-            }
-        }
-
-        // cmd + - to decrease font size
-        if event.keyCode == kVK_ANSI_Minus {
-            if event.modifierFlags.contains(.command) {
-                UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize - 1)!
-                UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize - 1)!
-                reloadFonts()
-                return false
-            }
-        }
-        
+                
         // Focus search bar on ESC
         if (
             (

@@ -332,6 +332,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                         : NSLocalizedString("Show Sidebar", comment: "")
                     break
                     
+                case "viewMenu.actualSize":
+                    return UserDefaultsManagement.fontSize != UserDefaultsManagement.DefaultFontSize
+
                 default:
                     break
                 }
@@ -969,7 +972,28 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
         }
     }
-    
+
+    @IBAction func actualSize(_ sender: Any) {
+        UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: CGFloat(UserDefaultsManagement.DefaultFontSize))!
+        UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: CGFloat(UserDefaultsManagement.DefaultFontSize))!
+
+        ViewController.shared()?.reloadFonts()
+    }
+
+    @IBAction func zoomIn(_ sender: Any) {
+        UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize + 1)!
+        UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize + 1)!
+
+        ViewController.shared()?.reloadFonts()
+    }
+
+    @IBAction func zoomOut(_ sender: Any) {
+        UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: UserDefaultsManagement.codeFont.pointSize - 1)!
+        UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: UserDefaultsManagement.noteFont.pointSize - 1)!
+
+        ViewController.shared()?.reloadFonts()
+    }
+
     // MARK: Dep methods
     
     public func openInNewWindow(note: Note, frame: NSRect? = nil, preview: Bool = false) {

@@ -25,7 +25,7 @@ public class UserDefaultsManagement {
     typealias Font = NSFont
 
     public static var shared: UserDefaults? = UserDefaults.standard
-    static var DefaultFontSize = 14
+    public static var DefaultFontSize = 14
 #else
     typealias Color = UIColor
     typealias Image = UIImage
