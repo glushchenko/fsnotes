@@ -2,7 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "0f7-Za-V0B.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Copyright © 2017-2023 Oleksandr Hlushchenko.\\nAll rights reserved.\"; ObjectID = \"0f7-Za-V0B\"; Note = \"#bc-ignore!\";",
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Copyright © 2017-2024 Oleksandr Hlushchenko.\\nAll rights reserved.\"; ObjectID = \"0f7-Za-V0B\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
@@ -20,7 +20,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Copyright © 2017-2023 Oleksandr Hlushchenko.\nAll rights reserved."
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "es" : {
