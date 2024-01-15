@@ -58,8 +58,6 @@
 		D70BA87820599D1300875E9C /* header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87520599D1300875E9C /* header@3x.png */; };
 		D70BA87920599D1300875E9C /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87620599D1300875E9C /* header@2x.png */; };
 		D70D6CDF225D16D800A07A01 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
-		D70E460528C35D90001A74B1 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D70E460428C35D90001A74B1 /* Shout */; };
-		D70E460928C35E03001A74B1 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D70E460828C35E03001A74B1 /* Shout */; };
 		D70E8D6923705C6200E64D62 /* tag2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6623705C6200E64D62 /* tag2@2x.png */; };
 		D70E8D6A23705C6200E64D62 /* tag2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6723705C6200E64D62 /* tag2@3x.png */; };
 		D70E8D6B23705C6200E64D62 /* tag2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6823705C6200E64D62 /* tag2.png */; };
@@ -587,7 +585,6 @@
 		D7A9C1D92910784400905619 /* Project+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9C1D52910784400905619 /* Project+Git.swift */; };
 		D7A9C1DB29107A0800905619 /* Git in Frameworks */ = {isa = PBXBuildFile; productRef = D7A9C1DA29107A0800905619 /* Git */; };
 		D7A9C1DC29107B7600905619 /* Reference+Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8B28EB5EC3008B3BBC /* Reference+Target.swift */; };
-		D7A9C1DE2910819C00905619 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D7A9C1DD2910819C00905619 /* Shout */; };
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
@@ -786,6 +783,9 @@
 		D7D06535247B03A800214326 /* more_row_action.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D06534247B03A800214326 /* more_row_action.png */; };
 		D7D1DE68216D05A800AC1845 /* NameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1DE67216D05A800AC1845 /* NameTextField.swift */; };
 		D7D1DE69216D05A800AC1845 /* NameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1DE67216D05A800AC1845 /* NameTextField.swift */; };
+		D7D2F27E2B54BD42003DCA47 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D7D2F27D2B54BD42003DCA47 /* Shout */; };
+		D7D2F2802B54BDD4003DCA47 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D7D2F27F2B54BDD4003DCA47 /* Shout */; };
+		D7D2F2822B54BE59003DCA47 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D7D2F2812B54BE59003DCA47 /* Shout */; };
 		D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
 		D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
 		D7D372F7207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarOutlineView.swift */; };
@@ -1589,9 +1589,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7A9C1DE2910819C00905619 /* Shout in Frameworks */,
 				D7A9C1DB29107A0800905619 /* Git in Frameworks */,
 				D717461C293D2929005951EE /* SoulverCore in Frameworks */,
+				D7D2F2802B54BDD4003DCA47 /* Shout in Frameworks */,
 				D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */,
 				CE3427A778205E1713A014B9 /* Pods_FSNotes_iOS.framework in Frameworks */,
 			);
@@ -1601,9 +1601,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D70E460528C35D90001A74B1 /* Shout in Frameworks */,
 				6F13BB1920FEDDF50005E120 /* FSNotesCore_macOS.framework in Frameworks */,
 				D7F1AEB2292177060088F473 /* SoulverCore in Frameworks */,
+				D7D2F2822B54BE59003DCA47 /* Shout in Frameworks */,
 				D70F830628CE8596004818C5 /* Git in Frameworks */,
 				D4DB932C9F51CAE71393A28B /* Pods_FSNotes.framework in Frameworks */,
 			);
@@ -1613,9 +1613,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7D2F27E2B54BD42003DCA47 /* Shout in Frameworks */,
 				D7F1AEB32921774B0088F473 /* SoulverCore in Frameworks */,
 				D70F830428CE858E004818C5 /* Git in Frameworks */,
-				D70E460928C35E03001A74B1 /* Shout in Frameworks */,
 				BE957A4A1B908EC91BECB3D3 /* Pods_FSNotes__iCloud_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2617,8 +2617,8 @@
 			name = "FSNotes iOS";
 			packageProductDependencies = (
 				D7A9C1DA29107A0800905619 /* Git */,
-				D7A9C1DD2910819C00905619 /* Shout */,
 				D7F1AEB1292177060088F473 /* SoulverCore */,
+				D7D2F27F2B54BDD4003DCA47 /* Shout */,
 			);
 			productName = "FSNotes iOS";
 			productReference = D7679386201F21F5000F7BBF /* FSNotes iOS.app */;
@@ -2644,9 +2644,9 @@
 			);
 			name = FSNotes;
 			packageProductDependencies = (
-				D70E460428C35D90001A74B1 /* Shout */,
 				D70F830528CE8596004818C5 /* Git */,
 				D7F1AEB1292177060088F473 /* SoulverCore */,
+				D7D2F2812B54BE59003DCA47 /* Shout */,
 			);
 			productName = FSNotes;
 			productReference = D7793C6F1F211C6000CA39B7 /* FSNotes.app */;
@@ -2671,9 +2671,9 @@
 			);
 			name = "FSNotes (iCloud)";
 			packageProductDependencies = (
-				D70E460828C35E03001A74B1 /* Shout */,
 				D70F830328CE858E004818C5 /* Git */,
 				D7F1AEB1292177060088F473 /* SoulverCore */,
+				D7D2F27D2B54BD42003DCA47 /* Shout */,
 			);
 			productName = FSNotes;
 			productReference = D7E81C5A1F925B5F00416A91 /* FSNotes.app */;
@@ -2794,9 +2794,9 @@
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			packageReferences = (
-				D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */,
 				D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */,
 				D7F1AEB0292177060088F473 /* XCRemoteSwiftPackageReference "SoulverCore" */,
+				D7D2F27C2B54BD42003DCA47 /* XCRemoteSwiftPackageReference "Shout" */,
 			);
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
 			projectDirPath = "";
@@ -4708,20 +4708,20 @@
 				minimumVersion = 2.2.0;
 			};
 		};
-		D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/glushchenko/Shout";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/glushchenko/swift-git";
 			requirement = {
 				kind = revision;
 				revision = 7b2f3af96c6947308b4f0b4ae02302fd47a5eff2;
+			};
+		};
+		D7D2F27C2B54BD42003DCA47 /* XCRemoteSwiftPackageReference "Shout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/glushchenko/Shout";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		D7F1AEB0292177060088F473 /* XCRemoteSwiftPackageReference "SoulverCore" */ = {
@@ -4745,16 +4745,6 @@
 			package = D70B1FA12920D91A003923DC /* XCRemoteSwiftPackageReference "SoulverCore" */;
 			productName = SoulverCore;
 		};
-		D70E460428C35D90001A74B1 /* Shout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */;
-			productName = Shout;
-		};
-		D70E460828C35E03001A74B1 /* Shout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */;
-			productName = Shout;
-		};
 		D70F830328CE858E004818C5 /* Git */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */;
@@ -4770,9 +4760,19 @@
 			package = D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */;
 			productName = Git;
 		};
-		D7A9C1DD2910819C00905619 /* Shout */ = {
+		D7D2F27D2B54BD42003DCA47 /* Shout */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D70E460328C35D90001A74B1 /* XCRemoteSwiftPackageReference "Shout" */;
+			package = D7D2F27C2B54BD42003DCA47 /* XCRemoteSwiftPackageReference "Shout" */;
+			productName = Shout;
+		};
+		D7D2F27F2B54BDD4003DCA47 /* Shout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D7D2F27C2B54BD42003DCA47 /* XCRemoteSwiftPackageReference "Shout" */;
+			productName = Shout;
+		};
+		D7D2F2812B54BE59003DCA47 /* Shout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D7D2F27C2B54BD42003DCA47 /* XCRemoteSwiftPackageReference "Shout" */;
 			productName = Shout;
 		};
 		D7F1AEB1292177060088F473 /* SoulverCore */ = {
