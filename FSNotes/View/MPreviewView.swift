@@ -307,12 +307,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         guard let bundleResourceURL = bundle?.resourceURL else { return nil }
 
-        var customCSS: URL? = UserDefaultsManagement.markdownPreviewCSS
-        
-        #if os(iOS)
-            customCSS = nil
-        #endif
-
         let webkitPreview = at
         try? FileManager.default.createDirectory(at: webkitPreview, withIntermediateDirectories: true, attributes: nil)
 
@@ -325,10 +319,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             do {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
                 for file in fileList {
-                    if customCSS != nil && file == "css" {
-                        continue
-                    }
-
                     let tmpURL = webkitPreview.appendingPathComponent(file)
 
                     if ["css", "js"].contains(file) {
@@ -340,12 +330,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             } catch {
                 print(error)
             }
-        }
-
-        if let customCSS = customCSS {
-            let styleDst = webkitPreview.appendingPathComponent("main.css", isDirectory: false)
-            try? FileManager.default.removeItem(at: styleDst)
-            try? FileManager.default.copyItem(at: customCSS, to: styleDst)
         }
 
         // Write generated index.html to temporary location.
@@ -593,13 +577,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             fullScreen = true
             useFixedImageHeight = false
         }
-        
-        if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
-            if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {
-                css += content
-            }
-        }
-        
+
         css +=
             useFixedImageHeight
                 ? String("img { max-height: 90vh; }")

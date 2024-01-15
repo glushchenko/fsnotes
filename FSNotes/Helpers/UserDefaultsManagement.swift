@@ -109,7 +109,6 @@ public class UserDefaultsManagement {
         static let LockAfterIDLE = "lockAfterIdle"
         static let LockAfterUserSwitch = "lockAfterUserSwitch"
         static let MarginSizeKey = "marginSize"
-        static let MarkdownPreviewCSS = "markdownPreviewCSS"
         static let MasterPasswordHint = "masterPasswordHint"
         static let MathJaxPreview = "mathJaxPreview"
         static let NightModeType = "nightModeType"
@@ -1057,31 +1056,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.MarginSizeKey)
-        }
-    }
-
-    static var markdownPreviewCSS: URL? {
-        get {
-            if let applicationSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-                let previewCssUrl = applicationSupport.appendingPathComponent("preview2023p2.css")
-                
-                if !FileManager.default.fileExists(atPath: previewCssUrl.path) {
-                    if let cssUrl = Bundle.main.url(forResource: "MPreview", withExtension: "bundle")?.appendingPathComponent("main.css") {
-                        try? FileManager.default.copyItem(at: cssUrl, to: previewCssUrl)
-                    }
-                }
-                
-                return previewCssUrl
-            }
-            
-            return nil
-        }
-        set {
-            if let url = newValue {
-                shared?.set(url.path, forKey: Constants.MarkdownPreviewCSS)
-            } else {
-                shared?.set(nil, forKey: Constants.MarkdownPreviewCSS)
-            }
         }
     }
 

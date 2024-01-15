@@ -17955,7 +17955,7 @@
     },
     "Icf-3C-atz.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Preview CSS:\"; ObjectID = \"Icf-3C-atz\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -27843,7 +27843,7 @@
     },
     "qwS-gG-am3.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Open in Finder\"; ObjectID = \"qwS-gG-am3\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
