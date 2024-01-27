@@ -2035,13 +2035,13 @@ class ViewController: EditorViewController,
             guard let url = item["url"] as? URL,
                   let frameData = item["frame"] as? Data,
                   let main = item["main"] as? Bool,
-                  let key = item["key"] as? Bool,
+                  let isKeyWindow = item["key"] as? Bool,
                   let preview = item["preview"] as? Bool,
                   let note = self.storage.getBy(url: url)
             else { continue }
             
             if main {
-                if key {
+                if isKeyWindow {
                     mainKey = true
                 }
                 
@@ -2053,6 +2053,8 @@ class ViewController: EditorViewController,
                     self.notesTableView.saveNavigationHistory(note: note)
                     self.notesTableView.selectRow(i)
                     self.notesTableView.scrollRowToVisible(i)
+
+                    self.editor.window?.makeFirstResponder(self.editor)
                 }
             } else {
                 guard let frame = NSKeyedUnarchiver.unarchiveObject(with: frameData) as? NSRect else { continue }
