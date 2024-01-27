@@ -121,7 +121,6 @@ public class UserDefaultsManagement {
         static let ProjectsKey = "projects"
         static let ProjectsKeyNew = "ProjectsKeyNew"
         static let RecentSearches = "recentSearches"
-        static let RestoreCursorPosition = "restoreCursorPosition"
         static let PullInterval = "pullInterval"
         static let SaveInKeychain = "saveInKeychain"
         static let SearchHighlight = "searchHighlighting"
@@ -565,19 +564,7 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.DefaultLanguageKey)
         }
     }
-    
-    static var restoreCursorPosition: Bool {
-        get {
-            if let result = shared?.object(forKey: Constants.RestoreCursorPosition) {
-                return result as! Bool
-            }
-            return true
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.RestoreCursorPosition)
-        }
-    }
-    
+
     static var nightModeAuto: Bool {
         get {
             if let result = shared?.object(forKey: Constants.NightModeAuto) {

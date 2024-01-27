@@ -343,7 +343,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
         
         super.mouseDown(with: event)
-        saveCursorPosition()
+        saveSelectedRange()
         
         if editorViewController?.vcEditor?.isPreviewEnabled() == false {
             self.isEditable = true
@@ -1051,7 +1051,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             isHighlighted = true
         }
 
-        restoreCursorPosition()
+        loadSelectedRange()
 
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
             backgroundColor = UserDefaultsManagement.bgColor
@@ -1385,7 +1385,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         if note.type == .RichText {
             super.keyDown(with: event)
-            saveCursorPosition()
+            saveSelectedRange()
             
             let range = getParagraphRange()
             let processor = NotesTextProcessor(storage: textStorage, range: range)
@@ -1399,7 +1399,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
         
         super.keyDown(with: event)
-        saveCursorPosition()
+        saveSelectedRange()
     }
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
@@ -1561,28 +1561,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
     }
 
-    func saveCursorPosition() {
-        guard let note = self.note, let range = selectedRanges[0] as? NSRange, UserDefaultsManagement.restoreCursorPosition else {
+    func saveSelectedRange() {
+        guard let note = self.note, let range = selectedRanges[0] as? NSRange else {
             return
         }
 
-        viewDelegate?.blockFSUpdates()
-        
-        var length = range.lowerBound
-        let data = Data(bytes: &length, count: MemoryLayout.size(ofValue: length))
-        try? note.url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.cursor")
+        note.selectedRange = range
     }
     
-    func restoreCursorPosition() {
+    func loadSelectedRange() {
         guard let storage = textStorage else { return }
 
-        guard UserDefaultsManagement.restoreCursorPosition else {
-            setSelectedRange(NSMakeRange(0, 0))
-            return
-        }
-
-        if let position = self.note?.getCursorPosition(), position <= storage.length {
-            setSelectedRange(NSMakeRange(position, 0))
+        if let range = self.note?.selectedRange, range.upperBound <= storage.length {
+            setSelectedRange(range)
             scrollToCursor()
         }
     }

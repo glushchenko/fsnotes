@@ -1635,7 +1635,7 @@
     },
     "3iM-ZV-3Gf.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Restore cursor position\"; ObjectID = \"3iM-ZV-3Gf\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

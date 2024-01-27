@@ -62,6 +62,7 @@ public class Note: NSObject  {
     public var apiId: String?
     
     public var previewState: Bool = false
+    public var selectedRange = NSRange()
 
     // Load exist
     
@@ -119,6 +120,7 @@ public class Note: NSObject  {
         creationDate = meta.creationDate
         isPinned = meta.pinned
         tags = meta.tags
+        selectedRange = meta.selectedRange
         self.project = project
 
         super.init()
@@ -140,7 +142,8 @@ public class Note: NSObject  {
             modificationDate: modifiedLocalAt,
             creationDate: date,
             pinned: isPinned,
-            tags: tags
+            tags: tags, 
+            selectedRange: selectedRange
         )
     }
 

@@ -18,7 +18,6 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var liveImagesPreview: NSButton!
     @IBOutlet weak var indentUsing: NSPopUpButton!
     @IBOutlet weak var inEditorFocus: NSButton!
-    @IBOutlet weak var restoreCursorButton: NSButton!
     @IBOutlet weak var autocloseBrackets: NSButton!
     @IBOutlet weak var lineSpacing: NSSlider!
     @IBOutlet weak var imagesWidth: NSSlider!
@@ -43,8 +42,6 @@ class PreferencesEditorViewController: NSViewController {
 
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
         indentUsing.selectItem(at: UserDefaultsManagement.indentUsing)
-        restoreCursorButton.state = UserDefaultsManagement.restoreCursorPosition ? .on : .off
-
         autocloseBrackets.state = UserDefaultsManagement.autocloseBrackets ? .on : .off
 
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
@@ -122,10 +119,6 @@ class PreferencesEditorViewController: NSViewController {
 
     @IBAction func inEditorFocus(_ sender: NSButton) {
         UserDefaultsManagement.focusInEditorOnNoteSelect = (sender.state == .on)
-    }
-
-    @IBAction func restoreCursor(_ sender: NSButton) {
-        UserDefaultsManagement.restoreCursorPosition = (sender.state == .on)
     }
 
     @IBAction func autocloseBrackets(_ sender: NSButton) {

@@ -17,4 +17,5 @@ public struct NoteMeta: Codable {
     var creationDate: Date
     var pinned: Bool
     var tags: [String]
+    var selectedRange: NSRange
 }
