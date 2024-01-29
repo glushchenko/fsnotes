@@ -43,9 +43,9 @@ func renderMarkdownHTML(markdown: String) -> String? {
 }
 
 func renderSoulverCodeBlocks(markdown: String) -> String {
-    var html = markdown
     let calculator = Calculator(customization: .standard)
-    let content = NSMutableAttributedString(string: html)
+    let content = NSMutableAttributedString(string: markdown)
+    var update = [String: String]()
 
     FSParser.soulverRegex.regularExpression.enumerateMatches(in: markdown, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<markdown.count), using:
             {(result, flags, stop) -> Void in
@@ -61,15 +61,38 @@ func renderSoulverCodeBlocks(markdown: String) -> String {
 
         guard let replace = markdown.substring(with: replaceRange),
               let code = markdown.substring(with: codeRange),
-            !replace.hasPrefix("\\")
+              !replace.hasPrefix("\\")
         else { return }
-        
+
+        let newReplace = generateAlphabeticalString(length: replace.count)
         let result = calculator.calculate(String(code)).stringValue
-        
+
         if result.count != 0 {
-            html = html.replacingOccurrences(of: replace, with: result)
+            update[newReplace] = result
+            content.replaceCharacters(in: replaceRange, with: newReplace)
         }
     })
-    
+
+    var html = content.string
+    for (key, value) in update {
+        html = html.replacingOccurrences(of: key, with: value)
+    }
+
     return html
+}
+
+func generateAlphabeticalString(length: Int) -> String {
+    let alphabet = "abcdefghijklmnopqrstuvwxyz"
+    var result = "@"
+    var length = length - 2
+
+    for _ in 0..<length {
+        let randomIndex = Int.random(in: 0..<alphabet.count)
+        let randomChar = alphabet[alphabet.index(alphabet.startIndex, offsetBy: randomIndex)]
+        result.append(randomChar)
+    }
+
+    result.append("@")
+
+    return result
 }
