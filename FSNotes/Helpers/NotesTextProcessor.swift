@@ -630,7 +630,7 @@ public class NotesTextProcessor {
             guard let range = result?.range(at: 1) else { return }
             
             if range.location == 0 {
-                let listOpeningRegex = MarklightRegex(pattern: "((.+):)", options: [.allowCommentsAndWhitespace])
+                let listOpeningRegex = MarklightRegex(pattern: "([a-zA-Z_]+):", options: [.allowCommentsAndWhitespace])
                 listOpeningRegex.matches(string, range: range) { (result) -> Void in
                     guard let range = result?.range(at: 0) else { return }
                     attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: range)

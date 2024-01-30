@@ -1446,6 +1446,16 @@ public class Note: NSObject  {
                 .replacingOccurrences(of: "]]", with: "")
                 .replacingOccurrences(of: "{{TOC}}", with: "")
 
+        if cleanText.startsWith(string: "---") {
+            FSParser.yamlBlockRegex.matches(cleanText, range: NSRange(location: 0, length: cleanText.count)) { (result) -> Void in
+                guard let range = result?.range(at: 1), range.location == 0 else { return }
+
+                if let swiftRange = cleanText.swiftRange(from: range) {
+                    cleanText = cleanText.replacingOccurrences(of: cleanText[swiftRange], with: "")
+                }
+            }
+        }
+
         let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
 
         if let first = components.first {
