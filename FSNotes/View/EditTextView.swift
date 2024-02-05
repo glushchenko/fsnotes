@@ -26,7 +26,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var timer: Timer?
     public var tagsTimer: Timer?
     public var markdownView: MPreviewView?
-    public var restoreRange: NSRange? = nil
     public var isLastEdited: Bool = false
     
     @IBOutlet weak var previewMathJax: NSMenuItem!
@@ -1056,12 +1055,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
             backgroundColor = UserDefaultsManagement.bgColor
         }
-
-        if let restoreRange = self.restoreRange {
-            NSApp.mainWindow?.makeFirstResponder(self)
-            setSelectedRange(restoreRange)
-            self.restoreRange = nil
-        }
     }
 
     private func loadMarkdownWebView(note: Note, force: Bool) {
@@ -1583,6 +1576,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let string = storage.attributedSubstring(from: NSRange(0..<storage.length))
 
+        note.modifiedLocalAt = Date()
         note.content =
             NSMutableAttributedString(attributedString: string)
                 .unLoadImages()

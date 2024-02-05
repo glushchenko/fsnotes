@@ -27,13 +27,12 @@ class ViewController: EditorViewController,
     private var isPreLoaded = false
     
     let storage = Storage.shared()
-    var timer = Timer()
-    var sidebarTimer = Timer()
     
-    let searchQueue = OperationQueue()
-    
-    var tagsScannerQueue = [Note]()
-    
+    private var sidebarTimer = Timer()
+    private var selectRowTimer = Timer()
+
+    private let searchQueue = OperationQueue()
+
     public static var gitQueue = OperationQueue()
     public static var gitQueueBusy: Bool = false
     public static var gitQueueOperationDate: Date?
@@ -42,7 +41,9 @@ class ViewController: EditorViewController,
 
     /* Git */
     private var updateViews = [Note]()
-    
+
+    var tagsScannerQueue = [Note]()
+
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
     }
@@ -1186,14 +1187,6 @@ class ViewController: EditorViewController,
         }
     }
     
-    
-    public func blockFSUpdates() {
-        timer.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(enableFSUpdates), userInfo: nil, repeats: false)
-
-        UserDataService.instance.fsUpdatesDisabled = true
-    }
-
     public func reSort(note: Note) {
         if !updateViews.contains(note) {
             updateViews.append(note)
@@ -1235,10 +1228,6 @@ class ViewController: EditorViewController,
         }
     }
     
-    @objc func enableFSUpdates() {
-        UserDataService.instance.fsUpdatesDisabled = false
-    }
-
     @objc private func updateTableViews() {
         let editors = AppDelegate.getEditTextViews()
         
@@ -1290,8 +1279,6 @@ class ViewController: EditorViewController,
         
         return nil
     }
-
-    private var selectRowTimer = Timer()
 
     func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}) {
 
@@ -1991,14 +1978,6 @@ class ViewController: EditorViewController,
         vcEditor?.changePreviewState(state == "preview")
         
         note.previewState = state == "preview"
-
-        if let position = Int(position),
-            position > -1,
-            let textStorage = editor.textStorage,
-            textStorage.length >= position {
-            
-            editor.restoreRange = NSRange(location: position, length: 0)
-        }
 
         notesTableView.selectRowAndSidebarItem(note: note)
     }

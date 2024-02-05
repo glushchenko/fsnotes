@@ -650,12 +650,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     }
     
     @IBAction func removeNoteEncryption(_ sender: Any) {
-        guard var notes = getSelectedNotes() else { return }
+        guard var notes = getSelectedNotes(),
+              let vc = ViewController.shared() else { return }
 
         notes = decryptUnlocked(notes: notes)
         guard notes.count > 0 else { return }
 
-        UserDataService.instance.fsUpdatesDisabled = true
         getMasterPassword() { password in
             for note in notes {
                 if note.container == .encryptedTextPack {
@@ -668,9 +668,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     }
                 }
                 
-                ViewController.shared()?.notesTableView.reloadRow(note: note)
+                vc.notesTableView.reloadRow(note: note)
             }
-            UserDataService.instance.fsUpdatesDisabled = false
         }
     }
     
@@ -1377,8 +1376,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
               let vc = ViewController.shared() else { return }
 
         vc.prevCommit = nil
-
-        vc.blockFSUpdates()
 
         if editor.isEditable {
             editor.removeHighlight()

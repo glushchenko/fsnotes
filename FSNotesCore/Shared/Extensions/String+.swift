@@ -135,7 +135,11 @@ public extension String {
     }
 
     func trunc(length: Int) -> String {
-        return (self.count > length) ? String(self.prefix(length)) : self
+        let result = self
+            .replacingOccurrences(of: ":", with: "-")
+            .replacingOccurrences(of: "/", with: ":")
+
+        return (result.count > length) ? String(result.prefix(length)) : result
     }
 
     func startsWith(string: String) -> Bool {

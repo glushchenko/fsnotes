@@ -628,7 +628,8 @@ public class NotesTextProcessor {
         
         FSParser.yamlBlockRegex.matches(string, range: NSRange(location: 0, length: attributedString.length)) { (result) -> Void in
             guard let range = result?.range(at: 1) else { return }
-            
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: range)
+
             if range.location == 0 {
                 let listOpeningRegex = MarklightRegex(pattern: "([a-zA-Z_]+):", options: [.allowCommentsAndWhitespace])
                 listOpeningRegex.matches(string, range: range) { (result) -> Void in

@@ -152,10 +152,6 @@ public class Note: NSObject  {
         lastSelectedRange = value
     }
 
-    public func getLastSelectedRange() -> NSRange? {
-        return lastSelectedRange
-    }
-
     public func hasTitle() -> Bool {
         return !firstLineAsTitle
     }
@@ -290,7 +286,7 @@ public class Note: NSObject  {
     }
 
     public func getFileModifiedDate() -> Date? {
-        let url = getURL()
+        let url = getContentFileURL() ?? url
 
         do {
             let attr = try FileManager.default.attributesOfItem(atPath: url.path)
@@ -885,6 +881,8 @@ public class Note: NSObject  {
     }
 
     public func save(attributed: NSAttributedString) {
+        modifiedLocalAt = Date()
+
         Storage.shared().plainWriter.cancelAllOperations()
         Storage.shared().plainWriter.addOperation {
             if let copy = attributed.copy() as? NSAttributedString {
@@ -981,10 +979,7 @@ public class Note: NSObject  {
                     guard Storage.shared().ciphertextWriter.operationCount == 1 else { return }
                     self.writeEncrypted()
                 }
-            } else {
-                modifiedLocalAt = Date()
             }
-
         } catch {
             NSLog("Write error \(error)")
             return
@@ -1119,9 +1114,8 @@ public class Note: NSObject  {
     }
         
     func getFileAttributes() -> [FileAttributeKey: Any] {
+        let url = getContentFileURL() ?? url
         var attributes: [FileAttributeKey: Any] = [:]
-        
-        modifiedLocalAt = Date()
         
         do {
             attributes = try FileManager.default.attributesOfItem(atPath: url.path)

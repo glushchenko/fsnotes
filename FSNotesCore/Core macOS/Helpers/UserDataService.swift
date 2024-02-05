@@ -13,7 +13,6 @@ public class UserDataService {
 
     fileprivate var _searchTrigger = false
     fileprivate var _lastRenamed: URL?
-    fileprivate var _fsUpdates = false
     fileprivate var _isNotesTableEscape = false
     fileprivate var _isDark = false
 
@@ -38,15 +37,6 @@ public class UserDataService {
         }
         set {
             _lastRenamed = newValue
-        }
-    }
-
-    public var fsUpdatesDisabled: Bool {
-        get {
-            return _fsUpdates
-        }
-        set {
-            _fsUpdates = newValue
         }
     }
 

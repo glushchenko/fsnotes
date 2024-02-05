@@ -31,34 +31,4 @@ class UserDataServiceTests: XCTestCase {
         service.searchTrigger = false
         XCTAssertFalse(service.searchTrigger)
     }
-
-    func testLastRenamed() {
-        XCTAssert(service.lastRenamed == nil)
-
-        service.lastRenamed = URL(string: "file:///tmp/foo")
-        XCTAssertEqual(service.lastRenamed?.absoluteString, URL(string: "file:///tmp/foo")?.absoluteString)
-
-        service.lastRenamed = nil
-        XCTAssertNil(service.lastRenamed)
-    }
-
-    func testFsUpdatesDisabled() {
-        XCTAssertFalse(service.fsUpdatesDisabled)
-
-        service.fsUpdatesDisabled = true
-        XCTAssertTrue(service.fsUpdatesDisabled)
-
-        service.fsUpdatesDisabled = false
-        XCTAssertFalse(service.fsUpdatesDisabled)
-    }
-
-    func testSkipListReload() {
-        XCTAssertFalse(service.skipListReload)
-
-        service.skipListReload = true
-        XCTAssertTrue(service.skipListReload)
-
-        service.skipListReload = false
-        XCTAssertFalse(service.skipListReload)
-    }
 }

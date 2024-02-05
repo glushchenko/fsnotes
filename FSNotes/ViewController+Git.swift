@@ -93,8 +93,6 @@ extension EditorViewController {
         guard let commit = sender.representedObject as? Commit else { return }
         guard let note = vcEditor?.note else { return }
 
-        UserDataService.instance.fsUpdatesDisabled = true
-
         if vc.prevCommit == nil {
             saveRevision(commitMessage: "Auto save on history checkout")
         }
@@ -110,8 +108,6 @@ extension EditorViewController {
         ViewController.shared()?.notesTableView.reloadRow(note: note)
 
         vcEditor?.scanTagsAndAutoRename()
-
-        UserDataService.instance.fsUpdatesDisabled = false
     }
 
     @IBAction private func makeFullSnapshot(_ sender: Any) {
