@@ -221,33 +221,40 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     private func isFootNotes(url: URL) -> Bool {
         let link = url.absoluteString.components(separatedBy: "/index.html#")
         if link.count == 2 {
-            let anchor = link[1]
+            openAnchor(anchor: link[1])
+            return true
+        }
 
-            evaluateJavaScript("document.getElementById('\(anchor)').offsetTop") { [weak self] (result, error) in
-                if let offset = result as? CGFloat {
-                    self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
-                }
-            }
-
-            evaluateJavaScript("getElementsByText('\(anchor)')[0].offsetTop") { [weak self] (result, error) in
-                if let offset = result as? CGFloat {
-                    self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
-                }
-            }
-            
-            let textQuery = anchor.replacingOccurrences(of: "-", with: " ")
-            evaluateJavaScript("getElementsByTextContent('\(textQuery)').offsetTop") { [weak self] (result, error) in
-                if let offset = result as? CGFloat {
-                    self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
-                }
-            }
-
+        let bundleLink = url.absoluteString.components(separatedBy: "/MPreview.bundle/#")
+        if bundleLink.count == 2 {
+            openAnchor(anchor: bundleLink[1])
             return true
         }
 
         return false
     }
-    
+
+    private func openAnchor(anchor: String) {
+        evaluateJavaScript("document.getElementById('\(anchor)').offsetTop") { [weak self] (result, error) in
+            if let offset = result as? CGFloat {
+                self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
+            }
+        }
+
+        evaluateJavaScript("getElementsByText('\(anchor)')[0].offsetTop") { [weak self] (result, error) in
+            if let offset = result as? CGFloat {
+                self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
+            }
+        }
+
+        let textQuery = anchor.replacingOccurrences(of: "-", with: " ")
+        evaluateJavaScript("getElementsByTextContent('\(textQuery)').offsetTop") { [weak self] (result, error) in
+            if let offset = result as? CGFloat {
+                self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
+            }
+        }
+    }
+
     public static func buildPage(for note: Note, at dst: URL, web: Bool = false, print: Bool = false) -> URL? {
         var markdownString = note.getPrettifiedContent()
         
@@ -805,8 +812,11 @@ class HandlerOpen: NSObject, WKScriptMessageHandler {
 
         guard let action = message.body as? String else { return }
         let cleanText = action.trim()
-        
-        if cleanText.contains("wkPreview/index.html") || cleanText.contains("MPreview.bundle/index.html") {
+
+        if cleanText.contains("wkPreview/index.html")
+            || cleanText.contains("MPreview.bundle/index.html")
+            || cleanText.contains("MPreview.bundle/#")
+        {
             return
         }
         
