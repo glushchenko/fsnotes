@@ -513,8 +513,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             
             //Preview mode doesn't support text search
             cancelTextSearch()
-            refillEditArea()
-            
+            refillEditArea(force: true)
+
             if let mdView = vcEditor?.editorViewController?.vcEditor?.markdownView {
                 view.window?.makeFirstResponder(mdView)
             }
