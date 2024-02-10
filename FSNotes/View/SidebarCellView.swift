@@ -24,6 +24,11 @@ class SidebarCellView: NSTableCellView {
         let dst = project.url.deletingLastPathComponent().appendingPathComponent(sender.stringValue, isDirectory: true)
 
         do {
+            if FileManager.default.fileExists(atPath: dst.path) {
+                sender.stringValue = project.url.lastPathComponent
+                return
+            }
+
             try FileManager.default.moveItem(at: src, to: dst)
         } catch {
             sender.stringValue = project.url.lastPathComponent

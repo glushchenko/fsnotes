@@ -38,6 +38,12 @@ class SidebarOutlineView: NSOutlineView,
             return
         }
 
+        if let item = item(atRow: rowIndex) as? SidebarItem {
+            if item.type == .Separator {
+                return
+            }
+        }
+
         if !selectedRowIndexes.contains(rowIndex) {
             selectRowIndexes(IndexSet(integer: rowIndex), byExtendingSelection: false)
             scrollRowToVisible(rowIndex)
