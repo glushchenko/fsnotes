@@ -43,7 +43,11 @@ func renderMarkdownHTML(markdown: String) -> String? {
 }
 
 func renderSoulverCodeBlocks(markdown: String) -> String {
-    let calculator = Calculator(customization: .standard)
+
+    var customization: EngineCustomization = .standard
+    customization.featureFlags.variableDeclarations = true /// Add the variable declarations feature
+    let calculator = Calculator(customization: customization) /// Use this customization with a new Calculator object
+
     let content = NSMutableAttributedString(string: markdown)
     var update = [String: String]()
 
