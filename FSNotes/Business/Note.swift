@@ -912,6 +912,7 @@ public class Note: NSObject  {
             self.content = content.unLoad()
         }
 
+        modifiedLocalAt = Date()
         save(attributedString: self.content)
     }
 
