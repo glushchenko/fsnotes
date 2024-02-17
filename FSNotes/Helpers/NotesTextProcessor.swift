@@ -34,6 +34,16 @@ public class NotesTextProcessor {
     typealias Color = UIColor
     typealias Image = UIImage
     typealias Font = UIFont
+
+    public static var fontColor: UIColor {
+        get {
+            return UIColor { (traits) -> UIColor in
+                return traits.userInterfaceStyle == .dark ?
+                    UIColor.white :
+                    UIColor.black
+            }
+        }
+    }
 #endif
     // MARK: Syntax highlight customisation
     
