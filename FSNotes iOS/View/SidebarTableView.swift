@@ -680,6 +680,8 @@ class SidebarTableView: UITableView,
 
         sidebar.items[1] = sorted.compactMap({ SidebarItem(name: $0.label, project: $0, type: .Project) })
         insertRows(at: indexPaths, with: .fade)
+
+        UIApplication.getVC().resizeSidebar()
     }
     
     public func removeRows(projects: [Project]) {
@@ -726,6 +728,8 @@ class SidebarTableView: UITableView,
             let indexPath = IndexPath(row: 0, section: 0)
             tableView(self, didSelectRowAt: indexPath)
         }
+
+        UIApplication.getVC().resizeSidebar()
     }
 
     public func select(project: Project) {
