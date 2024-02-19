@@ -158,11 +158,21 @@ class CloudDriveManager {
                 }
 
                 if let modificationDate = note.getFileModifiedDate(),
-                    let currentNote = delegate.editorViewController?.editArea.note,
-                    currentNote.isEqualURL(url: url),
-                    modificationDate > note.modifiedLocalAt
+                   let contentChangeDate = contentChangeDate,
+                   let currentNote = delegate.editorViewController?.editArea.note,
+                   currentNote.isEqualURL(url: url),
+                   modificationDate > note.modifiedLocalAt,
+                   contentChangeDate > note.modifiedLocalAt
                 {
-                    note.modifiedLocalAt = modificationDate
+                    let prepareDate =
+                        modificationDate > contentChangeDate
+                            ? modificationDate
+                            : contentChangeDate
+
+                    if prepareDate > note.modifiedLocalAt {
+                        note.modifiedLocalAt = prepareDate
+                    }
+
 
                     // Trying load content from encrypted note with current password
                     if url.pathExtension == "etp", let password = note.password {

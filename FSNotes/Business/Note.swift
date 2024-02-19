@@ -46,9 +46,7 @@ public class Note: NSObject  {
     public var isParsed = false
 
     private var decryptedTemporarySrc: URL?
-
     private var firstLineAsTitle = false
-    private var lastSelectedRange: NSRange?
 
     public var isLoaded = false
     public var isLoadedFromCache = false
@@ -62,7 +60,9 @@ public class Note: NSObject  {
     public var apiId: String?
     
     public var previewState: Bool = false
-    public var selectedRange = NSRange()
+
+    private var selectedRange = NSRange()
+    private var contentOffset = CGPoint()
 
     // Load exist
     
@@ -145,11 +145,6 @@ public class Note: NSObject  {
             tags: tags, 
             selectedRange: selectedRange
         )
-    }
-
-    public func setLastSelectedRange(value: NSRange)
-    {
-        lastSelectedRange = value
     }
 
     public func hasTitle() -> Bool {
@@ -2170,5 +2165,21 @@ public class Note: NSObject  {
         }
 
         return title
+    }
+
+    public func setSelectedRange(range: NSRange) {
+        selectedRange = range
+    }
+
+    public func getSelectedRange() -> NSRange {
+        return selectedRange
+    }
+
+    public func setContentOffset(contentOffset: CGPoint) {
+        self.contentOffset = contentOffset
+    }
+
+    public func getContentOffset() -> CGPoint {
+        return contentOffset
     }
 }

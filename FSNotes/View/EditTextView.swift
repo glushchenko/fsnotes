@@ -1559,13 +1559,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
 
-        note.selectedRange = range
+        note.setSelectedRange(range: range) 
     }
     
     func loadSelectedRange() {
         guard let storage = textStorage else { return }
 
-        if let range = self.note?.selectedRange, range.upperBound <= storage.length {
+        if let range = self.note?.getSelectedRange(), range.upperBound <= storage.length {
             setSelectedRange(range)
             scrollToCursor()
         }

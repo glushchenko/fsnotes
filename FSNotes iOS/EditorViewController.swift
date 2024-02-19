@@ -71,16 +71,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     @objc func rotated() {
         guard isLandscape != nil else {
             isLandscape = UIDevice.current.orientation.isLandscape
-            //navigationController?.setNavigationBarHidden(isLandscape!, animated: true)
             return
         }
 
         let isLand = UIDevice.current.orientation.isLandscape
         if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
             isLandscape = isLand
-            //navigationController?.setNavigationBarHidden(isLand, animated: true)
-        } else {
-            //navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
 
@@ -239,6 +235,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.backgroundColor = UIColor.dropDownColor
         }
 
+        saveSelectedRange()
+
         if note.isMarkdown() {
             editArea.textStorageProcessor?.shouldForceRescan = true
 
@@ -255,7 +253,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.attributedText = note.content
         }
 
-        self.configureToolbar()
+        configureToolbar()
+        loadSelectedRange()
 
         if note.type == .RichText {
             editArea.textStorage.updateFont()
@@ -263,7 +262,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         editArea.delegate = self
 
-        let cursor = editArea.selectedTextRange
         let storage = editArea.textStorage
 
         let search = getSearchText()
@@ -272,8 +270,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             processor.highlightKeyword(search: search)
             isHighlighted = true
         }
-
-        editArea.selectedTextRange = cursor
 
         if note.type != .RichText {
             editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
@@ -317,7 +313,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         initLinksColor()
         
         if let note = self.note {
-            let range = editArea.selectedRange
             let keyboardIsOpen = editArea.isFirstResponder
             
             if keyboardIsOpen {
@@ -331,8 +326,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             }
 
             fill(note: note)
-            
-            editArea.selectedRange = range
 
             if keyboardIsOpen {
                 editArea.becomeFirstResponder()
@@ -705,13 +698,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     func textViewDidChangeSelection(_ textView: UITextView) {
-        guard let note = self.note else { return }
-
         if textView.isFirstResponder {
-            note.setLastSelectedRange(value: textView.selectedRange)
-
             // Handoff needs update in cursor position cahnged
             userActivity?.needsSave = true
+        }
+
+        if let textView = textView as? EditTextView {
+            if textView.isFillAction == true {
+                textView.isFillAction = false
+                loadContentOffset()
+            }
         }
     }
 
@@ -1412,6 +1408,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             togglePreview()
 
             editArea.becomeFirstResponder()
+            loadSelectedRange()
         }
     }
 
@@ -1701,5 +1698,29 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             tapGR.numberOfTapsRequired = 2
             self.view.addGestureRecognizer(tapGR)
         }
+    }
+
+    func saveSelectedRange() {
+        editArea.isFillAction = true
+
+        guard let note = self.note else { return }
+        note.setSelectedRange(range: editArea.selectedRange)
+
+        note.setContentOffset(contentOffset: editArea.contentOffset)
+    }
+
+    func loadSelectedRange() {
+        guard let note = note else { return }
+        let range = note.getSelectedRange()
+
+        if range.upperBound <= editArea.textStorage.length {
+            editArea.selectedRange = range
+        }
+    }
+
+    func loadContentOffset() {
+        guard let note = note else { return }
+        let contentOffset = note.getContentOffset()
+        editArea.setContentOffset(contentOffset, animated: false)
     }
 }
