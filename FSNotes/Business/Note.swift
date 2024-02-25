@@ -61,7 +61,7 @@ public class Note: NSObject  {
     
     public var previewState: Bool = false
 
-    private var selectedRange = NSRange()
+    private var selectedRange: NSRange?
     private var contentOffset = CGPoint()
 
     // Load exist
@@ -2171,7 +2171,7 @@ public class Note: NSObject  {
         selectedRange = range
     }
 
-    public func getSelectedRange() -> NSRange {
+    public func getSelectedRange() -> NSRange? {
         return selectedRange
     }
 

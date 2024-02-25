@@ -1711,9 +1711,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     func loadSelectedRange() {
         guard let note = note else { return }
-        let range = note.getSelectedRange()
 
-        if range.upperBound <= editArea.textStorage.length {
+
+        if let range = note.getSelectedRange(), range.upperBound <= editArea.textStorage.length {
             editArea.selectedRange = range
         }
     }
