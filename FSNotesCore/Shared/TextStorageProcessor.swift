@@ -232,6 +232,7 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
             guard let note = editor?.note else { return }
             NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange, note: note)
             NotesTextProcessor.checkBackTick(styleApplier: textStorage, paragraphRange: parRange)
+            textStorage.updateParagraphStyle(range: parRange)
         }
     }
 
