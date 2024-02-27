@@ -78,10 +78,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     override func resignFirstResponder() -> Bool {
         let result = super.resignFirstResponder()
+        let selectedRowIndexes = self.selectedRowIndexes
 
         DispatchQueue.main.async {
-            let selectedRowIndexes = self.selectedRowIndexes
             for i in selectedRowIndexes {
+                self.renderPinFor(row: i)
+            }
+
+            for i in self.selectedRowIndexes {
                 self.renderPinFor(row: i)
             }
         }

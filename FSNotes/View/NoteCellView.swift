@@ -37,6 +37,10 @@ class NoteCellView: NSTableCellView {
         }
     }
 
+    public static var pinImages = [String: NSImage]()
+    public static var pinEncryptedImages = [String: NSImage]()
+    public static var pinSharedImages = [String: NSImage]()
+
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
@@ -229,13 +233,20 @@ class NoteCellView: NSTableCellView {
     
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
+            let accentColor = UserDefaults.standard.value(forKey: "AppleAccentColor") != nil ? .controlAccentColor : NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
+            let color = isAccentColorTint() ? accentColor : NSColor.white
+            let key = color.hexString
+
             if note.isPublished() {
                 if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: "globe", accessibilityDescription: nil) {
-                    var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
-                    let accentColor = UserDefaults.standard.value(forKey: "AppleAccentColor") != nil ? .controlAccentColor : NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
-                    let color = isAccentColorTint() ? accentColor : NSColor.white
-                    config = config.applying(.init(paletteColors: [color]))
-                    pin.image = image.withSymbolConfiguration(config)
+                    // Cache
+                    if NoteCellView.pinSharedImages[key] != nil {
+                        pin.image = NoteCellView.pinSharedImages[key]
+                    } else {
+                        var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+                        config = config.applying(.init(paletteColors: [color]))
+                        pin.image = image.withSymbolConfiguration(config)
+                    }
                 } else {
                     pin.image = NSImage(named: "web")
                     pin.image?.size = NSSize(width: 14, height: 14)
@@ -245,11 +256,14 @@ class NoteCellView: NSTableCellView {
             } else if note.isEncrypted() {
                 let systemName = note.isUnlocked() ? "lock.open" : "lock"
                 if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: systemName, accessibilityDescription: nil) {
-                    var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
-                    let accentColor = UserDefaults.standard.value(forKey: "AppleAccentColor") != nil ? .controlAccentColor : NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
-                    let color = isAccentColorTint() ? accentColor : NSColor.white
-                    config = config.applying(.init(paletteColors: [color]))
-                    pin.image = image.withSymbolConfiguration(config)
+                    // Cache
+                    if NoteCellView.pinEncryptedImages[key] != nil {
+                        pin.image = NoteCellView.pinEncryptedImages[key]
+                    } else {
+                        var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+                        config = config.applying(.init(paletteColors: [color]))
+                        pin.image = image.withSymbolConfiguration(config)
+                    }
                 } else {
                     let name = note.isUnlocked() ? "lock-open" : "lock-closed"
                     pin.image = NSImage(named: name)
@@ -258,11 +272,16 @@ class NoteCellView: NSTableCellView {
                 pin.isHidden = false
             } else {
                 if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: "pin", accessibilityDescription: nil) {
-                    var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
-                    let accentColor = UserDefaults.standard.value(forKey: "AppleAccentColor") != nil ? .controlAccentColor : NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00)
-                    let color = isAccentColorTint() ? accentColor : NSColor.white
-                    config = config.applying(.init(paletteColors: [color]))
-                    pin.image = image.withSymbolConfiguration(config)
+                    // Cache
+                    if NoteCellView.pinImages[key] != nil {
+                        pin.image = NoteCellView.pinImages[key]
+                    } else {
+                        var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .medium)
+                        config = config.applying(.init(paletteColors: [color]))
+                        let pinImage = image.withSymbolConfiguration(config)
+                        pin.image = pinImage
+                        NoteCellView.pinImages[key] = pinImage
+                    }
                 } else {
                     pin.image = NSImage(named: "pin")
                     pin.image?.size = NSSize(width: 14, height: 14)
