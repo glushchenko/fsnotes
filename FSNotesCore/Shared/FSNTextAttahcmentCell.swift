@@ -24,10 +24,14 @@ class FSNTextAttachmentCell: NSTextAttachmentCell {
     override func cellSize() -> NSSize {
         let size = super.cellSize()
 
-        if size.height == 35 {
+        if size.height == UserDefaultsManagement.noteFont.getAttachmentHeight() {
             return size
         }
 
         return NSSize(width: textContainer.size.width, height: size.height)
+    }
+
+    override nonisolated func cellBaselineOffset() -> NSPoint {
+        return NSPoint(x: 0, y: -2)
     }
 }

@@ -588,8 +588,6 @@
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
-		D7B15A1C28D76A9400643FA5 /* logo_editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B15A1B28D76A9400643FA5 /* logo_editor.png */; };
-		D7B15A1D28D76A9400643FA5 /* logo_editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B15A1B28D76A9400643FA5 /* logo_editor.png */; };
 		D7B1F6AC246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
 		D7B1F6AD246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
 		D7B1F6B1246A686700593001 /* ordered_list.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AF246A686600593001 /* ordered_list.png */; };
@@ -1396,7 +1394,6 @@
 		D7A9C1D52910784400905619 /* Project+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Git.swift"; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
-		D7B15A1B28D76A9400643FA5 /* logo_editor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_editor.png; sourceTree = "<group>"; };
 		D7B1F6AB246895B000593001 /* new_note_ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new_note_ui.png; sourceTree = "<group>"; };
 		D7B1F6AF246A686600593001 /* ordered_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ordered_list.png; sourceTree = "<group>"; };
 		D7B1F6B0246A686600593001 /* numbered_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = numbered_list.png; sourceTree = "<group>"; };
@@ -2299,7 +2296,6 @@
 				D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */,
 				D70A727323944846006AF320 /* checkbox1012.png */,
 				D70A7277239467C1006AF320 /* checkbox_empty1012.png */,
-				D7B15A1B28D76A9400643FA5 /* logo_editor.png */,
 				D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */,
 				D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */,
 				D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */,
@@ -3057,7 +3053,6 @@
 				D759D1FA2276D25C00961E90 /* icon_alt.png in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
 				D7F2F19D21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
-				D7B15A1C28D76A9400643FA5 /* logo_editor.png in Resources */,
 				D7F2F1B821C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
 				D720241522A9412B000A7691 /* TextBundle.icns in Resources */,
@@ -3129,7 +3124,6 @@
 				D7CAD6AB20DD50A500FF4674 /* tag_red.png in Resources */,
 				D7F2F1BC21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D7C690C522AAE16200BFBBD1 /* indent@3x.png in Resources */,
-				D7B15A1D28D76A9400643FA5 /* logo_editor.png in Resources */,
 				D7C690D522AB033B00BFBBD1 /* tb_link.png in Resources */,
 				D7C690B222AA4B2900BFBBD1 /* todo@2x.png in Resources */,
 				D7C690AE22AA4B1E00BFBBD1 /* italic.png in Resources */,
@@ -4559,7 +4553,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 616;
+				CURRENT_PROJECT_VERSION = 617;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4576,7 +4570,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.6.9;
+				MARKETING_VERSION = 6.6.10;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4599,7 +4593,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 616;
+				CURRENT_PROJECT_VERSION = 617;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4617,7 +4611,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.6.9;
+				MARKETING_VERSION = 6.6.10;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
