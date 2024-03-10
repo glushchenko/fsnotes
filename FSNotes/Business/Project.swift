@@ -953,7 +953,7 @@ public class Project: Equatable {
                 && !$0.path.contains("/Trash")
                 && !$0.path.contains(".textbundle")
                 && !$0.path.contains(".revisions")
-                && !$0.path.contains("/.git")
+                && !$0.path.contains("/.")
                 && $0 != UserDefaultsManagement.trashURL
             })
 

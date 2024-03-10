@@ -86,7 +86,7 @@ class FileSystemEventManager {
         let dirURL = URL(fileURLWithPath: event.path, isDirectory: true)
         let project = self.storage.getProjectBy(url: dirURL)
 
-        guard dirURL.lastPathComponent != ".git" else {
+        if dirURL.path.contains("/.") {
             return
         }
         

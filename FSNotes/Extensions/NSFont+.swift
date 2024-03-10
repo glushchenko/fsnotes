@@ -131,8 +131,4 @@ extension NSFont {
         
         return UserDefaultsManagement.noteFont
     }
-
-    func getAttachmentHeight() -> Double {
-        return Double(pointSize) + 6
-    }
 }

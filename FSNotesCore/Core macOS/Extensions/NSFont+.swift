@@ -14,4 +14,8 @@ extension NSFont {
     public var lineHeightCustom: CGFloat {
         return CGFloat(ceilf(Float(ascender + abs(descender) + leading)))
     }
+
+    public func getAttachmentHeight() -> Double {
+        return Double(pointSize) + 6
+    }
 }
