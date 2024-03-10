@@ -36,7 +36,7 @@ extension NoteAttachment {
         var sizeTitle = String()
 
         if fileSize > 10000 {
-            sizeTitle = String(format: "%.2f", fileSize / 1000000) + " MB"
+            sizeTitle = String(format: "%.2f", Double(fileSize) / 1000000) + " MB"
         } else {
             sizeTitle = String(fileSize) + " bytes"
         }
