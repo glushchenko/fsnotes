@@ -81,9 +81,11 @@ class Storage {
         assignTrash(by: project.url)
         assignBookmarks()
                 
+    #if os(OSX)
         loadCachedProjects()
         loadProjectRelations()
-                
+    #endif
+
         checkWelcome()
 
         plainWriter.maxConcurrentOperationCount = 1
@@ -138,12 +140,7 @@ class Storage {
         // Trash
         getDefaultTrash()?.loadNotes()
         
-        // Root boookmarks
-        for project in projects {
-            if project.isBookmark {
-                project.loadNotes()
-            }
-        }
+        loadBookmarkNotes()
 
         if let urls = getCachedTree() {
             for url in urls {
@@ -151,7 +148,17 @@ class Storage {
             }
         }
     }
-    
+
+    public func loadBookmarkNotes() {
+
+        // Root boookmarks
+        for project in projects {
+            if project.isBookmark {
+                project.loadNotes()
+            }
+        }
+    }
+
     public func getRoot() -> URL? {
         #if targetEnvironment(simulator) || os(OSX)
             return UserDefaultsManagement.storageUrl

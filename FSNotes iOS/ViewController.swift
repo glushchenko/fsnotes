@@ -441,6 +441,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         DispatchQueue.global(qos: .userInteractive).async {
             let storage = self.storage
 
+            storage.getDefault()?.loadNotes()
+            storage.getDefaultTrash()?.loadNotes()
+
+            OperationQueue.main.addOperation {
+                self.reloadNotesTable()
+            }
+
+            storage.loadBookmarkNotes()
+
             let projectsLoading = Date()
             let results = storage.getProjectDiffs()
             
@@ -1542,9 +1551,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
                     if note == nil {
                         note = Note(url: noteURL, with: project)
-                        if let unwrapped = note {
-                            Storage.shared().add(unwrapped)
-                        }
+//                        if let unwrapped = note {
+//                            Storage.shared().add(unwrapped)
+//                        }
                     }
 
                     guard let note = note, !note.isEncrypted()  else { return }
