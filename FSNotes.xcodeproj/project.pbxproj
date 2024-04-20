@@ -744,7 +744,6 @@
 		D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7CD5CDB21832C190009D63B /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */; };
 		D7CD5CDC21832C190009D63B /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */; };
-		D7CD5CE1218345A80009D63B /* NotesListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CE0218345A80009D63B /* NotesListController.swift */; };
 		D7CD5CE321836A230009D63B /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76025C2204F2820000B9F59 /* UIFont+.swift */; };
 		D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
 		D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
@@ -936,7 +935,6 @@
 		D7F2F1C421C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D7F2F1C521C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
-		D7F2F1C821C68B5700E41811 /* ProjectListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F2F1C721C68B5700E41811 /* ProjectListController.swift */; };
 		D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */; };
 		D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */; };
 		D7F5C0F2223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */; };
@@ -1449,7 +1447,6 @@
 		D7CC44C52A1E5F7600743857 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		D7CD5CCA21820A380009D63B /* UserDefaultsManagement+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManagement+.swift"; sourceTree = "<group>"; };
 		D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManagement+.swift"; sourceTree = "<group>"; };
-		D7CD5CE0218345A80009D63B /* NotesListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesListController.swift; sourceTree = "<group>"; };
 		D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.ttf"; sourceTree = "<group>"; };
 		D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
@@ -1541,7 +1538,6 @@
 		D7F2F19421C503F000E41811 /* AvenirNext-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Italic.ttf"; sourceTree = "<group>"; };
 		D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-LightItalic.ttf"; sourceTree = "<group>"; };
 		D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-UltraLightIt.ttf"; sourceTree = "<group>"; };
-		D7F2F1C721C68B5700E41811 /* ProjectListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListController.swift; sourceTree = "<group>"; };
 		D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesGeneralViewController.swift; sourceTree = "<group>"; };
 		D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesUserInterfaceViewController.swift; sourceTree = "<group>"; };
 		D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesEditorViewController.swift; sourceTree = "<group>"; };
@@ -2048,8 +2044,6 @@
 			children = (
 				D75F3344205ECE8900CC887E /* FSNotes iOS Share.entitlements */,
 				D75F3338205EC34800CC887E /* ShareViewController.swift */,
-				D7CD5CE0218345A80009D63B /* NotesListController.swift */,
-				D7F2F1C721C68B5700E41811 /* ProjectListController.swift */,
 				D75F333D205EC34800CC887E /* Info.plist */,
 				D7163D3324E81D9900B1FC05 /* MainInterface.storyboard */,
 				42E001C92ADAC2930099E7AD /* Localizable.xcstrings */,
@@ -3492,7 +3486,6 @@
 				D7B34F9B25195D7E0007877E /* PreviewState.swift in Sources */,
 				D77E0539246312B400AD7772 /* StorageType.swift in Sources */,
 				D7CD5CD521820D700009D63B /* ImagesProcessor.swift in Sources */,
-				D7CD5CE1218345A80009D63B /* NotesListController.swift in Sources */,
 				D79A13CE2A0E9C980037510B /* UIColor+.swift in Sources */,
 				D7B2B6EC245EEA790084B78D /* LanguageType.swift in Sources */,
 				D7CD5CC9218209D80009D63B /* NoteType.swift in Sources */,
@@ -3506,7 +3499,6 @@
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,
 				D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D7CD5CCE21820C9D0009D63B /* DateFormatter+.swift in Sources */,
-				D7F2F1C821C68B5700E41811 /* ProjectListController.swift in Sources */,
 				D7B4AC622471253100F3888A /* NoteMeta.swift in Sources */,
 				D75627D226D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D7CD5CC42181F7530009D63B /* Storage.swift in Sources */,
@@ -4224,7 +4216,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 269;
+				CURRENT_PROJECT_VERSION = 281;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -4233,7 +4225,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.1.1;
+				MARKETING_VERSION = 6.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4254,7 +4246,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 269;
+				CURRENT_PROJECT_VERSION = 281;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -4264,7 +4256,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.1.1;
+				MARKETING_VERSION = 6.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4289,7 +4281,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 280;
+				CURRENT_PROJECT_VERSION = 281;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -4298,7 +4290,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.3.0;
+				MARKETING_VERSION = 6.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4325,7 +4317,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 280;
+				CURRENT_PROJECT_VERSION = 281;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -4335,7 +4327,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.3.0;
+				MARKETING_VERSION = 6.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
