@@ -825,6 +825,7 @@
 		D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
 		D7DD79591F4E60D000D5724B /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */; };
 		D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */; };
+		D7DEEC662BD561BE00C2A6CE /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = D7DEEC652BD561BE00C2A6CE /* SwiftSoup */; };
 		D7DF401C20A37717000F8B13 /* repository_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF401720A37716000F8B13 /* repository_white.png */; };
 		D7DF401F20A37717000F8B13 /* tag_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF401A20A37717000F8B13 /* tag_white.png */; };
 		D7DF402420A377BE000F8B13 /* repository_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF401720A37716000F8B13 /* repository_white.png */; };
@@ -1600,6 +1601,7 @@
 				D7D2F2822B54BE59003DCA47 /* Shout in Frameworks */,
 				D70F830628CE8596004818C5 /* Git in Frameworks */,
 				D4DB932C9F51CAE71393A28B /* Pods_FSNotes.framework in Frameworks */,
+				D7DEEC662BD561BE00C2A6CE /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2639,6 +2641,7 @@
 				D70F830528CE8596004818C5 /* Git */,
 				D7F1AEB1292177060088F473 /* SoulverCore */,
 				D7D2F2812B54BE59003DCA47 /* Shout */,
+				D7DEEC652BD561BE00C2A6CE /* SwiftSoup */,
 			);
 			productName = FSNotes;
 			productReference = D7793C6F1F211C6000CA39B7 /* FSNotes.app */;
@@ -4777,6 +4780,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D7D2F27C2B54BD42003DCA47 /* XCRemoteSwiftPackageReference "Shout" */;
 			productName = Shout;
+		};
+		D7DEEC652BD561BE00C2A6CE /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D76755632B9E2840003714C8 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
 		};
 		D7F1AEB1292177060088F473 /* SoulverCore */ = {
 			isa = XCSwiftPackageProductDependency;
