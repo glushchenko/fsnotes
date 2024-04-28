@@ -357,7 +357,7 @@ extension Project {
 
         do {
             let fileRevLog = try FileHistoryIterator(repository: repository, path: "Test", project: self)
-            while let _ = fileRevLog.cacheDiff() {/*_*/}
+            fileRevLog.walkCacheDiff()
 
             let cacheData = try? NSKeyedArchiver.archivedData(withRootObject: commitsCache, requiringSecureCoding: false)
             if let data = cacheData, let writeTo = getCommitsDiffsCache() {
@@ -415,6 +415,7 @@ extension Project {
                 try initBareRepository()
                 try commit(message: nil, progress: progress)
             case .clonePush:
+                removeCommitsCache()
                 message = clonePush(progress: progress)
             case .commit:
                 try commit(message: nil, progress: progress)

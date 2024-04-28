@@ -90,30 +90,34 @@ public class FileHistoryIterator: RevisionIterator {
         return nil
     }
     
-    public func cacheDiff() -> OID? {
-        guard let oid = super.next() else {
-            return nil
+    public func walkCacheDiff() {
+        var gitOid = git_oid()
+        var oids = [OID]()
+
+        while git_revwalk_next(&gitOid, pointer.pointee) == 0 {
+            let oid = OID(withGitOid: gitOid)
+            oids.append(oid)
         }
-        
-        guard let pOid = previousOid else {
+
+        for oid in oids {
+            do {
+                guard let pOid = previousOid else {
+                    previousOid = oid
+                    continue
+                }
+
+                let currentCommit = try repository.commitLookup(oid: oid)
+                let tree = try currentCommit.tree()
+
+                let previousCommit = try repository.commitLookup(oid: pOid)
+                let previousTree = try previousCommit.tree()
+
+                let diff = try previousTree.diff(other: tree)
+                _ = diff.find(byPath: path, oid: oid, project: project)
+            } catch {/*_*/}
+
             previousOid = oid
-            return oid
         }
-        
-        do {
-            let currentCommit = try repository.commitLookup(oid: oid)
-            let tree = try currentCommit.tree()
-            
-            let previousCommit = try repository.commitLookup(oid: pOid)
-            let previousTree = try previousCommit.tree()
-            
-            let diff = try previousTree.diff(other: tree)
-            _ = diff.find(byPath: path, oid: oid, project: project)
-        } catch {/*_*/}
-        
-        previousOid = oid
-        
-        return oid
     }
     
     private func diffPrev(tree: Tree, oid: OID) -> OID? {

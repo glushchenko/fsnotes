@@ -362,9 +362,15 @@ extension Note {
             do {
                 let fileRevLog = try FileHistoryIterator(repository: repository, path: path, project: project)
                 let oids = fileRevLog.walk()
-                
+
                 for oid in oids {
                     if let commit = try? repository.commitLookup(oid: oid) {
+                        commits.append(commit)
+                    }
+                }
+
+                if fileRevLog.checkFirstCommit() {
+                    if let oid = fileRevLog.getLast(), let commit = try? repository.commitLookup(oid: oid) {
                         commits.append(commit)
                     }
                 }
