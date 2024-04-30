@@ -1,6 +1,7 @@
 # FSNotes
 
-[简体中文](README_zh_CN)
+[简体中文](README_zh_CN.md)
+[繁體中文](README_zh_TW.md)
 
 FSNotes is modern notes manager for macOS and iOS.
 
