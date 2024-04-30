@@ -1,6 +1,7 @@
 # FSNotes
 
 [English](README.md)
+[繁體中文](README_zh_TW.md)
 
 FSNotes是适用于 macOS 和 iOS 的现代笔记管理器。
 
