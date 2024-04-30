@@ -63,5 +63,3 @@ FSNotes 使用 **Swift 5** 编写，采用 MIT 许可证开源。
 ## 特别鸣谢
 
 @zcohan（https://soulver.app）提供了 Soulver 核心框架 https://github.com/soulverteam/SoulverCore，用于简单的内联计算。
-
-如有需要，您可以对已有的翻译进行调整。
