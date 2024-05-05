@@ -130,4 +130,25 @@ class NoteAttachment {
             }
         }
     }
+
+    public func getImageText() -> String {
+        let fileSize = self.url.fileSize
+        var sizeTitle = String()
+
+        if fileSize > 10000 {
+            sizeTitle = String(format: "%.2f", Double(fileSize) / 1000000) + " MB"
+        } else {
+            sizeTitle = String(fileSize) + " bytes"
+        }
+
+        let text = " \(self.url.lastPathComponent) – \(sizeTitle) 📎 "
+        return text
+    }
+
+    public func getImageWidth(text: String) -> Double {
+        let font = getAttachmentFont()
+        let labelWidth = (text as NSString).size(withAttributes: [.font: font]).width
+
+        return labelWidth
+    }
 }

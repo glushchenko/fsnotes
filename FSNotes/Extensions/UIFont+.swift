@@ -78,4 +78,7 @@ extension UIFont {
         return self
     }
 
+    public func getAttachmentHeight() -> Double {
+        return Double(pointSize) + 6
+    }
 }

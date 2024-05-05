@@ -957,6 +957,7 @@
 		D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */; };
 		D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
 		D7FAE29C22DDDCF3003874D1 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
+		D7FB716C2BE7F66500808E56 /* EditorViewController+QuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */; };
 		D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */; };
 		D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 /* End PBXBuildFile section */
@@ -1549,6 +1550,7 @@
 		D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextProcessor.swift; sourceTree = "<group>"; };
 		D7FAE29922DDDCF2003874D1 /* inbox_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox_white.png; sourceTree = "<group>"; };
 		D7FAE29A22DDDCF2003874D1 /* inbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox.png; sourceTree = "<group>"; };
+		D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+QuickLook.swift"; sourceTree = "<group>"; };
 		D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		E73B6900CD2E14B0D5E51599 /* Pods-FSNotes iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		EF024607824ECBF0AE378D65 /* Pods-FSNotes (iCloud).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud)/Pods-FSNotes (iCloud).release.xcconfig"; sourceTree = "<group>"; };
@@ -2114,6 +2116,7 @@
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
+				D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */,
 				D71AA0212143A4A8004AFD2A /* MoveViewController.swift */,
 				D7163D2E24E81B5C00B1FC05 /* Main.storyboard */,
 				D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */,
@@ -3609,6 +3612,7 @@
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
 				D785805827A1FA0F000C1BAF /* UITableViewController+.swift in Sources */,
+				D7FB716C2BE7F66500808E56 /* EditorViewController+QuickLook.swift in Sources */,
 				D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */,
 				D70E9E072901AEC400A3C634 /* Index+Commit.swift in Sources */,
 				D75629B527D5036D00F55588 /* SortByViewController.swift in Sources */,

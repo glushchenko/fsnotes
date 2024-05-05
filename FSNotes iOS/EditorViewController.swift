@@ -16,7 +16,8 @@ import PhotosUI
 
 class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     public var note: Note?
-    
+    public var quickLookURL: URL?
+
     private var isHighlighted: Bool = false
     private var isUndo = false
     private let storageQueue = OperationQueue()
@@ -378,6 +379,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         if let font = self.editArea.typingFont {
+            editArea.typingAttributes.removeAll()
             editArea.typingAttributes[.font] = font
         }
 
@@ -1291,6 +1293,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 imagePreviewViewController.url = url
                 imagePreviewViewController.note = note
                 present(imagePreviewViewController, animated: true, completion: nil)
+            } else if (FileManager.default.fileExists(atPath: url.path)) {
+                quickLook(url: url)
             }
 
             return

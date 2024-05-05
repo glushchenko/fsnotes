@@ -12,14 +12,42 @@ import AVKit
 
 extension NoteAttachment {
     public func load() -> NSTextAttachment? {
-        let imageSize = getSize(url: self.url)
-        guard let size = getImageSize(imageSize: imageSize) else { return nil }
-
         let attachment = NSTextAttachment()
-        attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        attachment.image = UIImage.emptyImage(with: size)
 
-        return attachment
+        if (url.isImage) {
+            let imageSize = getSize(url: self.url)
+            guard let size = getImageSize(imageSize: imageSize) else { return nil }
+
+            attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            attachment.image = UIImage.emptyImage(with: size)
+
+            return attachment
+        }
+
+        // File attachment
+
+        let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
+        let fileSize = self.url.fileSize
+        var sizeTitle = String()
+
+        if fileSize > 10000 {
+            sizeTitle = String(format: "%.2f", Double(fileSize) / 1000000) + " MB"
+        } else {
+            sizeTitle = String(fileSize) + " bytes"
+        }
+
+        let text = " \(self.url.lastPathComponent) – \(sizeTitle) 📎 "
+        let width = getImageWidth(text: text)
+        let size = CGSize(width: width, height: heigth)
+        let imageSize = CGSize(width: width, height: heigth)
+
+        if let image = imageFromText(text: text, imageSize: imageSize) {
+            attachment.image = image
+            attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            return attachment
+        }
+
+        return nil
     }
 
     private func getImageSize(imageSize: CGSize) -> CGSize? {
@@ -72,5 +100,52 @@ extension NoteAttachment {
         }
 
         return thumbImage
+    }
+
+    public func getAttachmentFont() -> UIFont {
+        if let font = UIFont(name: "AvenirNext-BoldItalic", size: CGFloat(UserDefaultsManagement.fontSize)) {
+            return font
+        }
+        return UIFont.systemFont(ofSize: 14.0)
+    }
+
+    public func imageFromText(text: String, imageSize: CGSize) -> UIImage? {
+        let font = getAttachmentFont()
+        let textColor = NotesTextProcessor.fontColor
+        let backgroundColor = self.editor?.backgroundColor ?? UIColor.white
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: textColor,
+            .backgroundColor: backgroundColor,
+            .paragraphStyle: paragraphStyle,
+        ]
+
+        let textSize = text.size(withAttributes: attributes)
+        let imageRect = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
+
+        UIGraphicsBeginImageContextWithOptions(imageRect.size, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
+
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return nil
+        }
+
+        // Fill background color
+        backgroundColor.setFill()
+        context.fill(imageRect)
+
+        // Draw text
+        let textRect = CGRect(x: (imageSize.width - textSize.width) / 2.0, y: (imageSize.height - textSize.height) / 2.0, width: textSize.width, height: textSize.height)
+        text.draw(in: textRect, withAttributes: attributes)
+
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            return nil
+        }
+
+        return image
     }
 }

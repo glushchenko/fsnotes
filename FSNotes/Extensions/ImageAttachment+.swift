@@ -32,16 +32,7 @@ extension NoteAttachment {
         // File attachment
 
         let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
-        let fileSize = self.url.fileSize
-        var sizeTitle = String()
-
-        if fileSize > 10000 {
-            sizeTitle = String(format: "%.2f", Double(fileSize) / 1000000) + " MB"
-        } else {
-            sizeTitle = String(fileSize) + " bytes"
-        }
-
-        let text = " \(self.url.lastPathComponent) – \(sizeTitle) 📎 "
+        let text = getImageText()
         let width = getImageWidth(text: text)
         let size = NSSize(width: width, height: heigth)
         let imageSize = NSSize(width: width, height: heigth)
@@ -56,13 +47,6 @@ extension NoteAttachment {
         }
 
         return nil
-    }
-
-    public func getImageWidth(text: String) -> Double {
-        let font = getAttachmentFont()
-        let labelWidth = (text as NSString).size(withAttributes: [.font: font]).width
-
-        return labelWidth
     }
 
     public func getSize(width: CGFloat, height: CGFloat) -> NSSize {
