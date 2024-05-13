@@ -158,7 +158,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
     }
 
-    public static func loadAttachments(html: String, note: Note) -> String {
+    public static func loadAttachments(html: String, note: Note, showButton: Bool = true) -> String {
         guard let urls = note.attachments, urls.count > 0  else { return html }
 
         var htmlString = html
@@ -198,7 +198,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
                     if let imageData = attachment.getAttachmentImage()?.jpgData {
                         let base64 = imageData.base64EncodedString()
-                        let imPath = "<img class=\"attachment\" data-url=\"" + imageURL.path + "\" src=\"" + "data:image;base64," + base64 + "\""
+                        var imPath = "<img class=\"attachment\" data-url=\"" + imageURL.path + "\" src=\"" + "data:image;base64," + base64 + "\""
+
+                        if !showButton {
+                            imPath = "<img "
+                        }
 
                         htmlString = htmlString.replacingOccurrences(of: image, with: imPath)
                     }
@@ -349,9 +353,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
         
-        if !web, !print {
-            htmlString = MPreviewView.loadAttachments(html: htmlString, note: note)
-        }
+
+        let state = !(web || print)
+        htmlString = MPreviewView.loadAttachments(html: htmlString, note: note, showButton: state)
 
         if let urls = note.imageUrl, urls.count > 0, !print {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, web: web)

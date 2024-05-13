@@ -36,7 +36,6 @@ class ShareViewController: SLComposeServiceViewController {
         if let font = self.textView.font, #available(iOSApplicationExtension 11.0, *) {
             let fontMetrics = UIFontMetrics(forTextStyle: .largeTitle)
             self.textView.font = fontMetrics.scaledFont(for: font).italic()
-            self.textView.textColor = UIColor.darkGray
         }
     }
 
