@@ -49,6 +49,19 @@ extension NoteAttachment {
         return nil
     }
 
+    public func getAttachmentImage() -> NSImage? {
+        let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
+        let text = getImageText()
+        let width = getImageWidth(text: text)
+        let imageSize = NSSize(width: width, height: heigth)
+
+        if let image = imageFromText(text: text, imageSize: imageSize) {
+            return image
+        }
+
+        return nil
+    }
+
     public func getSize(width: CGFloat, height: CGFloat) -> NSSize {
         var maxWidth = UserDefaultsManagement.imagesWidth
 
@@ -106,9 +119,9 @@ extension NoteAttachment {
 
     public func imageFromText(text: String, imageSize: NSSize) -> NSImage? {
         let font = getAttachmentFont()
+        
         let textColor =  UserDataService.instance.isDark ? NSColor.white : NSColor.black
-        let darkBackground = self.editor?.backgroundColor ?? NSColor.black
-        let backgroundColor = UserDataService.instance.isDark ? darkBackground : NSColor.white
+        let backgroundColor = UserDataService.instance.isDark ? NSColor(red: 0.16, green: 0.17, blue: 0.18, alpha: 1.00) : NSColor.white
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
@@ -125,12 +138,6 @@ extension NoteAttachment {
 
         let image = NSImage(size: imageRect.size)
         image.lockFocus()
-
-        // Round corners
-        let clippingPath = NSBezierPath(roundedRect: imageRect, xRadius: 3, yRadius: 3)
-        clippingPath.windingRule = .evenOdd
-        clippingPath.addClip()
-        image.draw(in: imageRect, from: .zero, operation: .sourceOver, fraction: 1.0)
 
         // Fill background color
         backgroundColor.setFill()

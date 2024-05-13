@@ -304,7 +304,20 @@
             mermaid.initialize(config);
             window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
         };
-        
+
+        let loadAttachments = () => {
+            var items = document.querySelectorAll('.attachment'),
+                length = items.length,
+                i = 0;
+
+            for (i; i < length; i++) {
+                items[i].addEventListener("click", function(event) {
+                    let url = event.target.dataset.url;
+                    window.webkit.messageHandlers.quicklook.postMessage(url);
+                });
+            }
+        };
+
         window.onload = function () {
             loadTOC()
             loadCheckboxStyle()
@@ -313,6 +326,7 @@
             loadAHover()
             loadCodeActions()
             loadMemaid()
+            loadAttachments()
             addLocalAHrefEvent()
         };
     </script>

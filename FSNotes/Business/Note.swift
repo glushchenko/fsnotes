@@ -43,6 +43,7 @@ public class Note: NSObject  {
     public var modifiedLocalAt = Date()
 
     public var imageUrl: [URL]?
+    public var attachments: [URL]?
     public var isParsed = false
 
     private var decryptedTemporarySrc: URL?
@@ -113,6 +114,7 @@ public class Note: NSObject  {
         }
         
         url = meta.url
+        attachments = meta.attachments
         imageUrl = meta.imageUrl
         title = meta.title
         preview = meta.preview
@@ -136,6 +138,7 @@ public class Note: NSObject  {
         let date = creationDate ?? Date()
         return NoteMeta(
             url: url,
+            attachments: attachments,
             imageUrl: imageUrl,
             title: title,
             preview: preview,
@@ -1381,6 +1384,7 @@ public class Note: NSObject  {
 
         var i = 0
         var urls: [URL] = []
+        var attachments: [URL] = []
         var mdImages: [String] = []
 
         FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
@@ -1413,6 +1417,8 @@ public class Note: NSObject  {
 
                     urls.append(url)
                     i += 1
+                } else {
+                    attachments.append(url)
                 }
             }
 
@@ -1470,6 +1476,7 @@ public class Note: NSObject  {
         }
 
         self.imageUrl = urls
+        self.attachments = attachments
         self.isParsed = true
     }
 

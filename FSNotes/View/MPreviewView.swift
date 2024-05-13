@@ -36,6 +36,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         userContentController.add(HandlerMouse(), name: "mouse")
         userContentController.add(HandlerClipboard(), name: "clipboard")
         userContentController.add(HandlerOpen(), name: "open")
+        userContentController.add(HandlerQuickLook(), name: "quicklook")
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
@@ -157,6 +158,59 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
     }
 
+    public static func loadAttachments(html: String, note: Note) -> String {
+        guard let urls = note.attachments, urls.count > 0  else { return html }
+
+        var htmlString = html
+        var imagesStorage = note.project.url
+
+        if note.isTextBundle() {
+            imagesStorage = note.getURL()
+        }
+
+        do {
+            let regex = try NSRegularExpression(pattern: "<img.*?src=\"([^\"]*)\"")
+            let results = regex.matches(in: html, range: NSRange(html.startIndex..., in: html))
+
+            let images = results.map {
+                String(html[Range($0.range, in: html)!])
+            }
+
+            for image in images {
+                let localPath = image.replacingOccurrences(of: "<img src=\"", with: "").dropLast()
+
+                guard !localPath.starts(with: "http://") && !localPath.starts(with: "https://") else { continue }
+
+                let localPathClean = localPath.removingPercentEncoding ?? String(localPath)
+                let fullImageURL = imagesStorage
+                let imageURL = fullImageURL.appendingPathComponent(localPathClean)
+
+                guard !imageURL.isImage && !imageURL.isVideo else { continue }
+
+                #if os(iOS)
+                let editor = UIApplication.getEVC().editArea
+                #else
+                let editor = ViewController.shared()?.editor
+                #endif
+
+                if let editor = editor {
+                    let attachment = NoteAttachment(editor: editor, title: "", path: "", url: imageURL, note: note)
+
+                    if let imageData = attachment.getAttachmentImage()?.jpgData {
+                        let base64 = imageData.base64EncodedString()
+                        let imPath = "<img class=\"attachment\" data-url=\"" + imageURL.path + "\" src=\"" + "data:image;base64," + base64 + "\""
+
+                        htmlString = htmlString.replacingOccurrences(of: image, with: imPath)
+                    }
+                }
+            }
+        } catch let error {
+            print("Images regex: \(error.localizedDescription)")
+        }
+
+        return htmlString
+    }
+
     public func load(note: Note, force: Bool = false) {
         /// Do not re-load already loaded view
         guard self.note != note || force else { return }
@@ -178,8 +232,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 loadFileURL(i, allowingReadAccessTo: accessURL)
             }
         } else {
-            let htmlString = renderMarkdownHTML(markdown: markdownString)!
-            
+            var htmlString = renderMarkdownHTML(markdown: markdownString)!
+            htmlString = MPreviewView.loadAttachments(html: htmlString, note: note)
+
             if let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString),
                let baseURL = Bundle.main.url(forResource: "MPreview", withExtension: "bundle") {
                 loadHTMLString(pageHTMLString, baseURL: baseURL)
@@ -294,10 +349,14 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
         
+        if !web, !print {
+            htmlString = MPreviewView.loadAttachments(html: htmlString, note: note)
+        }
+
         if let urls = note.imageUrl, urls.count > 0, !print {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, web: web)
         }
-        
+
         if let pageHTMLString = try? htmlFromTemplate(htmlString, webPath: webPath, print: print, archivePath: zipName, note: note) {
             let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString, at: dst)
             
@@ -367,6 +426,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
                 let fullImageURL = imagesStorage
                 let imageURL = fullImageURL.appendingPathComponent(localPathClean)
+
+                guard imageURL.isImage else { continue }
 
                 let webkitPreview = at
 
@@ -658,8 +719,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         
             body {font: \(fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; -webkit-text-size-adjust: none;}
             code, pre {font: \(codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight + 3)px; -webkit-text-size-adjust: none; }
-            img {display: block; margin: 0 auto; max-width: \(maxImageWidth)px; }
-            img:not(footer img) { max-width: \(maxImageWidth)px; }
+            img:not(footer img, .attachment) {display: block; margin: 0 auto; max-width: \(maxImageWidth)px; }
+        
+            img.attachment { height: \(fontSize + 5)px; max-width: auto }
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
             p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; -webkit-text-size-adjust: none; } \(codeStyle) \(css)
         
@@ -825,5 +887,22 @@ class HandlerOpen: NSObject, WKScriptMessageHandler {
                 NSWorkspace.shared.activateFileViewerSelecting([url])
             }
         #endif
+    }
+}
+
+class HandlerQuickLook: NSObject, WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+
+        guard let action = message.body as? String else { return }
+        let cleanText = "file://" + action.trim()
+
+        if let url = URL(string: cleanText) {
+            #if os(iOS)
+                UIApplication.getEVC().quickLook(url: url)
+            #else
+                NSWorkspace.shared.activateFileViewerSelecting([url])
+            #endif
+        }
     }
 }

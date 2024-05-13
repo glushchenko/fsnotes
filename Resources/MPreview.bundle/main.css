@@ -246,7 +246,7 @@ strong {
 h1 {
     margin: .67em 0
 }
-img:not(footer img) {
+img:not(footer img, .attachment) {
     background: none;
     border-radius: 3px;
     border-style: none;
