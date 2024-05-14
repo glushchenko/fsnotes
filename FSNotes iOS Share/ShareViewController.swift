@@ -24,19 +24,10 @@ class ShareViewController: SLComposeServiceViewController {
         navigationController!.navigationBar.tintColor = UIColor.mainTheme
 
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
-        let font = UserDefaultsManagement.noteFont.italic().bold().withSize(18)
+        let font = UserDefaultsManagement.noteFont.bold().withSize(18)
         label.text = "FSNotes"
         label.font = font
         navigationController?.navigationBar.topItem?.titleView = label
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if let font = self.textView.font, #available(iOSApplicationExtension 11.0, *) {
-            let fontMetrics = UIFontMetrics(forTextStyle: .largeTitle)
-            self.textView.font = fontMetrics.scaledFont(for: font).italic()
-        }
     }
 
     override func loadPreviewView() -> UIView! {
