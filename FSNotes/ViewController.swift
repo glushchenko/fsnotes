@@ -139,9 +139,16 @@ class ViewController: EditorViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        newNoteButton.image =
-            NSImage(imageLiteralResourceName: "new_note_button")
-                .resize(to: CGSize(width: 30, height: 30))
+        
+        if #available(macOS 12.0, *) {
+            let image = NSImage(systemSymbolName: "square.and.pencil", accessibilityDescription: nil)
+            var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .large)
+            config = config.applying(.init(paletteColors: [.systemTeal, .systemGray]))
+
+            newNoteButton.image = image?.withSymbolConfiguration(config)
+        } else {
+            newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_button").resize(to: CGSize(width: 30, height: 30))
+        }
 
         storage.restoreUploadPaths()
         storage.restoreAPIIds()

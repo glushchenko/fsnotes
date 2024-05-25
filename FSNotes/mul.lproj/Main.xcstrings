@@ -21313,6 +21313,18 @@
         }
       }
     },
+    "l75-ic-hjm.title" : {
+      "comment" : "Class = \"NSBox\"; title = \"Box\"; ObjectID = \"l75-ic-hjm\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Box"
+          }
+        }
+      }
+    },
     "ldu-U8-PD1.title" : {
       "comment" : "Class = \"NSWindow\"; title = \"Preferences\"; ObjectID = \"ldu-U8-PD1\";",
       "extractionState" : "extracted_with_value",
@@ -36765,6 +36777,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "笔记"
+          }
+        }
+      }
+    },
+    "xRe-j4-nd1.title" : {
+      "comment" : "Class = \"NSBox\"; title = \"Box\"; ObjectID = \"xRe-j4-nd1\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Box"
           }
         }
       }

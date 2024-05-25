@@ -628,9 +628,15 @@ class SidebarOutlineView: NSOutlineView,
 
         let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! SidebarCellView
 
+        cell.icon.contentTintColor = NSColor.controlAccentColor
+
         if let tag = item as? FSTag {
             cell.type = .Tag
-            cell.icon.image = NSImage(named: "sidebar_tag")
+
+            let image = NSImage(named: "sidebar_tag")
+            image?.isTemplate = true
+
+            cell.icon.image = image
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
             cell.textField?.stringValue = tag.getName()
@@ -640,14 +646,26 @@ class SidebarOutlineView: NSOutlineView,
             if project.isEncrypted {
                 if project.isLocked() {
                     cell.type = .ProjectEncryptedLocked
-                    cell.icon.image = NSImage(named: "sidebar_project_encrypted_locked")
+
+                    let image = NSImage(named: "sidebar_project_encrypted_locked")
+                    image?.isTemplate = true
+
+                    cell.icon.image = image
                 } else {
                     cell.type = .ProjectEncryptedUnlocked
-                    cell.icon.image = NSImage(named: "sidebar_project_encrypted_unlocked")
+
+                    let image = NSImage(named: "sidebar_project_encrypted_unlocked")
+                    image?.isTemplate = true
+
+                    cell.icon.image = image
                 }
             } else {
                 cell.type = .Project
-                cell.icon.image = NSImage(named: "sidebar_project")
+
+                let image = NSImage(named: "sidebar_project")
+                image?.isTemplate = true
+
+                cell.icon.image = image
             }
             
             cell.icon.isHidden = false
@@ -668,7 +686,6 @@ class SidebarOutlineView: NSOutlineView,
 
                 cell.label.frame.origin.x = 2
                 cell.label.stringValue = name
-                //cell.icon.image = si.icon?.tint(color: .gray)
 
                 return cell
             }
@@ -1404,13 +1421,7 @@ class SidebarOutlineView: NSOutlineView,
                 }
                 
                 vc.sidebarOutlineView.reloadItem(parent)
-                
-                let rowIndex = vc.sidebarOutlineView.row(forItem: parent)
-                
-                // Update label color
-                if rowIndex > 0, let row = vc.sidebarOutlineView.rowView(atRow: rowIndex, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-                    cell.applySelectedFirstResponder()
-                }
+
             }
         } else {
             let offset = lastProjectIndex + countProjects() + 1
@@ -2103,12 +2114,6 @@ class SidebarOutlineView: NSOutlineView,
 
                 scrollRowToVisible(index)
                 selectRowIndexes([index], byExtendingSelection: true)
-
-                if let row = rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        cell.applySelectedFirstResponder()
-                    }
-                }
             }
         }
     }

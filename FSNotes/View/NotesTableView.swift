@@ -63,36 +63,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return true
     }
 
-    override func becomeFirstResponder() -> Bool {
-        let result = super.becomeFirstResponder()
-
-        DispatchQueue.main.async {
-            let selectedRowIndexes = self.selectedRowIndexes
-            for i in selectedRowIndexes {
-                self.renderPinFor(row: i)
-            }
-        }
-
-        return result
-    }
-
-    override func resignFirstResponder() -> Bool {
-        let result = super.resignFirstResponder()
-        let selectedRowIndexes = self.selectedRowIndexes
-
-        DispatchQueue.main.async {
-            for i in selectedRowIndexes {
-                self.renderPinFor(row: i)
-            }
-
-            for i in self.selectedRowIndexes {
-                self.renderPinFor(row: i)
-            }
-        }
-
-        return result
-    }
-
     override func mouseDown(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         
@@ -181,32 +151,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return height
     }
 
-    func renderPinFor(row: NSInteger) {
-        if row < 0 {
-            return
-        }
-
-        if noteList.count >= row + 1, let row = self.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
-            cell.renderPin()
-        }
-    }
-    
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
-        if let history = selectedHistory {
-            let selectedRowIndexes = selectedRowIndexes
-            for i in history {
-                if !selectedRowIndexes.contains(i) {
-                    renderPinFor(row: i)
-                }
-            }
-        }
-
         selectedHistory = selectedRowIndexes
 
         let vc = self.window?.contentViewController as! ViewController
-        renderPinFor(row: selectedRow)
-
         if vc.editAreaScroll.isFindBarVisible {
             let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
             menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
