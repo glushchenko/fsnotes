@@ -147,7 +147,7 @@ class ViewController: EditorViewController,
 
             newNoteButton.image = image?.withSymbolConfiguration(config)
         } else {
-            newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_button").resize(to: CGSize(width: 30, height: 30))
+            newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_button").resize(to: CGSize(width: 20, height: 20))
         }
 
         storage.restoreUploadPaths()
