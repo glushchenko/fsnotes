@@ -641,7 +641,17 @@ class Storage {
                 $0.title.lowercased().starts(with: startWith.lowercased())
             }
     }
-    
+
+    func getByUrl(endsWith: String) -> Note? {
+        for note in noteList {
+            if note.url.path.hasSuffix(endsWith) {
+                return note
+            }
+        }
+
+        return nil
+    }
+
     func getBy(contains: String) -> [Note]? {
         return
             noteList.filter{
@@ -833,7 +843,7 @@ class Storage {
         if let pinned = getPinned() {
             var names = [String]()
             for note in pinned {
-                names.append(note.name)
+                names.append(note.getRelatedPath())
             }
 
             let keyStore = NSUbiquitousKeyValueStore()
@@ -856,7 +866,7 @@ class Storage {
             else { return }
 
         for note in notes {
-            if names.contains(note.name) {
+            if names.contains(note.getRelatedPath()) {
                 note.addPin(cloudSave: false)
                 success.append(note)
             }
@@ -876,7 +886,7 @@ class Storage {
         if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
             if let pinned = getPinned() {
                 for note in pinned {
-                    if !names.contains(note.name) {
+                    if !names.contains(note.getRelatedPath()) {
                         note.removePin(cloudSave: false)
                         removed.append(note)
                     }
@@ -884,7 +894,7 @@ class Storage {
             }
 
             for name in names {
-                if let note = getBy(name: name), !note.isPinned {
+                if let note = getByUrl(endsWith: name), !note.isPinned {
                     note.addPin(cloudSave: false)
                     added.append(note)
                 }
@@ -905,14 +915,14 @@ class Storage {
         if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
             if let pinned = getPinned() {
                 for note in pinned {
-                    if !names.contains(note.name) {
+                    if !names.contains(note.getRelatedPath()) {
                         notes.append(note)
                     }
                 }
             }
 
             for name in names {
-                if let note = getBy(name: name), !note.isPinned {
+                if let note = getByUrl(endsWith: name), !note.isPinned {
                     notes.append(note)
                 }
             }

@@ -2189,4 +2189,8 @@ public class Note: NSObject  {
     public func getContentOffset() -> CGPoint {
         return contentOffset
     }
+
+    public func getRelatedPath() -> String {
+        return project.getNestedPath() + "/" + name
+    }
 }

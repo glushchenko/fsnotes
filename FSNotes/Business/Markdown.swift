@@ -88,7 +88,7 @@ func renderSoulverCodeBlocks(markdown: String) -> String {
 func generateAlphabeticalString(length: Int) -> String {
     let alphabet = "abcdefghijklmnopqrstuvwxyz"
     var result = "@"
-    var length = length - 2
+    let length = length - 2
 
     for _ in 0..<length {
         let randomIndex = Int.random(in: 0..<alphabet.count)

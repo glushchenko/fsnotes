@@ -994,4 +994,29 @@ public class Project: Equatable {
             note.load()
         }
     }
+
+    public func getNestedPath() -> String {
+        var project: Project? = self
+        var result = String()
+
+        while project != nil {
+            if project?.parent == nil {
+                return result
+            }
+
+            if let unwrappedProject = project {
+                if result.count > 0 {
+                    result = unwrappedProject.label + "/" + result
+                } else {
+                    result = unwrappedProject.label
+                }
+
+                project = unwrappedProject.parent
+            } else {
+                project = nil
+            }
+        }
+
+        return result
+    }
 }

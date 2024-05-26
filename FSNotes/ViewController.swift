@@ -1810,7 +1810,6 @@ class ViewController: EditorViewController,
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
                 if key == "co.fluder.fsnotes.pins.shared" {
-                    
                     let changedNotes = storage.getUpdatedPins()
                     
                     DispatchQueue.main.async {
