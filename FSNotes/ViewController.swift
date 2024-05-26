@@ -1978,7 +1978,6 @@ class ViewController: EditorViewController,
 
     override func restoreUserActivityState(_ userActivity: NSUserActivity) {
         guard let name = userActivity.userInfo?["note-file-name"] as? String,
-            let position = userActivity.userInfo?["position"] as? String,
             let state = userActivity.userInfo?["state"] as? String,
             let note = Storage.shared().getBy(name: name)
         else { return }

@@ -573,15 +573,18 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         DispatchQueue.main.async {
             if let i = self.noteList.firstIndex(of: note) {
-                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
+                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView {
 
-                    cell.date.stringValue = note.getDateForLabel()
-                    cell.loadImagesPreview(position: i, urls: urls)
-                    cell.attachHeaders(note: note)
-                    cell.renderPin()
-                    cell.applyPreviewStyle()
+                    if let cell = row.subviews.first as? NoteCellView {
 
-                    self.noteHeightOfRows(withIndexesChanged: [i])
+                        cell.date.stringValue = note.getDateForLabel()
+                        cell.loadImagesPreview(position: i, urls: urls)
+                        cell.attachHeaders(note: note)
+                        cell.renderPin()
+                        cell.applyPreviewStyle()
+
+                        self.noteHeightOfRows(withIndexesChanged: [i])
+                    }
                 }
             }
         }

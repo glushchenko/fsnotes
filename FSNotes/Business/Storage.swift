@@ -1260,7 +1260,10 @@ class Storage {
 
         if var documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             documentDir.appendPathComponent("projects.state")
-            NSKeyedArchiver.archiveRootObject(urls, toFile: documentDir.path)
+
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: urls, requiringSecureCoding: true) {
+                try? data.write(to: documentDir)
+            }
         }
     }
 
@@ -1269,7 +1272,13 @@ class Storage {
 
         documentDir.appendPathComponent("projects.state")
 
-        guard let urls = NSKeyedUnarchiver.unarchiveObject(withFile: documentDir.path) as? [URL] else { return }
+        guard let data = FileManager.default.contents(atPath: documentDir.path) else {
+            return
+        }
+
+        guard let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] else {
+            return
+        }
 
         for project in projects {
             if urls.contains(project.url) {
@@ -1303,14 +1312,15 @@ class Storage {
             }
         }
         
-        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
-        UserDefaultsManagement.sftpUploadBookmarksData = data
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: bookmarks, requiringSecureCoding: true) {
+            UserDefaultsManagement.sftpUploadBookmarksData = data
+        }
     }
     
     public func restoreUploadPaths() {
         guard let data = UserDefaultsManagement.sftpUploadBookmarksData,
-              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
-        
+              let uploadBookmarks = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSString.self], from: data) as? [URL: String] else { return }
+
         for bookmark in uploadBookmarks {
             if let note = getBy(url: bookmark.key) {
                 note.uploadPath = bookmark.value
@@ -1328,14 +1338,15 @@ class Storage {
             }
         }
         
-        let data = NSKeyedArchiver.archivedData(withRootObject: bookmarks)
-        UserDefaultsManagement.apiBookmarksData = data
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: bookmarks, requiringSecureCoding: true) {
+            UserDefaultsManagement.apiBookmarksData = data
+        }
     }
     
     public func restoreAPIIds() {
         guard let data = UserDefaultsManagement.apiBookmarksData,
-              let uploadBookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: String] else { return }
-        
+              let uploadBookmarks = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSString.self], from: data) as? [URL: String] else { return }
+
         for bookmark in uploadBookmarks {
             if let note = getBy(url: bookmark.key) {
                 note.apiId = bookmark.value
@@ -1344,14 +1355,15 @@ class Storage {
     }
     
     public func saveNotesSettings() {
-        var result = [URL: [String: Any]]()
+        var result = [URL: Bool]()
 
         for note in noteList {
-            result[note.url] = ["preview": note.previewState]
+            result[note.url] = note.previewState
         }
         
         if result.count > 0 {
-            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
+            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: true)
+
             if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
                 try? projectsData?.write(to: documentDir.appendingPathComponent("notes.settings"))
             }
@@ -1364,12 +1376,11 @@ class Storage {
         let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
         guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
         
-        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL: [String: Any]] else { return }
-        
+        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self], from: data) as? [URL: Bool] else { return }
+
         for note in noteList {
-            if let data = unarchivedData[note.url], let state = data["preview"] as? Bool {
-                note.previewState = state
-            }
+            let state = unarchivedData[note.url]
+            note.previewState = state == true
         }
     }
         

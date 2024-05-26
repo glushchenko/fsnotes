@@ -195,7 +195,7 @@ class NoteCellView: NSTableCellView {
                     pin.image = NSImage(named: "web")
                     pin.image?.isTemplate = true
                     pin.contentTintColor = .controlAccentColor
-                    pin.image?.size = NSSize(width: 20, height: 20)
+                    pin.image?.size = NSSize(width: 14, height: 14)
                 }
 
                 pin.isHidden = false
@@ -210,7 +210,7 @@ class NoteCellView: NSTableCellView {
                     pin.image = NSImage(named: name)
                     pin.contentTintColor = .controlAccentColor
                     pin.image?.isTemplate = true
-                    pin.image?.size = NSSize(width: 20, height: 20)
+                    pin.image?.size = NSSize(width: 14, height: 14)
                 }
                 pin.isHidden = false
             } else {
