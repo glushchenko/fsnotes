@@ -824,7 +824,6 @@ class SidebarOutlineView: NSOutlineView,
               let cell = projectRow.view(atColumn: 0) as? SidebarCellView else { return }
         
         cell.label.isEditable = true
-        cell.label.textColor = NSColor(named: "color_not_selected")!
         cell.label.becomeFirstResponder()
     }
 
