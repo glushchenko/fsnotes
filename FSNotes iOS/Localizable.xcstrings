@@ -3,6 +3,12 @@
   "strings" : {
     "..." : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -62,6 +68,12 @@
     "+" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -120,6 +132,12 @@
     },
     "✅ - " : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "✅ -"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -179,6 +197,12 @@
     "Add External Folder" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidat externí složku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -238,6 +262,12 @@
     "Advanced" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokročilé"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -296,6 +326,12 @@
     },
     "Are you sure you want to delete all versions of this note?" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Určitě chcete smazat všechny verze této poznámky?"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -354,6 +390,12 @@
     },
     "Are you sure you want to delete the history of all notes?" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Určitě chcete smazat historii všech poznámek?"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -412,6 +454,12 @@
     },
     "Are you sure you want to delete this image?" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Určitě chcete smazat tento obrázek?"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -471,6 +519,12 @@
     "Auto Rename By Title" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automaticky přejmenovat podle nadpisu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -530,6 +584,12 @@
     "Autocorrection" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatická oprava"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -589,6 +649,12 @@
     "build" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "build"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -647,6 +713,12 @@
     },
     "Cancel" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrušit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -705,6 +777,12 @@
     },
     "Change Creation Date" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Změnit datum vytvoření"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -764,6 +842,12 @@
     "Check Spelling" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrolovat pravopis"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -822,6 +906,12 @@
     },
     "Code" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kód"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -881,6 +971,12 @@
     "Code Block Live Highlighting" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Živé zvýraznění kódu "
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -940,6 +1036,12 @@
     "Code Theme" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motiv kódu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -998,6 +1100,12 @@
     },
     "Compatible with Bear and Ulysses (textbundle), markdown, txt, rtf." : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kompatibilní s Bear a Ulysses (textbundle), markdown, txt, rtf."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1057,6 +1165,12 @@
     "Container" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontejner"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1115,6 +1229,12 @@
     },
     "Copy Plain Text" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopírovat prostý text"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1174,6 +1294,12 @@
     "Create Folder" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit složku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1232,6 +1358,12 @@
     },
     "Create folder:" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit složku:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1290,6 +1422,12 @@
     },
     "Create Web Page" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit webovou stránku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1348,6 +1486,12 @@
     },
     "Creation Date" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum vytvoření"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1407,6 +1551,12 @@
     "Decrypt" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dešifrovat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1466,6 +1616,12 @@
     "Default Keyboard" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výchozí klávesnice"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1525,6 +1681,12 @@
     "Delete" : {
       "comment" : "Table row action",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smazat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1583,6 +1745,12 @@
     },
     "Delete Web Page" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smazat webovou stránku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1641,6 +1809,12 @@
     },
     "Documents" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokumenty"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1699,6 +1873,12 @@
     },
     "Done" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotovo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1757,6 +1937,12 @@
     },
     "Duplicate" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplikovat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1816,6 +2002,12 @@
     "Dynamic Type" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamické písmo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1875,6 +2067,12 @@
     "Editor" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editor"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1934,6 +2132,12 @@
     "Empty Bin" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyprázdnit koš"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1993,6 +2197,12 @@
     "Encrypt" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zašifrovat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2051,6 +2261,12 @@
     },
     "Enter folder name" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte název složky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2109,6 +2325,12 @@
     },
     "Enter Master Password" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte hlavní heslo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2167,6 +2389,12 @@
     },
     "Enter new tag name" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte název nové značky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2225,6 +2453,12 @@
     },
     "Enter note name" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte název poznámky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2284,6 +2518,12 @@
     "Extension" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přípona"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2343,6 +2583,12 @@
     "Family" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rodina"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2401,6 +2647,12 @@
     },
     "File with this name already exist" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor s tímto názvem už existuje"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2460,6 +2712,12 @@
     "Files" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2519,6 +2777,12 @@
     "Files Naming" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Názvy souborů"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2577,6 +2841,12 @@
     },
     "Folder name:" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Název složky:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2635,6 +2905,12 @@
     },
     "Folder with this name already exist" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složka s tímto názvem už existuje"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2694,6 +2970,12 @@
     "Folders" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2753,6 +3035,12 @@
     "Font" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Písmo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2812,6 +3100,12 @@
     "Font Family" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rodina písma"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2871,6 +3165,12 @@
     "Font Size" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velikost písma"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2930,6 +3230,12 @@
     "Format: Untitled Note" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formát: Poznámka bez názvu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2989,6 +3295,12 @@
     "Format: yyyy-MM-dd hh.mm.ss a" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formát: yyyy-MM-dd hh.mm.ss a"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3048,6 +3360,12 @@
     "Format: yyyyMMddHHmmss" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formát: yyyyMMddHHmmss"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3107,6 +3425,12 @@
     "FSNotes" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3166,6 +3490,12 @@
     "General" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obecné"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3225,6 +3555,12 @@
     "Git" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3284,6 +3620,12 @@
     "Git Add/commit/push" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git přidat/commit/push"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3343,6 +3685,12 @@
     "Git Settings" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení Gitu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3401,6 +3749,12 @@
     },
     "History" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3460,6 +3814,12 @@
     "iCloud Drive" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3519,6 +3879,12 @@
     "Icon" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikona"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3577,6 +3943,12 @@
     },
     "Images source:" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdroj obrázků:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3636,6 +4008,12 @@
     "Import Notes" : {
       "comment" : "Main view popover table\nSettings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importovat poznámky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3695,6 +4073,12 @@
     "Inbox" : {
       "comment" : "Inbox in sidebar",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příchozí"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3753,6 +4137,12 @@
     },
     "Invalid Password" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neplatné heslo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3812,6 +4202,12 @@
     "Library" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Knihovna"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3871,6 +4267,12 @@
     "Line Spacing" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Řádkování"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3930,6 +4332,12 @@
     "Live Images Preview" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Živý náhled obrázků"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3989,6 +4397,12 @@
     "Lock" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamknout"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4048,6 +4462,12 @@
     "Master" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hlavní"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4106,6 +4526,12 @@
     },
     "Master password:" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hlavní heslo:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4165,6 +4591,12 @@
     "MathJax" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MathJax"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4223,6 +4655,12 @@
     },
     "Modification Date" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum změny"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4282,6 +4720,12 @@
     "More" : {
       "comment" : "Table row action",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Více"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4341,6 +4785,12 @@
     "Move" : {
       "comment" : "Move view",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesunout"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4399,6 +4849,12 @@
     },
     "New Note" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová poznámka"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4457,6 +4913,12 @@
     },
     "None" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žádné"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4516,6 +4978,12 @@
     "Notes" : {
       "comment" : "Notes in sidebar\nSidebar items\nSidebar label",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poznámky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4574,6 +5042,12 @@
     },
     "Notes List" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam poznámek"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4633,6 +5107,12 @@
     "Open in Files.app" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřit v aplikaci Soubory"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4692,6 +5172,12 @@
     "Open Note" : {
       "comment" : "Document opened",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít poznámku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4750,6 +5236,12 @@
     },
     "Passphrase" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přístupová fráze"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4808,6 +5300,12 @@
     },
     "Password" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heslo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4866,6 +5364,12 @@
     },
     "Password has been successfully changed" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heslo úspěšně změněno"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4924,6 +5428,12 @@
     },
     "Password:" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heslo:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4982,6 +5492,12 @@
     },
     "Photos" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5040,6 +5556,12 @@
     },
     "Picture removing" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebírání fotek"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5099,6 +5621,12 @@
     "Pin" : {
       "comment" : "Table row action",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Připnout"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5157,6 +5685,12 @@
     },
     "Please enter valid password" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prosím zadejte platné heslo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5215,6 +5749,12 @@
     },
     "Please try again" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkuste to znovu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5273,6 +5813,12 @@
     },
     "Private Key" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soukromý klíč"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5331,6 +5877,12 @@
     },
     "Project removing ❌" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebírání projektu ❌"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5389,6 +5941,12 @@
     },
     "Public Key (optional)" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veřejný klíč (nepovinné)"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5447,6 +6005,12 @@
     },
     "Pull (every 30 sec)" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pull (každých 30 sekund)"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5505,6 +6069,12 @@
     },
     "Remove Encryption" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebrat šifrování"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5564,6 +6134,12 @@
     "Remove Folder" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebrat složku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5623,6 +6199,12 @@
     "Remove Tag" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebrat značku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5681,6 +6263,12 @@
     },
     "Rename" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejmenovat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5740,6 +6328,12 @@
     "Rename Folder" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejmenovat složku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5799,6 +6393,12 @@
     "Rename folder:" : {
       "comment" : "Popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejmenovat složku:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5857,6 +6457,12 @@
     },
     "Rename note:" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejmenovat poznámku:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5916,6 +6522,12 @@
     "Rename Tag" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejmenovat značku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5975,6 +6587,12 @@
     "Rename tag:" : {
       "comment" : "Popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejmenovat značku:"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6033,6 +6651,12 @@
     },
     "Save" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uložit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6091,6 +6715,12 @@
     },
     "Save Clipboard" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uložit schránku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6149,6 +6779,12 @@
     },
     "Save Revision" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uložit úpravy"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6207,6 +6843,12 @@
     },
     "Saved versions" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uložené verze"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6265,6 +6907,12 @@
     },
     "Search or create" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hledat nebo vytvořit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6323,6 +6971,12 @@
     },
     "Search or Create" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hledat nebo vytvořit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6382,6 +7036,12 @@
     "Security" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zabezpečení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6441,6 +7101,12 @@
     "Select" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6500,6 +7166,12 @@
     "Settings" : {
       "comment" : "Sidebar settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6558,6 +7230,12 @@
     },
     "Share" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sdílet"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6616,6 +7294,12 @@
     },
     "Show Folder in Library" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit složku v Knihovně"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6674,6 +7358,12 @@
     },
     "Show Notes in \"Notes\" and \"Todo\"" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit poznámky v „Poznámkách“ a „Úkolech“"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6733,6 +7423,12 @@
     "Sort By" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Řadit podle"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6792,6 +7488,12 @@
     "SoulverCore" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SoulverCore"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6852,6 +7554,12 @@
       "comment" : "Settings",
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Úložiště"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6917,6 +7625,12 @@
     "Support" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podpora"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6976,6 +7690,12 @@
     "Tags" : {
       "comment" : "Sidebar label",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Značky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7035,6 +7755,12 @@
     "Thanks" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Díky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7094,6 +7820,12 @@
     "Theme" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motiv"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7152,6 +7884,12 @@
     },
     "Tip: To use old notes, you must decrypt them separately with the old key and encrypt them again." : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tip: pro použití starých poznámek je musíte nejprve zvlášť dešifrovat pomocí starého klíče a pak znovu zašifrovat."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7210,6 +7948,12 @@
     },
     "Title" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nadpis"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7269,6 +8013,12 @@
     "Todo" : {
       "comment" : "Sidebar items\nTodo in sidebar",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Úkoly"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7328,6 +8078,12 @@
     "Trash" : {
       "comment" : "Sidebar label\nTrash in sidebar",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koš"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7387,6 +8143,12 @@
     "Twitter" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7446,6 +8208,12 @@
     "Unlock" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odemknout"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7505,6 +8273,12 @@
     "Unpin" : {
       "comment" : "Table row action",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odepnout"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7564,6 +8338,12 @@
     "Untagged" : {
       "comment" : "Sidebar settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neoznačené"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7622,6 +8402,12 @@
     },
     "Update" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualizovat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7680,6 +8466,12 @@
     },
     "Use First Line as Title" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použít první řádek jako nadpis"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7739,6 +8531,12 @@
     "Use Inline Tags" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používat značky mezi textem"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7797,6 +8595,12 @@
     },
     "Verify Password" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ověřit heslo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7856,6 +8660,12 @@
     "Version" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verze"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7915,6 +8725,12 @@
     "View" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7974,6 +8790,12 @@
     "View Settings" : {
       "comment" : "Main view popover table",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení zobrazení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8032,6 +8854,12 @@
     },
     "Visibility" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viditelnost"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8090,6 +8918,12 @@
     },
     "Web sharing error" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chyba sdílení na web"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8149,6 +8983,12 @@
     "Website" : {
       "comment" : "Settings",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webová stránka"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8207,6 +9047,12 @@
     },
     "Wrong password" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nesprávné heslo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8265,6 +9111,12 @@
     },
     "Wrong repeated password" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nesprávné opakované heslo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8323,6 +9175,12 @@
     },
     "Сlearing history" : {
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Čištění historie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
