@@ -2,7 +2,14 @@
   "sourceLanguage" : "en",
   "strings" : {
     "Inbox" : {
-
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příchozí"
+          }
+        }
+      }
     },
     "New note" : {
       "localizations" : {
@@ -10,6 +17,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ملاحظة جديدة"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová poznámka"
           }
         },
         "de" : {
