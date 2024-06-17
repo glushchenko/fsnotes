@@ -5,6 +5,12 @@
       "comment" : "Bundle display name",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -29,6 +35,12 @@
       "comment" : "Bundle name",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -38,12 +50,25 @@
       }
     },
     "Markdown" : {
-
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown"
+          }
+        }
+      }
     },
     "NSCameraUsageDescription" : {
       "comment" : "Privacy - Camera Usage Description",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potřeba pro přidávání fotek do poznámek"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -104,6 +129,12 @@
       "comment" : "Privacy - Face ID Usage Description",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Šifrování a dešifrování poznámek pomocí Face ID"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -176,6 +207,12 @@
       "comment" : "Privacy - Location When In Use Usage Description",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyžádáno při připojení fotky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -236,6 +273,12 @@
       "comment" : "Privacy - Photo Library Additions Usage Description",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potřeba pro ukládání fotek do knihovny"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -296,6 +339,12 @@
       "comment" : "Privacy - Photo Library Usage Description",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potřeba pro připojení obrázků do poznámek"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -353,7 +402,14 @@
       }
     },
     "TextBundle" : {
-
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextBundle"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

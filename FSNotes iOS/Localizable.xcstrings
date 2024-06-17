@@ -522,7 +522,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automaticky přejmenovat podle nadpisu"
+            "value" : "Podle nadpisu"
           }
         },
         "de" : {
@@ -6910,7 +6910,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hledat nebo vytvořit"
+            "value" : "Hledat / vytvořit"
           }
         },
         "de" : {
@@ -6974,7 +6974,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hledat nebo vytvořit"
+            "value" : "Hledat / vytvořit"
           }
         },
         "de" : {
