@@ -87,6 +87,7 @@ class Storage {
     #endif
 
         checkWelcome()
+        loadNotesCloudPins()
 
         plainWriter.maxConcurrentOperationCount = 1
         plainWriter.qualityOfService = .userInteractive

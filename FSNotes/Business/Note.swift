@@ -359,8 +359,8 @@ public class Note: NSObject  {
     
     func getNewURL(name: String) -> URL {
         let escapedName = name
-            .replacingOccurrences(of: ":", with: "-")
-            .replacingOccurrences(of: "/", with: ":")
+            .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "/", with: "")
         
         var newUrl = url.deletingLastPathComponent()
         newUrl.appendPathComponent(escapedName + "." + url.pathExtension)
@@ -866,12 +866,15 @@ public class Note: NSObject  {
                 .deletingPathExtension()
                 .pathComponents
                 .last!
-                .replacingOccurrences(of: ":", with: "/")
+                .replacingOccurrences(of: ":", with: "")
+                .replacingOccurrences(of: "/", with: "")
         }
     }
 
     private func loadFileName() {
-        fileName = url.deletingPathExtension().lastPathComponent.replacingOccurrences(of: ":", with: "/")
+        fileName = url.deletingPathExtension().lastPathComponent
+            .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "/", with: "")
     }
 
     public func getFileName() -> String {
@@ -1144,7 +1147,9 @@ public class Note: NSObject  {
     }
         
     func getTitleWithoutLabel() -> String {
-        let title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+        let title = url.deletingPathExtension().pathComponents.last!
+            .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "/", with: "")
 
         if title.isValidUUID {
             return ""
@@ -1513,7 +1518,9 @@ public class Note: NSObject  {
     }
 
     private func loadTitleFromFileName() {
-        let fileName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+        let fileName = url.deletingPathExtension().pathComponents.last!
+            .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "/", with: "")
 
         self.title = fileName
 

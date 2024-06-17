@@ -71,8 +71,8 @@ class TitleTextField: NSTextField {
         let fileName =
             currentTitle
                 .trimmingCharacters(in: CharacterSet.whitespaces)
-                .replacingOccurrences(of: ":", with: "-")
-                .replacingOccurrences(of: "/", with: ":")
+                .replacingOccurrences(of: ":", with: "")
+                .replacingOccurrences(of: "/", with: "")
 
         let dst = note.project.url
             .appendingPathComponent(fileName)

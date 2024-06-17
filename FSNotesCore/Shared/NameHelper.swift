@@ -19,8 +19,8 @@ class NameHelper {
         var postfix = postfix
         var name = name
             .trimmingCharacters(in: CharacterSet.whitespaces)
-            .replacingOccurrences(of: ":", with: "-")
-            .replacingOccurrences(of: "/", with: ":")
+            .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "/", with: "")
 
         if name.isEmpty {
             name = defaultName

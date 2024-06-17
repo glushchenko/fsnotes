@@ -136,8 +136,8 @@ public extension String {
 
     func trunc(length: Int) -> String {
         let result = self
-            .replacingOccurrences(of: ":", with: "-")
-            .replacingOccurrences(of: "/", with: ":")
+            .replacingOccurrences(of: ":", with: "")
+            .replacingOccurrences(of: "/", with: "")
 
         return (result.count > length) ? String(result.prefix(length)) : result
     }
