@@ -345,7 +345,7 @@ extension Project {
 
         if let commitsDiffCache = getCommitsDiffsCache(),
             let data = try? Data(contentsOf: commitsDiffCache),
-            let result = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [String: [String]] {
+            let result = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSArray.self, NSString.self], from: data) as? [String: [String]] {
             commitsCache = result
         }
     }
@@ -359,7 +359,7 @@ extension Project {
             let fileRevLog = try FileHistoryIterator(repository: repository, path: "Test", project: self)
             fileRevLog.walkCacheDiff()
 
-            let cacheData = try? NSKeyedArchiver.archivedData(withRootObject: commitsCache, requiringSecureCoding: false)
+            let cacheData = try? NSKeyedArchiver.archivedData(withRootObject: commitsCache, requiringSecureCoding: true)
             if let data = cacheData, let writeTo = getCommitsDiffsCache() {
                 do {
                     try data.write(to: writeTo)

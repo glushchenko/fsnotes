@@ -1724,7 +1724,7 @@ public class UserDefaultsManagement {
         set {
             guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
 
-            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
                 defaults.set(data, forKey: Constants.ProjectsKeyNew)
             }
         }

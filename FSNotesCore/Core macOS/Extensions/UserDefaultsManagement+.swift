@@ -199,29 +199,33 @@ extension UserDefaultsManagement {
 
     static var fontColor: Color {
         get {
-            if let returnFontColor = shared?.object(forKey: Constants.FontColorKey) as? Data, let color = NSKeyedUnarchiver.unarchiveObject(with: returnFontColor) as? Color {
+            if let returnFontColor = shared?.object(forKey: Constants.FontColorKey) as? Data,
+               let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: Color.self, from: returnFontColor) {
+
                 return color
             } else {
                 return self.DefaultFontColor
             }
         }
         set {
-            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
-            shared?.set(data, forKey: Constants.FontColorKey)
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
+                shared?.set(data, forKey: Constants.FontColorKey)
+            }
         }
     }
 
     static var bgColor: Color {
         get {
-            if let returnBgColor = shared?.object(forKey: Constants.BgColorKey) as? Data, let color = NSKeyedUnarchiver.unarchiveObject(with: returnBgColor) as? Color {
+            if let returnBgColor = shared?.object(forKey: Constants.BgColorKey) as? Data, let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: Color.self, from: returnBgColor) {
                 return color
             } else {
                 return self.DefaultBgColor
             }
         }
         set {
-            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
-            shared?.set(data, forKey: Constants.BgColorKey)
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
+                shared?.set(data, forKey: Constants.BgColorKey)
+            }
         }
     }
 }

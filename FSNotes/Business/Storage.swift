@@ -1377,7 +1377,7 @@ class Storage {
         let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
         guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
         
-        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self], from: data) as? [URL: Bool] else { return }
+        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSNumber.self], from: data) as? [URL: Bool] else { return }
 
         for note in noteList {
             let state = unarchivedData[note.url]
@@ -1455,7 +1455,7 @@ class Storage {
         
         urls = Array(deduplicatedUrls)
         
-        if let data = try? NSKeyedArchiver.archivedData(withRootObject: urls, requiringSecureCoding: false) {
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: urls, requiringSecureCoding: true) {
             let url = cacheDir.appendingPathComponent("sidebarTree")
             
             do {

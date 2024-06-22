@@ -152,7 +152,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             result.append(["frame": data, "preview": vc.editor.isPreviewEnabled(), "url": note.url, "main": true, "key": key])
         }
     
-        let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: false)
+        let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: true)
         if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
             try? projectsData?.write(to: documentDir.appendingPathComponent("editors.settings"))
         }

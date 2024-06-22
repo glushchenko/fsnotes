@@ -239,7 +239,7 @@ extension UserDefaultsManagement {
         set {
             guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
 
-            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
                 defaults.set(data, forKey: Constants.ImportURLsKey)
             }
         }
@@ -263,7 +263,7 @@ extension NSCoding where Self: NSObject {
     static func unsecureUnarchived(from data: Data) -> Self? {
         do {
             let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
-            unarchiver.requiresSecureCoding = false
+            unarchiver.requiresSecureCoding = true
             let obj = unarchiver.decodeObject(of: self, forKey: NSKeyedArchiveRootObjectKey)
             if let error = unarchiver.error {
                 print("Error:\(error)")

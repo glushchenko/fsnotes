@@ -1266,6 +1266,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func keyDown(with event: NSEvent) {
+        defer {
+            saveSelectedRange()
+        }
+
         guard !(
             event.modifierFlags.contains(.shift) &&
             [
@@ -1303,11 +1307,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
             return
         }
-
-//        if event.keyCode == kVK_Tab && event.modifierFlags.contains(.shift) {
-//            shiftLeft(NSMenuItem())
-//            return
-//        }
 
         // hasMarkedText added for Japanese hack https://yllan.org/blog/archives/231
         if event.keyCode == kVK_Tab && !hasMarkedText(){
@@ -1380,21 +1379,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         if note.type == .RichText {
             super.keyDown(with: event)
-            saveSelectedRange()
-            
+
             let range = getParagraphRange()
             let processor = NotesTextProcessor(storage: textStorage, range: range)
             processor.higlightLinks()
-            
-            if note.type == .RichText {
-                note.save(attributed: attributedString())
-            }
-            
+
             return
         }
         
         super.keyDown(with: event)
-        saveSelectedRange()
     }
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
@@ -1651,7 +1644,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "attributedText")), 
-            let attributedText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableAttributedString {
+            let attributedText = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSMutableAttributedString.self, from: data) {
+
             let dropPoint = convert(sender.draggingLocation, from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
             
@@ -1682,7 +1676,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         if let archivedData = board.data(forType: NSPasteboard.noteType),
-           let urls = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL],
+           let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: archivedData) as? [URL],
            let url = urls.first,
            let draggableNote = Storage.shared().getBy(url: url) {
 
@@ -2024,11 +2018,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         let positionKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.position")
         attributedString.addAttribute(positionKey, value: selectedRange().location, range: NSRange(0..<1))
         
-        let data = NSKeyedArchiver.archivedData(withRootObject: attributedString)
-        let type = NSPasteboard.PasteboardType.init(rawValue: "attributedText")
-        let board = sender.draggingPasteboard
-        board.setData(data, forType: type)
-        
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: attributedString, requiringSecureCoding: true)
+            let type = NSPasteboard.PasteboardType.init(rawValue: "attributedText")
+            let board = sender.draggingPasteboard
+            board.setData(data, forType: type)
+        } catch {
+            print("Failed to archive attributed string: \(error)")
+        }
+
         return .copy
     }
 
