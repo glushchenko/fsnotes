@@ -132,21 +132,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 
         let noteWindows = self.noteWindows.sorted(by: { $0.window!.orderedIndex > $1.window!.orderedIndex })
         for windowController in noteWindows {
-            if let frame = windowController.window?.frame {
-                let data = NSKeyedArchiver.archivedData(withRootObject: frame)
-                
-                if let controller = windowController.contentViewController as? NoteViewController,
-                    let note = controller.editor.note {
-                    let key = windowController.window?.isKeyWindow == true
-                    
-                    result.append(["frame": data, "preview": controller.editor.isPreviewEnabled(), "url": note.url, "main": false, "key": key])
-                }
+            if let frame = windowController.window?.frame,
+               let data = try? NSKeyedArchiver.archivedData(withRootObject: frame, requiringSecureCoding: true),
+               let controller = windowController.contentViewController as? NoteViewController,
+                   let note = controller.editor.note {
+
+
+                let key = windowController.window?.isKeyWindow == true
+
+                result.append(["frame": data, "preview": controller.editor.isPreviewEnabled(), "url": note.url, "main": false, "key": key])
             }
         }
         
         // Main frame
-        if let vc = ViewController.shared(), let note = vc.editor?.note, let mainFrame = vc.view.window?.frame {
-            let data = NSKeyedArchiver.archivedData(withRootObject: mainFrame)
+        if let vc = ViewController.shared(), let note = vc.editor?.note, let mainFrame = vc.view.window?.frame,
+           let data = try? NSKeyedArchiver.archivedData(withRootObject: mainFrame, requiringSecureCoding: true) {
+
             let key = vc.view.window?.isKeyWindow == true
             
             result.append(["frame": data, "preview": vc.editor.isPreviewEnabled(), "url": note.url, "main": true, "key": key])
@@ -288,7 +289,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         attachMenu()
 
         DispatchQueue.main.async {
-            self.statusItem?.popUpMenu(self.statusItem!.menu!)
+            if let statusItem = self.statusItem, let button = statusItem.button {
+                statusItem.menu?.popUp(positioning: nil, at: NSPoint(x: button.frame.origin.x, y: button.frame.height + 10), in: button)
+            }
         }
     }
 

@@ -1378,10 +1378,13 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
         vc.prevCommit = nil
 
         if editor.isEditable {
+            note.isBlocked = true
+
             editor.removeHighlight()
             editor.saveImages()
 
             note.save(attributed: editor.attributedString())
+            note.scheduleUnBlock()
 
             updateLastEditedStatus()
             vc.reSort(note: note)

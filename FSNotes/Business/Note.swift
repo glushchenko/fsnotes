@@ -27,6 +27,9 @@ public class Note: NSObject  {
 
     public var tags = [String]()
     public var originalExtension: String?
+    
+    public var isBlocked: Bool = false
+    public var unBlockTimer: Timer?
 
     /*
      Filename with extension ie "example.textbundle"
@@ -881,6 +884,16 @@ public class Note: NSObject  {
         return fileName
     }
 
+    public func scheduleUnBlock() {
+        unBlockTimer?.invalidate()
+        unBlockTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(unBlock), userInfo: nil, repeats: true)
+    }
+
+    @objc public func unBlock() {
+        isBlocked = false
+        unBlockTimer = nil
+    }
+
     public func save(attributed: NSAttributedString) {
         modifiedLocalAt = Date()
 
@@ -890,6 +903,7 @@ public class Note: NSObject  {
                 let mutable = NSMutableAttributedString(attributedString: copy)
                 self.save(content: mutable)
                 usleep(100000)
+                self.isBlocked = false
             }
         }
     }

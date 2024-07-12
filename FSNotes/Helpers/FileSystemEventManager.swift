@@ -236,7 +236,11 @@ class FileSystemEventManager {
     }
     
     private func reloadNote(note: Note) {
-        guard note.container != .encryptedTextPack else { return }
+        guard !note.isBlocked, note.container != .encryptedTextPack else {
+            print("skip")
+            print(note.isBlocked)
+            return
+        }
 
         guard var fsContent = note.getContent() else { return }
 

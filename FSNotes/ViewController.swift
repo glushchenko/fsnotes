@@ -1669,8 +1669,8 @@ class ViewController: EditorViewController,
     
     private func loadBookmarks(data: Data?) {
         if let accessData = data,
-            let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
-            
+            let bookmarks = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSData.self], from: accessData) as? [URL: Data] {
+
             for bookmark in bookmarks {
                 var isStale = false
                 
@@ -2012,8 +2012,8 @@ class ViewController: EditorViewController,
         let projectsDataUrl = documentDir.appendingPathComponent("editors.settings")
         
         guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
-        guard let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [[String: Any]] else { return }
-        
+        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSDictionary.self, NSString.self, NSData.self, NSNumber.self, NSURL.self], from: data) as? [[String: Any]] else { return }
+
         var mainKey = false
         for item in unarchivedData.reversed() {
             guard let url = item["url"] as? URL,
@@ -2041,8 +2041,8 @@ class ViewController: EditorViewController,
                     self.editor.window?.makeFirstResponder(self.editor)
                 }
             } else {
-                guard let frame = NSKeyedUnarchiver.unarchiveObject(with: frameData) as? NSRect else { continue }
-               
+                guard let frame = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSValue.self, from: frameData)?.rectValue else { continue }
+
                 self.openInNewWindow(note: note, frame: frame, preview: preview)
            }
         }
@@ -2103,7 +2103,7 @@ class ViewController: EditorViewController,
         // Transfer private git key to default project
         if UserDefaultsManagement.gitPrivateKeyData != nil {
             if let accessData = UserDefaultsManagement.gitPrivateKeyData,
-                let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: accessData) as? [URL: Data] {
+               let bookmarks = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSData.self], from: accessData) as? [URL: Data] {
                 for bookmark in bookmarks {
                     if let data = try? Data(contentsOf: bookmark.key) {
                         
