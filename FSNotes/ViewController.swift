@@ -218,6 +218,7 @@ class ViewController: EditorViewController,
 
             let projectsLoading = Date()
             let results = storage.getProjectDiffs()
+            storage.loadNotesCloudPins()
 
             OperationQueue.main.addOperation {
                 self.sidebarOutlineView.removeRows(projects: results.0)

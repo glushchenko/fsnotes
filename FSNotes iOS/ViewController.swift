@@ -452,7 +452,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             let projectsLoading = Date()
             let results = storage.getProjectDiffs()
-            
+            storage.loadNotesCloudPins()
+
             OperationQueue.main.addOperation {
                 self.sidebarTableView.removeRows(projects: results.0)
                 self.sidebarTableView.insertRows(projects: results.1)

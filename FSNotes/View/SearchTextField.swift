@@ -66,10 +66,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.lastQueryLength = 0
 
         addRecent(query: stringValue)
-
-        if stringValue.count == 0 {
-            search()
-        }
     }
 
     override func keyUp(with event: NSEvent) {
