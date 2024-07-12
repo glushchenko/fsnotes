@@ -1702,7 +1702,7 @@ CA
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
-                                                        <color key="fillColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="fillColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </box>
                                                 </subviews>
                                                 <constraints>

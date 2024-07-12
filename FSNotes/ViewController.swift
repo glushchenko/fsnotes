@@ -279,7 +279,6 @@ class ViewController: EditorViewController,
         self.sidebarOutlineView.sidebarItems = sidebarList
 
         sidebarOutlineView.selectionHighlightStyle = .regular
-
         sidebarOutlineView.backgroundColor = .windowBackgroundColor
 
         self.sidebarSplitView.autosaveName = "SidebarSplitView"
