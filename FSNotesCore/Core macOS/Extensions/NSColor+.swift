@@ -51,7 +51,7 @@ public extension NSColor {
     }
 
     var hexString: String {
-        guard let rgbColor = usingColorSpaceName(NSColorSpaceName.calibratedRGB) else {
+        guard let rgbColor = usingColorSpace(.deviceRGB) else {
             return "#FFFFFF"
         }
         let red = Int(round(rgbColor.redComponent * 0xFF))

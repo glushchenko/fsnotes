@@ -1620,8 +1620,6 @@ class ViewController: EditorViewController,
         }
 
         let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue, project: projects?.first)
-        let indexes = updatedNotes.compactMap({ _, note in resorted.firstIndex(where: { $0 === note }) })
-        let newIndexes = IndexSet(indexes)
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }

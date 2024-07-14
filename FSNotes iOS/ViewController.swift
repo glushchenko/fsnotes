@@ -452,9 +452,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             let projectsLoading = Date()
             let results = storage.getProjectDiffs()
-            storage.loadNotesCloudPins()
 
             OperationQueue.main.addOperation {
+                storage.loadNotesCloudPins()
                 self.sidebarTableView.removeRows(projects: results.0)
                 self.sidebarTableView.insertRows(projects: results.1)
             }
@@ -1031,7 +1031,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.view.addSubview(button)
     }
 
-    private func getButton(tag: Int) -> UIButton? {
+    public func getButton(tag: Int) -> UIButton? {
         for sub in self.view.subviews {
 
             if sub.tag == tag {
