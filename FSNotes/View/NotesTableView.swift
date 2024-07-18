@@ -508,13 +508,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         var insert = [Note]()
         
         for note in notes {
-            if noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil,
-               vc.isFit(note: note, shouldLoadMain: true) {
+            if noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil, vc.searchQuery.isFit(note: note) {
                 insert.append(note)
-                noteList.append(contentsOf: insert)
             }
         }
-        
+
+        noteList.append(contentsOf: insert)
+
         let projects = vc.sidebarOutlineView.getSidebarProjects()
         self.noteList = vc.storage.sortNotes(noteList: self.noteList, filter: vc.search.stringValue, project: projects?.first)
         

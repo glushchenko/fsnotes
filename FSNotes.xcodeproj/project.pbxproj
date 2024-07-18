@@ -486,6 +486,8 @@
 		D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C721F211C6000CA39B7 /* AppDelegate.swift */; };
 		D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
 		D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */; };
+		D77A12372C469ACF001B388B /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D714749C279D7DBC001A8B29 /* SearchQuery.swift */; };
+		D77A12382C469AD0001B388B /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D714749C279D7DBC001A8B29 /* SearchQuery.swift */; };
 		D77A6F7F28B11496006A0353 /* PreferencesWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77A6F7E28B11496006A0353 /* PreferencesWebViewController.swift */; };
 		D77A6F8028B11496006A0353 /* PreferencesWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77A6F7E28B11496006A0353 /* PreferencesWebViewController.swift */; };
 		D77AD7FC27F9D1C90077BD45 /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AD7FB27F9D1C90077BD45 /* Data+.swift */; };
@@ -3720,6 +3722,7 @@
 				D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
+				D77A12382C469AD0001B388B /* SearchQuery.swift in Sources */,
 				D7D3D2A427BEEA61001C1497 /* Note+History.swift in Sources */,
 				D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */,
 				D73BCCF528EB5EC4008B3BBC /* Tree.swift in Sources */,
@@ -3896,6 +3899,7 @@
 				D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
 				D708AC682000F0E100A1760F /* NoteType.swift in Sources */,
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
+				D77A12372C469ACF001B388B /* SearchQuery.swift in Sources */,
 				D7D3D2A527BEEA62001C1497 /* Note+History.swift in Sources */,
 				D73BCCF628EB5EC4008B3BBC /* Tree.swift in Sources */,
 				D730BD5B223BFEB200E69C93 /* RuntimeError.swift in Sources */,

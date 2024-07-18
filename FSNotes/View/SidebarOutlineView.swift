@@ -777,6 +777,8 @@ class SidebarOutlineView: NSOutlineView,
             return
         }
 
+        vd.buildSearchQuery()
+
         vd.updateTable() {
             if self.isFirstLaunch {
                 DispatchQueue.main.async {

@@ -26,34 +26,33 @@ class Sidebar {
 
         var system = [SidebarItem]()
 
+        // Notes
+        let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
+        let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
+        let fakeNotesProject =
+            Project(
+                storage: Storage.shared(),
+                url: notesUrl,
+                label: notesLabel,
+                isVirtual: true
+            )
+
+        system.append(
+            SidebarItem(
+                name: NSLocalizedString("Notes", comment: ""),
+                project: fakeNotesProject,
+                type: .All
+            )
+        )
+
         // Inbox
-        if let project = Storage.shared().getDefault() {
+        if UserDefaultsManagement.sidebarVisibilityInbox,
+            let project = Storage.shared().getDefault() {
             system.append(
                 SidebarItem(
                     name: NSLocalizedString("Inbox", comment: ""),
                     project: project,
                     type: .Inbox
-                )
-            )
-        }
-
-        // Notes
-        if UserDefaultsManagement.sidebarVisibilityNotes {
-            let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
-            let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
-            let fakeNotesProject =
-                Project(
-                    storage: Storage.shared(),
-                    url: notesUrl,
-                    label: notesLabel,
-                    isVirtual: true
-                )
-
-            system.append(
-                SidebarItem(
-                    name: NSLocalizedString("Notes", comment: ""),
-                    project: fakeNotesProject,
-                    type: .All
                 )
             )
         }

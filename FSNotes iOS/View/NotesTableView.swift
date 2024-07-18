@@ -634,12 +634,12 @@ class NotesTableView: UITableView,
 
     public func insertRows(notes: [Note]) {
         guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
+        vc.storage.loadPins(notes: notes)
 
         var toInsert = [Note]()
 
         for note in notes {
-            guard
-                vc.isFitInCurrentSearchQuery(note: note),
+            guard vc.searchQuery.isFit(note: note),
                 !self.notes.contains(where: {$0 === note})
             else { continue }
 
@@ -652,7 +652,7 @@ class NotesTableView: UITableView,
         let nonSorted = self.notes + toInsert
         let sorted = vc.storage.sortNotes(
             noteList: nonSorted,
-            project: vc.searchQuery.project
+            project: vc.searchQuery.projects?.first
         )
 
         var indexPaths = [IndexPath]()
@@ -661,7 +661,6 @@ class NotesTableView: UITableView,
             indexPaths.append(IndexPath(row: index, section: 0))
         }
 
-        vc.storage.loadPins(notes: notes)
         self.notes = sorted
 
         insertRows(at: indexPaths, with: .fade)
@@ -1035,9 +1034,11 @@ class NotesTableView: UITableView,
     }
 
     public func moveRowUp(note: Note) {
+        viewDelegate?.sidebarTableView.buildSearchQuery()
+
         guard let vc = viewDelegate,
             vc.isNoteInsertionAllowed(),
-            vc.isFitInCurrentSearchQuery(note: note),
+            vc.searchQuery.isFit(note: note),
             let at = notes.firstIndex(where: {$0 === note})
         else { return }
 
@@ -1048,7 +1049,7 @@ class NotesTableView: UITableView,
         } else {
             let sorted = vc.storage.sortNotes(
                 noteList: notes,
-                project: vc.searchQuery.project
+                project: vc.searchQuery.projects?.first
             )
 
             to = sorted.firstIndex(of: note) ?? at
@@ -1121,7 +1122,7 @@ class NotesTableView: UITableView,
         for note in notes {
             let sorted = vc.storage.sortNotes(
                 noteList: self.notes,
-                project: vc.searchQuery.project
+                project: vc.searchQuery.projects?.first
             )
 
             if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
@@ -1149,7 +1150,7 @@ class NotesTableView: UITableView,
         for note in notes {
             let sorted = vc.storage.sortNotes(
                 noteList: self.notes,
-                project: vc.searchQuery.project
+                project: vc.searchQuery.projects?.first
             )
 
             if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {

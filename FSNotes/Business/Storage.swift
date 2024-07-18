@@ -50,6 +50,12 @@ class Storage {
     
     init() {
         
+        // Sync pins and related stuff
+        
+    #if CLOUD_RELATED_BLOCK
+        NSUbiquitousKeyValueStore().synchronize()
+    #endif
+
         // Load root
         
         print("A. Bookmarks loading is started")
@@ -80,14 +86,29 @@ class Storage {
         
         assignTrash(by: project.url)
         assignBookmarks()
-                
-    #if os(OSX)
-        loadCachedProjects()
-        loadProjectRelations()
-    #endif
 
+        // Inbox
+        _ = getDefault()?.loadNotes()
+
+        // Trash
+        _ = getDefaultTrash()?.loadNotes()
+
+        // Bookmarks
+        for project in projects {
+            if project.isBookmark {
+                _ = project.loadNotes(cacheOnly: true)
+            }
+        }
+
+        // Cached
+        if let urls = getCachedTree() {
+            for url in urls {
+                _ = insert(url: url, cacheOnly: true)
+            }
+        }
+
+        loadProjectRelations()
         checkWelcome()
-        loadNotesCloudPins()
 
         plainWriter.maxConcurrentOperationCount = 1
         plainWriter.qualityOfService = .userInteractive
@@ -131,33 +152,6 @@ class Storage {
             name = "iCloud Drive"
         }
         return name
-    }
-
-    public func loadCachedProjects() {
-        
-        // Inbox
-        getDefault()?.loadNotes()
-        
-        // Trash
-        getDefaultTrash()?.loadNotes()
-        
-        loadBookmarkNotes()
-
-        if let urls = getCachedTree() {
-            for url in urls {
-                _ = insert(url: url)
-            }
-        }
-    }
-
-    public func loadBookmarkNotes() {
-
-        // Root boookmarks
-        for project in projects {
-            if project.isBookmark {
-                project.loadNotes()
-            }
-        }
     }
 
     public func getRoot() -> URL? {
@@ -255,7 +249,7 @@ class Storage {
         return projects.first(where: { $0.isTrash })
     }
         
-    public func insert(url: URL, bookmark: Bool = false) -> [Project]? {
+    public func insert(url: URL, bookmark: Bool = false, cacheOnly: Bool = false) -> [Project]? {
         if projectExist(url: url)
             || url.lastPathComponent == "i"
             || url.lastPathComponent == "files"
@@ -282,7 +276,7 @@ class Storage {
             if !projectExist(url: item.url) {
                 insertProject(project: item)
                 
-                item.loadNotes()
+                _ = item.loadNotes(cacheOnly: cacheOnly)
             }
         }
         
@@ -861,18 +855,14 @@ class Storage {
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
 
-        var success = [Note]()
-
         guard let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String]
             else { return }
 
         for note in notes {
             if names.contains(note.getRelatedPath()) {
                 note.addPin(cloudSave: false)
-                success.append(note)
             }
         }
-        
         #endif
     }
 
@@ -1151,7 +1141,7 @@ class Storage {
         return projectURLs
     }
     
-    public func getProjectDiffs() -> ([Project], [Project]) {
+    public func getProjectDiffs() -> ([Project], [Project], [Note], [Note]) {
         var insert = [Project]()
         var remove = [Project]()
         
@@ -1175,11 +1165,20 @@ class Storage {
         loadProjectRelations()
         saveCachedTree()
         
+        var insertNotes = [Note]()
         for insertItem in insert {
-            insertItem.loadNotes()
+            let append = insertItem.loadNotes()
+            insertNotes.append(contentsOf: append)
         }
 
-        return (remove, insert)
+        var removeNotes = [Note]()
+        for removeItem in remove {
+            let append = getNotesBy(project: removeItem)
+            removeNotes.append(contentsOf: append)
+        }
+
+
+        return (remove, insert, removeNotes, insertNotes)
     }
 
     public func importNote(url: URL) -> Note? {

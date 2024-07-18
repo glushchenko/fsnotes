@@ -48,6 +48,8 @@ class ViewController: EditorViewController,
         didSet { }  // Update the view, if already loaded.
     }
 
+    public var searchQuery: SearchQuery = SearchQuery(type: .All)
+
     // MARK: - IBOutlets
     @IBOutlet weak var nonSelectedLabel: NSTextField!
 
@@ -218,15 +220,13 @@ class ViewController: EditorViewController,
 
             let projectsLoading = Date()
             let results = storage.getProjectDiffs()
-            storage.loadNotesCloudPins()
 
             OperationQueue.main.addOperation {
                 self.sidebarOutlineView.removeRows(projects: results.0)
                 self.sidebarOutlineView.insertRows(projects: results.1)
                 
-                if results.0.count != 0 || results.1.count != 0 {
-                    self.updateTable()
-                }
+                //storage.loadPins(notes: results.3)
+                self.notesTableView.doVisualChanges(results: (results.2, results.3, []))
             }
             
             print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
@@ -240,7 +240,6 @@ class ViewController: EditorViewController,
             print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
             
             let tagsPoint = Date()
-            storage.loadNotesCloudPins()
             storage.loadNotesSettings()
             storage.loadNotesContent()
             
@@ -521,17 +520,7 @@ class ViewController: EditorViewController,
             
             sender.state = NSControl.StateValue.on
             
-            guard let controller = ViewController.shared() else { return }
-
-            var sidebarItem: SidebarItem? = nil
-            let projects = controller.sidebarOutlineView.getSidebarProjects()
-            let tags = controller.sidebarOutlineView.getSidebarTags()
-
-            if projects == nil && tags == nil {
-                sidebarItem = controller.getSidebarItem()
-            }
-
-            controller.updateTable(searchText: controller.search.stringValue, sidebarItem: sidebarItem, projects: projects, tags: tags)
+            ViewController.shared()?.updateTable()
         }
     }
         
@@ -597,7 +586,7 @@ class ViewController: EditorViewController,
             
             _ = note.move(to: destination, project: project)
 
-            if !isFit(note: note, shouldLoadMain: true) {
+            if !searchQuery.isFit(note: note) {
                 notesTableView.removeRows(notes: [note])
 
                 if let i = selectedRow, i > -1 {
@@ -1285,69 +1274,38 @@ class ViewController: EditorViewController,
         return nil
     }
 
-    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}) {
-
-        var sidebarItem: SidebarItem? = sidebarItem
-        var projects: [Project]? = projects
-        var tags: [String]? = tags
-        var sidebarName: String? = nil
+    func updateTable(completion: @escaping () -> Void = {}) {
 
         let timestamp = Date().toMillis()
 
         self.search.timestamp = timestamp
         self.searchQueue.cancelAllOperations()
 
-        if searchText == nil {
-            projects = sidebarOutlineView.getSidebarProjects()
-            tags = sidebarOutlineView.getSidebarTags()
-            sidebarItem = getSidebarItem()
-
-            if !UserDefaultsManagement.inlineTags {
-                sidebarName = getSidebarItem()?.getName()
-            }
-        }
-
-        var filter = searchText ?? self.search.stringValue
-        let originalFilter = searchText ?? self.search.stringValue
-        filter = originalFilter
-
-        var type = sidebarItem?.type
-
-        // Global search if sidebar not checked
-        if type == nil && projects == nil {
-            type = .All
-        }
-
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {return}
 
-            if let projects = projects {
+            if let projects = self.searchQuery.projects {
                 for project in projects {
                     self.preLoadNoteTitles(in: project)
                 }
             }
 
-            var terms = filter.split(separator: " ")
             let source = self.storage.noteList
             var notes = [Note]()
-            
-            if let type = type, type == .Todo {
-                terms.append("- [ ]")
-            }
-            
+
             for note in source {
                 if operation.isCancelled {
                     completion()
                     return
                 }
 
-                if (self.isFit(note: note, filter: filter, terms: terms, projects: projects, tags: tags, type: type, sidebarName: sidebarName)) {
+                if searchQuery.isFit(note: note) {
                     notes.append(note)
                 }
             }
             
-            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: filter, project: projects?.first, operation: operation)
+            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: self.searchQuery.filter, project: self.searchQuery.projects?.first, operation: operation)
 
             // Check diff
             if orderedNotesList == self.notesTableView.noteList {
@@ -1391,19 +1349,6 @@ class ViewController: EditorViewController,
             }
         }
     }
-
-    private func isMatched(note: Note, terms: [Substring]) -> Bool {
-        for term in terms {
-            if note.name.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil ||
-                note.content.string.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil {
-                continue
-            }
-            
-            return false
-        }
-        
-        return true
-    }
     
     public func reloadFonts() {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
@@ -1421,68 +1366,34 @@ class ViewController: EditorViewController,
         }
     }
 
-    public func isFit(note: Note, filter: String = "", terms: [Substring]? = nil, shouldLoadMain: Bool = false, projects: [Project]? = nil, tags: [String]? = nil, type: SidebarItemType? = nil, sidebarName: String? = nil) -> Bool {
-        var filter = filter
-        var terms = terms
-        var projects = projects
-        var tags = tags
-        var type = type
+    public func buildSearchQuery() {
+        let searchQuery = SearchQuery()
 
-        if shouldLoadMain {
+        searchQuery.setFilter(search.stringValue)
 
-            projects = sidebarOutlineView.getSidebarProjects()
-            tags = sidebarOutlineView.getSidebarTags()
+        let projects = sidebarOutlineView.getSidebarProjects()
+        let tags = sidebarOutlineView.getSidebarTags()
+        var type = getSidebarType()
 
-            type = getSidebarType()
-            if type == nil && projects == nil && tags == nil {
-                type = .All
-            }
-            
-            filter = search.stringValue
-            terms = search.stringValue.split(separator: " ")
-
-            if type == .Todo {
-                terms!.append("- [ ]")
-            }
+        if let projects = projects {
+            searchQuery.projects = projects
         }
 
-        return !note.name.isEmpty
-            && (
-                filter.isEmpty && type != .Todo
-                    || type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
-                    || self.isMatched(note: note, terms: terms!)
-            ) && (
-                type == .All && note.project.isVisibleInCommon()
-                || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
-                || type == .Inbox && note.project.isDefault
-                || type == .Trash
-                || type == .Untagged && note.tags.count == 0
-                || type == .Todo && note.project.settings.showInCommon
-                || !UserDefaultsManagement.inlineTags && tags != nil
-                || projects?.contains(note.project) == true
-            ) && (
-                type == .Trash && note.isTrash()
-                    || type != .Trash && !note.isTrash()
-            ) && (
-                tags == nil
-                || UserDefaultsManagement.inlineTags && tags != nil && note.tags.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
-            ) && !(
-                note.project.isEncrypted &&
-                note.project.isLocked()
-            )
+        if let tags = tags {
+            searchQuery.tags = tags
+        }
+
+        if type == nil && projects == nil && tags == nil {
+            type = .All
+        }
+
+        if let type = type {
+            searchQuery.setType(type)
+        }
+
+        self.searchQuery = searchQuery
     }
 
-    public func contains(tag name: String, in tags: [String]) -> Bool {
-        var found = false
-        for tag in tags {
-            if name == tag || name.starts(with: tag + "/") {
-                found = true
-                break
-            }
-        }
-        return found
-    }
-    
     @objc func selectNullTableRow(note: Note) {
         self.selectRowTimer.invalidate()
         self.selectRowTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.selectRowInstant), userInfo: note, repeats: false)
@@ -1518,9 +1429,9 @@ class ViewController: EditorViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editor.clear()
 
-        let searchText = completion == nil ? "" : nil
+        self.searchQuery = SearchQuery(type: .All)
 
-        self.updateTable(searchText: searchText) {
+        self.updateTable() {
             DispatchQueue.main.async {
                 if shouldBecomeFirstResponder {
                     self.sidebarOutlineView.reloadTags()

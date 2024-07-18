@@ -408,7 +408,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                     let vc = UIApplication.getVC()
 
-                    if let project = vc.searchQuery.project {
+                    if let project = vc.searchQuery.projects?.first {
                         let tags = vc.sidebarTableView.getAllTags(projects: [project])
                         self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
 
@@ -427,7 +427,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
 
                     let vc = UIApplication.getVC()
-                    if let project = vc.searchQuery.project {
+                    if let project = vc.searchQuery.projects?.first {
                         let tags = vc.sidebarTableView.getAllTags(projects: [project])
 
                         if let word = word {
@@ -445,7 +445,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             if text == "#" {
                 let vc = UIApplication.getVC()
 
-                if let project = vc.searchQuery.project {
+                if let project = vc.searchQuery.projects?.first {
                     let tags = vc.sidebarTableView.getAllTags(projects: [project])
                     self.dropDown.dataSource = tags
                     self.complete(offset: self.editArea.selectedRange.location)
@@ -980,7 +980,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let location = editArea.selectedRange.location
 
         let vc = UIApplication.getVC()
-        guard let project = vc.searchQuery.project else { return }
+        guard let project = vc.searchQuery.projects?.first else { return }
         let tags = vc.sidebarTableView.getAllTags(projects: [project])
         self.dropDown.dataSource = tags
 

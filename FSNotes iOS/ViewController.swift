@@ -56,8 +56,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var sidebarWidth: CGFloat = 0
     private var isLandscape: Bool?
 
-    // Last selected project abd tag in sidebar
-    public var searchQuery: SearchQuery = SearchQuery(type: .Inbox)
+    // Last selected project add tag in sidebar
+    public var searchQuery: SearchQuery = SearchQuery(type: .All)
     public var restoreActivity: URL?
     public var restoreFindID: String?
     public var isLoadedDB: Bool = false
@@ -96,7 +96,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
         super.viewWillAppear(animated)
-        let searchQuery: SearchQuery = sidebarTableView.buildSearchQuery() ?? SearchQuery(type: .Inbox)
+        let searchQuery: SearchQuery = sidebarTableView.buildSearchQuery() ?? SearchQuery(type: .All)
+
         reloadNotesTable(with: searchQuery) { [weak self] in
             guard let self = self else { return }
             self.stopAnimation(indicator: self.indicator)
@@ -120,7 +121,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         loadPreSafeArea()
         loadPlusButton()
-
 
         if let sidebarItem = UIApplication.getVC().lastSidebarItem {
             configureNavMenu(for: sidebarItem)
@@ -405,7 +405,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadNotesTable() {
-        reloadNotesTable(with: SearchQuery(type: .Inbox)) {
+        reloadNotesTable(with: SearchQuery(type: .All)) {
             self.stopAnimation(indicator: self.indicator)
         }
     }
@@ -438,25 +438,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func preLoadProjectsData() {
         guard Storage.shared().getRoot() != nil else { return }
 
+        self.reloadNotesTable()
+
         DispatchQueue.global(qos: .userInteractive).async {
             let storage = self.storage
-
-            storage.getDefault()?.loadNotes()
-            storage.getDefaultTrash()?.loadNotes()
-
-            OperationQueue.main.addOperation {
-                self.reloadNotesTable()
-            }
-
-            storage.loadBookmarkNotes()
 
             let projectsLoading = Date()
             let results = storage.getProjectDiffs()
 
             OperationQueue.main.addOperation {
-                storage.loadNotesCloudPins()
                 self.sidebarTableView.removeRows(projects: results.0)
                 self.sidebarTableView.insertRows(projects: results.1)
+                self.notesTable.doVisualChanges(results: (results.2, results.3, []))
             }
             
             print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
@@ -473,7 +466,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.cloudDriveManager?.metadataQuery.enableUpdates()
 
             let tagsPoint = Date()
-            storage.loadNotesCloudPins()
             storage.loadNotesSettings()
             storage.loadNotesContent()
                         
@@ -767,12 +759,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             if let searchQuery = sidebarTableView.buildSearchQuery() {
                 reloadNotesTable(with: searchQuery)
             } else {
-                reloadNotesTable(with: SearchQuery(type: .Inbox))
+                reloadNotesTable(with: SearchQuery(type: .All))
             }
             return
         }
 
-        reloadNotesTable(with: SearchQuery(filter: searchText))
+        let query = SearchQuery(filter: searchText)
+        query.type = .All
+
+        reloadNotesTable(with: query)
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -818,8 +813,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func saveLastValid(searchQuery: SearchQuery) {
-        if searchQuery.project == nil
-            && searchQuery.tag == nil
+        if searchQuery.projects?.first == nil
+            && searchQuery.tags?.first == nil
             && searchQuery.type == nil {
             return
         }
@@ -858,12 +853,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     break
                 }
 
-                if self.isFit(note: note, searchQuery: query) {
+                if query.isFit(note: note) {
                     notes.append(note)
                 }
             }
 
-            if let project = query.project, project.isLocked() {
+            if let project = query.projects?.first, project.isLocked() {
                 notes.removeAll()
             }
 
@@ -871,11 +866,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             if !notes.isEmpty {
                 modifiedNotesList =
-                self.storage.sortNotes(
-                    noteList: notes,
-                    filter: query.getFilter(),
-                    project: query.project
-                )
+                    self.storage.sortNotes(
+                        noteList: notes,
+                        filter: query.getFilter(),
+                        project: query.projects?.first
+                    )
             }
 
             if operation.isCancelled {
@@ -925,80 +920,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func getSearchBar() -> UISearchBar? {
         return navigationItem.searchController?.searchBar 
-    }
-
-    public func isFitInCurrentSearchQuery(note: Note) -> Bool {
-        return isFit(note: note, searchQuery: searchQuery)
-    }
-
-    public func isFit(note: Note, searchQuery: SearchQuery) -> Bool {
-        guard !note.name.isEmpty
-            && (
-                searchQuery.terms == nil
-                    || self.isMatched(note: note, terms: searchQuery.terms!)
-            )
-        else { return false }
-
-        if searchQuery.tag != nil {
-            if searchQuery.project != nil
-                && note.tags.contains(searchQuery.tag!)
-                && note.project == searchQuery.project {
-                return true
-            }
-
-            if (
-                searchQuery.type == .All
-                    || searchQuery.type == .Todo
-                    || searchQuery.type == .Tag
-            ) && note.tags.contains(searchQuery.tag!) {
-                return true
-            }
-
-            return false
-        }
-
-        guard
-            searchQuery.type == .Trash
-                && note.isTrash()
-            || searchQuery.terms != nil
-                && note.project.settings.showInCommon
-            || searchQuery.type == .All
-                && note.project.settings.showInCommon
-            || (
-                (
-                 searchQuery.type == .Project ||
-                 searchQuery.type == .ProjectEncryptedUnlocked ||
-                 searchQuery.type == .ProjectEncryptedLocked
-                )
-                    && searchQuery.project != nil
-                    && note.project == searchQuery.project
-                )
-            || searchQuery.project != nil && (searchQuery.project!.isDefault || searchQuery.project!.isBookmark)
-                && note.project.parent == searchQuery.project
-                && searchQuery.type != .Inbox
-            || searchQuery.type == .Todo
-                && note.project.settings.showInCommon
-            || searchQuery.type == .Inbox
-                && note.project.isDefault
-            || searchQuery.type == .Untagged && note.tags.count == 0
-        else {
-            return false
-        }
-
-        return true
-    }
-
-    private func isMatched(note: Note, terms: [Substring]) -> Bool {
-        for term in terms {
-            if note.name.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil ||
-                note.content.string.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil {
-                continue
-            }
-
-            return false
-        }
-
-        return true
     }
 
     func loadPlusButton() {
@@ -1332,7 +1253,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var sidebarItems = [String]()
         var tags = [String]()
 
-        if let project = searchQuery.project {
+        if let project = searchQuery.projects?.first {
             tags = sidebarTableView.getAllTags(projects: [project])
         }
 
