@@ -515,8 +515,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         noteList.append(contentsOf: insert)
 
-        let projects = vc.sidebarOutlineView.getSidebarProjects()
-        self.noteList = vc.storage.sortNotes(noteList: self.noteList, filter: vc.search.stringValue, project: projects?.first)
+        let settingsProject = vc.getSortProject()
+        self.noteList = vc.storage.sortNotes(noteList: self.noteList, filter: vc.search.stringValue, project: settingsProject)
         
         var indexSet = IndexSet()
         for note in insert {

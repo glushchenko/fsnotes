@@ -629,18 +629,19 @@ public class Note: NSObject  {
     }
     
     @objc func getDateForLabel() -> String {
-        guard !UserDefaultsManagement.hideDate else { return String() }
+        guard !UserDefaultsManagement.hideDate,
+              let vc = ViewController.shared() else { return String() }
 
-        guard let date = (project.settings.sortBy == .creationDate || UserDefaultsManagement.sort == .creationDate)
-            ? creationDate
-            : modifiedLocalAt
-        else { return String() }
+        let date = 
+            vc.getSortBy() == .creationDate
+                ? creationDate
+                : modifiedLocalAt
 
-        let calendar = NSCalendar.current
-        if calendar.isDateInToday(date) {
+        guard let date = date else { return String() }
+
+        if NSCalendar.current.isDateInToday(date) {
             return dateFormatter.formatTimeForDisplay(date)
-        }
-        else {
+        } else {
             return dateFormatter.formatDateForDisplay(date)
         }
     }

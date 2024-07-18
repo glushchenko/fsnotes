@@ -223,6 +223,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     @objc private func search() {
         UserDataService.instance.searchTrigger = true
 
+        vcDelegate.buildSearchQuery()
+
         let searchText = self.stringValue
         let currentTextLength = searchText.count
 
@@ -247,8 +249,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             self.lastSearchQuery = query
         }
 
-        vcDelegate.buildSearchQuery()
-        
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
             self.vcDelegate.updateTable() {

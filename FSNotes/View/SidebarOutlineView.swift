@@ -2125,4 +2125,12 @@ class SidebarOutlineView: NSOutlineView,
         
         deselectAll(nil)
     }
+
+    public func getNotesProject() -> Project? {
+        let item = sidebarItems?.first(where: {
+            ($0 as? SidebarItem)?.type == .All
+        }) as? SidebarItem
+
+        return item?.project
+    }
 }

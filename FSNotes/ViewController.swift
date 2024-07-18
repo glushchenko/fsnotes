@@ -1230,17 +1230,8 @@ class ViewController: EditorViewController,
             notesTableView.reloadRow(note: note)
 
             if search.stringValue.count == 0 {
-                if UserDefaultsManagement.sort == .modificationDate
-                    && UserDefaultsManagement.sortDirection == true
-                    && note.project.settings.sortBy == .none {
-
-                    if let index = notesTableView.noteList.firstIndex(of: note) {
-                        moveNoteToTop(note: index)
-                    }
-                } else {
-                    let project = sidebarOutlineView.getSelectedProject()
-                    sortAndMove(note: note, project: project)
-                }
+                let project = getSortProject()
+                sortAndMove(note: note, project: project)
             }
             
             // Reloading nstextview in multiple windows
@@ -1276,6 +1267,7 @@ class ViewController: EditorViewController,
 
     func updateTable(completion: @escaping () -> Void = {}) {
 
+        let settingsProject = self.getSortProject()
         let timestamp = Date().toMillis()
 
         self.search.timestamp = timestamp
@@ -1305,7 +1297,8 @@ class ViewController: EditorViewController,
                 }
             }
             
-            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: self.searchQuery.filter, project: self.searchQuery.projects?.first, operation: operation)
+
+            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: self.searchQuery.filter, project: settingsProject, operation: operation)
 
             // Check diff
             if orderedNotesList == self.notesTableView.noteList {
@@ -1511,8 +1504,6 @@ class ViewController: EditorViewController,
     }
     
     func pin(selectedNotes: [Note]) {
-        let projects = sidebarOutlineView.getSidebarProjects()
-        
         if selectedNotes.count == 0 {
             return
         }
@@ -1530,7 +1521,8 @@ class ViewController: EditorViewController,
             cell.renderPin()
         }
 
-        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue, project: projects?.first)
+        let settingsProject = self.getSortProject()
+        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue, project: settingsProject)
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }
@@ -2050,5 +2042,37 @@ class ViewController: EditorViewController,
                 $0.cacheHistory()
             })
         }
+    }
+
+    public func getSortBy() -> SortBy {
+        if let project = sidebarOutlineView.getSelectedProject(),
+           project.settings.sortBy != .none {
+            return project.settings.sortBy
+        }
+
+        if searchQuery.projects == nil, searchQuery.type == .All,
+           let project = sidebarOutlineView.getNotesProject(),
+           project.settings.sortBy != .none {
+
+            return project.settings.sortBy
+        }
+
+        return UserDefaultsManagement.sort
+    }
+
+    public func getSortProject() -> Project? {
+        if let project = sidebarOutlineView.getSelectedProject(),
+           project.settings.sortBy != .none {
+            return project
+        }
+
+        if searchQuery.projects == nil, searchQuery.type == .All,
+            let project = sidebarOutlineView.getNotesProject(),
+            project.settings.sortBy != .none {
+
+            return project
+        }
+
+        return nil
     }
 }

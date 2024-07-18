@@ -18,7 +18,20 @@ class Sidebar {
         var system = [SidebarItem]()
 
         if UserDefaultsManagement.sidebarVisibilityNotes {
-            let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All)
+            // Notes
+            guard let defaultURL = Storage.shared().getDefault()?.url else { return }
+            
+            let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
+            let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
+            let fakeNotesProject =
+                Project(
+                    storage: Storage.shared(),
+                    url: notesUrl,
+                    label: notesLabel,
+                    isVirtual: true
+                )
+
+            let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), project: fakeNotesProject, type: .All)
             system.append(notes)
         }
 
