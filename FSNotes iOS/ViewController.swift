@@ -56,8 +56,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var sidebarWidth: CGFloat = 0
     private var isLandscape: Bool?
 
-    // Last selected project add tag in sidebar
-    public var searchQuery: SearchQuery = SearchQuery(type: .All)
     public var restoreActivity: URL?
     public var restoreFindID: String?
     public var isLoadedDB: Bool = false
@@ -96,9 +94,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
         super.viewWillAppear(animated)
-        let searchQuery: SearchQuery = sidebarTableView.buildSearchQuery() ?? SearchQuery(type: .All)
 
-        reloadNotesTable(with: searchQuery) { [weak self] in
+        reloadNotesTable() { [weak self] in
             guard let self = self else { return }
             self.stopAnimation(indicator: self.indicator)
         }
@@ -405,7 +402,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadNotesTable() {
-        reloadNotesTable(with: SearchQuery(type: .All)) {
+        reloadNotesTable() {
             self.stopAnimation(indicator: self.indicator)
         }
     }
@@ -749,25 +746,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private func toggleSearchView() {
         loadSearchController()
         sidebarTableView.deselectAll()
-        reloadNotesTable(with: SearchQuery())
+        reloadNotesTable()
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        reloadNotesTable(with: SearchQuery())
-
-        guard searchText.count > 0 else {
-            if let searchQuery = sidebarTableView.buildSearchQuery() {
-                reloadNotesTable(with: searchQuery)
-            } else {
-                reloadNotesTable(with: SearchQuery(type: .All))
-            }
-            return
-        }
-
-        let query = SearchQuery(filter: searchText)
-        query.type = .All
-
-        reloadNotesTable(with: query)
+        buildSearchQuery()
+        reloadNotesTable()
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -812,25 +796,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func saveLastValid(searchQuery: SearchQuery) {
-        if searchQuery.projects?.first == nil
-            && searchQuery.tags?.first == nil
-            && searchQuery.type == nil {
-            return
-        }
-        
-        self.searchQuery = searchQuery
-    }
-
-    public func reloadNotesTable(with query: SearchQuery? = nil, completion: (() -> ())? = nil) {
-
-        let query = query ?? searchQuery
-
-        // remember query params
-        if query.terms == nil || query.type == .Todo {
-            saveLastValid(searchQuery: query)
-        }
-
+    public func reloadNotesTable(completion: (() -> ())? = nil) {
         isActiveTableUpdating = true
         searchQueue.cancelAllOperations()
         setNavTitle(qty: "∞")
@@ -853,12 +819,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     break
                 }
 
-                if query.isFit(note: note) {
+                if Storage.shared().searchQuery.isFit(note: note) {
                     notes.append(note)
                 }
             }
 
-            if let project = query.projects?.first, project.isLocked() {
+            if let project = Storage.shared().searchQuery.projects.first, project.isLocked() {
                 notes.removeAll()
             }
 
@@ -868,8 +834,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 modifiedNotesList =
                     self.storage.sortNotes(
                         noteList: notes,
-                        filter: query.getFilter(),
-                        project: query.projects?.first
+                        filter: Storage.shared().searchQuery.getFilter()
                     )
             }
 
@@ -1253,7 +1218,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var sidebarItems = [String]()
         var tags = [String]()
 
-        if let project = searchQuery.projects?.first {
+        if let project = storage.searchQuery.projects.first {
             tags = sidebarTableView.getAllTags(projects: [project])
         }
 
@@ -1534,6 +1499,54 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             alertController.addAction(confirmAction)
             self.present(alertController, animated: true)
         }
+    }
+
+    public func buildSearchQuery() {
+        let searchQuery = SearchQuery()
+
+        var projects = [Project]()
+        var tags = [String]()
+        var type: SidebarItemType?
+
+        if let sidebarTableView = self.sidebarTableView, let indexPaths = sidebarTableView.indexPathsForSelectedRows {
+
+            for indexPath in indexPaths {
+                let item = sidebarTableView.sidebar.items[indexPath.section][indexPath.row]
+
+                if let project = item.project, !project.isVirtual {
+                    projects.append(project)
+                }
+
+                if item.type == .Tag {
+                    tags.append(item.name)
+                }
+
+                if item.type == .All ||
+                    item.type == .Untagged ||
+                    item.type == .Todo ||
+                    item.type == .Trash ||
+                    item.type == .Inbox {
+
+                    type = item.type
+                }
+            }
+        }
+
+        if projects.count == 0 && type == nil {
+            type = .All
+        }
+
+        let filter = getSearchBar()?.text ?? ""
+
+        searchQuery.projects = projects
+        searchQuery.tags = tags
+        searchQuery.setFilter(filter)
+
+        if let type = type {
+            searchQuery.setType(type)
+        }
+
+        Storage.shared().setSearchQuery(value: searchQuery)
     }
 }
 

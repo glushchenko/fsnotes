@@ -508,15 +508,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         var insert = [Note]()
         
         for note in notes {
-            if noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil, vc.searchQuery.isFit(note: note) {
+            if noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil, vc.storage.searchQuery.isFit(note: note) {
                 insert.append(note)
             }
         }
 
         noteList.append(contentsOf: insert)
 
-        let settingsProject = vc.getSortProject()
-        self.noteList = vc.storage.sortNotes(noteList: self.noteList, filter: vc.search.stringValue, project: settingsProject)
+        self.noteList = vc.storage.sortNotes(noteList: self.noteList, filter: vc.search.stringValue)
         
         var indexSet = IndexSet()
         for note in insert {

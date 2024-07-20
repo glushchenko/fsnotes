@@ -53,6 +53,7 @@ class ProjectSettingsViewController: UITableViewController {
 
                 if let sort = SortBy(rawValue: cell.reuseIdentifier!) {
                     self.project.settings.sortBy = sort
+                    vc.buildSearchQuery()
                     vc.reloadNotesTable()
                 }
 

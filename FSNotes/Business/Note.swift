@@ -629,13 +629,11 @@ public class Note: NSObject  {
     }
     
     @objc func getDateForLabel() -> String {
-        guard !UserDefaultsManagement.hideDate,
-              let vc = ViewController.shared() else { return String() }
+        guard !UserDefaultsManagement.hideDate else { return String() }
 
-        let date = 
-            vc.getSortBy() == .creationDate
-                ? creationDate
-                : modifiedLocalAt
+        let date = self.project.storage.getSortByState() == .creationDate
+            ? creationDate
+            : modifiedLocalAt
 
         guard let date = date else { return String() }
 

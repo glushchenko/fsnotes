@@ -220,8 +220,7 @@ class NotesTableView: UITableView,
 
             let filter = vc.navigationItem.searchController?.searchBar.text ?? ""
 
-            let project = self.viewDelegate?.sidebarTableView.getSidebarProjects()?.first
-            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter, project: project)
+            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter)
             
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
@@ -639,7 +638,7 @@ class NotesTableView: UITableView,
         var toInsert = [Note]()
 
         for note in notes {
-            guard vc.searchQuery.isFit(note: note),
+            guard vc.storage.searchQuery.isFit(note: note),
                 !self.notes.contains(where: {$0 === note})
             else { continue }
 
@@ -650,10 +649,7 @@ class NotesTableView: UITableView,
         vc.updateSpotlightIndex(notes: toInsert)
 
         let nonSorted = self.notes + toInsert
-        let sorted = vc.storage.sortNotes(
-            noteList: nonSorted,
-            project: vc.searchQuery.projects?.first
-        )
+        let sorted = vc.storage.sortNotes(noteList: nonSorted)
 
         var indexPaths = [IndexPath]()
         for note in toInsert {
@@ -1034,26 +1030,16 @@ class NotesTableView: UITableView,
     }
 
     public func moveRowUp(note: Note) {
-        viewDelegate?.sidebarTableView.buildSearchQuery()
-
         guard let vc = viewDelegate,
             vc.isNoteInsertionAllowed(),
-            vc.searchQuery.isFit(note: note),
+            vc.storage.searchQuery.isFit(note: note),
             let at = notes.firstIndex(where: {$0 === note})
         else { return }
 
         var to = 0
 
-        if note.project.settings.sortBy == .modificationDate {
-            to = note.isPinned ? 0 : notes.filter({ $0.isPinned }).count
-        } else {
-            let sorted = vc.storage.sortNotes(
-                noteList: notes,
-                project: vc.searchQuery.projects?.first
-            )
-
-            to = sorted.firstIndex(of: note) ?? at
-        }
+        let sorted = vc.storage.sortNotes(noteList: notes)
+        to = sorted.firstIndex(of: note) ?? at
 
         let atIndexPath = IndexPath(row: at, section: 0)
         let toIndexPath = IndexPath(row: to, section: 0)
@@ -1120,10 +1106,7 @@ class NotesTableView: UITableView,
     public func addPins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
         for note in notes {
-            let sorted = vc.storage.sortNotes(
-                noteList: self.notes,
-                project: vc.searchQuery.projects?.first
-            )
+            let sorted = vc.storage.sortNotes(noteList: self.notes)
 
             if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
 
@@ -1148,10 +1131,7 @@ class NotesTableView: UITableView,
     public func removePins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
         for note in notes {
-            let sorted = vc.storage.sortNotes(
-                noteList: self.notes,
-                project: vc.searchQuery.projects?.first
-            )
+            let sorted = vc.storage.sortNotes(noteList: self.notes)
 
             if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
 

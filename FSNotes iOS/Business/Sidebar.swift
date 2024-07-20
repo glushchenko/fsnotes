@@ -45,6 +45,8 @@ class Sidebar {
             )
         )
 
+        Storage.shared().allNotesProject = fakeNotesProject
+
         // Inbox
         if UserDefaultsManagement.sidebarVisibilityInbox,
             let project = Storage.shared().getDefault() {
@@ -76,13 +78,26 @@ class Sidebar {
                     type: .Todo
                 )
             )
+
+            Storage.shared().todoProject = fakeTodoProject
         }
 
         // Untagged
         if UserDefaultsManagement.sidebarVisibilityUntagged {
+            let todoUrl = defaultURL.appendingPathComponent("Fake Virtual Utagged Dir")
+            let untaggedLabel = NSLocalizedString("Untagged", comment: "")
+            let fakeUntaggedProject =
+                Project(
+                    storage: Storage.shared(),
+                    url: todoUrl,
+                    label: untaggedLabel,
+                    isVirtual: true
+                )
+
             let untagged =
                 SidebarItem(
-                    name: NSLocalizedString("Untagged", comment: ""),
+                    name: untaggedLabel,
+                    project: fakeUntaggedProject,
                     type: .Untagged
                 )
 

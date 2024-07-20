@@ -48,8 +48,6 @@ class ViewController: EditorViewController,
         didSet { }  // Update the view, if already loaded.
     }
 
-    public var searchQuery: SearchQuery = SearchQuery(type: .All)
-
     // MARK: - IBOutlets
     @IBOutlet weak var nonSelectedLabel: NSTextField!
 
@@ -187,8 +185,8 @@ class ViewController: EditorViewController,
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
         
         DispatchQueue.main.async {
+            self.buildSearchQuery()
             self.configureSidebarAndNotesList()
-            
             self.preLoadProjectsData()
         }
     }
@@ -586,7 +584,7 @@ class ViewController: EditorViewController,
             
             _ = note.move(to: destination, project: project)
 
-            if !searchQuery.isFit(note: note) {
+            if !storage.searchQuery.isFit(note: note) {
                 notesTableView.removeRows(notes: [note])
 
                 if let i = selectedRow, i > -1 {
@@ -1230,8 +1228,7 @@ class ViewController: EditorViewController,
             notesTableView.reloadRow(note: note)
 
             if search.stringValue.count == 0 {
-                let project = getSortProject()
-                sortAndMove(note: note, project: project)
+                sortAndMove(note: note)
             }
             
             // Reloading nstextview in multiple windows
@@ -1267,7 +1264,6 @@ class ViewController: EditorViewController,
 
     func updateTable(completion: @escaping () -> Void = {}) {
 
-        let settingsProject = self.getSortProject()
         let timestamp = Date().toMillis()
 
         self.search.timestamp = timestamp
@@ -1277,10 +1273,9 @@ class ViewController: EditorViewController,
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {return}
 
-            if let projects = self.searchQuery.projects {
-                for project in projects {
-                    self.preLoadNoteTitles(in: project)
-                }
+            let projects = Storage.shared().searchQuery.projects
+            for project in projects {
+                self.preLoadNoteTitles(in: project)
             }
 
             let source = self.storage.noteList
@@ -1292,13 +1287,12 @@ class ViewController: EditorViewController,
                     return
                 }
 
-                if searchQuery.isFit(note: note) {
+                if Storage.shared().searchQuery.isFit(note: note) {
                     notes.append(note)
                 }
             }
             
-
-            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: self.searchQuery.filter, project: settingsProject, operation: operation)
+            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: Storage.shared().searchQuery.filter, operation: operation)
 
             // Check diff
             if orderedNotesList == self.notesTableView.noteList {
@@ -1362,29 +1356,50 @@ class ViewController: EditorViewController,
     public func buildSearchQuery() {
         let searchQuery = SearchQuery()
 
-        searchQuery.setFilter(search.stringValue)
+        var projects = [Project]()
+        var tags = [String]()
+        var type: SidebarItemType?
 
-        let projects = sidebarOutlineView.getSidebarProjects()
-        let tags = sidebarOutlineView.getSidebarTags()
-        var type = getSidebarType()
-
-        if let projects = projects {
-            searchQuery.projects = projects
+        if let sidebarProjects = sidebarOutlineView.getSidebarProjects() {
+            projects = sidebarProjects
         }
 
-        if let tags = tags {
-            searchQuery.tags = tags
+        if let sidebarTags = sidebarOutlineView.getSidebarTags() {
+            tags = sidebarTags
         }
 
-        if type == nil && projects == nil && tags == nil {
+        if let sidebarTableView = self.sidebarOutlineView {
+            let indexPaths = sidebarTableView.selectedRowIndexes
+
+            for indexPath in indexPaths {
+                if let item = sidebarTableView.item(atRow: indexPath) as? SidebarItem {
+                    if item.type == .All ||
+                        item.type == .Untagged ||
+                        item.type == .Todo ||
+                        item.type == .Trash ||
+                        item.type == .Inbox {
+
+                        type = item.type
+                    }
+                }
+            }
+        }
+
+        if projects.count == 0 && type == nil {
             type = .All
         }
+
+        let filter = search.stringValue
+
+        searchQuery.projects = projects
+        searchQuery.tags = tags
+        searchQuery.setFilter(filter)
 
         if let type = type {
             searchQuery.setType(type)
         }
 
-        self.searchQuery = searchQuery
+        Storage.shared().setSearchQuery(value: searchQuery)
     }
 
     @objc func selectNullTableRow(note: Note) {
@@ -1422,8 +1437,7 @@ class ViewController: EditorViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editor.clear()
 
-        self.searchQuery = SearchQuery(type: .All)
-
+        self.buildSearchQuery()
         self.updateTable() {
             DispatchQueue.main.async {
                 if shouldBecomeFirstResponder {
@@ -1494,7 +1508,7 @@ class ViewController: EditorViewController,
         guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
         let notes = notesTableView.noteList
 
-        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue, project: project)
+        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
         guard let dstIndex = resorted.firstIndex(of: note) else { return }
 
         if srcIndex != dstIndex {
@@ -1521,8 +1535,7 @@ class ViewController: EditorViewController,
             cell.renderPin()
         }
 
-        let settingsProject = self.getSortProject()
-        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue, project: settingsProject)
+        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue)
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }
@@ -2042,37 +2055,5 @@ class ViewController: EditorViewController,
                 $0.cacheHistory()
             })
         }
-    }
-
-    public func getSortBy() -> SortBy {
-        if let project = sidebarOutlineView.getSelectedProject(),
-           project.settings.sortBy != .none {
-            return project.settings.sortBy
-        }
-
-        if searchQuery.projects == nil, searchQuery.type == .All,
-           let project = sidebarOutlineView.getNotesProject(),
-           project.settings.sortBy != .none {
-
-            return project.settings.sortBy
-        }
-
-        return UserDefaultsManagement.sort
-    }
-
-    public func getSortProject() -> Project? {
-        if let project = sidebarOutlineView.getSelectedProject(),
-           project.settings.sortBy != .none {
-            return project
-        }
-
-        if searchQuery.projects == nil, searchQuery.type == .All,
-            let project = sidebarOutlineView.getNotesProject(),
-            project.settings.sortBy != .none {
-
-            return project
-        }
-
-        return nil
     }
 }

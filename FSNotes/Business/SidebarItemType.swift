@@ -6,12 +6,6 @@
 //  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
 //
 
-#if os(OSX)
-import Cocoa
-#else
-import UIKit
-#endif
-
 enum SidebarItemType: Int {
     case Label = 0x00
     case All = 0x01
@@ -42,27 +36,4 @@ enum SidebarItemType: Int {
         case .Separator: return nil
         }
     }
-    
-#if os(OSX)
-    public func getIcon(white: Bool = false) -> NSImage? {
-        guard let icon = icon else { return nil }
-
-        let image = NSImage(named: icon)
-        image?.isTemplate = true
-
-        if UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
-            return image?.tint(color: NSColor.controlAccentColor)
-        } else if white && !NSAppearance.current.isDark {
-            return image?.tint(color: .white)
-        } else {
-            return image?.tint(color: NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00))
-        }
-    }
-#else
-    public func getIcon() -> UIImage? {
-        guard let icon = icon, let image = UIImage(named: icon) else { return nil }
-
-        return image.imageWithColor(color1: UIColor.mainTheme)
-    }
-#endif
 }

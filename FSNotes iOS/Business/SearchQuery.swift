@@ -8,46 +8,16 @@
 
 class SearchQuery {
     var type: SidebarItemType? = nil
-    var projects: [Project]? = nil
-    var tags: [String]? = nil
+    var projects = [Project]()
+    var tags = [String]()
     var terms: [Substring]? = nil
     var filter: String? = nil
 
     init() {}
 
-    init(type: SidebarItemType) {
-        if type == .Todo {
-            terms = ["- [ ] "]
-        }
-
-        self.type = type
-    }
-
-    init(filter: String) {
-        self.filter = filter
-
-        terms = filter.split(separator: " ")
-    }
-
-    init(type: SidebarItemType, projects: [Project]? = nil, tags: [String]? = nil) {
-        if type == .Todo {
-            terms = ["- [ ] "]
-        }
-
-        self.type = type
-
-        if let projects = projects {
-            self.projects = projects
-        }
-
-        if let tags = tags {
-            self.tags = tags
-        }
-    }
-
     public func setType(_ type: SidebarItemType) {
         if type == .Todo {
-            if terms?.count == 0 {
+            if terms == nil || terms!.count == 0 {
                 terms = ["- [ ] "]
             } else {
                 terms!.append("- [ ] ")
@@ -79,19 +49,21 @@ class SearchQuery {
                     || self.terms != nil && self.isMatched(note: note, terms: self.terms!)
             ) && (
                 self.type == .All && note.project.isVisibleInCommon()
-                || self.type != .All && self.type != .Todo && self.projects != nil && self.projects!.contains(note.project)
+                || self.type != .All && self.type != .Todo && self.projects.count > 0 && self.projects.contains(note.project)
                 || self.type == .Inbox && note.project.isDefault
                 || self.type == .Trash
                 || self.type == .Untagged && note.tags.count == 0
                 || self.type == .Todo && note.project.settings.showInCommon
-                || !UserDefaultsManagement.inlineTags && self.tags != nil
-                || self.projects?.contains(note.project) == true
+                || !UserDefaultsManagement.inlineTags && self.tags.count > 0
+                || self.projects.contains(note.project)
             ) && (
                 self.type == .Trash && note.isTrash()
                 || self.type != .Trash && !note.isTrash()
             ) && (
-                self.tags == nil
-                || UserDefaultsManagement.inlineTags && self.tags != nil && note.tags.filter({ self.tags != nil && self.contains(tag: $0, in: self.tags!) }).count > 0
+                self.tags.count == 0
+                || UserDefaultsManagement.inlineTags
+                    && self.tags.count > 0
+                    && note.tags.filter({ self.tags.count > 0 && self.contains(tag: $0, in: self.tags) }).count > 0
             ) && !(
                 note.project.isEncrypted &&
                 note.project.isLocked()

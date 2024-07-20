@@ -33,6 +33,8 @@ class ProjectSettingsViewController: SettingsViewController {
         project.saveSettings()
         
         guard let vc = ViewController.shared() else { return }
+
+        vc.buildSearchQuery()
         vc.updateTable()
     }
     
@@ -43,6 +45,8 @@ class ProjectSettingsViewController: SettingsViewController {
         project.saveSettings()
         
         guard let vc = ViewController.shared() else { return }
+
+        vc.buildSearchQuery()
         vc.updateTable()
     }
     

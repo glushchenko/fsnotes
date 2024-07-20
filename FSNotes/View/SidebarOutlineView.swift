@@ -161,6 +161,20 @@ class SidebarOutlineView: NSOutlineView,
         let tags = ViewController.shared()?.sidebarOutlineView.getSidebarTags()
         let project = ViewController.shared()?.sidebarOutlineView.getSelectedProject()
 
+
+        if let project = project, project.isVirtual {
+            if ["folderMenu.new",
+                "folderMenubar.new",
+                "folderMenu.options"].contains(id) {
+
+                menuItem.isHidden = false
+                return true
+            }
+
+            menuItem.isHidden = true
+            return false
+        }
+
         if ["context.folder.renameTag", "folder.renameTag", "folder.removeTags"].contains(id) {
             if tags == nil {
                 menuItem.isHidden = true
@@ -283,7 +297,7 @@ class SidebarOutlineView: NSOutlineView,
     public func validateEncryption(menuItem: NSMenuItem) -> Bool {
         let project = ViewController.shared()?.sidebarOutlineView.getSelectedProject()
 
-        if let project = project, !project.isTrash, !project.isDefault {
+        if let project = project, !project.isTrash, !project.isDefault, !project.isVirtual {
             menuItem.title = project.isEncrypted
                 ? NSLocalizedString("Decrypt", comment: "")
                 : NSLocalizedString("Encrypt", comment: "")
@@ -677,7 +691,13 @@ class SidebarOutlineView: NSOutlineView,
             
             cell.textField?.stringValue = name
             cell.type = si.type
-            cell.icon.image = si.type.getIcon()
+
+            if let name = si.type.icon, let image = si.getIcon(name: name) {
+                cell.icon.image = image
+            } else {
+                cell.icon.image = nil
+            }
+
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
 
@@ -778,7 +798,6 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         vd.buildSearchQuery()
-
         vd.updateTable() {
             if self.isFirstLaunch {
                 DispatchQueue.main.async {
@@ -1484,7 +1503,7 @@ class SidebarOutlineView: NSOutlineView,
 
         var projects = [Project]()
         for i in v.selectedRowIndexes {
-            if let si = item(atRow: i) as? SidebarItem, let project = si.project, si.tag == nil {
+            if let si = item(atRow: i) as? SidebarItem, let project = si.project, !project.isVirtual, si.tag == nil {
                 projects.append(project)
             }
         }

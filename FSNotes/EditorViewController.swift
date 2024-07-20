@@ -265,7 +265,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     return vc.sidebarOutlineView.validateNewFolder(menuItem: menuItem)
                 }
 
-                if ident == "folderMenu.toggleEncryption" || ident == "folderMenubar.toggleEncryption" {
+                if ident == "folderMenu.toggleEncryption" || 
+                    ident == "folderMenubar.toggleEncryption" {
+                    
                     return vc.sidebarOutlineView.validateEncryption(menuItem: menuItem)
                 }
 
@@ -385,7 +387,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             project = objectProject
         }
 
-        if project == nil {
+        if project == nil || project?.isVirtual == true {
             project = Storage.shared().getDefault()
         }
 

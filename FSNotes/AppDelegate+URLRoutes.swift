@@ -149,11 +149,11 @@ extension AppDelegate {
     func search(query: String) {
         guard let controller = ViewController.shared() else { return }
 
-
         let searchQuery = SearchQuery()
+        searchQuery.type = .All
         searchQuery.setFilter(query)
 
-        controller.searchQuery = searchQuery
+        controller.storage.setSearchQuery(value: searchQuery)
         controller.updateTable() {
             DispatchQueue.main.async {
                 controller.search.stringValue = query

@@ -27,7 +27,9 @@ class SidebarItem {
         self.tag = tag
 
     #if os(iOS)
-        self.icon = self.type.getIcon()
+        if let icon = type.icon {
+            self.icon = getIcon(name: icon)
+        }
 
         guard let project = project, type == .Project else { return }
 
@@ -41,7 +43,9 @@ class SidebarItem {
             self.type = .Project
         }
 
-        self.icon = self.type.getIcon()
+        if let icon = type.icon {
+            self.icon = getIcon(name: icon)
+        }
     #endif
     }
 
@@ -83,6 +87,30 @@ class SidebarItem {
 
     public func load(type: SidebarItemType) {
         self.type = type
-        self.icon = type.getIcon()
+
+        if let icon = type.icon {
+            self.icon = getIcon(name: icon)
+        }
     }
+
+#if os(OSX)
+    public func getIcon(name: String, white: Bool = false) -> NSImage? {
+        let image = NSImage(named: name)
+        image?.isTemplate = true
+
+        if UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
+            return image?.tint(color: NSColor.controlAccentColor)
+        } else if white && !NSAppearance.current.isDark {
+            return image?.tint(color: .white)
+        } else {
+            return image?.tint(color: NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00))
+        }
+    }
+#else
+    public func getIcon(name: String) -> UIImage? {
+        guard let image = UIImage(named: name) else { return nil }
+
+        return image.imageWithColor(color1: UIColor.mainTheme)
+    }
+#endif
 }

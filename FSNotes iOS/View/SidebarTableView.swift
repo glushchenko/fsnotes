@@ -16,7 +16,7 @@ class SidebarTableView: UITableView,
     UITableViewDataSource,
     UITableViewDropDelegate {
 
-    private var sidebar: Sidebar = Sidebar()
+    public var sidebar: Sidebar = Sidebar()
     private var busyTrashReloading = false
     public var viewController: ViewController?
 
@@ -78,15 +78,16 @@ class SidebarTableView: UITableView,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vc = self.viewController else { return }
-
         let selectedSection = SidebarSection(rawValue: indexPath.section)
 
         guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else { return }
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
-        guard vc.searchQuery.projects?.first != sidebarItem.project else { return }
 
-        if let project = vc.searchQuery.projects?.first, getIndexPathBy(project: project) == indexPath, vc.notesTable.isEditing {
+        guard vc.storage.searchQuery.projects.first != sidebarItem.project
+            || sidebarItem.type == .Tag else { return }
+
+        if let project = vc.storage.searchQuery.projects.first, getIndexPathBy(project: project) == indexPath, vc.notesTable.isEditing {
             vc.notesTable.toggleSelectAll()
             return
         }
@@ -103,38 +104,12 @@ class SidebarTableView: UITableView,
 
         vc.notesTable.turnOffEditing()
 
-        if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
-            Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { _ in
-                vc.openSettings()
-                self.deselectRow(at: indexPath, animated: false)
-            }
-
-            AudioServicesPlaySystemSound(1519)
-            return
-        }
-
         var name = sidebarItem.name
-
         if sidebarItem.type == .Tag {
             name = "#\(name)"
         }
 
-        let newQuery = SearchQuery()
-        newQuery.setType(sidebarItem.type)
-
-        if let project = sidebarItem.project {
-            newQuery.projects = [project]
-        }
-
-        newQuery.tags = nil
-
         if selectedSection == .Tags {
-            newQuery.type = vc.searchQuery.type
-
-            newQuery.projects = vc.searchQuery.projects
-
-            newQuery.tags = [sidebarItem.name]
-
             deselectAllTags()
         } else {
             deselectAllProjects()
@@ -145,7 +120,8 @@ class SidebarTableView: UITableView,
         vc.configureNavMenu(for: sidebarItem)
         vc.navigationItem.searchController?.searchBar.text = ""
 
-        vc.reloadNotesTable(with: newQuery) {
+        vc.buildSearchQuery()
+        vc.reloadNotesTable() {
             DispatchQueue.main.async {
                 vc.setNavTitle(folder: name)
 
@@ -177,28 +153,22 @@ class SidebarTableView: UITableView,
         guard let vc = self.viewController else { return }
 
         var indexPath: IndexPath = IndexPath(row: 0, section: 0)
-        if let type = vc.searchQuery.type,
+        if let type = vc.storage.searchQuery.type,
             let ip = getIndexPathBy(type: type) {
             indexPath = ip
-        } else if let project = vc.searchQuery.projects?.first,
+        } else if let project = vc.storage.searchQuery.projects.first,
             let ip = getIndexPathBy(project: project) {
             indexPath = ip
         }
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
-
         let name = sidebarItem.name
-        let newQuery = SearchQuery()
-        newQuery.setType(sidebarItem.type)
-
-        if let project = sidebarItem.project {
-            newQuery.projects = [project]
-        }
 
         selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        vc.configureNavMenu(for: sidebarItem)
 
-        vc.reloadNotesTable(with: newQuery) {
+        vc.configureNavMenu(for: sidebarItem)
+        vc.buildSearchQuery()
+        vc.reloadNotesTable() {
             DispatchQueue.main.async {
                 vc.setNavTitle(folder: name)
             }
@@ -334,30 +304,6 @@ class SidebarTableView: UITableView,
         }
     }
 
-    public func buildSearchQuery() -> SearchQuery? {
-        guard let indexPaths = UIApplication.getVC().sidebarTableView?.indexPathsForSelectedRows else { return nil }
-        let searchQuery = SearchQuery()
-
-        for indexPath in indexPaths {
-            let item = sidebar.items[indexPath.section][indexPath.row]
-            searchQuery.type = item.type
-
-            if let project = item.project {
-                searchQuery.projects = [project]
-            }
-
-            if item.type == .Tag {
-                searchQuery.tags = [item.name]
-            }
-        }
-
-        if let filter = UIApplication.getVC().getSearchBar()?.text, filter.count > 0 {
-            searchQuery.setFilter(filter)
-        }
-
-        return searchQuery
-    }
-
     public func getSidebarProjects() -> [Project]? {
         guard let indexPaths = UIApplication.getVC().sidebarTableView?.indexPathsForSelectedRows else { return nil }
 
@@ -417,20 +363,9 @@ class SidebarTableView: UITableView,
         guard UserDefaultsManagement.inlineTags, let vc = viewController else { return }
 
         unloadAllTags()
-        var tags = [String]()
 
-        switch vc.searchQuery.type {
-        case .Inbox, .All, .Todo:
-            let notes = vc.notesTable.notes
-            tags = getAllTags(notes: notes)
-            break
-        case .Project, .ProjectEncryptedUnlocked:
-            guard let project = vc.searchQuery.projects?.first else { return }
-            tags = getAllTags(projects: [project])
-            break
-        default:
-            return
-        }
+        let notes = vc.notesTable.notes
+        var tags = getAllTags(notes: notes)
 
         guard tags.count > 0, self.sidebar.items.indices.contains(2) else { return }
 
@@ -526,9 +461,9 @@ class SidebarTableView: UITableView,
 
         var allTags = [String]()
 
-        if let project = vc.searchQuery.projects?.first {
+        if let project = vc.storage.searchQuery.projects.first {
             allTags = project.getAllTags()
-        } else if let type = vc.searchQuery.type {
+        } else if let type = vc.storage.searchQuery.type {
             var notes = [Note]()
             switch type {
             case .All:
@@ -571,12 +506,12 @@ class SidebarTableView: UITableView,
         guard let vc = viewController else { return nil }
 
         let query = SearchQuery()
-        query.projects = vc.searchQuery.projects
+        query.projects = vc.storage.searchQuery.projects
 
-        if let type = vc.searchQuery.type {
+        if let type = vc.storage.searchQuery.type {
             query.type = type
 
-            if query.projects?.first != nil && type == .Tag {
+            if query.projects.first != nil && type == .Tag {
                 query.type = .Project
             }
         }
@@ -586,26 +521,29 @@ class SidebarTableView: UITableView,
 
     private func deSelectTagIfNonExist(tags: [String]) {
         guard let vc = viewController,
-              let tag = vc.searchQuery.tags?.first
+              let tag = vc.storage.searchQuery.tags.first
         else { return }
 
         guard tags.contains(tag) else { return }
 
-        if let project = vc.searchQuery.projects?.first,
+        if let project = vc.storage.searchQuery.projects.first,
             let index = getIndexPathBy(project: project)
         {
             tableView(self, didSelectRowAt: index)
             return
         }
 
-        if let type = vc.searchQuery.type,
+        if let type = vc.storage.searchQuery.type,
             let index = getIndexPathBy(type: type) {
             tableView(self, didSelectRowAt: index)
         }
     }
 
     public func getSelectedSidebarItem() -> SidebarItem? {
-        guard let vc = viewController, let project = vc.searchQuery.projects?.first else { return nil }
+        guard let vc = viewController,
+              let project = vc.storage.searchQuery.projects.first
+        else { return nil }
+
         let items = sidebar.items
 
         for item in items {
@@ -714,7 +652,7 @@ class SidebarTableView: UITableView,
             if let index = sidebar.items[1].firstIndex(where: { $0.project == project }) {
                 indexPaths.append(IndexPath(row: index, section: 1))
 
-                if project == vc.searchQuery.projects?.first {
+                if project == vc.storage.searchQuery.projects.first {
                     deselectCurrent = true
                 }
 
@@ -747,23 +685,6 @@ class SidebarTableView: UITableView,
     public func select(tag: String) {
         guard let indexPath = getIndexPathBy(tag: tag) else { return }
         tableView(self, didSelectRowAt: indexPath)
-    }
-
-    public func restoreSelection(for search: SearchQuery) {
-        if let type = search.type {
-            let index = getIndexPathBy(type: type)
-            selectRow(at: index, animated: false, scrollPosition: .none)
-        }
-
-        if let project = search.projects?.first {
-            let index = getIndexPathBy(project: project)
-            selectRow(at: index, animated: false, scrollPosition: .none)
-        }
-
-        if let tag = search.tags?.first {
-            let index = getIndexPathBy(tag: tag)
-            selectRow(at: index, animated: false, scrollPosition: .none)
-        }
     }
 
     public func remove(tag: String) {
