@@ -13,10 +13,11 @@ class ProjectSettingsViewController: UITableViewController {
     private var project: Project
     private var sections = [
         NSLocalizedString("Sort By", comment: ""),
+        NSLocalizedString("Sort Direction", comment: ""),
         NSLocalizedString("Visibility", comment: ""),
         NSLocalizedString("Notes List", comment: "")
     ]
-    private var rowsInSections = [4, 2, 1]
+    private var rowsInSections = [4, 2, 2, 1]
 
     init(project: Project, dismiss: Bool = false) {
         self.project = project
@@ -63,6 +64,25 @@ class ProjectSettingsViewController: UITableViewController {
                     cell.accessoryType = .none
                 }
             }
+
+            if indexPath.section == 0x01 {
+                for row in 0...rowsInSections[indexPath.section] {
+                    let cell = tableView.cellForRow(at: IndexPath(row: row, section: indexPath.section))
+                    cell?.accessoryType = .none
+                }
+
+                if let sort = SortDirection(rawValue: cell.reuseIdentifier!) {
+                    self.project.settings.sortDirection = sort
+                    vc.buildSearchQuery()
+                    vc.reloadNotesTable()
+                }
+
+                if cell.accessoryType == .none {
+                    cell.accessoryType = .checkmark
+                } else {
+                    cell.accessoryType = .none
+                }
+            }
         }
 
         project.saveSettings()
@@ -73,7 +93,7 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -130,6 +150,27 @@ class ProjectSettingsViewController: UITableViewController {
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
+                cell = UITableViewCell(style: .default, reuseIdentifier: "asc")
+                cell.textLabel?.text = NSLocalizedString("Ascending", comment: "")
+                if project.settings.sortDirection.rawValue == "asc" {
+                    cell.accessoryType = .checkmark
+                }
+                break
+            case 1:
+                cell = UITableViewCell(style: .default, reuseIdentifier: "desc")
+                cell.textLabel?.text = NSLocalizedString("Descending", comment: "")
+                if project.settings.sortDirection.rawValue == "desc" {
+                    cell.accessoryType = .checkmark
+                }
+                break
+            default:
+                break
+            }
+        }
+
+        if indexPath.section == 0x02 {
+            switch indexPath.row {
+            case 0:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = project.settings.showInCommon
                 uiSwitch.isEnabled =
@@ -152,7 +193,7 @@ class ProjectSettingsViewController: UITableViewController {
             }
         }
 
-        if indexPath.section == 0x02 {
+        if indexPath.section == 0x03 {
             cell.accessoryView = uiSwitch
             uiSwitch.isOn = project.settings.isFirstLineAsTitle()
             uiSwitch.isEnabled = !project.isVirtual
@@ -170,7 +211,7 @@ class ProjectSettingsViewController: UITableViewController {
 
         let vc = UIApplication.getVC()
 
-        if indexPath.section == 0x01 {
+        if indexPath.section == 0x02 {
             if indexPath.row == 0x00 {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
                 self.project.settings.showInCommon = uiSwitch.isOn
@@ -191,7 +232,7 @@ class ProjectSettingsViewController: UITableViewController {
                     }
                 }
             }
-        } else if indexPath.section == 0x02 {
+        } else if indexPath.section == 0x03 {
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
             project.settings.firstLineAsTitle = uiSwitch.isOn
 

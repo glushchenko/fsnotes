@@ -43,7 +43,7 @@ class SidebarItem {
             self.type = .Project
         }
 
-        if let icon = type.icon {
+        if let icon = self.type.icon {
             self.icon = getIcon(name: icon)
         }
     #endif

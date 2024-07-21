@@ -222,8 +222,6 @@ class ViewController: EditorViewController,
             OperationQueue.main.addOperation {
                 self.sidebarOutlineView.removeRows(projects: results.0)
                 self.sidebarOutlineView.insertRows(projects: results.1)
-                
-                //storage.loadPins(notes: results.3)
                 self.notesTableView.doVisualChanges(results: (results.2, results.3, []))
             }
             

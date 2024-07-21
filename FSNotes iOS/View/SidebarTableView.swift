@@ -365,7 +365,7 @@ class SidebarTableView: UITableView,
         unloadAllTags()
 
         let notes = vc.notesTable.notes
-        var tags = getAllTags(notes: notes)
+        let tags = getAllTags(notes: notes)
 
         guard tags.count > 0, self.sidebar.items.indices.contains(2) else { return }
 
