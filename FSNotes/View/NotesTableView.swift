@@ -515,7 +515,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         noteList.append(contentsOf: insert)
 
-        self.noteList = vc.storage.sortNotes(noteList: self.noteList, filter: vc.search.stringValue)
+        self.noteList = vc.storage.sortNotes(noteList: self.noteList)
         
         var indexSet = IndexSet()
         for note in insert {

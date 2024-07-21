@@ -831,11 +831,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             var modifiedNotesList = [Note]()
 
             if !notes.isEmpty {
-                modifiedNotesList =
-                    self.storage.sortNotes(
-                        noteList: notes,
-                        filter: Storage.shared().searchQuery.getFilter()
-                    )
+                modifiedNotesList = self.storage.sortNotes(noteList: notes)
             }
 
             if operation.isCancelled {
@@ -1546,7 +1542,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             searchQuery.setType(type)
         }
 
-        Storage.shared().setSearchQuery(value: searchQuery)
+        self.storage.setSearchQuery(value: searchQuery)
     }
 }
 

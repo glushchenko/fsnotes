@@ -1285,12 +1285,12 @@ class ViewController: EditorViewController,
                     return
                 }
 
-                if Storage.shared().searchQuery.isFit(note: note) {
+                if self.storage.searchQuery.isFit(note: note) {
                     notes.append(note)
                 }
             }
             
-            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: Storage.shared().searchQuery.filter, operation: operation)
+            let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
 
             // Check diff
             if orderedNotesList == self.notesTableView.noteList {
@@ -1397,7 +1397,7 @@ class ViewController: EditorViewController,
             searchQuery.setType(type)
         }
 
-        Storage.shared().setSearchQuery(value: searchQuery)
+        self.storage.setSearchQuery(value: searchQuery)
     }
 
     @objc func selectNullTableRow(note: Note) {
@@ -1506,7 +1506,7 @@ class ViewController: EditorViewController,
         guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
         let notes = notesTableView.noteList
 
-        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
+        let resorted = storage.sortNotes(noteList: notes)
         guard let dstIndex = resorted.firstIndex(of: note) else { return }
 
         if srcIndex != dstIndex {
@@ -1533,7 +1533,7 @@ class ViewController: EditorViewController,
             cell.renderPin()
         }
 
-        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue)
+        let resorted = storage.sortNotes(noteList: notesTableView.noteList)
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }

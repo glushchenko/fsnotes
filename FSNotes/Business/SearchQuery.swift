@@ -11,7 +11,7 @@ class SearchQuery {
     var projects = [Project]()
     var tags = [String]()
     var terms: [Substring]? = nil
-    var filter: String? = nil
+    public var filter = String()
 
     init() {}
 
@@ -27,24 +27,16 @@ class SearchQuery {
         self.type = type
     }
 
-    public func getFilter() -> String? {
-        return self.filter
-    }
-
     public func setFilter(_ filter: String) {
         self.filter = filter
         
         terms = filter.split(separator: " ")
     }
 
-    public func isEmptyFilter() -> Bool {
-        return self.filter == nil || self.filter?.count == 0
-    }
-
     public func isFit(note: Note) -> Bool {
         return !note.name.isEmpty
             && (
-                self.isEmptyFilter() && self.type != .Todo
+                self.filter.isEmpty && self.type != .Todo
                     || self.type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
                     || self.terms != nil && self.isMatched(note: note, terms: self.terms!)
             ) && (

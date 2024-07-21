@@ -447,11 +447,11 @@ class Storage {
             })
     }
         
-    func sortNotes(noteList: [Note], filter: String? = nil, operation: BlockOperation? = nil) -> [Note] {
+    public func sortNotes(noteList: [Note], operation: BlockOperation? = nil) -> [Note] {
         var noteList = noteList
         
         // Pre sort by creation and modified date, title
-        if let filter = filter, filter.count > 0 {
+        if !searchQuery.filter.isEmpty {
             noteList = noteList.sorted(by: {
                 if let operation = operation, operation.isCancelled {
                     return false
@@ -466,21 +466,21 @@ class Storage {
                 return false
             }
 
-            if let filter = filter, filter.count > 0 {
-                if ($0.title == filter && $1.title != filter) {
+            if !searchQuery.filter.isEmpty {
+                if ($0.title == searchQuery.filter && $1.title != searchQuery.filter) {
                     return true
                 }
 
-                if ($0.fileName == filter && $1.fileName != filter) {
+                if ($0.fileName == searchQuery.filter && $1.fileName != searchQuery.filter) {
                     return true
                 }
 
                 if (
-                    $0.title.startsWith(string: filter)
-                        || $0.fileName.startsWith(string: filter)
+                    $0.title.startsWith(string: searchQuery.filter)
+                        || $0.fileName.startsWith(string: searchQuery.filter)
                 ) && (
-                    !$1.title.startsWith(string: filter)
-                        && !$1.fileName.startsWith(string: filter)
+                    !$1.title.startsWith(string: searchQuery.filter)
+                        && !$1.fileName.startsWith(string: searchQuery.filter)
                 ) {
                     return true
                 }
