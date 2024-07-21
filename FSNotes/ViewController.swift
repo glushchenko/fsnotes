@@ -505,9 +505,12 @@ class ViewController: EditorViewController,
             let key = String(id.rawValue.dropFirst(3))
             guard let sortBy = SortBy(rawValue: key) else { return }
 
+            if sortBy.rawValue == UserDefaultsManagement.sort.rawValue {
+                UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
+            }
+
             UserDefaultsManagement.sort = sortBy
-            UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
-            
+
             if let submenu = sortByOutlet.submenu {
                 for item in submenu.items {
                     item.state = NSControl.StateValue.off
@@ -516,6 +519,7 @@ class ViewController: EditorViewController,
             
             sender.state = NSControl.StateValue.on
             
+            ViewController.shared()?.buildSearchQuery()
             ViewController.shared()?.updateTable()
         }
     }

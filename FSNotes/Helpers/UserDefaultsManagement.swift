@@ -19,6 +19,8 @@ public class UserDefaultsManagement {
     static var apiPath = "https://api.fsnot.es/"
     static var webPath = "https://p.fsnot.es/"
 
+    public static var global = NSUbiquitousKeyValueStore()
+    
 #if os(OSX)
     typealias Color = NSColor
     typealias Image = NSImage
@@ -411,27 +413,27 @@ public class UserDefaultsManagement {
         
     static var sort: SortBy {
         get {
-            if let result = shared?.object(forKey: "sortBy"), let sortBy = SortBy(rawValue: result as! String) {
+            if let result = global.object(forKey: "sortBy"), let sortBy = SortBy(rawValue: result as! String) {
                 return sortBy
             } else {
                 return .modificationDate
             }
         }
         set {
-            shared?.set(newValue.rawValue, forKey: "sortBy")
+            global.set(newValue.rawValue, forKey: "sortBy")
         }
     }
     
     static var sortDirection: Bool {
         get {
-            if let returnMode = shared?.object(forKey: "sortDirection") {
+            if let returnMode = global.object(forKey: "sortDirection") {
                 return returnMode as! Bool
             } else {
                 return true
             }
         }
         set {
-            shared?.set(newValue, forKey: "sortDirection")
+            global.set(newValue, forKey: "sortDirection")
         }
     }
     

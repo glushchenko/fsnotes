@@ -713,21 +713,21 @@ CA
                                         <menuItem isSeparatorItem="YES" id="Ljl-jP-3qX"/>
                                         <menuItem title="Sort By" id="rHB-xF-GgG">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Sort By" id="05n-RU-nOV">
+                                            <menu key="submenu" title="Sort By" identifier="viewSortBy" id="05n-RU-nOV">
                                                 <items>
-                                                    <menuItem title="Modification Date" identifier="SB.modificationDate" id="dCc-l5-XB2">
+                                                    <menuItem title="Modification Date" tag="1" identifier="SB.modificationDate" id="dCc-l5-XB2">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="UCf-WH-qOL"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Creation Date" identifier="SB.creationDate" id="eTL-dh-GvM">
+                                                    <menuItem title="Creation Date" tag="2" identifier="SB.creationDate" id="eTL-dh-GvM">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="2Jk-Qh-1MD"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Title" identifier="SB.title" id="1qV-pJ-ZQT">
+                                                    <menuItem title="Title" tag="3" identifier="SB.title" id="1qV-pJ-ZQT">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="Diu-Vl-cVb"/>
