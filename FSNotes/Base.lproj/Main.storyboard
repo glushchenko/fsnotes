@@ -2778,12 +2778,12 @@ Olena Hlushcneko</string>
         <scene sceneID="dYK-AI-vld">
             <objects>
                 <viewController storyboardIdentifier="ProjectSettingsViewController" id="JOV-dV-hyG" customClass="ProjectSettingsViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="MgV-BT-LsD">
-                        <rect key="frame" x="0.0" y="0.0" width="612" height="550"/>
+                    <view key="view" misplaced="YES" id="MgV-BT-LsD">
+                        <rect key="frame" x="0.0" y="0.0" width="612" height="562"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button identifier="creationDate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VM6-1W-eJP">
-                                <rect key="frame" x="125" y="469" width="108" height="18"/>
+                                <rect key="frame" x="125" y="481" width="108" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Creation date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="PY8-lr-5qr">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2793,7 +2793,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button identifier="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lRQ-kL-8RA">
-                                <rect key="frame" x="125" y="513" width="188" height="18"/>
+                                <rect key="frame" x="125" y="525" width="188" height="18"/>
                                 <buttonCell key="cell" type="radio" title="None (Use global settings)" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="oer-ZB-VOx">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2803,10 +2803,10 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="opy-8T-bfQ">
-                                <rect key="frame" x="20" y="425" width="572" height="5"/>
+                                <rect key="frame" x="20" y="437" width="572" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yJO-Hj-7Bf">
-                                <rect key="frame" x="46" y="391" width="63" height="16"/>
+                                <rect key="frame" x="46" y="403" width="63" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Direction:" id="QxK-39-9yF">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2822,13 +2822,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Xlx-2b-uqS">
-                                <rect key="frame" x="20" y="346" width="572" height="5"/>
+                                <rect key="frame" x="20" y="358" width="572" height="5"/>
                             </box>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9Ag-KN-R7v">
                                 <rect key="frame" x="20" y="279" width="572" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i67-zB-31s">
-                                <rect key="frame" x="50" y="312" width="59" height="16"/>
+                                <rect key="frame" x="50" y="324" width="59" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Visibility:" id="jrj-ea-xmm">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2836,7 +2836,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cFW-mP-L5G">
-                                <rect key="frame" x="56" y="514" width="53" height="16"/>
+                                <rect key="frame" x="56" y="526" width="53" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Sort By:" id="4cz-zj-dkH">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2854,7 +2854,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button identifier="modificationDate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qfE-2B-PiS">
-                                <rect key="frame" x="125" y="491" width="132" height="18"/>
+                                <rect key="frame" x="125" y="503" width="132" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Modification date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="GCG-C6-9cg">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2864,7 +2864,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button identifier="desc" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HIU-aj-0cI">
-                                <rect key="frame" x="125" y="368" width="98" height="18"/>
+                                <rect key="frame" x="125" y="380" width="98" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Descending" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="TCI-Xs-mwm">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2874,7 +2874,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button identifier="asc" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cG6-mW-iPi">
-                                <rect key="frame" x="125" y="390" width="90" height="18"/>
+                                <rect key="frame" x="125" y="402" width="90" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Ascending" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="EYG-WM-BFN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2894,7 +2894,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DQw-2B-ocF">
-                                <rect key="frame" x="125" y="311" width="263" height="18"/>
+                                <rect key="frame" x="125" y="323" width="263" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show notes in &quot;Notes&quot; and &quot;Todo&quot; lists" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Zzw-01-JH7">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2904,7 +2904,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button identifier="title" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G4r-zr-CMm">
-                                <rect key="frame" x="125" y="447" width="53" height="18"/>
+                                <rect key="frame" x="125" y="459" width="53" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Title" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="LPT-uW-BtF">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2914,7 +2914,7 @@ Olena Hlushcneko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Mi8-2x-rJD">
-                                <rect key="frame" x="125" y="289" width="200" height="18"/>
+                                <rect key="frame" x="125" y="301" width="200" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show nested folders content" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="f33-1h-Hvh">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -3060,7 +3060,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="lhi-dw-WFN" firstAttribute="centerY" secondItem="zhQ-Wh-naA" secondAttribute="centerY" id="Biq-Nd-fjv"/>
                             <constraint firstItem="9Ag-KN-R7v" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="20" symbolic="YES" id="BqT-se-lOr"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HIU-aj-0cI" secondAttribute="trailing" constant="20" symbolic="YES" id="CQA-xM-V8s"/>
-                            <constraint firstItem="9Ag-KN-R7v" firstAttribute="top" secondItem="Mi8-2x-rJD" secondAttribute="bottom" constant="8" symbolic="YES" id="DZG-p0-4r5"/>
+                            <constraint firstItem="9Ag-KN-R7v" firstAttribute="top" secondItem="Mi8-2x-rJD" secondAttribute="bottom" constant="20" id="DZG-p0-4r5"/>
                             <constraint firstItem="lhi-dw-WFN" firstAttribute="top" secondItem="RHj-at-082" secondAttribute="bottom" constant="20" id="E4J-us-KLv"/>
                             <constraint firstItem="eOj-jC-ndy" firstAttribute="trailing" secondItem="i67-zB-31s" secondAttribute="trailing" id="Eoq-Ca-gYc"/>
                             <constraint firstItem="Mi8-2x-rJD" firstAttribute="leading" secondItem="DQw-2B-ocF" secondAttribute="leading" id="HiY-81-gwL"/>

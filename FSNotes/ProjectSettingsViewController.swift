@@ -86,6 +86,12 @@ class ProjectSettingsViewController: SettingsViewController {
     }
 
     public func load(project: Project) {
+        if project.isVirtual {
+            showInAll.isEnabled = false
+            nestedFoldersContent.isEnabled = false
+            firstLineAsTitle.isEnabled = false
+        }
+
         showInAll.state = project.settings.showInCommon ? .on : .off
         firstLineAsTitle.state = project.settings.isFirstLineAsTitle() ? .on : .off
         nestedFoldersContent.state = project.settings.showNestedFoldersContent ? .on : .off

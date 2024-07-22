@@ -150,6 +150,14 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     }
 
     public func loadGit(project: Project) {
+        var project = project
+
+        if project.isVirtual {
+            if let defaultProject = Storage.shared().getDefault() {
+                project = defaultProject
+            }
+        }
+
         self.project = project
         
         origin.stringValue = project.settings.gitOrigin ?? ""

@@ -240,7 +240,7 @@ class ViewController: EditorViewController,
             storage.loadNotesContent()
             
             DispatchQueue.main.async {
-                self.sidebarOutlineView.loadAllTags()
+                self.sidebarOutlineView.reloadSidebar()
             }
             
             print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
