@@ -1350,35 +1350,49 @@ class Storage {
     }
     
     public func saveNotesSettings() {
-        var result = [URL: Bool]()
+        var result = [String: Bool]()
 
         for note in noteList {
-            result[note.url] = note.previewState
+            if note.previewState {
+                let path = note.getRelatedPath()
+                result[path] = note.previewState
+            }
         }
-        
-        if result.count > 0 {
-            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: true)
 
-            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-                try? projectsData?.write(to: documentDir.appendingPathComponent("notes.settings"))
+        guard result.count > 0, let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: true) else { return }
+
+        #if CLOUD_RELATED_BLOCK
+        NSUbiquitousKeyValueStore().set(projectsData, forKey: "es.fsnot.global.preview.mode")
+        #else
+        if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+            try? projectsData.write(to: documentDir.appendingPathComponent("notes.settings"))
+        }
+        #endif
+    }
+    
+    public func loadNotesPreviewState() {
+        #if CLOUD_RELATED_BLOCK
+        guard let data = NSUbiquitousKeyValueStore().data(forKey: "es.fsnot.global.preview.mode") else { return }
+        #else
+        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
+
+        let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
+
+        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
+        #endif
+
+        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSString.self, NSNumber.self], from: data) as? [String: Bool] else { return }
+
+        for note in noteList {
+            let path = note.getRelatedPath()
+            if unarchivedData[path] == nil {
+                note.previewState = false
+            } else {
+                note.previewState = true
             }
         }
     }
-    
-    public func loadNotesSettings() {
-        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
- 
-        let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
-        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
-        
-        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSNumber.self], from: data) as? [URL: Bool] else { return }
 
-        for note in noteList {
-            let state = unarchivedData[note.url]
-            note.previewState = state == true
-        }
-    }
-        
     public func getGitKeysDir() -> URL? {
         guard let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first?

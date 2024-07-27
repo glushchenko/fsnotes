@@ -152,6 +152,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         scheduledGitPull()
 
         loadNotesTable()
+        notesTable.showLoader()
+
         loadSidebar()
 
         loadNotches()
@@ -436,6 +438,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         guard Storage.shared().getRoot() != nil else { return }
 
         self.reloadNotesTable()
+        self.notesTable.hideLoader()
 
         DispatchQueue.global(qos: .userInteractive).async {
             let storage = self.storage
@@ -463,7 +466,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.cloudDriveManager?.metadataQuery.enableUpdates()
 
             let tagsPoint = Date()
-            storage.loadNotesSettings()
+            storage.loadNotesPreviewState()
             storage.loadNotesContent()
                         
             print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
@@ -650,6 +653,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func ubiquitousKeyValueStoreDidChange(_ notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
+                if key == "es.fsnot.global.preview.mode" {
+                    storage.loadNotesPreviewState()
+                }
+                
                 if key == "co.fluder.fsnotes.pins.shared" {
                     let result = storage.restoreCloudPins()
 
@@ -992,7 +999,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             let evc = UIApplication.getEVC()
-            if UserDefaultsManagement.previewMode {
+            if note.previewState {
                 evc.togglePreview()
             }
             evc.editArea.becomeFirstResponder()
@@ -1448,7 +1455,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
                     if UserDefaultsManagement.currentEditorState == true,
                        let selectedRange = UserDefaultsManagement.currentRange,
-                       !UserDefaultsManagement.previewMode
+                       !note.previewState
                     {
                         if selectedRange.upperBound <= note.content.length {
                             evc.editArea.selectedRange = selectedRange

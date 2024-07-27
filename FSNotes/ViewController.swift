@@ -236,7 +236,7 @@ class ViewController: EditorViewController,
             print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
             
             let tagsPoint = Date()
-            storage.loadNotesSettings()
+            storage.loadNotesPreviewState()
             storage.loadNotesContent()
             
             DispatchQueue.main.async {
@@ -1723,6 +1723,10 @@ class ViewController: EditorViewController,
     @objc func ubiquitousKeyValueStoreDidChange(_ notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
+                if key == "es.fsnot.global.preview.mode" {
+                    storage.loadNotesPreviewState()
+                }
+
                 if key == "co.fluder.fsnotes.pins.shared" {
                     let changedNotes = storage.getUpdatedPins()
                     

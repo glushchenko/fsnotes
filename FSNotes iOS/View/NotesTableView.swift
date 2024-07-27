@@ -802,7 +802,26 @@ class NotesTableView: UITableView,
         let nvc = UIApplication.getNC()
         nvc?.present(datePickerViewController, animated: true )
     }
-    
+
+    public func showLoader() {
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+
+        UIApplication.getNC()?.present(alert, animated: true)
+    }
+
+    public func hideLoader() {
+        DispatchQueue.main.async {
+            UIApplication.getNC()?.dismiss(animated: false, completion: nil)
+        }
+    }
+
     public func saveRevisionAction(note: Note? = nil, project: Project? = nil) {
         var current: Project?
 

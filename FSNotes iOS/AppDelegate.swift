@@ -100,6 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let imagesPreview = URL(fileURLWithPath: temp).appendingPathComponent("ThumbnailsBig")
         try? FileManager.default.removeItem(at: imagesPreview)
 
+        Storage.shared().saveNotesSettings()
         Storage.shared().saveProjectsCache()
 
         print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")
@@ -241,7 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let url = evc.note?.url {
             UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
 
-            if UserDefaultsManagement.previewMode {
+            if evc.note?.previewState == true {
                 UserDefaultsManagement.currentRange = nil
             } else {
                 UserDefaultsManagement.currentRange = evc.editArea.selectedRange
