@@ -100,7 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let imagesPreview = URL(fileURLWithPath: temp).appendingPathComponent("ThumbnailsBig")
         try? FileManager.default.removeItem(at: imagesPreview)
 
-        Storage.shared().saveNotesSettings()
         Storage.shared().saveProjectsCache()
 
         print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")

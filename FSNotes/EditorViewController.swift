@@ -590,7 +590,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         vcEditor?.userActivity?.needsSave = true
         
-        Storage.shared().saveNotesSettings()
+        vcEditor?.note?.project.saveSettings()
     }
     
     @IBAction func toggleMathJax(_ sender: NSMenuItem) {

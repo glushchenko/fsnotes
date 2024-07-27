@@ -41,13 +41,12 @@ class SearchQuery {
                     || self.terms != nil && self.isMatched(note: note, terms: self.terms!)
             ) && (
                 self.type == .All && note.project.isVisibleInCommon()
-                || self.type != .All && self.type != .Todo && self.projects.count > 0 && self.projects.contains(note.project)
                 || self.type == .Inbox && note.project.isDefault
                 || self.type == .Trash
                 || self.type == .Untagged && note.tags.count == 0
                 || self.type == .Todo && note.project.settings.showInCommon
                 || !UserDefaultsManagement.inlineTags && self.tags.count > 0
-                || self.projects.contains(note.project)
+                || self.type != .Inbox && self.projects.contains(note.project)
             ) && (
                 self.type == .Trash && note.isTrash()
                 || self.type != .Trash && !note.isTrash()

@@ -17,7 +17,7 @@ import UIKit
 
 class Storage {
     public static var instance: Storage? = nil
-    
+
     public var noteList = [Note]()
     public var projects = [Project]()
     private var imageFolders = [URL]()
@@ -59,44 +59,46 @@ class Storage {
     public var untaggedProject: Project?
 
     init() {
-        
+
+#if CLOUD_RELATED_BLOCK
         // Sync pins and related stuff
         
-    #if CLOUD_RELATED_BLOCK
         NSUbiquitousKeyValueStore().synchronize()
-    #endif
+#endif
 
         // Load root
-        
+
         print("A. Bookmarks loading is started")
         let bookmarksManager = SandboxBookmark.sharedInstance()
         bookmarksManager.load()
-        
+
         let storageType = UserDefaultsManagement.storageType
         guard let url = getRoot() else { return }
-        
+
         removeCachesIfCrashed()
 
-    #if os(OSX)
+#if os(OSX)
         if storageType == .local && UserDefaultsManagement.storageType == .iCloudDrive {
             shouldMovePrompt = true
         }
-    #endif
+#endif
 
         let name = getDefaultName(url: url)
         let project =
-            Project(
-                storage: self,
-                url: url,
-                label: name,
-                isDefault: true
-            )
-        
+        Project(
+            storage: self,
+            url: url,
+            label: name,
+            isDefault: true
+        )
+
         insertProject(project: project)
-        
+
         assignTrash(by: project.url)
         assignBookmarks()
+    }
 
+    public func fastLoad() {
         // Inbox
         _ = getDefault()?.loadNotes()
 
@@ -125,7 +127,7 @@ class Storage {
 
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
-        
+
     #if os(iOS)
         let revHistory = getRevisionsHistory()
         let revHistoryDS = getRevisionsHistoryDocumentsSupport()
@@ -138,8 +140,14 @@ class Storage {
             try? FileManager.default.createDirectory(at: revHistoryDS, withIntermediateDirectories: true, attributes: nil)
         }
     #endif
+
+    #if os(macOS)
+        self.restoreUploadPaths()
+    #endif
+
+        self.restoreAPIIds()
     }
-    
+
     public func insertProject(project: Project) {
         if projectExist(url: project.url) {
             return
@@ -169,11 +177,7 @@ class Storage {
             return UserDefaultsManagement.storageUrl
         #endif
 
-        if !UserDefaultsManagement.iCloudDrive {
-            return getLocalDocuments()
-        }
-        
-        guard let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?
+        guard UserDefaultsManagement.iCloudDrive, let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?
             .appendingPathComponent("Documents")
             .standardized
         else { return getLocalDocuments() }
@@ -1345,50 +1349,6 @@ class Storage {
         for bookmark in uploadBookmarks {
             if let note = getBy(url: bookmark.key) {
                 note.apiId = bookmark.value
-            }
-        }
-    }
-    
-    public func saveNotesSettings() {
-        var result = [String: Bool]()
-
-        for note in noteList {
-            if note.previewState {
-                let path = note.getRelatedPath()
-                result[path] = note.previewState
-            }
-        }
-
-        guard result.count > 0, let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: true) else { return }
-
-        #if CLOUD_RELATED_BLOCK
-        NSUbiquitousKeyValueStore().set(projectsData, forKey: "es.fsnot.global.preview.mode")
-        #else
-        if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-            try? projectsData.write(to: documentDir.appendingPathComponent("notes.settings"))
-        }
-        #endif
-    }
-    
-    public func loadNotesPreviewState() {
-        #if CLOUD_RELATED_BLOCK
-        guard let data = NSUbiquitousKeyValueStore().data(forKey: "es.fsnot.global.preview.mode") else { return }
-        #else
-        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
-
-        let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
-
-        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
-        #endif
-
-        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSString.self, NSNumber.self], from: data) as? [String: Bool] else { return }
-
-        for note in noteList {
-            let path = note.getRelatedPath()
-            if unarchivedData[path] == nil {
-                note.previewState = false
-            } else {
-                note.previewState = true
             }
         }
     }

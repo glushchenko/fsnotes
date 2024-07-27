@@ -95,7 +95,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         AppDelegate.saveWindowsState()
         
-        Storage.shared().saveNotesSettings()
         Storage.shared().saveAPIIds()
         Storage.shared().saveUploadPaths()
         

@@ -799,14 +799,6 @@ class SidebarOutlineView: NSOutlineView,
 
         vd.buildSearchQuery()
         vd.updateTable() {
-            if self.isFirstLaunch {
-                DispatchQueue.main.async {
-                    vd.importAndCreate()
-                    vd.restoreOpenedWindows()
-                    
-                    self.isFirstLaunch = false
-                }
-            }
 
             if let note = self.selectNote {
                 if let i = vd.notesTableView.getIndex(note) {

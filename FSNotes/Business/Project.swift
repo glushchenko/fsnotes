@@ -23,8 +23,8 @@ public class Project: Equatable {
     public var isVirtual = false
     public var isBookmark: Bool = false
 
-    public var settings: ProjectSettings
-    
+    public var settings = ProjectSettings()
+
     // all notes loaded with cache diff comparsion
     public var isReadyForCacheSaving = false
 
@@ -61,8 +61,6 @@ public class Project: Equatable {
         self.isBookmark = isBookmark
         self.isVirtual = isVirtual
         self.label = String()
-
-        settings = ProjectSettings()
             
         #if os(iOS)
         if isDefault {
@@ -145,6 +143,8 @@ public class Project: Equatable {
     public func reloadSettings() {
         if let settings = getSettings() {
             self.settings = settings
+
+            loadNotesPreview()
         }
     }
     
@@ -308,6 +308,8 @@ public class Project: Equatable {
         for note in notes {
             storage.add(note)
         }
+
+        loadNotesPreview()
 
         return notes
     }
@@ -1017,5 +1019,25 @@ public class Project: Equatable {
         }
 
         return result
+    }
+
+    public func saveNotesPreview() {
+        let notes = getNotes()
+        var result = [String]()
+        for note in notes {
+            if note.previewState {
+                result.append(note.name)
+            }
+        }
+        settings.notesPreview = result
+        saveSettings()
+    }
+
+    public func loadNotesPreview() {
+        let names = settings.notesPreview
+        let notes = storage.getNotesBy(project: self)
+        for note in notes {
+            note.previewState = names.contains(note.name)
+        }
     }
 }

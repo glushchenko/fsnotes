@@ -1471,7 +1471,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         // Handoff needs update in cursor position changed
         userActivity?.needsSave = true
 
-        Storage.shared().saveNotesSettings()
+        note.project.saveSettings()
     }
 
     public func loadPreviewView() {

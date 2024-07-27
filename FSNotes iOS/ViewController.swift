@@ -148,7 +148,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         gitQueueState.qualityOfService = .background
         gitQueueState.maxConcurrentOperationCount = 1
 
-        storage.restoreAPIIds()
         scheduledGitPull()
 
         loadNotesTable()
@@ -435,7 +434,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     public func preLoadProjectsData() {
-        guard Storage.shared().getRoot() != nil else { return }
+        guard storage.getRoot() != nil else { return }
+        storage.fastLoad()
 
         self.reloadNotesTable()
         self.notesTable.hideLoader()
@@ -466,7 +466,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.cloudDriveManager?.metadataQuery.enableUpdates()
 
             let tagsPoint = Date()
-            storage.loadNotesPreviewState()
             storage.loadNotesContent()
                         
             print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
@@ -653,10 +652,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func ubiquitousKeyValueStoreDidChange(_ notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
-                if key == "es.fsnot.global.preview.mode" {
-                    storage.loadNotesPreviewState()
-                }
-                
                 if key == "co.fluder.fsnotes.pins.shared" {
                     let result = storage.restoreCloudPins()
 
