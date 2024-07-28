@@ -200,7 +200,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
     }
 
-    public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
+    public func fill(note: Note, selectedRange: NSRange? = nil, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
 
         if enableHandoff {
             registerHandoff(for: note)
@@ -220,11 +220,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         getPreviewView()?.removeFromSuperview()
-        fillEditor(note: note)
+        fillEditor(note: note, selectedRange: selectedRange)
         completion?()
     }
 
-    private func fillEditor(note: Note) {
+    private func fillEditor(note: Note, selectedRange: NSRange? = nil) {
         guard editArea != nil else { return }
 
         editArea.initUndoRedoButons()
@@ -237,7 +237,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.backgroundColor = UIColor.dropDownColor
         }
 
-        saveSelectedRange()
+        if selectedRange == nil {
+            saveSelectedRange()
+        }
 
         if note.isMarkdown() {
             editArea.textStorageProcessor?.shouldForceRescan = true
@@ -1719,7 +1721,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     func loadSelectedRange() {
         guard let note = note else { return }
-
 
         if let range = note.getSelectedRange(), range.upperBound <= editArea.textStorage.length {
             editArea.selectedRange = range

@@ -967,14 +967,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             note.content = NSMutableAttributedString(string: content)
         }
 
+        var selectedRange: NSRange?
         if pasteboard {
             if  let image = UIPasteboard.general.image,
                 let data = image.jpegData(compressionQuality: 1),
                 let imagePath = ImagesProcessor.writeFile(data: data, note: note)
             {
-                note.content = NSMutableAttributedString(string: "![](\(imagePath))\n\n")
+                let string = "![](\(imagePath))\n\n"
+                note.content = NSMutableAttributedString(string: string)
+                selectedRange = NSRange(location: string.count, length: 0)
             } else if let content = UIPasteboard.general.string {
                 note.content = NSMutableAttributedString(string: content)
+                selectedRange = NSRange(location: content.count, length: 0)
             }
         }
         
@@ -985,7 +989,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         let evc = UIApplication.getEVC()
         evc.note = note
-        evc.fill(note: note)
+        evc.fill(note: note, selectedRange: selectedRange)
 
         openEditorViewController()
 
