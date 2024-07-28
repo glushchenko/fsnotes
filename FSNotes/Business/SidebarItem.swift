@@ -80,7 +80,7 @@ class SidebarItem {
     }
 
     public func isSystem() -> Bool {
-        let system: [SidebarItemType] = [.All, .Trash, .Todo]
+        let system: [SidebarItemType] = [.All, .Trash, .Todo, .Untagged, .Inbox]
 
         return system.contains(type)
     }

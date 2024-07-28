@@ -150,6 +150,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         scheduledGitPull()
 
+        disableLockedProject()
         loadNotesTable()
         notesTable.showLoader()
 
@@ -427,10 +428,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         guard Storage.shared().getRoot() != nil else { return }
 
-        DispatchQueue.main.async {
-            let inboxIndex = IndexPath(row: 0, section: 0)
-            self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: inboxIndex)
-        }
+//        DispatchQueue.main.async {
+//            let inboxIndex = IndexPath(row: 0, section: 0)
+//            self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: inboxIndex)
+//        }
     }
     
     public func preLoadProjectsData() {
@@ -438,7 +439,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         storage.fastLoad()
 
         self.reloadNotesTable()
-        self.notesTable.hideLoader()
 
         DispatchQueue.global(qos: .userInteractive).async {
             let storage = self.storage
@@ -458,6 +458,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for project in storage.getProjects() {
                 let changes = project.checkNotesCacheDiff()
                 self.notesTable.doVisualChanges(results: changes)
+                self.notesTable.hideLoader()
             }
             
             print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
@@ -467,14 +468,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             let tagsPoint = Date()
             storage.loadNotesContent()
-                        
-            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
             DispatchQueue.main.async {
-                self.resizeSidebar(withAnimation: true)
+
                 self.importSavedInSharedExtension()
+
+                self.sidebarTableView.reloadSidebar()
+                self.resizeSidebar(withAnimation: true)
                 self.sidebarTableView.loadAllTags()
             }
+
+            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
             // fill note from spotlight action
             if let restore = self.restoreActivity {

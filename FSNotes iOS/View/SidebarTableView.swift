@@ -120,6 +120,16 @@ class SidebarTableView: UITableView,
         vc.configureNavMenu(for: sidebarItem)
         vc.navigationItem.searchController?.searchBar.text = ""
 
+        // Save last state
+        
+        if sidebarItem.isSystem() {
+            UserDefaultsManagement.lastSidebarItem = indexPath.row
+            UserDefaultsManagement.lastProjectURL = nil
+        } else if let project = sidebarItem.project, !project.isVirtual {
+            UserDefaultsManagement.lastSidebarItem = nil
+            UserDefaultsManagement.lastProjectURL = project.url
+        }
+
         vc.buildSearchQuery()
         vc.reloadNotesTable() {
             DispatchQueue.main.async {
@@ -699,5 +709,19 @@ class SidebarTableView: UITableView,
     public func reloadSidebar() {
         sidebar = Sidebar()
         reloadData()
+
+        var indexPath = IndexPath(row: 0, section: 0)
+
+        if
+            let projectURL = UserDefaultsManagement.lastProjectURL,
+            let project = Storage.shared().getProjectBy(url: projectURL),
+            let path = getIndexPathBy(project: project) {
+
+            indexPath = path
+        } else if let rowId = UserDefaultsManagement.lastSidebarItem {
+            indexPath = IndexPath(row: rowId, section: 0)
+        }
+
+        tableView(self, didSelectRowAt: indexPath)
     }
 }
