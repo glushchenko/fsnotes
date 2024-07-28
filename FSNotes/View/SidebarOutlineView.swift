@@ -1473,6 +1473,10 @@ class SidebarOutlineView: NSOutlineView,
                 
                 if let results = self.storage.insert(url: url, bookmark: true) {
                     self.insertRows(projects: results)
+                    
+                    if let vc = self.viewDelegate {
+                        vc.fsManager?.restart()
+                    }
                 }
             }
         }
@@ -1655,15 +1659,10 @@ class SidebarOutlineView: NSOutlineView,
         return items
     }
     
-    @objc public func reloadSidebar(reloadManager: Bool = false) {
+    @objc public func reloadSidebar() {
         guard let vc = ViewController.shared() else { return }
 
-        if reloadManager {
-            vc.fsManager?.restart()
-        } else {
-            vc.fsManager?.reloadObservedFolders()
-        }
-
+        vc.fsManager?.reloadObservedFolders()
         vc.loadMoveMenu()
 
         let selected = vc.sidebarOutlineView.selectedRow

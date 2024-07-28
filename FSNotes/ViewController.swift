@@ -205,58 +205,60 @@ class ViewController: EditorViewController,
     }
 
     public func preLoadProjectsData() {
-        DispatchQueue.global().async {
-            let projectsLoading = Date()
-            let results = self.storage.getProjectDiffs()
+        let projectsLoading = Date()
+        let results = self.storage.getProjectDiffs()
 
-            OperationQueue.main.addOperation {
-                self.sidebarOutlineView.removeRows(projects: results.0)
-                self.sidebarOutlineView.insertRows(projects: results.1)
-                self.notesTableView.doVisualChanges(results: (results.2, results.3, []))
-            }
-            
-            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
-
-            let diffLoading = Date()
-            for project in self.storage.getProjects() {
-                let changes = project.checkNotesCacheDiff()
-                self.notesTableView.doVisualChanges(results: changes)
-            }
-            
-            print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
-            
-            let tagsPoint = Date()
-
-            OperationQueue.main.addOperation {
-                self.restoreOpenedWindows()
-                print("1.1 Windows restore")
-            }
-
-            self.scheduleSnapshots()
-            self.schedulePull()
-
-            // Loads tags too
-            self.storage.loadNotesContent()
-
-            DispatchQueue.main.async {
-                self.sidebarOutlineView.loadAllTags()
-            }
-            
-            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
-            
-            let highlightCachePoint = Date()
-            for note in self.storage.noteList {
-                if note.type == .Markdown {
-                    note.cache(backgroundThread: true)
-                }
-            }
-            
-            print("3. Notes attributes cache for \(self.storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
-
-            let gitCachePoint = Date()
-            self.cacheGitRepositories()
-            print("4. git history cached in \(gitCachePoint.timeIntervalSinceNow * -1) seconds")
+        OperationQueue.main.addOperation {
+            self.sidebarOutlineView.removeRows(projects: results.0)
+            self.sidebarOutlineView.insertRows(projects: results.1)
+            self.notesTableView.doVisualChanges(results: (results.2, results.3, []))
         }
+
+        print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
+
+        let diffLoading = Date()
+        for project in self.storage.getProjects() {
+            let changes = project.checkNotesCacheDiff()
+            self.notesTableView.doVisualChanges(results: changes)
+        }
+
+        print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
+
+        let tagsPoint = Date()
+
+        // Schedule git actions
+        self.scheduleSnapshots()
+        self.schedulePull()
+
+        // Loads tags
+        self.storage.loadNotesContent()
+
+        DispatchQueue.main.async {
+            if self.storage.isCrashedLastTime {
+
+                // Unsafe – resets selected note
+                self.restoreSidebar()
+            }
+
+            // Safe – only tags loading
+            self.sidebarOutlineView.loadAllTags()
+        }
+
+        print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+
+        let highlightCachePoint = Date()
+        for note in self.storage.noteList {
+            if note.type == .Markdown {
+                note.cache(backgroundThread: true)
+            }
+        }
+        
+        print("3. Notes attributes cache for \(self.storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
+
+        let gitCachePoint = Date()
+        self.cacheGitRepositories()
+        print("4. git history cached in \(gitCachePoint.timeIntervalSinceNow * -1) seconds")
+
     }
     
     // MARK: - Initial configuration
@@ -332,18 +334,23 @@ class ViewController: EditorViewController,
 
     }
 
+    public func restoreSidebar() {
+        self.sidebarOutlineView.sidebarItems = Sidebar().getList()
+        self.sidebarOutlineView.reloadData()
+
+        self.storage.restoreProjectsExpandState()
+
+        for project in self.storage.getProjects() {
+            if project.isExpanded {
+                self.sidebarOutlineView.expandItem(project)
+            }
+        }
+    }
+
+
     public func configureSidebar() {
         if isVisibleSidebar() {
-            self.sidebarOutlineView.sidebarItems = Sidebar().getList()
-            self.sidebarOutlineView.reloadData()
-
-            self.storage.restoreProjectsExpandState()
-
-            for project in self.storage.getProjects() {
-                if project.isExpanded {
-                    self.sidebarOutlineView.expandItem(project)
-                }
-            }
+            self.restoreSidebar()
 
             if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
                 if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
@@ -376,9 +383,13 @@ class ViewController: EditorViewController,
             }
 
             DispatchQueue.main.async {
+
+                self.restoreOpenedWindows()
                 self.importAndCreate()
 
-                self.preLoadProjectsData()
+                DispatchQueue.global().async {
+                    self.preLoadProjectsData()
+                }
             }
         }
     }
@@ -1969,22 +1980,29 @@ class ViewController: EditorViewController,
     
     public func importAndCreate() {
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
-            if let url = appDelegate.searchQuery {
-                appDelegate.searchQuery = nil
+
+            // fsnotes://find
+
+            if let url = appDelegate.url {
+                appDelegate.url = nil
                 appDelegate.search(url: url)
                 return
             }
+
+            // Open files in the app
 
             if let urls = appDelegate.urls {
                 appDelegate.importNotes(urls: urls)
                 return
             }
 
-            if nil != appDelegate.newName || nil != appDelegate.newContent {
-                let name = appDelegate.newName ?? ""
-                let content = appDelegate.newContent ?? ""
-                
-                appDelegate.create(name: name, content: content)
+            // fsnotes://new/?title=URI-title&txt=URI-content
+
+            let name = appDelegate.newName
+            let content = appDelegate.newContent
+
+            if nil != name || nil != content {
+                appDelegate.create(name: name ?? "", content: content ?? "")
             }
         }
     }

@@ -112,7 +112,7 @@ extension AppDelegate {
     /// Handles URLs with the path /find/searchstring1%20searchstring2
     func RouteFSNotesFind(_ url: URL) {
         guard ViewController.shared() != nil else {
-            self.searchQuery = url
+            self.url = url
             return
         }
 

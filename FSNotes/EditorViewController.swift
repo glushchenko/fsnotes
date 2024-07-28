@@ -1513,6 +1513,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                 }
             
                 vc.focusEditArea()
+
+                NSApp.activate(ignoringOtherApps: true)
+                self.view.window?.makeKeyAndOrderFront(self)
             }
         }
         
