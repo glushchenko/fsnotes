@@ -99,6 +99,10 @@ class ShareViewController: SLComposeServiceViewController {
         urls.insert(note.url, at: 0)
         UserDefaultsManagement.importURLs = urls
 
+        if self.textView.text.count > 0 {
+            note.append(string: NSMutableAttributedString(string: self.textView.text))
+        }
+
         for item in input {
             if let a = item.attachments {
                 for provider in a {
@@ -122,10 +126,6 @@ class ShareViewController: SLComposeServiceViewController {
 
                             finished = finished + 1
                             if started == finished {
-                                if self.textView.text.count > 0 {
-                                    note.append(string: NSMutableAttributedString(string: "\n\n" + self.textView.text))
-                                }
-                                
                                 note.save()
                                 self.close()
                                 return
