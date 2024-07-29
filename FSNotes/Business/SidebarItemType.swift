@@ -46,17 +46,9 @@ enum SidebarItemType: Int {
 #if os(OSX)
     public func getIcon(white: Bool = false) -> NSImage? {
         guard let icon = icon else { return nil }
-
         let image = NSImage(named: icon)
         image?.isTemplate = true
-
-        if UserDefaults.standard.value(forKey: "AppleAccentColor") != nil {
-            return image?.tint(color: NSColor.controlAccentColor)
-        } else if white && !NSAppearance.current.isDark {
-            return image?.tint(color: .white)
-        } else {
-            return image?.tint(color: NSColor(red: 0.08, green: 0.60, blue: 0.85, alpha: 1.00))
-        }
+        return image
     }
 #else
     public func getIcon() -> UIImage? {
