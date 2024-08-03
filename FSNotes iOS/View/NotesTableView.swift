@@ -804,7 +804,8 @@ class NotesTableView: UITableView,
     }
 
     public func showLoader() {
-        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        let title = NSLocalizedString("Loading...", comment: "")
+        let alert = UIAlertController(title: nil, message: title, preferredStyle: .alert)
 
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
@@ -837,7 +838,8 @@ class NotesTableView: UITableView,
         let viewController = UIApplication.getVC()
 
         // Show loader
-        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        let title = NSLocalizedString("Loading...", comment: "")
+        let alert = UIAlertController(title: nil, message: title, preferredStyle: .alert)
 
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true

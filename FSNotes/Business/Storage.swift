@@ -98,7 +98,7 @@ class Storage {
         assignBookmarks()
     }
 
-    public func fastLoad() {
+    public func loadInboxAndTrash() {
         // Inbox
         _ = getDefault()?.loadNotes()
 

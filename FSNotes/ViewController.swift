@@ -179,7 +179,7 @@ class ViewController: EditorViewController,
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
 
         DispatchQueue.global().async {
-            self.storage.fastLoad()
+            self.storage.loadInboxAndTrash()
 
             DispatchQueue.main.async {
                 self.buildSearchQuery()

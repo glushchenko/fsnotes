@@ -436,7 +436,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     public func preLoadProjectsData() {
         guard storage.getRoot() != nil else { return }
-        storage.fastLoad()
+        storage.loadInboxAndTrash()
 
         self.reloadNotesTable()
 

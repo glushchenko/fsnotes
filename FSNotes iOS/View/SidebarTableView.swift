@@ -16,7 +16,7 @@ class SidebarTableView: UITableView,
     UITableViewDataSource,
     UITableViewDropDelegate {
 
-    public var sidebar: Sidebar = Sidebar()
+    public var sidebar = Sidebar()
     private var busyTrashReloading = false
     public var viewController: ViewController?
 
