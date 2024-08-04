@@ -740,28 +740,28 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Show in Sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
                                                 <items>
-                                                    <menuItem title="Inbox" state="on" tag="1" id="IHG-4U-pF1">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="sidebarItemVisibility:" target="Ady-hI-5gd" id="fCX-Hw-xKB"/>
-                                                        </connections>
-                                                    </menuItem>
                                                     <menuItem title="Notes" state="on" tag="2" id="xPz-yo-VwM">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="9eO-fj-M9I"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Untagged" state="on" tag="6" id="BX0-nb-tVk">
+                                                    <menuItem title="Inbox" state="on" tag="1" id="IHG-4U-pF1">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
-                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="Je9-DX-4lc"/>
+                                                            <action selector="sidebarItemVisibility:" target="Ady-hI-5gd" id="fCX-Hw-xKB"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Todo" state="on" tag="3" id="e0G-y0-N0C">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="vD4-T3-64C"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Untagged" state="on" tag="6" id="BX0-nb-tVk">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="Je9-DX-4lc"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Trash" state="on" tag="5" id="RdI-N4-pR2">
@@ -2778,7 +2778,7 @@ Olena Hlushcneko</string>
         <scene sceneID="dYK-AI-vld">
             <objects>
                 <viewController storyboardIdentifier="ProjectSettingsViewController" id="JOV-dV-hyG" customClass="ProjectSettingsViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="MgV-BT-LsD">
+                    <view key="view" id="MgV-BT-LsD">
                         <rect key="frame" x="0.0" y="0.0" width="612" height="562"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
