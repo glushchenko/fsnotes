@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var statusItem: NSStatusItem?
 
     public var urls: [URL]? = nil
-    public var searchQuery: URL? = nil
+    public var url: URL? = nil
     public var newName: String? = nil
     public var newContent: String? = nil
 
@@ -95,7 +95,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         AppDelegate.saveWindowsState()
         
-        Storage.shared().saveNotesSettings()
         Storage.shared().saveAPIIds()
         Storage.shared().saveUploadPaths()
         

@@ -161,6 +161,20 @@ class SidebarOutlineView: NSOutlineView,
         let tags = ViewController.shared()?.sidebarOutlineView.getSidebarTags()
         let project = ViewController.shared()?.sidebarOutlineView.getSelectedProject()
 
+
+        if let project = project, project.isVirtual {
+            if ["folderMenu.new",
+                "folderMenubar.new",
+                "folderMenu.options"].contains(id) {
+
+                menuItem.isHidden = false
+                return true
+            }
+
+            menuItem.isHidden = true
+            return false
+        }
+
         if ["context.folder.renameTag", "folder.renameTag", "folder.removeTags"].contains(id) {
             if tags == nil {
                 menuItem.isHidden = true
@@ -283,7 +297,7 @@ class SidebarOutlineView: NSOutlineView,
     public func validateEncryption(menuItem: NSMenuItem) -> Bool {
         let project = ViewController.shared()?.sidebarOutlineView.getSelectedProject()
 
-        if let project = project, !project.isTrash, !project.isDefault {
+        if let project = project, !project.isTrash, !project.isDefault, !project.isVirtual {
             menuItem.title = project.isEncrypted
                 ? NSLocalizedString("Decrypt", comment: "")
                 : NSLocalizedString("Encrypt", comment: "")
@@ -677,7 +691,13 @@ class SidebarOutlineView: NSOutlineView,
             
             cell.textField?.stringValue = name
             cell.type = si.type
-            cell.icon.image = si.type.getIcon()
+
+            if let name = si.type.icon, let image = si.getIcon(name: name) {
+                cell.icon.image = image
+            } else {
+                cell.icon.image = nil
+            }
+
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
 
@@ -777,15 +797,8 @@ class SidebarOutlineView: NSOutlineView,
             return
         }
 
+        vd.buildSearchQuery()
         vd.updateTable() {
-            if self.isFirstLaunch {
-                DispatchQueue.main.async {
-                    vd.importAndCreate()
-                    vd.restoreOpenedWindows()
-                    
-                    self.isFirstLaunch = false
-                }
-            }
 
             if let note = self.selectNote {
                 if let i = vd.notesTableView.getIndex(note) {
@@ -1460,6 +1473,10 @@ class SidebarOutlineView: NSOutlineView,
                 
                 if let results = self.storage.insert(url: url, bookmark: true) {
                     self.insertRows(projects: results)
+                    
+                    if let vc = self.viewDelegate {
+                        vc.fsManager?.restart()
+                    }
                 }
             }
         }
@@ -1482,7 +1499,7 @@ class SidebarOutlineView: NSOutlineView,
 
         var projects = [Project]()
         for i in v.selectedRowIndexes {
-            if let si = item(atRow: i) as? SidebarItem, let project = si.project, si.tag == nil {
+            if let si = item(atRow: i) as? SidebarItem, let project = si.project, !project.isVirtual, si.tag == nil {
                 projects.append(project)
             }
         }
@@ -1642,15 +1659,10 @@ class SidebarOutlineView: NSOutlineView,
         return items
     }
     
-    @objc public func reloadSidebar(reloadManager: Bool = false) {
+    @objc public func reloadSidebar() {
         guard let vc = ViewController.shared() else { return }
 
-        if reloadManager {
-            vc.fsManager?.restart()
-        } else {
-            vc.fsManager?.reloadObservedFolders()
-        }
-
+        vc.fsManager?.reloadObservedFolders()
         vc.loadMoveMenu()
 
         let selected = vc.sidebarOutlineView.selectedRow
@@ -2122,5 +2134,13 @@ class SidebarOutlineView: NSOutlineView,
         UserDefaultsManagement.lastProjectURL = nil
         
         deselectAll(nil)
+    }
+
+    public func getNotesProject() -> Project? {
+        let item = sidebarItems?.first(where: {
+            ($0 as? SidebarItem)?.type == .All
+        }) as? SidebarItem
+
+        return item?.project
     }
 }

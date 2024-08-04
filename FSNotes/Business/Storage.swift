@@ -17,7 +17,7 @@ import UIKit
 
 class Storage {
     public static var instance: Storage? = nil
-    
+
     public var noteList = [Note]()
     public var projects = [Project]()
     private var imageFolders = [URL]()
@@ -47,54 +47,87 @@ class Storage {
 
     public var plainWriter = OperationQueue.init()
     public var ciphertextWriter = OperationQueue.init()
-    
+
+    public var searchQuery: SearchQuery = SearchQuery()
+
+    private var sortByState: SortBy = .modificationDate
+    private var sortDirectionState: SortDirection = .asc
+
+    // Virtual projects
+    public var allNotesProject: Project?
+    public var todoProject: Project?
+    public var untaggedProject: Project?
+
     init() {
+
+#if CLOUD_RELATED_BLOCK
+        // Sync pins and related stuff
         
+        NSUbiquitousKeyValueStore().synchronize()
+#endif
+
         // Load root
-        
+
         print("A. Bookmarks loading is started")
         let bookmarksManager = SandboxBookmark.sharedInstance()
         bookmarksManager.load()
-        
+
         let storageType = UserDefaultsManagement.storageType
         guard let url = getRoot() else { return }
-        
+
         removeCachesIfCrashed()
 
-    #if os(OSX)
+#if os(OSX)
         if storageType == .local && UserDefaultsManagement.storageType == .iCloudDrive {
             shouldMovePrompt = true
         }
-    #endif
+#endif
 
         let name = getDefaultName(url: url)
         let project =
-            Project(
-                storage: self,
-                url: url,
-                label: name,
-                isDefault: true
-            )
-        
+        Project(
+            storage: self,
+            url: url,
+            label: name,
+            isDefault: true
+        )
+
         insertProject(project: project)
-        
+
         assignTrash(by: project.url)
         assignBookmarks()
-                
-    #if os(OSX)
-        loadCachedProjects()
-        loadProjectRelations()
-    #endif
+    }
 
+    public func loadInboxAndTrash() {
+        // Inbox
+        _ = getDefault()?.loadNotes()
+
+        // Trash
+        _ = getDefaultTrash()?.loadNotes()
+
+        // Bookmarks
+        for project in projects {
+            if project.isBookmark {
+                _ = project.loadNotes(cacheOnly: true)
+            }
+        }
+
+        // Cached
+        if let urls = getCachedTree() {
+            for url in urls {
+                _ = insert(url: url, cacheOnly: true)
+            }
+        }
+
+        loadProjectRelations()
         checkWelcome()
-        loadNotesCloudPins()
 
         plainWriter.maxConcurrentOperationCount = 1
         plainWriter.qualityOfService = .userInteractive
 
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
-        
+
     #if os(iOS)
         let revHistory = getRevisionsHistory()
         let revHistoryDS = getRevisionsHistoryDocumentsSupport()
@@ -107,8 +140,14 @@ class Storage {
             try? FileManager.default.createDirectory(at: revHistoryDS, withIntermediateDirectories: true, attributes: nil)
         }
     #endif
+
+    #if os(macOS)
+        self.restoreUploadPaths()
+    #endif
+
+        self.restoreAPIIds()
     }
-    
+
     public func insertProject(project: Project) {
         if projectExist(url: project.url) {
             return
@@ -133,43 +172,12 @@ class Storage {
         return name
     }
 
-    public func loadCachedProjects() {
-        
-        // Inbox
-        getDefault()?.loadNotes()
-        
-        // Trash
-        getDefaultTrash()?.loadNotes()
-        
-        loadBookmarkNotes()
-
-        if let urls = getCachedTree() {
-            for url in urls {
-                _ = insert(url: url)
-            }
-        }
-    }
-
-    public func loadBookmarkNotes() {
-
-        // Root boookmarks
-        for project in projects {
-            if project.isBookmark {
-                project.loadNotes()
-            }
-        }
-    }
-
     public func getRoot() -> URL? {
         #if targetEnvironment(simulator) || os(OSX)
             return UserDefaultsManagement.storageUrl
         #endif
 
-        if !UserDefaultsManagement.iCloudDrive {
-            return getLocalDocuments()
-        }
-        
-        guard let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?
+        guard UserDefaultsManagement.iCloudDrive, let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?
             .appendingPathComponent("Documents")
             .standardized
         else { return getLocalDocuments() }
@@ -255,7 +263,7 @@ class Storage {
         return projects.first(where: { $0.isTrash })
     }
         
-    public func insert(url: URL, bookmark: Bool = false) -> [Project]? {
+    public func insert(url: URL, bookmark: Bool = false, cacheOnly: Bool = false) -> [Project]? {
         if projectExist(url: url)
             || url.lastPathComponent == "i"
             || url.lastPathComponent == "files"
@@ -282,7 +290,7 @@ class Storage {
             if !projectExist(url: item.url) {
                 insertProject(project: item)
                 
-                item.loadNotes()
+                _ = item.loadNotes(cacheOnly: cacheOnly)
             }
         }
         
@@ -443,17 +451,17 @@ class Storage {
             })
     }
         
-    func sortNotes(noteList: [Note], filter: String? = nil, project: Project? = nil, operation: BlockOperation? = nil) -> [Note] {
+    public func sortNotes(noteList: [Note], operation: BlockOperation? = nil) -> [Note] {
         var noteList = noteList
         
         // Pre sort by creation and modified date, title
-        if let filter = filter, filter.count > 0 {
+        if !searchQuery.filter.isEmpty {
             noteList = noteList.sorted(by: {
                 if let operation = operation, operation.isCancelled {
                     return false
                 }
                 
-                return sortQuery(note: $0, next: $1, project: project)
+                return sortQuery(note: $0, next: $1)
             })
         }
         
@@ -462,21 +470,21 @@ class Storage {
                 return false
             }
 
-            if let filter = filter, filter.count > 0 {
-                if ($0.title == filter && $1.title != filter) {
+            if !searchQuery.filter.isEmpty {
+                if ($0.title == searchQuery.filter && $1.title != searchQuery.filter) {
                     return true
                 }
 
-                if ($0.fileName == filter && $1.fileName != filter) {
+                if ($0.fileName == searchQuery.filter && $1.fileName != searchQuery.filter) {
                     return true
                 }
 
                 if (
-                    $0.title.startsWith(string: filter)
-                        || $0.fileName.startsWith(string: filter)
+                    $0.title.startsWith(string: searchQuery.filter)
+                        || $0.fileName.startsWith(string: searchQuery.filter)
                 ) && (
-                    !$1.title.startsWith(string: filter)
-                        && !$1.fileName.startsWith(string: filter)
+                    !$1.title.startsWith(string: searchQuery.filter)
+                        && !$1.fileName.startsWith(string: searchQuery.filter)
                 ) {
                     return true
                 }
@@ -484,34 +492,19 @@ class Storage {
                 return false
             }
             
-            return sortQuery(note: $0, next: $1, project: project)
+            return sortQuery(note: $0, next: $1)
         })
     }
     
-    private func sortQuery(note: Note, next: Note, project: Project?) -> Bool {
-        var sortDirection: SortDirection
-        var sort: SortBy
-
-        if let project = project, project.settings.sortBy != .none {
-            sortDirection = project.settings.sortDirection
-        } else {
-            sortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
-        }
-        
-        if let sortBy = project?.settings.sortBy, sortBy != .none {
-            sort = sortBy
-        } else {
-            sort = UserDefaultsManagement.sort
-        }
-
+    private func sortQuery(note: Note, next: Note) -> Bool {
         if note.isPinned == next.isPinned {
-            switch sort {
+            switch self.sortByState {
             case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
-                    return sortDirection == .asc && prevDate < nextDate || sortDirection == .desc && prevDate > nextDate
+                    return self.sortDirectionState == .asc && prevDate < nextDate || self.sortDirectionState == .desc && prevDate > nextDate
                 }
             case .modificationDate, .none:
-                return sortDirection == .asc && note.modifiedLocalAt < next.modifiedLocalAt || sortDirection == .desc && note.modifiedLocalAt > next.modifiedLocalAt
+                return self.sortDirectionState == .asc && note.modifiedLocalAt < next.modifiedLocalAt || self.sortDirectionState == .desc && note.modifiedLocalAt > next.modifiedLocalAt
             case .title:
                 var title = note.title.lowercased()
                 var nextTitle = next.title.lowercased()
@@ -525,8 +518,8 @@ class Storage {
                 }
 
                 return
-                    sortDirection == .asc && title < nextTitle ||
-                    sortDirection == .desc && title > nextTitle
+                    self.sortDirectionState == .asc && title < nextTitle ||
+                    self.sortDirectionState == .desc && title > nextTitle
             }
         }
         
@@ -861,18 +854,14 @@ class Storage {
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.synchronize()
 
-        var success = [Note]()
-
         guard let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String]
             else { return }
 
         for note in notes {
             if names.contains(note.getRelatedPath()) {
                 note.addPin(cloudSave: false)
-                success.append(note)
             }
         }
-        
         #endif
     }
 
@@ -1151,7 +1140,7 @@ class Storage {
         return projectURLs
     }
     
-    public func getProjectDiffs() -> ([Project], [Project]) {
+    public func getProjectDiffs() -> ([Project], [Project], [Note], [Note]) {
         var insert = [Project]()
         var remove = [Project]()
         
@@ -1175,11 +1164,20 @@ class Storage {
         loadProjectRelations()
         saveCachedTree()
         
+        var insertNotes = [Note]()
         for insertItem in insert {
-            insertItem.loadNotes()
+            let append = insertItem.loadNotes()
+            insertNotes.append(contentsOf: append)
         }
 
-        return (remove, insert)
+        var removeNotes = [Note]()
+        for removeItem in remove {
+            let append = getNotesBy(project: removeItem)
+            removeNotes.append(contentsOf: append)
+        }
+
+
+        return (remove, insert, removeNotes, insertNotes)
     }
 
     public func importNote(url: URL) -> Note? {
@@ -1354,37 +1352,7 @@ class Storage {
             }
         }
     }
-    
-    public func saveNotesSettings() {
-        var result = [URL: Bool]()
 
-        for note in noteList {
-            result[note.url] = note.previewState
-        }
-        
-        if result.count > 0 {
-            let projectsData = try? NSKeyedArchiver.archivedData(withRootObject: result, requiringSecureCoding: true)
-
-            if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-                try? projectsData?.write(to: documentDir.appendingPathComponent("notes.settings"))
-            }
-        }
-    }
-    
-    public func loadNotesSettings() {
-        guard let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
- 
-        let projectsDataUrl = documentDir.appendingPathComponent("notes.settings")
-        guard let data = try? Data(contentsOf: projectsDataUrl) else { return }
-        
-        guard let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSNumber.self], from: data) as? [URL: Bool] else { return }
-
-        for note in noteList {
-            let state = unarchivedData[note.url]
-            note.previewState = state == true
-        }
-    }
-        
     public func getGitKeysDir() -> URL? {
         guard let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first?
@@ -1504,6 +1472,52 @@ class Storage {
     
     public func getSortedProjects() -> [Project] {
         return self.projects.sorted(by: {$0.url.path < $1.url.path})
+    }
+
+    public func setSearchQuery(value: SearchQuery) {
+        self.searchQuery = value
+
+        buildSortBy()
+    }
+
+    public func getSortByState() -> SortBy {
+        return self.sortByState
+    }
+
+    public func getSortDirectionState() -> SortDirection {
+        return self.sortDirectionState
+    }
+
+    public func buildSortBy() {
+        if let project = self.searchQuery.projects.first, project.settings.sortBy != .none {
+            self.sortByState = project.settings.sortBy
+            self.sortDirectionState = project.settings.sortDirection
+            return
+        }
+
+        if self.searchQuery.projects.count == 0 {
+            var project: Project?
+
+            switch self.searchQuery.type {
+            case .All:
+                project = self.allNotesProject
+            case .Untagged:
+                project = self.untaggedProject
+            case .Todo:
+                project = self.todoProject
+            default:
+                project = self.allNotesProject
+            }
+
+            if let project = project, project.settings.sortBy != .none {
+                self.sortByState =  project.settings.sortBy
+                self.sortDirectionState = project.settings.sortDirection
+                return
+            }
+        }
+
+        self.sortByState = UserDefaultsManagement.sort
+        self.sortDirectionState = UserDefaultsManagement.sortDirection ? .desc : .asc
     }
 }
 

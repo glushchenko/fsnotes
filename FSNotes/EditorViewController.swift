@@ -265,7 +265,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                     return vc.sidebarOutlineView.validateNewFolder(menuItem: menuItem)
                 }
 
-                if ident == "folderMenu.toggleEncryption" || ident == "folderMenubar.toggleEncryption" {
+                if ident == "folderMenu.toggleEncryption" || 
+                    ident == "folderMenubar.toggleEncryption" {
+                    
                     return vc.sidebarOutlineView.validateEncryption(menuItem: menuItem)
                 }
 
@@ -282,6 +284,52 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                 }
 
                 return vc.editAreaScroll.isFindBarVisible || vc.editor.hasFocus()
+            case "viewSortBy":
+                let iconName = UserDefaultsManagement.sortDirection ? "arrow.down" : "arrow.up"
+
+                switch menuItem.tag {
+                case 1:
+                    if UserDefaultsManagement.sort == .modificationDate {
+                        if #available(macOS 11.0, *) {
+                            menuItem.image = NSImage.init(systemSymbolName: iconName, accessibilityDescription: nil)
+                            menuItem.state = .off
+                        } else {
+                            menuItem.state = .on
+                            menuItem.image = NSImage()
+                        }
+                    } else {
+                        menuItem.state = .off
+                        menuItem.image = NSImage()
+                    }
+                case 2:
+                    if UserDefaultsManagement.sort == .creationDate {
+                        if #available(macOS 11.0, *) {
+                            menuItem.image = NSImage.init(systemSymbolName: iconName, accessibilityDescription: nil)
+                            menuItem.state = .off
+                        } else {
+                            menuItem.state = .on
+                            menuItem.image = NSImage()
+                        }
+                    } else {
+                        menuItem.state = .off
+                        menuItem.image = NSImage()
+                    }
+                case 3:
+                    if UserDefaultsManagement.sort == .title {
+                        if #available(macOS 11.0, *) {
+                            menuItem.image = NSImage.init(systemSymbolName: iconName, accessibilityDescription: nil)
+                            menuItem.state = .off
+                        } else {
+                            menuItem.state = .on
+                            menuItem.image = NSImage()
+                        }
+                    } else {
+                        menuItem.state = .off
+                        menuItem.image = NSImage()
+                    }
+                default:
+                    break
+                }
             case "showInSidebar":
                 switch menuItem.tag {
                 case 1:
@@ -385,7 +433,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
             project = objectProject
         }
 
-        if project == nil {
+        if project == nil || project?.isVirtual == true {
             project = Storage.shared().getDefault()
         }
 
@@ -542,7 +590,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
 
         vcEditor?.userActivity?.needsSave = true
         
-        Storage.shared().saveNotesSettings()
+        vcEditor?.note?.project.saveSettings()
     }
     
     @IBAction func toggleMathJax(_ sender: NSMenuItem) {
@@ -1465,6 +1513,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
                 }
             
                 vc.focusEditArea()
+
+                NSApp.activate(ignoringOtherApps: true)
+                self.view.window?.makeKeyAndOrderFront(self)
             }
         }
         

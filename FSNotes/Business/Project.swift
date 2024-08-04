@@ -23,9 +23,8 @@ public class Project: Equatable {
     public var isVirtual = false
     public var isBookmark: Bool = false
 
-    public var settings: ProjectSettings
-    public var metaCache = [NoteMeta]()
-    
+    public var settings = ProjectSettings()
+
     // all notes loaded with cache diff comparsion
     public var isReadyForCacheSaving = false
 
@@ -62,8 +61,6 @@ public class Project: Equatable {
         self.isBookmark = isBookmark
         self.isVirtual = isVirtual
         self.label = String()
-
-        settings = ProjectSettings()
             
         #if os(iOS)
         if isDefault {
@@ -146,6 +143,8 @@ public class Project: Equatable {
     public func reloadSettings() {
         if let settings = getSettings() {
             self.settings = settings
+
+            loadNotesPreview()
         }
     }
     
@@ -242,18 +241,20 @@ public class Project: Equatable {
         }
     }
 
-    public func loadCache() {
-        guard let cacheURL = getCacheURL() else { return }
+    public func loadCache() -> [NoteMeta]? {
+        guard let cacheURL = getCacheURL() else { return nil }
 
         if let data = try? Data(contentsOf: cacheURL) {
             let decoder = JSONDecoder()
 
             do {
-                metaCache = try decoder.decode(Array<NoteMeta>.self, from: data)
+                return try decoder.decode(Array<NoteMeta>.self, from: data)
             } catch {
                 print(error)
             }
         }
+
+        return nil
     }
 
     public func fetchNotes() -> [Note] {
@@ -281,12 +282,11 @@ public class Project: Equatable {
         return notes
     }
 
-    public func loadNotes() {
-        loadCache()
-
+    public func loadNotes(cacheOnly: Bool = false) -> [Note] {
         var notes = [Note]()
-        if !metaCache.isEmpty {
-            for noteMeta in metaCache {
+
+        if let metas = loadCache() {
+            for noteMeta in metas {
                 let note = Note(meta: noteMeta, project: self)
                 notes.append(note)
             }
@@ -294,7 +294,7 @@ public class Project: Equatable {
             // print("From cache: \(notes.count)")
             
             isNeededCacheValidation = true
-        } else {
+        } else if !cacheOnly {
             notes = fetchNotes()
             for newNote in notes {
                 newNote.load()
@@ -303,11 +303,15 @@ public class Project: Equatable {
             // print("From disk: \(notes.count)")
         }
 
-    #if CLOUD_RELATED_BLOCK
         notes = loadPins(for: notes)
-    #endif
-        
-        storage.noteList.append(contentsOf: notes)
+
+        for note in notes {
+            storage.add(note)
+        }
+
+        loadNotesPreview()
+
+        return notes
     }
 
     public func fetchAllDocuments(at url: URL) -> [(URL, Date, Date)] {
@@ -346,18 +350,15 @@ public class Project: Equatable {
     }
 
     public func loadPins(for notes: [Note]) -> [Note] {
-        #if CLOUD_RELATED_BLOCK
-        let keyStore = NSUbiquitousKeyValueStore()
-        keyStore.synchronize()
-
-        if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
+    #if CLOUD_RELATED_BLOCK
+        if let names = NSUbiquitousKeyValueStore().array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
             for name in names {
-                if let note = notes.first(where: { $0.name == name }) {
+                if let note = notes.first(where: { $0.url.path.hasSuffix(name) }) {
                     note.isPinned = true
                 }
             }
         }
-        #endif
+    #endif
 
         return notes
     }
@@ -1018,5 +1019,25 @@ public class Project: Equatable {
         }
 
         return result
+    }
+
+    public func saveNotesPreview() {
+        let notes = getNotes()
+        var result = [String]()
+        for note in notes {
+            if note.previewState {
+                result.append(note.name)
+            }
+        }
+        settings.notesPreview = result
+        saveSettings()
+    }
+
+    public func loadNotesPreview() {
+        let names = settings.notesPreview
+        let notes = storage.getNotesBy(project: self)
+        for note in notes {
+            note.previewState = names.contains(note.name)
+        }
     }
 }

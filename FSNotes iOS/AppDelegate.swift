@@ -241,7 +241,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let url = evc.note?.url {
             UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
 
-            if UserDefaultsManagement.previewMode {
+            if evc.note?.previewState == true {
                 UserDefaultsManagement.currentRange = nil
             } else {
                 UserDefaultsManagement.currentRange = evc.editArea.selectedRange

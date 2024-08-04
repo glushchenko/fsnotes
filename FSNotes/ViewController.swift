@@ -139,7 +139,12 @@ class ViewController: EditorViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        
+        if isPreLoaded {
+            return
+        }
+
+        isPreLoaded = true
+
         if #available(macOS 12.0, *) {
             let image = NSImage(systemSymbolName: "square.and.pencil", accessibilityDescription: nil)
             var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .large)
@@ -150,12 +155,6 @@ class ViewController: EditorViewController,
             newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_button").resize(to: CGSize(width: 20, height: 20))
         }
 
-        storage.restoreUploadPaths()
-        storage.restoreAPIIds()
-        
-        scheduleSnapshots()
-        schedulePull()
-        
         configureShortcuts()
         configureDelegates()
         configureLayout()
@@ -164,30 +163,29 @@ class ViewController: EditorViewController,
         fsManager = FileSystemEventManager(storage: storage, delegate: self)
         fsManager?.start()
 
-        menuChangeCreationDate.title = NSLocalizedString("Change Creation Date", comment: "Menu")
-        
         loadBookmarks(data: UserDefaultsManagement.sftpAccessData)
         loadBookmarks(data: UserDefaultsManagement.gitPrivateKeyData)
 
-        settingsMigation()
-        cacheGitRepositories()
-        
         loadMoveMenu()
         loadSortBySetting()
         checkSidebarConstraint()
-        
+
     #if CLOUD_RELATED_BLOCK
         registerKeyValueObserver()
     #endif
-        
+
         ViewController.gitQueue.maxConcurrentOperationCount = 1
-        
+
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
-        
-        DispatchQueue.main.async {
-            self.configureSidebarAndNotesList()
-            
-            self.preLoadProjectsData()
+
+        DispatchQueue.global().async {
+            self.storage.loadInboxAndTrash()
+
+            DispatchQueue.main.async {
+                self.buildSearchQuery()
+                self.configureSidebar()
+                self.configureNoteList()
+            }
         }
     }
     
@@ -205,60 +203,62 @@ class ViewController: EditorViewController,
             view.window?.toggleFullScreen(nil)
         }
     }
-    
+
     public func preLoadProjectsData() {
-        if isPreLoaded {
-            return
+        let projectsLoading = Date()
+        let results = self.storage.getProjectDiffs()
+
+        OperationQueue.main.addOperation {
+            self.sidebarOutlineView.removeRows(projects: results.0)
+            self.sidebarOutlineView.insertRows(projects: results.1)
+            self.notesTableView.doVisualChanges(results: (results.2, results.3, []))
+        }
+
+        print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
+
+        let diffLoading = Date()
+        for project in self.storage.getProjects() {
+            let changes = project.checkNotesCacheDiff()
+            self.notesTableView.doVisualChanges(results: changes)
+        }
+
+        print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
+
+        let tagsPoint = Date()
+
+        // Schedule git actions
+        self.scheduleSnapshots()
+        self.schedulePull()
+
+        // Loads tags
+        self.storage.loadNotesContent()
+
+        DispatchQueue.main.async {
+            if self.storage.isCrashedLastTime {
+
+                // Unsafe – resets selected note
+                self.restoreSidebar()
+            }
+
+            // Safe – only tags loading
+            self.sidebarOutlineView.loadAllTags()
+        }
+
+        print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+
+        let highlightCachePoint = Date()
+        for note in self.storage.noteList {
+            if note.type == .Markdown {
+                note.cache(backgroundThread: true)
+            }
         }
         
-        isPreLoaded = true
-        
-        DispatchQueue.global().async {
-            let storage = self.storage
+        print("3. Notes attributes cache for \(self.storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
 
-            let projectsLoading = Date()
-            let results = storage.getProjectDiffs()
-            storage.loadNotesCloudPins()
+        let gitCachePoint = Date()
+        self.cacheGitRepositories()
+        print("4. git history cached in \(gitCachePoint.timeIntervalSinceNow * -1) seconds")
 
-            OperationQueue.main.addOperation {
-                self.sidebarOutlineView.removeRows(projects: results.0)
-                self.sidebarOutlineView.insertRows(projects: results.1)
-                
-                if results.0.count != 0 || results.1.count != 0 {
-                    self.updateTable()
-                }
-            }
-            
-            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
-
-            let diffLoading = Date()
-            for project in storage.getProjects() {
-                let changes = project.checkNotesCacheDiff()
-                self.notesTableView.doVisualChanges(results: changes)
-            }
-            
-            print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
-            
-            let tagsPoint = Date()
-            storage.loadNotesCloudPins()
-            storage.loadNotesSettings()
-            storage.loadNotesContent()
-            
-            DispatchQueue.main.async {
-                self.sidebarOutlineView.loadAllTags()
-            }
-            
-            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
-            
-            let highlightCachePoint = Date()
-            for note in storage.noteList {
-                if note.type == .Markdown {
-                    note.cache(backgroundThread: true)
-                }
-            }
-            
-            print("3. Notes attributes cache for \(storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
-        }
     }
     
     // MARK: - Initial configuration
@@ -272,12 +272,14 @@ class ViewController: EditorViewController,
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
         }
-        
+
+        self.menuChangeCreationDate.title = NSLocalizedString("Change Creation Date", comment: "Menu")
+
         self.shareButton.sendAction(on: .leftMouseDown)
         self.setTableRowHeight()
-        
-        let sidebarList = Sidebar().getList()
-        self.sidebarOutlineView.sidebarItems = sidebarList
+
+        self.sidebarOutlineView.sidebarItems = Sidebar().getList()
+        self.sidebarOutlineView.reloadData()
 
         sidebarOutlineView.selectionHighlightStyle = .regular
         sidebarOutlineView.backgroundColor = .windowBackgroundColor
@@ -332,39 +334,43 @@ class ViewController: EditorViewController,
 
     }
 
-    private func configureSidebarAndNotesList() {
+    public func restoreSidebar() {
+        self.sidebarOutlineView.sidebarItems = Sidebar().getList()
+        self.sidebarOutlineView.reloadData()
+
+        self.storage.restoreProjectsExpandState()
+
+        for project in self.storage.getProjects() {
+            if project.isExpanded {
+                self.sidebarOutlineView.expandItem(project)
+            }
+        }
+    }
+
+
+    public func configureSidebar() {
         if isVisibleSidebar() {
-            configureSidebar()
-            
+            self.restoreSidebar()
+
             if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
                 if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
                     let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
                     let item = self.sidebarOutlineView.row(forItem: sidebarItem)
                     if item > -1 {
                         self.sidebarOutlineView.selectRowIndexes([item], byExtendingSelection: false)
-                    } else {
-                        self.configureNoteList()
                     }
                 } else if let lastURL = UserDefaultsManagement.lastProjectURL, let project = self.storage.getProjectBy(url: lastURL) {
                     let item = self.sidebarOutlineView.row(forItem: project)
                     if item > -1 {
                         self.sidebarOutlineView.selectRowIndexes([item], byExtendingSelection: false)
-                    } else {
-                        self.configureNoteList()
                     }
-                } else {
-                    self.configureNoteList()
                 }
-                
-                return
             }
         }
-
-        configureNoteList()
     }
     
     private func configureNoteList() {
-        updateTable() {
+        updateTable() {            
             if UserDefaultsManagement.copyWelcome {
                 DispatchQueue.main.async {
                     let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
@@ -377,21 +383,17 @@ class ViewController: EditorViewController,
             }
 
             DispatchQueue.main.async {
+
                 self.restoreOpenedWindows()
                 self.importAndCreate()
+
+                DispatchQueue.global().async {
+                    self.preLoadProjectsData()
+                }
             }
         }
     }
 
-    private func configureSidebar() {
-        self.storage.restoreProjectsExpandState()
-        for project in self.storage.getProjects() {
-            if project.isExpanded {
-                self.sidebarOutlineView.expandItem(project)
-            }
-        }
-    }
-    
     private func configureEditor() {
         self.editor.isGrammarCheckingEnabled = UserDefaultsManagement.grammarChecking
         self.editor.isContinuousSpellCheckingEnabled = UserDefaultsManagement.continuousSpellChecking
@@ -510,9 +512,12 @@ class ViewController: EditorViewController,
             let key = String(id.rawValue.dropFirst(3))
             guard let sortBy = SortBy(rawValue: key) else { return }
 
+            if sortBy.rawValue == UserDefaultsManagement.sort.rawValue {
+                UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
+            }
+
             UserDefaultsManagement.sort = sortBy
-            UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
-            
+
             if let submenu = sortByOutlet.submenu {
                 for item in submenu.items {
                     item.state = NSControl.StateValue.off
@@ -521,17 +526,8 @@ class ViewController: EditorViewController,
             
             sender.state = NSControl.StateValue.on
             
-            guard let controller = ViewController.shared() else { return }
-
-            var sidebarItem: SidebarItem? = nil
-            let projects = controller.sidebarOutlineView.getSidebarProjects()
-            let tags = controller.sidebarOutlineView.getSidebarTags()
-
-            if projects == nil && tags == nil {
-                sidebarItem = controller.getSidebarItem()
-            }
-
-            controller.updateTable(searchText: controller.search.stringValue, sidebarItem: sidebarItem, projects: projects, tags: tags)
+            ViewController.shared()?.buildSearchQuery()
+            ViewController.shared()?.updateTable()
         }
     }
         
@@ -597,7 +593,7 @@ class ViewController: EditorViewController,
             
             _ = note.move(to: destination, project: project)
 
-            if !isFit(note: note, shouldLoadMain: true) {
+            if !storage.searchQuery.isFit(note: note) {
                 notesTableView.removeRows(notes: [note])
 
                 if let i = selectedRow, i > -1 {
@@ -1241,17 +1237,7 @@ class ViewController: EditorViewController,
             notesTableView.reloadRow(note: note)
 
             if search.stringValue.count == 0 {
-                if UserDefaultsManagement.sort == .modificationDate
-                    && UserDefaultsManagement.sortDirection == true
-                    && note.project.settings.sortBy == .none {
-
-                    if let index = notesTableView.noteList.firstIndex(of: note) {
-                        moveNoteToTop(note: index)
-                    }
-                } else {
-                    let project = sidebarOutlineView.getSelectedProject()
-                    sortAndMove(note: note, project: project)
-                }
+                sortAndMove(note: note)
             }
             
             // Reloading nstextview in multiple windows
@@ -1285,69 +1271,37 @@ class ViewController: EditorViewController,
         return nil
     }
 
-    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}) {
-
-        var sidebarItem: SidebarItem? = sidebarItem
-        var projects: [Project]? = projects
-        var tags: [String]? = tags
-        var sidebarName: String? = nil
+    func updateTable(completion: @escaping () -> Void = {}) {
 
         let timestamp = Date().toMillis()
 
         self.search.timestamp = timestamp
         self.searchQueue.cancelAllOperations()
 
-        if searchText == nil {
-            projects = sidebarOutlineView.getSidebarProjects()
-            tags = sidebarOutlineView.getSidebarTags()
-            sidebarItem = getSidebarItem()
-
-            if !UserDefaultsManagement.inlineTags {
-                sidebarName = getSidebarItem()?.getName()
-            }
-        }
-
-        var filter = searchText ?? self.search.stringValue
-        let originalFilter = searchText ?? self.search.stringValue
-        filter = originalFilter
-
-        var type = sidebarItem?.type
-
-        // Global search if sidebar not checked
-        if type == nil && projects == nil {
-            type = .All
-        }
-
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {return}
 
-            if let projects = projects {
-                for project in projects {
-                    self.preLoadNoteTitles(in: project)
-                }
+            let projects = Storage.shared().searchQuery.projects
+            for project in projects {
+                self.preLoadNoteTitles(in: project)
             }
 
-            var terms = filter.split(separator: " ")
             let source = self.storage.noteList
             var notes = [Note]()
-            
-            if let type = type, type == .Todo {
-                terms.append("- [ ]")
-            }
-            
+
             for note in source {
                 if operation.isCancelled {
                     completion()
                     return
                 }
 
-                if (self.isFit(note: note, filter: filter, terms: terms, projects: projects, tags: tags, type: type, sidebarName: sidebarName)) {
+                if self.storage.searchQuery.isFit(note: note) {
                     notes.append(note)
                 }
             }
             
-            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: filter, project: projects?.first, operation: operation)
+            let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
 
             // Check diff
             if orderedNotesList == self.notesTableView.noteList {
@@ -1391,19 +1345,6 @@ class ViewController: EditorViewController,
             }
         }
     }
-
-    private func isMatched(note: Note, terms: [Substring]) -> Bool {
-        for term in terms {
-            if note.name.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil ||
-                note.content.string.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil {
-                continue
-            }
-            
-            return false
-        }
-        
-        return true
-    }
     
     public func reloadFonts() {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
@@ -1421,68 +1362,55 @@ class ViewController: EditorViewController,
         }
     }
 
-    public func isFit(note: Note, filter: String = "", terms: [Substring]? = nil, shouldLoadMain: Bool = false, projects: [Project]? = nil, tags: [String]? = nil, type: SidebarItemType? = nil, sidebarName: String? = nil) -> Bool {
-        var filter = filter
-        var terms = terms
-        var projects = projects
-        var tags = tags
-        var type = type
+    public func buildSearchQuery() {
+        let searchQuery = SearchQuery()
 
-        if shouldLoadMain {
+        var projects = [Project]()
+        var tags = [String]()
+        var type: SidebarItemType?
 
-            projects = sidebarOutlineView.getSidebarProjects()
-            tags = sidebarOutlineView.getSidebarTags()
+        if let sidebarProjects = sidebarOutlineView.getSidebarProjects() {
+            projects = sidebarProjects
+        }
 
-            type = getSidebarType()
-            if type == nil && projects == nil && tags == nil {
-                type = .All
-            }
-            
-            filter = search.stringValue
-            terms = search.stringValue.split(separator: " ")
+        if let sidebarTags = sidebarOutlineView.getSidebarTags() {
+            tags = sidebarTags
+        }
 
-            if type == .Todo {
-                terms!.append("- [ ]")
+        if let sidebarTableView = self.sidebarOutlineView {
+            let indexPaths = sidebarTableView.selectedRowIndexes
+
+            for indexPath in indexPaths {
+                if let item = sidebarTableView.item(atRow: indexPath) as? SidebarItem {
+                    if item.type == .All ||
+                        item.type == .Untagged ||
+                        item.type == .Todo ||
+                        item.type == .Trash ||
+                        item.type == .Inbox {
+
+                        type = item.type
+                    }
+                }
             }
         }
 
-        return !note.name.isEmpty
-            && (
-                filter.isEmpty && type != .Todo
-                    || type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
-                    || self.isMatched(note: note, terms: terms!)
-            ) && (
-                type == .All && note.project.isVisibleInCommon()
-                || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
-                || type == .Inbox && note.project.isDefault
-                || type == .Trash
-                || type == .Untagged && note.tags.count == 0
-                || type == .Todo && note.project.settings.showInCommon
-                || !UserDefaultsManagement.inlineTags && tags != nil
-                || projects?.contains(note.project) == true
-            ) && (
-                type == .Trash && note.isTrash()
-                    || type != .Trash && !note.isTrash()
-            ) && (
-                tags == nil
-                || UserDefaultsManagement.inlineTags && tags != nil && note.tags.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
-            ) && !(
-                note.project.isEncrypted &&
-                note.project.isLocked()
-            )
+        if projects.count == 0 && type == nil {
+            type = .All
+        }
+
+        let filter = search.stringValue
+
+        searchQuery.projects = projects
+        searchQuery.tags = tags
+        searchQuery.setFilter(filter)
+
+        if let type = type {
+            searchQuery.setType(type)
+        }
+
+        self.storage.setSearchQuery(value: searchQuery)
     }
 
-    public func contains(tag name: String, in tags: [String]) -> Bool {
-        var found = false
-        for tag in tags {
-            if name == tag || name.starts(with: tag + "/") {
-                found = true
-                break
-            }
-        }
-        return found
-    }
-    
     @objc func selectNullTableRow(note: Note) {
         self.selectRowTimer.invalidate()
         self.selectRowTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.selectRowInstant), userInfo: note, repeats: false)
@@ -1518,9 +1446,8 @@ class ViewController: EditorViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editor.clear()
 
-        let searchText = completion == nil ? "" : nil
-
-        self.updateTable(searchText: searchText) {
+        self.buildSearchQuery()
+        self.updateTable() {
             DispatchQueue.main.async {
                 if shouldBecomeFirstResponder {
                     self.sidebarOutlineView.reloadTags()
@@ -1590,7 +1517,7 @@ class ViewController: EditorViewController,
         guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
         let notes = notesTableView.noteList
 
-        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue, project: project)
+        let resorted = storage.sortNotes(noteList: notes)
         guard let dstIndex = resorted.firstIndex(of: note) else { return }
 
         if srcIndex != dstIndex {
@@ -1600,8 +1527,6 @@ class ViewController: EditorViewController,
     }
     
     func pin(selectedNotes: [Note]) {
-        let projects = sidebarOutlineView.getSidebarProjects()
-        
         if selectedNotes.count == 0 {
             return
         }
@@ -1619,7 +1544,7 @@ class ViewController: EditorViewController,
             cell.renderPin()
         }
 
-        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue, project: projects?.first)
+        let resorted = storage.sortNotes(noteList: notesTableView.noteList)
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }
@@ -2055,22 +1980,29 @@ class ViewController: EditorViewController,
     
     public func importAndCreate() {
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
-            if let url = appDelegate.searchQuery {
-                appDelegate.searchQuery = nil
+
+            // fsnotes://find
+
+            if let url = appDelegate.url {
+                appDelegate.url = nil
                 appDelegate.search(url: url)
                 return
             }
+
+            // Open files in the app
 
             if let urls = appDelegate.urls {
                 appDelegate.importNotes(urls: urls)
                 return
             }
 
-            if nil != appDelegate.newName || nil != appDelegate.newContent {
-                let name = appDelegate.newName ?? ""
-                let content = appDelegate.newContent ?? ""
-                
-                appDelegate.create(name: name, content: content)
+            // fsnotes://new/?title=URI-title&txt=URI-content
+
+            let name = appDelegate.newName
+            let content = appDelegate.newContent
+
+            if nil != name || nil != content {
+                appDelegate.create(name: name ?? "", content: content ?? "")
             }
         }
     }
@@ -2092,52 +2024,10 @@ class ViewController: EditorViewController,
         
         return size != 0
     }
-    
-    #if os(macOS)
-    private func settingsMigation() {
-
-        let project = storage.getDefault()
-    
-        // Transfer private git key to default project
-        if UserDefaultsManagement.gitPrivateKeyData != nil {
-            if let accessData = UserDefaultsManagement.gitPrivateKeyData,
-               let bookmarks = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSData.self], from: accessData) as? [URL: Data] {
-                for bookmark in bookmarks {
-                    if let data = try? Data(contentsOf: bookmark.key) {
-                        
-                        project?.settings.gitPrivateKey = data
-                        project?.saveSettings()
-                        
-                        UserDefaultsManagement.gitPrivateKeyData = nil
-                    }
-                    break
-                }
-            }
-        }
-        
-        // Transfer origin
-        if UserDefaultsManagement.gitOrigin != nil {
-            project?.settings.setOrigin(UserDefaultsManagement.gitOrigin)
-            project?.saveSettings()
-            
-            UserDefaultsManagement.gitOrigin = ""
-        }
-        
-        // Transfer passphrase
-        if UserDefaultsManagement.gitPassphrase.count > 0 {
-            project?.settings.gitPrivateKeyPassphrase = UserDefaultsManagement.gitPassphrase
-            project?.saveSettings()
-            
-            UserDefaultsManagement.gitPassphrase = ""
-        }
-    }
-    #endif
 
     private func cacheGitRepositories() {
-        DispatchQueue.global(qos: .background).async {
-            _ = Storage.shared().getProjects().filter({ $0.hasRepository() }).map({
-                $0.cacheHistory()
-            })
-        }
+        _ = Storage.shared().getProjects().filter({ $0.hasRepository() }).map({
+            $0.cacheHistory()
+        })
     }
 }

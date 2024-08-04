@@ -223,9 +223,10 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     @objc private func search() {
         UserDataService.instance.searchTrigger = true
 
+        vcDelegate.buildSearchQuery()
+
         let searchText = self.stringValue
         let currentTextLength = searchText.count
-        var sidebarItem: SidebarItem? = nil
 
         if !skipAutocomplete {
             let safeLength = lastQuery.dropFirst(stringValue.count).utf16.count
@@ -244,20 +245,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
         self.lastQueryLength = searchText.count
 
-        let projects = vcDelegate.sidebarOutlineView.getSidebarProjects()
-        let tags = vcDelegate.sidebarOutlineView.getSidebarTags()
-
-        if projects == nil && tags == nil {
-            sidebarItem = self.vcDelegate.getSidebarItem()
-        }
-
         if let query = getSearchTextExceptCompletion() {
             self.lastSearchQuery = query
         }
 
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
-            self.vcDelegate.updateTable(searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
+            self.vcDelegate.updateTable() {
                 if let note = self.vcDelegate.notesTableView.noteList.first {
                     DispatchQueue.main.async() {
                         if let searchQuery = self.getSearchTextExceptCompletion() {

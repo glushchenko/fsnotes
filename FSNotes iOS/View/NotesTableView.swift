@@ -217,12 +217,8 @@ class NotesTableView: UITableView,
 
             note.togglePin()
             cell.configure(note: note)
-
-            let filter = vc.navigationItem.searchController?.searchBar.text ?? ""
-
-            let project = self.viewDelegate?.sidebarTableView.getSidebarProjects()?.first
-            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter, project: project)
             
+            let resorted = vc.storage.sortNotes(noteList: self.notes)
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
             let newIndexPath = IndexPath(row: newIndex, section: 0)
@@ -634,12 +630,12 @@ class NotesTableView: UITableView,
 
     public func insertRows(notes: [Note]) {
         guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
+        vc.storage.loadPins(notes: notes)
 
         var toInsert = [Note]()
 
         for note in notes {
-            guard
-                vc.isFitInCurrentSearchQuery(note: note),
+            guard vc.storage.searchQuery.isFit(note: note),
                 !self.notes.contains(where: {$0 === note})
             else { continue }
 
@@ -650,10 +646,7 @@ class NotesTableView: UITableView,
         vc.updateSpotlightIndex(notes: toInsert)
 
         let nonSorted = self.notes + toInsert
-        let sorted = vc.storage.sortNotes(
-            noteList: nonSorted,
-            project: vc.searchQuery.project
-        )
+        let sorted = vc.storage.sortNotes(noteList: nonSorted)
 
         var indexPaths = [IndexPath]()
         for note in toInsert {
@@ -661,7 +654,6 @@ class NotesTableView: UITableView,
             indexPaths.append(IndexPath(row: index, section: 0))
         }
 
-        vc.storage.loadPins(notes: notes)
         self.notes = sorted
 
         insertRows(at: indexPaths, with: .fade)
@@ -810,7 +802,27 @@ class NotesTableView: UITableView,
         let nvc = UIApplication.getNC()
         nvc?.present(datePickerViewController, animated: true )
     }
-    
+
+    public func showLoader() {
+        let title = NSLocalizedString("Loading...", comment: "")
+        let alert = UIAlertController(title: nil, message: title, preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating();
+
+        alert.view.addSubview(loadingIndicator)
+
+        UIApplication.getNC()?.present(alert, animated: true)
+    }
+
+    public func hideLoader() {
+        DispatchQueue.main.async {
+            UIApplication.getNC()?.dismiss(animated: false, completion: nil)
+        }
+    }
+
     public func saveRevisionAction(note: Note? = nil, project: Project? = nil) {
         var current: Project?
 
@@ -826,7 +838,8 @@ class NotesTableView: UITableView,
         let viewController = UIApplication.getVC()
 
         // Show loader
-        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        let title = NSLocalizedString("Loading...", comment: "")
+        let alert = UIAlertController(title: nil, message: title, preferredStyle: .alert)
 
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
@@ -1037,22 +1050,14 @@ class NotesTableView: UITableView,
     public func moveRowUp(note: Note) {
         guard let vc = viewDelegate,
             vc.isNoteInsertionAllowed(),
-            vc.isFitInCurrentSearchQuery(note: note),
+            vc.storage.searchQuery.isFit(note: note),
             let at = notes.firstIndex(where: {$0 === note})
         else { return }
 
         var to = 0
 
-        if note.project.settings.sortBy == .modificationDate {
-            to = note.isPinned ? 0 : notes.filter({ $0.isPinned }).count
-        } else {
-            let sorted = vc.storage.sortNotes(
-                noteList: notes,
-                project: vc.searchQuery.project
-            )
-
-            to = sorted.firstIndex(of: note) ?? at
-        }
+        let sorted = vc.storage.sortNotes(noteList: notes)
+        to = sorted.firstIndex(of: note) ?? at
 
         let atIndexPath = IndexPath(row: at, section: 0)
         let toIndexPath = IndexPath(row: to, section: 0)
@@ -1119,10 +1124,7 @@ class NotesTableView: UITableView,
     public func addPins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
         for note in notes {
-            let sorted = vc.storage.sortNotes(
-                noteList: self.notes,
-                project: vc.searchQuery.project
-            )
+            let sorted = vc.storage.sortNotes(noteList: self.notes)
 
             if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
 
@@ -1147,10 +1149,7 @@ class NotesTableView: UITableView,
     public func removePins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
         for note in notes {
-            let sorted = vc.storage.sortNotes(
-                noteList: self.notes,
-                project: vc.searchQuery.project
-            )
+            let sorted = vc.storage.sortNotes(noteList: self.notes)
 
             if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
 

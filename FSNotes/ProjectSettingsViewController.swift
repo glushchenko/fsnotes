@@ -33,6 +33,8 @@ class ProjectSettingsViewController: SettingsViewController {
         project.saveSettings()
         
         guard let vc = ViewController.shared() else { return }
+
+        vc.buildSearchQuery()
         vc.updateTable()
     }
     
@@ -43,6 +45,8 @@ class ProjectSettingsViewController: SettingsViewController {
         project.saveSettings()
         
         guard let vc = ViewController.shared() else { return }
+
+        vc.buildSearchQuery()
         vc.updateTable()
     }
     
@@ -82,6 +86,12 @@ class ProjectSettingsViewController: SettingsViewController {
     }
 
     public func load(project: Project) {
+        if project.isVirtual {
+            showInAll.isEnabled = false
+            nestedFoldersContent.isEnabled = false
+            firstLineAsTitle.isEnabled = false
+        }
+
         showInAll.state = project.settings.showInCommon ? .on : .off
         firstLineAsTitle.state = project.settings.isFirstLineAsTitle() ? .on : .off
         nestedFoldersContent.state = project.settings.showNestedFoldersContent ? .on : .off

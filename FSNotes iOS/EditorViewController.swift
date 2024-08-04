@@ -86,7 +86,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         super.viewDidAppear(animated)
 
-        if editArea.textStorage.length == 0  && !UserDefaultsManagement.previewMode {
+        if editArea.textStorage.length == 0  && editArea.note?.previewState == false {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
@@ -200,7 +200,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
     }
 
-    public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
+    public func fill(note: Note, selectedRange: NSRange? = nil, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
 
         if enableHandoff {
             registerHandoff(for: note)
@@ -213,17 +213,18 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         
         editArea.note = note
 
-        if UserDefaultsManagement.previewMode {
+        if note.previewState {
             loadPreviewView()
             completion?()
             return
         }
-        
-        fillEditor(note: note)
+
+        getPreviewView()?.removeFromSuperview()
+        fillEditor(note: note, selectedRange: selectedRange)
         completion?()
     }
 
-    private func fillEditor(note: Note) {
+    private func fillEditor(note: Note, selectedRange: NSRange? = nil) {
         guard editArea != nil else { return }
 
         editArea.initUndoRedoButons()
@@ -236,7 +237,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.backgroundColor = UIColor.dropDownColor
         }
 
-        saveSelectedRange()
+        if selectedRange == nil {
+            saveSelectedRange()
+        }
 
         if note.isMarkdown() {
             editArea.textStorageProcessor?.shouldForceRescan = true
@@ -408,7 +411,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                     let vc = UIApplication.getVC()
 
-                    if let project = vc.searchQuery.project {
+                    if let project = Storage.shared().searchQuery.projects.first {
                         let tags = vc.sidebarTableView.getAllTags(projects: [project])
                         self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
 
@@ -427,7 +430,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
 
                     let vc = UIApplication.getVC()
-                    if let project = vc.searchQuery.project {
+                    if let project = Storage.shared().searchQuery.projects.first {
                         let tags = vc.sidebarTableView.getAllTags(projects: [project])
 
                         if let word = word {
@@ -445,7 +448,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             if text == "#" {
                 let vc = UIApplication.getVC()
 
-                if let project = vc.searchQuery.project {
+                if let project = Storage.shared().searchQuery.projects.first {
                     let tags = vc.sidebarTableView.getAllTags(projects: [project])
                     self.dropDown.dataSource = tags
                     self.complete(offset: self.editArea.selectedRange.location)
@@ -980,7 +983,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let location = editArea.selectedRange.location
 
         let vc = UIApplication.getVC()
-        guard let project = vc.searchQuery.project else { return }
+        guard let project = Storage.shared().searchQuery.projects.first else { return }
         let tags = vc.sidebarTableView.getAllTags(projects: [project])
         self.dropDown.dataSource = tags
 
@@ -1349,7 +1352,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 vc.shouldReturnToControllerIndex = true
                 vc.loadSearchController(query: query)
-                vc.reloadNotesTable(with: SearchQuery(filter: query))
+                vc.buildSearchQuery()
+                vc.reloadNotesTable()
             }
         }
     }
@@ -1408,7 +1412,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @IBAction func editMode() {
-        if UserDefaultsManagement.previewMode {
+        if editArea.note?.previewState == true {
             togglePreview()
 
             editArea.becomeFirstResponder()
@@ -1418,7 +1422,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     public func getTogglePreviewButton() -> UIBarButtonItem {
         let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .light, scale: .default)
-        let buttonName = UserDefaultsManagement.previewMode ? "eye.slash" : "eye"
+        let buttonName = editArea.note?.previewState == true ? "eye.slash" : "eye"
         let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
         let menuBarItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(togglePreview))
         menuBarItem.tag = 5
@@ -1444,18 +1448,18 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     @objc public func togglePreview() {
         guard let note = editArea.note else { return }
 
-        if UserDefaultsManagement.previewMode {
-            UserDefaultsManagement.previewMode = false
+        if note.previewState {
+            note.previewState = false
             getPreviewView()?.removeFromSuperview()
             fillEditor(note: note)
 
         } else {
-            UserDefaultsManagement.previewMode = true
+            note.previewState = true
             editArea.endEditing(true)
             loadPreviewView()
         }
 
-        let buttonName = UserDefaultsManagement.previewMode ? "eye.slash" : "eye"
+        let buttonName = note.previewState ? "eye.slash" : "eye"
 
         if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }) {
 
@@ -1468,6 +1472,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         // Handoff needs update in cursor position changed
         userActivity?.needsSave = true
+
+        note.project.saveSettings()
     }
 
     public func loadPreviewView() {
@@ -1606,7 +1612,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let position =
             editArea.isFirstResponder ? editArea.selectedRange.location : -1
-        let state = UserDefaultsManagement.previewMode ? "preview" : "editor"
+        let state = note.previewState ? "preview" : "editor"
         let data =
             [
                 "note-file-name": note.name,
@@ -1715,7 +1721,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     func loadSelectedRange() {
         guard let note = note else { return }
-
 
         if let range = note.getSelectedRange(), range.upperBound <= editArea.textStorage.length {
             editArea.selectedRange = range

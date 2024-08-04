@@ -204,7 +204,7 @@ extension ViewController: UIDocumentPickerDelegate {
         var type = sidebarItem?.type
         var indexPath: IndexPath?
 
-        if let tag = searchQuery.tag {
+        if let tag = Storage.shared().searchQuery.tags.first {
             indexPath = sidebarTableView.getIndexPathBy(tag: tag)
         }
 
@@ -436,7 +436,7 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard var projectURL = selectedProject?.url else { return }
+        guard let projectURL = selectedProject?.url else { return }
 
         for url in urls {
             let dstURL = projectURL.appendingPathComponent(url.lastPathComponent)
@@ -728,7 +728,7 @@ extension ViewController: UIDocumentPickerDelegate {
         let mvc = UIApplication.getVC()
 
         guard let sidebarItem = sidebarItem, sidebarItem.type == .Tag else { return }
-        guard let selectedProject = mvc.searchQuery.project else { return }
+        guard let selectedProject = mvc.storage.searchQuery.projects.first else { return }
 
         let tag = sidebarItem.name
 
@@ -750,7 +750,7 @@ extension ViewController: UIDocumentPickerDelegate {
         let mvc = UIApplication.getVC()
 
         guard let sidebarItem = sidebarItem, sidebarItem.type == .Tag else { return }
-        guard let selectedProject = mvc.searchQuery.project else { return }
+        guard let selectedProject = mvc.storage.searchQuery.projects.first else { return }
 
         let tag = sidebarItem.name
 

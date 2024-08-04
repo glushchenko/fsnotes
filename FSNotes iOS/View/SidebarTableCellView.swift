@@ -24,7 +24,10 @@ class SidebarTableCellView: UITableViewCell {
 
         var font = UIFont.systemFont(ofSize: 15)
 
-        if sidebarItem.type == .Project || sidebarItem.type == .ProjectEncryptedLocked || sidebarItem.type == .ProjectEncryptedUnlocked || sidebarItem.type == .Tag {
+        if sidebarItem.type == .Project || 
+            sidebarItem.type == .ProjectEncryptedLocked ||
+            sidebarItem.type == .ProjectEncryptedUnlocked ||
+            sidebarItem.type == .Tag {
             font = UIFont.systemFont(ofSize: 14)
         }
 

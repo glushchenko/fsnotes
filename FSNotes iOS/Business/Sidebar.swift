@@ -26,34 +26,35 @@ class Sidebar {
 
         var system = [SidebarItem]()
 
+        // Notes
+        let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
+        let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
+        let fakeNotesProject =
+            Project(
+                storage: Storage.shared(),
+                url: notesUrl,
+                label: notesLabel,
+                isVirtual: true
+            )
+
+        system.append(
+            SidebarItem(
+                name: NSLocalizedString("Notes", comment: ""),
+                project: fakeNotesProject,
+                type: .All
+            )
+        )
+
+        Storage.shared().allNotesProject = fakeNotesProject
+
         // Inbox
-        if let project = Storage.shared().getDefault() {
+        if UserDefaultsManagement.sidebarVisibilityInbox,
+            let project = Storage.shared().getDefault() {
             system.append(
                 SidebarItem(
                     name: NSLocalizedString("Inbox", comment: ""),
                     project: project,
                     type: .Inbox
-                )
-            )
-        }
-
-        // Notes
-        if UserDefaultsManagement.sidebarVisibilityNotes {
-            let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
-            let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
-            let fakeNotesProject =
-                Project(
-                    storage: Storage.shared(),
-                    url: notesUrl,
-                    label: notesLabel,
-                    isVirtual: true
-                )
-
-            system.append(
-                SidebarItem(
-                    name: NSLocalizedString("Notes", comment: ""),
-                    project: fakeNotesProject,
-                    type: .All
                 )
             )
         }
@@ -77,13 +78,26 @@ class Sidebar {
                     type: .Todo
                 )
             )
+
+            Storage.shared().todoProject = fakeTodoProject
         }
 
         // Untagged
         if UserDefaultsManagement.sidebarVisibilityUntagged {
+            let todoUrl = defaultURL.appendingPathComponent("Fake Virtual Utagged Dir")
+            let untaggedLabel = NSLocalizedString("Untagged", comment: "")
+            let fakeUntaggedProject =
+                Project(
+                    storage: Storage.shared(),
+                    url: todoUrl,
+                    label: untaggedLabel,
+                    isVirtual: true
+                )
+
             let untagged =
                 SidebarItem(
-                    name: NSLocalizedString("Untagged", comment: ""),
+                    name: untaggedLabel,
+                    project: fakeUntaggedProject,
                     type: .Untagged
                 )
 

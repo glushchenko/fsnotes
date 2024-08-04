@@ -66,18 +66,6 @@ extension UserDefaultsManagement {
         }
     }
 
-    static var previewMode: Bool {
-        get {
-            if let result = shared?.object(forKey: "previewMode") as? Bool {
-                return result
-            }
-            return false
-        }
-        set {
-            shared?.set(newValue, forKey: "previewMode")
-        }
-    }
-
     static var sidebarIsOpened: Bool {
         get {
             if let result = shared?.object(forKey: "sidebarIsOpened") as? Bool {
