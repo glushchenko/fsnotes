@@ -222,6 +222,9 @@ class ViewController: EditorViewController,
             self.notesTableView.doVisualChanges(results: changes)
         }
 
+        // Reload added projects
+        self.fsManager?.restart()
+
         print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
 
         let tagsPoint = Date()

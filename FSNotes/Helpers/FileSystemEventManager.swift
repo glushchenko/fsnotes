@@ -14,7 +14,8 @@ class FileSystemEventManager {
     private var delegate: ViewController
     private var watcher: FileWatcher?
     private var observedFolders: [String]
-    
+    private var textBundleItems = ["text.markdown", "text.md", "text.txt", "text.rtf", "info.json"]
+
     init(storage: Storage, delegate: ViewController) {
         self.storage = storage
         self.delegate = delegate
@@ -60,7 +61,7 @@ class FileSystemEventManager {
             }
 
             if event.fileRenamed || event.dirRenamed {
-                self.moveHandler(url: url, pathList: self.observedFolders)
+                self.moveHandler(url: fullUrl, pathList: self.observedFolders)
                 return
             }
 
@@ -237,8 +238,6 @@ class FileSystemEventManager {
     
     private func reloadNote(note: Note) {
         guard !note.isBlocked, note.container != .encryptedTextPack else {
-            print("skip")
-            print(note.isBlocked)
             return
         }
 
@@ -300,7 +299,9 @@ class FileSystemEventManager {
     }
     
     private func handleTextBundle(url: URL) -> URL {
-        if ["text.markdown", "text.md", "text.txt", "text.rtf"].contains(url.lastPathComponent) && url.path.contains(".textbundle") {
+        if self.textBundleItems.contains(url.lastPathComponent) &&
+            url.path.contains(".textbundle") {
+            
             let path = url.deletingLastPathComponent().path
             return URL(fileURLWithPath: path, isDirectory: false)
         }
