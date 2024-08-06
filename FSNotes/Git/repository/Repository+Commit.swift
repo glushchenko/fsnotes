@@ -66,7 +66,7 @@ extension Repository {
                                signature: Signature) throws -> Commit {
         
         // Create signature
-        var sig = UnsafeMutablePointer<UnsafeMutablePointer<git_signature>?>.allocate(capacity: 1)
+        let sig = UnsafeMutablePointer<UnsafeMutablePointer<git_signature>?>.allocate(capacity: 1)
         defer {
             
             if let ptr = sig.pointee {

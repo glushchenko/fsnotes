@@ -28,8 +28,10 @@ func relativePath(from: URL, to: URL) -> String? {
     // Find prefix size
     let size = fromFilePath.count + (currentFilePath[currentFilePath.startIndex] == "/" ? 1 : 0 )
     
+    let startIndex = currentFilePath.index(currentFilePath.startIndex, offsetBy: size)
+
     // Return sub string
-    return currentFilePath.substring(from: currentFilePath.index(currentFilePath.startIndex, offsetBy: size))
+    return String(currentFilePath[startIndex...])
 }
 
 // MARK: - Index extension for files
@@ -64,8 +66,8 @@ extension Index {
             index_entry.path = ptr
             index_entry.mode = 33188
             /* create a blob from our buffer */
-            try data.withUnsafeBytes {(bytes: UnsafePointer<OpaquePointer?>) -> Void in
-                let error = git_index_add_frombuffer(idx.pointee, &index_entry, bytes, data.count)
+            try data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Void in
+                let error = git_index_add_frombuffer(idx.pointee, &index_entry, bytes.baseAddress, data.count)
                 if error != 0 {
                     throw gitUnknownError("Unable to add Data to index", code: error)
                 }

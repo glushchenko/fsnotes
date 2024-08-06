@@ -57,7 +57,8 @@ public class Tags {
         // Find spec
         if (name.hasPrefix("refs/tags/")) {
             spec = name
-            shortName = name.substring(from: name.index(name.startIndex, offsetBy: 10))
+            let startIndex = name.index(name.startIndex, offsetBy: 10)
+            shortName = String(name[startIndex...])
         } else {
             spec = "refs/tags/\(name)"
             shortName = name

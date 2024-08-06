@@ -46,7 +46,7 @@ public struct OID {
     public func sha() -> String? {
         
         // Create c_string
-        var c_string = UnsafeMutablePointer<CChar>.allocate(capacity: 40)
+        let c_string = UnsafeMutablePointer<CChar>.allocate(capacity: 40)
         defer {
             c_string.deinitialize(count: 40)
             c_string.deallocate()

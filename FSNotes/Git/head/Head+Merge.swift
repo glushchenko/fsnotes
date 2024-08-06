@@ -189,7 +189,8 @@ extension Head {
             var oid = try branch.targetCommit().oid
             var error = git_annotated_commit_lookup(annotatedCommit, repository.pointer.pointee, &oid.oid)
             if (error != 0) {
-                throw gitUnknownError("Unable to annotated commit \(oid.sha())", code: error)
+                let shaCommit = oid.sha() ?? "no sha"
+                throw gitUnknownError("Unable to annotated commit \(shaCommit)", code: error)
             }
             
             // Write conflicts
@@ -294,7 +295,7 @@ extension Head {
         var tree : OpaquePointer? = nil
         git_tree_lookup(&tree, repository.pointer.pointee, &treeOid);
                     
-        var sig = UnsafeMutablePointer<UnsafeMutablePointer<git_signature>?>.allocate(capacity: 1)
+        let sig = UnsafeMutablePointer<UnsafeMutablePointer<git_signature>?>.allocate(capacity: 1)
         defer {
             if let ptr = sig.pointee {
                 git_signature_free(ptr)

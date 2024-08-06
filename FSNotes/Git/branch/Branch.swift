@@ -79,11 +79,13 @@ public class Branch : Reference {
         
         // Test local
         if ((type != nil && type! == .local) || spec.hasPrefix("refs/heads/")) {
-            let name = spec.substring(from: spec.index(spec.startIndex, offsetBy: 11))
+            let startIndex = spec.index(spec.startIndex, offsetBy: 11)
+            let name = String(spec[startIndex...])
             return (name, BranchType.local)
             // Test remote
         } else if ((type != nil && type! == .remote) || spec.hasPrefix("refs/remotes/")) {
-            let name = spec.substring(from: spec.index(spec.startIndex, offsetBy: 13))
+            let startIndex = spec.index(spec.startIndex, offsetBy: 13)
+            let name = String(spec[startIndex...])
             return (name, BranchType.local)
         } else {
             throw GitError.invalidSpec(spec: spec)
