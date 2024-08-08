@@ -16,11 +16,15 @@ extension EditorViewController {
         let printDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Print")
         try? FileManager.default.removeItem(at: printDir)
         
-        guard let indexURL = MPreviewView.buildPage(for: note, at: printDir, print: true),
-              let content = try? String(contentsOf: indexURL) else { return }
-    
-        self.printWebView.frameLoadDelegate = self
-        self.printWebView.mainFrame.loadHTMLString(content, baseURL: printDir)
+        guard let indexURL = MPreviewView.buildPage(for: note, at: printDir, print: true) else { return }
+
+        if #available(macOS 11.0, *) {
+            let pdfCreator = Printer(indexURL: indexURL)
+            pdfCreator.printWeb()
+        } else if let content = try? String(contentsOf: indexURL) {
+            self.printWebView.frameLoadDelegate = self
+            self.printWebView.mainFrame.loadHTMLString(content, baseURL: printDir)
+        }
     }
 
     func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {

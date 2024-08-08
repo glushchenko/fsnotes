@@ -591,6 +591,8 @@
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
+		D7B13DBD2C64F445008EBCAA /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B13DBC2C64F445008EBCAA /* Printer.swift */; };
+		D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B13DBC2C64F445008EBCAA /* Printer.swift */; };
 		D7B1F6AC246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
 		D7B1F6AD246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
 		D7B1F6B1246A686700593001 /* ordered_list.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AF246A686600593001 /* ordered_list.png */; };
@@ -1400,6 +1402,7 @@
 		D7A9C1D52910784400905619 /* Project+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Git.swift"; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
+		D7B13DBC2C64F445008EBCAA /* Printer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
 		D7B1F6AB246895B000593001 /* new_note_ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new_note_ui.png; sourceTree = "<group>"; };
 		D7B1F6AF246A686600593001 /* ordered_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ordered_list.png; sourceTree = "<group>"; };
 		D7B1F6B0246A686600593001 /* numbered_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = numbered_list.png; sourceTree = "<group>"; };
@@ -2400,6 +2403,7 @@
 				D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */,
 				D76025B1204EEF64000B9F59 /* TextFormatter.swift */,
 				D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */,
+				D7B13DBC2C64F445008EBCAA /* Printer.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -3727,6 +3731,7 @@
 				D73BCCAD28EB5EC3008B3BBC /* Signature.swift in Sources */,
 				D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
+				D7B13DBD2C64F445008EBCAA /* Printer.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
 				D77A12382C469AD0001B388B /* SearchQuery.swift in Sources */,
 				D7D3D2A427BEEA61001C1497 /* Note+History.swift in Sources */,
@@ -3904,6 +3909,7 @@
 				D73BCCAE28EB5EC3008B3BBC /* Signature.swift in Sources */,
 				D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
 				D708AC682000F0E100A1760F /* NoteType.swift in Sources */,
+				D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */,
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
 				D77A12372C469ACF001B388B /* SearchQuery.swift in Sources */,
 				D7D3D2A527BEEA62001C1497 /* Note+History.swift in Sources */,
