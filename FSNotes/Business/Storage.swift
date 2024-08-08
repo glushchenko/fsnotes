@@ -174,26 +174,26 @@ class Storage {
 
     public func getRoot() -> URL? {
         #if targetEnvironment(simulator) || os(OSX)
-            return UserDefaultsManagement.storageUrl
-        #endif
+                return UserDefaultsManagement.storageUrl
+        #else
+            guard UserDefaultsManagement.iCloudDrive, let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?
+                .appendingPathComponent("Documents")
+                .standardized
+            else { return getLocalDocuments() }
 
-        guard UserDefaultsManagement.iCloudDrive, let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?
-            .appendingPathComponent("Documents")
-            .standardized
-        else { return getLocalDocuments() }
+            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
+                do {
+                    try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
 
-        if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
-            do {
-                try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
-
+                    return iCloudDocumentsURL.standardized
+                } catch {
+                    print("Home directory creation: \(error)")
+                }
+                return nil
+            } else {
                 return iCloudDocumentsURL.standardized
-            } catch {
-                print("Home directory creation: \(error)")
             }
-            return nil
-        } else {
-            return iCloudDocumentsURL.standardized
-        }
+        #endif
     }
 
     public func getLocalDocuments() -> URL? {

@@ -772,6 +772,8 @@
 		D7CF7EBC29E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */; };
 		D7CF7EBD29E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */; };
 		D7D00E79248FBFF7009AE455 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D00E78248FBFF6009AE455 /* UIView+.swift */; };
+		D7D01AFD2C65203A00F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
+		D7D01AFE2C65208000F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
 		D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BB7205C6D1800D96A6D /* redo.png */; };
@@ -1475,6 +1477,7 @@
 		D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@3x~ipad.png"; sourceTree = "<group>"; };
 		D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@2x~ipad.png"; sourceTree = "<group>"; };
 		D7D00E78248FBFF6009AE455 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterLegacy.swift; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		D7D03BB7205C6D1800D96A6D /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		D7D03BB8205C6D1900D96A6D /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
@@ -2404,6 +2407,7 @@
 				D76025B1204EEF64000B9F59 /* TextFormatter.swift */,
 				D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */,
 				D7B13DBC2C64F445008EBCAA /* Printer.swift */,
+				D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2800,6 +2804,7 @@
 				"pt-BR",
 				ru,
 				cs,
+				hi,
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			packageReferences = (
@@ -3713,6 +3718,7 @@
 				D73BCCAA28EB5EC3008B3BBC /* OID.swift in Sources */,
 				D7D97F3C290437A200C651D4 /* NSWindowController+.swift in Sources */,
 				D7DA9E1E21031901001CF0BE /* OutlineHeaderView.swift in Sources */,
+				D7D01AFD2C65203A00F545D0 /* PrinterLegacy.swift in Sources */,
 				D7B3FE7121027A6D00764C39 /* UserDataService.swift in Sources */,
 				D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
 				D73BCCF228EB5EC4008B3BBC /* TreeEntry.swift in Sources */,
@@ -3891,6 +3897,7 @@
 				D73BCCAB28EB5EC3008B3BBC /* OID.swift in Sources */,
 				D7D97F3D290437A200C651D4 /* NSWindowController+.swift in Sources */,
 				D7DA9E1F21031901001CF0BE /* OutlineHeaderView.swift in Sources */,
+				D7D01AFE2C65208000F545D0 /* PrinterLegacy.swift in Sources */,
 				D7B3FE7021027A5E00764C39 /* UserDataService.swift in Sources */,
 				D7315ED3215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
 				D73BCCF328EB5EC4008B3BBC /* TreeEntry.swift in Sources */,
@@ -4414,6 +4421,7 @@
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -4473,6 +4481,7 @@
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=x86_64]" = "";
 				"GCC_PREPROCESSOR_DEFINITIONS[sdk=macosx*]" = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;

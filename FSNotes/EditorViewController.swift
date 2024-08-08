@@ -11,7 +11,7 @@ import AppKit
 import LocalAuthentication
 import WebKit
 
-class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDelegate, NSMenuItemValidation {
+class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemValidation {
     
     public var alert: NSAlert?
     public var noteLoading: ProgressState = .none
@@ -30,7 +30,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, WebFrameLoadDe
     public var editorUndoManager = UndoManager()
     
     public var breakUndoTimer = Timer()
-    public var printWebView = WebView()
     
     // git
     public var snapshotsTimer = Timer()

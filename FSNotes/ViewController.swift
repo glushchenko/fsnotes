@@ -12,6 +12,7 @@ import FSNotesCore_macOS
 import Foundation
 import Shout
 import UserNotifications
+import WebKit
 
 class ViewController: EditorViewController,
     NSSplitViewDelegate,
@@ -43,6 +44,9 @@ class ViewController: EditorViewController,
     private var updateViews = [Note]()
 
     var tagsScannerQueue = [Note]()
+
+    @available(*, deprecated, message: "Remove after macOS 10.15 is no longer supported")
+    public var printerLegacy: PrinterLegacy?
 
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.

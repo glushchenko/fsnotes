@@ -85,7 +85,7 @@ public class Repository {
     }
     
     public func add(path: String) -> Result<(), NSError> {
-        guard let ptr = pointer.pointee else { return .failure(NSError()) }
+        guard pointer.pointee != nil else { return .failure(NSError()) }
         
         var dirPointer = UnsafeMutablePointer<Int8>(mutating: (path as NSString).utf8String)
         var paths = withUnsafeMutablePointer(to: &dirPointer) {
