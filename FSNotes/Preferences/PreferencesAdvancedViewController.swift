@@ -33,22 +33,23 @@ class PreferencesAdvancedViewController: NSViewController {
 
     override func viewDidAppear() {
         let languages = [
-            LanguageType(rawValue: 0x00),
-            LanguageType(rawValue: 0x01),
-            LanguageType(rawValue: 0x02),
-            LanguageType(rawValue: 0x03),
-            LanguageType(rawValue: 0x04),
-            LanguageType(rawValue: 0x05),
-            LanguageType(rawValue: 0x06),
+            LanguageType(rawValue: 0),
+            LanguageType(rawValue: 1),
+            LanguageType(rawValue: 2),
+            LanguageType(rawValue: 5),
+            LanguageType(rawValue: 6),
             LanguageType(rawValue: 15),
-            LanguageType(rawValue: 0x07),
-            LanguageType(rawValue: 0x08),
-            LanguageType(rawValue: 0x09),
+            LanguageType(rawValue: 3),
+            LanguageType(rawValue: 9),
+            LanguageType(rawValue: 8),
+            LanguageType(rawValue: 12),
+            LanguageType(rawValue: 16),
+            LanguageType(rawValue: 11),
+            LanguageType(rawValue: 13),
+            LanguageType(rawValue: 7),
             LanguageType(rawValue: 10),
             LanguageType(rawValue: 14),
-            LanguageType(rawValue: 11),
-            LanguageType(rawValue: 12),
-            LanguageType(rawValue: 13)
+            LanguageType(rawValue: 4),
         ]
 
         for language in languages {

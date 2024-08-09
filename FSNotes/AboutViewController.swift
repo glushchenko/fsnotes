@@ -26,7 +26,8 @@ class AboutViewController: NSViewController, NSTableViewDataSource, NSTableViewD
         "Hebrew 🇮🇱",
         "Chinese 🇨🇳",
         "Portuguese 🇵🇹",
-        "Czech 🇨🇿"
+        "Czech 🇨🇿",
+        "Hindi 🇮🇳",
     ]
     
     private var authors = [
@@ -43,7 +44,8 @@ class AboutViewController: NSViewController, NSTableViewDataSource, NSTableViewD
         "Will Pazner (github.com/pazner)",
         "Holton Jiang (github.com/holton-jiang)",
         "Vanessa C. (github.com/VChristinne)",
-        "Max Akrman (github.com/isametry)"
+        "Max Akrman (github.com/isametry)",
+        "Aagman (stscpns@gmail.com)"
     ]
     
     override func viewDidLoad() {

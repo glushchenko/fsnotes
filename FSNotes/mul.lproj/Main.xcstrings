@@ -47,6 +47,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कॉपीराइट © 2017-2024 ऑलेक्ज़ेंडर ह्लुशेंको।\nसभी अधिकार सुरक्षित।"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -144,6 +150,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "example.com"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "example.com"
@@ -251,6 +263,12 @@
             "value" : "חפש"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजे"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -351,6 +369,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "2 Spaces"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 स्थान"
           }
         },
         "it" : {
@@ -455,6 +479,12 @@
             "value" : "Locked"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लॉक की गई"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -555,6 +585,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כותרת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक"
           }
         },
         "it" : {
@@ -659,6 +695,12 @@
             "value" : "רשימה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सूची"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -756,6 +798,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "xcode"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "xcode"
@@ -863,6 +911,12 @@
             "value" : "Remove"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हटाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -960,6 +1014,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -1067,6 +1127,12 @@
             "value" : "TextEdit"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextEdit"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1167,6 +1233,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "צלמית Dock:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डॉक आइकन:"
           }
         },
         "it" : {
@@ -1271,6 +1343,12 @@
             "value" : "חדש"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नया"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1371,6 +1449,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שעות ו-"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "घंटे पर"
           }
         },
         "it" : {
@@ -1475,6 +1559,12 @@
             "value" : "המרות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "परिवर्तने"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1575,6 +1665,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गिट"
           }
         },
         "it" : {
@@ -1679,6 +1775,12 @@
             "value" : "הערה חדשה בחלון חדש"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई विंडो"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1779,6 +1881,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שחזר מיקום סמן"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कर्सर की स्थिति बहाल करें"
           }
         },
         "it" : {
@@ -1883,6 +1991,12 @@
             "value" : "איות ודקדוק"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वर्तनी और व्याकरण"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1983,6 +2097,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "העתק כותרת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक कॉपी करें"
           }
         },
         "it" : {
@@ -2087,6 +2207,12 @@
             "value" : "שנה סיסמה ראשית"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मास्टर पासवर्ड बदलें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2187,6 +2313,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הקראה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "भाषण"
           }
         },
         "it" : {
@@ -2291,6 +2423,12 @@
             "value" : "None Selected "
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोई भी नहीं चुना गया"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2391,6 +2529,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פתח"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाहरी खोलें"
           }
         },
         "it" : {
@@ -2495,6 +2639,12 @@
             "value" : "תיקיה חדשה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फोल्डर बनाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2595,6 +2745,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מייו לפי:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इसके अनुसार क्रमबद्ध करें:"
           }
         },
         "it" : {
@@ -2699,6 +2855,12 @@
             "value" : "חפש"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजे"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2799,6 +2961,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "hlushchenko"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ह्लुशेंको"
           }
         },
         "it" : {
@@ -2903,6 +3071,12 @@
             "value" : "עבור למסך מלא"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्ण स्क्रीन दर्ज करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3003,6 +3177,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סיים FSNotes"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes बंद करें"
           }
         },
         "it" : {
@@ -3107,6 +3287,12 @@
             "value" : "https://github.com/glushchenko/fsnotes.git"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git@github.com:username/repo.git"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3207,6 +3393,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הסר הצפנה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एन्क्रिप्शन हटाएँ"
           }
         },
         "it" : {
@@ -3311,6 +3503,12 @@
             "value" : "אודות FSNotes"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes के बारे में"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3411,6 +3609,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "העתק כותרת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक कॉपी करें"
           }
         },
         "it" : {
@@ -3515,6 +3719,12 @@
             "value" : "מיין לפי"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इसके अनुसार क्रमबद्ध करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3615,6 +3825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עריכה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संपादन"
           }
         },
         "it" : {
@@ -3719,6 +3935,12 @@
             "value" : "הסתר תמונות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "छवियों का पूर्वावलोकन छिपाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3819,6 +4041,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "חזור על הפעולה האחרונה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फिर से करे"
           }
         },
         "it" : {
@@ -3923,6 +4151,12 @@
             "value" : "ערכת נושא לקוד:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोड थीम:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4023,6 +4257,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "לנעול"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लॉक करें"
           }
         },
         "it" : {
@@ -4127,6 +4367,12 @@
             "value" : "הדגש בלוקי קוד מוזחים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इंडेंटेड कोड ब्लॉक को हाइलाइट करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4227,6 +4473,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סגור"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बंद करें"
           }
         },
         "it" : {
@@ -4331,6 +4583,12 @@
             "value" : "Clone"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्लोन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4431,6 +4689,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סיסמה נוכחית:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वर्तमान पासवर्ड:"
           }
         },
         "it" : {
@@ -4535,6 +4799,12 @@
             "value" : "פתח חיצוני"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाहरी खोलें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4635,6 +4905,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "בחר"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेट करें"
           }
         },
         "it" : {
@@ -4739,6 +5015,12 @@
             "value" : "שנה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बदलें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4839,6 +5121,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "קטן"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "छोटा"
           }
         },
         "it" : {
@@ -4943,6 +5231,12 @@
             "value" : "רשימה ממוספרת"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्रमबद्ध सूची"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5043,6 +5337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "נעל בהחלפת משתמש"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उपयोगकर्ता बदलने पर लॉक करें"
           }
         },
         "it" : {
@@ -5147,6 +5447,12 @@
             "value" : "אישורים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साख:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5247,6 +5553,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "צבע פתק:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट का रंग:"
           }
         },
         "it" : {
@@ -5351,6 +5663,12 @@
             "value" : "Table View Cell"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेबल दृश्य सेल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5453,6 +5771,12 @@
             "value" : "החלפות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रतिस्थापन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5550,6 +5874,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "solarized-dark"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "solarized-dark"
@@ -5657,6 +5987,12 @@
             "value" : "Port:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पोर्ट:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5757,6 +6093,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2/23/11"
           }
         },
         "it" : {
@@ -5861,6 +6203,12 @@
             "value" : "העתקה והדבקה חכמות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्मार्ट कॉपी/पेस्ट"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5961,6 +6309,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מתרגמים‫:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अनुवादक:"
           }
         },
         "it" : {
@@ -6065,6 +6419,12 @@
             "value" : "ביטוי סיסמה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासफ्रेज:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6165,6 +6525,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שנה את תאריך היצירה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "निर्माण तारीख बदलें"
           }
         },
         "it" : {
@@ -6269,6 +6635,12 @@
             "value" : "מיקום רשימת פתקים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट सूची स्थान:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6369,6 +6741,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "גופן קוד:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोड फ़ॉन्ट:"
           }
         },
         "it" : {
@@ -6473,6 +6851,12 @@
             "value" : "מחק מיידית"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बलपूर्वक हटाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6573,6 +6957,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תקן איות באופן אוטומטי"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वर्तनी स्वतः सही करें"
           }
         },
         "it" : {
@@ -6677,6 +7067,12 @@
             "value" : "empty log"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खाली लॉग"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6777,6 +7173,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מזער"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "छोटा करें"
           }
         },
         "it" : {
@@ -6881,6 +7283,12 @@
             "value" : "קיצור דרך לחפש:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोज शॉर्टकट:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6983,6 +7391,12 @@
             "value" : "Host:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "होस्ट:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7080,6 +7494,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "monokai-sublime"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "monokai-sublime"
@@ -7187,6 +7607,12 @@
             "value" : "העלה ובדוק נתונים ראשוניים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारंभिक डेटा अपलोड करें और उसका परीक्षण करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7287,6 +7713,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Frameworks and dependencies:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ्रेमवर्क और निर्भरताएँ:"
           }
         },
         "it" : {
@@ -7391,6 +7823,12 @@
             "value" : "מאגרים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रिपोजिटरी:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7491,6 +7929,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git origin:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उद्गम:"
           }
         },
         "it" : {
@@ -7595,6 +8039,12 @@
             "value" : "היסטוריה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इतिहास"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7695,6 +8145,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פורמט: yyyyMMddHHmmss"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारूप: yyyyMMddHHmmss"
           }
         },
         "it" : {
@@ -7799,6 +8255,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud ड्राइव"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7899,6 +8361,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Set"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेट करें"
           }
         },
         "it" : {
@@ -8003,6 +8471,12 @@
             "value" : "Main Menu"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मुख्य मेन्यू"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8105,6 +8579,12 @@
             "value" : "חיפוש ויצירה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजें या बनाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8202,6 +8682,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".md"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".md"
@@ -8309,6 +8795,12 @@
             "value" : "/var/www/example.com"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/var/www/example.com"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8409,6 +8901,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שנה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बदलें"
           }
         },
         "it" : {
@@ -8513,6 +9011,12 @@
             "value" : "גופן פתקים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट फ़ॉन्ट:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8613,6 +9117,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג צלמית ב-Dock"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डॉक में आइकन दिखाएं"
           }
         },
         "it" : {
@@ -8717,6 +9227,12 @@
             "value" : "העדפות..."
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्राथमिकताएं..."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8817,6 +9333,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "דקות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मिनट"
           }
         },
         "it" : {
@@ -8921,6 +9443,12 @@
             "value" : "עבור למטה ברשימת הפתקים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट्स सूची में नीचे जाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9021,6 +9549,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "השתמש במלל הנבחר לחיפוש"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजने के लिए चयन का उपयोग करें"
           }
         },
         "it" : {
@@ -9125,6 +9659,12 @@
             "value" : "פרסם הערות על:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट प्रकाशित करें:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9225,6 +9765,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ללא תגים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बिना टैग"
           }
         },
         "it" : {
@@ -9329,6 +9875,12 @@
             "value" : "מרווח רשימות פתקים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट सूची रिक्ति:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9429,6 +9981,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סרגל צד"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पुस्तकालय"
           }
         },
         "it" : {
@@ -9533,6 +10091,12 @@
             "value" : "המרות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "परिवर्तने"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9633,6 +10197,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אתר רשמי"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आधिकारिक साइट"
           }
         },
         "it" : {
@@ -9737,6 +10307,12 @@
             "value" : "פורמט: UUID"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारूप: UUID"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9837,6 +10413,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כותרת 6"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हेडर 6"
           }
         },
         "it" : {
@@ -9941,6 +10523,12 @@
             "value" : "Remove"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हटाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10041,6 +10629,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פורמט:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारूप:"
           }
         },
         "it" : {
@@ -10145,6 +10739,12 @@
             "value" : "גדול"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बड़ा"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10245,6 +10845,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "העבר"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्थानांतरण"
           }
         },
         "it" : {
@@ -10349,6 +10955,12 @@
             "value" : "vs"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बनाम"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10449,6 +11061,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "קישורים חכמים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्मार्ट लिंक"
           }
         },
         "it" : {
@@ -10553,6 +11171,12 @@
             "value" : "כותרת 2"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हेडर 2"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10653,6 +11277,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הפוך לאותיות קטנות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लोअर केस बनाएं"
           }
         },
         "it" : {
@@ -10757,6 +11387,12 @@
             "value" : "תאריך שינוי"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सुधार की तारीख"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10857,6 +11493,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הסתר/הצג סרגל צד"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साइडबार छिपाएँ/दिखाएँ"
           }
         },
         "it" : {
@@ -10961,6 +11603,12 @@
             "value" : "בינוני"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मध्यम"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11061,6 +11709,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הזחה שמאלה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाईं ओर शिफ्ट करें"
           }
         },
         "it" : {
@@ -11165,6 +11819,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "v2.9.0"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11265,6 +11925,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "no key"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोई चाबी नहीं"
           }
         },
         "it" : {
@@ -11369,6 +12035,12 @@
             "value" : "Separate .git in project dir (except iCloud Drive)"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रोजेक्ट निर्देशिका से .git अलग करे (iCloud ड्राइव को छोड़कर)"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11469,6 +12141,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שרת מותאם אישית"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कस्टम सर्वर"
           }
         },
         "it" : {
@@ -11573,6 +12251,12 @@
             "value" : "הצפנת תיקיה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोल्डर एन्क्रिप्ट करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11673,6 +12357,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ביטול"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्ववत"
           }
         },
         "it" : {
@@ -11777,6 +12467,12 @@
             "value" : "איות ודקדוק"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वर्तनी और व्याकरण"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11877,6 +12573,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כותרת 5"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हेडर 5"
           }
         },
         "it" : {
@@ -11981,6 +12683,12 @@
             "value" : "סיסמה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासवर्ड:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12081,6 +12789,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שפה (דורש אתחול):"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "भाषा:"
           }
         },
         "it" : {
@@ -12185,6 +12899,12 @@
             "value" : "מטלות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टुडू"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12285,6 +13005,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SSH תְצוּרָה:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSH कॉन्फ़िगरेशन:"
           }
         },
         "it" : {
@@ -12389,6 +13115,12 @@
             "value" : "שכפל"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नकल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12489,6 +13221,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הסתר תאריך"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "तारीख छुपाएं"
           }
         },
         "it" : {
@@ -12593,6 +13331,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्वावलोकन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12693,6 +13437,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Path:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पथ:"
           }
         },
         "it" : {
@@ -12797,6 +13547,12 @@
             "value" : "בחר"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेट करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12897,6 +13653,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text Cell"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेक्स्ट सेल"
           }
         },
         "it" : {
@@ -13001,6 +13763,12 @@
             "value" : "קו חוצה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्ट्राइकथ्रू"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13101,6 +13869,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תצוגת גופן"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ॉन्ट पूर्वावलोकन"
           }
         },
         "it" : {
@@ -13205,6 +13979,12 @@
             "value" : "גרסה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संस्करण"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13305,6 +14085,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצפין"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एन्क्रिप्ट"
           }
         },
         "it" : {
@@ -13409,6 +14195,12 @@
             "value" : "תאריך יצירה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "निर्माण तारीख"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13509,6 +14301,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "חַלוֹן"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विंडो"
           }
         },
         "it" : {
@@ -13613,6 +14411,12 @@
             "value" : "עולה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आरोही"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13713,6 +14517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עזרה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सहायता"
           }
         },
         "it" : {
@@ -13817,6 +14627,12 @@
             "value" : "הצג ב-Finder"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder में दिखाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13917,6 +14733,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הסתר תצוגה מקדימה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्वावलोकन छुपाएं"
           }
         },
         "it" : {
@@ -14021,6 +14843,12 @@
             "value" : "הצג תכני תיקיה מקוננים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नेस्टेड फ़ोल्डर्स सामग्री दिखाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14123,6 +14951,12 @@
             "value" : "קו תחתון"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रेखांकन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14220,6 +15054,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zenburn"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "zenburn"
@@ -14327,6 +15167,12 @@
             "value" : "החלפות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रतिस्थापन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14427,6 +15273,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מחק"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मिटाएं"
           }
         },
         "it" : {
@@ -14531,6 +15383,12 @@
             "value" : "עזרה בנושא FSNotes"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes सहायता"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14631,6 +15489,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עיצוב צלמיות:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चिह्न डिजाइन:"
           }
         },
         "it" : {
@@ -14735,6 +15599,12 @@
             "value" : "הסר הצפנה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एन्क्रिप्शन हटाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14835,6 +15705,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אחסון ברירת מחדל:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिफ़ॉल्ट संग्रहण:"
           }
         },
         "it" : {
@@ -14939,6 +15815,12 @@
             "value" : "הגדל/הקטן"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ज़ूम"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15039,6 +15921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שנה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बदलें"
           }
         },
         "it" : {
@@ -15143,6 +16031,12 @@
             "value" : "שם קבצים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ाइल नामकरण:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15243,6 +16137,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "נבנה ב-❤️ באוקראינה 🇺🇦"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "यूक्रेन 🇺🇦 में ❤️ के साथ बनाया गया"
           }
         },
         "it" : {
@@ -15347,6 +16247,12 @@
             "value" : "סרגל צד"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पुस्तकालय"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15447,6 +16353,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שנה שם תיקיה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोल्डर का नाम बदलें"
           }
         },
         "it" : {
@@ -15551,6 +16463,12 @@
             "value" : "נעילה אוטומטית לפתקים מוצפנים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एन्क्रिप्टेड नोट्स के लिए स्वतः लॉक:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15651,6 +16569,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סרוק תגים מוטבעים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इनलाइन टैग स्कैन करें"
           }
         },
         "it" : {
@@ -15755,6 +16679,12 @@
             "value" : "tomorrow"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15855,6 +16785,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "קיצור דרך לשמור את לוח העריכה:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्लिपबोर्ड सहेजें शॉर्टकट:"
           }
         },
         "it" : {
@@ -15959,6 +16895,12 @@
             "value" : "שניות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seconds"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16059,6 +17001,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תאריך שינוי"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सुधार की तारीख"
           }
         },
         "it" : {
@@ -16163,6 +17111,12 @@
             "value" : "ביטול"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रद्द करे"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16263,6 +17217,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פורמט"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारूप"
           }
         },
         "it" : {
@@ -16367,6 +17327,12 @@
             "value" : "FSNotes שרת"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes सर्वर"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16467,6 +17433,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "None Selected "
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोई भी नहीं चुना गया"
           }
         },
         "it" : {
@@ -16571,6 +17543,12 @@
             "value" : "Web:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वेब:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16671,6 +17649,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כותרת 4"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हेडर 4"
           }
         },
         "it" : {
@@ -16775,6 +17759,12 @@
             "value" : "הצג ב-Finder"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder में दिखाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16875,6 +17865,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג ב-Finder"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder में दिखाएँ"
           }
         },
         "it" : {
@@ -16979,6 +17975,12 @@
             "value" : "נעל פתקים מוצפנים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सभी एन्क्रिप्टेड लॉक करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17079,6 +18081,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הדבק"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पेस्ट"
           }
         },
         "it" : {
@@ -17183,6 +18191,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17283,6 +18297,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Library"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पुस्तकालय"
           }
         },
         "it" : {
@@ -17387,6 +18407,12 @@
             "value" : "חשוך"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17487,6 +18513,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "להקטין את התצוגה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ज़ूम आउट"
           }
         },
         "it" : {
@@ -17591,6 +18623,12 @@
             "value" : "תצוגה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "देखें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17691,6 +18729,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אפס הגדרות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्राथमिकताएं रीसेट करें"
           }
         },
         "it" : {
@@ -17795,6 +18839,12 @@
             "value" : "הצג איות ודקדוק"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वर्तनी और व्याकरण दिखाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17897,6 +18947,12 @@
             "value" : "מלל חלופי"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पाठ प्रतिस्थापन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17994,6 +19050,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".markdown"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".markdown"
@@ -18101,6 +19163,12 @@
             "value" : "פתח בחלון חדש"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई विंडो में खोलें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18201,6 +19269,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אִתחוּל"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रीसेट करें"
           }
         },
         "it" : {
@@ -18305,6 +19379,12 @@
             "value" : "חיפוש יצירה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजें और बनाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18407,6 +19487,12 @@
             "value" : "מרכאות חכמות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्मार्ट उद्धरण"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18504,6 +19590,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WikiLinks"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "WikiLinks"
@@ -18611,6 +19703,12 @@
             "value" : "עבור למעלה ברשימת הפתקים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट्स सूची में ऊपर जाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18711,6 +19809,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תצוגה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "देखें"
           }
         },
         "it" : {
@@ -18815,6 +19919,12 @@
             "value" : "בדוק את המסמך כעט"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दस्तावेज़ अभी जांचें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18915,6 +20025,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שירותים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेवाएं"
           }
         },
         "it" : {
@@ -19019,6 +20135,12 @@
             "value" : "פח אשפה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कूडा:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19119,6 +20241,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "CSS לתצוגת Markdown:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्वावलोकन CSS:"
           }
         },
         "it" : {
@@ -19223,6 +20351,12 @@
             "value" : "תיבת דואר נכנס"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इनबॉक्स"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19323,6 +20457,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "גבה עכשיו"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अभी बैकअप लें"
           }
         },
         "it" : {
@@ -19427,6 +20567,12 @@
             "value" : "נעל בהפעלת שומר מסך"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्क्रीन सेवर सक्रिय होने पर लॉक करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19527,6 +20673,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סיסמה חדשה:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नया पासवर्ड:"
           }
         },
         "it" : {
@@ -19631,6 +20783,12 @@
             "value" : "רמז:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संकेत:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19731,6 +20889,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הזחה ימינה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दांयी ओर शिफ्ट करें"
           }
         },
         "it" : {
@@ -19835,6 +20999,12 @@
             "value" : "no key"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोई चाबी नहीं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19932,6 +21102,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -20039,6 +21215,12 @@
             "value" : "מרווח בין שורות:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पंक्ति रिक्ति:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20139,6 +21321,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פורמט: Untitled Note"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारूप: शीर्षक रहित नोट"
           }
         },
         "it" : {
@@ -20243,6 +21431,12 @@
             "value" : "רוחב שורות:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पंक्ति चौडाई:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20343,6 +21537,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מותאם"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कस्टम"
           }
         },
         "it" : {
@@ -20447,6 +21647,12 @@
             "value" : "הצמד/בטל הצמדה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पिन/अनपिन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20547,6 +21753,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שנה שם"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नाम बदलें"
           }
         },
         "it" : {
@@ -20651,6 +21863,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🔗fsnotes/contributors"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20751,6 +21969,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ראות:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दृश्यता:"
           }
         },
         "it" : {
@@ -20855,6 +22079,12 @@
             "value" : "כותרת 1"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हेडर 1"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20955,6 +22185,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מַעֲרֶכֶת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेट करें"
           }
         },
         "it" : {
@@ -21059,6 +22295,12 @@
             "value" : "פורמט"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारूप"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21159,6 +22401,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "למעלה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्ष"
           }
         },
         "it" : {
@@ -21263,6 +22511,12 @@
             "value" : "מחק דף אינטרנט"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वेब पेज हटाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21363,6 +22617,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "נטוי"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "तिरछा"
           }
         },
         "it" : {
@@ -21467,6 +22727,12 @@
             "value" : "סיסמה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासवर्ड:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21569,6 +22835,12 @@
             "value" : "השתמש בשורה הראשונה ככותרת"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रथम पंक्ति को शीर्षक के रूप में उपयोग करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21666,6 +22938,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://soulver.com"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://soulver.com"
@@ -21773,6 +23051,12 @@
             "value" : "הצג הכל"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सब दिखाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21873,6 +23157,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "נעל/פתח"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लॉक/अनलॉक"
           }
         },
         "it" : {
@@ -21977,6 +23267,12 @@
             "value" : "סגור"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बंद करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22077,6 +23373,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תצוגת MathJax"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्वावलोकन MathJax"
           }
         },
         "it" : {
@@ -22181,6 +23483,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22283,6 +23591,12 @@
             "value" : "אפשר ל-Touch ID לפתוח פתקים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टच आईडी को नोट्स अनलॉक करने की अनुमति दें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22380,6 +23694,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SoulverCore – "
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "SoulverCore – "
@@ -22487,6 +23807,12 @@
             "value" : "Custom worktree"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कस्टम वर्कट्री"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22589,6 +23915,12 @@
             "value" : "Origin לפרויקט הראשי:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मुख्य प्रोजैक्ट का उद्गम स्थान:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22660,6 +23992,12 @@
             "state" : "new",
             "value" : "Box"
           }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिब्बा"
+          }
         }
       }
     },
@@ -22707,6 +24045,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "העדפות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्राथमिकताएं"
           }
         },
         "it" : {
@@ -22811,6 +24155,12 @@
             "value" : "גודל אמיתי"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वास्तविक आकार"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22911,6 +24261,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אִתחוּל:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रीसेट करें:"
           }
         },
         "it" : {
@@ -23015,6 +24371,12 @@
             "value" : "כותרת 3"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हेडर 3"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23115,6 +24477,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כותרת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक"
           }
         },
         "it" : {
@@ -23219,6 +24587,12 @@
             "value" : "רוחב תמונות:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "छवियाँ चौड़ाई:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23319,6 +24693,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עבה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बोल्ड"
           }
         },
         "it" : {
@@ -23423,6 +24803,12 @@
             "value" : "Private key"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "निजी कुंजी"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23525,6 +24911,12 @@
             "value" : "הסתר את FSNotes כשמפעילים אפליקציה אחרת"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "किसी अन्य एप्लिकेशन को सक्रिय करते समय FSNotes छिपाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23622,6 +25014,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextBundle"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "TextBundle"
@@ -23729,6 +25127,12 @@
             "value" : "atom-one-light"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "atom-one-light"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23829,6 +25233,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "4 Spaces"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 स्थान"
           }
         },
         "it" : {
@@ -23933,6 +25343,12 @@
             "value" : "בדוק דקדוק ביחד עם איות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वर्तनी के साथ व्याकरण की जाँच करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24035,6 +25451,12 @@
             "value" : "חלון"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विंडो"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24132,6 +25554,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://example.com/"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://example.com/"
@@ -24239,6 +25667,12 @@
             "value" : "מתקדם"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उन्नत"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24339,6 +25773,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מיכל:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कंटेनर:"
           }
         },
         "it" : {
@@ -24443,6 +25883,12 @@
             "value" : "החלף מצב מטלה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टॉगल टूडू"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24543,6 +25989,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preview Soulver Calculator"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्वावलोकन Soulver Calculator"
           }
         },
         "it" : {
@@ -24647,6 +26099,12 @@
             "value" : "קישורים ללחיצה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्लिक करने योग्य लिंक"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24747,6 +26205,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שנה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बदलें"
           }
         },
         "it" : {
@@ -24851,6 +26315,12 @@
             "value" : "ביטוי סיסמה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासफ्रेज:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24951,6 +26421,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tab"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टैब"
           }
         },
         "it" : {
@@ -25055,6 +26531,12 @@
             "value" : "הדפס"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रिंट"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25155,6 +26637,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वेब"
           }
         },
         "it" : {
@@ -25259,6 +26747,12 @@
             "value" : "שמור מהדורה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संशोधन सहेजें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25359,6 +26853,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כללי"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सामान्य"
           }
         },
         "it" : {
@@ -25463,6 +26963,12 @@
             "value" : "Text Cell"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेक्स्ट सेल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25563,6 +27069,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שירותים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेवाएं"
           }
         },
         "it" : {
@@ -25667,6 +27179,12 @@
             "value" : "Touch ID:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टच आईडी:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25767,6 +27285,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "לְהִתְמַקֵד"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ज़ूम इन"
           }
         },
         "it" : {
@@ -25871,6 +27395,12 @@
             "value" : "Reset"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रीसेट करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25971,6 +27501,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג במסוף"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टर्मिनल में दिखाएँ"
           }
         },
         "it" : {
@@ -26075,6 +27611,12 @@
             "value" : "שמור מהדורה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संशोधन सहेजें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26175,6 +27717,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ייבא"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आयात"
           }
         },
         "it" : {
@@ -26279,6 +27827,12 @@
             "value" : "הצג בסרגל צד"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साइडबार में दिखाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26379,6 +27933,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כותרת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक"
           }
         },
         "it" : {
@@ -26483,6 +28043,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26583,6 +28149,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ללא (השתמש בהגדרות גלובליות)"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोई नहीं (वैश्विक सेटिंग का उपयोग करें)"
           }
         },
         "it" : {
@@ -26687,6 +28259,12 @@
             "value" : "צור דף אינטרנט"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वेब पेज बनाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26787,6 +28365,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הסתר את FSNotes"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes छिपाएं"
           }
         },
         "it" : {
@@ -26891,6 +28475,12 @@
             "value" : "בלוק קוד"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोड ब्लॉक"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26991,6 +28581,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "קדימה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आगे"
           }
         },
         "it" : {
@@ -27095,6 +28691,12 @@
             "value" : "הדפס"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रिंट"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27195,6 +28797,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מצא את הקודם"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पिछला खोजे"
           }
         },
         "it" : {
@@ -27299,6 +28907,12 @@
             "value" : "הפסק הקראה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बोलना बंद करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27399,6 +29013,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מערך"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लेआउट"
           }
         },
         "it" : {
@@ -27503,6 +29123,12 @@
             "value" : "שימוש בהזחה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इंडेंट के लिए उपयोग करें:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27603,6 +29229,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תמונות מצב אוטומטיות:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्वचालित स्नैपशॉट:"
           }
         },
         "it" : {
@@ -27707,6 +29339,12 @@
             "value" : "מחק"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मिटाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27809,6 +29447,12 @@
             "value" : "הצג/הסתר תצוגה מקדימה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूर्वावलोकन टॉगल करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27906,6 +29550,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git@github.com:glushchenko/example.git"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "git@github.com:glushchenko/example.git"
@@ -28013,6 +29663,12 @@
             "value" : "אישור סיסמה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासवर्ड दोहराएं:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28113,6 +29769,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שכפל"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नकल"
           }
         },
         "it" : {
@@ -28217,6 +29879,12 @@
             "value" : "רקע:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पृष्ठभूमि:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28317,6 +29985,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "גבה עכשיו"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अभी बैकअप लें"
           }
         },
         "it" : {
@@ -28421,6 +30095,12 @@
             "value" : "אבטחה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सुरक्षा"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28521,6 +30201,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תאריך יצירה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "निर्माण तारीख"
           }
         },
         "it" : {
@@ -28625,6 +30311,12 @@
             "value" : "מחק דף אינטרנט"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वेब पेज हटाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28725,6 +30417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "בצד"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ओर"
           }
         },
         "it" : {
@@ -28829,6 +30527,12 @@
             "value" : "מצא את הבא"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अगला खोजे"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28929,6 +30633,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "דוחות באגים ובקשות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "समस्या या सुविधा अनुरोध की रिपोर्ट करें"
           }
         },
         "it" : {
@@ -29033,6 +30743,12 @@
             "value" : "שנה את תאריך היצירה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "निर्माण तारीख बदलें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29133,6 +30849,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "או השתמש במפתח פרטי .ssh (מומלץ):"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गिट रिपोजिटरी"
           }
         },
         "it" : {
@@ -29237,6 +30959,12 @@
             "value" : "פורמט: yyyy-MM-dd hh.mm.ss a"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारूप: yyyy-MM-dd hh.mm.ss a"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29337,6 +31065,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אחורה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पीछे"
           }
         },
         "it" : {
@@ -29441,6 +31175,12 @@
             "value" : ""
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विंडो"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29541,6 +31281,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג אפשרויות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विकल्प दिखाएं"
           }
         },
         "it" : {
@@ -29645,6 +31391,12 @@
             "value" : "Open in Finder"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder में खोलें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29745,6 +31497,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "סדר:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "दिशा:"
           }
         },
         "it" : {
@@ -29849,6 +31607,12 @@
             "value" : "חלון ראשי"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मुख्य विंडो"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29949,6 +31713,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "התמקד בעורך בבחירת פתק"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट चुनते समय संपादक में फ़ोकस करें"
           }
         },
         "it" : {
@@ -30053,6 +31823,12 @@
             "value" : "גודל שוליים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मार्जिन आकार:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30153,6 +31929,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "בדוק איות תוך כדי הקלדה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टाइप करते समय वर्तनी जाँचें"
           }
         },
         "it" : {
@@ -30257,6 +32039,12 @@
             "value" : "אִתחוּל"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रीसेट करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30357,6 +32145,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פח אשפה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कूडा"
           }
         },
         "it" : {
@@ -30461,6 +32255,12 @@
             "value" : "העתק כתובת"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "यूआरएल कॉपी करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30561,6 +32361,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מיקוף חכם"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्मार्ट डैश"
           }
         },
         "it" : {
@@ -30665,6 +32471,12 @@
             "value" : "מיין לפי"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इसके अनुसार क्रमबद्ध करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30767,6 +32579,12 @@
             "value" : "Clone"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्लोन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30864,6 +32682,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "atom-one-dark"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "atom-one-dark"
@@ -30971,6 +32795,12 @@
             "value" : "נעל/פתח"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लॉक/अनलॉक"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31071,6 +32901,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מערכת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सिस्टम"
           }
         },
         "it" : {
@@ -31175,6 +33011,12 @@
             "value" : "Text Cell"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेक्स्ट सेल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31275,6 +33117,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מחק תיקיה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फोल्डर हटाएँ"
           }
         },
         "it" : {
@@ -31379,6 +33227,12 @@
             "value" : "בחר הכל"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सबका चयन करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31479,6 +33333,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מחק תיקיה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फोल्डर हटाएँ"
           }
         },
         "it" : {
@@ -31583,6 +33443,12 @@
             "value" : "הצג ב-Finder"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder में दिखाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31683,6 +33549,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "passphrase"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासफ्रेज"
           }
         },
         "it" : {
@@ -31787,6 +33659,12 @@
             "value" : "קפוץ לבחירה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चयन पर जाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31887,6 +33765,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הבא הכל קדימה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सबको सामने लाये"
           }
         },
         "it" : {
@@ -31991,6 +33875,12 @@
             "value" : "הוסף תיקיה חיצונית..."
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाह्य फ़ोल्डर जोड़ें..."
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32091,6 +33981,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "גבה אוטומטית כל"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कमिट/पुश आवृत्ति"
           }
         },
         "it" : {
@@ -32195,6 +34091,12 @@
             "value" : "רשימת פתקים:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट सूची:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32295,6 +34197,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עבור למעלה בסרגל הצד"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साइडबार में ऊपर जाएँ"
           }
         },
         "it" : {
@@ -32399,6 +34307,12 @@
             "value" : "חלון"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विंडो"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32499,6 +34413,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אפס מטמונים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कैश रीसेट करें"
           }
         },
         "it" : {
@@ -32603,6 +34523,12 @@
             "value" : "קובץ"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ाइल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32703,6 +34629,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text Cell"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेक्स्ट सेल"
           }
         },
         "it" : {
@@ -32807,6 +34739,12 @@
             "value" : "גופן קוד"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोड फ़ॉन्ट"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32909,6 +34847,12 @@
             "value" : "היסטוריה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इतिहास"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33006,6 +34950,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "solarized-light"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "solarized-light"
@@ -33113,6 +35063,12 @@
             "value" : "תיקיה חדשה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फोल्डर बनाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33213,6 +35169,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עורך"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संपादक"
           }
         },
         "it" : {
@@ -33317,6 +35279,12 @@
             "value" : "הצג צלמית בשורת הטפריטים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मेनू बार में आइकन दिखाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33417,6 +35385,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "it" : {
@@ -33521,6 +35495,12 @@
             "value" : "פתור אוטומטית התנגשויות iCloud Drive"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्वचालित iCloud ड्राइव विवाद समाधान"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33621,6 +35601,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שנה שם תיקיה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोल्डर का नाम बदलें"
           }
         },
         "it" : {
@@ -33725,6 +35711,12 @@
             "value" : "הצג אפשרויות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विकल्प दिखाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33827,6 +35819,12 @@
             "value" : "יורד"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अवरोही"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33924,6 +35922,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".txt"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".txt"
@@ -34031,6 +36035,12 @@
             "value" : "מראה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्वरूप:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34131,6 +36141,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מחק"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मिटाएं"
           }
         },
         "it" : {
@@ -34235,6 +36251,12 @@
             "value" : "In memory of Mars. ? - 25.08.2022"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मंगल की याद में. ? - 25.08.2022"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34335,6 +36357,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שורה ראשונה ככותרת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक के रूप में पहली पंक्ति"
           }
         },
         "it" : {
@@ -34439,6 +36467,12 @@
             "value" : "העדפות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्राथमिकताएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34539,6 +36573,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "גלאי נתונים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डेटा डिटेक्टर"
           }
         },
         "it" : {
@@ -34643,6 +36683,12 @@
             "value" : "Pull every"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पुल आवृत्ति"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34743,6 +36789,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פתח בחלון חדש"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई विंडो में खोलें"
           }
         },
         "it" : {
@@ -34847,6 +36899,12 @@
             "value" : "Label"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लेबल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34947,6 +37005,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אות ראשונה גדולה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मूल बनाए"
           }
         },
         "it" : {
@@ -35051,6 +37115,12 @@
             "value" : "בהיר"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35148,6 +37218,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "22"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "22"
@@ -35255,6 +37331,12 @@
             "value" : "קוד מוטבע"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोड स्पैन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35355,6 +37437,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "קובץ"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ाइल"
           }
         },
         "it" : {
@@ -35459,6 +37547,12 @@
             "value" : "העתק כתובת"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "यूआरएल कॉपी करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35556,6 +37650,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -35663,6 +37763,12 @@
             "value" : "גזור"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "काटे"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35760,6 +37866,12 @@
           }
         },
         "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "github"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "github"
@@ -35867,6 +37979,12 @@
             "value" : "empty log"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खाली लॉग"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35967,6 +38085,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הסתר אחרים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अन्य को छिपाएं"
           }
         },
         "it" : {
@@ -36071,6 +38195,12 @@
             "value" : "נעל במעבר למצב שינה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्लीप पर लॉक करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36171,6 +38301,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "או השתמש במפתח פרטי .ssh:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "या .ssh निजी कुंजी का उपयोग करें:"
           }
         },
         "it" : {
@@ -36275,6 +38411,12 @@
             "value" : "Ask commit message on note save"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट सेव करने पर कमिट संदेश पूछें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36375,6 +38517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הפוך לאותיות גדולות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अपर केस बनाएं"
           }
         },
         "it" : {
@@ -36479,6 +38627,12 @@
             "value" : "עבור למטה בסרגל הצד"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साइडबार में नीचे जाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36579,6 +38733,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toggle Container"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टॉगल कंटेनर"
           }
         },
         "it" : {
@@ -36683,6 +38843,12 @@
             "value" : "התמקד בשורת החיפוש בהקשת Esc"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ESC दबाने पर खोज बार पर ध्यान केंद्रित करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36783,6 +38949,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "צור דף אינטרנט"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वेब पेज बनाएं"
           }
         },
         "it" : {
@@ -36887,6 +39059,12 @@
             "value" : "נעל תיקייה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोल्डर लॉक करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36987,6 +39165,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עריכה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संपादन"
           }
         },
         "it" : {
@@ -37091,6 +39275,12 @@
             "value" : "אופציונאלי"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वैकल्पिक"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37191,6 +39381,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "~/.ssh/id_rsa"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "id_rsa कुंजी चयनित नहीं है"
           }
         },
         "it" : {
@@ -37295,6 +39491,12 @@
             "value" : "הדבק והתאם לסגנון"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पेस्ट और मैच स्टाइल"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37395,6 +39597,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תצוגת תמונות בזמן אמת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लाइव छवियों का पूर्वावलोकन"
           }
         },
         "it" : {
@@ -37499,6 +39707,12 @@
             "value" : "הסתר/הצג רשימת פתקים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट सूची छिपाएँ/दिखाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37599,6 +39813,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עזרה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सहायता"
           }
         },
         "it" : {
@@ -37703,6 +39923,12 @@
             "value" : "Passphrase:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासफ्रेज:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37803,6 +40029,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תן שם לפי כותרת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक द्वारा स्वतः नाम बदलें"
           }
         },
         "it" : {
@@ -37907,6 +40139,12 @@
             "value" : "Git"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गिट"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38007,6 +40245,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ציטוט"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उद्धरण"
           }
         },
         "it" : {
@@ -38111,6 +40355,12 @@
             "value" : "העתק"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कॉपी करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38211,6 +40461,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "לְפַרְסֵם"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रकाशित करें:"
           }
         },
         "it" : {
@@ -38315,6 +40571,12 @@
             "value" : "שנה שם"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नाम बदलें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38415,6 +40677,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אִתחוּל"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रीसेट करें"
           }
         },
         "it" : {
@@ -38519,6 +40787,12 @@
             "value" : "קישור"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "लिंक"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38619,6 +40893,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג בסרגל צד"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साइडबार में दिखाएं"
           }
         },
         "it" : {
@@ -38723,6 +41003,12 @@
             "value" : "גודל גופן תצוגה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ॉन्ट आकार पूर्वावलोकन:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38823,6 +41109,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "היסטוריה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इतिहास"
           }
         },
         "it" : {
@@ -38927,6 +41219,12 @@
             "value" : "agate"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एगेट"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39029,6 +41327,12 @@
             "value" : "פתקים"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39100,6 +41404,12 @@
             "state" : "new",
             "value" : "Box"
           }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिब्बा"
+          }
         }
       }
     },
@@ -39147,6 +41457,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הקראה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "भाषण"
           }
         },
         "it" : {
@@ -39251,6 +41567,12 @@
             "value" : "הצג ב-Finder"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder में दिखाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39351,6 +41673,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "אופציונאלי"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "वैकल्पिक"
           }
         },
         "it" : {
@@ -39455,6 +41783,12 @@
             "value" : "הדגש בלוקי קוד בזמן אמת (דורש אתחול)"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोड ब्लॉक लाइव हाइलाइटिंग"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39555,6 +41889,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ללא"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कोई भी नहीं"
           }
         },
         "it" : {
@@ -39659,6 +41999,12 @@
             "value" : "passphrase"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पासफ्रेज"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39759,6 +42105,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "חפש..."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजे..."
           }
         },
         "it" : {
@@ -39863,6 +42215,12 @@
             "value" : "Toggle Container"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टॉगल कंटेनर"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39963,6 +42321,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नाम"
           }
         },
         "it" : {
@@ -40067,6 +42431,12 @@
             "value" : "Git repository"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गिट रिपोजिटरी"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40167,6 +42537,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "מצא והחלף..."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजे और बदलें…"
           }
         },
         "it" : {
@@ -40271,6 +42647,12 @@
             "value" : "הערה מהירה:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "त्वरित नोट:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40371,6 +42753,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "התחל להקריא"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बोलना शुरू करें"
           }
         },
         "it" : {
@@ -40475,6 +42863,12 @@
             "value" : "הצמד/בטל הצמדה"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पिन/अनपिन"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40575,6 +42969,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הכנס באופן אוטומטי סוגריים ומרכאות סוגרים"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्वचालित रूप से समापन ब्रेसिज़ और समापन उद्धरण सम्मिलित करें"
           }
         },
         "it" : {
@@ -40679,6 +43079,12 @@
             "value" : "שם משתמש:"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उपयोगकर्ता नाम:"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40779,6 +43185,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תמונה או קובץ"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "छवि या फ़ाइल"
           }
         },
         "it" : {
@@ -40883,6 +43295,12 @@
             "value" : "הצג החלפות"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रतिस्थापन दिखाएँ"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40983,6 +43401,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "פתח בעורך חיצוני:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाहरी संपादक में खोलें:"
           }
         },
         "it" : {
@@ -41087,6 +43511,12 @@
             "value" : "מחק מיידית"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बलपूर्वक हटाएं"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41187,6 +43617,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "3"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10"
           }
         },
         "it" : {
@@ -41291,6 +43727,12 @@
             "value" : "גבה באופן ידני"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मैन्युअल रूप से बैकअप लें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41391,6 +43833,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Table View Cell"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "टेबल दृश्य सेल"
           }
         },
         "it" : {
@@ -41495,6 +43943,12 @@
             "value" : "בחירה אוטומטית בפתקים כשגוף הטקסט תואם"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मुख्य पाठ मिलने पर नोट का स्वतः चयन करें"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41595,6 +44049,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "הצג פתקים ברשימות ״פתקים״ ו-״מטלות״"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"नोट्स\" और \"टुडू\" सूचियों में नोट्स दिखाएं"
           }
         },
         "it" : {
