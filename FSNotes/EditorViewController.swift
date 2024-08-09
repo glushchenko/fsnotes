@@ -1494,6 +1494,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             disablePreview()
             
             vc.notesTableView.deselectNotes()
+            vc.storage.searchQuery.dropFilter()
             vc.editor.string = text
             vc.editor.note = note
             vc.search.stringValue.removeAll()

@@ -84,4 +84,9 @@ class SearchQuery {
 
         return true
     }
+
+    public func dropFilter() {
+        self.terms = nil
+        self.filter = String()
+    }
 }
