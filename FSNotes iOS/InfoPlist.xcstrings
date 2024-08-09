@@ -16,6 +16,12 @@
             "state" : "new",
             "value" : "FSNotes"
           }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
         }
       }
     },
@@ -46,12 +52,24 @@
             "state" : "new",
             "value" : "FSNotes"
           }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
         }
       }
     },
     "Markdown" : {
       "localizations" : {
         "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Markdown"
@@ -85,6 +103,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Needs for attach photo in notes"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट्स में फोटो संलग्न करने की आवश्यकता"
           }
         },
         "it" : {
@@ -151,6 +175,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Note encryption and decryption with FaceID"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FaceID के साथ नोट्स एन्क्रिप्शन और डिक्रिप्शन"
           }
         },
         "it" : {
@@ -231,6 +261,12 @@
             "value" : "Requested when photo attached"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फोटो संलग्न होने पर अनुरोध"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -295,6 +331,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Needs permission to write images in photos app"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोटो ऐप में चित्र लिखने के लिए अनुमति की आवश्यकता"
           }
         },
         "it" : {
@@ -363,6 +405,12 @@
             "value" : "Needs for attach images in notes"
           }
         },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नोट्स में चित्र संलग्न करने की आवश्यकता"
+          }
+        },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
@@ -404,6 +452,12 @@
     "TextBundle" : {
       "localizations" : {
         "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextBundle"
+          }
+        },
+        "hi" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "TextBundle"

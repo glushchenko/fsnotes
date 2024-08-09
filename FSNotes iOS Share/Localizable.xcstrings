@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : "Příchozí"
           }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इनबॉक्स"
+          }
         }
       }
     },
@@ -47,6 +53,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New note"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नया नोट"
           }
         },
         "it" : {
