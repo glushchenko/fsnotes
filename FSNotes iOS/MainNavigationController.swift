@@ -24,6 +24,8 @@ class MainNavigationController: UINavigationController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let evc = UIApplication.getEVC()
             evc.topBorder.backgroundColor = UIColor.toolbarBorder.cgColor
