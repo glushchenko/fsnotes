@@ -12,7 +12,6 @@ class AppIconViewController: UITableViewController {
     enum AppIconRows: Int, CaseIterable {
         case system
         case dylanseeger
-        case dylanseegerDark
         case dylanseegerDarkFull
 
         public func getName() -> String {
@@ -21,8 +20,6 @@ class AppIconViewController: UITableViewController {
                 return "System"
             case .dylanseeger:
                 return "Modern (Light)"
-            case .dylanseegerDark:
-                return "Modern (Dark)"
             case .dylanseegerDarkFull:
                 return "Modern (Black)"
             }
@@ -32,7 +29,6 @@ class AppIconViewController: UITableViewController {
             switch self {
             case .system: return "system"
             case .dylanseeger: return "dylanseeger"
-            case .dylanseegerDark: return "dylanseegerDark"
             case .dylanseegerDarkFull: return "dylanseegerDarkFull"
             }
         }
@@ -65,7 +61,7 @@ class AppIconViewController: UITableViewController {
 
             if let icon = AppIconRows(rawValue: indexPath.row)?.description {
 
-                let iconName = icon == "system" ? nil : icon + "Icon"
+                let iconName = icon == "system" ? nil : icon
 
                 UIApplication.shared.setAlternateIconName(iconName) { error in
                     if let error = error {
@@ -108,7 +104,7 @@ class AppIconViewController: UITableViewController {
                 descName = "dylanseeger"
             }
 
-            if let image = UIImage(named: "app-icon-\(descName)") {
+            if let image = UIImage(named: "app-icon-" + descName) {
                 cell.imageView?.image = image
             }
 
