@@ -10,17 +10,17 @@ import UIKit
 
 class AppIconViewController: UITableViewController {
     enum AppIconRows: Int, CaseIterable {
-        case kmstrr
+        case system
         case dylanseeger
         case dylanseegerDark
         case dylanseegerDarkFull
 
         public func getName() -> String {
             switch self {
-            case .kmstrr:
-                return "Classic"
+            case .system:
+                return "System"
             case .dylanseeger:
-                return "Modern"
+                return "Modern (Light)"
             case .dylanseegerDark:
                 return "Modern (Dark)"
             case .dylanseegerDarkFull:
@@ -30,7 +30,7 @@ class AppIconViewController: UITableViewController {
 
         var description : String {
             switch self {
-            case .kmstrr: return "kmstrr"
+            case .system: return "system"
             case .dylanseeger: return "dylanseeger"
             case .dylanseegerDark: return "dylanseegerDark"
             case .dylanseegerDarkFull: return "dylanseegerDarkFull"
@@ -64,7 +64,10 @@ class AppIconViewController: UITableViewController {
             cell.accessoryType = .checkmark
 
             if let icon = AppIconRows(rawValue: indexPath.row)?.description {
-                UIApplication.shared.setAlternateIconName(icon + "Icon") { error in
+
+                let iconName = icon == "system" ? nil : icon + "Icon"
+
+                UIApplication.shared.setAlternateIconName(iconName) { error in
                     if let error = error {
                         print("Error setting alternate icon \(icon): \(error.localizedDescription)")
                     }
@@ -99,9 +102,16 @@ class AppIconViewController: UITableViewController {
         cell.imageView?.layer.cornerRadius = 20
 
         if let icon = AppIconRows(rawValue: indexPath.row) {
-            if let image = UIImage(named: "app-icon-\(icon.description)") {
+            var descName = icon.description
+
+            if icon.description == "system" {
+                descName = "dylanseeger"
+            }
+
+            if let image = UIImage(named: "app-icon-\(descName)") {
                 cell.imageView?.image = image
             }
+
             cell.textLabel?.text = icon.getName()
         }
 

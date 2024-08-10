@@ -106,13 +106,6 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>marsIcon</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>mars</string>
-				</array>
-			</dict>
 			<key>dylanseegerDarkFullIcon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -132,13 +125,6 @@
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>dylanseeger</string>
-				</array>
-			</dict>
-			<key>kmstrrIcon</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>kmstrr</string>
 				</array>
 			</dict>
 		</dict>
