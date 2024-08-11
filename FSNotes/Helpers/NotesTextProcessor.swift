@@ -105,6 +105,10 @@ public class NotesTextProcessor {
 
     public static var codeBackground: UIColor {
         get {
+            if let theme = HighlighterTheme(rawValue: UserDefaultsManagement.codeTheme) {
+                return UIColor.getBy(hex: theme.backgroundHex)
+            }
+
             return UIColor.codeBackground
         }
     }
