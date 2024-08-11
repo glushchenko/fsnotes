@@ -731,7 +731,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
             p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; -webkit-text-size-adjust: none; } \(codeStyle) \(css)
         
-            code, .hljs { background: \(codeBackground)); }
+            code, .hljs { background: \(codeBackground); }
 
             #MathJax_Message+* {
                 margin-top: 0 !important;
