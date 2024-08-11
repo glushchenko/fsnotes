@@ -10,6 +10,7 @@ import UIKit
 
 class AppIconViewController: UITableViewController {
     enum AppIconRows: Int, CaseIterable {
+        case system
         case kmstrr
         case dylanseeger
         case dylanseegerDark
@@ -17,6 +18,8 @@ class AppIconViewController: UITableViewController {
 
         public func getName() -> String {
             switch self {
+            case .system:
+                return "System"
             case .kmstrr:
                 return "Classic"
             case .dylanseeger:
@@ -30,6 +33,7 @@ class AppIconViewController: UITableViewController {
 
         var description : String {
             switch self {
+            case .system: return "system"
             case .kmstrr: return "kmstrr"
             case .dylanseeger: return "dylanseeger"
             case .dylanseegerDark: return "dylanseegerDark"
@@ -64,7 +68,9 @@ class AppIconViewController: UITableViewController {
             cell.accessoryType = .checkmark
 
             if let icon = AppIconRows(rawValue: indexPath.row)?.description {
-                UIApplication.shared.setAlternateIconName(icon + "Icon") { error in
+                var name = icon == "system" ? nil : icon + "Icon"
+
+                UIApplication.shared.setAlternateIconName(name) { error in
                     if let error = error {
                         print("Error setting alternate icon \(icon): \(error.localizedDescription)")
                     }
@@ -99,7 +105,12 @@ class AppIconViewController: UITableViewController {
         cell.imageView?.layer.cornerRadius = 20
 
         if let icon = AppIconRows(rawValue: indexPath.row) {
-            if let image = UIImage(named: "app-icon-\(icon.description)") {
+            var iconName = icon.description
+            if icon.description == "system" {
+                iconName = "dylanseeger"
+            }
+
+            if let image = UIImage(named: "app-icon-\(iconName)") {
                 cell.imageView?.image = image
             }
             cell.textLabel?.text = icon.getName()
