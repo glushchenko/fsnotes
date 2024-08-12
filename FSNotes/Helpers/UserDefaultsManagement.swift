@@ -77,6 +77,7 @@ public class UserDefaultsManagement {
         static let FontColorKey = "fontColorKeyed"
         static let FullScreen = "fullScreen"
         static let FirstLineAsTitle = "firstLineAsTitle"
+        static let MaxChildDirs = "maxChildDirs"
         static let NoteType = "noteType"
         static let NoteExtension = "noteExtension"
         static let GrammarChecking = "grammarChecking"
@@ -1729,6 +1730,25 @@ public class UserDefaultsManagement {
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
                 defaults.set(data, forKey: Constants.ProjectsKeyNew)
             }
+        }
+    }
+
+    static var maxChildDirs: Int {
+        get {
+            if let returnFontSize = shared?.object(forKey: Constants.MaxChildDirs), 
+                let value = returnFontSize as? Int {
+
+                if value < 200 {
+                    return 200
+                }
+
+                return value
+            }
+
+            return 200
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.CodeFontSizeKey)
         }
     }
 }

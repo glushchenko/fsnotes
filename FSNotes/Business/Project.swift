@@ -934,6 +934,8 @@ public class Project: Equatable {
     }
     
     private func fetchAllDirectories() -> [URL]? {
+        let maxDirs = UserDefaultsManagement.maxChildDirs
+
         guard let fileEnumerator =
             FileManager.default.enumerator(
                 at: url, includingPropertiesForKeys: nil,
@@ -981,7 +983,7 @@ public class Project: Equatable {
                 print("Error: ", error.localizedDescription)
             }
 
-            if i > 200 {
+            if i > maxDirs {
                 break
             }
         }
