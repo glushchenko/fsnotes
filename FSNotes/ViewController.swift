@@ -1069,7 +1069,17 @@ class ViewController: EditorViewController,
         }
 
         if let md = AppDelegate.mainWindowController {
-            md.maximizeWindow()
+            if let actionOnDoubleClick = UserDefaults.standard.object(forKey: "AppleActionOnDoubleClick") as? String {
+
+                switch actionOnDoubleClick {
+                case "Maximize":
+                    md.maximizeWindow()
+                case "Minimize":
+                    md.window?.performMiniaturize(nil)
+                default:
+                    break
+                }
+            }
         }
     }
 
