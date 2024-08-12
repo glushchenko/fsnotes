@@ -1113,6 +1113,8 @@ class ViewController: EditorViewController,
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
         } else {
             vc.sidebarSplitView.setPosition(CGFloat(UserDefaultsManagement.realSidebarSize), ofDividerAt: 0)
+
+            vc.reloadSideBar()
         }
 
         vc.editor.updateTextContainerInset()
