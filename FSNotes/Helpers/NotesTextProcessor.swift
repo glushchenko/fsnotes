@@ -706,29 +706,6 @@ public class NotesTextProcessor {
             }
         }
 
-        // We detect and process anchors (links)
-        NotesTextProcessor.anchorRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: codeFont, range: range)
-            attributedString.fixAttributes(in: range)
-            NotesTextProcessor.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-            NotesTextProcessor.closingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-            NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                let initialSyntaxRange = NSMakeRange(innerRange.location, 1)
-                let finalSyntaxRange = NSMakeRange(innerRange.location + innerRange.length - 1, 1)
-                hideSyntaxIfNecessary(range: initialSyntaxRange)
-                hideSyntaxIfNecessary(range: finalSyntaxRange)
-            }
-        }
-
         #if IOS_APP || os(OSX)
         // We detect and process inline anchors (links)
         NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
