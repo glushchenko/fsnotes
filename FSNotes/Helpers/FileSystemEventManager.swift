@@ -28,18 +28,23 @@ class FileSystemEventManager {
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
                 return
             }
-            
+
             guard let url = URL(string: "file://" + path) else {
                 return
             }
 
             if !event.path.contains(".textbundle") && (
-                    event.dirRemoved
-                    || event.dirCreated
-                    || event.dirRenamed
-                    || event.dirChange
+                event.dirRemoved
+                || event.dirCreated
+                || event.dirRenamed
+                || event.dirChange
             ) {
                 self.handleDirEvents(event: event)
+                return
+            }
+
+            if url.lastPathComponent == ".encrypt" {
+                self.loadEncryptionStatus(url: url)
                 return
             }
 
@@ -376,6 +381,14 @@ class FileSystemEventManager {
 
                 conflict.isResolved = true
             }
+        }
+    }
+
+    private func loadEncryptionStatus(url: URL) {
+        if let project = self.storage.getProjectBy(url: url.deletingLastPathComponent()) {
+            project.isEncrypted = FileManager.default.fileExists(atPath: url.path)
+
+            self.delegate.sidebarOutlineView.reloadItem(project)
         }
     }
 }

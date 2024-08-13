@@ -1032,14 +1032,18 @@ class SidebarOutlineView: NSOutlineView,
 
     public func decrypt(projects: [Project], password: String) {
         var decryptedQty = 0
+        var total = 0
         for project in projects {
+            let notes = project.storage.getNotesBy(project: project)
+            total += notes.count
+
             let decrypted = project.decrypt(password: password)
             decryptedQty = decrypted.count
             self.showTags(notes: decrypted)
         }
         
         DispatchQueue.main.async {
-            guard decryptedQty > 0 else {
+            guard decryptedQty > 0 || total == 0 else {
                 self.wrongPassAlert()
                 return
             }

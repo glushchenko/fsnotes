@@ -821,7 +821,7 @@ public class Project: Equatable {
             }
         }
         
-        guard qty > 0 else { return [Note]() }
+        guard qty > 0 || notes.count == 0 else { return [Note]() }
         
         let encFolder = getEncryptionStatusFilePath()
         try? FileManager.default.removeItem(at: encFolder)

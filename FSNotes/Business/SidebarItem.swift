@@ -49,6 +49,14 @@ class SidebarItem {
     #endif
     }
 
+    public func setType(type: SidebarItemType) {
+        self.type = type
+
+        if let icon = self.type.icon {
+            self.icon = getIcon(name: icon)
+        }
+    }
+
     public func getName() -> String {
         return name
     }
