@@ -263,13 +263,16 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             return String()
         }
 
-        let inline = "['$', '$'], ['\\\\(', '\\\\)'], ['$$', '$$'], ['\\\\((', '\\\\))']"
-
         return """
             <script>
             MathJax = {
               tex: {
-                inlineMath: [\(inline)]
+                inlineMath: [
+                    ['$', '$'],
+                    ['\\\\(', '\\\\)'],
+                    ['$$', '$$'],
+                    ['\\\\((', '\\\\))']
+                ]
               }
             };
             </script>

@@ -730,6 +730,8 @@
 		D7CC44C62A1E5F7600743857 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CC44C52A1E5F7600743857 /* ApiResponse.swift */; };
 		D7CC44C72A1E5F7600743857 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CC44C52A1E5F7600743857 /* ApiResponse.swift */; };
 		D7CC44C92A1E5F7600743857 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CC44C52A1E5F7600743857 /* ApiResponse.swift */; };
+		D7CCEDB92C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */; };
+		D7CCEDBA2C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */; };
 		D7CD5CC42181F7530009D63B /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
 		D7CD5CC5218209820009D63B /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D7CD5CC6218209960009D63B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
@@ -1457,6 +1459,7 @@
 		D7CBAFFD214D5A1C002ECD5A /* ShortcutIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutIdentifier.swift; sourceTree = "<group>"; };
 		D7CC44C02A1E5E4F00743857 /* ViewController+WebApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+WebApi.swift"; sourceTree = "<group>"; };
 		D7CC44C52A1E5F7600743857 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
+		D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableTextField.swift; sourceTree = "<group>"; };
 		D7CD5CCA21820A380009D63B /* UserDefaultsManagement+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManagement+.swift"; sourceTree = "<group>"; };
 		D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManagement+.swift"; sourceTree = "<group>"; };
 		D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.ttf"; sourceTree = "<group>"; };
@@ -2391,6 +2394,7 @@
 				D730829123084340003185D1 /* MPreviewView.swift */,
 				D70B1FAA29213EDF003923DC /* HyperlinkTextField.swift */,
 				D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */,
+				D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3811,6 +3815,7 @@
 				D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */,
 				D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */,
+				D7CCEDB92C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AA29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
 				D73BCCFB28EB5EC4008B3BBC /* Repository.swift in Sources */,
 				D73BCCC528EB5EC4008B3BBC /* Diff.swift in Sources */,
@@ -3990,6 +3995,7 @@
 				D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */,
 				D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7470D082170E890006B2A92 /* NSTextStorage++.swift in Sources */,
+				D7CCEDBA2C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AB29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
 				D73BCCFC28EB5EC4008B3BBC /* Repository.swift in Sources */,
 				D73BCCC628EB5EC4008B3BBC /* Diff.swift in Sources */,

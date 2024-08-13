@@ -790,7 +790,7 @@ public class Project: Equatable {
         FileManager.default.createFile(atPath: encFolder.path, contents: nil)
         
         isEncrypted = true
-        
+
         let notes = storage.getNotesBy(project: self)
         var encrypted = [Note]()
         
@@ -799,7 +799,9 @@ public class Project: Equatable {
                 encrypted.append(note)
             }
         }
-        
+
+        self.password = nil
+
         return encrypted
     }
     

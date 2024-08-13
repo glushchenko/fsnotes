@@ -1038,15 +1038,17 @@ class SidebarOutlineView: NSOutlineView,
             self.showTags(notes: decrypted)
         }
         
-        guard decryptedQty > 0 else {
-            self.wrongPassAlert()
-            return
-        }
-        
         DispatchQueue.main.async {
+            guard decryptedQty > 0 else {
+                self.wrongPassAlert()
+                return
+            }
+
             guard let vc = ViewController.shared() else { return }
 
             vc.notesTableView.disableLockedProject()
+            vc.notesTableView.reloadData()
+            
             vc.updateTable()
             
             self.reloadData(forRowIndexes: self.selectedRowIndexes, columnIndexes: [0])

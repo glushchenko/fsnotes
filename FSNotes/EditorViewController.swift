@@ -98,7 +98,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
-                    if let note = note, note.isEncrypted() {
+                    if let note = note, note.isEncrypted(), !note.project.isEncrypted {
                         menuItem.isHidden = false
                         return true
                     } else {
@@ -153,14 +153,16 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                 }
                 
                 if menuItem.identifier?.rawValue == "fileMenu.toggleContainer" {
-                    if let note = note, note.container != .encryptedTextPack {
+                    if let note = note, !note.isEncrypted() {
                         menuItem.title = note.container == .none
                             ? NSLocalizedString("Convert to TextBundle", comment: "")
                             : NSLocalizedString("Convert to Plain", comment: "")
                         
                         menuItem.isEnabled = true
+                        return true
                     } else {
                         menuItem.isEnabled = false
+                        return false
                     }
                 }
 

@@ -355,7 +355,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
             
             if menuItem.identifier?.rawValue == "note.toggleContainer" {
-                if let note = note, note.container != .encryptedTextPack {
+                if let note = note, !note.isEncrypted() {
                     menuItem.title = note.container == .none
                         ? NSLocalizedString("Convert to TextBundle", comment: "")
                         : NSLocalizedString("Convert to Plain", comment: "")
@@ -374,8 +374,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 }
             }
 
-            if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
-                if let note = note, note.isEncrypted() {
+            if menuItem.identifier?.rawValue == "noteMenu.removeEncryption" {
+                if let note = note, note.isEncrypted(), !note.project.isEncrypted {
                     menuItem.isEnabled = true
                     menuItem.isHidden = false
                 } else {

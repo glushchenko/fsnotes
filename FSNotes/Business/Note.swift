@@ -1862,6 +1862,7 @@ public class Note: NSObject  {
             try FileManager.default.removeItem(at: originalSrc)
 
             self.decryptedTemporarySrc = nil
+            self.password = nil
 
             invalidateCache()
             load()
@@ -2000,6 +2001,7 @@ public class Note: NSObject  {
 
                 try? FileManager.default.removeItem(at: temporaryURL)
                 self.decryptedTemporarySrc = nil
+                self.password = nil
 
                 return true
             }
