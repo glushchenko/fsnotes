@@ -1430,12 +1430,12 @@ public class NotesTextProcessor {
 
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    fileprivate static let autolinkPattern = "([\\(]*(https?|ftp):[^`\'\">\\s\\*]+)"
+    fileprivate static let autolinkPattern = "([\\(]*(https?|sftp|ftp):[^`\'\">\\s\\*]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
-    fileprivate static let autolinkPrefixPattern = "((https?|ftp)://)"
-    
+    fileprivate static let autolinkPrefixPattern = "((https?|sftp|ftp)://)"
+
     public static let autolinkPrefixRegex = MarklightRegex(pattern: autolinkPrefixPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
     fileprivate static let autolinkEmailPattern = [

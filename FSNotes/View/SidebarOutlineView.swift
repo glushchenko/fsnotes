@@ -932,7 +932,15 @@ class SidebarOutlineView: NSOutlineView,
             return
         }
 
-        guard let project = sidebarOutlineView.getSelectedProject() else { return }
+        guard let projects = sidebarOutlineView.getSelectedProjects() else { return }
+
+        for project in projects {
+            delete(project: project)
+        }
+    }
+
+    private func delete(project: Project) {
+        guard let vc = ViewController.shared() else { return }
 
         if !(project.isDefault || project.isBookmark) {
             guard let window = MainWindowController.shared() else { return }
@@ -941,7 +949,7 @@ class SidebarOutlineView: NSOutlineView,
             vc.alert = alert
 
             let messageText = NSLocalizedString("Are you sure you want to remove project \"%@\" and all files inside?", comment: "")
-            
+
             alert.messageText = String(format: messageText, project.label)
             alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "Delete menu")
             alert.addButton(withTitle: NSLocalizedString("Remove", comment: "Delete menu"))
@@ -950,13 +958,13 @@ class SidebarOutlineView: NSOutlineView,
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     do {
                         try FileManager.default.removeItem(at: project.url)
-                        
+
                         self.storage.cleanCachedTree(url: project.url)
                     } catch {
                         print(error)
                     }
 
-                    NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
+                    NSApp.mainWindow?.makeFirstResponder(vc.sidebarOutlineView)
                 }
 
                 vc.alert = nil
@@ -969,10 +977,9 @@ class SidebarOutlineView: NSOutlineView,
         for item in projects {
             SandboxBookmark().removeBy(item.url)
         }
-        
-        sidebarOutlineView.removeRows(projects: projects)
 
-        sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
+        vc.sidebarOutlineView.removeRows(projects: projects)
+        vc.sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
         vc.updateTable()
     }
 
