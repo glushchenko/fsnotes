@@ -256,8 +256,7 @@ class FileSystemEventManager {
         guard let modificationDate = note.getFileModifiedDate(),
               let creationDate = note.getFileCreationDate() else { return }
 
-        if modificationDate > note.modifiedLocalAt {
-            
+        if modificationDate.isGreaterThan(note.modifiedLocalAt) {
             note.modifiedLocalAt = modificationDate
             note.cacheHash = nil
             note.content = NSMutableAttributedString(attributedString: fsContent)

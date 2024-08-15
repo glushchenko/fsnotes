@@ -1433,7 +1433,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             editor.saveImages()
 
             note.save(attributed: editor.attributedString())
-            note.scheduleUnBlock()
 
             updateLastEditedStatus()
             vc.reSort(note: note)

@@ -23979,7 +23979,7 @@
     },
     "l75-ic-hjm.title" : {
       "comment" : "Class = \"NSBox\"; title = \"Box\"; ObjectID = \"l75-ic-hjm\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -27129,6 +27129,114 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "服务"
+          }
+        }
+      }
+    },
+    "nTf-oq-7k2.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Use TextBundle info.json to store c/mtime\"; ObjectID = \"nTf-oq-7k2\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدام TextBundle Info.json لتخزين c/متى"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použití TextBundle info.json pro uložení c/mtime"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextBundle info.json zum Speichern von c/mtime verwenden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Use TextBundle info.json to store c/mtime"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilizar TextBundle info.json para almacenar c/mtime"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser le TextBundle info.json pour stocker le c/mtime"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "השתמש בקובץ info.json של TextBundle כדי לאחסן c/mtime"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "c/mtime संग्रहीत करने के लिए TextBundle info.json का उपयोग करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usare TextBundle info.json per memorizzare c/mtime"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "c/mtimeを格納するためにTextBundle info.jsonを使用する。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "텍스트 번들 info.json을 사용하여 c/mtime을 저장합니다."
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik TextBundle info.json om c/mtime op te slaan"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use TextBundle info.json para armazenar c/mtime"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilizar TextBundle info.json para armazenar c/mtime"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать TextBundle info.json для хранения c/mtime"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Використовувати TextBundle info.json для зберігання c/mtime"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 TextBundle info.json 存储 c/mtime"
           }
         }
       }
@@ -41391,7 +41499,7 @@
     },
     "xRe-j4-nd1.title" : {
       "comment" : "Class = \"NSBox\"; title = \"Box\"; ObjectID = \"xRe-j4-nd1\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

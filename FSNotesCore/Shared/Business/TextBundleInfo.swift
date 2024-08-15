@@ -13,4 +13,5 @@ struct TextBundleInfo: Decodable {
     let type: String
     let flatExtension: String?
     let created: Int?
+    let modified: Int?
 }

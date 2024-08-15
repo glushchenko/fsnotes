@@ -152,6 +152,7 @@ public class UserDefaultsManagement {
         static let TextMatchAutoSelection = "textMatchAutoSelection"
         static let TrashKey = "trashKey"
         static let UploadKey = "uploadKey"
+        static let UseTextBundleToStoreDates = "useTextBundleToStoreDates"
         static let AutocloseBrackets = "autocloseBrackets"
         static let Welcome = "welcome"
     }
@@ -853,7 +854,20 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.AutomaticConflictsResolution)
         }
     }
-    
+
+    static var useTextBundleMetaToStoreDates: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.UseTextBundleToStoreDates) as? Bool {
+                return result
+            }
+            
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UseTextBundleToStoreDates)
+        }
+    }
+
     static var showInMenuBar: Bool {
         get {
             if let result = shared?.object(forKey: Constants.ShowInMenuBar) as? Bool {

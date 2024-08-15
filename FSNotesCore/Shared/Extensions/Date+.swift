@@ -25,4 +25,19 @@ extension Date {
         formatter.dateFormat = format
         return formatter.string(from: self)
     }
+
+    func removeNanoseconds() -> Date? {
+        let calendar = Calendar.current
+
+        let components: Set<Calendar.Component> = [.year, .month, .day, .hour, .minute, .second]
+        return calendar.date(from: calendar.dateComponents(components, from: self))
+    }
+
+    func isGreaterThan(_ date: Date) -> Bool {
+        guard let selfWithoutNanoseconds = self.removeNanoseconds(),
+              let dateWithoutNanoseconds = date.removeNanoseconds() else {
+            return false
+        }
+        return selfWithoutNanoseconds > dateWithoutNanoseconds
+    }
 }
