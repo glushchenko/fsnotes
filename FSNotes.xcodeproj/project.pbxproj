@@ -404,6 +404,11 @@
 		D752D80F23463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
 		D752D81023463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
 		D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
+		D755E27A2A1427F700CF9ECB /* mars@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2762A1427F600CF9ECB /* mars@3x~ipad.png */; };
+		D755E27B2A1427F700CF9ECB /* mars@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2772A1427F600CF9ECB /* mars@3x.png */; };
+		D755E27C2A1427F700CF9ECB /* mars@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2782A1427F600CF9ECB /* mars@2x~ipad.png */; };
+		D755E27F2A14282000CF9ECB /* mars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E27E2A14281F00CF9ECB /* mars@2x.png */; };
+		D755E2812A1428B400CF9ECB /* app-icon-mars.png in Resources */ = {isa = PBXBuildFile; fileRef = D755E2802A1428B300CF9ECB /* app-icon-mars.png */; };
 		D75627CE26D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627CF26D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627D126D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
@@ -497,11 +502,15 @@
 		D77E0537246312B300AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
 		D77E0538246312B400AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
 		D77E0539246312B400AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
-		D77EB9C12C675BFC00AFA634 /* app-icon-dylanseeger.png in Resources */ = {isa = PBXBuildFile; fileRef = D77EB9BE2C675BFC00AFA634 /* app-icon-dylanseeger.png */; };
-		D77EB9C22C675BFC00AFA634 /* app-icon-dylanseegerDarkFull.png in Resources */ = {isa = PBXBuildFile; fileRef = D77EB9BF2C675BFC00AFA634 /* app-icon-dylanseegerDarkFull.png */; };
 		D77F41B32A0D48F500E2B7A2 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */; };
 		D77F89DF28D38B5D00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
 		D77F89E028D38B5E00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
+		D780165B29E19F3F00660689 /* dylanseegerDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165929E19F3F00660689 /* dylanseegerDark@2x.png */; };
+		D780165C29E19F3F00660689 /* dylanseegerDark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165A29E19F3F00660689 /* dylanseegerDark@3x.png */; };
+		D780165E29E19FD800660689 /* app-icon-dylanseegerDark.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */; };
+		D780166129E1E6AA00660689 /* dylanseegerDarkFull@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */; };
+		D780166229E1E6AA00660689 /* dylanseegerDarkFull@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */; };
+		D780166429E1E6C100660689 /* app-icon-dylanseegerDarkFull.png in Resources */ = {isa = PBXBuildFile; fileRef = D780166329E1E6C000660689 /* app-icon-dylanseegerDarkFull.png */; };
 		D780207C231FA147007F14DC /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
 		D78115602153AE89004FA1CA /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155E2153AE85004FA1CA /* back.png */; };
 		D78115612153AE89004FA1CA /* preview.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155F2153AE86004FA1CA /* preview.png */; };
@@ -654,6 +663,10 @@
 		D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
 		D7C33F6C29E099C10006C473 /* settings-icons-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F6B29E099C10006C473 /* settings-icons-icon.png */; };
 		D7C33F6E29E09A690006C473 /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C33F6D29E09A690006C473 /* AppIconViewController.swift */; };
+		D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */; };
+		D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */; };
+		D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */; };
+		D7C33F7B29E0C1CA0006C473 /* kmstrr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */; };
 		D7C690AB22AA4AE500BFBBD1 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BE204F078A000B9F59 /* bold.png */; };
 		D7C690AC22AA4AE500BFBBD1 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BD204F078A000B9F59 /* bold@2x.png */; };
 		D7C690AD22AA4AE500BFBBD1 /* bold@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BC204F078A000B9F59 /* bold@3x.png */; };
@@ -717,6 +730,8 @@
 		D7CC44C62A1E5F7600743857 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CC44C52A1E5F7600743857 /* ApiResponse.swift */; };
 		D7CC44C72A1E5F7600743857 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CC44C52A1E5F7600743857 /* ApiResponse.swift */; };
 		D7CC44C92A1E5F7600743857 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CC44C52A1E5F7600743857 /* ApiResponse.swift */; };
+		D7CCEDB92C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */; };
+		D7CCEDBA2C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */; };
 		D7CD5CC42181F7530009D63B /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
 		D7CD5CC5218209820009D63B /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D7CD5CC6218209960009D63B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
@@ -750,6 +765,14 @@
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D7CF7EAB29E2093C00FEC0C5 /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */; };
 		D7CF7EAD29E20AA400FEC0C5 /* settings-icons-security.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EAC29E20AA400FEC0C5 /* settings-icons-security.png */; };
+		D7CF7EB629E2CFD400FEC0C5 /* dylanseegerDark@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EAE29E2CFD200FEC0C5 /* dylanseegerDark@3x~ipad.png */; };
+		D7CF7EB729E2CFD400FEC0C5 /* dylanseeger@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EAF29E2CFD300FEC0C5 /* dylanseeger@2x~ipad.png */; };
+		D7CF7EB829E2CFD400FEC0C5 /* kmstrr@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB029E2CFD300FEC0C5 /* kmstrr@2x~ipad.png */; };
+		D7CF7EB929E2CFD400FEC0C5 /* kmstrr@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB129E2CFD300FEC0C5 /* kmstrr@3x~ipad.png */; };
+		D7CF7EBA29E2CFD400FEC0C5 /* dylanseeger@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB229E2CFD300FEC0C5 /* dylanseeger@3x~ipad.png */; };
+		D7CF7EBB29E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB329E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png */; };
+		D7CF7EBC29E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */; };
+		D7CF7EBD29E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */; };
 		D7D00E79248FBFF7009AE455 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D00E78248FBFF6009AE455 /* UIView+.swift */; };
 		D7D01AFD2C65203A00F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
 		D7D01AFE2C65208000F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
@@ -817,6 +840,8 @@
 		D7DF402520A377BE000F8B13 /* tag_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF401A20A37717000F8B13 /* tag_white.png */; };
 		D7DF402A20A377FE000F8B13 /* pin_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF402920A377FE000F8B13 /* pin_white.png */; };
 		D7DF402C20A3780E000F8B13 /* pin_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF402920A377FE000F8B13 /* pin_white.png */; };
+		D7DF48CE29E1765C00FFD0B2 /* app-icon-kmstrr.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF48CC29E1765B00FFD0B2 /* app-icon-kmstrr.png */; };
+		D7DF48CF29E1765C00FFD0B2 /* app-icon-dylanseeger.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF48CD29E1765B00FFD0B2 /* app-icon-dylanseeger.png */; };
 		D7DF48D129E1767B00FFD0B2 /* settings-icons-format.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF48D029E1767B00FFD0B2 /* settings-icons-format.png */; };
 		D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
 		D7E32C2C28F8D0740048614B /* StaticSshKeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E32C2B28F8D0740048614B /* StaticSshKeyDelegate.swift */; };
@@ -1259,6 +1284,11 @@
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
 		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
 		D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attachments.swift"; sourceTree = "<group>"; };
+		D755E2762A1427F600CF9ECB /* mars@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@3x~ipad.png"; sourceTree = "<group>"; };
+		D755E2772A1427F600CF9ECB /* mars@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@3x.png"; sourceTree = "<group>"; };
+		D755E2782A1427F600CF9ECB /* mars@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@2x~ipad.png"; sourceTree = "<group>"; };
+		D755E27E2A14281F00CF9ECB /* mars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mars@2x.png"; sourceTree = "<group>"; };
+		D755E2802A1428B300CF9ECB /* app-icon-mars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-mars.png"; sourceTree = "<group>"; };
 		D75627CD26D1165A000AF6EA /* ImageFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFormat.swift; sourceTree = "<group>"; };
 		D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeFontViewController.swift; sourceTree = "<group>"; };
 		D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeThemeViewController.swift; sourceTree = "<group>"; };
@@ -1320,10 +1350,14 @@
 		D77B9E9A20DE53E0003FAA27 /* archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archive.png; sourceTree = "<group>"; };
 		D77CC040216A608500582B97 /* EditorScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorScrollView.swift; sourceTree = "<group>"; };
 		D77E05282463124300AD7772 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
-		D77EB9BE2C675BFC00AFA634 /* app-icon-dylanseeger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseeger.png"; sourceTree = "<group>"; };
-		D77EB9BF2C675BFC00AFA634 /* app-icon-dylanseegerDarkFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseegerDarkFull.png"; sourceTree = "<group>"; };
 		D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Web.swift"; sourceTree = "<group>"; };
+		D780165929E19F3F00660689 /* dylanseegerDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@2x.png"; sourceTree = "<group>"; };
+		D780165A29E19F3F00660689 /* dylanseegerDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@3x.png"; sourceTree = "<group>"; };
+		D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseegerDark.png"; sourceTree = "<group>"; };
+		D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@3x.png"; sourceTree = "<group>"; };
+		D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@2x.png"; sourceTree = "<group>"; };
+		D780166329E1E6C000660689 /* app-icon-dylanseegerDarkFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseegerDarkFull.png"; sourceTree = "<group>"; };
 		D781155E2153AE85004FA1CA /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		D781155F2153AE86004FA1CA /* preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview.png; sourceTree = "<group>"; };
 		D78115622153B36C004FA1CA /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
@@ -1403,6 +1437,10 @@
 		D7C302C421F320FD0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
 		D7C33F6B29E099C10006C473 /* settings-icons-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-icon.png"; sourceTree = "<group>"; };
 		D7C33F6D29E09A690006C473 /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
+		D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@3x.png"; sourceTree = "<group>"; };
+		D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@2x.png"; sourceTree = "<group>"; };
+		D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@3x.png"; sourceTree = "<group>"; };
+		D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@2x.png"; sourceTree = "<group>"; };
 		D7C690CF22AB025700BFBBD1 /* codeblock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = codeblock.png; sourceTree = "<group>"; };
 		D7C690D322AB033A00BFBBD1 /* tb_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_link.png; sourceTree = "<group>"; };
 		D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+More.swift"; sourceTree = "<group>"; };
@@ -1421,6 +1459,7 @@
 		D7CBAFFD214D5A1C002ECD5A /* ShortcutIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutIdentifier.swift; sourceTree = "<group>"; };
 		D7CC44C02A1E5E4F00743857 /* ViewController+WebApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+WebApi.swift"; sourceTree = "<group>"; };
 		D7CC44C52A1E5F7600743857 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
+		D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableTextField.swift; sourceTree = "<group>"; };
 		D7CD5CCA21820A380009D63B /* UserDefaultsManagement+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManagement+.swift"; sourceTree = "<group>"; };
 		D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsManagement+.swift"; sourceTree = "<group>"; };
 		D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.ttf"; sourceTree = "<group>"; };
@@ -1432,6 +1471,14 @@
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
 		D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
 		D7CF7EAC29E20AA400FEC0C5 /* settings-icons-security.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-security.png"; sourceTree = "<group>"; };
+		D7CF7EAE29E2CFD200FEC0C5 /* dylanseegerDark@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@3x~ipad.png"; sourceTree = "<group>"; };
+		D7CF7EAF29E2CFD300FEC0C5 /* dylanseeger@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@2x~ipad.png"; sourceTree = "<group>"; };
+		D7CF7EB029E2CFD300FEC0C5 /* kmstrr@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@2x~ipad.png"; sourceTree = "<group>"; };
+		D7CF7EB129E2CFD300FEC0C5 /* kmstrr@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@3x~ipad.png"; sourceTree = "<group>"; };
+		D7CF7EB229E2CFD300FEC0C5 /* dylanseeger@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@3x~ipad.png"; sourceTree = "<group>"; };
+		D7CF7EB329E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@2x~ipad.png"; sourceTree = "<group>"; };
+		D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@3x~ipad.png"; sourceTree = "<group>"; };
+		D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@2x~ipad.png"; sourceTree = "<group>"; };
 		D7D00E78248FBFF6009AE455 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterLegacy.swift; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
@@ -1475,6 +1522,8 @@
 		D7DF401720A37716000F8B13 /* repository_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repository_white.png; sourceTree = "<group>"; };
 		D7DF401A20A37717000F8B13 /* tag_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_white.png; sourceTree = "<group>"; };
 		D7DF402920A377FE000F8B13 /* pin_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin_white.png; sourceTree = "<group>"; };
+		D7DF48CC29E1765B00FFD0B2 /* app-icon-kmstrr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-kmstrr.png"; sourceTree = "<group>"; };
+		D7DF48CD29E1765B00FFD0B2 /* app-icon-dylanseeger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseeger.png"; sourceTree = "<group>"; };
 		D7DF48D029E1767B00FFD0B2 /* settings-icons-format.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-format.png"; sourceTree = "<group>"; };
 		D7E025071F3B6DDB00EDDA32 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		D7E32C2B28F8D0740048614B /* StaticSshKeyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticSshKeyDelegate.swift; sourceTree = "<group>"; };
@@ -1933,7 +1982,7 @@
 		D73CEC6D2278ECA500D549F7 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				D77EB9C02C675BFC00AFA634 /* app-icons */,
+				D7C33F6F29E09E6D0006C473 /* app-icons */,
 				D71C79BC253F3BF5003BD724 /* close-window.png */,
 				D7F8894A2A0D3E19003645DE /* launchscreen.png */,
 				D7CF7EAC29E20AA400FEC0C5 /* settings-icons-security.png */,
@@ -2164,15 +2213,6 @@
 			path = FSNotes;
 			sourceTree = "<group>";
 		};
-		D77EB9C02C675BFC00AFA634 /* app-icons */ = {
-			isa = PBXGroup;
-			children = (
-				D77EB9BE2C675BFC00AFA634 /* app-icon-dylanseeger.png */,
-				D77EB9BF2C675BFC00AFA634 /* app-icon-dylanseegerDarkFull.png */,
-			);
-			path = "app-icons";
-			sourceTree = "<group>";
-		};
 		D7B6E59C20794B4C00FE0E20 /* Business */ = {
 			isa = PBXGroup;
 			children = (
@@ -2194,6 +2234,38 @@
 				D72DAF0729B27D75001243BB /* ProjectSettings.swift */,
 			);
 			path = Business;
+			sourceTree = "<group>";
+		};
+		D7C33F6F29E09E6D0006C473 /* app-icons */ = {
+			isa = PBXGroup;
+			children = (
+				D7CF7EAF29E2CFD300FEC0C5 /* dylanseeger@2x~ipad.png */,
+				D7CF7EB229E2CFD300FEC0C5 /* dylanseeger@3x~ipad.png */,
+				D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */,
+				D7CF7EAE29E2CFD200FEC0C5 /* dylanseegerDark@3x~ipad.png */,
+				D7CF7EB329E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png */,
+				D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */,
+				D7CF7EB029E2CFD300FEC0C5 /* kmstrr@2x~ipad.png */,
+				D7CF7EB129E2CFD300FEC0C5 /* kmstrr@3x~ipad.png */,
+				D755E2802A1428B300CF9ECB /* app-icon-mars.png */,
+				D7DF48CD29E1765B00FFD0B2 /* app-icon-dylanseeger.png */,
+				D7DF48CC29E1765B00FFD0B2 /* app-icon-kmstrr.png */,
+				D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */,
+				D780166329E1E6C000660689 /* app-icon-dylanseegerDarkFull.png */,
+				D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */,
+				D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */,
+				D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */,
+				D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */,
+				D780165929E19F3F00660689 /* dylanseegerDark@2x.png */,
+				D780165A29E19F3F00660689 /* dylanseegerDark@3x.png */,
+				D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */,
+				D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */,
+				D755E27E2A14281F00CF9ECB /* mars@2x.png */,
+				D755E2782A1427F600CF9ECB /* mars@2x~ipad.png */,
+				D755E2772A1427F600CF9ECB /* mars@3x.png */,
+				D755E2762A1427F600CF9ECB /* mars@3x~ipad.png */,
+			);
+			path = "app-icons";
 			sourceTree = "<group>";
 		};
 		D7C52B8028C7A8C2001B2065 /* Git */ = {
@@ -2322,6 +2394,7 @@
 				D730829123084340003185D1 /* MPreviewView.swift */,
 				D70B1FAA29213EDF003923DC /* HyperlinkTextField.swift */,
 				D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */,
+				D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2797,6 +2870,7 @@
 				D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */,
 				D7D06535247B03A800214326 /* more_row_action.png in Resources */,
 				D7F2F1B121C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
+				D7CF7EBB29E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png in Resources */,
 				D7DF402C20A3780E000F8B13 /* pin_white.png in Resources */,
 				D73CEC8E2278ECA500D549F7 /* checkbox.png in Resources */,
 				D7DF402420A377BE000F8B13 /* repository_white.png in Resources */,
@@ -2807,16 +2881,21 @@
 				D78DC71E247AE47D00C5BB43 /* plus.png in Resources */,
 				D7BE112A22DB1C8600435866 /* padlock-locked-ios.png in Resources */,
 				D7B818FA2556B77300D4F61E /* trash.png in Resources */,
+				D7CF7EBC29E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png in Resources */,
 				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
+				D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */,
 				D7D0652D247AF6E900214326 /* basket.png in Resources */,
+				D780165E29E19FD800660689 /* app-icon-dylanseegerDark.png in Resources */,
 				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D7BAC63A24A35EB0008D29AA /* trash_white.png in Resources */,
+				D755E27B2A1427F700CF9ECB /* mars@3x.png in Resources */,
 				D76F0B452152C9A2008E5F2F /* done.png in Resources */,
 				D7D95044209D8B40001FB60B /* repository.png in Resources */,
 				D7D95045209D8B40001FB60B /* tag.png in Resources */,
 				D71AA01F21439A8C004AFD2A /* todo_sidebar_white.png in Resources */,
 				D70E8D6A23705C6200E64D62 /* tag2@3x.png in Resources */,
 				D73CEC8A2278ECA500D549F7 /* checkbox_white@3x.png in Resources */,
+				D780166129E1E6AA00660689 /* dylanseegerDarkFull@3x.png in Resources */,
 				D78DC70F2479838E00C5BB43 /* edit_preview_controller.png in Resources */,
 				D75F1DF1206D660D00F70B28 /* MPreview.bundle in Resources */,
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
@@ -2838,6 +2917,7 @@
 				D7D79B0524DE72BB003C61AF /* settings-icons-import.png in Resources */,
 				D7FAE29C22DDDCF3003874D1 /* inbox.png in Resources */,
 				D7BAC633249E05B2008D29AA /* close.png in Resources */,
+				D780166229E1E6AA00660689 /* dylanseegerDarkFull@2x.png in Resources */,
 				D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */,
 				D7D06533247AFA0600214326 /* pin_row_action.png in Resources */,
 				D794559627C1A5F4000C283F /* settings-icons-external.png in Resources */,
@@ -2845,6 +2925,8 @@
 				D78115652153C035004FA1CA /* add.png in Resources */,
 				D7D79B0E24DE738E003C61AF /* settings-icons-keyboard.png in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
+				D7CF7EB829E2CFD400FEC0C5 /* kmstrr@2x~ipad.png in Resources */,
+				D7CF7EBD29E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png in Resources */,
 				D7F2F19F21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
 				D7271FB02052C77600033D0C /* pin.png in Resources */,
 				D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
@@ -2855,6 +2937,7 @@
 				D798027F2137C3D6008D6200 /* uncheckedbox.png in Resources */,
 				D70BA87720599D1300875E9C /* header.png in Resources */,
 				D7C33F6C29E099C10006C473 /* settings-icons-icon.png in Resources */,
+				D780166429E1E6C100660689 /* app-icon-dylanseegerDarkFull.png in Resources */,
 				D70BA87920599D1300875E9C /* header@2x.png in Resources */,
 				D7D79AFD24DE71FA003C61AF /* settings-icons-support.png in Resources */,
 				D794559027C05F81000C283F /* settings-icons-pro.png in Resources */,
@@ -2864,6 +2947,7 @@
 				D71354012042AECD00E3776F /* settings@2x.png in Resources */,
 				D7BAC65024A360E1008D29AA /* home_white.png in Resources */,
 				D7735B10213D06C500FACB12 /* strike.png in Resources */,
+				D7CF7EB729E2CFD400FEC0C5 /* dylanseeger@2x~ipad.png in Resources */,
 				D7EA59EF213EAD8800582BD9 /* image@3x.png in Resources */,
 				D70255FC23326130003857AF /* codeblock.png in Resources */,
 				D7271FAF2052803500033D0C /* indent@3x.png in Resources */,
@@ -2882,6 +2966,7 @@
 				D739955F2051D1AB009017EE /* italic@2x.png in Resources */,
 				D794559E27C25C90000C283F /* settings-icons-editor.png in Resources */,
 				D73CEC8D2278ECA500D549F7 /* checkbox_empty.png in Resources */,
+				D7CF7EBA29E2CFD400FEC0C5 /* dylanseeger@3x~ipad.png in Resources */,
 				D7F2F1C321C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
 				D7F8894B2A0D3E1A003645DE /* launchscreen.png in Resources */,
 				D7F2F1C021C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
@@ -2898,10 +2983,14 @@
 				D73CEC8B2278ECA500D549F7 /* checkbox_empty_white@3x.png in Resources */,
 				D7D03BC6205C6ED200D96A6D /* undo@2x.png in Resources */,
 				D78DC720247AE47D00C5BB43 /* plus@3x.png in Resources */,
+				D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */,
 				D7271FAE2052803500033D0C /* unindent@3x.png in Resources */,
 				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
+				D7CF7EB929E2CFD400FEC0C5 /* kmstrr@3x~ipad.png in Resources */,
+				D755E2812A1428B400CF9ECB /* app-icon-mars.png in Resources */,
 				D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */,
 				D7DF48D129E1767B00FFD0B2 /* settings-icons-format.png in Resources */,
+				D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */,
 				D7271FAA2052803500033D0C /* unindent.png in Resources */,
 				D7BAC63C24A35F73008D29AA /* home.png in Resources */,
 				D7BE112522DB168C00435866 /* lock-closed.png in Resources */,
@@ -2910,6 +2999,7 @@
 				D7CBAFFC214D4A08002ECD5A /* settings_white@2x.png in Resources */,
 				D7271FAC2052803500033D0C /* indent@2x.png in Resources */,
 				D75DF64121319994003C3059 /* todo@2x.png in Resources */,
+				D7DF48CF29E1765C00FFD0B2 /* app-icon-dylanseeger.png in Resources */,
 				42E001CF2ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
 				D7ECE68A22B6B481006A14C6 /* TextBundle.icns in Resources */,
 				D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */,
@@ -2918,13 +3008,17 @@
 				D78C6CBF246D7B78007AF7F2 /* wikilink.png in Resources */,
 				D7A549C124DD9BDA00537544 /* settings-icons-night.png in Resources */,
 				D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */,
+				D755E27C2A1427F700CF9ECB /* mars@2x~ipad.png in Resources */,
 				D71C79BD253F3BF5003BD724 /* close-window.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
 				D7D79B0324DE72BB003C61AF /* settings-icons-home.png in Resources */,
+				D755E27F2A14282000CF9ECB /* mars@2x.png in Resources */,
+				D7DF48CE29E1765C00FFD0B2 /* app-icon-kmstrr.png in Resources */,
 				D70E8D6B23705C6200E64D62 /* tag2.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* Icons.xcassets in Resources */,
 				D73CEC842278ECA500D549F7 /* checkbox_flipped@2x.png in Resources */,
 				D73CEC902278ECA500D549F7 /* checkbox_flipped_white@2x.png in Resources */,
+				D780165B29E19F3F00660689 /* dylanseegerDark@2x.png in Resources */,
 				D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D73CEC802278ECA500D549F7 /* checkbox_flipped_white.png in Resources */,
 				D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */,
@@ -2935,10 +3029,9 @@
 				D7D79AFF24DE727F003C61AF /* settings-icons-rate.png in Resources */,
 				D7F2F1A821C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D78115612153AE89004FA1CA /* preview.png in Resources */,
-				D77EB9C12C675BFC00AFA634 /* app-icon-dylanseeger.png in Resources */,
-				D77EB9C22C675BFC00AFA634 /* app-icon-dylanseegerDarkFull.png in Resources */,
 				D7D79B0424DE72BB003C61AF /* settings-icons-projects.png in Resources */,
 				D73CEC872278ECA500D549F7 /* checkbox_empty_white@2x.png in Resources */,
+				D755E27A2A1427F700CF9ECB /* mars@3x~ipad.png in Resources */,
 				42E001CC2ADAC2930099E7AD /* InfoPlist.xcstrings in Resources */,
 				D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */,
 				D71354022042AECD00E3776F /* settings@3x.png in Resources */,
@@ -2946,11 +3039,14 @@
 				D7735B12213D06C500FACB12 /* underline.png in Resources */,
 				D76F0B422152C73A008E5F2F /* more_white.png in Resources */,
 				D7735B15213D06C500FACB12 /* strike@3x.png in Resources */,
+				D7CF7EB629E2CFD400FEC0C5 /* dylanseegerDark@3x~ipad.png in Resources */,
 				D7735B14213D06C500FACB12 /* strike@2x.png in Resources */,
 				D7271FAD2052803500033D0C /* unindent@2x.png in Resources */,
 				D7EA59F0213EAD8800582BD9 /* image@2x.png in Resources */,
 				D73CEC892278ECA500D549F7 /* checkbox_white.png in Resources */,
+				D780165C29E19F3F00660689 /* dylanseegerDark@3x.png in Resources */,
 				D76025C1204F078A000B9F59 /* bold.png in Resources */,
+				D7C33F7B29E0C1CA0006C473 /* kmstrr@2x.png in Resources */,
 				D7F2F1A221C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
 				D76F0B402152C6CB008E5F2F /* more.png in Resources */,
 			);
@@ -3719,6 +3815,7 @@
 				D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */,
 				D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */,
+				D7CCEDB92C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AA29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
 				D73BCCFB28EB5EC4008B3BBC /* Repository.swift in Sources */,
 				D73BCCC528EB5EC4008B3BBC /* Diff.swift in Sources */,
@@ -3898,6 +3995,7 @@
 				D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */,
 				D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7470D082170E890006B2A92 /* NSTextStorage++.swift in Sources */,
+				D7CCEDBA2C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AB29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
 				D73BCCFC28EB5EC4008B3BBC /* Repository.swift in Sources */,
 				D73BCCC628EB5EC4008B3BBC /* Diff.swift in Sources */,
@@ -4155,7 +4253,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 291;
+				CURRENT_PROJECT_VERSION = 296;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -4164,7 +4262,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.6.1;
+				MARKETING_VERSION = 6.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4185,7 +4283,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 291;
+				CURRENT_PROJECT_VERSION = 296;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -4195,7 +4293,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.6.1;
+				MARKETING_VERSION = 6.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4215,12 +4313,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS/FSNotes iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 291;
+				CURRENT_PROJECT_VERSION = 296;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -4229,7 +4327,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.6.1;
+				MARKETING_VERSION = 6.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4250,13 +4348,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CFNETWORK_DIAGNOSTICS = 1;
 				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS/FSNotes iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 291;
+				CURRENT_PROJECT_VERSION = 296;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -4266,7 +4364,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.6.1;
+				MARKETING_VERSION = 6.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4490,7 +4588,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 636;
+				CURRENT_PROJECT_VERSION = 638;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4507,7 +4605,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.9.1;
+				MARKETING_VERSION = 6.9.2;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4530,7 +4628,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 636;
+				CURRENT_PROJECT_VERSION = 638;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4548,7 +4646,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.9.1;
+				MARKETING_VERSION = 6.9.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;

@@ -263,13 +263,16 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             return String()
         }
 
-        let inline = "['$', '$'], ['\\\\(', '\\\\)'], ['$$', '$$'], ['\\\\((', '\\\\))']"
-
         return """
             <script>
             MathJax = {
               tex: {
-                inlineMath: [\(inline)]
+                inlineMath: [
+                    ['$', '$'],
+                    ['\\\\(', '\\\\)'],
+                    ['$$', '$$'],
+                    ['\\\\((', '\\\\))']
+                ]
               }
             };
             </script>
@@ -698,6 +701,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         // Line height compute
         let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
 
+        let codeBackground = NotesTextProcessor.codeBackground.hexString
+
     #if os(iOS)
         let fontSize = UserDefaultsManagement.noteFont.pointSize
         let codeFontSize = fontSize
@@ -729,6 +734,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }
             p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; -webkit-text-size-adjust: none; } \(codeStyle) \(css)
         
+            code, .hljs { background: \(codeBackground); }
+
             #MathJax_Message+* {
                 margin-top: 0 !important;
             }

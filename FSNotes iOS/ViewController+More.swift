@@ -926,10 +926,11 @@ extension ViewController: UIDocumentPickerDelegate {
         guard let selectedProject = selectedProject else { return }
 
         getMasterPassword() { password in
+            let notes = selectedProject.storage.getNotesBy(project: selectedProject)
             let decrypted = selectedProject.decrypt(password: password)
 
             DispatchQueue.main.async {
-                guard decrypted.count > 0 else {
+                guard decrypted.count > 0 || notes.count == 0 else {
                     self.wrongPassAlert()
                     return
                 }

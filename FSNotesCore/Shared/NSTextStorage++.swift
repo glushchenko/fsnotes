@@ -175,4 +175,24 @@ extension NSTextStorage {
 
         return nil
     }
+
+    public func updateCheckboxList() {
+        let fullRange = NSRange(location: 0, length: self.length)
+
+        enumerateAttribute(.todo, in: fullRange, options: []) { value, range, stop in
+            if let value = value as? Int {
+                let attribute = self.attribute(.attachment, at: range.location, longestEffectiveRange: nil, in: fullRange)
+
+                if let attachment = attribute as? NSTextAttachment {
+                    let checkboxName = value == 0 ? "checkbox_empty" : "checkbox"
+
+                    attachment.image = AttributedBox.getImage(name: checkboxName)
+
+                    for layoutManager in layoutManagers {
+                        layoutManager.invalidateDisplay(forCharacterRange: range)
+                    }
+                }
+            }
+        }
+    }
 }

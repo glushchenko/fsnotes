@@ -25,10 +25,6 @@ class ProjectSettingsViewController: SettingsViewController {
         guard let project = project else { return }
         
         let sortBy = SortBy(rawValue: sender.identifier!.rawValue)!
-        if sortBy != .none {
-            project.settings.sortBy = sortBy
-        }
-        
         project.settings.sortBy = sortBy
         project.saveSettings()
         
@@ -86,6 +82,8 @@ class ProjectSettingsViewController: SettingsViewController {
     }
 
     public func load(project: Project) {
+        self.project = project
+        
         if project.isVirtual {
             showInAll.isEnabled = false
             nestedFoldersContent.isEnabled = false

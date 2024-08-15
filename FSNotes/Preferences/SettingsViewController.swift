@@ -10,6 +10,7 @@ import AppKit
 
 class SettingsViewController: NSViewController, NSTextFieldDelegate {
 
+    public var gitProject: Project?
     public var project: Project?
     public var progress: GitProgress?
 
@@ -27,25 +28,25 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
 
     @IBAction func removeRepository(_ sender: Any) {
-        project?.removeRepository(progress: progress)
+        gitProject?.removeRepository(progress: progress)
 
         updateButtons()
     }
 
     @IBAction func origin(_ sender: Any) {
-        project?.settings.setOrigin(origin.stringValue)
-        project?.saveSettings()
+        gitProject?.settings.setOrigin(origin.stringValue)
+        gitProject?.saveSettings()
 
         updateButtons()
     }
 
     @IBAction func passphrase(_ sender: Any) {
-        project?.settings.gitPrivateKeyPassphrase = passphrase.stringValue
-        project?.saveSettings()
+        gitProject?.settings.gitPrivateKeyPassphrase = passphrase.stringValue
+        gitProject?.saveSettings()
     }
 
     @IBAction func clonePull(_ sender: Any) {
-        guard let project = self.project else { return }
+        guard let project = self.gitProject else { return }
 
         if let origin = project.settings.gitOrigin, origin.startsWith(string: "https://") {
             let alert = NSAlert()
@@ -98,8 +99,8 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
                     return
                 }
 
-                self.project?.settings.gitPrivateKey = try? Data(contentsOf: openPanel.urls[0])
-                self.project?.saveSettings()
+                self.gitProject?.settings.gitPrivateKey = try? Data(contentsOf: openPanel.urls[0])
+                self.gitProject?.saveSettings()
 
                 self.keyStatus.stringValue = "✅"
             }
@@ -107,9 +108,9 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     }
 
     @IBAction func resetKey(_ sender: Any) {
-        project?.removeSSHKey()
-        project?.settings.gitPrivateKey = nil
-        project?.saveSettings()
+        gitProject?.removeSSHKey()
+        gitProject?.settings.gitPrivateKey = nil
+        gitProject?.saveSettings()
 
         keyStatus.stringValue = ""
     }
@@ -118,21 +119,21 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
         guard let textField = notification.object as? NSTextField else { return }
 
         if textField.identifier?.rawValue == "gitOrigin" {
-            project?.settings.setOrigin(textField.stringValue)
+            gitProject?.settings.setOrigin(textField.stringValue)
             updateButtons()
         }
 
         if textField.identifier?.rawValue == "gitPassphrase" {
-            project?.settings.gitPrivateKeyPassphrase = textField.stringValue
+            gitProject?.settings.gitPrivateKeyPassphrase = textField.stringValue
         }
 
         DispatchQueue.global(qos: .background).async {
-            self.project?.saveSettings()
+            self.gitProject?.saveSettings()
         }
     }
 
     public func updateButtons(isActive: Bool? = nil) {
-        guard let project = project else { return }
+        guard let project = gitProject else { return }
 
         progressIndicator.isHidden = !project.isActiveGit
         cloneButton.title = project.getRepositoryState().title
@@ -152,14 +153,14 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     public func loadGit(project: Project) {
         var project = project
 
-        if project.isVirtual {
+        if project.isVirtual  {
             if let defaultProject = Storage.shared().getDefault() {
                 project = defaultProject
             }
         }
 
-        self.project = project
-        
+        self.gitProject = project
+
         origin.stringValue = project.settings.gitOrigin ?? ""
         passphrase.stringValue = project.settings.gitPrivateKeyPassphrase ?? ""
         keyStatus.stringValue = project.settings.gitPrivateKey != nil ? "✅" : ""

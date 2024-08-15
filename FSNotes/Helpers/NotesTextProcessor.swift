@@ -105,6 +105,10 @@ public class NotesTextProcessor {
 
     public static var codeBackground: UIColor {
         get {
+            if let theme = HighlighterTheme(rawValue: UserDefaultsManagement.codeTheme) {
+                return UIColor.getBy(hex: theme.backgroundHex)
+            }
+
             return UIColor.codeBackground
         }
     }
@@ -702,29 +706,6 @@ public class NotesTextProcessor {
             }
         }
 
-        // We detect and process anchors (links)
-        NotesTextProcessor.anchorRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: codeFont, range: range)
-            attributedString.fixAttributes(in: range)
-            NotesTextProcessor.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-            NotesTextProcessor.closingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-            NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                let initialSyntaxRange = NSMakeRange(innerRange.location, 1)
-                let finalSyntaxRange = NSMakeRange(innerRange.location + innerRange.length - 1, 1)
-                hideSyntaxIfNecessary(range: initialSyntaxRange)
-                hideSyntaxIfNecessary(range: finalSyntaxRange)
-            }
-        }
-
         #if IOS_APP || os(OSX)
         // We detect and process inline anchors (links)
         NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
@@ -875,7 +856,7 @@ public class NotesTextProcessor {
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
         }
-        
+
         // We detect and process bolds
         NotesTextProcessor.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range(at: 3) else { return }
@@ -909,6 +890,28 @@ public class NotesTextProcessor {
             let postRange = NSMakeRange(range.location + range.length, 2)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
+        }
+
+        NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            attributedString.addAttribute(.font, value: italicFont, range: range)
+
+            let preRange = NSMakeRange(range.location, 1)
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
+
+            let postRange = NSMakeRange(range.location + range.length - 1, 1)
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
+        }
+
+        NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            attributedString.addAttribute(.font, value: boldFont, range: range)
+
+            let preRange = NSMakeRange(range.location, 2)
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
+
+            let postRange = NSMakeRange(range.location + range.length - 2, 2)
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
         }
 
         // We detect and process bolds
@@ -1404,7 +1407,7 @@ public class NotesTextProcessor {
 
     public static let strictBoldRegex = MarklightRegex(pattern: strictBoldPattern, options: [.anchorsMatchLines])
 
-    fileprivate static let boldPattern = "(\\*\\*|__) (?=\\S) (.+?[*_]*) (?<=\\S) \\1"
+    fileprivate static let boldPattern = "(\\*\\*) (?=\\S) (.+?[*_]*) (?<=\\S) \\1"
 
     public static let boldRegex = MarklightRegex(pattern: boldPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
@@ -1423,16 +1426,16 @@ public class NotesTextProcessor {
 
     public static let strictItalicRegex = MarklightRegex(pattern: strictItalicPattern, options: [.anchorsMatchLines])
     
-    fileprivate static let italicPattern = "(\\_){1} (?=\\S) (.+?) (?<=\\S) \\1"
+    fileprivate static let italicPattern = "(\\*) (?=\\S) (.+?) (?<=\\S) \\1"
 
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    fileprivate static let autolinkPattern = "([\\(]*(https?|ftp):[^`\'\">\\s\\*]+)"
+    fileprivate static let autolinkPattern = "([\\(]*(https?|sftp|ftp):[^`\'\">\\s\\*]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
-    fileprivate static let autolinkPrefixPattern = "((https?|ftp)://)"
-    
+    fileprivate static let autolinkPrefixPattern = "((https?|sftp|ftp)://)"
+
     public static let autolinkPrefixRegex = MarklightRegex(pattern: autolinkPrefixPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
     fileprivate static let autolinkEmailPattern = [

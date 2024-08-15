@@ -37,8 +37,16 @@ class TitleBarView: NSView {
     }
 
     override func mouseDown(with event: NSEvent) {
-        if event.clickCount == 2 {
-            self.window?.windowController?.maximizeWindow()
+        if event.clickCount == 2, let actionOnDoubleClick = UserDefaults.standard.object(forKey: "AppleActionOnDoubleClick") as? String {
+
+            switch actionOnDoubleClick {
+            case "Maximize":
+                self.window?.windowController?.maximizeWindow()
+            case "Minimize":
+                self.window?.performMiniaturize(nil)
+            default:
+                break
+            }
         }
     }
     

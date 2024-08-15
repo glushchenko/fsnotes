@@ -29,7 +29,6 @@ public class Note: NSObject  {
     public var originalExtension: String?
     
     public var isBlocked: Bool = false
-    public var unBlockTimer: Timer?
 
     /*
      Filename with extension ie "example.textbundle"
@@ -287,14 +286,28 @@ public class Note: NSObject  {
     }
 
     public func getFileModifiedDate() -> Date? {
-        let url = getContentFileURL() ?? url
+        let url = getURL()
 
-        do {
-            let attr = try FileManager.default.attributesOfItem(atPath: url.path)
-            
-            return attr[FileAttributeKey.modificationDate] as? Date
-        } catch {
-            NSLog("Note modification date load error: \(error.localizedDescription)")
+        if UserDefaultsManagement.useTextBundleMetaToStoreDates && isTextBundle() {
+            let textBundleURL = url
+            let json = textBundleURL.appendingPathComponent("info.json")
+
+            if let jsonData = try? Data(contentsOf: json),
+               let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData),
+               let modified = info.modified {
+
+                return Date(timeIntervalSince1970: TimeInterval(modified))
+            }
+        }
+
+        if let contentUrl = getContentFileURL() {
+            do {
+                let attr = try FileManager.default.attributesOfItem(atPath: contentUrl.path)
+
+                return attr[FileAttributeKey.modificationDate] as? Date
+            } catch {
+                NSLog("Note modification date load error: \(error.localizedDescription)")
+            }
         }
 
         return
@@ -304,8 +317,8 @@ public class Note: NSObject  {
 
     public func getFileCreationDate() -> Date? {
         let url = getURL()
-        
-        if isTextBundle() {
+
+        if UserDefaultsManagement.useTextBundleMetaToStoreDates && isTextBundle() {
             let textBundleURL = url
             let json = textBundleURL.appendingPathComponent("info.json")
 
@@ -314,6 +327,16 @@ public class Note: NSObject  {
                let created = info.created {
                 
                 return Date(timeIntervalSince1970: TimeInterval(created))
+            }
+        }
+
+        if let contentUrl = getContentFileURL() {
+            do {
+                let attr = try FileManager.default.attributesOfItem(atPath: contentUrl.path)
+
+                return attr[FileAttributeKey.creationDate] as? Date
+            } catch {
+                NSLog("Note creation date load error: \(error.localizedDescription)")
             }
         }
 
@@ -839,8 +862,14 @@ public class Note: NSObject  {
                             container = .textBundleV2
                             originalExtension = info.flatExtension
 
-                            if let created = info.created {
-                                creationDate = Date(timeIntervalSince1970: TimeInterval(created))
+                            if UserDefaultsManagement.useTextBundleMetaToStoreDates {
+                                if let created = info.created {
+                                    creationDate = Date(timeIntervalSince1970: TimeInterval(created))
+                                }
+
+                                if let modified = info.modified {
+                                    modifiedLocalAt = Date(timeIntervalSince1970: TimeInterval(modified))
+                                }
                             }
                         }
                     } catch {
@@ -883,28 +912,25 @@ public class Note: NSObject  {
         return fileName
     }
 
-    public func scheduleUnBlock() {
-        unBlockTimer?.invalidate()
-        unBlockTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(unBlock), userInfo: nil, repeats: true)
-    }
-
-    @objc public func unBlock() {
-        isBlocked = false
-        unBlockTimer = nil
-    }
-
     public func save(attributed: NSAttributedString) {
         modifiedLocalAt = Date()
 
-        Storage.shared().plainWriter.cancelAllOperations()
-        Storage.shared().plainWriter.addOperation {
+        let operation = BlockOperation()
+        operation.addExecutionBlock({
             if let copy = attributed.copy() as? NSAttributedString {
                 let mutable = NSMutableAttributedString(attributedString: copy)
                 self.save(content: mutable)
-                usleep(100000)
-                self.isBlocked = false
+
+                usleep(1000000)
+
+                if !operation.isCancelled {
+                    self.isBlocked = false
+                }
             }
-        }
+        })
+
+        Storage.shared().plainWriter.cancelAllOperations()
+        Storage.shared().plainWriter.addOperation(operation)
     }
 
     public func saveSync(copy: NSAttributedString) {
@@ -969,10 +995,13 @@ public class Note: NSObject  {
 
             if isTextBundle() {
                 let jsonUrl = url.appendingPathComponent("info.json")
-                
-                if !FileManager.default.fileExists(atPath: jsonUrl.path) {
-                    try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: false, attributes: nil)
+                let fileExist = FileManager.default.fileExists(atPath: jsonUrl.path)
 
+                if !fileExist {
+                    try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: false, attributes: nil)
+                }
+
+                if UserDefaultsManagement.useTextBundleMetaToStoreDates || !fileExist {
                     self.writeTextBundleInfo(url: url)
                 }
             }
@@ -1046,57 +1075,44 @@ public class Note: NSObject  {
 
         return nil
     }
-
-    public func getFileWrapper(with imagesWrapper: FileWrapper? = nil) -> FileWrapper {
-        let fileWrapper = getFileWrapper(attributedString: content)
-
-        if isTextBundle() {
-            let fileWrapper = getFileWrapper(attributedString: content)
-            let info = getTextBundleJsonInfo()
-            let infoWrapper = self.getFileWrapper(attributedString: NSAttributedString(string: info), forcePlain: true)
-
-            let ext = getExtensionForContainer()
-            let textBundle = FileWrapper.init(directoryWithFileWrappers: [
-                "text.\(ext)": fileWrapper,
-                "info.json": infoWrapper
-            ])
-
-            let assetsWrapper = imagesWrapper ?? getAssetsFileWrapper()
-            textBundle.addFileWrapper(assetsWrapper)
-
-            return textBundle
-        }
-
-        fileWrapper.filename = name
-
-        return fileWrapper
-    }
     
     private func getTextBundleJsonInfo() -> String {
-        let creationDate = self.creationDate ?? Date()
-        
+        var data = [
+            "transient": "true",
+            "type": "\"\(type.uti)\"",
+            "creatorIdentifier": "\"co.fluder.fsnotes\"",
+            "version": "2"
+        ]
+
         if let originalExtension = originalExtension {
-            return """
-            {
-                "transient" : true,
-                "type" : "\(type.uti)",
-                "creatorIdentifier" : "co.fluder.fsnotes",
-                "version" : 2,
-                "flatExtension" : "\(originalExtension)",
-                "created" : \(Int(creationDate.timeIntervalSince1970))
-            }
-            """
+            data["flatExtension"] = "\"\(originalExtension)\""
         }
 
-        return """
-        {
-            "transient" : true,
-            "type" : "\(type.uti)",
-            "creatorIdentifier" : "co.fluder.fsnotes",
-            "version" : 2,
-            "created" : \(Int(creationDate.timeIntervalSince1970))
+        if UserDefaultsManagement.useTextBundleMetaToStoreDates {
+            let creationDate = self.creationDate ?? Date()
+            let modificationDate = self.modifiedLocalAt
+
+            data["created"] = "\(Int(creationDate.timeIntervalSince1970))"
+            data["modified"] = "\(Int(modificationDate.timeIntervalSince1970))"
         }
-        """
+
+        var result = [String]()
+
+        for key in [
+            "transient",
+            "type",
+            "creatorIdentifier",
+            "version",
+            "flatExtension",
+            "created",
+            "modified"
+        ] {
+            if let value = data[key] {
+                result.append("    \"\(key)\" : \(value)")
+            }
+        }
+
+        return "{\n" + result.joined(separator: ",\n") + "\n}"
     }
 
     private func getAssetsFileWrapper() -> FileWrapper {
@@ -1862,6 +1878,7 @@ public class Note: NSObject  {
             try FileManager.default.removeItem(at: originalSrc)
 
             self.decryptedTemporarySrc = nil
+            self.password = nil
 
             invalidateCache()
             load()
@@ -2000,6 +2017,7 @@ public class Note: NSObject  {
 
                 try? FileManager.default.removeItem(at: temporaryURL)
                 self.decryptedTemporarySrc = nil
+                self.password = nil
 
                 return true
             }

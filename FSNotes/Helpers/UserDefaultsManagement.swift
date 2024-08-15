@@ -77,6 +77,7 @@ public class UserDefaultsManagement {
         static let FontColorKey = "fontColorKeyed"
         static let FullScreen = "fullScreen"
         static let FirstLineAsTitle = "firstLineAsTitle"
+        static let MaxChildDirs = "maxChildDirs"
         static let NoteType = "noteType"
         static let NoteExtension = "noteExtension"
         static let GrammarChecking = "grammarChecking"
@@ -151,6 +152,7 @@ public class UserDefaultsManagement {
         static let TextMatchAutoSelection = "textMatchAutoSelection"
         static let TrashKey = "trashKey"
         static let UploadKey = "uploadKey"
+        static let UseTextBundleToStoreDates = "useTextBundleToStoreDates"
         static let AutocloseBrackets = "autocloseBrackets"
         static let Welcome = "welcome"
     }
@@ -852,7 +854,20 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.AutomaticConflictsResolution)
         }
     }
-    
+
+    static var useTextBundleMetaToStoreDates: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.UseTextBundleToStoreDates) as? Bool {
+                return result
+            }
+            
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.UseTextBundleToStoreDates)
+        }
+    }
+
     static var showInMenuBar: Bool {
         get {
             if let result = shared?.object(forKey: Constants.ShowInMenuBar) as? Bool {
@@ -1729,6 +1744,25 @@ public class UserDefaultsManagement {
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
                 defaults.set(data, forKey: Constants.ProjectsKeyNew)
             }
+        }
+    }
+
+    static var maxChildDirs: Int {
+        get {
+            if let returnFontSize = shared?.object(forKey: Constants.MaxChildDirs), 
+                let value = returnFontSize as? Int {
+
+                if value < 200 {
+                    return 200
+                }
+
+                return value
+            }
+
+            return 200
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.CodeFontSizeKey)
         }
     }
 }

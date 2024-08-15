@@ -1069,7 +1069,17 @@ class ViewController: EditorViewController,
         }
 
         if let md = AppDelegate.mainWindowController {
-            md.maximizeWindow()
+            if let actionOnDoubleClick = UserDefaults.standard.object(forKey: "AppleActionOnDoubleClick") as? String {
+
+                switch actionOnDoubleClick {
+                case "Maximize":
+                    md.maximizeWindow()
+                case "Minimize":
+                    md.window?.performMiniaturize(nil)
+                default:
+                    break
+                }
+            }
         }
     }
 
@@ -1113,6 +1123,8 @@ class ViewController: EditorViewController,
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
         } else {
             vc.sidebarSplitView.setPosition(CGFloat(UserDefaultsManagement.realSidebarSize), ofDividerAt: 0)
+
+            vc.reloadSideBar()
         }
 
         vc.editor.updateTextContainerInset()

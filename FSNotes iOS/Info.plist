@@ -106,10 +106,15 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>marsIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>mars</string>
+				</array>
+			</dict>
 			<key>dylanseegerDarkFullIcon</key>
 			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>dylanseegerDarkFull</string>
@@ -117,8 +122,6 @@
 			</dict>
 			<key>dylanseegerDarkIcon</key>
 			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>dylanseegerDark</string>
@@ -126,11 +129,16 @@
 			</dict>
 			<key>dylanseegerIcon</key>
 			<dict>
-				<key>UIPrerenderedIcon</key>
-				<false/>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>dylanseeger</string>
+				</array>
+			</dict>
+			<key>kmstrrIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>kmstrr</string>
 				</array>
 			</dict>
 		</dict>

@@ -86,7 +86,7 @@ class CloudDriveManager {
             }
         }
 
-        print("N. iCloud Drive resources: \"\(results.count)\", caching finished in \(point.timeIntervalSinceNow * -1) seconds.")
+        // print("N. iCloud Drive resources: \"\(results.count)\", caching finished in \(point.timeIntervalSinceNow * -1) seconds.")
     }
 
     private func startInitialLoading(results: [NSMetadataItem]) {
@@ -148,6 +148,12 @@ class CloudDriveManager {
                 continue
             }
 
+
+            if url.lastPathComponent == ".encrypt" {
+                self.loadEncryptionStatus(url: url)
+                continue
+            }
+
             // Is file
             guard storage.isValidNote(url: url) else { continue }
 
@@ -183,7 +189,7 @@ class CloudDriveManager {
                     delegate.refreshTextStorage(note: note)
                 }
 
-                print("File changed: \(url)")
+                // print("File changed: \(url)")
 
                 // Not updates in FS attributes, must be loaded from Cloud Drive Meta
                 if note.isTextBundle() {
@@ -314,6 +320,11 @@ class CloudDriveManager {
             guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.standardized
             else { continue }
 
+            if url.lastPathComponent == ".encrypt" {
+                self.loadEncryptionStatus(url: url)
+                continue
+            }
+
             if let note = storage.getBy(url: url) {
                 storage.removeNotes(notes: [note], fsRemove: false) {_ in
                     self.notesDeletionQueue.append(note)
@@ -327,6 +338,29 @@ class CloudDriveManager {
         }
 
         return removedMetadataItems.count
+    }
+
+    private func loadEncryptionStatus(url: URL) {
+        if let project = self.storage.getProjectBy(url: url.deletingLastPathComponent()) {
+            project.isEncrypted = FileManager.default.fileExists(atPath: url.path)
+
+            DispatchQueue.main.async {
+                if let indexPath = self.delegate.sidebarTableView.getIndexPathBy(project: project) {
+
+                    if let sidebarItem = self.delegate.sidebarTableView.getSidebarItem(project: project) {
+
+                        let type: SidebarItemType = project.isEncrypted ? .ProjectEncryptedLocked : .Project
+                        sidebarItem.setType(type: type)
+
+                        let cell = self.delegate.sidebarTableView.cellForRow(at: indexPath) as? SidebarTableCellView
+
+                        cell?.configure(sidebarItem: sidebarItem)
+                    }
+
+                    self.delegate.sidebarTableView.reloadRows(at: [indexPath], with: .none)
+                }
+            }
+        }
     }
 
     public func resolveConflict(url: URL) {

@@ -790,7 +790,7 @@ public class Project: Equatable {
         FileManager.default.createFile(atPath: encFolder.path, contents: nil)
         
         isEncrypted = true
-        
+
         let notes = storage.getNotesBy(project: self)
         var encrypted = [Note]()
         
@@ -799,7 +799,9 @@ public class Project: Equatable {
                 encrypted.append(note)
             }
         }
-        
+
+        self.password = nil
+
         return encrypted
     }
     
@@ -819,7 +821,7 @@ public class Project: Equatable {
             }
         }
         
-        guard qty > 0 else { return [Note]() }
+        guard qty > 0 || notes.count == 0 else { return [Note]() }
         
         let encFolder = getEncryptionStatusFilePath()
         try? FileManager.default.removeItem(at: encFolder)
@@ -934,6 +936,8 @@ public class Project: Equatable {
     }
     
     private func fetchAllDirectories() -> [URL]? {
+        let maxDirs = UserDefaultsManagement.maxChildDirs
+
         guard let fileEnumerator =
             FileManager.default.enumerator(
                 at: url, includingPropertiesForKeys: nil,
@@ -981,7 +985,7 @@ public class Project: Equatable {
                 print("Error: ", error.localizedDescription)
             }
 
-            if i > 200 {
+            if i > maxDirs {
                 break
             }
         }

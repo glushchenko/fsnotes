@@ -24,14 +24,20 @@ class MainNavigationController: UINavigationController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let evc = UIApplication.getEVC()
+            
             evc.topBorder.backgroundColor = UIColor.toolbarBorder.cgColor
+            evc.editArea.textStorage.updateCheckboxList()
 
-            MPreviewView.template = nil
-            NotesTextProcessor.hl = nil
+            if let previewView = evc.getPreviewView() {
+                let funcName = self.traitCollection.userInterfaceStyle == .dark ?  "switchToDarkMode" : "switchToLightMode"
+                let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"
 
-            evc.refill()
+                previewView.evaluateJavaScript(switchScript)
+            }
         }
     }
 }

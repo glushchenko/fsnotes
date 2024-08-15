@@ -29,7 +29,8 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet weak var fileContainer: NSPopUpButton!
     @IBOutlet weak var filesNaming: NSPopUpButton!
     @IBOutlet weak var automaticConflictsResolution: NSButton!
-    
+    @IBOutlet weak var saveTextBundleMetaData: NSButton!
+
     //MARK: global variables
 
     let storage = Storage.shared()
@@ -62,7 +63,9 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         defaultExtension.selectItem(withTitle: "." + ext)
 
         automaticConflictsResolution.state = UserDefaultsManagement.automaticConflictsResolution ? .on : .off
-        
+
+        saveTextBundleMetaData.state = UserDefaultsManagement.useTextBundleMetaToStoreDates ? .on : .off
+
         externalEditorApp.delegate = self
     }
 
@@ -156,7 +159,11 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     @IBAction func automaticConflictsResolution(_ sender: NSButton) {
         UserDefaultsManagement.automaticConflictsResolution = sender.state == .on
     }
-    
+
+    @IBAction func saveTextBundleMetaData(_ sender: NSButton) {
+        UserDefaultsManagement.useTextBundleMetaToStoreDates = sender.state == .on
+    }
+
     func restart() {
         let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
         let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString

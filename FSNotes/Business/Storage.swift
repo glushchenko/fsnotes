@@ -750,6 +750,8 @@ class Storage {
     }
 
     private func fetchAllDirectories(url: URL) -> [URL]? {
+        let maxDirs = UserDefaultsManagement.maxChildDirs
+
         guard let fileEnumerator =
             FileManager.default.enumerator(
                 at: url, includingPropertiesForKeys: nil,
@@ -799,7 +801,7 @@ class Storage {
                 print("Error: ", error.localizedDescription)
             }
 
-            if i > 200 {
+            if i > maxDirs {
                 break
             }
         }

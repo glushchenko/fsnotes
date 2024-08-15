@@ -47,7 +47,7 @@
         function switchToDarkMode(background) {
             var darkModeStyleElement = document.getElementById(darkModeStylesNodeID);
             if (darkModeStyleElement == null) {
-                var darkModeStyles = "* { color: white; } body { background: " + background + "; } code { background: #454545; } .hljs { background: #454545 } a { color: #98e7a7 } table { border-color: red } table td, table th { background: #908D8D; border-color: black; } table td, table th, table td *, table th * { color: black }";
+                var darkModeStyles = "* { color: white; } body { background: " + background + "; } a { color: #98e7a7 } table { border-color: red } table td, table th { background: #908D8D; border-color: black; } table td, table th, table td *, table th * { color: black }; input[type='checkbox] { accent-color: white }";
                 addStyleString(darkModeStyles, darkModeStylesNodeID);
             }
         }

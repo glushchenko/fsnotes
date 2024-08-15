@@ -259,6 +259,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                                 return
                             }
 
+                            self.savePasteboard(value: searchQuery)
+
                             let search = searchQuery.lowercased()
                             if note.title.lowercased() == search || UserDefaultsManagement.textMatchAutoSelection {
                                 self.vcDelegate.notesTableView.setSelected(note: note)
@@ -282,6 +284,14 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 }
             }
         }
+    }
+
+    // Used in NSTextFinder cmd-f | cmd-g
+
+    private func savePasteboard(value: String) {
+        let pb = NSPasteboard(name: NSPasteboard.Name.find)
+        pb.declareTypes([.textFinderOptions, .string], owner: nil)
+        pb.setString(value, forType: NSPasteboard.PasteboardType.string)
     }
 
     private func getSearchTextExceptCompletion() -> String? {
