@@ -21,7 +21,8 @@ class ProViewController: UITableViewController {
     private var rows = [
         [
             NSLocalizedString("Default Keyboard", comment: ""),
-            NSLocalizedString("Use Inline Tags", comment: "")
+            NSLocalizedString("Use Inline Tags", comment: ""),
+            NSLocalizedString("Use TextBundle info.json to store c/mtime", comment: "")
         ], [
             NSLocalizedString("Sort By", comment: ""),
             NSLocalizedString("Library", comment: "")
@@ -65,6 +66,10 @@ class ProViewController: UITableViewController {
             case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.inlineTags
+                break
+            case 2:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.useTextBundleMetaToStoreDates
                 break
             default:
                 break
@@ -113,6 +118,9 @@ class ProViewController: UITableViewController {
             vc.resizeSidebar(withAnimation: true)
 
             UIApplication.getEVC().resetToolbar()
+        case 2:
+            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+            UserDefaultsManagement.useTextBundleMetaToStoreDates = uiSwitch.isOn
         default:
             return
         }

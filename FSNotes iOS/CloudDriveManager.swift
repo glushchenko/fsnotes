@@ -78,7 +78,7 @@ class CloudDriveManager {
     }
 
     private func saveCloudDriveResultsCache(results: [NSMetadataItem]) {
-        let point = Date()
+        // let point = Date()
 
         for result in results {
             if let url = result.value(forAttribute: NSMetadataItemURLKey) as? URL {
@@ -167,8 +167,8 @@ class CloudDriveManager {
                    let contentChangeDate = contentChangeDate,
                    let currentNote = delegate.editorViewController?.editArea.note,
                    currentNote.isEqualURL(url: url),
-                   modificationDate > note.modifiedLocalAt,
-                   contentChangeDate > note.modifiedLocalAt
+                   modificationDate.isGreaterThan(note.modifiedLocalAt),
+                   contentChangeDate.isGreaterThan(note.modifiedLocalAt)
                 {
                     let prepareDate =
                         modificationDate > contentChangeDate
