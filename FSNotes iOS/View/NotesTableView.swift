@@ -385,7 +385,7 @@ class NotesTableView: UITableView,
         let lockUnlockImage = UIImage(systemName: lockUnlockImageName)
         actions.append(UIAction(title: lockUnlockTitle, image: lockUnlockImage, identifier: UIAction.Identifier("lockUnlock"), handler: handler))
 
-        if note.isEncrypted() {
+        if note.isEncrypted() && !note.project.isEncrypted {
             let removeEncryptionTitle = NSLocalizedString("Remove Encryption", comment: "")
             let removeEncryptionImage = UIImage(systemName: "lock.slash")
             actions.append(UIAction(title: removeEncryptionTitle, image: removeEncryptionImage, identifier: UIAction.Identifier("removeEncryption"), handler: handler))

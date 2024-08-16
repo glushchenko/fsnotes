@@ -60,7 +60,7 @@ extension ViewController: UIDocumentPickerDelegate {
         case .Inbox:
             popoverActions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .All, .Todo:
-            popoverActions = [.settingsFolder, .multipleSelection]
+            popoverActions = [.settingsFolder, .createFolder, .multipleSelection]
         case .Trash:
             popoverActions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Project:
@@ -68,7 +68,7 @@ extension ViewController: UIDocumentPickerDelegate {
         case .Tag:
             popoverActions = [.removeTag, .renameTag, .multipleSelection]
         case .Untagged:
-            popoverActions = [.multipleSelection]
+            popoverActions = [.createFolder, .multipleSelection]
         case .ProjectEncryptedLocked:
             popoverActions = [.unLockFolder, .decryptFolder, .settingsFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles, .settingsRepository]
         case .ProjectEncryptedUnlocked:
@@ -589,7 +589,11 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func createFolder(selectedProject: Project?) {
-        guard let selectedProject = selectedProject else { return }
+        guard var selectedProject = selectedProject else { return }
+
+        if selectedProject.isVirtual {
+            selectedProject = self.storage.getDefault()!
+        }
 
         let mvc = UIApplication.getVC()
         let alertController = UIAlertController(title: NSLocalizedString("Create folder:", comment: ""), message: nil, preferredStyle: .alert)
@@ -804,8 +808,6 @@ extension ViewController: UIDocumentPickerDelegate {
     private func openInFiles(selectedProject: Project?) {
         guard let selectedProject = selectedProject else { return }
 
-        let mvc = UIApplication.getVC()
-
         guard let path = selectedProject.url.path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) else { return }
 
         if let projectUrl = URL(string: "shareddocuments://" + path) {
@@ -816,13 +818,11 @@ extension ViewController: UIDocumentPickerDelegate {
     private func openGitSettings(selectedProject: Project?) {
         guard let selectedProject = selectedProject else { return }
 
-        let vc = UIApplication.getVC()
-        let storage = Storage.shared()
         let projectController = AppDelegate.getGitVC(for: selectedProject)
         let controller = UINavigationController(rootViewController: projectController)
 
         self.dismiss(animated: true, completion: nil)
-        vc.present(controller, animated: true, completion: nil)
+        UIApplication.getVC().present(controller, animated: true, completion: nil)
     }
 
     private func emptyBin() {

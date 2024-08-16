@@ -872,8 +872,6 @@ class ViewController: EditorViewController,
         refillEditArea()
     }
 
-
-
     @IBAction func noteUp(_ sender: NSMenuItem) {
         NSApp.mainWindow?.makeFirstResponder(notesTableView)
 

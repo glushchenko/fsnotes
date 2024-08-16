@@ -38,7 +38,6 @@ class Storage {
     public var shouldMovePrompt = false
 
     private var trashURL = URL(string: String())
-    private var archiveURL = URL(string: String())
 
     private let lastNewsDate = "2023-05-25"
     public var isCrashedLastTime = false

@@ -913,11 +913,12 @@ public class Note: NSObject  {
     }
 
     public func save(attributed: NSAttributedString) {
+        let copy = attributed.copy() as? NSAttributedString
         modifiedLocalAt = Date()
 
         let operation = BlockOperation()
         operation.addExecutionBlock({
-            if let copy = attributed.copy() as? NSAttributedString {
+            if let copy = copy {
                 let mutable = NSMutableAttributedString(attributedString: copy)
                 self.save(content: mutable)
 

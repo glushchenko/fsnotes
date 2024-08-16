@@ -76,6 +76,7 @@ extension NSTextStorage {
                 value.count > 1,
 
                 value.starts(with: "    ")
+                || value.starts(with: "  ")
                 || value.starts(with: "\t")
                 || value.starts(with: "* ")
                 || value.starts(with: "- ")

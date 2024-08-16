@@ -246,19 +246,20 @@ class FileSystemEventManager {
             return
         }
 
-        guard var fsContent = note.getContent() else { return }
-
-        // Trying load content from encrypted note with current password
-        if note.url.pathExtension == "etp", let password = note.password, note.unLock(password: password) {
-            fsContent = note.content
-        }
-
         guard let modificationDate = note.getFileModifiedDate(),
               let creationDate = note.getFileCreationDate() else { return }
 
         if modificationDate.isGreaterThan(note.modifiedLocalAt) {
             note.modifiedLocalAt = modificationDate
             note.cacheHash = nil
+
+            guard var fsContent = note.getContent() else { return }
+
+            // Trying load content from encrypted note with current password
+            if note.url.pathExtension == "etp", let password = note.password, note.unLock(password: password) {
+                fsContent = note.content
+            }
+
             note.content = NSMutableAttributedString(attributedString: fsContent)
 
             // tags changes

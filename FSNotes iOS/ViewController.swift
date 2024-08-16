@@ -76,7 +76,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     // Project for import picker
     public var selectedProject: Project?
-    private var initialLoadingState = false
+    public var initialLoadingState = false
 
     override func viewWillAppear(_ animated: Bool) {
         configureSearchController()
@@ -1480,6 +1480,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         storage = Storage.shared()
         sidebarTableView.reloadSidebar()
+
+        initialLoadingState = false
         viewDidLoad()
     }
 

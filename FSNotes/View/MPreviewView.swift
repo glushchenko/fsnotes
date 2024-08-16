@@ -79,9 +79,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             if note.container == .encryptedTextPack && !note.isUnlocked() {
                 evc.unLock(notes: [note])
             } else if note.content.length == 0 {
-                evc.vcEditor?.disablePreviewEditorAndNote()
-                
-                evc.refillEditArea()
+                evc.disablePreview()
                 evc.focusEditArea()
             }
         }
@@ -93,9 +91,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         if event.keyCode == kVK_Return {
             DispatchQueue.main.async {
                 if let evc = self.editorVC {
-                    evc.vcEditor?.disablePreviewEditorAndNote()
-                    
-                    evc.refillEditArea()
+                    evc.disablePreview()
                     evc.focusEditArea()
                 }
             }
