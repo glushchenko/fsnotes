@@ -1232,6 +1232,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             + [settings, inbox, notes, todo, trash, untagged]
 
         for item in sidebarItems {
+            guard let font = font else { continue }
+
             let labelWidth = (item as NSString).size(withAttributes: [.font: font]).width + 60
 
             if labelWidth < (view.frame.size.width / 2) {

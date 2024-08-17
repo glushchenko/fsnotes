@@ -30,7 +30,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 self.touchCharIndex = characterIndex
 
                 if UIMenuController.shared.isMenuVisible {
-                    UIMenuController.shared.setMenuVisible(false, animated: false)
+                    UIMenuController.shared.hideMenu(from: view)
                 }
 
                 let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)

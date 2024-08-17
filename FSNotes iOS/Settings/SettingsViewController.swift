@@ -203,10 +203,15 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 lvc = ProjectsViewController()
                 break
             case 3:
-                let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
-                if #available(iOS 11.0, *) {
-                    picker.allowsMultipleSelection = true
+                var picker: UIDocumentPickerViewController
+
+                if #available(iOS 14.0, *) {
+                    picker = UIDocumentPickerViewController(forOpeningContentTypes: [.item])
+                } else {
+                    picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
                 }
+
+                picker.allowsMultipleSelection = true
                 picker.delegate = self
                 self.present(picker, animated: true, completion: nil)
                 break

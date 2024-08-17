@@ -68,7 +68,7 @@ class AppIconViewController: UITableViewController {
             cell.accessoryType = .checkmark
 
             if let icon = AppIconRows(rawValue: indexPath.row)?.description {
-                var name = icon == "system" ? nil : icon + "Icon"
+                let name = icon == "system" ? nil : icon + "Icon"
 
                 UIApplication.shared.setAlternateIconName(name) { error in
                     if let error = error {

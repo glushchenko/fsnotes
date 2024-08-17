@@ -307,9 +307,9 @@ extension Project {
     public func isUseWorkTree() -> Bool {
     #if os(iOS)
         return UserDefaultsManagement.iCloudDrive
-    #endif
-
+    #else
         return !UserDefaultsManagement.separateRepo || isCloudProject()
+    #endif
     }
 
     public func isGitOriginExist() -> Bool {

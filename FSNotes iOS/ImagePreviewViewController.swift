@@ -199,7 +199,13 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
         self.imageScrollView.display(image: image)
 
-        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
+        if let windowScene = UIApplication.shared.connectedScenes
+            .filter({ $0.activationState == .foregroundActive })
+            .compactMap({ $0 as? UIWindowScene })
+            .first,
+           let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+            rootViewController.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
