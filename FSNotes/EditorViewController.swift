@@ -591,7 +591,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
         vcEditor?.userActivity?.needsSave = true
         
-        vcEditor?.note?.project.saveSettings()
+        editor.note?.project.saveNotesPreview()
     }
     
     @IBAction func toggleMathJax(_ sender: NSMenuItem) {
