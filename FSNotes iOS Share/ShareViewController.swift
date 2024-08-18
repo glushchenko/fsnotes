@@ -107,10 +107,9 @@ class ShareViewController: SLComposeServiceViewController {
             if let a = item.attachments {
                 for provider in a {
                     if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
-                        started = started + 1
-
                         provider.loadItem(forTypeIdentifier: kUTTypeImage as String, options: [:], completionHandler: { (data, error) in
 
+                            started = started + 1
                             var imageData = data as? Data
 
                             if let image = data as? UIImage {

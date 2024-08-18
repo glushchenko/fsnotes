@@ -384,6 +384,19 @@ class GitViewController: UITableViewController {
 
         let state = project.getRepositoryState()
         leftButton?.setTitle(state.title, for: .normal)
+
+        if #available(iOS 15.0, *) {
+            leftButton?.configuration = .filled()
+            rightButton?.configuration = .gray()
+        } else {
+            leftButton?.backgroundColor = .systemBlue
+            leftButton?.setTitleColor(.white, for: .normal)
+            leftButton?.layer.cornerRadius = 8
+
+            rightButton?.backgroundColor = .systemRed
+            rightButton?.setTitleColor(.white, for: .normal)
+            rightButton?.layer.cornerRadius = 8
+        }
     }
 
     @objc public func autoPullDidChange(_ sender: UISwitch) {
