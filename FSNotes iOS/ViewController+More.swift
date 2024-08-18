@@ -449,7 +449,7 @@ extension ViewController: UIDocumentPickerDelegate {
     private func importNote(selectedProject: Project?) {
         self.selectedProject = selectedProject
 
-        let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.item], asCopy: true)
         picker.allowsMultipleSelection = true
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)

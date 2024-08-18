@@ -1097,7 +1097,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let iCloudDrive = UIAlertAction(title: NSLocalizedString("Documents", comment: ""), style: .default, handler: { _ in
 
-            let documentPickerController = UIDocumentPickerViewController(documentTypes: [String(kUTTypeImage)], in: .import)
+            let documentPickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.image], asCopy: true)
             documentPickerController.delegate = self
             documentPickerController.allowsMultipleSelection = true
             documentPickerController.modalPresentationStyle = .formSheet

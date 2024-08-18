@@ -194,7 +194,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 break
             case 1:
                 if #available(iOS 13.0, *) {
-                    let viewController = ExternalViewController(documentTypes: [kUTTypeFolder as String], in: .open)
+                    let viewController = ExternalViewController(forOpeningContentTypes: [.folder], asCopy: false)
                     viewController.delegate = viewController
                     present(viewController, animated: true, completion: nil)
                 }

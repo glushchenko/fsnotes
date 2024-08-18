@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreServices
+import UniformTypeIdentifiers
 
 class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     private var projects: [Project]
@@ -75,7 +76,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         return .none
     }
 
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let project = self.projects[indexPath.row]
 
         if project.isDefault {
@@ -86,13 +87,16 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             return nil
         }
 
-        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
+        let deleteAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete", comment: "")) { (action, view, completionHandler) in
             self.delete(project: project)
-        })
+            completionHandler(true)
+        }
 
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
 
-        return [deleteAction]
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true // This mimics the full swipe behavior if needed
+        return configuration
     }
 
     @objc func cancel() {
@@ -147,9 +151,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     @objc func attachExternal() {
-        let documentPicker =
-            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String], in: .open)
-
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.folder])
 
         documentPicker.delegate = self
         present(documentPicker, animated: true, completion: nil)

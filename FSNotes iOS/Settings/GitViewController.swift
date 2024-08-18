@@ -243,8 +243,7 @@ class GitViewController: UITableViewController {
     }
 
     private lazy var documentPickerPrivateKey: UIDocumentPickerViewController = {
-        let types: [String] = ["public.data"]
-        let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.data], asCopy: true)
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
         documentPicker.modalPresentationStyle = .formSheet
@@ -252,8 +251,7 @@ class GitViewController: UITableViewController {
     }()
 
     private lazy var documentPickerPublicKey: UIDocumentPickerViewController = {
-        let types: [String] = ["public.data"]
-        let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.data], asCopy: true)
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
         documentPicker.modalPresentationStyle = .formSheet
