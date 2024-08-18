@@ -36,7 +36,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)
 
                 if view.isTodo(at: characterIndex) {
-                    self.state = .possible
+                    self.state = .recognized
                     return
                 }
 
