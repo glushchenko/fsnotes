@@ -95,6 +95,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         super.viewWillAppear(animated)
 
+        UserDefaultsManagement.lastSelectedURL = nil
+        
         reloadNotesTable() { [weak self] in
             guard let self = self else { return }
             self.stopAnimation(indicator: self.indicator)

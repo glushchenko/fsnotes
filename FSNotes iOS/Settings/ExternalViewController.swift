@@ -26,7 +26,7 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
                 return
             }
             
-            if let projects = Storage.shared().insert(url: url) {
+            if let projects = Storage.shared().insert(url: url, bookmark: true) {
                 OperationQueue.main.addOperation {
                     UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
                     _ = UIApplication.getNC()?.popViewController(animated: true)

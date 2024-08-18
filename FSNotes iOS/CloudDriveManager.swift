@@ -349,7 +349,16 @@ class CloudDriveManager {
 
                     if let sidebarItem = self.delegate.sidebarTableView.getSidebarItem(project: project) {
 
-                        let type: SidebarItemType = project.isEncrypted ? .ProjectEncryptedLocked : .Project
+                        var type: SidebarItemType = .Project
+                        
+                        if project.isEncrypted {
+                            if project.isLocked() {
+                                type = .ProjectEncryptedLocked
+                            } else {
+                                type = .ProjectEncryptedUnlocked
+                            }
+                        }
+
                         sidebarItem.setType(type: type)
 
                         let cell = self.delegate.sidebarTableView.cellForRow(at: indexPath) as? SidebarTableCellView

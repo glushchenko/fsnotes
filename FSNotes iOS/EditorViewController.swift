@@ -202,6 +202,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     public func fill(note: Note, selectedRange: NSRange? = nil, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
 
+        UserDefaultsManagement.lastSelectedURL = note.url
+        
         if enableHandoff {
             registerHandoff(for: note)
         }

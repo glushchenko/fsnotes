@@ -147,6 +147,13 @@ class SidebarTableView: UITableView,
                     self.loadAllTags()
                     vc.resizeSidebar(withAnimation: true)
                 }
+
+                if let url = UserDefaultsManagement.lastSelectedURL,
+                   let note = Storage.shared().getBy(url: url) {
+                    UserDefaultsManagement.lastSelectedURL = nil
+                    
+                    UIApplication.getEVC().load(note: note)
+                }
             }
         }
     }
