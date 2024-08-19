@@ -631,11 +631,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         guard results.0.count > 0 || results.1.count > 0 || results.2.count > 0 else {
             return
         }
-        
+
         DispatchQueue.main.async {
-            self.removeRows(notes: results.0)
-            self.insertRows(notes: results.1)
-            self.reloadRows(notes: results.2)
+            if let vc = ViewController.shared(), vc.splitView.subviews[0].frame.width > 10 {
+                self.removeRows(notes: results.0)
+                self.insertRows(notes: results.1)
+                self.reloadRows(notes: results.2)
+            }
         }
     }
 }

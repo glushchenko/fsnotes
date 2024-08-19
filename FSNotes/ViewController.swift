@@ -294,6 +294,12 @@ class ViewController: EditorViewController,
         self.sidebarSplitView.autosaveName = "SidebarSplitView"
         self.splitView.autosaveName = "EditorSplitView"
 
+        // Always show notes list at launch
+        
+        if (self.splitView.subviews[0].frame.width < 10) {
+            self.splitView.setPosition(300, ofDividerAt: 0)
+        }
+
         notesScrollView.scrollerStyle = .overlay
         sidebarScrollView.scrollerStyle = .overlay
 
