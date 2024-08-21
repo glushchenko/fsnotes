@@ -288,6 +288,13 @@ public class Note: NSObject  {
     public func getFileModifiedDate() -> Date? {
         let url = getURL()
 
+        if isUnlocked() {
+            do {
+                let attr = try FileManager.default.attributesOfItem(atPath: self.url.path)
+                return attr[FileAttributeKey.modificationDate] as? Date
+            } catch {/*_*/}
+        }
+
         if UserDefaultsManagement.useTextBundleMetaToStoreDates && isTextBundle() {
             let textBundleURL = url
             let json = textBundleURL.appendingPathComponent("info.json")
@@ -317,6 +324,13 @@ public class Note: NSObject  {
 
     public func getFileCreationDate() -> Date? {
         let url = getURL()
+
+        if isUnlocked() {
+            do {
+                let attr = try FileManager.default.attributesOfItem(atPath: self.url.path)
+                return attr[FileAttributeKey.creationDate] as? Date
+            } catch {/*_*/}
+        }
 
         if UserDefaultsManagement.useTextBundleMetaToStoreDates && isTextBundle() {
             let textBundleURL = url
@@ -1860,7 +1874,7 @@ public class Note: NSObject  {
             let data = try Data(contentsOf: url)
 
             let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
-            let textPackURL = url.appendingPathExtension("textpack")
+            let textPackURL = getTempTextPackURL()
             try decryptedData.write(to: textPackURL)
 
             let newURL = project.url.appendingPathComponent(name + ".textbundle", isDirectory: false)
@@ -1939,7 +1953,7 @@ public class Note: NSObject  {
         let fileName = url.deletingPathExtension().lastPathComponent
 
         let baseTextPack = temporaryFlatSrc ?? url
-        let textPackURL = baseTextPack.appendingPathExtension("textpack")
+        let textPackURL = getTempTextPackURL()
 
         SSZipArchive.createZipFile(atPath: textPackURL.path, withContentsOfDirectory: baseTextPack.path)
 
@@ -1948,15 +1962,20 @@ public class Note: NSObject  {
                 try FileManager.default.removeItem(at: tempURL)
             }
 
+            let encryptedURL = 
+                self.project.url
+                .appendingPathComponent(fileName)
+                .appendingPathExtension("etp")
+
             let data = try Data(contentsOf: textPackURL)
             let encrypted = RNCryptor.encrypt(data: data, withPassword: password)
-            let encryptedURL = project.url.appendingPathComponent(fileName).appendingPathExtension("etp")
-            
+
             url = encryptedURL
             container = .encryptedTextPack
             parseURL()
-            
+
             try encrypted.write(to: encryptedURL)
+
             try FileManager.default.removeItem(at: originalSrc)
             try FileManager.default.removeItem(at: textPackURL)
 
@@ -1966,12 +1985,26 @@ public class Note: NSObject  {
 
             return true
         } catch {
-            print("Encyption error: \(error)")
+            url = originalSrc
+            parseURL()
+
+            print("Encyption error: \(error) \(error.localizedDescription)")
 
             return false
         }
     }
-    
+
+    public func getTempTextPackURL() -> URL {
+        let fileName = url.deletingPathExtension().lastPathComponent
+
+        let textPackURL =
+            URL(fileURLWithPath: NSTemporaryDirectory())
+                .appendingPathComponent(fileName, isDirectory: false)
+                .appendingPathExtension("textpack")
+
+        return textPackURL
+    }
+
     public func encryptAndUnlock(password: String) {
         if encrypt(password: password) {
             _ = unLock(password: password)

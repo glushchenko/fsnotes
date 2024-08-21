@@ -860,9 +860,7 @@ public class Project: Equatable {
             }
         }
 
-        if locked.count > 0 {
-            password = nil
-        }
+        password = nil
 
         return locked
     }

@@ -731,4 +731,13 @@ class SidebarTableView: UITableView,
 
         tableView(self, didSelectRowAt: indexPath)
     }
+
+    public func reload(indexPath: IndexPath) {
+        
+        // Important as cell resets after reloadRows
+        let currentPath = indexPathForSelectedRow
+
+        reloadRows(at: [indexPath], with: .automatic)
+        selectRow(at: currentPath, animated: false, scrollPosition: .none)
+    }
 }

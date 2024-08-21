@@ -375,7 +375,7 @@ class FileSystemEventManager {
                     var attributes = [FileAttributeKey : Any]()
                     attributes[.posixPermissions] = 0o777
                     try FileManager.default.setAttributes(attributes, ofItemAtPath: to.path)
-                }catch let error {
+                } catch let error {
                     print("Conflict resolving error: ", error)
                 }
 
@@ -385,10 +385,32 @@ class FileSystemEventManager {
     }
 
     private func loadEncryptionStatus(url: URL) {
-        if let project = self.storage.getProjectBy(url: url.deletingLastPathComponent()) {
-            project.isEncrypted = FileManager.default.fileExists(atPath: url.path)
+        guard let project = self.storage.getProjectBy(url: url.deletingLastPathComponent()) else { return }
+
+        let state = project.isEncrypted
+        project.isEncrypted = FileManager.default.fileExists(atPath: url.path)
+
+        DispatchQueue.main.async {
+            if state && !project.isEncrypted {
+                project.password = nil
+            }
+
+            guard let selectedProject = self.delegate.sidebarOutlineView.getSelectedProject() else { return }
 
             self.delegate.sidebarOutlineView.reloadItem(project)
+
+            // Selected at this moment
+
+            if selectedProject.url.path == project.url.path {
+                if project.isEncrypted && project.isLocked() {
+                    self.delegate.notesTableView.enableLockedProject()
+                    self.delegate.editor.clear()
+                } else {
+                    self.delegate.notesTableView.disableLockedProject()
+                }
+
+                self.delegate.updateTable()
+            }
         }
     }
 }

@@ -1182,7 +1182,11 @@ class Storage {
     }
 
     public func importNote(url: URL) -> Note? {
-        guard getBy(url: url) == nil, 
+        if !FileManager.default.fileExists(atPath: url.path) {
+            return nil
+        }
+
+        guard getBy(url: url) == nil,
             let project = self.getProjectByNote(url: url)
         else { return nil }
         

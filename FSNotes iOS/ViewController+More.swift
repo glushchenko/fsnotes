@@ -846,13 +846,19 @@ extension ViewController: UIDocumentPickerDelegate {
             let result = selectedProject.unlock(password: password)
 
             DispatchQueue.main.async {
+                guard result.1.count > 0 || result.0.count == 0 else {
+                    self.wrongPassAlert()
+                    return
+                }
+
                 self.sidebarTableView.loadTags(notes: result.1)
                 self.disableLockedProject()
 
                 if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
                    let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
                     sidebarItem.load(type: .ProjectEncryptedUnlocked)
-                    self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+
+                    self.sidebarTableView.reload(indexPath: indexPath)
                     self.sidebarTableView.select(project: selectedProject)
 
                     if createNote {
@@ -873,23 +879,18 @@ extension ViewController: UIDocumentPickerDelegate {
         selectedProject.removeCache()
 
         DispatchQueue.main.async {
-            guard locked.count > 0 else {
-                self.wrongPassAlert()
-                return
-            }
-
             self.sidebarTableView.loadTags(notes: locked)
-
             self.enableLockedProject()
-            self.reloadNotesTable()
 
             if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
                let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
                 sidebarItem.load(type: .ProjectEncryptedLocked)
-                self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+
+                self.sidebarTableView.reload(indexPath: indexPath)
                 self.sidebarTableView.select(project: selectedProject)
             }
             
+            self.reloadNotesTable()
             self.configureSidebarNavMenu()
         }
     }
@@ -904,14 +905,17 @@ extension ViewController: UIDocumentPickerDelegate {
             DispatchQueue.main.async {
                 self.sidebarTableView.loadTags(notes: encrypted)
                 self.enableLockedProject()
-                self.reloadNotesTable()
 
                 if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
                    let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
                     sidebarItem.load(type: .ProjectEncryptedLocked)
-                    self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+
+                    self.sidebarTableView.reload(indexPath: indexPath)
                     self.sidebarTableView.select(project: selectedProject)
                 }
+
+                self.reloadNotesTable()
+                self.configureSidebarNavMenu()
             }
         }
     }
@@ -937,14 +941,17 @@ extension ViewController: UIDocumentPickerDelegate {
 
                 self.sidebarTableView.loadTags(notes: decrypted)
                 self.disableLockedProject()
-                self.reloadNotesTable()
 
                 if let indexPath = self.sidebarTableView.getIndexPathBy(project: selectedProject),
                    let sidebarItem = self.sidebarTableView.getSidebarItem(project: selectedProject) {
                     sidebarItem.load(type: .Project)
-                    self.sidebarTableView.reloadRows(at: [indexPath], with: .automatic)
+
+                    self.sidebarTableView.reload(indexPath: indexPath)
                     self.sidebarTableView.select(project: selectedProject)
                 }
+
+                self.reloadNotesTable()
+                self.configureSidebarNavMenu()
             }
         }
     }

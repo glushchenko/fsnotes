@@ -163,10 +163,14 @@ class CloudDriveManager {
                     continue
                 }
 
-                if let modificationDate = note.getFileModifiedDate(),
+                let modificationDate = note.getFileModifiedDate()
+                let isOpened = delegate.editorViewController?.editArea.note?.isEqualURL(url: url) == true
+
+                if let modificationDate = modificationDate,
                    let contentChangeDate = contentChangeDate,
-                   let currentNote = delegate.editorViewController?.editArea.note,
-                   currentNote.isEqualURL(url: url),
+
+                   isOpened,
+
                    modificationDate.isGreaterThan(note.modifiedLocalAt),
                    contentChangeDate.isGreaterThan(note.modifiedLocalAt)
                 {
@@ -325,6 +329,10 @@ class CloudDriveManager {
                 continue
             }
 
+            if FileManager.default.fileExists(atPath: url.path) {
+                continue
+            }
+
             if let note = storage.getBy(url: url) {
                 storage.removeNotes(notes: [note], fsRemove: false) {_ in
                     self.notesDeletionQueue.append(note)
@@ -342,7 +350,12 @@ class CloudDriveManager {
 
     private func loadEncryptionStatus(url: URL) {
         if let project = self.storage.getProjectBy(url: url.deletingLastPathComponent()) {
+            let state = project.isEncrypted
             project.isEncrypted = FileManager.default.fileExists(atPath: url.path)
+
+            if state && !project.isEncrypted {
+                project.password = nil
+            }
 
             DispatchQueue.main.async {
                 if let indexPath = self.delegate.sidebarTableView.getIndexPathBy(project: project) {
@@ -366,7 +379,25 @@ class CloudDriveManager {
                         cell?.configure(sidebarItem: sidebarItem)
                     }
 
-                    self.delegate.sidebarTableView.reloadRows(at: [indexPath], with: .none)
+                    self.delegate.sidebarTableView.reload(indexPath: indexPath)
+
+                    // Selected at this moment
+
+                    if indexPath == self.delegate.sidebarTableView.indexPathForSelectedRow {
+                        if project.isEncrypted && project.isLocked() {
+                            self.delegate.enableLockedProject()
+                        } else {
+                            self.delegate.disableLockedProject()
+                        }
+
+                        self.delegate.reloadNotesTable()
+
+                        // Reconfigure new state in menu
+
+                        if let sidebarItem = self.delegate.sidebarTableView.getSidebarItem(project: project) {
+                            self.delegate.configureNavMenu(for: sidebarItem)
+                        }
+                    }
                 }
             }
         }
