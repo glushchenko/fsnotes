@@ -199,10 +199,12 @@ class NotesTableView: UITableView,
         let deleteTitle = NSLocalizedString("Delete", comment: "Table row action")
         let deleteAction = SwipeAction(style: .destructive, title: deleteTitle) { action, indexPath in
             self.viewDelegate?.sidebarTableView.removeTags(in: [note])
+            let isTrashed = note.isTrash()
+
             note.remove()
             self.removeRows(notes: [note])
 
-            if note.isEmpty() {
+            if note.isEmpty() || isTrashed {
                 vc.storage.removeBy(note: note)
             }
         }

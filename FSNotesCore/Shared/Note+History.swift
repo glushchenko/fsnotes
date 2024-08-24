@@ -99,9 +99,7 @@ extension Note {
             if let repository = getRepositoryUrl() {
                 try FileManager.default.removeItem(at: repository)
             }
-        } catch {
-            print("Repository removing \(error)")
-        }
+        } catch {/*_*/}
     }
 
     public func restore(revision: Revision) {

@@ -1045,6 +1045,11 @@ class Storage {
             do {
                 if !FileManager.default.fileExists(atPath: dst.path) {
                     try FileManager.default.copyItem(atPath: src.path, toPath: dst.path)
+
+                    if let project = getDefault() {
+                        let note = Note(url: dst, with: project)
+                        add(note)
+                    }
                 }
             } catch {
                 print("Initial copy error: \(error)")
