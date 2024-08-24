@@ -137,7 +137,39 @@
 		</dict>
 	</dict>
 	<key>CFBundleIcons~ipad</key>
-	<dict/>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>dylanseegerIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>dylanseeger</string>
+				</array>
+			</dict>
+			<key>dylanseegerDarkIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>dylanseegerDark</string>
+				</array>
+			</dict>
+			<key>dylanseegerDarkFullIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>dylanseegerDarkFull</string>
+				</array>
+			</dict>
+			<key>kmstrrIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>kmstrr</string>
+				</array>
+			</dict>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

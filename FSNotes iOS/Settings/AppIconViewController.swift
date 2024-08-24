@@ -72,7 +72,7 @@ class AppIconViewController: UITableViewController {
 
                 UIApplication.shared.setAlternateIconName(name) { error in
                     if let error = error {
-                        print("Error setting alternate icon \(icon): \(error.localizedDescription)")
+                        print("Error setting alternate icon \(String(describing: name)): \(error.localizedDescription)")
                     }
                 }
             }
