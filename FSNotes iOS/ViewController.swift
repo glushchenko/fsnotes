@@ -676,6 +676,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     let settingsKey = key.replacingOccurrences(of: "es.fsnot.project-settings", with: "")
                     if let project = storage.getProjectBy(settingsKey: settingsKey) {
                         project.reloadSettings()
+
+                        DispatchQueue.main.async {
+                            if let result = project.loadWebAPI() {
+                                self.notesTable.reloadRows(notes: result.0 + result.1)
+                            }
+                        }
                     }
                 }
             }

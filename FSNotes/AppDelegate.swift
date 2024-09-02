@@ -95,7 +95,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         
         AppDelegate.saveWindowsState()
         
-        Storage.shared().saveAPIIds()
         Storage.shared().saveUploadPaths()
         
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")

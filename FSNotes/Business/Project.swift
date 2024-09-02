@@ -147,7 +147,7 @@ public class Project: Equatable {
             loadNotesPreview()
         }
     }
-    
+
     public func getSettingsKey() -> String {
         var prefix = String()
         
@@ -310,6 +310,7 @@ public class Project: Equatable {
         }
 
         loadNotesPreview()
+        _ = loadWebAPI()
 
         return notes
     }
@@ -1041,5 +1042,43 @@ public class Project: Equatable {
         for note in notes {
             note.previewState = names.contains(note.name)
         }
+    }
+
+    public func saveWebAPI() {
+        let notes = getNotes()
+        var result = [String: String]()
+        for note in notes {
+            if let apiId = note.apiId {
+                result[note.name] = apiId
+            }
+        }
+        settings.notesAPI = result
+        saveSettings()
+    }
+
+    public func loadWebAPI() -> ([Note], [Note])? {
+        guard let items = settings.notesAPI else { return nil }
+
+        var keys = [String]()
+        for (key, _) in items {
+            keys.append(key)
+        }
+
+        let notes = storage.getNotesBy(project: self)
+
+        var added = [Note]()
+        var removed = [Note]()
+
+        for note in notes {
+            if note.apiId != nil && !keys.contains(note.name) {
+                removed.append(note)
+                note.apiId = nil
+            } else if note.apiId == nil && keys.contains(note.name) {
+                added.append(note)
+                note.apiId = items[note.name]
+            }
+        }
+
+        return (added, removed)
     }
 }

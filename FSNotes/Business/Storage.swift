@@ -143,8 +143,6 @@ class Storage {
     #if os(macOS)
         self.restoreUploadPaths()
     #endif
-
-        self.restoreAPIIds()
     }
 
     public func insertProject(project: Project) {
@@ -1333,32 +1331,6 @@ class Storage {
         for bookmark in uploadBookmarks {
             if let note = getBy(url: bookmark.key) {
                 note.uploadPath = bookmark.value
-            }
-        }
-    }
-    
-    public func saveAPIIds() {
-        let notes = noteList.filter({ $0.apiId != nil })
-        
-        var bookmarks = [URL: String]()
-        for note in notes {
-            if let path = note.apiId, path.count > 1 {
-                bookmarks[note.url] = path
-            }
-        }
-        
-        if let data = try? NSKeyedArchiver.archivedData(withRootObject: bookmarks, requiringSecureCoding: true) {
-            UserDefaultsManagement.apiBookmarksData = data
-        }
-    }
-    
-    public func restoreAPIIds() {
-        guard let data = UserDefaultsManagement.apiBookmarksData,
-              let uploadBookmarks = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSString.self], from: data) as? [URL: String] else { return }
-
-        for bookmark in uploadBookmarks {
-            if let note = getBy(url: bookmark.key) {
-                note.apiId = bookmark.value
             }
         }
     }

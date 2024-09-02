@@ -1633,17 +1633,17 @@ public class UserDefaultsManagement {
     
     static var uploadKey: String {
         get {
-            if let result = shared?.object(forKey: Constants.UploadKey) as? String, result.count > 0 {
+            if let result = global.object(forKey: Constants.UploadKey) as? String, result.count > 0 {
                 return result
             }
 
             let key = String.random(length: 20)
-            shared?.set(key, forKey: Constants.UploadKey)
-            
+            global.set(key, forKey: Constants.UploadKey)
+
             return key
         }
         set {
-            shared?.set(newValue, forKey: Constants.UploadKey)
+            global.set(newValue, forKey: Constants.UploadKey)
         }
     }
     

@@ -1765,6 +1765,16 @@ class ViewController: EditorViewController,
                     let settingsKey = key.replacingOccurrences(of: "es.fsnot.project-settings", with: "")
                     if let project = storage.getProjectBy(settingsKey: settingsKey) {
                         project.reloadSettings()
+
+                        DispatchQueue.main.async {
+                            if let result = project.loadWebAPI() {
+                                let toReload = result.0 + result.1
+
+                                for note in toReload {
+                                    ViewController.shared()?.notesTableView.reloadRow(note: note)
+                                }
+                            }
+                        }
                     }
                 }
             }
