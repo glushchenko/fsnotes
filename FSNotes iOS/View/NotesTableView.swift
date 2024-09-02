@@ -406,7 +406,11 @@ class NotesTableView: UITableView,
         let shareImage = UIImage(systemName: "square.and.arrow.up")
         actions.append(UIAction(title: shareTitle, image: shareImage, identifier: UIAction.Identifier("share"), handler: handler))
 
-        let shareWebTitle = NSLocalizedString("Create Web Page", comment: "")
+        var shareWebTitle = NSLocalizedString("Create Web Page", comment: "")
+        if note.apiId != nil {
+            shareWebTitle = NSLocalizedString("Update Web Page", comment: "")
+        }
+
         let shareWebImage = UIImage(systemName: "newspaper")
         actions.append(UIAction(title: shareWebTitle, image: shareWebImage, identifier: UIAction.Identifier("shareWeb"), handler: handler))
 
