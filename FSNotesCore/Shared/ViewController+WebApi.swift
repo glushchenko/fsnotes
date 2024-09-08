@@ -52,6 +52,12 @@ extension ViewController {
             if let api = try? decoder.decode(APIResponse.self, from: responseData) {
                 if let msg = api.error {
                     self.showAlert(message: msg)
+                    if msg == "Wrong key" {
+                        note.apiId = nil
+                        note.project.saveWebAPI()
+
+                        completion?()
+                    }
                 } else if api.id != nil {
                     note.apiId = nil
                     note.project.saveWebAPI()

@@ -228,6 +228,8 @@ class ViewController: EditorViewController,
 
         // Reload added projects
         self.fsManager?.restart()
+        
+        self.storage.migrationAPIIds()
 
         print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
 

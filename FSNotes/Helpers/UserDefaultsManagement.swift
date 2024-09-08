@@ -1646,7 +1646,20 @@ public class UserDefaultsManagement {
             global.set(newValue, forKey: Constants.UploadKey)
         }
     }
-    
+
+    static var deprecatedUploadKey: String? {
+        get {
+            if let result = shared?.object(forKey: Constants.UploadKey) as? String, result.count > 0 {
+                return result
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.UploadKey)
+        }
+    }
+
     static var clickableLinks: Bool {
         get {
             if let highlight = shared?.object(forKey: Constants.ClickableLinks) {
