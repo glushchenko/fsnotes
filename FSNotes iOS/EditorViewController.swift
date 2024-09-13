@@ -90,15 +90,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
-        if traitCollection.userInterfaceStyle == .dark {
-            editArea.keyboardAppearance = .dark
-        } else {
-            editArea.keyboardAppearance = .default
-        }
-
         initLinksColor()
-
-        editArea.indicatorStyle = (traitCollection.userInterfaceStyle == .dark) ? .white : .black
         editArea.flashScrollIndicators()
 
         self.registerForKeyboardNotifications()
@@ -323,12 +315,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             
             if keyboardIsOpen {
                 editArea.endEditing(true)
-            }
-            
-            if traitCollection.userInterfaceStyle == .dark {
-                editArea.keyboardAppearance = .dark
-            } else {
-                editArea.keyboardAppearance = .light
             }
 
             fill(note: note)
