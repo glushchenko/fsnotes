@@ -352,11 +352,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                 case "previewMathJax":
                     menuItem.state = UserDefaultsManagement.mathJaxPreview ? .on : .off
                     break
-                    
-                case "viewMenu.previewSoulver":
-                    menuItem.state = UserDefaultsManagement.soulverPreview ? .on : .off
-                    break
-                    
+                                        
                 case "viewMenu.historyBack":
                     if vc.notesTableView.historyPosition == 0 {
                         return false
@@ -601,15 +597,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
         refillEditArea(force: true)
     }
-    
-    @IBAction func toggleSoulverCore(_ sender: NSMenuItem) {
-        sender.state = sender.state == .on ? .off : .on
-
-        UserDefaultsManagement.soulverPreview = sender.state == .on
-
-        refillEditArea(force: true)
-    }
-    
+        
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = vcEditor?.note {
             let sharingPicker = NSSharingServicePicker(items: [

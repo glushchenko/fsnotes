@@ -132,7 +132,6 @@
 		D7166F541F32F75E001A883F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
 		D7170C1D20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */; };
 		D7170C1E20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */; };
-		D717461C293D2929005951EE /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
 		D71760932826CAC4009794D8 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
 		D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
 		D71AA01A2143948A004AFD2A /* archive.png in Resources */ = {isa = PBXBuildFile; fileRef = D77B9E9A20DE53E0003FAA27 /* archive.png */; };
@@ -891,8 +890,6 @@
 		D7EFAF6B278B310300175A2F /* HighlighterTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EFAF67278B310300175A2F /* HighlighterTheme.swift */; };
 		D7EFAF6C278B310300175A2F /* HighlighterTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EFAF67278B310300175A2F /* HighlighterTheme.swift */; };
 		D7EFAF6D278B310300175A2F /* HighlighterTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EFAF67278B310300175A2F /* HighlighterTheme.swift */; };
-		D7F1AEB2292177060088F473 /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
-		D7F1AEB32921774B0088F473 /* SoulverCore in Frameworks */ = {isa = PBXBuildFile; productRef = D7F1AEB1292177060088F473 /* SoulverCore */; };
 		D7F2F19721C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
 		D7F2F19821C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
 		D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
@@ -1590,7 +1587,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7A9C1DB29107A0800905619 /* Git in Frameworks */,
-				D717461C293D2929005951EE /* SoulverCore in Frameworks */,
 				D7D2F2802B54BDD4003DCA47 /* Shout in Frameworks */,
 				D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */,
 				CE3427A778205E1713A014B9 /* Pods_FSNotes_iOS.framework in Frameworks */,
@@ -1602,7 +1598,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F13BB1920FEDDF50005E120 /* FSNotesCore_macOS.framework in Frameworks */,
-				D7F1AEB2292177060088F473 /* SoulverCore in Frameworks */,
 				D7D2F2822B54BE59003DCA47 /* Shout in Frameworks */,
 				D70F830628CE8596004818C5 /* Git in Frameworks */,
 				D4DB932C9F51CAE71393A28B /* Pods_FSNotes.framework in Frameworks */,
@@ -1615,7 +1610,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7D2F27E2B54BD42003DCA47 /* Shout in Frameworks */,
-				D7F1AEB32921774B0088F473 /* SoulverCore in Frameworks */,
 				D70F830428CE858E004818C5 /* Git in Frameworks */,
 				BE957A4A1B908EC91BECB3D3 /* Pods_FSNotes__iCloud_.framework in Frameworks */,
 			);
@@ -2614,7 +2608,6 @@
 			name = "FSNotes iOS";
 			packageProductDependencies = (
 				D7A9C1DA29107A0800905619 /* Git */,
-				D7F1AEB1292177060088F473 /* SoulverCore */,
 				D7D2F27F2B54BDD4003DCA47 /* Shout */,
 			);
 			productName = "FSNotes iOS";
@@ -2642,7 +2635,6 @@
 			name = FSNotes;
 			packageProductDependencies = (
 				D70F830528CE8596004818C5 /* Git */,
-				D7F1AEB1292177060088F473 /* SoulverCore */,
 				D7D2F2812B54BE59003DCA47 /* Shout */,
 				D7DEEC652BD561BE00C2A6CE /* SwiftSoup */,
 			);
@@ -2670,7 +2662,6 @@
 			name = "FSNotes (iCloud)";
 			packageProductDependencies = (
 				D70F830328CE858E004818C5 /* Git */,
-				D7F1AEB1292177060088F473 /* SoulverCore */,
 				D7D2F27D2B54BD42003DCA47 /* Shout */,
 			);
 			productName = FSNotes;
@@ -2795,7 +2786,6 @@
 			mainGroup = D7793C661F211C6000CA39B7;
 			packageReferences = (
 				D7B4CC5428C7B8860046A25F /* XCRemoteSwiftPackageReference "swift-git" */,
-				D7F1AEB0292177060088F473 /* XCRemoteSwiftPackageReference "SoulverCore" */,
 				D7D2F27C2B54BD42003DCA47 /* XCRemoteSwiftPackageReference "Shout" */,
 				D76755632B9E2840003714C8 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
@@ -4572,7 +4562,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 644;
+				CURRENT_PROJECT_VERSION = 645;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4589,7 +4579,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.9.5;
+				MARKETING_VERSION = 6.9.6;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4612,7 +4602,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 644;
+				CURRENT_PROJECT_VERSION = 645;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4630,7 +4620,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.9.5;
+				MARKETING_VERSION = 6.9.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4745,14 +4735,6 @@
 				kind = branch;
 			};
 		};
-		D7F1AEB0292177060088F473 /* XCRemoteSwiftPackageReference "SoulverCore" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/soulverteam/SoulverCore";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -4800,11 +4782,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D76755632B9E2840003714C8 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
-		};
-		D7F1AEB1292177060088F473 /* SoulverCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D7F1AEB0292177060088F473 /* XCRemoteSwiftPackageReference "SoulverCore" */;
-			productName = SoulverCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

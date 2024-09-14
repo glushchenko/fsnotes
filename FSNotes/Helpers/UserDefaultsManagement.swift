@@ -145,7 +145,6 @@ public class UserDefaultsManagement {
         static let SnapshotsInterval = "snapshotsInterval"
         static let SnapshotsIntervalMinutes = "snapshotsIntervalMinutes"
         static let SortBy = "sortBy"
-        static let SoulverPreview = "soulverPreview"
         static let StorageType = "storageType"
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
@@ -1239,23 +1238,6 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var soulverPreview: Bool {
-        get {
-            if #unavailable(OSX 10.15, iOS 14.0) {
-                return false
-            }
-            
-            if let result = shared?.object(forKey: Constants.SoulverPreview) as? Bool {
-                return result
-            }
-
-            return true
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.SoulverPreview)
-        }
-    }
-
     static var sidebarVisibilityInbox: Bool {
         get {
             if let result = shared?.object(forKey: "sidebarVisibilityInbox") as? Bool {

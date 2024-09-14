@@ -19,7 +19,7 @@ class SettingsEditorViewController: UITableViewController {
         NSLocalizedString("Code", comment: "")
     ]
 
-    private var rowsInSection = [2, 4, 1, 3, 2]
+    private var rowsInSection = [2, 3, 1, 3, 2]
 
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
@@ -32,7 +32,6 @@ class SettingsEditorViewController: UITableViewController {
             NSLocalizedString("Code Block Live Highlighting", comment: "Settings"),
             NSLocalizedString("Live Images Preview", comment: "Settings"),
             NSLocalizedString("MathJax", comment: "Settings"),
-            NSLocalizedString("SoulverCore", comment: "Settings"),
         ],
         [""],
         [
@@ -122,9 +121,6 @@ class SettingsEditorViewController: UITableViewController {
             case 2:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.mathJaxPreview
-            case 3:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.soulverPreview
             default:
                 return cell
             }
@@ -242,9 +238,6 @@ class SettingsEditorViewController: UITableViewController {
             case 2:
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
                 UserDefaultsManagement.mathJaxPreview = uiSwitch.isOn
-            case 3:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.soulverPreview = uiSwitch.isOn
             default:
                 return
             }

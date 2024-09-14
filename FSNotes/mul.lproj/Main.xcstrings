@@ -5619,7 +5619,7 @@
     },
     "9Gu-fA-XLk.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Table View Cell\"; ObjectID = \"9Gu-fA-XLk\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13611,7 +13611,7 @@
     },
     "Eho-1T-xjz.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Text Cell\"; ObjectID = \"Eho-1T-xjz\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -14259,7 +14259,7 @@
     },
     "eUy-cc-RjG.title" : {
       "comment" : "Class = \"NSWindow\"; title = \"Window\"; ObjectID = \"eUy-cc-RjG\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -25947,7 +25947,7 @@
     },
     "n3J-UC-Kdr.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Preview Soulver Calculator\"; ObjectID = \"n3J-UC-Kdr\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -26919,7 +26919,7 @@
     },
     "NiN-n8-Y4W.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Text Cell\"; ObjectID = \"NiN-n8-Y4W\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -31239,7 +31239,7 @@
     },
     "qod-hp-9wd.title" : {
       "comment" : "Class = \"NSWindow\"; title = \"Window\"; ObjectID = \"qod-hp-9wd\"; Note = \"#bc-ignore!\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -33075,7 +33075,7 @@
     },
     "RtS-EA-VK2.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Text Cell\"; ObjectID = \"RtS-EA-VK2\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -34695,7 +34695,7 @@
     },
     "SFY-jB-hva.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Text Cell\"; ObjectID = \"SFY-jB-hva\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -43899,7 +43899,7 @@
     },
     "zoX-MN-b3x.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Table View Cell\"; ObjectID = \"zoX-MN-b3x\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
