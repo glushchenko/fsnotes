@@ -1283,7 +1283,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 imagePreviewViewController.image = someImage
                 imagePreviewViewController.url = url
                 imagePreviewViewController.note = note
-                present(imagePreviewViewController, animated: true, completion: nil)
+                
+                navigationController?.pushViewController(imagePreviewViewController, animated: true)
             } else if (FileManager.default.fileExists(atPath: url.path)) {
                 quickLook(url: url)
             }

@@ -270,42 +270,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1T-1l-93q" customClass="ImageScrollView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="59" width="430" height="746"/>
+                                <rect key="frame" x="0.0" y="59" width="430" height="839"/>
                             </scrollView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYe-LF-KuA">
-                                <rect key="frame" x="0.0" y="805" width="430" height="44"/>
-                                <items>
-                                    <navigationItem id="nkb-GO-G7U"/>
-                                </items>
-                            </navigationBar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gya-Hg-o5c" userLabel="bottomSafeView">
-                                <rect key="frame" x="0.0" y="849" width="430" height="83"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DVk-Fs-Jhg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Gya-Hg-o5c" firstAttribute="leading" secondItem="Hcy-mV-Ewd" secondAttribute="leading" id="4Vc-ug-3Cg"/>
-                            <constraint firstItem="T1T-1l-93q" firstAttribute="leading" secondItem="gYe-LF-KuA" secondAttribute="leading" id="6df-aj-BVn"/>
-                            <constraint firstAttribute="trailing" secondItem="gYe-LF-KuA" secondAttribute="trailing" id="YAG-UM-ijf"/>
-                            <constraint firstItem="gYe-LF-KuA" firstAttribute="leading" secondItem="Hcy-mV-Ewd" secondAttribute="leading" id="ate-Ff-XmV"/>
-                            <constraint firstItem="T1T-1l-93q" firstAttribute="top" secondItem="DVk-Fs-Jhg" secondAttribute="top" id="cNr-Hd-czf"/>
-                            <constraint firstAttribute="trailing" secondItem="Gya-Hg-o5c" secondAttribute="trailing" id="gV2-ca-fgg"/>
-                            <constraint firstItem="Gya-Hg-o5c" firstAttribute="top" secondItem="DVk-Fs-Jhg" secondAttribute="bottom" id="oxb-gO-YV1"/>
-                            <constraint firstAttribute="bottom" secondItem="Gya-Hg-o5c" secondAttribute="bottom" id="oz1-Yo-NdV"/>
-                            <constraint firstItem="T1T-1l-93q" firstAttribute="trailing" secondItem="gYe-LF-KuA" secondAttribute="trailing" id="rbL-TE-CwV"/>
-                            <constraint firstItem="DVk-Fs-Jhg" firstAttribute="bottom" secondItem="gYe-LF-KuA" secondAttribute="bottom" id="rlq-M4-xPb"/>
-                            <constraint firstItem="gYe-LF-KuA" firstAttribute="top" secondItem="T1T-1l-93q" secondAttribute="bottom" id="xcV-nC-nL7"/>
+                            <constraint firstItem="T1T-1l-93q" firstAttribute="top" secondItem="DVk-Fs-Jhg" secondAttribute="top" id="2R7-Zp-G2s"/>
+                            <constraint firstItem="DVk-Fs-Jhg" firstAttribute="bottom" secondItem="T1T-1l-93q" secondAttribute="bottom" id="EIp-y6-IXd"/>
+                            <constraint firstItem="T1T-1l-93q" firstAttribute="leading" secondItem="DVk-Fs-Jhg" secondAttribute="leading" id="imz-vN-vBS"/>
+                            <constraint firstItem="T1T-1l-93q" firstAttribute="trailing" secondItem="DVk-Fs-Jhg" secondAttribute="trailing" id="saK-XU-jjf"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="bottomSafeView" destination="Gya-Hg-o5c" id="HXa-y3-BkN"/>
                         <outlet property="imageScrollView" destination="T1T-1l-93q" id="sHb-Vp-jwF"/>
-                        <outlet property="navItem" destination="nkb-GO-G7U" id="PLu-D4-Bfa"/>
-                        <outlet property="navigationBar" destination="gYe-LF-KuA" id="C0Q-hb-pPq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mXN-5G-zCr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

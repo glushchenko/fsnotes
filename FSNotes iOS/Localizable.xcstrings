@@ -8463,6 +8463,7 @@
     },
     "SoulverCore" : {
       "comment" : "Settings",
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

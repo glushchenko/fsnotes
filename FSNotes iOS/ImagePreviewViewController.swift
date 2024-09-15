@@ -20,31 +20,22 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
     private var currentIndex = 0
 
-    @IBOutlet weak var bottomSafeView: UIView!
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var navItem: UINavigationItem!
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-
-        navigationBar.barTintColor = UIColor.sidebar
-        navigationBar.tintColor = UIColor.mainTheme
-        navigationBar.backgroundColor = UIColor.sidebar
-        bottomSafeView.backgroundColor = UIColor.sidebar
-
-        let doneString = NSLocalizedString("Cancel", comment: "")
-        navItem.leftBarButtonItem = UIBarButtonItem(title: doneString, style: .done, target: self, action: #selector(done))
 
         let shareButton = Buttons.getShare(target: self, selector: #selector(share))
         let cropButton = Buttons.getCrop(target: self, selector: #selector(crop))
         let dropButton = Buttons.getTrash(target: self, selector: #selector(trashBin))
 
         let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        space.width = 20
-
-        navItem.rightBarButtonItems = [shareButton, cropButton, dropButton]
+        space.width = 30
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        toolbarItems = [flexibleSpace, shareButton, space, cropButton, space, dropButton]
+        navigationController?.setToolbarHidden(false, animated: true)
 
         DispatchQueue.main.async {
             self.rotated()
