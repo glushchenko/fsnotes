@@ -35,29 +35,52 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ], [
             NSLocalizedString("Support", comment: "Settings"),
             NSLocalizedString("Website", comment: "Settings"),
-            NSLocalizedString("Twitter", comment: "Settings"),
+            "X",
             NSLocalizedString("Thanks", comment: "Settings")
         ]
     ]
 
     var icons = [
         [
-            "settings-icons-format",
-            "settings-icons-editor",
-            "settings-icons-security",
-            "settings-icons-git",
-            "settings-icons-icon",
-            "settings-icons-pro"
+            "doc.badge.gearshape.fill",
+            "paragraphsign",
+            "lock.fill",
+            "arrow.triangle.pull",
+            "square.grid.3x3.middleleft.filled",
+            "atom"
         ], [
-            "settings-icons-cloud",
-            "settings-icons-external",
-            "settings-icons-projects",
-            "settings-icons-import"
+            "cloud.fill",
+            "externaldrive.fill.badge.plus",
+            "folder.fill.badge.gearshape",
+            "square.and.arrow.down.fill"
         ], [
-            "settings-icons-support",
-            "settings-icons-home",
-            "settings-icons-twitter",
-            "settings-icons-rate"
+            "graduationcap.fill",
+            "house.fill",
+            "x.circle.fill",
+            "heart.fill"
+        ]
+    ]
+    
+    private var gradients = [
+        [
+            ["#0a84ff", "#30d158"],
+            ["#ff453a", "#ff9f0a"],
+            ["#bf5af2", "#40c8e0"],
+            ["#8e8e93", "#48484a"],
+            ["#5e5ce6", "#8e8e93"],
+            ["#dc1c13", "#f07470"]
+        ],
+        [
+            ["#009bf9", "#004D7C"],
+            ["#614385", "#516395"],
+            ["#EA8D8D", "#A890FE"],
+            ["#0D7A25", "#40AD58"]
+        ],
+        [
+            ["#dfbd69", "#926f34"],
+            ["#09203F", "#537895"],
+            ["#868F96", "#596164"],
+            ["#ff9966", "#ff5e62"]
         ]
     ]
 
@@ -108,14 +131,16 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
-        if indexPath.section == 0x02 && indexPath.row == 0x01 {
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let iconName = icons[indexPath.section][indexPath.row]
+        let gradient = gradients[indexPath.section][indexPath.row]
+        
+        var cell = SettingsTableViewCell(iconName: iconName, gradient: gradient, style: .default, reuseIdentifier: iconName)
+        
+        if indexPath.section == 0x01 && indexPath.row == 0x03 {
+            cell = SettingsTableViewCell(iconName: iconName, gradient: gradient, style: .subtitle, reuseIdentifier: iconName)
         }
 
-        let iconName = icons[indexPath.section][indexPath.row]
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
-        cell.imageView?.image = image(UIImage(named: iconName)!, withSize: CGSize(width: 40, height: 40))
 
         if indexPath.section == 0x00 {
             cell.accessoryType = .disclosureIndicator
