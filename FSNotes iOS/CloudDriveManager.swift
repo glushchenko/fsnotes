@@ -476,11 +476,11 @@ class CloudDriveManager {
         projectsInsertionQueue.removeAll()
 
         for note in insert {
-            note.forceLoad()
+            note.forceLoad(skipCreateDate: false, loadTags: false)
         }
 
         for note in change {
-            note.forceLoad(skipCreateDate: true)
+            note.forceLoad(skipCreateDate: true, loadTags: false)
         }
 
         OperationQueue.main.addOperation {

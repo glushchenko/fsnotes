@@ -399,12 +399,17 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                     let vc = UIApplication.getVC()
 
+                    var projects = [Project]()
                     if let project = Storage.shared().searchQuery.projects.first {
-                        let tags = vc.sidebarTableView.getAllTags(projects: [project])
-                        self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
-
-                        self.complete(offset: hashRange.location, text: text)
+                        projects.append(project)
+                    } else {
+                        projects = Storage.shared().getProjects()
                     }
+                    
+                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
+
+                    self.complete(offset: hashRange.location, text: text)
                 }
             }
 
@@ -971,8 +976,15 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let location = editArea.selectedRange.location
 
         let vc = UIApplication.getVC()
-        guard let project = Storage.shared().searchQuery.projects.first else { return }
-        let tags = vc.sidebarTableView.getAllTags(projects: [project])
+        
+        var projects = [Project]()
+        if let project = Storage.shared().searchQuery.projects.first {
+            projects.append(project)
+        } else {
+            projects = Storage.shared().getProjects()
+        }
+        
+        let tags = vc.sidebarTableView.getAllTags(projects: projects)
         self.dropDown.dataSource = tags
 
         self.complete(offset: location)

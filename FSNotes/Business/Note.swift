@@ -173,9 +173,9 @@ public class Note: NSObject  {
         }
     }
 
-    public func forceLoad(skipCreateDate: Bool = false) {
+    public func forceLoad(skipCreateDate: Bool = false, loadTags: Bool = true) {
         invalidateCache()
-        load()
+        load(tags: loadTags)
 
         if !skipCreateDate {
             loadCreationDate()
@@ -1312,7 +1312,6 @@ public class Note: NSObject  {
                 added.append(tag)
             }
         }
-
 
         self.tags = tags
 

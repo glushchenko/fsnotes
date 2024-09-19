@@ -158,7 +158,7 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
                 }
             }
 
-            self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }

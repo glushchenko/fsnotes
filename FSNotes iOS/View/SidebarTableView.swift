@@ -313,7 +313,7 @@ class SidebarTableView: UITableView,
             // resets tags in sidebar
             removeTags(in: [note])
 
-            // reload tags (in remove tags operation notn fitted)
+            // reload tags (in remove tags operation non fitted)
             _ = note.scanContentTags()
 
             vc.notesTable.removeRows(notes: [note])
