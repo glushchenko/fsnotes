@@ -48,12 +48,6 @@ The note will open in your browser and the link will be copied to your clipboard
 
 ![](assets/web-sharing.png)
 
-## Soulver core
-
-In collaboration with Zac Cohan, SoulverCore syntax has been added. This calculator now displays in Preview mode. Read more about its functions here: https://github.com/soulverteam/SoulverCore#getting-started
-
-Example: 9:35am in New York to Japan = {9:35am in New York to Japan}
-
 ## Fixes
 
 Earlier there were some problems with encryption of folders, app crashes, and previewing notes. All of this has been fixed.

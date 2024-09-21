@@ -8,7 +8,7 @@ Memorizing [keyboard shortcuts](https://github.com/glushchenko/fsnotes/wiki/Keyb
 
 ### Key features
 
-- Markdown-first. Also supports any plaintext and RTF files.
+- Markdown-first. Also supports any plaintext files.
 - Fast and lightweight. Works smoothly with 10k+ files.
 - Access anywhere. Sync with iCloud Drive or Dropbox.
 - Multi-folder storage.

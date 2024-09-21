@@ -826,7 +826,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scrollFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height)
         let scroll = UIScrollView(frame: scrollFrame)
-        scroll.backgroundColor = .whiteBlack
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
@@ -840,8 +839,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             textField.endEditing(true)
         }
 
-        let inputAccView = UIInputView(frame: scrollFrame, inputViewStyle: .keyboard)
-        inputAccView.addSubview(scroll)
         textField.inputAccessoryView = scroll
 
         if isFirst {

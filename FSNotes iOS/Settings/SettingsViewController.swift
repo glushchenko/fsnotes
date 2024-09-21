@@ -164,7 +164,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 cell.detailTextLabel?.textColor = UIColor.blackWhite
                 cell.detailTextLabel?.numberOfLines = 0
                 cell.detailTextLabel?.lineBreakMode = .byWordWrapping
-                cell.detailTextLabel?.text = NSLocalizedString("Compatible with Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
+                cell.detailTextLabel?.text = NSLocalizedString("Compatible with Bear and Ulysses (textbundle), markdown, txt.", comment: "")
             default:
                 return cell
             }

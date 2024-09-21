@@ -1270,72 +1270,72 @@
         }
       }
     },
-    "Compatible with Bear and Ulysses (textbundle), markdown, txt, rtf." : {
+    "Compatible with Bear and Ulysses (textbundle), markdown, txt." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kompatibilní s Bear a Ulysses (textbundle), markdown, txt, rtf."
+            "value" : "Kompatibilní s Bear a Ulysses (textbundle), markdown, txt."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kompatibel mit Bear und Ulysses (Textbundle), markdown, txt, rtf."
+            "value" : "Kompatibel mit Bear und Ulysses (Textbundle), markdown, txt."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compatible avec Bear et Ulysses (textbundle), markdown, txt, rtf."
+            "value" : "Compatible avec Bear et Ulysses (textbundle), markdown, txt."
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bear और Ulysses (textbundle), markdown, txt, rtf के साथ संगत।"
+            "value" : "Bear और Ulysses (textbundle), markdown, txt के साथ संगत।"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compatibile con Bear and Ulysses (textbundle), markdown, txt, rtf."
+            "value" : "Compatibile con Bear and Ulysses (textbundle), markdown, txt."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bear and Ulysses (textbundle), markdown, txt, rtfと互換性があります"
+            "value" : "Bear and Ulysses (textbundle), markdown, txtと互換性があります"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compatibel met Bear en Ulysses (textbundle), markdown, txt, rtf."
+            "value" : "Compatibel met Bear en Ulysses (textbundle), markdown, txt."
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compatível com Bear e Ulysses (textbundle), markdown, txt, rtf."
+            "value" : "Compatível com Bear e Ulysses (textbundle), markdown, txt."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Совместим с Bear и Ulysses (textbundle), markdown, txt, rtf."
+            "value" : "Совместим с Bear и Ulysses (textbundle), markdown, txt."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сумісний з Bear and Ulysses (textbundle), markdown, txt, rtf."
+            "value" : "Сумісний з Bear and Ulysses (textbundle), markdown, txt."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "兼容 Bear(熊掌记) and Ulysses (textbundle),markdown,txt,rtf."
+            "value" : "兼容 Bear(熊掌记) and Ulysses (textbundle),markdown,txt."
           }
         }
       }

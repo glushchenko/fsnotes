@@ -2754,7 +2754,7 @@ Olena Hlushcneko</string>
                             <constraint firstAttribute="trailing" secondItem="2QL-BH-sCT" secondAttribute="trailing" constant="20" symbolic="YES" id="YU7-iw-CCn"/>
                             <constraint firstItem="3f9-vz-qWm" firstAttribute="top" secondItem="gR1-Um-ivy" secondAttribute="bottom" constant="15" id="YVZ-SO-JSu"/>
                             <constraint firstItem="GZo-Yy-PQk" firstAttribute="centerY" secondItem="mjy-gG-meT" secondAttribute="centerY" id="Yst-Z5-8OE"/>
-                            <constraint firstItem="GZo-Yy-PQk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mjy-gG-meT" secondAttribute="trailing" symbolic="YES" id="bBI-BK-lhp"/>
+                            <constraint firstItem="GZo-Yy-PQk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mjy-gG-meT" secondAttribute="trailing" constant="8" symbolic="YES" id="bBI-BK-lhp"/>
                             <constraint firstItem="uwq-Wq-Zsn" firstAttribute="top" secondItem="FPM-RD-i0c" secondAttribute="bottom" constant="8" symbolic="YES" id="c0f-hZ-9K2"/>
                             <constraint firstItem="Md6-vL-c1a" firstAttribute="centerX" secondItem="3f9-vz-qWm" secondAttribute="centerX" id="c3V-lL-Gvd"/>
                             <constraint firstItem="mjy-gG-meT" firstAttribute="trailing" secondItem="stc-Pf-K3l" secondAttribute="centerX" id="dFQ-ZG-5eo"/>
