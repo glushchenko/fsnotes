@@ -895,6 +895,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             attributedString.addAttribute(.font, value: italicFont, range: range)
+            attributedString.fixAttributes(in: range)
 
             let preRange = NSMakeRange(range.location, 1)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
@@ -906,6 +907,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             attributedString.addAttribute(.font, value: boldFont, range: range)
+            attributedString.fixAttributes(in: range)
 
             let preRange = NSMakeRange(range.location, 2)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
