@@ -2001,8 +2001,8 @@ CA
                                                                         <rect key="frame" x="12" y="11" width="66" height="16"/>
                                                                         <subviews>
                                                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="Ote-7U-BZm">
-                                                                                <rect key="frame" x="0.0" y="-2.5" width="16" height="22"/>
-                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="aHW-dK-rqB">
+                                                                                <rect key="frame" x="0.0" y="-2.5" width="16.5" height="22"/>
+                                                                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockUnlockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="aHW-dK-rqB">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
@@ -4015,14 +4015,14 @@ Olena Hlushcneko</string>
                                         </textFieldCell>
                                     </textField>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="Uul-l1-jKT" userLabel="Title Bar Additional View">
-                                        <rect key="frame" x="391" y="0.0" width="89" height="38"/>
+                                        <rect key="frame" x="387" y="0.0" width="93" height="38"/>
                                         <subviews>
                                             <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OFt-xi-XVU">
-                                                <rect key="frame" x="12" y="15" width="65" height="9"/>
+                                                <rect key="frame" x="12" y="15" width="69" height="9"/>
                                                 <subviews>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PiC-RU-ugX">
-                                                        <rect key="frame" x="0.0" y="-2.5" width="13" height="15"/>
-                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="VTh-q6-3p6">
+                                                        <rect key="frame" x="0.0" y="-2.5" width="17.5" height="15"/>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockUnlockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="VTh-q6-3p6">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
@@ -4031,7 +4031,7 @@ Olena Hlushcneko</string>
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="grq-z8-mu5">
-                                                        <rect key="frame" x="21" y="-2" width="21.5" height="13"/>
+                                                        <rect key="frame" x="25" y="-2" width="21.5" height="13"/>
                                                         <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Hg1-rI-n1u">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -4041,7 +4041,7 @@ Olena Hlushcneko</string>
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jV1-b8-PLn">
-                                                        <rect key="frame" x="50" y="-3" width="15.5" height="18"/>
+                                                        <rect key="frame" x="54" y="-3" width="15.5" height="18"/>
                                                         <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Uwd-ec-6d5">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -4911,7 +4911,7 @@ Olena Hlushcneko</string>
         </scene>
     </scenes>
     <resources>
-        <image name="NSLockLockedTemplate" width="17" height="19"/>
+        <image name="NSLockUnlockedTemplate" width="21" height="19"/>
         <image name="NSQuickLookTemplate" width="26" height="17"/>
         <image name="NSShareTemplate" width="19" height="23"/>
         <image name="icon" width="1024" height="1024"/>

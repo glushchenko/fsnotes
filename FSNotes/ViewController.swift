@@ -115,10 +115,10 @@ class ViewController: EditorViewController,
                     guard self?.titleLabel.isEnabled == false || self?.titleLabel.isEditable == false else { return }
                     
                     if let note = self?.editor.note {
-                        if note.isUnlocked() {
-                            self?.lockUnlock.image = NSImage(named: NSImage.lockUnlockedTemplateName)
-                        } else {
+                        if note.isEncryptedAndLocked() {
                             self?.lockUnlock.image = NSImage(named: NSImage.lockLockedTemplateName)
+                        } else {
+                            self?.lockUnlock.image = NSImage(named: NSImage.lockUnlockedTemplateName)
                         }
                     }
 

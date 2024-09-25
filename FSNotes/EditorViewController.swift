@@ -1046,7 +1046,10 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         viewController.editor.fill(note: note)
         
         if note.isEncryptedAndLocked() {
+            viewController.lockUnlockButton.image = NSImage(named: NSImage.lockLockedTemplateName)
             viewController.toggleNotesLock(self)
+        } else {
+            viewController.lockUnlockButton.image = NSImage(named: NSImage.lockUnlockedTemplateName)
         }
         
         AppDelegate.noteWindows.insert(windowController, at: 0)
@@ -1160,6 +1163,20 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         for editor in editors {
             if editor.note == note {
                 editor.editorViewController?.refillEditArea(force: true)
+                
+                let lockIcon = note.isEncryptedAndLocked()
+                    ? NSImage.lockLockedTemplateName
+                    : NSImage.lockUnlockedTemplateName
+                    
+                let lockImage = NSImage(named: lockIcon)
+                
+                if let noteVC = editor.editorViewController as? NoteViewController {
+                    noteVC.lockUnlockButton.image = lockImage
+                }
+                
+                if let mainVC = editor.editorViewController as? ViewController {
+                    mainVC.lockUnlock.image = lockImage
+                }
                 
                 editor.window?.makeFirstResponder(editor)
             }
