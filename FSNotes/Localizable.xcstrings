@@ -4837,7 +4837,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar barra lateral"
+            "value" : "Ocultar barra lateral"
           }
         },
         "fr" : {
@@ -10252,7 +10252,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar barra lateral"
+            "value" : "Mostrar barra lateral"
           }
         },
         "fr" : {
