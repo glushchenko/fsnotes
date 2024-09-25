@@ -143,10 +143,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     override var textInputMode: UITextInputMode? {
-        let defaultLang = UserDefaultsManagement.defaultLanguage
-        
-        if UITextInputMode.activeInputModes.count - 1 >= defaultLang {
-            return UITextInputMode.activeInputModes[defaultLang]
+        if let keyboard = UserDefaultsManagement.defaultKeyboard {
+            for mode in UITextInputMode.activeInputModes {
+                if mode.primaryLanguage == keyboard  {
+                    return mode
+                }
+            }
         }
         
         return super.textInputMode

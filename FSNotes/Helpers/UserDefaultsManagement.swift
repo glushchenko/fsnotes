@@ -72,6 +72,7 @@ public class UserDefaultsManagement {
         static let CrashedLastTime = "crashedLastTime"
         static let CustomWebServer = "customWebServer"
         static let DefaultLanguageKey = "defaultLanguage"
+        static let DefaultKeyboardKey = "defaultKeyboard"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
@@ -548,6 +549,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: "focusInEditorOnNoteSelect")
+        }
+    }
+    
+    static var defaultKeyboard: String? {
+        get {
+            if let dk = shared?.string(forKey: Constants.DefaultKeyboardKey) as? String {
+                return dk
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.DefaultKeyboardKey)
         }
     }
     

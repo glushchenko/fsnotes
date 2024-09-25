@@ -27,7 +27,7 @@ class LanguageViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UserDefaultsManagement.defaultLanguage = indexPath.row
+        UserDefaultsManagement.defaultKeyboard = languages?[ indexPath.row]
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -46,9 +46,9 @@ class LanguageViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let language = UserDefaultsManagement.defaultLanguage
+        guard let language = UserDefaultsManagement.defaultKeyboard else { return }
         
-        if indexPath.row == language {
+        if languages?[indexPath.row] == language {
             cell.accessoryType = .checkmark
         }
     }
