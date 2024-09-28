@@ -195,8 +195,15 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
             .compactMap({ $0 as? UIWindowScene })
             .first,
            let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+            
+            navigationController?.navigationBar.isTranslucent = true
             rootViewController.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        navigationController?.navigationBar.isTranslucent = true
+        dismiss(animated: true, completion: nil)
     }
 }
 
