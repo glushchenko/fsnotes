@@ -987,9 +987,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         unregisterDraggedTypes()
         registerForDraggedTypes([
-            NSPasteboard.PasteboardType(kUTTypeFileURL as String),
             NSPasteboard.noteType,
-            .URL
+            NSPasteboard.PasteboardType.fileURL,
+            NSPasteboard.PasteboardType.URL,
+            NSPasteboard.PasteboardType.string
         ])
 
         if let label = editorViewController?.vcNonSelectedLabel {
@@ -1750,7 +1751,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return true
         }
 
-        return false
+        return super.performDragOperation(sender)
     }
 
     func fetchDataFromURL(url: URL, completion: @escaping (Data?, Error?) -> Void) {
