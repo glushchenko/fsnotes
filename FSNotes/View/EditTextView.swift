@@ -1771,16 +1771,18 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     func getHTMLTitle(from data: Data) -> String? {
         do {
-            let htmlString = String(data: data, encoding: .utf8)
-            let doc = try SwiftSoup.parse(htmlString!)
-            let titleElement = try doc.select("title").first()
-            let title = try titleElement?.text()
-
-            return title
+            if let htmlString = String(data: data, encoding: .utf8) {
+                let doc = try SwiftSoup.parse(htmlString)
+                let titleElement = try doc.select("title").first()
+                let title = try titleElement?.text()
+                
+                return title
+            }
         } catch {
             print("Error parsing HTML: \(error.localizedDescription)")
-            return nil
         }
+        
+        return nil
     }
 
     public func safeSave(note: Note) {

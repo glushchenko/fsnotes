@@ -1443,9 +1443,10 @@ public class Note: NSObject  {
                 mdImages.append(nsContent.substring(with: range))
             }
 
-            guard let range = result?.range(at: 3), nsContent.length >= range.location else { return }
-
-            guard let imagePath = nsContent.substring(with: range).removingPercentEncoding else { return }
+            guard let range = result?.range(at: 3),
+                nsContent.length >= range.location,
+                let imagePath = nsContent.substring(with: range).removingPercentEncoding
+            else { return }
 
             if let url = self.getImageUrl(imageName: imagePath) {
                 if url.isRemote() {
@@ -1482,7 +1483,6 @@ public class Note: NSObject  {
 
         cleanText =
             cleanText
-                .replacingOccurrences(of: "#", with: "")
                 .replacingOccurrences(of: "```", with: "")
                 .replacingOccurrences(of: "- [ ]", with: "")
                 .replacingOccurrences(of: "- [x]", with: "")
@@ -1500,7 +1500,13 @@ public class Note: NSObject  {
             }
         }
 
-        let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
+        let components = cleanText
+            .trim()
+            .components(separatedBy: NSCharacterSet.newlines)
+            .map { line in
+                return line.replacingOccurrences(of: "^#+", with: "", options: .regularExpression)
+            }
+            .filter({ $0 != "" })
 
         if let first = components.first {
             if project.settings.isFirstLineAsTitle() {
