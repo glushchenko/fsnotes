@@ -118,12 +118,14 @@ class SettingsViewController: NSViewController, NSTextFieldDelegate {
     public func controlTextDidChange(_ notification: Notification) {
         guard let textField = notification.object as? NSTextField else { return }
 
-        if textField.identifier?.rawValue == "gitOrigin" {
+        let id = textField.identifier?.rawValue
+        
+        if id == "gitOrigin" || id == "gitOriginMain" {
             gitProject?.settings.setOrigin(textField.stringValue)
             updateButtons()
         }
 
-        if textField.identifier?.rawValue == "gitPassphrase" {
+        if id == "gitPassphrase" || id == "gitPassphraseMain" {
             gitProject?.settings.gitPrivateKeyPassphrase = textField.stringValue
         }
 
