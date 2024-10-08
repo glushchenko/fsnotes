@@ -14,6 +14,7 @@ enum SettingsFilesNaming: Int {
     case untitledNote
     case date
     case altDate
+    case autoRenameNew
 
     public var tag: Int {
         switch self {
@@ -22,12 +23,13 @@ enum SettingsFilesNaming: Int {
         case .untitledNote: return 0x02
         case .date: return 0x03
         case .altDate: return 0x04
+        case .autoRenameNew: return 0x05
         }
     }
 
     public func getName() -> String {
         switch self {
-        case .uuid, .autoRename:
+        case .uuid, .autoRename, .autoRenameNew:
             return UUID().uuidString
         case .untitledNote:
             return "Untitled Note"

@@ -2234,7 +2234,11 @@ public class Note: NSObject  {
     }
 
     public func getAutoRenameTitle() -> String? {
-        if UserDefaultsManagement.naming != .autoRename {
+        if UserDefaultsManagement.naming != .autoRename && UserDefaultsManagement.naming != .autoRenameNew {
+            return nil
+        }
+        
+        if UserDefaultsManagement.naming == .autoRenameNew && isOlderThanOneDay(from: creationDate) {
             return nil
         }
 
@@ -2269,5 +2273,13 @@ public class Note: NSObject  {
 
     public func getRelatedPath() -> String {
         return project.getNestedPath() + "/" + name
+    }
+    
+    func isOlderThanOneDay(from date: Date? = nil) -> Bool {
+        if let date = date, let differenceInDays = Calendar.current.dateComponents([.day], from: date, to: Date()).day {
+            return differenceInDays >= 1
+        }
+        
+        return false
     }
 }
