@@ -301,7 +301,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Profi"
+            "value" : "Avancé"
           }
         },
         "hi" : {
@@ -511,7 +511,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Êtes-vous sûr de vouloir supprimer cette image?"
+            "value" : "Êtes-vous sûr de vouloir supprimer cette image ?"
           }
         },
         "hi" : {
@@ -723,7 +723,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Auto-correction"
+            "value" : "Autocorrection"
           }
         },
         "hi" : {
@@ -934,7 +934,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Date créée"
+            "value" : "Modifier la Date de création"
           }
         },
         "hi" : {
@@ -1005,7 +1005,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vérification orthographique"
+            "value" : "Vérifier l’orthographique"
           }
         },
         "hi" : {
@@ -1146,7 +1146,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloc de code avec surbrillance"
+            "value" : "Mise en surbrillance automatique des blocs de code"
           }
         },
         "hi" : {
@@ -1569,7 +1569,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Créer le dossier:"
+            "value" : "Créer le dossier :"
           }
         },
         "hi" : {
@@ -1780,7 +1780,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Decrypt"
+            "value" : "Déchiffrer"
           }
         },
         "hi" : {
@@ -2132,7 +2132,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Des documents"
+            "value" : "Documents"
           }
         },
         "hi" : {
@@ -2202,7 +2202,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Done"
+            "value" : "Fait"
           }
         },
         "hi" : {
@@ -2485,7 +2485,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vider le bac"
+            "value" : "Vider la Corbeille"
           }
         },
         "hi" : {
@@ -2556,7 +2556,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Encrypt"
+            "value" : "Chiffrer"
           }
         },
         "hi" : {
@@ -2766,7 +2766,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entrez un nouveau nom de libellé"
+            "value" : "Entrez un nouveau nom d’étiquette"
           }
         },
         "hi" : {
@@ -2836,7 +2836,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entrer le nom de la note"
+            "value" : "Entrez le nom de la note"
           }
         },
         "hi" : {
@@ -2978,7 +2978,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Famille de polices"
+            "value" : "Famille"
           }
         },
         "hi" : {
@@ -3119,7 +3119,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Format de fichier"
+            "value" : "Fichiers"
           }
         },
         "hi" : {
@@ -3614,7 +3614,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Taille de polive"
+            "value" : "Taille de police"
           }
         },
         "hi" : {
@@ -3685,7 +3685,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Format: Untitled Note"
+            "value" : "Format : Note sans titre"
           }
         },
         "hi" : {
@@ -3756,7 +3756,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Format: yyyy-MM-dd hh.mm.ss a"
+            "value" : "Format : yyyy-MM-dd hh.mm.ss a"
           }
         },
         "hi" : {
@@ -3827,7 +3827,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Format: yyyyMMddHHmmss"
+            "value" : "Format : yyyyMMddHHmmss"
           }
         },
         "hi" : {
@@ -4182,7 +4182,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git settings"
+            "value" : "Paramètres git"
           }
         },
         "hi" : {
@@ -4464,7 +4464,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Source des images:"
+            "value" : "Source des images :"
           }
         },
         "hi" : {
@@ -4535,7 +4535,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notes importantes"
+            "value" : "Importer des notes"
           }
         },
         "hi" : {
@@ -5101,7 +5101,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Master"
+            "value" : "Maître"
           }
         },
         "hi" : {
@@ -5171,7 +5171,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mot de passe maître:"
+            "value" : "Mot de passe maître :"
           }
         },
         "hi" : {
@@ -5524,7 +5524,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nouveau document"
+            "value" : "Nouvelle Note"
           }
         },
         "hi" : {
@@ -5594,7 +5594,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Par défaut"
+            "value" : "Aucun"
           }
         },
         "hi" : {
@@ -6578,7 +6578,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Private key"
+            "value" : "Clé privée"
           }
         },
         "hi" : {
@@ -6718,7 +6718,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Public key (facultatif)"
+            "value" : "Clé public (facultatif)"
           }
         },
         "hi" : {
@@ -6858,7 +6858,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer le cryptage"
+            "value" : "Supprimer le chiffrage"
           }
         },
         "hi" : {
@@ -7000,7 +7000,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enlever le libellé"
+            "value" : "Enlever l’étiquette"
           }
         },
         "hi" : {
@@ -7212,7 +7212,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renommer le dossier:"
+            "value" : "Renommer le dossier :"
           }
         },
         "hi" : {
@@ -7353,7 +7353,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renommer le libellé"
+            "value" : "Renommer l’étiquette"
           }
         },
         "hi" : {
@@ -7424,7 +7424,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renommer le libellé:"
+            "value" : "Renommer l’étiquette :"
           }
         },
         "hi" : {
@@ -7494,7 +7494,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save"
+            "value" : "Enregistrer"
           }
         },
         "hi" : {
@@ -7774,7 +7774,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trouver ou créer"
+            "value" : "Rechercher ou créer"
           }
         },
         "hi" : {
@@ -7844,7 +7844,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chercher"
+            "value" : "Rechercher ou Créer"
           }
         },
         "hi" : {
@@ -7915,7 +7915,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Security"
+            "value" : "Securité"
           }
         },
         "hi" : {
@@ -8267,7 +8267,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher les notes dans \"Notes\" et \"À faire\""
+            "value" : "Afficher les notes dans \"Notes\" et \"Tâches\""
           }
         },
         "hi" : {
@@ -8408,7 +8408,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Direction"
+            "value" : "Direction de tri"
           }
         },
         "hi" : {
@@ -8700,7 +8700,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tags"
+            "value" : "Étiquettes"
           }
         },
         "hi" : {
@@ -8771,7 +8771,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grâce à"
+            "value" : "Remerciement "
           }
         },
         "hi" : {
@@ -8912,7 +8912,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conseil : pour utiliser d'anciennes notes, vous devez les décrypter séparément avec l'ancienne clé et les crypter à nouveau."
+            "value" : "Conseil : pour utiliser d'anciennes notes, vous devez les déchiffrer séparément avec l'ancienne clé et les chiffrer à nouveau."
           }
         },
         "hi" : {
@@ -9053,7 +9053,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À faire"
+            "value" : "Tasks"
           }
         },
         "hi" : {
@@ -9690,7 +9690,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utiliser les tags en ligne"
+            "value" : "Utiliser les étiquettes en ligne"
           }
         },
         "hi" : {
@@ -9744,7 +9744,14 @@
       }
     },
     "Use TextBundle info.json to store c/mtime" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilisez TextBundle info.json pour stocker c/mtime"
+          }
+        }
+      }
     },
     "Verify Password" : {
       "localizations" : {
@@ -10116,7 +10123,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Web sharing error"
+            "value" : "Erreur de partage web"
           }
         },
         "hi" : {
@@ -10187,7 +10194,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Page d'accueil"
+            "value" : "Site web"
           }
         },
         "hi" : {
