@@ -231,7 +231,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Êtes-vous sûr de vouloir supprimer %d libellé(s) ? Cette action est irréversible."
+            "value" : "Êtes-vous sûr de vouloir supprimer %d étiquette(s) ? Cette action est irréversible."
           }
         },
         "he" : {
@@ -331,7 +331,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Êtes-vous sûr de vouloir supprimer définitivement %d notes(s) ?"
+            "value" : "Êtes-vous sûr de vouloir supprimer définitivement %d note(s) ?"
           }
         },
         "he" : {
@@ -836,7 +836,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Changer la date de création"
+            "value" : "Modifier la date de création"
           }
         },
         "he" : {
@@ -1136,7 +1136,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dégager"
+            "value" : "Effacer"
           }
         },
         "he" : {
@@ -1236,7 +1236,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Commit message:"
+            "value" : "Message du Commit :"
           }
         },
         "he" : {
@@ -1436,7 +1436,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Convertir en PlainText"
+            "value" : "Convertir en texte brut"
           }
         },
         "he" : {
@@ -1836,7 +1836,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copier du texte brut"
+            "value" : "Copier le texte brut"
           }
         },
         "he" : {
@@ -2138,7 +2138,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Date de création:"
+            "value" : "Date de création :"
           }
         },
         "he" : {
@@ -2438,7 +2438,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Décrypter"
+            "value" : "Déchiffrer"
           }
         },
         "he" : {
@@ -2638,7 +2638,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Effacer"
+            "value" : "Supprimer"
           }
         },
         "he" : {
@@ -2838,7 +2838,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer le libellé"
+            "value" : "Supprimer l’étiquette"
           }
         },
         "he" : {
@@ -3039,7 +3039,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Do you want force checkout?"
+            "value" : "Voulez-vous forcer le checkout ?"
           }
         },
         "he" : {
@@ -3639,7 +3639,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crypter"
+            "value" : "Chiffrer"
           }
         },
         "he" : {
@@ -3739,7 +3739,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saisir un mot de passe de cryptage:"
+            "value" : "Saisir un mot de passe de chiffrement :"
           }
         },
         "he" : {
@@ -3939,7 +3939,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Folder with name '%@' already exist"
+            "value" : "Le dossier avec le nom '%@' existe déjà"
           }
         },
         "he" : {
@@ -4039,7 +4039,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Font"
+            "value" : "Police"
           }
         },
         "he" : {
@@ -4140,7 +4140,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "FSNotes [edit]"
+            "value" : "FSNotes [modification]"
           }
         },
         "he" : {
@@ -4241,7 +4241,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "FSNotes [preview]"
+            "value" : "FSNotes [prévisualisation]"
           }
         },
         "he" : {
@@ -4341,7 +4341,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "git error"
+            "value" : "erreur git"
           }
         },
         "he" : {
@@ -4441,7 +4441,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git error"
+            "value" : "Erreur Git"
           }
         },
         "he" : {
@@ -4542,7 +4542,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git push erreur"
+            "value" : "Erreur Git push"
           }
         },
         "he" : {
@@ -4643,7 +4643,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git repository already exists, delete it and clone again??"
+            "value" : "Le dépôt Git existe déjà, voulez-vous le supprimer et le cloner à nouveau ??"
           }
         },
         "he" : {
@@ -5244,7 +5244,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Libgit2 error"
+            "value" : "Erreur libgit2"
           }
         },
         "he" : {
@@ -5345,7 +5345,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Libgit2 erreur: (code)"
+            "value" : "Erreur Libgit2 : (code)"
           }
         },
         "he" : {
@@ -5446,7 +5446,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Link"
+            "value" : "Lien"
           }
         },
         "he" : {
@@ -5546,7 +5546,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bloquer"
+            "value" : "Verrouiller"
           }
         },
         "he" : {
@@ -5646,7 +5646,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verrouiller tout crypté"
+            "value" : "Verrouiller les documents chiffrés"
           }
         },
         "he" : {
@@ -5846,7 +5846,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Make Link"
+            "value" : "Créer un Lien"
           }
         },
         "he" : {
@@ -5946,7 +5946,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mot de passe maître:"
+            "value" : "Mot de passe maître :"
           }
         },
         "he" : {
@@ -6549,7 +6549,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New RTF"
+            "value" : "Nouveau RTF"
           }
         },
         "he" : {
@@ -6649,7 +6649,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Window"
+            "value" : "Nouveau Window"
           }
         },
         "he" : {
@@ -7050,7 +7050,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remarques"
+            "value" : "Notes"
           }
         },
         "he" : {
@@ -7251,7 +7251,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remarque ouverte"
+            "value" : "Note ouverte"
           }
         },
         "he" : {
@@ -7451,7 +7451,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mot de passe:"
+            "value" : "Mot de passe :"
           }
         },
         "he" : {
@@ -8052,7 +8052,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Veuillez saisir le nom du tag :"
+            "value" : "Veuillez saisir le nom de l’étiquette :"
           }
         },
         "he" : {
@@ -8154,7 +8154,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Veuillez saisir des balises (séparées par des virgules) :"
+            "value" : "Veuillez saisir des étiquettes (séparées par des virgules) :"
           }
         },
         "he" : {
@@ -8254,7 +8254,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please init git repository before (Preferences -> Git -> Init/commit)"
+            "value" : "S’il vous plait, initialiser le dépôt git avant (Preferences -> Git -> Init/commit)"
           }
         },
         "he" : {
@@ -8656,7 +8656,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Préférences"
           }
         },
         "he" : {
@@ -8956,7 +8956,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recherche récente"
+            "value" : "Recherches récentes"
           }
         },
         "he" : {
@@ -9257,7 +9257,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer les notes"
+            "value" : "Supprimer la(les) note(s)"
           }
         },
         "he" : {
@@ -9357,7 +9357,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer les libellés"
+            "value" : "Supprimer les étiquettes"
           }
         },
         "he" : {
@@ -9557,7 +9557,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renommer le libellé"
+            "value" : "Renommer l’étiquette"
           }
         },
         "he" : {
@@ -9657,7 +9657,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renommer les libelés"
+            "value" : "Renommer les étiquettes"
           }
         },
         "he" : {
@@ -9757,7 +9757,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Repository not found"
+            "value" : "Dépôt non trouvé"
           }
         },
         "he" : {
@@ -9957,7 +9957,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Préférences"
+            "value" : "Paramètres"
           }
         },
         "he" : {
@@ -10960,7 +10960,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spelling and Grammar"
+            "value" : "Orthographe et Grammaire"
           }
         },
         "he" : {
@@ -11060,7 +11060,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "SSH erreur"
+            "value" : "Erreur SSH"
           }
         },
         "he" : {
@@ -11261,7 +11261,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tags"
+            "value" : "Étiquettes"
           }
         },
         "he" : {
@@ -11361,7 +11361,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Text Replacement"
+            "value" : "Remplacement de texte"
           }
         },
         "he" : {
@@ -11663,7 +11663,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Basculer l'aperçu"
+            "value" : "Activer/désactiver l'aperçu"
           }
         },
         "he" : {
@@ -11864,7 +11864,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Underline"
+            "value" : "Souligner"
           }
         },
         "he" : {
@@ -12266,7 +12266,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Untitled Note"
+            "value" : "Note sans titre"
           }
         },
         "he" : {
@@ -12466,7 +12466,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upload error"
+            "value" : "Erreur d'envoi de données"
           }
         },
         "he" : {
@@ -13573,7 +13573,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous ne pouvez pas déplacer une note déjà cryptée vers un répertoire crypté. Vous devez d'abord décrypter la note et répéter les étapes."
+            "value" : "Vous ne pouvez pas déplacer une note déjà chiffré vers un répertoire chiffré. Vous devez d'abord déchiffrer la note et répéter les étapes."
           }
         },
         "he" : {
