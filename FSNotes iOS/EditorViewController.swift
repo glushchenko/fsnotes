@@ -196,8 +196,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     public func fill(note: Note, selectedRange: NSRange? = nil, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
 
-        UserDefaultsManagement.lastSelectedURL = note.url
-        
         if enableHandoff {
             registerHandoff(for: note)
         }
@@ -1446,8 +1444,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc public func togglePreview() {
-        guard let note = editArea.note else { return }
-
+        guard let unwrappedNote = self.note, let note = Storage.shared().getBy(url: unwrappedNote.url) else { return }
+        
+        note.loadPreviewState()
+        
         if note.previewState {
             note.previewState = false
             getPreviewView()?.removeFromSuperview()
@@ -1581,12 +1581,17 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     override func restoreUserActivityState(_ activity: NSUserActivity) {
         if let id = activity.userInfo?["kCSSearchableItemActivityIdentifier"] as? String {
             let url = URL(fileURLWithPath: id)
-            if let note = Storage.shared().getBy(url: url) {
-                load(note: note)
-                return
-            } else {
-                UIApplication.getVC().restoreActivity = url
+            
+            var note = Storage.shared().getBy(url: url)
+            if nil === note {
+                note = Storage.shared().addNote(url: url)
             }
+            
+            if let note = note {
+                load(note: note)
+            }
+            
+            return
         }
 
         guard let name = activity.userInfo?["note-file-name"] as? String,

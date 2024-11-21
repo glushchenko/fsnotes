@@ -163,7 +163,7 @@ public class Project: Equatable {
         } else {
             prefix = "e\(url.path)"
         }
-        
+                
         return prefix.md5
     }
 
@@ -291,16 +291,13 @@ public class Project: Equatable {
                 notes.append(note)
             }
 
-            // print("From cache: \(notes.count)")
+            print("From cache: \(notes.count)")
             
             isNeededCacheValidation = true
         } else if !cacheOnly {
             notes = fetchNotes()
-            for newNote in notes {
-                newNote.load()
-            }
-
-            // print("From disk: \(notes.count)")
+            
+            print("From disk: \(notes.count)")
         }
 
         notes = loadPins(for: notes)
@@ -750,7 +747,7 @@ public class Project: Equatable {
     }
     
     public func getNotes() -> [Note] {
-        return storage.noteList.filter({ $0.project == self })
+        return storage.noteList.filter({ $0.project.url.path == self.url.path })
     }
     
     public func countNotes(contains image: URL) -> Int {
@@ -879,12 +876,7 @@ public class Project: Equatable {
             return ([], [], [])
         }
 
-
         let results = checkFSAndMemoryDiff()
-        
-        if results.1.count > 0 {
-            print(results)
-        }
 
         print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
         

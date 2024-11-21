@@ -132,6 +132,18 @@ public class Note: NSObject  {
         parseURL(loadProject: false)
     }
     
+    public func fileSize(atPath path: String) -> Int64? {
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: path)
+            if let fileSize = attributes[.size] as? Int64 {
+                return fileSize
+            }
+        } catch {
+            print("Error retrieving file size: \(error.localizedDescription)")
+        }
+        return nil
+    }
+    
     public func isValidForCaching() -> Bool {
         return isLoaded || title.count > 0 || isEncrypted() || imageUrl != nil
     }
@@ -224,7 +236,64 @@ public class Note: NSObject  {
             return false
         }
     }
+    
+    private func readTitleAndPreview() -> (String?, String?) {
+        guard let fileHandle = FileHandle(forReadingAtPath: url.path) else {
+            print("Can not open the file.")
+            return (nil, nil)
+        }
+        defer { fileHandle.closeFile() }
+        
+        var saveChars = false
+        var title = String()
+        var preview = String()
+        
+        while let char = String(data: fileHandle.readData(ofLength: 1), encoding: .utf8) {
+            if char == "\n" {
+                if saveChars {
+                    preview += " "
+                } else {
+                    saveChars = true
+                }
+                continue
+            }
+            
+            if saveChars {
+                preview += char
+                if preview.count >= 100 {
+                    break
+                }
+            } else {
+                title += char
+            }
+        }
+        
+        preview = preview.trimmingCharacters(in: .whitespacesAndNewlines)
+        title = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        return (title, preview)
+    }
 
+
+    public func uiLoad() {
+        if let size = fileSize(atPath: self.url.path), size > 100000 {
+            loadFileName()
+            
+            let data = readTitleAndPreview()
+            if let title = data.0 {
+                self.title = title.trimMDSyntax()
+            }
+            
+            if let preview = data.1 {
+                self.preview = preview.trimMDSyntax()
+            }
+            
+            return
+        }
+        
+        load(tags: true)
+    }
+    
     func load(tags: Bool = true) {
         if let attributedString = getContent() {
             cacheHash = nil
@@ -1481,14 +1550,7 @@ public class Note: NSObject  {
             cleanText = cleanText.replacingOccurrences(of: image, with: "")
         }
 
-        cleanText =
-            cleanText
-                .replacingOccurrences(of: "```", with: "")
-                .replacingOccurrences(of: "- [ ]", with: "")
-                .replacingOccurrences(of: "- [x]", with: "")
-                .replacingOccurrences(of: "[[", with: "")
-                .replacingOccurrences(of: "]]", with: "")
-                .replacingOccurrences(of: "{{TOC}}", with: "")
+        cleanText = cleanText.trimMDSyntax()
 
         if cleanText.startsWith(string: "---") {
             FSParser.yamlBlockRegex.matches(cleanText, range: NSRange(location: 0, length: cleanText.count)) { (result) -> Void in
@@ -2281,5 +2343,9 @@ public class Note: NSObject  {
         }
         
         return false
+    }
+    
+    public func loadPreviewState() {
+        previewState = project.settings.notesPreview.contains(name)
     }
 }

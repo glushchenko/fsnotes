@@ -24,4 +24,8 @@ extension UIApplication {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.mainController
     }
+    
+    static func getDelegate() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
 }

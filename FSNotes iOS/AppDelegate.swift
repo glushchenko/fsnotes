@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public static var gitVC = [String: GitViewController]()
     public static var gitProgress: GitProgress?
+    
+    // MARK: Static Properties
+    static let applicationShortcutUserInfoIconKey = "applicationShortcutUserInfoIconKey"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
@@ -108,16 +111,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {        
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
-        guard let shortcut = launchedShortcutItem else { return }
-        _ = handleShortCutItem(shortcut)
-        
-        // Reset which shortcut was chosen for next time.
-        launchedShortcutItem = nil
-    }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized,
@@ -134,43 +127,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        let handledShortCutItem = handleShortCutItem(shortcutItem)
-        completionHandler(handledShortCutItem)
-    }
-
-    // MARK: Static Properties
-    static let applicationShortcutUserInfoIconKey = "applicationShortcutUserInfoIconKey"
-    
-    func handleShortCutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
-        var handled = false
-        guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
-        guard let shortCutType = shortcutItem.type as String? else { return false }
-
-        let vc = UIApplication.getVC()
-
-        switch shortCutType {
-        case ShortcutIdentifier.makeNew.type:
-            vc.createNote()
-
-            handled = true
-            break
-        case ShortcutIdentifier.clipboard.type:
-            vc.createNote(pasteboard: true)
-
-            handled = true
-            break
-        case ShortcutIdentifier.search.type:
-            vc.loadViewIfNeeded()
-            vc.popViewController()
-            vc.loadSearchController()
-            handled = true
-            break
-        default:
-            
-            break
+        
+        if ShortcutIdentifier(fullType: shortcutItem.type) == .search {
+            UIApplication.getVC().enableSearchFocus()
         }
-
-        return handled
+        
+        UIApplication.getVC().handleShortCutItem(shortcutItem)
+        completionHandler(true)
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -191,6 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 note = storage.getBy(title: id)
                 if !vc.isLoadedDB, note == nil {
                     vc.restoreFindID = id
+                    return true
                 }
             }
         }

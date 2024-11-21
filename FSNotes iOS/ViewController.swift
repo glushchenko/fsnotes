@@ -55,10 +55,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     // Swipe animation from handleSidebarSwipe
     private var sidebarWidth: CGFloat = 0
     private var isLandscape: Bool?
-
-    public var restoreActivity: URL?
     public var restoreFindID: String?
+    
     public var isLoadedDB: Bool = false
+    public var isLoadedSidebar: Bool = false
 
     public var folderCapacity: String?
     public var currentFolder: String?
@@ -94,13 +94,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
         super.viewWillAppear(animated)
-
-        UserDefaultsManagement.lastSelectedURL = nil
-        
-        reloadNotesTable() { [weak self] in
-            guard let self = self else { return }
-            self.stopAnimation(indicator: self.indicator)
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -128,9 +121,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if searchFocus {
             disableSearchFocus()
 
-            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                 self.navigationItem.searchController?.searchBar.becomeFirstResponder()
             })
+        } else if !isLoadedSidebar {
+            notesTable.showLoader()
         }
 
         super.viewDidAppear(animated)
@@ -153,30 +148,27 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         scheduledGitPull()
 
         disableLockedProject()
-        loadNotesTable()
-        notesTable.showLoader()
-
         loadSidebar()
 
         loadNotches()
         loadPreSafeArea()
 
         if !initialLoadingState {
-            preLoadProjectsData()
             initialLoadingState = true
-        }
-        
-        loadNews()
-        restoreLastController()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-
-        notesTable.keyboardDismissMode = .onDrag
-        notesTable.contentInsetAdjustmentBehavior = .never
-        notesTable.alwaysBounceVertical = true
-
-        if #available(iOS 15.0, *) {
-            sidebarTableView.sectionHeaderTopPadding = 0
+            
+            loadNews()
+            
+            let appDelegate = UIApplication.getDelegate()
+            if let shortcut = appDelegate.launchedShortcutItem {
+                handleShortCutItem(shortcut)
+                appDelegate.launchedShortcutItem = nil
+            } else {
+                self.restoreLastController()
+            }
+            
+            DispatchQueue.global(qos: .userInteractive).async {
+                self.loadDB()
+            }
         }
 
         super.viewDidLoad()
@@ -242,15 +234,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationItem.leftBarButtonItems = [appSettings, generalSettings]
 
         setNavTitle(folder: NSLocalizedString("Inbox", comment: ""))
+        
         sidebarTableView.backgroundColor = UIColor.sidebar
+        sidebarTableView.dropDelegate = sidebarTableView
+        if #available(iOS 15.0, *) {
+            sidebarTableView.sectionHeaderTopPadding = 0
+        }
 
         loadPlusButton()
 
         notesTable.viewDelegate = self
         notesTable.dragInteractionEnabled = true
         notesTable.dragDelegate = notesTable
-        sidebarTableView.dropDelegate = sidebarTableView
-
+        notesTable.keyboardDismissMode = .onDrag
+        notesTable.contentInsetAdjustmentBehavior = .never
+        notesTable.alwaysBounceVertical = true
         notesTable.dataSource = notesTable
         notesTable.delegate = notesTable
         notesTable.layer.zPosition = 100
@@ -319,6 +317,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
 
     public func configureGestures() {
@@ -364,6 +364,28 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func disableSearchFocus() {
         searchFocus = false
     }
+    
+    public func handleShortCutItem(_ shortcutItem: UIApplicationShortcutItem) {
+        guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return }
+        guard let shortCutType = shortcutItem.type as String? else { return }
+
+        switch shortCutType {
+        case ShortcutIdentifier.makeNew.type:
+            self.createNote()
+            break
+        case ShortcutIdentifier.clipboard.type:
+            self.createNote(pasteboard: true)
+            break
+        case ShortcutIdentifier.search.type:
+            self.loadViewIfNeeded()
+            self.enableSearchFocus()
+            self.popViewController()
+            self.loadSearchController()
+            break
+        default:
+            break
+        }
+    }
 
     @IBAction public func toggleSidebar() {
         if UserDefaultsManagement.sidebarIsOpened {
@@ -405,12 +427,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         gesture.state = .ended
     }
 
-    public func loadNotesTable() {
-        reloadNotesTable() {
-            self.stopAnimation(indicator: self.indicator)
-        }
-    }
-
     public func loadSidebar() {
         sidebarTableView.dataSource = self.sidebarTableView
         sidebarTableView.delegate = self.sidebarTableView
@@ -427,84 +443,64 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if UserDefaultsManagement.sidebarIsOpened {
             resizeSidebar()
         }
-
-        guard Storage.shared().getRoot() != nil else { return }
-
-//        DispatchQueue.main.async {
-//            let inboxIndex = IndexPath(row: 0, section: 0)
-//            self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: inboxIndex)
-//        }
     }
-    
-    public func preLoadProjectsData() {
-        guard storage.getRoot() != nil else { return }
-        storage.loadInboxAndTrash()
 
-        self.reloadNotesTable()
+    public func loadDB() {
+        let storage = self.storage
+        
+        let dirsLoading = Date()
+        storage.loadNonSystemProject()
+        storage.loadProjectRelations()
+        
+        print("1. Loaded non system projects and relations in \(dirsLoading.timeIntervalSinceNow * -1) seconds")
+        
+        let notesLoadingPoint = Date()
+        let projects = storage.getProjects()
+        
+        for project in projects {
+            _ = project.loadNotes()
+        }
+        
+        print("2. Notes loading finished in \(notesLoadingPoint.timeIntervalSinceNow * -1) seconds")
 
-        DispatchQueue.global(qos: .userInteractive).async {
-            let storage = self.storage
-
-            let projectsLoading = Date()
-            let results = storage.getProjectDiffs()
-
-            OperationQueue.main.addOperation {
-                self.sidebarTableView.removeRows(projects: results.0)
-                self.sidebarTableView.insertRows(projects: results.1)
-                self.notesTable.doVisualChanges(results: (results.2, results.3, []))
-            }
+        OperationQueue.main.addOperation {
             
-            print("0. Projects diff loading finished in \(projectsLoading.timeIntervalSinceNow * -1) seconds")
-
-            let diffLoading = Date()
-            for project in storage.getProjects() {
-                let changes = project.checkNotesCacheDiff()
-                self.notesTable.doVisualChanges(results: changes)
-                self.notesTable.hideLoader()
-            }
+            self.importSavedInSharedExtension()
+            self.sidebarTableView.reloadSidebar()
             
-            print("1. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
-
-            // enable iCloud Drive updates after projects structure formalized
-            self.cloudDriveManager?.metadataQuery.enableUpdates()
-
-            let tagsPoint = Date()
-            storage.loadNotesContent()
-
-            DispatchQueue.main.async {
-
-                self.importSavedInSharedExtension()
-
-                self.sidebarTableView.reloadSidebar()
-                self.resizeSidebar(withAnimation: true)
-                self.sidebarTableView.loadAllTags()
-            }
-
-            print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
-
-            // fill note from spotlight action
-            if let restore = self.restoreActivity {
-                if let note = Storage.shared().getBy(url: restore) {
-                    DispatchQueue.main.async {
-                        UIApplication.getEVC().load(note: note)
+            DispatchQueue.global(qos: .userInitiated).async {
+                let diffLoading = Date()
+                for project in storage.getProjects() {
+                    let changes = project.checkNotesCacheDiff()
+                    self.notesTable.doVisualChanges(results: changes)
+                }
+                
+                print("3. Notes diff loading finished in \(diffLoading.timeIntervalSinceNow * -1) seconds")
+                
+                // find://
+                if let restore = self.restoreFindID {
+                    self.restoreFindID = nil
+                    if let note = Storage.shared().getBy(title: restore) {
+                        OperationQueue.main.addOperation {
+                            self.notesTable.hideLoader()
+                            UIApplication.getEVC().load(note: note)
+                        }
                     }
                 }
+                
+                // Load notes content
+                let notesFullLoading = Date()
+                self.storage.loadNotesContent()
+                print("4. Full notes loading in \(notesFullLoading.timeIntervalSinceNow * -1) seconds")
+                
+                let spotlightPoint = Date()
+                self.reIndexSpotlight()
+                print("5. Spotlight indexation finished in \(spotlightPoint.timeIntervalSinceNow * -1) seconds")
+                
+                // enable iCloud Drive updates after projects structure formalized
+                self.cloudDriveManager?.metadataQuery.enableUpdates()
+                self.isLoadedDB = true
             }
-            
-            if let restore = self.restoreFindID {
-                self.restoreFindID = nil
-                if let note = Storage.shared().getBy(title: restore) {
-                    DispatchQueue.main.async {
-                        UIApplication.getEVC().load(note: note)
-                    }
-                }
-            }
-
-            let spotlightPoint = Date()
-            self.reIndexSpotlight()
-            print("4. Spotlight indexation finished in \(spotlightPoint.timeIntervalSinceNow * -1) seconds")
-            
-            self.isLoadedDB = true
         }
     }
 
@@ -754,7 +750,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.loadPlusButton()
             }
         }
-
     }
 
     private func toggleSearchView() {
@@ -794,20 +789,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         indicator.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(indicator)
         indicator.bringSubviewToFront(view)
-    }
-
-    public func startAnimation(indicator: UIActivityIndicatorView?) {
-        DispatchQueue.main.async {
-            indicator?.startAnimating()
-            indicator?.layer.zPosition = 101
-        }
-    }
-
-    public func stopAnimation(indicator: UIActivityIndicatorView?) {
-        DispatchQueue.main.async {
-            indicator?.stopAnimating()
-            indicator?.layer.zPosition = -1
-        }
     }
 
     public func reloadNotesTable(completion: (() -> ())? = nil) {
@@ -870,7 +851,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
 
                 self.isActiveTableUpdating = false
-                self.stopAnimation(indicator: self.indicator)
 
                 completion?()
             }
@@ -1443,46 +1423,37 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func restoreLastController() {
-        guard !Storage.shared().isCrashedLastTime else { return }
+        guard !self.storage.isCrashedLastTime,
+            let noteURL = UserDefaultsManagement.currentNote,
+            FileManager.default.fileExists(atPath: noteURL.path)
+        else { return }
+            
+        let note = Storage.shared().addNote(url: noteURL)
+        
+        guard !note.isEncrypted() else { return }
+        note.loadPreviewState()
 
-        DispatchQueue.main.async {
-            if let noteURL = UserDefaultsManagement.currentNote {
-                if FileManager.default.fileExists(atPath: noteURL.path),
-                   let project = Storage.shared().getProjectByNote(url: noteURL)
-                {
-                    var note = Storage.shared().getBy(url: noteURL)
-
-                    if note == nil {
-                        note = Note(url: noteURL, with: project)
-//                        if let unwrapped = note {
-//                            Storage.shared().add(unwrapped)
-//                        }
-                    }
-
-                    guard let note = note, !note.isEncrypted()  else { return }
-
-                    UIApplication.getVC().openEditorViewController()
-
-                    let evc = UIApplication.getEVC()
-                    evc.fill(note: note)
-
-                    if UserDefaultsManagement.currentEditorState == true,
-                       let selectedRange = UserDefaultsManagement.currentRange,
-                       !note.previewState
-                    {
-                        if selectedRange.upperBound <= note.content.length {
-                            evc.editArea.selectedRange = selectedRange
-                        }
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            evc.editArea.becomeFirstResponder()
-                        }
-                    }
-
-                    UserDefaultsManagement.currentNote = nil
+        UIApplication.getVC().openEditorViewController()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            UIApplication.getEVC().fill(note: note)
+            UIApplication.getEVC().configureNavMenu()
+            
+            if UserDefaultsManagement.currentEditorState == true,
+               let selectedRange = UserDefaultsManagement.currentRange,
+               !note.previewState,
+               selectedRange.upperBound <= note.content.length
+            {
+                UIApplication.getEVC().editArea.becomeFirstResponder()
+                UIApplication.getEVC().editArea.selectedRange = selectedRange
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    UIApplication.getEVC().editArea.scrollRangeToVisible(selectedRange)
                 }
             }
         }
+
+        UserDefaultsManagement.currentNote = nil
     }
     
     public func reloadDatabase() {

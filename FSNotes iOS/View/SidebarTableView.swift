@@ -133,7 +133,9 @@ class SidebarTableView: UITableView,
         vc.buildSearchQuery()
         vc.reloadNotesTable() {
             DispatchQueue.main.async {
+                vc.notesTable.hideLoader()
                 vc.setNavTitle(folder: name)
+                vc.isLoadedSidebar = true
 
                 guard vc.notesTable.notes.count > 0 else {
                     self.unloadAllTags()
@@ -146,13 +148,6 @@ class SidebarTableView: UITableView,
                 if selectedSection != .Tags {
                     self.loadAllTags()
                     vc.resizeSidebar(withAnimation: true)
-                }
-
-                if let url = UserDefaultsManagement.lastSelectedURL,
-                   let note = Storage.shared().getBy(url: url) {
-                    UserDefaultsManagement.lastSelectedURL = nil
-                    
-                    UIApplication.getEVC().load(note: note)
                 }
             }
         }
@@ -730,6 +725,8 @@ class SidebarTableView: UITableView,
         }
 
         tableView(self, didSelectRowAt: indexPath)
+        
+        viewController?.resizeSidebar(withAnimation: true)
     }
 
     public func reload(indexPath: IndexPath) {

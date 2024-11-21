@@ -147,6 +147,7 @@ class Storage {
 
     public func insertProject(project: Project) {
         if projectExist(url: project.url) {
+            print("Project exist: \(project.label)")
             return
         }
         
@@ -554,6 +555,8 @@ class Storage {
     func add(_ note: Note) {
         if !noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
            noteList.append(note)
+        } else {
+            print("Note exist: \(note.name)")
         }
     }
 
@@ -1094,22 +1097,34 @@ class Storage {
         return src
     }
 
-    public func fetchNonSystemProjectURLs() -> [URL] {
-        guard let main = getDefault() else { return [URL]() }
+    public func loadNonSystemProject() {
+        guard let main = getDefault() else { return }
+        
+        let projectURLs = getAllSubUrls(for: main.url)
+        for projectURL in projectURLs {
+            let project = Project(storage: self, url: projectURL)
+            insertProject(project: project)
+        }
+        
+        let bookmarkURLs = fetchBookmarkUrls()
+        for url in bookmarkURLs {
+            if !projectURLs.contains(url) {
+                let project = Project(storage: self, url: url)
+                insertProject(project: project)
+            }
+        }
+    }
+    
+    public func fetchBookmarkUrls() -> [URL] {
+        guard let main = getDefault()?.url else { return [URL]() }
         
         var projectURLs = [URL]()
-
-        if let main = getDefault() {
-            projectURLs = getAllSubUrls(for: main.url)
-        }
-
-        let bookmarksManager = SandboxBookmark.sharedInstance()
-        let urls = bookmarksManager.getRestoredUrls()
-
-        for url in urls {
+        let bookmarkUrls = SandboxBookmark.sharedInstance().getRestoredUrls()
+        
+        for url in bookmarkUrls {
             if !projectURLs.contains(url)
-                && url != main.url
-                && url != trashURL {
+                && url != main
+                && url != self.trashURL {
 
                 projectURLs.append(url)
                 
@@ -1523,7 +1538,24 @@ class Storage {
          }
 
         UserDefaultsManagement.apiBookmarksData = nil
-     }
+    }
+    
+    public func addNote(url: URL) -> Note {
+        let projectURL = url.deletingLastPathComponent()
+        var project: Project?
+        
+        if let unwrappedProject = getProjectBy(url: projectURL) {
+            project = unwrappedProject
+        } else {
+            project = Project(storage: self, url: projectURL)
+            insertProject(project: project!)
+        }
+        
+        let note = Note(url: url, with: project!)
+        add(note)
+        
+        return note
+    }
 }
 
 extension String: Error {}

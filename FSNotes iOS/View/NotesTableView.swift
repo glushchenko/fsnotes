@@ -81,7 +81,7 @@ class NotesTableView: UITableView,
         let note = self.notes[indexPath.row]
 
         if !note.isLoaded && !note.isLoadedFromCache {
-            note.load()
+            note.uiLoad()
         }
         
         cell.configure(note: note)
@@ -103,9 +103,10 @@ class NotesTableView: UITableView,
 
         guard !self.isEditing, notes.indices.contains(indexPath.row) else { return }
 
-        let note = notes[indexPath.row]
+        var note = notes[indexPath.row]
+        note.loadPreviewState()
+        
         let evc = UIApplication.getEVC()
-
         if let editArea = evc.editArea, let u = editArea.undoManager {
             u.removeAllActions()
         }
