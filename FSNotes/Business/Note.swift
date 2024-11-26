@@ -2300,7 +2300,7 @@ public class Note: NSObject  {
             return nil
         }
         
-        if UserDefaultsManagement.naming == .autoRenameNew && isOlderThanThirtySeconds(from: creationDate) {
+        if UserDefaultsManagement.naming == .autoRenameNew && isOlderThan30Seconds(from: creationDate) {
             return nil
         }
 
@@ -2337,13 +2337,12 @@ public class Note: NSObject  {
         return project.getNestedPath() + "/" + name
     }
     
-func isOlderThanThirtySeconds(from date: Date? = nil) -> Bool {
-if let date = date {
-    let differenceInSeconds = Int(Date().timeIntervalSince(date))
-    return differenceInSeconds >= 30 
-    }
 
-    return false
+func isOlderThan30Seconds(from date: Date? = nil) -> Bool {
+    guard let date = date else { return false }
+
+    let thirtySecondsAgo = Date().addingTimeInterval(-30)
+    return date < thirtySecondsAgo //Returns false if date is not older than 30 seconds
 }
     
     public func loadPreviewState() {
