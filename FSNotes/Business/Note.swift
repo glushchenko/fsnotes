@@ -2300,7 +2300,7 @@ public class Note: NSObject  {
             return nil
         }
         
-        if UserDefaultsManagement.naming == .autoRenameNew && isOlderThanOneDay(from: creationDate) {
+        if UserDefaultsManagement.naming == .autoRenameNew && isOlderThanThirtySeconds(from: creationDate) {
             return nil
         }
 
@@ -2337,13 +2337,14 @@ public class Note: NSObject  {
         return project.getNestedPath() + "/" + name
     }
     
-    func isOlderThanOneDay(from date: Date? = nil) -> Bool {
-        if let date = date, let differenceInDays = Calendar.current.dateComponents([.day], from: date, to: Date()).day {
-            return differenceInDays >= 1
-        }
-        
-        return false
+func isOlderThanThirtySeconds(from date: Date? = nil) -> Bool {
+if let date = date {
+    let differenceInSeconds = Int(Date().timeIntervalSince(date))
+    return differenceInSeconds >= 30 
     }
+
+    return false
+}
     
     public func loadPreviewState() {
         previewState = project.settings.notesPreview.contains(name)
