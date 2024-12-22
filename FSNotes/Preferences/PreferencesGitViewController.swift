@@ -95,6 +95,10 @@ class PreferencesGitViewController: SettingsViewController {
     }
 
     @IBAction func changeSnapshotIntervalByHours(_ sender: NSTextField) {
+        if sender.stringValue == "0" || sender.stringValue.trim() == "" {
+            sender.stringValue = "1"
+        }
+        
         if let interval = Int(sender.stringValue) {
             UserDefaultsManagement.snapshotsInterval = interval
         }

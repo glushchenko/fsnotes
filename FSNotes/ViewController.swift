@@ -947,8 +947,9 @@ class ViewController: EditorViewController,
 
             let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getDefault()
 
-            if UserDefaultsManagement.fileFormat == .Markdown,
-                UserDefaultsManagement.naming == .autoRename,
+            if UserDefaultsManagement.fileFormat == .Markdown, (
+                UserDefaultsManagement.naming == .autoRename || UserDefaultsManagement.naming == .autoRenameNew
+                ),
                 UserDefaultsManagement.autoInsertHeader,
                 UserDefaultsManagement.firstLineAsTitle || selectedProject?.settings.firstLineAsTitle == true {
                 content.append("# \(value)\n\n")

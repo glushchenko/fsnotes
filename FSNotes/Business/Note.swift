@@ -1557,7 +1557,11 @@ public class Note: NSObject  {
                 guard let range = result?.range(at: 1), range.location == 0 else { return }
 
                 if let swiftRange = cleanText.swiftRange(from: range) {
-                    cleanText = cleanText.replacingOccurrences(of: cleanText[swiftRange], with: "")
+                    let yamlText = cleanText[swiftRange]
+                
+                    self.loadYaml(components: yamlText.components(separatedBy: NSCharacterSet.newlines))
+                    
+                    cleanText = cleanText.replacingOccurrences(of: yamlText, with: "")
                 }
             }
         }
@@ -1578,6 +1582,8 @@ public class Note: NSObject  {
                     title = first.trim()
                     preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
                     firstLineAsTitle = true
+                } else {
+                    preview = getPreviewLabel(with: components.joined(separator: " "))
                 }
             } else {
                 loadTitleFromFileName()
@@ -2302,6 +2308,10 @@ public class Note: NSObject  {
         
         if UserDefaultsManagement.naming == .autoRenameNew && isOlderThanOneDay(from: creationDate) {
             return nil
+        }
+        
+        if content.string.startsWith(string: "---") {
+            loadPreviewInfo()
         }
 
         let title = title.trunc(length: 64)
