@@ -649,7 +649,8 @@ class Storage {
     func getBy(contains: String) -> [Note]? {
         return
             noteList.filter{
-                $0.title.lowercased().contains(contains.lowercased())
+                !$0.project.isTrash
+                && $0.title.lowercased().contains(contains.lowercased())
             }
     }
 
