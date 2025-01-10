@@ -794,6 +794,22 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             pasteboard.setString(paragraph.string.trim().removeLastNewLine(), forType: NSPasteboard.PasteboardType.string)
             return
         }
+        
+        if let menuItem = sender as? NSMenuItem,
+           menuItem.identifier?.rawValue == "copy:",
+           self.selectedRange.length > 0 {
+            
+            let attrString = attributedSubstring(forProposedRange: self.selectedRange, actualRange: nil)
+            
+            if let attrString = attrString,
+               let link = attrString.attribute(.link, at: 0, effectiveRange: nil) as? String {
+                
+                let pasteboard = NSPasteboard.general
+                pasteboard.declareTypes([.string], owner: nil)
+                pasteboard.setString(link, forType: .string)
+                return
+            }
+        }
 
         super.copy(sender)
     }
