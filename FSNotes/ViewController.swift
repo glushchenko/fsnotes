@@ -2050,7 +2050,11 @@ class ViewController: EditorViewController,
             ? vc.splitView.subviews[0].frame.height
             : vc.splitView.subviews[0].frame.width
         
-        return size != 0
+        if size == 0 || vc.splitView.shouldHideDivider {
+            return false
+        }
+        
+        return true
     }
     
     public func isVisibleSidebar() -> Bool {
