@@ -36,18 +36,32 @@ class SandboxBookmark {
     func load() {
         let path = bookmarkPath()
 
-        if FileManager.default.fileExists(atPath: path), let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data] {
-            self.bookmarks = bookmarks
+        if FileManager.default.fileExists(atPath: path),
+            let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+            do {
+                if let bookmarks = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSData.self], from: data) as? [URL: Data] {
+                    self.bookmarks = bookmarks
 
-            for bookmark in bookmarks {
-                _ = restore(bookmark)
+                    for bookmark in bookmarks {
+                        _ = restore(bookmark)
+                    }
+                }
+            } catch {
+                print("Failed to unarchive bookmarks: \(error.localizedDescription)")
             }
         }
     }
     
     func save() {
         let path = bookmarkPath()
-        NSKeyedArchiver.archiveRootObject(bookmarks, toFile: path)
+        let fileURL = URL(fileURLWithPath: path)
+        
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: bookmarks, requiringSecureCoding: false)
+            try data.write(to: fileURL)
+        } catch {
+            print("Failed to save bookmarks: \(error.localizedDescription)")
+        }
     }
     
     func store(url: URL) {
@@ -114,12 +128,18 @@ class SandboxBookmark {
     
     public func save(url: URL) {
         let path = bookmarkPath()
+        let fileURL = URL(fileURLWithPath: path)
 
         if self.bookmarks.isEmpty,
             FileManager.default.fileExists(atPath: path),
-            let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data]
-        {
-            self.bookmarks = bookmarks
+            let data = try? Data(contentsOf: fileURL) {
+            do {
+                if let bookmarks = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSData.self], from: data) as? [URL: Data] {
+                    self.bookmarks = bookmarks
+                }
+            } catch {
+                print("Failed to unarchive bookmarks: \(error.localizedDescription)")
+            }
         }
         
         self.store(url: url)

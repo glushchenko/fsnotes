@@ -568,7 +568,12 @@ public class Note: NSObject  {
         guard FileManager.default.fileExists(atPath: url.path) else { return nil }
 
         if isTrash() || completely {
-            try? FileManager.default.removeItem(at: url)
+            do {
+                try FileManager.default.removeItem(at: url)
+            } catch let error as NSError {
+                Swift.print("Remove file error: \(error.localizedDescription)")
+                Swift.print("Error details: \(error.userInfo)")
+            }
 
             if type == .Markdown && container == .none {
                 let urls = getAllImages()
