@@ -115,11 +115,13 @@ extension EditorViewController {
         let hour = cal.component(.hour, from: Date())
         let minute = cal.component(.minute, from: Date())
 
-        if minute == lastSnapshot {
-            return
+        if let lastSnapshot = self.lastSnapshot {
+            if minute == lastSnapshot {
+                return
+            } else {
+                self.lastSnapshot = nil
+            }
         }
-
-        lastSnapshot = minute
 
         guard UserDefaultsManagement.snapshotsInterval != 0 && (
             hour == UserDefaultsManagement.snapshotsInterval || (
@@ -128,6 +130,8 @@ extension EditorViewController {
         ) else { return }
 
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
+        
+        lastSnapshot = minute
 
         ViewController.gitQueue.addOperation({
             ViewController.gitQueueOperationDate = Date()
@@ -186,8 +190,10 @@ extension EditorViewController {
     public func scheduleSnapshots() {
         guard !UserDefaultsManagement.backupManually else { return }
 
-        snapshotsTimer.invalidate()
-        snapshotsTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(makeFullSnapshot), userInfo: nil, repeats: true)
+        DispatchQueue.main.async {
+            self.snapshotsTimer.invalidate()
+            self.snapshotsTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.makeFullSnapshot), userInfo: nil, repeats: true)
+        }
     }
     
     public func schedulePull() {

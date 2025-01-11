@@ -33,7 +33,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     
     // git
     public var snapshotsTimer = Timer()
-    public var lastSnapshot: Int = 0
+    public var lastSnapshot: Int?
     public var pullTimer = Timer()
     
     public var encPassword: NSSecureTextField?
