@@ -924,10 +924,6 @@ class Storage {
 
         return notes
     }
-    
-    public func loadNotesCloudPins() {
-        _ = restoreCloudPins()
-    }
 
     public func getPinned() -> [Note]? {
         return noteList.filter({ $0.isPinned })
