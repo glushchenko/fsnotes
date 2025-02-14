@@ -1312,7 +1312,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let context = LAContext()
         context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
 
-        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
+        var passwordExist = false
+        do {
+            let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+            let password = try item.readPassword()
+            passwordExist = password.count > 0
+        } catch {/*_*/}
+        
+        guard passwordExist && context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
             masterPasswordPrompt(completion: completion)
             return
         }
