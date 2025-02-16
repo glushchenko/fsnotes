@@ -864,6 +864,16 @@ class NotesTableView: UITableView,
                 DispatchQueue.main.async {
                     nvc.dismiss(animated: false, completion: nil)
                 }
+            } catch GitError.noAddedFiles {
+                DispatchQueue.main.async {
+                    // Hide loader
+                    nvc.dismiss(animated: false, completion: nil)
+
+                    let alert = UIAlertController(title: "No changes", message: "Nothing new to commit", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+                    nvc.present(alert, animated: true, completion: nil)
+                }
             } catch {
                 DispatchQueue.main.async {
                     // Hide loader
