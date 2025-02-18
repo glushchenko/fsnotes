@@ -141,6 +141,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         gitQueue.qualityOfService = .userInteractive
         gitQueue.maxConcurrentOperationCount = 1
+        gitQueue.isSuspended = true
 
         gitQueueState.qualityOfService = .background
         gitQueueState.maxConcurrentOperationCount = 1
@@ -458,6 +459,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let projects = storage.getProjects()
         
         for project in projects {
+            print("Reading project \(project.label) (\(project.url))")
             _ = project.loadNotes()
         }
         
@@ -500,6 +502,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 // enable iCloud Drive updates after projects structure formalized
                 self.cloudDriveManager?.metadataQuery.enableUpdates()
                 self.isLoadedDB = true
+
+                self.gitQueue.isSuspended = false
             }
         }
     }
