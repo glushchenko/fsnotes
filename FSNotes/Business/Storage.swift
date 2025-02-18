@@ -556,7 +556,7 @@ class Storage {
         if !noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
            noteList.append(note)
         } else {
-            print("Note exist: \(note.name)")
+            print("Note already exists: \(note.name) (\(note.url))")
         }
     }
 
