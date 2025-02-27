@@ -119,8 +119,7 @@ class Storage {
         }
 
         loadProjectRelations()
-        checkWelcome()
-
+        
         plainWriter.maxConcurrentOperationCount = 1
         plainWriter.qualityOfService = .userInteractive
 
@@ -128,6 +127,8 @@ class Storage {
         ciphertextWriter.qualityOfService = .userInteractive
 
     #if os(iOS)
+        checkWelcome()
+        
         let revHistory = getRevisionsHistory()
         let revHistoryDS = getRevisionsHistoryDocumentsSupport()
 
@@ -1011,7 +1012,7 @@ class Storage {
         saveCachedTree()
     }
 
-    private func checkWelcome() {
+    public func checkWelcome() {
         #if os(OSX)
             guard let storageUrl = getDefault()?.url else { return }
             guard UserDefaultsManagement.copyWelcome else { return }
@@ -1023,13 +1024,35 @@ class Storage {
             try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
 
             do {
-                let files = try FileManager.default.contentsOfDirectory(atPath: bundle.path)
+                var files = try FileManager.default.contentsOfDirectory(atPath: bundle.path)
+                files = files.sorted(by: { $0.localizedStandardCompare($1) == .orderedDescending })
+                
+                var i = 0
                 for file in files {
-                    try? FileManager.default.copyItem(atPath: "\(bundle.path)/\(file)", toPath: "\(url.path)/\(file)")
+                    i += 1
+                    
+                    let dstPath = "\(url.path)/\(file)"
+                    try? FileManager.default.copyItem(atPath: "\(bundle.path)/\(file)", toPath: dstPath)
+                    
+                    // Adds sorting for global sort by .creationDate
+                    let mdPath = "\(url.path)/\(file)/text.markdown"
+                    if let attributes = try? FileManager.default.attributesOfItem(atPath: mdPath),
+                       let creationDate = attributes[.creationDate] as? Date
+                    {
+                        let newDate = creationDate.addingTimeInterval(TimeInterval(i))
+                        try? FileManager.default.setAttributes([.creationDate: newDate], ofItemAtPath: mdPath)
+                    }
                 }
             } catch {
                 print("Initial copy error: \(error)")
             }
+        
+            let project = Project(storage: self, url: url, label: "Welcome")
+            insertProject(project: project)
+        
+            let notes = project.loadNotes()
+            _ = notes.compactMap({ $0.load() })
+        
         #else
             guard UserDefaultsManagement.copyWelcome else { return }
             guard noteList.isEmpty else { return }

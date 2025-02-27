@@ -164,6 +164,9 @@ class ViewController: EditorViewController,
         configureLayout()
         configureEditor()
 
+        // Must before event manager starts
+        self.storage.checkWelcome()
+        
         fsManager = FileSystemEventManager(storage: storage, delegate: self)
         fsManager?.start()
 
