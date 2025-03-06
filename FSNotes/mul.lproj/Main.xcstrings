@@ -95,6 +95,12 @@
             "value" : "Copyright © 2017-2023 Oleksandr Hlushchenko.\nВсе права защищены."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telif hakkı © 2017-2024 Oleksandr Hlushchenko.\nHer hakkı saklıdır."
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -201,6 +207,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "example.com"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "domainadi.com"
           }
         },
         "uk" : {
@@ -311,6 +323,12 @@
             "value" : "Найти"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ara"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -417,6 +435,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "2 пробела"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 Boşluk"
           }
         },
         "uk" : {
@@ -527,6 +551,12 @@
             "value" : "Заблокировано"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilitli"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -633,6 +663,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заголовок"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık"
           }
         },
         "uk" : {
@@ -743,6 +779,12 @@
             "value" : "Список"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -846,6 +888,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "xcode"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "xcode"
@@ -959,6 +1007,12 @@
             "value" : "Удалить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaldır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1062,6 +1116,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -1175,6 +1235,12 @@
             "value" : "TextEdit"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metin Düzenle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1281,6 +1347,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Иконка в Dock:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock Simgesi"
           }
         },
         "uk" : {
@@ -1391,6 +1463,12 @@
             "value" : "Новый"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1497,6 +1575,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "час в"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "saatte"
           }
         },
         "uk" : {
@@ -1607,6 +1691,12 @@
             "value" : "Преобразования"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dönüşümler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1710,6 +1800,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
@@ -1823,6 +1919,12 @@
             "value" : "Новое окно"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Pencere"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1929,6 +2031,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Орфография и грамматика"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazım ve Dilbilgisi"
           }
         },
         "uk" : {
@@ -2039,6 +2147,12 @@
             "value" : "Скопировать заголовок"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlığı Kopyala"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2145,6 +2259,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Изменение мастер-пароля"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana Parolayı Değiştir"
           }
         },
         "uk" : {
@@ -2255,6 +2375,12 @@
             "value" : "Диктовка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konuşma"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2361,6 +2487,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Нет выбранных"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiçbiri Seçilmedi"
           }
         },
         "uk" : {
@@ -2471,6 +2603,12 @@
             "value" : "Открыть во внешнем"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açık Harici"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2577,6 +2715,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasör Oluştur"
           }
         },
         "uk" : {
@@ -2687,6 +2831,12 @@
             "value" : "Сортировать по:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Göre sırala:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2795,6 +2945,12 @@
             "value" : "Искать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ara"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2898,6 +3054,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hlushchenko"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "hlushchenko"
@@ -3011,6 +3173,12 @@
             "value" : "Вход в полноэкранный режим"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tam Ekrana Yap"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3117,6 +3285,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выход из FSNotes"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes'tan Çık"
           }
         },
         "uk" : {
@@ -3227,6 +3401,12 @@
             "value" : "git@github.com:username/repo.git"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git@github.com:kullanıcıadı/repo.git"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3333,6 +3513,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить шифрование"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrelemeyi Kaldır"
           }
         },
         "uk" : {
@@ -3443,6 +3629,12 @@
             "value" : "Про FSNotes"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes Hakkında"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3549,6 +3741,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Скопировать заголовок"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlığı Kopyala"
           }
         },
         "uk" : {
@@ -3659,6 +3857,12 @@
             "value" : "Сортировать по"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Göre sırala"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3765,6 +3969,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Редактировать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzenle"
           }
         },
         "uk" : {
@@ -3875,6 +4085,12 @@
             "value" : "Спрятать превью изображений"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görüntü önizlemesini gizle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3981,6 +4197,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вперёд"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden yap"
           }
         },
         "uk" : {
@@ -4091,6 +4313,12 @@
             "value" : "Тема для кода:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod Teması:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4197,6 +4425,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заблокировать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilit"
           }
         },
         "uk" : {
@@ -4307,6 +4541,12 @@
             "value" : "Подсветка блоков кода с отступом"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Girintili kod bloklarını vurgula"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4413,6 +4653,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Закрыть"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapat"
           }
         },
         "uk" : {
@@ -4523,6 +4769,12 @@
             "value" : "Склонировать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4629,6 +4881,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Текущий пароль:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mevcut Şifre:"
           }
         },
         "uk" : {
@@ -4739,6 +4997,12 @@
             "value" : "Внешний редактор"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açık Harici"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4845,6 +5109,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Установить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarla"
           }
         },
         "uk" : {
@@ -4955,6 +5225,12 @@
             "value" : "Изменить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Değiştir"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5061,6 +5337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Маленький"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Küçük"
           }
         },
         "uk" : {
@@ -5171,6 +5453,12 @@
             "value" : "Упорядоченный список"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıralı Liste"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5277,6 +5565,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заблокировать при смене польз."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı değiştiğinde kilitle"
           }
         },
         "uk" : {
@@ -5387,6 +5681,12 @@
             "value" : "Реквизиты для входа:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kimlik Bilgileri:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5493,6 +5793,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Цвет:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Rengi:"
           }
         },
         "uk" : {
@@ -5603,6 +5909,12 @@
             "value" : "Замены"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İkameler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5706,6 +6018,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "solarized-dark"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "solarized-dark"
@@ -5819,6 +6137,12 @@
             "value" : "Порт:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Port:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5922,6 +6246,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2/23/11"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "2/23/11"
@@ -6035,6 +6365,12 @@
             "value" : "Смарт-копирование/вставка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı Kopyala/Yapıştır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6141,6 +6477,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переводчики:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tercümanlar:"
           }
         },
         "uk" : {
@@ -6251,6 +6593,12 @@
             "value" : "Парольная фраза:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parola:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6357,6 +6705,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Изменить дату создания"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oluşturma Tarihini Değiştir"
           }
         },
         "uk" : {
@@ -6467,6 +6821,12 @@
             "value" : "Расположение списка заметок:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Listesi Konumu:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6573,6 +6933,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Шрифт кода:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod Yazı Tipi:"
           }
         },
         "uk" : {
@@ -6683,6 +7049,12 @@
             "value" : "Принудительное удаление"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorla Sil"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6789,6 +7161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Автоматическое исправление орфографии"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik Olarak Doğru Yazımı Düzelt"
           }
         },
         "uk" : {
@@ -6899,6 +7277,12 @@
             "value" : "empty log"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boş Log"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7005,6 +7389,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Минимизировать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Küçült"
           }
         },
         "uk" : {
@@ -7115,6 +7505,12 @@
             "value" : "Поиск:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arama kısayolu:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7223,6 +7619,12 @@
             "value" : "Хост:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7326,6 +7728,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "monokai-sublime"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "monokai-sublime"
@@ -7439,6 +7847,12 @@
             "value" : "Загрузить исходные данные и протестировать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İlk verileri yükleyin ve test edin"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7545,6 +7959,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Репозитории:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depolar:"
           }
         },
         "uk" : {
@@ -7655,6 +8075,12 @@
             "value" : "Git ориджин:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menşei:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7761,6 +8187,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "История"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarih"
           }
         },
         "uk" : {
@@ -7871,6 +8303,12 @@
             "value" : "Формат: yyyyMMddHHmmss"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biçim: yyyyMMddHHmmss"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7977,6 +8415,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud Drive"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Sürücüsü"
           }
         },
         "uk" : {
@@ -8087,6 +8531,12 @@
             "value" : "Выбрать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarla"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8193,6 +8643,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Основное Меню"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana Menü"
           }
         },
         "uk" : {
@@ -8303,6 +8759,12 @@
             "value" : "Найти или создать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ara veya oluştur"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8406,6 +8868,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".md"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".md"
@@ -8519,6 +8987,12 @@
             "value" : "/var/www/example.com"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/var/www/example.com"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8625,6 +9099,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Изменить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Değiştir"
           }
         },
         "uk" : {
@@ -8735,6 +9215,12 @@
             "value" : "Шрифт:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Yazı Tipi:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8841,6 +9327,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показывать иконку в доке"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock'ta simgeyi göster"
           }
         },
         "uk" : {
@@ -8951,6 +9443,12 @@
             "value" : "Настройки…"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tercihler…"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9057,6 +9555,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "минуту часа"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dakikalar"
           }
         },
         "uk" : {
@@ -9167,6 +9671,12 @@
             "value" : "Перейти вниз в списке заметок"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notlar Listesinde Aşağıya Git"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9273,6 +9783,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Использовать выбранное для поиска"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçimi Bulmak İçin Kullan"
           }
         },
         "uk" : {
@@ -9383,6 +9899,12 @@
             "value" : "Публиковать заметки на:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notları şuraya yayınla:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9489,6 +10011,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Без тегов"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiketsiz"
           }
         },
         "uk" : {
@@ -9599,6 +10127,12 @@
             "value" : "Высота в списке:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Listesi Aralığı:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9705,6 +10239,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Библиотека"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kütüphane"
           }
         },
         "uk" : {
@@ -9815,6 +10355,12 @@
             "value" : "Трансформация"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dönüşümler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9921,6 +10467,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Официальный сайт"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resmi Site"
           }
         },
         "uk" : {
@@ -10031,6 +10583,12 @@
             "value" : "UUID"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biçim: UUID"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10137,6 +10695,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заголовок 6"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık 6"
           }
         },
         "uk" : {
@@ -10247,6 +10811,12 @@
             "value" : "Удалить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaldır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10353,6 +10923,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Расширение:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biçim:"
           }
         },
         "uk" : {
@@ -10463,6 +11039,12 @@
             "value" : "Большой"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Büyük"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10569,6 +11151,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переместить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşı"
           }
         },
         "uk" : {
@@ -10679,6 +11267,12 @@
             "value" : "vs"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karşı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10785,6 +11379,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Смарт-ссылки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı Bağlantılar"
           }
         },
         "uk" : {
@@ -10895,6 +11495,12 @@
             "value" : "Заголовок 2"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11001,6 +11607,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перевести в нижний регистр"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Küçük Harf Yap"
           }
         },
         "uk" : {
@@ -11111,6 +11723,12 @@
             "value" : "Дата модификации"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Değişiklik Tarihi"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11217,6 +11835,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Спрятать/показать сайдбар"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenar Çubuğunu Gizle/Göster"
           }
         },
         "uk" : {
@@ -11327,6 +11951,12 @@
             "value" : "Средний"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orta"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11435,6 +12065,12 @@
             "value" : "Сдвиг влево"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sola kaydır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11538,6 +12174,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "v2.9.0"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "v2.9.0"
@@ -11651,6 +12293,12 @@
             "value" : "ключ не выбран"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "no key"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11757,6 +12405,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ".git в каталоге проекта (кроме iCloud Drive)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proje dizininde .git'i ayırın (iCloud Drive hariç)"
           }
         },
         "uk" : {
@@ -11867,6 +12521,12 @@
             "value" : "Пользовательский сервер"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özel Sunucu"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11973,6 +12633,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Зашифровать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörü Şifrele"
           }
         },
         "uk" : {
@@ -12083,6 +12749,12 @@
             "value" : "Отменить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri al"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12189,6 +12861,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Орфография и грамматика"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazım ve Dilbilgisi"
           }
         },
         "uk" : {
@@ -12299,6 +12977,12 @@
             "value" : "Заголовок 5"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık 5"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12405,6 +13089,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Пароль:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifre :"
           }
         },
         "uk" : {
@@ -12515,6 +13205,12 @@
             "value" : "Язык (требуется перезапуск):"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dil :"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12621,6 +13317,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Задачи"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapılacaklar"
           }
         },
         "uk" : {
@@ -12731,6 +13433,12 @@
             "value" : "Конфигурация SSH:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSH yapılandırması:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12837,6 +13545,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать копию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala"
           }
         },
         "uk" : {
@@ -12947,6 +13661,12 @@
             "value" : "Спрятать дату"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarihi gizle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13053,6 +13773,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önizleme"
           }
         },
         "uk" : {
@@ -13163,6 +13889,12 @@
             "value" : "Путь:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yol:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13269,6 +14001,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Установить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarla"
           }
         },
         "uk" : {
@@ -13379,6 +14117,12 @@
             "value" : "Перечёркнутый"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üstü çizili"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13485,6 +14229,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Предпросмотр шрифта"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazı tipi önizlemesi"
           }
         },
         "uk" : {
@@ -13595,6 +14345,12 @@
             "value" : "Версия"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versiyon"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13701,6 +14457,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Зашифровать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrele"
           }
         },
         "uk" : {
@@ -13811,6 +14573,12 @@
             "value" : "Дата создания"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oluşturulma Tarihi"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13917,6 +14685,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Восходящее"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükselen"
           }
         },
         "uk" : {
@@ -14027,6 +14801,12 @@
             "value" : "Помощь"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardım"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14133,6 +14913,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать в Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder'da göster"
           }
         },
         "uk" : {
@@ -14243,6 +15029,12 @@
             "value" : "Отключить предпросмотр"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önizlemeyi gizle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14349,6 +15141,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показывать содержимое подпапок"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İç içe klasörlerin içeriğini göster"
           }
         },
         "uk" : {
@@ -14459,6 +15257,12 @@
             "value" : "Подчёркнутый"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altı çizili"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14562,6 +15366,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zenburn"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "zenburn"
@@ -14675,6 +15485,12 @@
             "value" : "Подстановка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İkameler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14781,6 +15597,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sil"
           }
         },
         "uk" : {
@@ -14891,6 +15713,12 @@
             "value" : "Помощь FSNotes"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes Yardım"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14997,6 +15825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дизайн иконки:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simge tasarımı:"
           }
         },
         "uk" : {
@@ -15107,6 +15941,12 @@
             "value" : "Снять шифрование"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrelemeyi Kaldır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15213,6 +16053,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Хранилище по умолчанию:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan Depolama:"
           }
         },
         "uk" : {
@@ -15323,6 +16169,12 @@
             "value" : "Увеличить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yakınlaştır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15429,6 +16281,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Изменить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Değiştir"
           }
         },
         "uk" : {
@@ -15539,6 +16397,12 @@
             "value" : "Именование файлов:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya Adlandırma:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15645,6 +16509,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сделано с ❤️ в Украине 🇺🇦"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ukrayna'da ❤️ ile yapıldı 🇺🇦"
           }
         },
         "uk" : {
@@ -15755,6 +16625,12 @@
             "value" : "Библиотека"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kütüphane"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15861,6 +16737,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переименовать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörü Yeniden Adlandır"
           }
         },
         "uk" : {
@@ -15971,6 +16853,12 @@
             "value" : "Автоблокировка:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreli Notlar için Otomatik Kilit:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16077,6 +16965,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сканировать встроенные теги"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satır içi etiketleri tarayın"
           }
         },
         "uk" : {
@@ -16187,6 +17081,12 @@
             "value" : "tomorrow"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yarın"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16293,6 +17193,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сохранить из буфера:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panoya kaydetme kısayolu:"
           }
         },
         "uk" : {
@@ -16403,6 +17309,12 @@
             "value" : "секунды"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "saniyeler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16509,6 +17421,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата модификации"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Değişiklik tarihi"
           }
         },
         "uk" : {
@@ -16619,6 +17537,12 @@
             "value" : "Отменить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İptal"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16725,6 +17649,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Форматирование"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biçim"
           }
         },
         "uk" : {
@@ -16835,6 +17765,12 @@
             "value" : "Сервер FSNotes"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes Sunucu"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16941,6 +17877,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не выбрано"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi"
           }
         },
         "uk" : {
@@ -17051,6 +17993,12 @@
             "value" : "Веб:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17157,6 +18105,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заголовок 4"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık 4"
           }
         },
         "uk" : {
@@ -17267,6 +18221,12 @@
             "value" : "Показать в Finder"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder'da göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17373,6 +18333,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать в Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder'da göster"
           }
         },
         "uk" : {
@@ -17483,6 +18449,12 @@
             "value" : "Заблокировать все секретные"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Şifrelenmişleri Kilitle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17591,6 +18563,12 @@
             "value" : "Вставить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapıştır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17694,6 +18672,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -17807,6 +18791,12 @@
             "value" : "Библиотека"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kütüphane"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17913,6 +18903,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Тёмная"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karanlık"
           }
         },
         "uk" : {
@@ -18023,6 +19019,12 @@
             "value" : "Уменьшить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uzaklaştır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18129,6 +19131,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вид"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görünüm"
           }
         },
         "uk" : {
@@ -18239,6 +19247,12 @@
             "value" : "Сбросить настройки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarları sıfırla"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18345,6 +19359,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать орфографию и грамматику"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazım ve Dilbilgisini Göster"
           }
         },
         "uk" : {
@@ -18455,6 +19475,12 @@
             "value" : "Замена текста"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metin Değiştirme"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18558,6 +19584,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".markdown"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".markdown"
@@ -18671,6 +19703,12 @@
             "value" : "Открыть в новом окне"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Pencerede Aç"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18777,6 +19815,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сбросить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla"
           }
         },
         "uk" : {
@@ -18887,6 +19931,12 @@
             "value" : "Найти и создать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ara ve oluştur"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18993,6 +20043,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Смарт-кавычки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı Alıntılar"
           }
         },
         "uk" : {
@@ -19103,6 +20159,12 @@
             "value" : "Викиссылки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiki Bağlantıları"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19209,6 +20271,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перейти вверх в списке заметок"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notlar Listesinde Yukarı Çık"
           }
         },
         "uk" : {
@@ -19319,6 +20387,12 @@
             "value" : "Вид"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görünüm"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19425,6 +20499,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Проверить документ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belgeyi Şimdi Kontrol Et"
           }
         },
         "uk" : {
@@ -19535,6 +20615,12 @@
             "value" : "Услуги"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hizmetler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19641,6 +20727,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Корзина:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp:"
           }
         },
         "uk" : {
@@ -19751,6 +20843,12 @@
             "value" : "Входящие"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelen kutusu"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19857,6 +20955,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать резервную копию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi Yedekle"
           }
         },
         "uk" : {
@@ -19967,6 +21071,12 @@
             "value" : "Заблокировать при включении скринсейвера"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran koruyucusu etkinken kilitlendi"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20073,6 +21183,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Новый пароль:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni şifre :"
           }
         },
         "uk" : {
@@ -20183,6 +21299,12 @@
             "value" : "Подсказка:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İpucu:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20289,6 +21411,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сдвиг вправо"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sağa kaydır"
           }
         },
         "uk" : {
@@ -20399,6 +21527,12 @@
             "value" : "нет ключа"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "anahtar yok"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20502,6 +21636,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -20615,6 +21755,12 @@
             "value" : "Межстрочный интервал:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satır Aralığı:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20721,6 +21867,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Формат: Untitled Note"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biçim: Başlıksız Not"
           }
         },
         "uk" : {
@@ -20831,6 +21983,12 @@
             "value" : "Ширина строки:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çizgi Genişliği:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20937,6 +22095,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Кастомная"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelenek"
           }
         },
         "uk" : {
@@ -21047,6 +22211,12 @@
             "value" : "Прикрепить/открепить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabitle/Sabitlemeyi kaldır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21153,6 +22323,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переименовать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden isimlendir"
           }
         },
         "uk" : {
@@ -21263,6 +22439,12 @@
             "value" : "🔗fsnotes/contributors"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🔗fsnotes/katkıda bulunanlar"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21369,6 +22551,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Видимость:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görünürlük:"
           }
         },
         "uk" : {
@@ -21479,6 +22667,12 @@
             "value" : "Заголовок 1"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık 1"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21585,6 +22779,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выбрать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarla"
           }
         },
         "uk" : {
@@ -21695,6 +22895,12 @@
             "value" : "Форматирование"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biçim"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21801,6 +23007,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сверху"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yukarı"
           }
         },
         "uk" : {
@@ -21911,6 +23123,12 @@
             "value" : "Удалить веб-страницу"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web sayfasını Sil"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22017,6 +23235,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Курсив"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İtalik"
           }
         },
         "uk" : {
@@ -22127,6 +23351,12 @@
             "value" : "Пароль:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifre:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22233,6 +23463,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Первая строка как заголовок"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İlk satırı başlık olarak kullanın"
           }
         },
         "uk" : {
@@ -22343,6 +23579,12 @@
             "value" : "Показать все"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hepsini göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22449,6 +23691,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заблокировать/разблокировать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilitle/Kilidi Aç"
           }
         },
         "uk" : {
@@ -22559,6 +23807,12 @@
             "value" : "Закрыть"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapat"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22667,6 +23921,12 @@
             "value" : "Предпросмотр MathJax"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MathJaxı Önizleyin"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22770,6 +24030,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "1"
@@ -22883,6 +24149,12 @@
             "value" : "Разблокировка Touch ID"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notların kilidini açmak için Touch ID'ye izin verin"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22989,6 +24261,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Рабочее дерево"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özel çalışma ağacı"
           }
         },
         "uk" : {
@@ -23099,6 +24377,12 @@
             "value" : "Удаленный репозиторий (origin):"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana projenin kökeni:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23205,6 +24489,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Окно"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tercihler"
           }
         },
         "uk" : {
@@ -23315,6 +24605,12 @@
             "value" : "Фактический размер"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerçek Boyut"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23421,6 +24717,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сброс:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla:"
           }
         },
         "uk" : {
@@ -23531,6 +24833,12 @@
             "value" : "Заголовок 3"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık 3"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23637,6 +24945,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заголовок"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık"
           }
         },
         "uk" : {
@@ -23747,6 +25061,12 @@
             "value" : "Ширина изображений:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim Genişliği:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23853,6 +25173,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Жирный"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalın"
           }
         },
         "uk" : {
@@ -23963,6 +25289,12 @@
             "value" : "Закрытый ключ"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özel anahtar"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24069,6 +25401,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Прятать окно если активно другое приложение"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başka bir uygulamayı etkinleştirirken FSNotes'u gizle"
           }
         },
         "uk" : {
@@ -24179,6 +25517,12 @@
             "value" : "TextBundle"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MetinPaketi"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24282,6 +25626,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "atom-one-light"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "atom-one-light"
@@ -24395,6 +25745,12 @@
             "value" : "4 пробела"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 Boşluk"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24501,6 +25857,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Проверить грамматику с орфографией"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazımla Dilbilgisini Kontrol Et"
           }
         },
         "uk" : {
@@ -24611,6 +25973,12 @@
             "value" : "Окно"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pencere"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24717,6 +26085,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://example.com/"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://domainadi.com/"
           }
         },
         "uk" : {
@@ -24827,6 +26201,12 @@
             "value" : "Расширенные"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelişmiş"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24933,6 +26313,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Контейнер:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konteyner:"
           }
         },
         "uk" : {
@@ -25043,6 +26429,12 @@
             "value" : "Переключить Todo"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçiş Yap"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25149,6 +26541,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Подсвечивать ссылки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tıklanabilir bağlantılar"
           }
         },
         "uk" : {
@@ -25259,6 +26657,12 @@
             "value" : "Изменить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Değiştir"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25365,6 +26769,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Парольная фраза:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parola:"
           }
         },
         "uk" : {
@@ -25475,6 +26885,12 @@
             "value" : "Таб"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sekme"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25581,6 +26997,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Печать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazdır"
           }
         },
         "uk" : {
@@ -25691,6 +27113,12 @@
             "value" : "Веб"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25797,6 +27225,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сохранить версию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revizyonu Kaydet"
           }
         },
         "uk" : {
@@ -25907,6 +27341,12 @@
             "value" : "Главные"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genel"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26013,6 +27453,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сервисы"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hizmetler"
           }
         },
         "uk" : {
@@ -26123,6 +27569,12 @@
             "value" : "Использовать TextBundle info.json для хранения c/mtime"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hizmetler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26229,6 +27681,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokunmatik Kimlik:"
           }
         },
         "uk" : {
@@ -26339,6 +27797,12 @@
             "value" : "Увеличить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yakınlaştır"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26445,6 +27909,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сбросить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla"
           }
         },
         "uk" : {
@@ -26555,6 +28025,12 @@
             "value" : "Показать в терминале"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminalde göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26661,6 +28137,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сохранить версию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revizyonu Kaydet"
           }
         },
         "uk" : {
@@ -26771,6 +28253,12 @@
             "value" : "Импортировать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçe aktar"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26877,6 +28365,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показывать в сайдбаре"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenar Çubuğunda Göster"
           }
         },
         "uk" : {
@@ -26987,6 +28481,12 @@
             "value" : "Заголовок"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27090,6 +28590,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "5"
@@ -27203,6 +28709,12 @@
             "value" : "Не использовать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiçbiri (Genel ayarları kullan)"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27309,6 +28821,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать веб-страницу"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web Sayfası Oluştur"
           }
         },
         "uk" : {
@@ -27419,6 +28937,12 @@
             "value" : "Спрятать FSNotes"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes'u gizle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27525,6 +29049,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Блок кода"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod Bloğu"
           }
         },
         "uk" : {
@@ -27635,6 +29165,12 @@
             "value" : "Вперёд"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İleri"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27741,6 +29277,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Печать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazdır"
           }
         },
         "uk" : {
@@ -27851,6 +29393,12 @@
             "value" : "Найти предыдущий"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öncekini Bul"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27957,6 +29505,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Остановить диктовку"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konuşmayı Bitir"
           }
         },
         "uk" : {
@@ -28067,6 +29621,12 @@
             "value" : "Интерфейс"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzen"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28173,6 +29733,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Отступы:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giriş Kullanarak:"
           }
         },
         "uk" : {
@@ -28283,6 +29849,12 @@
             "value" : "Стратегия резервного копирования:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik Anlık Görüntüler:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28389,6 +29961,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sil"
           }
         },
         "uk" : {
@@ -28499,6 +30077,12 @@
             "value" : "Переключить предпросмотр"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önizlemeyi Aç/Kapat"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28605,6 +30189,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "git@github.com:glushchenko/example.git"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git@github.com:glushchenko/ornek.git"
           }
         },
         "uk" : {
@@ -28715,6 +30305,12 @@
             "value" : "Повторите пароль:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifreyi tekrar girin:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28821,6 +30417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать копию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala"
           }
         },
         "uk" : {
@@ -28931,6 +30533,12 @@
             "value" : "Фон:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arka plan:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29037,6 +30645,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать резервную копию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi Yedekle"
           }
         },
         "uk" : {
@@ -29147,6 +30761,12 @@
             "value" : "Безопасность"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güvenlik"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29253,6 +30873,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дата создания"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oluşturulma tarihi"
           }
         },
         "uk" : {
@@ -29363,6 +30989,12 @@
             "value" : "Удалить веб-страницу"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web Sayfasını Sil"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29469,6 +31101,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сбоку"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taraf"
           }
         },
         "uk" : {
@@ -29579,6 +31217,12 @@
             "value" : "Найти следующий"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonrakini Bul"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29685,6 +31329,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сообщить об ошибках"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hataları veya Özellik İsteklerini Bildirin"
           }
         },
         "uk" : {
@@ -29795,6 +31445,12 @@
             "value" : "Изменить дату создания"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oluşturma Tarihini Değiştir"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29901,6 +31557,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git репозиторий:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git deposu:"
           }
         },
         "uk" : {
@@ -30011,6 +31673,12 @@
             "value" : "Формат: yyyy-MM-dd hh.mm.ss a"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biçim: yyyy-MM-dd hh.mm.ss a"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30117,6 +31785,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Назад"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri"
           }
         },
         "uk" : {
@@ -30227,6 +31901,12 @@
             "value" : "Настроить вид"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçenekleri Göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30333,6 +32013,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Направление:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yön:"
           }
         },
         "uk" : {
@@ -30443,6 +32129,12 @@
             "value" : "Главное окно"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana Pencere"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30549,6 +32241,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Фокус в редактор при выборе заметки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not seçerken düzenleyicide odaklanın"
           }
         },
         "uk" : {
@@ -30659,6 +32357,12 @@
             "value" : "Отступ абзаца"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marj Boyutu:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30765,6 +32469,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Проверять во время набора"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazarken Yazım Denetimi Yapın"
           }
         },
         "uk" : {
@@ -30875,6 +32585,12 @@
             "value" : "Сбросить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30981,6 +32697,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Корзина"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp"
           }
         },
         "uk" : {
@@ -31091,6 +32813,12 @@
             "value" : "Скопировать ссылку"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URLyi Kopyala"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31197,6 +32925,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Смарт-тире"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı çizgi"
           }
         },
         "uk" : {
@@ -31307,6 +33041,12 @@
             "value" : "Упорядочить по"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Göre sırala"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31415,6 +33155,12 @@
             "value" : "Клонировать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klon"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31518,6 +33264,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "atom-one-dark"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "atom-one-dark"
@@ -31631,6 +33383,12 @@
             "value" : "Заблокировать/разблокировать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilitle/Kilidi Aç"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31737,6 +33495,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Система"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem"
           }
         },
         "uk" : {
@@ -31847,6 +33611,12 @@
             "value" : "Удалить директорию"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyayı Sil"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31953,6 +33723,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выбрать всё"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hepsini Seç"
           }
         },
         "uk" : {
@@ -32063,6 +33839,12 @@
             "value" : "Удалить директорию"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyayı Sİl"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32169,6 +33951,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать в Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder'da ortaya çıkar"
           }
         },
         "uk" : {
@@ -32279,6 +34067,12 @@
             "value" : "passphrase"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parola"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32385,6 +34179,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перейти к выбранному"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçime Git"
           }
         },
         "uk" : {
@@ -32495,6 +34295,12 @@
             "value" : "Переместить на передний план"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hepsini Öne Getir"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32601,6 +34407,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Подключить хранилище..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harici Klasör Ekle..."
           }
         },
         "uk" : {
@@ -32711,6 +34523,12 @@
             "value" : "Копия каждый"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her Taahhüt Et/İt"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32817,6 +34635,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Список заметок:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Listesi:"
           }
         },
         "uk" : {
@@ -32927,6 +34751,12 @@
             "value" : "Перейти вверх в боковой панели"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenar Çubuğunda Yukarı Çık"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33033,6 +34863,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Window"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pencere"
           }
         },
         "uk" : {
@@ -33143,6 +34979,12 @@
             "value" : "Сбросить кэш"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önbellekleri Sıfırla"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33249,6 +35091,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Файл"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya"
           }
         },
         "uk" : {
@@ -33359,6 +35207,12 @@
             "value" : "Шрифт кода"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod Yazı Tipi"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33467,6 +35321,12 @@
             "value" : "История"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarih"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33570,6 +35430,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "solarized-light"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "solarized-light"
@@ -33683,6 +35549,12 @@
             "value" : "Создать директорию"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasör Oluştur"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33789,6 +35661,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Редактор"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editör"
           }
         },
         "uk" : {
@@ -33899,6 +35777,12 @@
             "value" : "Показывать иконку в меню баре"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü çubuğunda simgeyi göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34002,6 +35886,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
@@ -34115,6 +36005,12 @@
             "value" : "Автоматически разрешать конфликты iCloud Drive"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik iCloud Drive çakışma çözümü"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34221,6 +36117,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переименовать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörü Yeniden Adlandır"
           }
         },
         "uk" : {
@@ -34331,6 +36233,12 @@
             "value" : "Настроить вид"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçenekleri Göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34439,6 +36347,12 @@
             "value" : "Нисходящее"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Azalan"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34542,6 +36456,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".txt"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".txt"
@@ -34655,6 +36575,12 @@
             "value" : "Тема:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dış görünüş:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34761,6 +36687,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sil"
           }
         },
         "uk" : {
@@ -34871,6 +36803,12 @@
             "value" : "В память о Марсе. ? - 25.08.2022"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mars'ın anısına. ? - 25.08.2022"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34977,6 +36915,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Первая строка как заголовок"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık olarak ilk satır"
           }
         },
         "uk" : {
@@ -35087,6 +37031,12 @@
             "value" : "Настройки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tercihler"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35193,6 +37143,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Детекторы данных"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veri Dedektörleri"
           }
         },
         "uk" : {
@@ -35303,6 +37259,12 @@
             "value" : "Подтягивать каждые"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her birini çek"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35409,6 +37371,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Открыть в новом окне"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Pencerede Aç"
           }
         },
         "uk" : {
@@ -35519,6 +37487,12 @@
             "value" : "Label"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiket"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35625,6 +37599,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Озаглавить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Büyük harfle yazmak"
           }
         },
         "uk" : {
@@ -35735,6 +37715,12 @@
             "value" : "Светлая"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Işık"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35838,6 +37824,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "22"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "22"
@@ -35951,6 +37943,12 @@
             "value" : "Диапазон кода"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod aralığı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36057,6 +38055,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Файл"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya"
           }
         },
         "uk" : {
@@ -36167,6 +38171,12 @@
             "value" : "Скопировать ссылку"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URLyi Kopyala"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36270,6 +38280,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -36383,6 +38399,12 @@
             "value" : "Вырезать"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kes"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36486,6 +38508,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "github"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "github"
@@ -36599,6 +38627,12 @@
             "value" : "empty log"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boş Log"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36705,6 +38739,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Спрятать другие"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diğerlerini Gizle"
           }
         },
         "uk" : {
@@ -36815,6 +38855,12 @@
             "value" : "Заблокировать в режиме сна"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uyku modunda kilitle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36921,6 +38967,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Или используйте закрытый ключ .ssh:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "veya .ssh özel anahtarını kullanın:"
           }
         },
         "uk" : {
@@ -37031,6 +39083,12 @@
             "value" : "Запрашивать название коммита перед сохранением заметки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not kaydetmede öneri mesajını sor"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37137,6 +39195,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "В верхний регистр"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Büyük Harf Yap"
           }
         },
         "uk" : {
@@ -37247,6 +39311,12 @@
             "value" : "Перейти вниз в боковой панели"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenar Çubuğunda Aşağıya Hareket Et"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37353,6 +39423,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Изменить контейнер"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konteyneri Aç/Kapat"
           }
         },
         "uk" : {
@@ -37463,6 +39539,12 @@
             "value" : "Фокус на поиске по ESC"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ESC tuşuna basıldığında arama çubuğuna odaklan"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37569,6 +39651,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Создать веб-страницу"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web Sayfası Oluştur"
           }
         },
         "uk" : {
@@ -37679,6 +39767,12 @@
             "value" : "Заблокировать директорию"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörü Kilitle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37785,6 +39879,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Редактировать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzzenle"
           }
         },
         "uk" : {
@@ -37895,6 +39995,12 @@
             "value" : "необязательный"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "isteğe bağlı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38001,6 +40107,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ключ id_rsa не выбран"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "id_rsa anahtarı seçilmedi"
           }
         },
         "uk" : {
@@ -38111,6 +40223,12 @@
             "value" : "Вставить в соответствии стилю"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapıştır ve Stili Eşleştir"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38217,6 +40335,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Превью изображений"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Canlı görüntü önizlemesi"
           }
         },
         "uk" : {
@@ -38327,6 +40451,12 @@
             "value" : "Спрятать/показать список заметок"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Listesini Gizle/Göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38433,6 +40563,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Помощь"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardım"
           }
         },
         "uk" : {
@@ -38543,6 +40679,12 @@
             "value" : "Парольная фраза:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parola"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38651,6 +40793,12 @@
             "value" : "По заголовку"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlığa Göre Otomatik Yeniden Adlandırma"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38754,6 +40902,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
@@ -38867,6 +41021,12 @@
             "value" : "Цитата"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alıntı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38973,6 +41133,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Копировать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala"
           }
         },
         "uk" : {
@@ -39083,6 +41249,12 @@
             "value" : "Публикация"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yayımla"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39189,6 +41361,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переименовать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden isimlendirmek"
           }
         },
         "uk" : {
@@ -39299,6 +41477,12 @@
             "value" : "Сбросить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıfırla"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39405,6 +41589,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ссылка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Link"
           }
         },
         "uk" : {
@@ -39515,6 +41705,12 @@
             "value" : "Показывать в сайдбаре"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kenar Çubuğunda Göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39621,6 +41817,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Шрифт предпросмотра:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önizleme Yazı Boyutu:"
           }
         },
         "uk" : {
@@ -39731,6 +41933,12 @@
             "value" : "История"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarih"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39837,6 +42045,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "agate"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapı"
           }
         },
         "uk" : {
@@ -39947,6 +42161,12 @@
             "value" : "Заметки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notlar"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40053,6 +42273,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Диктовка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konuşma"
           }
         },
         "uk" : {
@@ -40163,6 +42389,12 @@
             "value" : "Показать в Finder"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder'da göster"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40269,6 +42501,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "необязательный"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "isteğe bağlı"
           }
         },
         "uk" : {
@@ -40379,6 +42617,12 @@
             "value" : "Живая подсветка кода"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod bloğu canlı vurgulama"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40485,6 +42729,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не использовать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiçbiri"
           }
         },
         "uk" : {
@@ -40595,6 +42845,12 @@
             "value" : "passphrase"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parola"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40701,6 +42957,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Найти…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bul…"
           }
         },
         "uk" : {
@@ -40811,6 +43073,12 @@
             "value" : "Изменить контейнер"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konteyneri Aç/Kapat"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40917,6 +43185,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Автоименование по заголовку"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlığa Göre Otomatik Adlandırma"
           }
         },
         "uk" : {
@@ -41027,6 +43301,12 @@
             "value" : ""
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İsim"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41133,6 +43413,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git репозиторий"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git deposu"
           }
         },
         "uk" : {
@@ -41243,6 +43529,12 @@
             "value" : "Найти и заменить…"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bul ve Değiştir…"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41349,6 +43641,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Быстрая заметка:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kısa not:"
           }
         },
         "uk" : {
@@ -41459,6 +43757,12 @@
             "value" : "Начать диктовку"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konuşmaya Başla"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41565,6 +43869,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Закрепить/открепить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabitle/Sabitlemeyi kaldır"
           }
         },
         "uk" : {
@@ -41675,6 +43985,12 @@
             "value" : "Автоматически закрывать скобки и кавычки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik olarak kapanış parantezlerini ve kapanış tırnak işaretlerini ekle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41781,6 +44097,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Имя:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı Adı:"
           }
         },
         "uk" : {
@@ -41891,6 +44213,12 @@
             "value" : "Изображение или файл"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim veya Dosya"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41997,6 +44325,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать замены"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerine Geçenleri Göster"
           }
         },
         "uk" : {
@@ -42107,6 +44441,12 @@
             "value" : "Внешний редактор:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harici Düzenleyicide Aç:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42215,6 +44555,12 @@
             "value" : "Принудительное удаление"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorla Sil"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42318,6 +44664,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "10"
@@ -42431,6 +44783,12 @@
             "value" : "Резервные копии вручную"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manuel olarak yedekleyin"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42539,6 +44897,12 @@
             "value" : "Выбирать заметку, если тело соответствует запросу"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gövde metni eşleştiğinde otomatik seçimi not edin"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42645,6 +45009,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показывать заметки в общих"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notları “Notlar” ve “Yapılacaklar” listelerinde gösterme"
           }
         },
         "uk" : {
