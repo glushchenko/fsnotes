@@ -15,11 +15,12 @@ class DefaultExtensionViewController: UITableViewController {
         NSLocalizedString("Files Naming", comment: "Settings"),
     ]
 
-    private var rowsInSection = [1, 3, 4]
+    private var rowsInSection = [1, 3, 5]
 
     private var extensions = ["markdown", "md", "txt"]
 
     private var naming = [
+        NSLocalizedString("Autoname By Title", comment: "Settings"),
         NSLocalizedString("Auto Rename By Title", comment: "Settings"),
         NSLocalizedString("Format: Untitled Note", comment: "Settings"),
         NSLocalizedString("Format: yyyyMMddHHmmss", comment: "Settings"),
@@ -114,8 +115,13 @@ class DefaultExtensionViewController: UITableViewController {
         } else if indexPath.section == 1 {
             cell.textLabel?.text = extensions[indexPath.row]
         } else if indexPath.section == 2 {
-            cell.textLabel?.text = naming[indexPath.row]
-            cell.tag = indexPath.row + 1
+            if indexPath.row == 0 {
+                cell.textLabel?.text = naming[0]
+                cell.tag = 5
+            } else {
+                cell.textLabel?.text = naming[indexPath.row]
+                cell.tag = indexPath.row
+            }
         }
 
         return cell

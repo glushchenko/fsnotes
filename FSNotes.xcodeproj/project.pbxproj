@@ -242,7 +242,6 @@
 		D739955E2051D1AB009017EE /* italic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955B2051D1AA009017EE /* italic@3x.png */; };
 		D739955F2051D1AB009017EE /* italic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955C2051D1AA009017EE /* italic@2x.png */; };
 		D73995602051D1AB009017EE /* italic.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955D2051D1AB009017EE /* italic.png */; };
-		D73A1FFD249941A200CFC376 /* NamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73A1FFC249941A200CFC376 /* NamingViewController.swift */; };
 		D73A996D22FEC789002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
 		D73A996E22FEC789002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
 		D73A996F22FEC78A002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
@@ -1158,7 +1157,6 @@
 		D739955B2051D1AA009017EE /* italic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "italic@3x.png"; sourceTree = "<group>"; };
 		D739955C2051D1AA009017EE /* italic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "italic@2x.png"; sourceTree = "<group>"; };
 		D739955D2051D1AB009017EE /* italic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = italic.png; sourceTree = "<group>"; };
-		D73A1FFC249941A200CFC376 /* NamingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamingViewController.swift; sourceTree = "<group>"; };
 		D73B3134298FBF4400F46144 /* GitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitViewController.swift; sourceTree = "<group>"; };
 		D73BCC5428EB5EBE008B3BBC /* Commit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commit.swift; sourceTree = "<group>"; };
 		D73BCC5628EB5EBE008B3BBC /* Branch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Branch.swift; sourceTree = "<group>"; };
@@ -2371,7 +2369,6 @@
 				D7D03BAE205C250500D96A6D /* FontViewController.swift */,
 				D78115662153D4D9004FA1CA /* ProjectsViewController.swift */,
 				D781156A2153E05A004FA1CA /* ProjectSettingsViewController.swift */,
-				D73A1FFC249941A200CFC376 /* NamingViewController.swift */,
 				D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */,
 				D794558D27C05743000C283F /* ProViewController.swift */,
 				D794559927C1B3F9000C283F /* ExternalViewController.swift */,
@@ -3405,7 +3402,6 @@
 				8F7136F023490CBF004DFA6E /* Markdown.swift in Sources */,
 				D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D70E9DF12901AE9B00A3C634 /* KeyAuthentication.swift in Sources */,
-				D73A1FFD249941A200CFC376 /* NamingViewController.swift in Sources */,
 				D7A9C1DC29107B7600905619 /* Reference+Target.swift in Sources */,
 				D71FD21F2101B2D5008BEFA1 /* NoteAttachment.swift in Sources */,
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
@@ -4097,7 +4093,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 311;
+				CURRENT_PROJECT_VERSION = 313;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -4106,7 +4102,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.9.5;
+				MARKETING_VERSION = 6.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4127,7 +4123,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 311;
+				CURRENT_PROJECT_VERSION = 313;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -4137,7 +4133,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.9.5;
+				MARKETING_VERSION = 6.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4162,7 +4158,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 311;
+				CURRENT_PROJECT_VERSION = 313;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -4172,7 +4168,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.9.5;
+				MARKETING_VERSION = 6.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4199,7 +4195,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 311;
+				CURRENT_PROJECT_VERSION = 313;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -4209,7 +4205,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.9.5;
+				MARKETING_VERSION = 6.10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
