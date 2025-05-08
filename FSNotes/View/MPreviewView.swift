@@ -495,7 +495,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
 #else
         platform = "macos"
-        if UserDataService.instance.isDark && archivePath == nil {
+        if UserDataService.instance.isDark && archivePath == nil && print == false {
             appearance = "darkmode"
         }
 #endif
