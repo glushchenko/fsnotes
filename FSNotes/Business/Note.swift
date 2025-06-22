@@ -232,7 +232,6 @@ public class Note: NSObject  {
             
             return true
         } catch {
-            print(error)
             return false
         }
     }
@@ -1931,9 +1930,9 @@ public class Note: NSObject  {
                 return false
             }
 
+            invalidateCache()
             load(tags: false)
             loadTitle()
-            invalidateCache()
             
             self.password = password
 
