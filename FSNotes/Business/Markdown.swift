@@ -9,7 +9,7 @@
 import libcmark_gfm
 
 func renderMarkdownHTML(markdown: String) -> String? {
-    var markdown = markdown.replacingOccurrences(of: "{{TOC}}", with: "<div id=\"toc\"></div>")
+    let markdown = markdown.replacingOccurrences(of: "{{TOC}}", with: "<div id=\"toc\"></div>")
         
     cmark_gfm_core_extensions_ensure_registered()
     
