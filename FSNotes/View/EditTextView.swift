@@ -12,6 +12,75 @@ import Carbon.HIToolbox
 import FSNotesCore_macOS
 import SwiftSoup
 
+class CustomLayoutManager: NSLayoutManager {
+    override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        guard let textView = firstTextView,
+              let font = textView.font else { return }
+
+        let selectedRange = textView.selectedRange()
+        guard selectedRange.length > 0 else { return }
+
+        let selectedGlyphRange = self.glyphRange(forCharacterRange: selectedRange, actualCharacterRange: nil)
+        
+        NSColor.systemBlue.withAlphaComponent(0.25).setFill()
+        
+        let uniformHeight = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        var rectsToRedraw: [NSRect] = []
+        
+        // Last rect
+        let textContainer = self.textContainers.last
+        let totalGlyphRange = self.glyphRange(for: textContainer!)
+        
+        let lastGlyphIndex = totalGlyphRange.location + totalGlyphRange.length - 1
+        
+        var lastLineRect: NSRect = .zero
+        if lastGlyphIndex >= 0 {
+            lastLineRect = self.lineFragmentRect(forGlyphAt: lastGlyphIndex, effectiveRange: nil)
+        }
+
+        enumerateLineFragments(forGlyphRange: selectedGlyphRange) { (lineRect, _, container, glyphRange, stop) in
+            let intersection = NSIntersectionRange(glyphRange, selectedGlyphRange)
+            guard intersection.length > 0 else { return }
+            
+            let isLastLineInTextView = lineRect == lastLineRect
+            
+            var rect = self.boundingRect(forGlyphRange: intersection, in: container)
+            rect.origin.x += origin.x
+            rect.origin.y += origin.y
+            
+            let baseline = lineRect.origin.y + origin.y + font.ascender
+            let offset = (baseline - font.capHeight) - uniformHeight / 2 - 3
+            var height = lineRect.height
+            
+            if isLastLineInTextView {
+                height += 10
+            }
+            
+            rect.origin.y = offset
+            rect.size.height = height
+            
+            // Extend right border selection
+            let lineGlyphRange = self.glyphRange(forBoundingRect: lineRect, in: container)
+            if intersection.upperBound >= lineGlyphRange.upperBound {
+                if !isLastLineInTextView {
+                    rect.size.width = lineRect.maxX - rect.minX
+                }
+            }
+        
+            let path = NSBezierPath(rect: rect)
+            path.fill()
+            
+            rectsToRedraw.append(rect)
+        }
+
+        DispatchQueue.main.async {
+            rectsToRedraw.forEach { rect in
+                textView.setNeedsDisplay(rect)
+            }
+        }
+    }
+}
+
 class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelegate {
     
     public var editorViewController: EditorViewController?
@@ -135,6 +204,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         textStorageProcessor = processor
         textStorage?.delegate = processor
+
+        guard let textStorage = self.textStorage,
+              let oldLayoutManager = self.layoutManager,
+              let textContainer = self.textContainer else { return }
+        
+        textStorage.removeLayoutManager(oldLayoutManager)
+
+        let customLayoutManager = CustomLayoutManager()
+        customLayoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(customLayoutManager)
     }
     
     public func configure() {
