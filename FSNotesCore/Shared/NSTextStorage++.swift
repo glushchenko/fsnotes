@@ -53,7 +53,7 @@ extension NSTextStorage {
             if attribute(.todo, at: range.location, effectiveRange: nil) != nil {
                 let parRange = mutableString.paragraphRange(for: NSRange(location: range.location, length: 0))
                 let parStyle = NSMutableParagraphStyle()
-                parStyle.headIndent = font.pointSize + font.pointSize / 2 + spaceWidth
+                parStyle.headIndent = spaceWidth + 16
                 parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
                 addAttribute(.paragraphStyle, value: parStyle, range: parRange)
             }
