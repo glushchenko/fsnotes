@@ -683,7 +683,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         #if os(iOS)
             var width = 10
         #else
-            var width = Int(ViewController.shared()!.editor.getWidth())
+            var width = Int(ViewController.shared()!.editor.getInsetWidth())
         #endif
 
         if fullScreen {

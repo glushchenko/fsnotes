@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11D702A62E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
+		11D702A72E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		2799407C218484C900727B20 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
 		2998AEA58A4011FEA7C02ACE /* Pods_FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3A8E91DD978BBA557F778F9 /* Pods_FSNotesCore_macOS.framework */; };
@@ -1032,6 +1034,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		15136766333878E10A6B0457 /* Pods_FSNotes__Notarized_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__Notarized_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		275592961F3AE9B5006B8988 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		2799407B218484C900727B20 /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
@@ -2084,6 +2087,7 @@
 				D7E6D9D520808652003ECAFC /* Helpers */,
 				D7E6D9D2208085BB003ECAFC /* View */,
 				D7793C721F211C6000CA39B7 /* AppDelegate.swift */,
+				11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */,
 				D7E6ACE820832D40003599A2 /* AppDelegate+URLRoutes.swift */,
 				D74112271FABA21B00AB619A /* MainWindow.swift */,
 				275592961F3AE9B5006B8988 /* MainWindowController.swift */,
@@ -3657,6 +3661,7 @@
 				D7D372F7207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */,
 				D7CCEDB92C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AA29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
+				11D702A72E5ADDED004DBAEC /* LayoutManager.swift in Sources */,
 				D73BCCFB28EB5EC4008B3BBC /* Repository.swift in Sources */,
 				D73BCCC528EB5EC4008B3BBC /* Diff.swift in Sources */,
 				D73BCCB328EB5EC3008B3BBC /* TagIterator.swift in Sources */,
@@ -3837,6 +3842,7 @@
 				D7470D082170E890006B2A92 /* NSTextStorage++.swift in Sources */,
 				D7CCEDBA2C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AB29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
+				11D702A62E5ADDED004DBAEC /* LayoutManager.swift in Sources */,
 				D73BCCFC28EB5EC4008B3BBC /* Repository.swift in Sources */,
 				D73BCCC628EB5EC4008B3BBC /* Diff.swift in Sources */,
 				D73BCCB428EB5EC3008B3BBC /* TagIterator.swift in Sources */,
