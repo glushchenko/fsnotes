@@ -10,7 +10,6 @@ import Cocoa
 import Highlightr
 import Carbon.HIToolbox
 import FSNotesCore_macOS
-import SwiftSoup
 
 class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelegate {
     
@@ -1797,20 +1796,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         task.resume()
     }
 
+    
     func getHTMLTitle(from data: Data) -> String? {
-        do {
-            if let htmlString = String(data: data, encoding: .utf8) {
-                let doc = try SwiftSoup.parse(htmlString)
-                let titleElement = try doc.select("title").first()
-                let title = try titleElement?.text()
-                
-                return title
-            }
-        } catch {
-            print("Error parsing HTML: \(error.localizedDescription)")
+        guard let htmlString = String(data: data, encoding: .utf8) else {
+            return nil
         }
         
-        return nil
+        return extractTitle(from: htmlString)
     }
 
     public func safeSave(note: Note) {
