@@ -59,7 +59,6 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
             }
         } else {
             textStorage.updateParagraphStyle()
-            textStorage.updateFont()
         }
 
         loadImages(textStorage: textStorage, checkRange: editedRange)

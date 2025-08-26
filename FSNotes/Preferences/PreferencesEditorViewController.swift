@@ -46,7 +46,7 @@ class PreferencesEditorViewController: NSViewController {
 
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
 
-        lineSpacing.floatValue = (UserDefaultsManagement.lineHeightMultiple - 1) * 10
+        lineSpacing.floatValue = Float((UserDefaultsManagement.lineHeightMultiple - 1) * 10)
         imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
         lineWidth.floatValue = UserDefaultsManagement.lineWidth
 
@@ -127,7 +127,7 @@ class PreferencesEditorViewController: NSViewController {
 
     @IBAction func lineSpacing(_ sender: NSSlider) {
         UserDefaultsManagement.editorLineSpacing = 1
-        UserDefaultsManagement.lineHeightMultiple = 1 + sender.floatValue / 10
+        UserDefaultsManagement.lineHeightMultiple = CGFloat(1 + sender.floatValue / 10)
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {

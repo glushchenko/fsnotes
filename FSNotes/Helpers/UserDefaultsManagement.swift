@@ -688,10 +688,10 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var lineHeightMultiple: Float {
+    static var lineHeightMultiple: CGFloat {
         get {
             if let result = shared?.float(forKey: Constants.LineHeightMultipleKey) {
-                return result
+                return CGFloat(result)
             } else {
                 return 1.3
             }
