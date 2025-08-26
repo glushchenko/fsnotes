@@ -105,6 +105,7 @@ public class UserDefaultsManagement {
         static let LastScreenY = "lastScreenY"
         static let LastSidebarItem = "lastSidebarItem"
         static let LastProjectURL = "lastProjectUrl"
+        static let LineHeightMultipleKey = "lineHeightMultipleKey"
         static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LineWidthKey = "lineWidth"
         static let LiveImagesPreview = "liveImagesPreview"
@@ -684,6 +685,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.LineSpacingEditorKey)
+        }
+    }
+    
+    static var lineHeightMultiple: Float {
+        get {
+            if let result = shared?.float(forKey: Constants.LineHeightMultipleKey) {
+                return result
+            } else {
+                return 1.3
+            }
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.LineHeightMultipleKey)
         }
     }
 

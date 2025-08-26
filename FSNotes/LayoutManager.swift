@@ -9,94 +9,117 @@
 import Cocoa
 
 class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
-    override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
-        guard let textView = firstTextView as? EditTextView,
-              let font = textView.font,
-              textView.selectedRange().length > 0 else {
-            return
+    public var lineHeightMultiple: CGFloat = CGFloat(UserDefaultsManagement.lineHeightMultiple)
+
+    private var defaultFont: NSFont {
+        return self.firstTextView?.font ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
+    }
+
+    private func font(for glyphRange: NSRange) -> NSFont {
+        guard let textStorage = self.textStorage else {
+            return defaultFont
         }
-
-        let selectedGlyphRange = glyphRange(forCharacterRange: textView.selectedRange(), actualCharacterRange: nil)
-        guard selectedGlyphRange.length > 0 else {
-            return
+        
+        let characterRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+        let attributes = textStorage.attributes(at: characterRange.location, effectiveRange: nil)
+        
+        return attributes[.font] as? NSFont ?? defaultFont
+    }
+    
+    private func hasAttachment(in glyphRange: NSRange) -> (hasAttachment: Bool, maxAttachmentHeight: CGFloat) {
+        guard let textStorage = self.textStorage else {
+            return (false, 0)
         }
-
-        let selectionColor = NSColor.systemBlue.withAlphaComponent(0.20)
-        selectionColor.setFill()
-
-        let lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        let lineWidth = textView.frame.width - textView.getInsetWidth() * 2
-
-        var lastLineRect: NSRect = .zero
-        if let textContainer = textView.textContainer {
-            let totalGlyphRange = self.glyphRange(for: textContainer)
-            if totalGlyphRange.length > 0 {
-                let lastGlyphIndex = totalGlyphRange.location + totalGlyphRange.length - 1
-                lastLineRect = self.lineFragmentRect(forGlyphAt: lastGlyphIndex, effectiveRange: nil)
+        
+        let characterRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+        var maxHeight: CGFloat = 0
+        var hasAttachment = false
+        
+        textStorage.enumerateAttribute(.attachment, in: characterRange, options: []) { value, range, stop in
+            if let attachment = value as? NSTextAttachment {
+                hasAttachment = true
+                let attachmentBounds = attachment.bounds
+                maxHeight = max(maxHeight, attachmentBounds.height)
             }
         }
         
-        enumerateLineFragments(forGlyphRange: selectedGlyphRange) { (lineRect, _, container, glyphRange, stop) in
-            let intersection = NSIntersectionRange(glyphRange, selectedGlyphRange)
-            guard intersection.length > 0 else { return }
-        
-            let rect = self.calculateHighlightRect(
-                intersection: intersection,
-                container: container,
-                lineRect: lineRect,
-                origin: origin,
-                font: font,
-                lineSpacing: lineSpacing,
-                lineWidth: lineWidth,
-                isLastLine: lineRect == lastLineRect
-            )
-            
-            let path = NSBezierPath(rect: rect)
-            path.fill()
-        }
-
-        DispatchQueue.main.async {
-            textView.setNeedsDisplay(textView.bounds)
-        }
+        return (hasAttachment, maxHeight)
     }
 
-    private func calculateHighlightRect(
-        intersection: NSRange,
-        container: NSTextContainer,
-        lineRect: NSRect,
-        origin: CGPoint,
-        font: NSFont,
-        lineSpacing: CGFloat,
-        lineWidth: CGFloat,
-        isLastLine: Bool
-    ) -> NSRect {
-        var rect = self.boundingRect(forGlyphRange: intersection, in: container)
-        rect.origin.x += origin.x
-        rect.origin.y += origin.y
-        
-        let baseline = lineRect.origin.y + origin.y + font.ascender
-        let offset = (baseline - font.capHeight) - lineSpacing / 2 - 3
-        
-        rect.origin.y = offset
-        rect.size.height = lineRect.height
-
-        if isLastLine {
-            rect.size.height += 10
-        }
-        
-        let lineGlyphRange = self.glyphRange(forBoundingRect: lineRect, in: container)
-        if intersection.upperBound >= lineGlyphRange.upperBound && !isLastLine {
-            rect.size.width = lineWidth
-        }
-        
-        return rect
+    private func lineHeight(for font: NSFont) -> CGFloat {
+        let fontLineHeight = self.defaultLineHeight(for: font)
+        let lineHeight = fontLineHeight * lineHeightMultiple
+        return lineHeight
     }
     
-    func layoutManager(_ layoutManager: NSLayoutManager,
-                           paragraphSpacingBeforeGlyphAt glyphIndex: Int,
-                       withProposedLineFragmentRect rect: NSRect) -> CGFloat {
+    public func layoutManager(
+            _ layoutManager: NSLayoutManager,
+            shouldSetLineFragmentRect lineFragmentRect: UnsafeMutablePointer<NSRect>,
+            lineFragmentUsedRect: UnsafeMutablePointer<NSRect>,
+            baselineOffset: UnsafeMutablePointer<CGFloat>,
+            in textContainer: NSTextContainer,
+            forGlyphRange glyphRange: NSRange) -> Bool {
+
+        // Get the font for the current range of glyphs
+        let currentFont = font(for: glyphRange)
+        let fontLineHeight = layoutManager.defaultLineHeight(for: currentFont)
+        let standardLineHeight = fontLineHeight * lineHeightMultiple
+        
+        let attachmentInfo = hasAttachment(in: glyphRange)
+        
+        var finalLineHeight: CGFloat
+        var baselineNudge: CGFloat
+        
+        if attachmentInfo.hasAttachment && attachmentInfo.maxAttachmentHeight > 0 {
+            if attachmentInfo.maxAttachmentHeight > standardLineHeight {
+                finalLineHeight = attachmentInfo.maxAttachmentHeight
+                baselineNudge = 0
+            } else {
+                finalLineHeight = standardLineHeight
+                let extraSpace = finalLineHeight - fontLineHeight
+                baselineNudge = extraSpace * 0.5
+            }
+        } else {
+            finalLineHeight = standardLineHeight
+            let extraSpace = finalLineHeight - fontLineHeight
+            baselineNudge = extraSpace * 0.5
+        }
+
+        var rect = lineFragmentRect.pointee
+        rect.size.height = finalLineHeight
+
+        var usedRect = lineFragmentUsedRect.pointee
+        usedRect.size.height = max(finalLineHeight, usedRect.size.height)
+
+        lineFragmentRect.pointee = rect
+        lineFragmentUsedRect.pointee = usedRect
+        baselineOffset.pointee = baselineOffset.pointee + baselineNudge
+
+        return true
+    }
     
-        return glyphIndex == 0 ? 4 : 0
+    func refreshLayoutSoftly() {
+        invalidateLayout(forCharacterRange: NSRange(location: 0, length: textStorage?.length ?? 0),
+                                actualCharacterRange: nil)
+                
+        textContainers.forEach { container in
+            container.textView?.needsDisplay = true
+        }
+    }
+    
+    override func setExtraLineFragmentRect(
+        _ fragmentRect: NSRect,
+        usedRect: NSRect,
+        textContainer container: NSTextContainer) {
+        
+        let lineHeight = self.lineHeight(for: defaultFont)
+        var fragmentRect = fragmentRect
+        fragmentRect.size.height = lineHeight
+        var usedRect = usedRect
+        usedRect.size.height = lineHeight
+
+        super.setExtraLineFragmentRect(fragmentRect,
+            usedRect: usedRect,
+            textContainer: container)
     }
 }
-

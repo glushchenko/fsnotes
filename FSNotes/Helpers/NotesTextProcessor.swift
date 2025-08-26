@@ -673,8 +673,13 @@ public class NotesTextProcessor {
         
         // We detect and process dashed headers
         NotesTextProcessor.headersAtxRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: boldFont, range: range)
+            guard let range = result?.range,
+                  let headerMarksRange = result?.range(at: 1) else { return }
+                
+            let headerLevel = headerMarksRange.length
+            let headerFont = NotesTextProcessor.getHeaderFont(level: headerLevel, baseFont: boldFont)
+            
+            attributedString.addAttribute(NSAttributedString.Key.font, value: headerFont, range: range)
             attributedString.fixAttributes(in: range)
 
             NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
@@ -1595,7 +1600,25 @@ public class NotesTextProcessor {
             print(error)
         }
     }
-
+    
+    fileprivate static func getHeaderFont(level: Int, baseFont: NSFont) -> NSFont {
+        let baseFontSize = baseFont.pointSize
+        let headerSize: CGFloat
+        
+        switch level {
+        case 1: headerSize = baseFontSize * 2.0    // #
+        case 2: headerSize = baseFontSize * 1.7    // ##
+        case 3: headerSize = baseFontSize * 1.4    // ###
+        case 4: headerSize = baseFontSize * 1.2    // ####
+        case 5: headerSize = baseFontSize * 1.1    // #####
+        case 6: headerSize = baseFontSize * 1.05   // ######
+        default: headerSize = baseFontSize
+        }
+        
+        let fontDescriptor = baseFont.fontDescriptor.withSize(headerSize)
+        
+        return NSFont(descriptor: fontDescriptor, size: headerSize) ?? baseFont
+    }
 }
 
 public struct MarklightRegex {
