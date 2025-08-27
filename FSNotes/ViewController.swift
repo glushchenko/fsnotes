@@ -258,14 +258,14 @@ class ViewController: EditorViewController,
 
         print("2. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
-//        let highlightCachePoint = Date()
-//        for note in self.storage.noteList {
-//            if note.type == .Markdown {
-//                note.cache(backgroundThread: true)
-//            }
-//        }
-//        
-//        print("3. Notes attributes cache for \(self.storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
+        let highlightCachePoint = Date()
+        for note in self.storage.noteList {
+            if note.type == .Markdown {
+                note.cache(backgroundThread: true)
+            }
+        }
+        
+        print("3. Notes attributes cache for \(self.storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
 
         let gitCachePoint = Date()
         self.cacheGitRepositories()

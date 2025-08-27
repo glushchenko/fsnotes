@@ -57,77 +57,69 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         super.draw(dirtyRect)
 
         guard UserDefaultsManagement.inlineTags else { return }
-        
+
         if #available(OSX 10.16, *) {
-            let range = NSRange(location: 0, length: textStorage!.length)
-            attributedString().enumerateAttributes(in: range, options: .reverse) {
-                attributes, range, stop in
+            guard let textStorage = self.textStorage,
+                  let container = self.textContainer,
+                  let layoutManager = self.layoutManager
+            else { return }
+
+            let fullRange = NSRange(location: 0, length: textStorage.length)
+
+            attributedString().enumerateAttributes(in: fullRange, options: .reverse) { attributes, range, _ in
+                guard attributes.index(forKey: .tag) != nil,
+                      let font = attributes[.font] as? NSFont
+                else { return }
 
                 let tag = attributedString().attributedSubstring(from: range).string
-                guard attributes.index(forKey: .tag) != nil, let font = attributes[.font] as? NSFont else { return }
-                let parStyle = attributes[.paragraphStyle] as? NSMutableParagraphStyle
-
-                var lineSpacing = CGFloat(0)
-                if let line = parStyle?.lineSpacing {
-                    lineSpacing = line
-                }
-
-                let parRange = textStorage?.mutableString.paragraphRange(for: range)
-                if textStorage?.length == parRange?.upperBound && textStorage?.string.last != "\n" {
-                    lineSpacing = 0
-                }
-
-                guard let container = self.textContainer else { return }
-                guard let activeRange = self.layoutManager?.glyphRange(forCharacterRange: range, actualCharacterRange: nil) else { return }
-
-                guard var tagRect = self.layoutManager?.boundingRect(forGlyphRange: activeRange, in: container) else { return }
-
-                tagRect.origin.x += self.textContainerOrigin.x;
-                tagRect.origin.y += self.textContainerOrigin.y;
-                tagRect = self.convertToLayer(tagRect)
-
                 let tagAttributes = attributedString().attributes(at: range.location, effectiveRange: nil)
-                let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes)
 
-                let height = tagRect.size.height - lineSpacing
-                let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width + oneCharSize.width*0.25, height: height))
+                let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+                var lineRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: container)
+
+                lineRect.origin.x += self.textContainerOrigin.x
+                lineRect.origin.y += self.textContainerOrigin.y
+                lineRect = self.convertToLayer(lineRect)
+                lineRect = lineRect.integral
+
+                let ascent = font.ascender            // > 0
+                let descent = abs(font.descender)     // > 0
+                let fontHeight = ascent + descent
+
+                let verticalInset = max(0, (lineRect.height - fontHeight) / 2)
+                var tagRect = NSRect(
+                    x: lineRect.minX,
+                    y: lineRect.minY + verticalInset,
+                    width: lineRect.width - 3,
+                    height: fontHeight
+                )
+
+                let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes)
+                tagRect.size.width += oneCharSize.width * 0.25
+                tagRect = tagRect.integral
 
                 NSGraphicsContext.saveGraphicsState()
+                let path = NSBezierPath(roundedRect: tagRect, xRadius: 3, yRadius: 3)
+                NSColor.tagColor.setFill()
+                path.fill()
 
-                let path = NSBezierPath(roundedRect: tagBorderRect, xRadius: 3, yRadius: 3)
+                var drawAttrs = tagAttributes
+                drawAttrs[.font] = font
+                drawAttrs[.foregroundColor] = NSColor.white
+                drawAttrs.removeValue(forKey: .link)
+                drawAttrs.removeValue(forKey: .baselineOffset)
 
-                let fillColor = NSColor.tagColor
-                let textColor = NSColor.white
+                let baselineOrigin = NSPoint(x: tagRect.minX, y: tagRect.minY + descent - 3)
 
-                path.addClip()
-                fillColor.setFill()
-                tagBorderRect.fill(using: .sourceIn)
-
-//                let transform = NSAffineTransform()
-//                transform.translateX(by: 0.5, yBy: 0.5)
-//                path.transform(using: transform as AffineTransform)
-//                path.stroke()
-//                transform.translateX(by: -1.5, yBy: -1.5)
-//                path.transform(using: transform as AffineTransform)
-//                path.stroke()
-
-                let dict = NSMutableDictionary(dictionary: tagAttributes)
-                dict.addEntries(from: [
-                    NSAttributedString.Key.font: font,
-                    NSAttributedString.Key.foregroundColor: textColor,
-                    NSAttributedString.Key.baselineOffset: -(font.pointSize - 1)
-                ])
-
-                dict.removeObject(forKey: NSAttributedString.Key.link)
-
-                let newRect = tagBorderRect.offsetBy(dx: 1, dy: 0)
-                (tag as NSString).draw(with: newRect, options: .init(), attributes: (dict as! [NSAttributedString.Key : Any]))
+                (tag as NSString).draw(at: baselineOrigin, withAttributes: drawAttrs)
 
                 NSGraphicsContext.restoreGraphicsState()
             }
         }
     }
-    
+
+
+
     public func initTextStorage() {
         let processor = TextStorageProcessor()
         processor.editor = self
