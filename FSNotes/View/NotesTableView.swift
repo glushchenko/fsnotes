@@ -572,18 +572,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         DispatchQueue.main.async {
             if let i = self.noteList.firstIndex(of: note) {
-                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView {
+                if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
 
-                    if let cell = row.subviews.first as? NoteCellView {
+                    cell.date.stringValue = note.getDateForLabel()
+                    cell.loadImagesPreview(position: i, urls: urls)
+                    cell.attachHeaders(note: note)
+                    cell.renderPin()
+                    cell.applyPreviewStyle()
 
-                        cell.date.stringValue = note.getDateForLabel()
-                        cell.loadImagesPreview(position: i, urls: urls)
-                        cell.attachHeaders(note: note)
-                        cell.renderPin()
-                        cell.applyPreviewStyle()
-
-                        self.noteHeightOfRows(withIndexesChanged: [i])
-                    }
+                    self.noteHeightOfRows(withIndexesChanged: [i])
                 }
             }
         }
@@ -592,10 +589,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     public func reloadDate(note: Note) {
         DispatchQueue.main.async {
             if self.numberOfRows > 0, let i = self.noteList.firstIndex(of: note) {
-                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView {
-                    if let cell = row.subviews.first as? NoteCellView {
-                        cell.date.stringValue = note.getDateForLabel()
-                    }
+                if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
+                    cell.date.stringValue = note.getDateForLabel()
                 }
             }
         }
