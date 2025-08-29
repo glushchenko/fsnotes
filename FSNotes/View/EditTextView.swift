@@ -118,8 +118,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
     }
 
-
-
     public func initTextStorage() {
         let processor = TextStorageProcessor()
         processor.editor = self
@@ -373,9 +371,26 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
 
-        if glyphRect.contains(properPoint), ((textStorage?.attribute(.link, at: index, effectiveRange: nil)) != nil) {
-            NSCursor.pointingHand.set()
-            return
+        // Clickable links move with cmd / shift
+        if glyphRect.contains(properPoint), let link = textStorage?.attribute(.link, at: index, effectiveRange: nil) {
+            
+            if textStorage?.attribute(.tag, at: index, effectiveRange: nil) != nil {
+                NSCursor.pointingHand.set()
+                return
+            }
+            
+            if link as? URL != nil {
+                if UserDefaultsManagement.clickableLinks
+                    || event.modifierFlags.contains(.command)
+                    || event.modifierFlags.contains(.shift)
+                {
+                    NSCursor.pointingHand.set()
+                    return
+                }
+                
+                NSCursor.iBeam.set()
+                return
+            }
         }
         
         if editorViewController?.vcEditor?.isPreviewEnabled() == true {
@@ -1285,6 +1300,49 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         return newFont
     }
 
+    // Clickable links flag changed with cmd / shift
+    override func flagsChanged(with event: NSEvent) {
+        super.flagsChanged(with: event)
+
+        if let mouseEvent = NSApp.currentEvent {
+            updateCursorForMouse(at: mouseEvent)
+        }
+    }
+
+    private func updateCursorForMouse(at event: NSEvent) {
+        guard let container = self.textContainer,
+             let manager = self.layoutManager else { return }
+
+        let pointInView = self.convert(event.locationInWindow, from: nil)
+        
+        let pointInContainer = NSPoint(
+            x: pointInView.x - textContainerInset.width,
+            y: (self.bounds.size.height - pointInView.y) - textContainerInset.height
+        )
+
+        let index = manager.characterIndex(
+            for: pointInContainer,
+            in: container,
+            fractionOfDistanceBetweenInsertionPoints: nil
+        )
+
+        if let link = textStorage?.attribute(.link, at: index, effectiveRange: nil) {
+            if textStorage?.attribute(.tag, at: index, effectiveRange: nil) != nil {
+                NSCursor.pointingHand.set()
+            } else if link as? URL != nil {
+                if UserDefaultsManagement.clickableLinks
+                    || NSEvent.modifierFlags.contains(.command)
+                    || NSEvent.modifierFlags.contains(.shift) {
+                    NSCursor.pointingHand.set()
+                } else {
+                    NSCursor.iBeam.set()
+                }
+            }
+        } else {
+            NSCursor.iBeam.set()
+        }
+    }
+    
     override func keyDown(with event: NSEvent) {
         defer {
             saveSelectedRange()
@@ -2068,15 +2126,31 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         let char = attributedSubstring(forProposedRange: range, actualRange: nil)
         if char?.attribute(.attachment, at: 0, effectiveRange: nil) == nil {
-
-            if NSEvent.modifierFlags.contains(.command), let link = link as? String, let url = URL(string: link) {
-                _ = try? NSWorkspace.shared.open(url, options: .withoutActivation, configuration: [:])
-                return
-            }
-            
-            if NSEvent.modifierFlags.contains(.shift), let link = link as? String, URL(string: link) != nil {
-                setSelectedRange(NSRange(location: charIndex, length: 0))
-                return
+            if let event = NSApp.currentEvent {
+                var url: URL?
+                
+                if let link = link as? URL {
+                    url = link
+                }
+                
+                if let link = link as? String, let link = URL(string: link) {
+                    url = link
+                }
+                
+                if let url = url, url.scheme != "fsnotes" {
+                    if event.modifierFlags.contains(.shift) {
+                        _ = try? NSWorkspace.shared.open(url, options: .withoutActivation, configuration: [:])
+                        return
+                    } else if event.modifierFlags.contains(.command) {
+                        NSWorkspace.shared.open(url)
+                        return
+                    } else {
+                        if !UserDefaultsManagement.clickableLinks {
+                            setSelectedRange(NSRange(location: charIndex, length: 0))
+                            return
+                        }
+                    }
+                }
             }
 
             super.clicked(onLink: link, at: charIndex)

@@ -602,40 +602,37 @@ public class NotesTextProcessor {
         #endif
 
         // We detect and process inline links not formatted
-        
-        if  UserDefaultsManagement.clickableLinks {
-            NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
-                guard var range = result?.range else { return }
-                var substring = attributedString.mutableString.substring(with: range)
-                
-                guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
-                
-                if ["!", "?", ";", ":", ".", ",", "_"].contains(substring.last) {
-                    range = NSRange(location: range.location, length: range.length - 1)
-                    substring = String(substring.dropLast())
-                }
-                
-                if substring.first == "(" {
-                    range = NSRange(location: range.location + 1, length: range.length - 1)
-                }
-                
-                if substring.last == ")" {
-                    range = NSRange(location: range.location, length: range.length - 1)
-                }
-                
-                if let url = URL(string: substring) {
-                    attributedString.addAttribute(.link, value: url, range: range)
-                } else if let substring = String(substring).addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
-                    attributedString.addAttribute(.link, value: substring, range: range)
-                }
-                
-                if NotesTextProcessor.hideSyntax {
-                    NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
-                        guard let innerRange = innerResult?.range else { return }
-                        attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
-                        attributedString.fixAttributes(in: innerRange)
-                        attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
-                    }
+        NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard var range = result?.range else { return }
+            var substring = attributedString.mutableString.substring(with: range)
+            
+            guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+            
+            if ["!", "?", ";", ":", ".", ",", "_"].contains(substring.last) {
+                range = NSRange(location: range.location, length: range.length - 1)
+                substring = String(substring.dropLast())
+            }
+            
+            if substring.first == "(" {
+                range = NSRange(location: range.location + 1, length: range.length - 1)
+            }
+            
+            if substring.last == ")" {
+                range = NSRange(location: range.location, length: range.length - 1)
+            }
+            
+            if let url = URL(string: substring) {
+                attributedString.addAttribute(.link, value: url, range: range)
+            } else if let substring = String(substring).addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) {
+                attributedString.addAttribute(.link, value: substring, range: range)
+            }
+            
+            if NotesTextProcessor.hideSyntax {
+                NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
+                    attributedString.fixAttributes(in: innerRange)
+                    attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
                 }
             }
         }
@@ -939,29 +936,26 @@ public class NotesTextProcessor {
         }
         
         // We detect and process inline mailto links not formatted
-        
-        if UserDefaultsManagement.clickableLinks {
-            NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
-                guard let range = result?.range else { return }
-                let substring = attributedString.mutableString.substring(with: range)
-                guard substring.lengthOfBytes(using: .utf8) > 0, URL(string: substring) != nil else { return }
-                
-                if substring.isValidEmail() {
-                    attributedString.addAttribute(.link, value: "mailto:\(substring)", range: range)
-                } else {
-                    attributedString.addAttribute(.link, value: substring, range: range)
-                }
-                
-                if NotesTextProcessor.hideSyntax {
-                    NotesTextProcessor.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
-                        guard let innerRange = innerResult?.range else { return }
-                        attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
-                        attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
-                    }
+        NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            let substring = attributedString.mutableString.substring(with: range)
+            guard substring.lengthOfBytes(using: .utf8) > 0, URL(string: substring) != nil else { return }
+            
+            if substring.isValidEmail() {
+                attributedString.addAttribute(.link, value: "mailto:\(substring)", range: range)
+            } else {
+                attributedString.addAttribute(.link, value: substring, range: range)
+            }
+            
+            if NotesTextProcessor.hideSyntax {
+                NotesTextProcessor.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
+                    attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
                 }
             }
         }
-
+        
         // Todo
         NotesTextProcessor.todoInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
