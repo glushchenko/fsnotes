@@ -2303,4 +2303,16 @@ public class Note: NSObject  {
         let ranges = CodeBlockDetector.shared.findCodeBlocks(in: content)
         codeBlockRangesCache = ranges
     }
+
+    public func isInCodeBlockRange(range: NSRange) -> Bool {
+        guard let codeBlockRangesCache = codeBlockRangesCache else { return false }
+
+        for codeRange in codeBlockRangesCache {
+            if NSIntersectionRange(range, codeRange).length > 0 {
+                return true
+            }
+        }
+
+        return false
+    }
 }

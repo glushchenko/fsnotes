@@ -140,8 +140,9 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
             if url.isImage {
                 let cgSize = attachment.bounds.size
                 let retinaSize = CGSize(width: cgSize.width * 2, height: cgSize.height * 2)
+                let imageSize = NoteAttachment.getSize(url: url)
+                size = NoteAttachment.getSize(width: imageSize.width, height: imageSize.height)
                 image = NoteAttachment.getImage(url: url, size: retinaSize)
-                size = NSSize(width: cgSize.width, height: cgSize.height)
             } else {
                 let attachment = NoteAttachment(title: "", path: "", url: url, note: note)
                 let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()

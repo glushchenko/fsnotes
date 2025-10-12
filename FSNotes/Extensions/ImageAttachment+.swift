@@ -18,8 +18,8 @@ extension NoteAttachment {
         // Image attachment
 
         if url.isImage {
-            let imageSize = getSize(url: self.url)
-            let size = self.getSize(width: imageSize.width, height: imageSize.height)
+            let imageSize = NoteAttachment.getSize(url: self.url)
+            let size = NoteAttachment.getSize(width: imageSize.width, height: imageSize.height)
             //let cell = FSNTextAttachmentCell(textContainer: container, image: NSImage(size: size))
             //cell.image?.size = size
             attachment.image = nil
@@ -62,7 +62,7 @@ extension NoteAttachment {
         return nil
     }
 
-    public func getSize(width: CGFloat, height: CGFloat) -> NSSize {
+    public static func getSize(width: CGFloat, height: CGFloat) -> NSSize {
         var maxWidth = UserDefaultsManagement.imagesWidth
 
         if maxWidth == Float(1000) {

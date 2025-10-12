@@ -9,7 +9,7 @@
 import Foundation
 import CoreServices
 
-public class Project: Equatable {
+public class Project: NSObject {
     var storage: Storage
 
     var url: URL
@@ -61,20 +61,20 @@ public class Project: Equatable {
         self.isBookmark = isBookmark
         self.isVirtual = isVirtual
         self.label = String()
-            
-        #if os(iOS)
-        if isDefault {
-            settings.showInSidebar = false
-        }
-        #endif
 
-        settingsKey = getSettingsKey()
-        
-        loadLabel(label)
-        isCloudDrive = isCloudDriveFolder(url: url)
-        
-        // Init sort for default project
-        if self.label == "Welcome" {
+        super.init()
+
+        self.settingsKey = getSettingsKey()
+        self.loadLabel(label)
+        self.isCloudDrive = isCloudDriveFolder(url: url)
+
+        if isDefault {
+            #if os(iOS)
+            settings.showInSidebar = false
+            #endif
+        }
+
+        if label == "Welcome" {
             settings.sortBy = .title
             settings.sortDirection = .asc
         }
@@ -92,7 +92,16 @@ public class Project: Equatable {
             settings.setOrigin(origin)
         }
     }
-    
+
+    public override func isEqual(_ object: Any?) -> Bool {
+            guard let other = object as? Project else { return false }
+            return self.url == other.url
+        }
+
+    public override var hash: Int {
+        return url.hashValue
+    }
+
     public func getLongSettingsKey() -> String {
         return "es.fsnot.project-settings\(settingsKey)"
     }

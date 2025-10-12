@@ -546,6 +546,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         let mainWord = (string as NSString).substring(with: charRange)
 
         if UserDefaultsManagement.inlineTags {
+            if note?.isInCodeBlockRange(range: charRange) == true {
+                return nil
+            }
+
             if (string as NSString).substring(with: charRange) == "#" {
                 if let tags = viewDelegate?.sidebarOutlineView.getAllTags() {
                     let list = tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }

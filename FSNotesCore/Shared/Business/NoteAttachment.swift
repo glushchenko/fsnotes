@@ -76,7 +76,7 @@ class NoteAttachment {
         return mutableAttributedString
     }
 
-    public func getSize(url: URL) -> CGSize {
+    public static func getSize(url: URL) -> CGSize {
         var width = 0
         var height = 0
         var orientation = 0
