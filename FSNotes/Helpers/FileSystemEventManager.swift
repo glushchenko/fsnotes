@@ -254,13 +254,14 @@ class FileSystemEventManager {
             note.cacheHash = nil
 
             guard var fsContent = note.getContent() else { return }
+            fsContent.loadAttachments(note)
 
             // Trying load content from encrypted note with current password
             if note.url.pathExtension == "etp", let password = note.password, note.unLock(password: password) {
                 fsContent = note.content
             }
 
-            note.content = NSMutableAttributedString(attributedString: fsContent)
+            note.content = fsContent
 
             // tags changes
 

@@ -149,48 +149,28 @@ public class NotesTextProcessor {
     private var range: NSRange?
     private var width: CGFloat?
     
+    public static var hl: SwiftHighlighter? = nil
+        
     init(note: Note? = nil, storage: NSTextStorage? = nil, range: NSRange? = nil) {
         self.note = note
         self.storage = storage
         self.range = range
     }
+    
+    public static func getHighlighter() -> SwiftHighlighter {
+        if let instance = self.hl {
+            return instance
+        }
+
+        let highlighter = SwiftHighlighter(options: .init(style: GitHubLightTheme.make()))
+        self.hl = highlighter
+        
+        return highlighter
+    }
 
     public static func resetCaches() {
         NotesTextProcessor.hl = nil
         NotesTextProcessor.codeFont = UserDefaultsManagement.codeFont
-    }
-
-    public static func getFencedCodeBlockRange(paragraphRange: NSRange, string: NSMutableAttributedString) -> NSRange? {
-        guard UserDefaultsManagement.codeBlockHighlight else { return nil }
-
-        let regex = try! NSRegularExpression(pattern: NotesTextProcessor._codeQuoteBlockPattern, options: [
-            NSRegularExpression.Options.allowCommentsAndWhitespace,
-            NSRegularExpression.Options.anchorsMatchLines
-            ])
-
-        var foundRange: NSRange? = nil
-        regex.enumerateMatches(
-            in: string.string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: NSRange(0..<string.length),
-            using: { (result, matchingFlags, stop) -> Void in
-                guard let r = result else {
-                    return
-                }
-                
-                if r.range.intersection(paragraphRange) != nil {
-                    if r.range.upperBound < string.length {
-                        foundRange = NSRange(location: r.range.location, length: r.range.length)
-                    } else {
-                        foundRange = r.range
-                    }
-                    
-                    stop.pointee = true
-                }
-            }
-        )
-        
-        return foundRange
     }
 
     public static func getSpanCodeBlockRange(content: NSMutableAttributedString, range: NSRange) -> NSRange? {
@@ -209,74 +189,28 @@ public class NotesTextProcessor {
         return codeSpan
     }
 
-    public static var hl: Highlightr? = nil
-    public static var backgroundHl: Highlightr? = nil
-    
-    public static func getHighlighter(backgroundThread: Bool = false) -> Highlightr? {
-        if backgroundThread, let instance = self.backgroundHl {
-            return instance
-        } else if let instance = self.hl, !backgroundThread {
-            return instance
-        }
+    public static func getLanguage(from attributedString: NSMutableAttributedString, startingAt start: Int) -> String? {
+        let s = attributedString.string
+        guard start >= 0, start < s.count else { return nil }
 
-        guard let highlightr = Highlightr() else {
-            return nil
-        }
+        let startIndex = s.index(s.startIndex, offsetBy: start)
+        let remaining = s[startIndex...]
 
-        highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
-        highlightr.theme.codeFont = UserDefaultsManagement.codeFont
+        // Starts with ```
+        guard remaining.hasPrefix("```") else { return nil }
 
-        if backgroundThread {
-            self.backgroundHl = highlightr
-        } else {
-            self.hl = highlightr
+        // Move index by 3
+        guard let afterBackticks = s.index(startIndex, offsetBy: 3, limitedBy: s.endIndex) else { return nil }
+        
+        var index = afterBackticks
+        let endIndex = s.endIndex
+        
+        // Search for language before space or line break
+        while index < endIndex, s[index] != "\n", s[index] != " " {
+            index = s.index(after: index)
         }
         
-        return highlightr
-    }
-
-    public static func highlightCode(attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil, backgroundThread: Bool = false) {
-        guard let highlighter = NotesTextProcessor.getHighlighter(backgroundThread: backgroundThread) else { return }
-
-        let codeString = attributedString.mutableString.substring(with: range)
-        let preDefinedLanguage = language ?? getLanguage(codeString)
-
-        attributedString.mutableString.enumerateSubstrings(in: range, options: .byParagraphs) { string, range, _, _ in
-            let rangeNewline = range.upperBound == attributedString.length ? range : NSRange(range.location..<range.upperBound + 1)
-            attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: rangeNewline)
-        }
-
-        guard UserDefaultsManagement.codeBlocksWithSyntaxHighlighting, let code = highlighter.highlight(codeString, as: preDefinedLanguage) else { return }
-
-        if (range.location + range.length) > attributedString.length { return }
-        if attributedString.length >= range.upperBound && (code.string != attributedString.mutableString.substring(with: range)) { return }
-
-        let codeFont = UserDefaultsManagement.codeFont
-        let codeFontBold = codeFont.codeBold()
-
-        code.enumerateAttributes(
-            in: NSMakeRange(0, code.length),
-            options: [],
-            using: { (attrs, locRange, stop) in
-                var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
-                fixedRange.length = (fixedRange.location + fixedRange.length < attributedString.length) ? fixedRange.length : attributedString.length-fixedRange.location
-                fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-
-                for (key, value) in attrs {
-                    if key == NSAttributedString.Key.font, let font = value as? Font {
-                        if font.isBold {
-                            attributedString.addAttribute(key, value: codeFontBold, range: fixedRange)
-                        } else {
-                            attributedString.addAttribute(key, value: codeFont, range: fixedRange)
-                        }
-
-                        attributedString.fixAttributes(in: fixedRange)
-                    } else {
-                        attributedString.addAttribute(key, value: value, range: fixedRange)
-                    }
-                }
-            }
-        )
+        return index == afterBackticks ? nil : String(s[afterBackticks..<index])
     }
 
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {
@@ -284,31 +218,6 @@ public class NotesTextProcessor {
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         return paragraphStyle
     }
-    
-    public static var languages: [String]? = nil
-    
-    public static func getLanguage(_ code: String) -> String? {
-        if code.starts(with: "```") {
-            let start = code.index(code.startIndex, offsetBy: 0)
-            let end = code.index(code.startIndex, offsetBy: 3)
-            let range = start..<end
-
-            let paragraphRange = code.paragraphRange(for: range)
-            let detectedLang =
-                code[paragraphRange]
-                    .replacingOccurrences(of: "```", with: "")
-                    .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-
-            self.languages = self.getHighlighter()?.supportedLanguages()
-
-            if let lang = self.languages, lang.contains(detectedLang) {
-                return detectedLang
-            }
-        }
-        
-        return nil
-    }
-    
     
     /**
      Coverts App links:`[[Link Title]]` to Markdown: `[Link](fsnotes://find/link%20title)`
@@ -318,7 +227,7 @@ public class NotesTextProcessor {
      - returns: Content string with converted links
      */
 
-    public static func convertAppLinks(in content: NSMutableAttributedString) -> NSMutableAttributedString {
+    public static func convertAppLinks(in content: NSMutableAttributedString, codeBlockRanges: [NSRange]?) -> NSMutableAttributedString {
         let attributedString = content.mutableCopy() as! NSMutableAttributedString
         let range = NSRange(0..<content.string.utf16.count)
         let tagQuery = "fsnotes://find?id="
@@ -348,8 +257,12 @@ public class NotesTextProcessor {
                         return
                     }
 
-                    if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
-                        return
+                    if let codeRanges = codeBlockRanges {
+                        for codeRange in codeRanges {
+                            if NSIntersectionRange(codeRange, range).length > 0 {
+                                return
+                            }
+                        }
                     }
 
                     let link = "[\(tag)](\(value))"
@@ -361,7 +274,7 @@ public class NotesTextProcessor {
         return attributedString
     }
 
-    public static func convertAppTags(in content: NSMutableAttributedString) -> NSMutableAttributedString {
+    public static func convertAppTags(in content: NSMutableAttributedString, codeBlockRanges: [NSRange]?) -> NSMutableAttributedString {
         let attributedString = content.mutableCopy() as! NSMutableAttributedString
         guard UserDefaultsManagement.inlineTags else { return attributedString}
 
@@ -396,8 +309,12 @@ public class NotesTextProcessor {
                         return
                     }
 
-                    if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
-                        return
+                    if let codeRanges = codeBlockRanges {
+                        for codeRange in codeRanges {
+                            if NSIntersectionRange(codeRange, range).length > 0 {
+                                return
+                            }
+                        }
                     }
 
                     let link = "[#\(tag)](\(value))"
@@ -409,131 +326,25 @@ public class NotesTextProcessor {
         return attributedString
     }
 
-    public static func highlight(note: Note) {
-        highlightMarkdown(attributedString: note.content, note: note)
-        highlightFencedAndIndentCodeBlocks(attributedString: note.content)
-    }
+    public static func highlight(attributedString: NSMutableAttributedString) {
+        let ranges = CodeBlockDetector.shared.findCodeBlocks(in: attributedString)
 
-    public static func highlightFencedAndIndentCodeBlocks(attributedString: NSMutableAttributedString, backgroundThread: Bool = false) {
-        let range = NSRange(0..<attributedString.length)
+        NotesTextProcessor.highlightMarkdown(attributedString: attributedString, codeBlockRanges: ranges)
 
-        if UserDefaultsManagement.codeBlockHighlight {
-            var fencedRanges = [NSRange]()
+        for range in ranges {
+            let language = NotesTextProcessor.getLanguage(from: attributedString, startingAt: range.location)
 
-            // Fenced code block
-            let regexFencedCodeBlock = try! NSRegularExpression(pattern: self._codeQuoteBlockPattern, options: [
-                .allowCommentsAndWhitespace,
-                .anchorsMatchLines
-            ])
-
-            regexFencedCodeBlock.enumerateMatches(
-                in: attributedString.string,
-                options: NSRegularExpression.MatchingOptions(),
-                range: range,
-                using: { (result, matchingFlags, stop) -> Void in
-                    guard let r = result else { return }
-                    fencedRanges.append(r.range(at: 2))
-
-                    let fullCode = attributedString.mutableString.substring(with: r.range)
-                    let preDefinedLanguage = getLanguage(fullCode)
-
-                    // If no code highlight empty line
-                    if r.range(at: 2).length == 0 {
-                        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: r.range)
-                    }
-
-                    NotesTextProcessor.highlightCode(attributedString: attributedString, range: r.range(at: 2), language: preDefinedLanguage, backgroundThread: backgroundThread)
-                    NotesTextProcessor.highlightFencedBackTick(range: r.range, attributedString: attributedString)
-            })
-
-            // Indent code blocks
-            if UserDefaultsManagement.indentedCodeBlockHighlighting {
-                let codeTextProcessor = CodeTextProcessor(textStorage: attributedString)
-                if let codeBlockRanges = codeTextProcessor.getCodeBlockRanges() {
-                    for range in codeBlockRanges {
-
-                        if isIntersect(fencedRanges: fencedRanges, indentRange: range) {
-                            continue
-                        }
-
-                        NotesTextProcessor.highlightCode(attributedString: attributedString, range: range)
-                    }
-                }
-            }
+            NotesTextProcessor
+                .getHighlighter()
+                .highlight(in: attributedString, range: range, language: language)
         }
     }
 
-    public static func highlightFencedBackTick(range: NSRange, attributedString: NSMutableAttributedString, language: String? = nil) {
-
-        let code = attributedString.mutableString.substring(with: range)
-        let langLength = (code.components(separatedBy: "\n").first?.count ?? 3) - 3
-        let length = langLength + 3
-
-        // Open range background
-        let openRangeBackground = NSRange(location: range.location, length: length + 1)
-        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: openRangeBackground)
-
-        // Open range font and foreground
-        let openRange = NSRange(location: range.location, length: length + 1)
-        attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openRange)
-        attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: openRange)
-
-        // Close range foreground
-        let closeRange = NSRange(location: range.upperBound - 4, length: 4)
-        attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeRange)
-
-        // Colorize last new line
-        let lastParRange = attributedString.mutableString.paragraphRange(for: NSRange(location: range.location + range.length - 1, length: 0))
-        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: lastParRange)
-        attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: lastParRange)
-
-        // Colorize center
-        let centerRange = NSRange(openRangeBackground.location..<lastParRange.upperBound)
-        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: centerRange)
-
-        // Colorize language name
-        if let langLength = NotesTextProcessor.getLanguage(code)?.count {
-            let  color = Color.init(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.00)
-            let range = NSRange(location: range.location + 3, length: langLength)
-            attributedString.addAttribute(.foregroundColor, value: color, range: range)
-        }
-    }
-
-    public static func isIntersect(fencedRanges: [NSRange], indentRange: NSRange) -> Bool {
-        for fencedRange in fencedRanges {
-            if fencedRange.intersection(indentRange) != nil {
-                return true
-            }
-        }
-
-        return false
-    }
-
-    public static func minimalHighlight(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, note: Note) {
-         let paragraphRange = paragraphRange ?? NSRange(0..<attributedString.length)
-
-        attributedString.addAttribute(.font, value: font, range: paragraphRange)
-        attributedString.fixAttributes(in: paragraphRange)
-
-        #if os(iOS)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.blackWhite, range: paragraphRange)
-        #else
-            attributedString.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
-            attributedString.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
-
-                if (value as? NSColor) != nil {
-                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: range)
-                }
-            }
-        #endif
-    }
-
-    public static func highlightMarkdown(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, note: Note) {
+    public static func highlightMarkdown(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, codeBlockRanges: [NSRange]? = nil) {
         let paragraphRange = paragraphRange ?? NSRange(0..<attributedString.length)
-        let isFullScan = attributedString.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0
         let string = attributedString.string
         
-        let codeFont = UserDefaultsManagement.noteFont
+        let codeFont = UserDefaultsManagement.codeFont
         let quoteFont = UserDefaultsManagement.noteFont
         
     #if os(OSX)
@@ -643,6 +454,7 @@ public class NotesTextProcessor {
 
             if range.location == 0 {
                 let listOpeningRegex = MarklightRegex(pattern: "([a-zA-Z_]+):", options: [.allowCommentsAndWhitespace])
+                
                 listOpeningRegex.matches(string, range: range) { (result) -> Void in
                     guard let range = result?.range(at: 0) else { return }
                     attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.yamlOpenerColor, range: range)
@@ -716,28 +528,15 @@ public class NotesTextProcessor {
             attributedString.fixAttributes(in: range)
             
             var destinationLink : String?
-            
             NotesTextProcessor.coupleRoundRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 
                 guard let linkRange = result?.range(at: 3), linkRange.length > 0 else { return }
 
-                var substring = attributedString.mutableString.substring(with: linkRange)
-
+                let substring = attributedString.mutableString.substring(with: linkRange)
                 guard substring.count > 0 else { return }
 
-                if substring.starts(with: "/i/")
-                    || substring.starts(with: "i/")
-                    || substring.starts(with: "/files/")
-                    || substring.starts(with: "files/"),
-                    let path = note.project.url.appendingPathComponent(substring).path.removingPercentEncoding
-                {
-                    substring = "file://" + path
-                } else if note.isTextBundle() && substring.starts(with: "assets/"), let path = note.getURL().appendingPathComponent(substring).path.removingPercentEncoding {
-                    substring = "file://" + path
-                }
-                
                 destinationLink = substring
                 attributedString.addAttribute(.link, value: substring, range: linkRange)
 
@@ -771,25 +570,6 @@ public class NotesTextProcessor {
             }
         }
         #endif
-
-        NotesTextProcessor.imageRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: codeFont, range: range)
-            attributedString.fixAttributes(in: range)
-
-            // TODO: add image attachment
-            if NotesTextProcessor.hideSyntax {
-                attributedString.addAttribute(.font, value: hiddenFont, range: range)
-            }
-            NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-            NotesTextProcessor.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-        }
 
         // We detect and process app urls [[link]]
         NotesTextProcessor.appUrlRegex.matches(string, range: paragraphRange) { (result) -> Void in
@@ -955,17 +735,6 @@ public class NotesTextProcessor {
                 }
             }
         }
-        
-        // Todo
-        NotesTextProcessor.todoInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            let substring = attributedString.mutableString.substring(with: range)
-
-            if substring.contains("- [x]") {
-                let strikeRange = attributedString.mutableString.paragraphRange(for: range)
-                attributedString.addAttribute(.strikethroughStyle, value: 1, range: strikeRange)
-            }
-        }
 
         // Inline tags
         if UserDefaultsManagement.inlineTags {
@@ -983,8 +752,12 @@ public class NotesTextProcessor {
                     return
                 }
 
-                if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
-                    return
+                if let ranges = codeBlockRanges {
+                    for range in ranges {
+                        if NSIntersectionRange(range, paragraphRange).length > 0 {
+                            return
+                        }
+                    }
                 }
 
                 var substring = attributedString.mutableString.substring(with: range)
@@ -1003,36 +776,6 @@ public class NotesTextProcessor {
             }
         }
 
-        if !UserDefaultsManagement.liveImagesPreview {
-            
-            // We detect and process inline images
-            FSParser.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
-                guard let range = result?.range else { return }
-
-                if let linkRange = result?.range(at: 3) {
-                    let link = attributedString.mutableString.substring(with: linkRange).removingPercentEncoding
-
-                    if let link = link, let url = note.getImageUrl(imageName: link) {
-                        attributedString.addAttribute(.link, value: url, range: linkRange)
-                    }
-                }
-
-                attributedString.addAttribute(.font, value: codeFont, range: range)
-                NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                }
-                NotesTextProcessor.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                }
-                NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                }
-            }
-        }
-
         attributedString.enumerateAttribute(.attachment, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
             if value != nil, let todo = attributedString.attribute(.todo, at: range.location, effectiveRange: nil) {
 
@@ -1041,49 +784,37 @@ public class NotesTextProcessor {
             }
         }
 
-        if isFullScan {
-            checkBackTick(styleApplier: attributedString)
-        }
-    }
-
-    public static func checkBackTick(styleApplier: NSMutableAttributedString, paragraphRange: NSRange? = nil) {
         guard UserDefaultsManagement.codeBlockHighlight else { return }
 
-        var range = NSRange(0..<styleApplier.length)
-
-        if let parRange = paragraphRange {
-            range = parRange
-        }
-
-        styleApplier.enumerateAttribute(.backgroundColor, in: range) { (value, innerRange, _) in
+        // Code span removed
+        attributedString.enumerateAttribute(.backgroundColor, in: paragraphRange) { (value, innerRange, _) in
             if value != nil {
                 let font = UserDefaultsManagement.noteFont
-                styleApplier.removeAttribute(.backgroundColor, range: innerRange)
-                styleApplier.addAttribute(.font, value: font, range: innerRange)
-                styleApplier.fixAttributes(in: innerRange)
+                attributedString.removeAttribute(.backgroundColor, range: innerRange)
+                attributedString.addAttribute(.font, value: font, range: innerRange)
+                attributedString.fixAttributes(in: innerRange)
             }
         }
 
-        let codeFont = NotesTextProcessor.codeFont
-        NotesTextProcessor.codeSpanRegex.matches(styleApplier.string, range: range) { (result) -> Void in
+        NotesTextProcessor.codeSpanRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
 
-            if styleApplier.mutableString.substring(with: range).startsWith(string: "```") {
+            if attributedString.mutableString.substring(with: range).startsWith(string: "```") {
                 return
             }
 
-            styleApplier.addAttribute(.font, value: codeFont, range: range)
-            styleApplier.fixAttributes(in: range)
+            attributedString.addAttribute(.font, value: codeFont, range: range)
+            attributedString.fixAttributes(in: range)
 
-            styleApplier.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: range)
+            attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: range)
 
-            NotesTextProcessor.codeSpanOpeningRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.codeSpanOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
-            NotesTextProcessor.codeSpanClosingRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.codeSpanClosingRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
         }
     }
@@ -1326,20 +1057,6 @@ public class NotesTextProcessor {
 
     public static let allTodoInlineRegex = MarklightRegex(pattern: allTodoInlinePattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
-    // MARK: Code
-    
-    /*
-     ```
-     Code
-     ```
-     
-     Code
-     */
-    public static let _codeQuoteBlockPattern = [
-        "(?<=\\n|\\A)",
-        "(^```[\\S\\ \\(\\)]*\\n([\\s\\S]*?)\\n```(?:\\n|\\Z))"
-        ].joined(separator: "\n")
-            
     fileprivate static let codeSpanPattern = [
         "(?<![\\\\`])   # Character before opening ` can't be a backslash or backtick",
         "(`+)           # $1 = Opening run of `",

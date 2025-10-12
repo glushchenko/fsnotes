@@ -11,24 +11,6 @@ import Foundation
 import Cocoa
 
 extension NSTextStorage {
-    public func updateFont() {
-        beginEditing()
-        enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
-            if let font = value as? NSFont, let familyName = UserDefaultsManagement.noteFont.familyName {
-                let newFontDescriptor = font.fontDescriptor
-                    .withFamily(familyName)
-                    .withSymbolicTraits(font.fontDescriptor.symbolicTraits)
-
-                if let newFont = NSFont(descriptor: newFontDescriptor, size: CGFloat(UserDefaultsManagement.fontSize)) {
-                    removeAttribute(.font, range: range)
-                    addAttribute(.font, value: newFont, range: range)
-                    fixAttributes(in: range)
-                }
-            }
-        }
-        endEditing()
-    }
-
     public func sizeAttachmentImages(container: NSTextContainer) {
         enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
             if let attachment = value as? NSTextAttachment,

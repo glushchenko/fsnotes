@@ -974,10 +974,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
         }
         
-        note.save()
-
-        let storage = Storage.shared()
-        storage.add(note)
+        if note.save() {
+            Storage.shared().add(note)
+        }
 
         let evc = UIApplication.getEVC()
         evc.note = note
@@ -1046,7 +1045,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
         }
 
-        note.save()
+        if note.save() {
+            Storage.shared().add(note)
+        }
     }
 
     public func importSavedInSharedExtension() {

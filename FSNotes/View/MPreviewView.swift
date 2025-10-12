@@ -190,7 +190,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 #endif
 
                 if let editor = editor {
-                    let attachment = NoteAttachment(editor: editor, title: "", path: "", url: imageURL, note: note)
+                    let attachment = NoteAttachment(title: "", path: "", url: imageURL, note: note)
 
                     if let imageData = attachment.getAttachmentImage()?.jpgData {
                         let base64 = imageData.base64EncodedString()
@@ -808,7 +808,7 @@ class HandlerCheckbox: NSObject, WKScriptMessageHandler {
         guard let position = message.body as? String else { return }
         guard let note = self.note else { return }
 
-        let content = note.content.unLoadCheckboxes().unLoadImages()
+        let content = note.content.unloadAttachments()
         let string = content.string
         let range = NSRange(0..<string.count)
 

@@ -15,7 +15,6 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var codeBlockHighlight: NSButton!
     @IBOutlet weak var highlightIndentedCodeBlocks: NSButton!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
-    @IBOutlet weak var liveImagesPreview: NSButton!
     @IBOutlet weak var indentUsing: NSPopUpButton!
     @IBOutlet weak var inEditorFocus: NSButton!
     @IBOutlet weak var autocloseBrackets: NSButton!
@@ -37,8 +36,6 @@ class PreferencesEditorViewController: NSViewController {
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
 
         highlightIndentedCodeBlocks.state = UserDefaultsManagement.indentedCodeBlockHighlighting ? NSControl.StateValue.on : NSControl.StateValue.off
-
-        liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
         indentUsing.selectItem(at: UserDefaultsManagement.indentUsing)
@@ -63,25 +60,6 @@ class PreferencesEditorViewController: NSViewController {
     //MARK: global variables
 
     let storage = Storage.shared()
-
-    @IBAction func liveImagesPreview(_ sender: NSButton) {
-        let editors = AppDelegate.getEditTextViews()
-        
-        for editor in editors {
-            if UserDefaultsManagement.liveImagesPreview {
-                if let note = editor.note, let storage = editor.textStorage, storage.length > 0 {
-                    storage.setAttributedString(note.content)
-                }
-            }
-
-            UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
-
-            if let note = editor.note, let evc = editor.editorViewController, !editor.isPreviewEnabled() {
-                NotesTextProcessor.highlight(note: note)
-                evc.refillEditArea()
-            }
-        }
-    }
 
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
@@ -153,7 +131,7 @@ class PreferencesEditorViewController: NSViewController {
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
             if let note = editor.note, let evc = editor.editorViewController {
-                NotesTextProcessor.highlight(note: note)
+                NotesTextProcessor.highlight(attributedString: note.content)
                 evc.disablePreview()
                 evc.refillEditArea()
             }

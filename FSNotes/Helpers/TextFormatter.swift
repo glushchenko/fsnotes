@@ -116,39 +116,6 @@ public class TextFormatter {
 
             insertText("**" + string + "**", selectRange: selectRange)
         }
-        
-        if type == .RichText {
-            let newFont = toggleBoldFont(font: getTypingAttributes())
-            
-            #if os(iOS)
-            guard self.attributedString.length > 0 else {
-                self.setTypingAttributes(font: newFont)
-                return
-            }
-            #endif
-            
-            textView.undoManager?.beginUndoGrouping()
-
-            #if os(OSX)
-                let string = NSMutableAttributedString(attributedString: attributedString)
-                string.addAttribute(.font, value: newFont, range: selectedRange)
-                self.insertText(string, replacementRange: range, selectRange: range)
-                setTypingAttributes(font: newFont)
-            #else
-                let selectedRange = textView.selectedRange
-                let selectedTextRange = textView.selectedTextRange!
-                let selectedText = textView.textStorage.attributedSubstring(from: selectedRange)
-            
-                let mutableAttributedString = NSMutableAttributedString(attributedString: selectedText)
-                mutableAttributedString.toggleBoldFont()
-            
-                textView.replace(selectedTextRange, withText: selectedText.string)
-                textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
-                textView.selectedRange = selectedRange
-            #endif
-
-            textView.undoManager?.endUndoGrouping()
-        }
     }
     
     func italic() {
@@ -191,37 +158,6 @@ public class TextFormatter {
 
             insertText("_" + string + "_", selectRange: selectRange)
         }
-        
-        if type == .RichText {
-            let newFont = toggleItalicFont(font: getTypingAttributes())
-            
-            #if os(iOS)
-            guard attributedString.length > 0 else {
-                setTypingAttributes(font: newFont)
-                return
-            }
-            #endif
-            
-            textView.undoManager?.beginUndoGrouping()
-            #if os(OSX)
-                let string = NSMutableAttributedString(attributedString: attributedString)
-                string.addAttribute(.font, value: newFont, range: selectedRange)
-                self.insertText(string, replacementRange: range, selectRange: range)
-                setTypingAttributes(font: newFont)
-            #else
-                let selectedRange = textView.selectedRange
-                let selectedTextRange = textView.selectedTextRange!
-                let selectedText = textView.textStorage.attributedSubstring(from: selectedRange)
-            
-                let mutableAttributedString = NSMutableAttributedString(attributedString: selectedText)
-                mutableAttributedString.toggleItalicFont()
-            
-                textView.replace(selectedTextRange, withText: selectedText.string)
-                textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
-                textView.selectedRange = selectedRange
-            #endif
-            textView.undoManager?.endUndoGrouping()
-        }
     }
 
     private func unBold(attributedString: NSAttributedString, range: NSRange) {
@@ -254,153 +190,46 @@ public class TextFormatter {
     }
     
     public func underline() {
-        if note.type == .RichText {
-            if (attributedString.length > 0) {
-                #if os(iOS)
-                    let selectedtTextRange = textView.selectedTextRange!
-                #endif
 
-                let selectedRange = textView.selectedRange
-                let range = NSRange(0..<attributedString.length)
-
-                if let underline = attributedString.attribute(.underlineStyle, at: 0, effectiveRange: nil) as? Int {
-                    if underline == 1 {
-                        attributedString.removeAttribute(.underlineStyle, range: range)
-                    } else {
-                        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                        attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
-                    }
-                } else {
-                    attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
-                }
-
-                #if os(iOS)
-                    self.textView.replace(selectedtTextRange, withText: attributedString.string)
-                    self.textView.selectedRange = selectedRange
-                #endif
-
-                self.textView.undoManager?.beginUndoGrouping()
-                self.storage.replaceCharacters(in: selectedRange, with: attributedString)
-                self.textView.undoManager?.endUndoGrouping()
-
-                self.textView.selectedRange = selectedRange
-                return
-            }
-            
-            #if os(OSX)
-                if (textView.typingAttributes[.underlineStyle] == nil) {
-                    attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: selectedRange)
-
-
-                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: selectedRange)
-
-                    
-                    textView.typingAttributes[.underlineStyle] = 1
-                } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedString.Key(rawValue: "NSUnderline"))
-                }
-
-                textView.insertText(attributedString, replacementRange: textView.selectedRange)
-            #else
-            if (textView.typingAttributes[.underlineStyle] == nil) {
-                textView.typingAttributes[.underlineStyle] = 1
-                } else {
-                    textView.typingAttributes.removeValue(forKey: .underlineStyle)
-                }
-            #endif
-        }
     }
     
     public func strike() {
-        if note.type == .RichText {
-            if (attributedString.length > 0) {
-                #if os(iOS)
-                    let selectedtTextRange = textView.selectedTextRange!
-                #endif
+        // UnStrike if not selected
+        if range.length == 0 {
+            var resultFound = false
+            let string = getAttributedString().string
 
-                let selectedRange = textView.selectedRange
-                let range = NSRange(0..<attributedString.length)
+            NotesTextProcessor.strikeRegex.matches(string, range: NSRange(0..<string.count)) { (result) -> Void in
+                guard let range = result?.range else { return }
 
-                if let underline = attributedString.attribute(.strikethroughStyle, at: 0, effectiveRange: nil) as? Int {
-                    if underline == 2 {
-                        attributedString.removeAttribute(.strikethroughStyle, range: range)
-                    } else {
-                        attributedString.addAttribute(.strikethroughStyle, value: 2, range: range)
-                    }
-                } else {
-                    attributedString.addAttribute(.strikethroughStyle, value: 2, range: range)
+                if range.intersection(self.range) != nil {
+                    let italicAttributed = self.getAttributedString().attributedSubstring(from: range)
+
+                    self.unStrike(attributedString: italicAttributed, range: range)
+                    resultFound = true
                 }
+            }
 
-                #if os(iOS)
-                    self.textView.replace(selectedtTextRange, withText: attributedString.string)
-                #endif
-
-                self.textView.undoManager?.beginUndoGrouping()
-                self.storage.replaceCharacters(in: selectedRange, with: attributedString)
-                self.textView.undoManager?.endUndoGrouping()
-
-                self.textView.selectedRange = selectedRange
+            if resultFound {
                 return
             }
-            
-            #if os(OSX)
-                if (textView.typingAttributes[.strikethroughStyle] == nil) {
-                    attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: selectedRange)
-                    textView.typingAttributes[.strikethroughStyle] = 2
-                } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedString.Key(rawValue: "NSStrikethrough"))
-                }
-            
-                textView.insertText(attributedString, replacementRange: textView.selectedRange)
-            #else
-                if (textView.typingAttributes[.strikethroughStyle] == nil) {
-                    textView.typingAttributes[.strikethroughStyle] = 2
-                } else {
-                    textView.typingAttributes.removeValue(forKey: .strikethroughStyle)
-                }
-            #endif
         }
-        
-        if note.isMarkdown() {
 
-            // UnStrike if not selected
-            if range.length == 0 {
-                var resultFound = false
-                let string = getAttributedString().string
-
-                NotesTextProcessor.strikeRegex.matches(string, range: NSRange(0..<string.count)) { (result) -> Void in
-                    guard let range = result?.range else { return }
-
-                    if range.intersection(self.range) != nil {
-                        let italicAttributed = self.getAttributedString().attributedSubstring(from: range)
-
-                        self.unStrike(attributedString: italicAttributed, range: range)
-                        resultFound = true
-                    }
-                }
-
-                if resultFound {
-                    return
-                }
-            }
-
-            // UnStrike
-            if attributedString.string.contains("~~") {
-                unStrike(attributedString: attributedString, range: range)
-                return
-            }
-
-            var selectRange = NSMakeRange(range.location + 2, 0)
-            let string = attributedString.string
-            let length = string.count
-
-            if length != 0 {
-                selectRange = NSMakeRange(range.location, length + 4)
-            }
-
-            insertText("~~" + string + "~~", selectRange: selectRange)
+        // UnStrike
+        if attributedString.string.contains("~~") {
+            unStrike(attributedString: attributedString, range: range)
+            return
         }
+
+        var selectRange = NSMakeRange(range.location + 2, 0)
+        let string = attributedString.string
+        let length = string.count
+
+        if length != 0 {
+            selectRange = NSMakeRange(range.location, length + 4)
+        }
+
+        insertText("~~" + string + "~~", selectRange: selectRange)
     }
     
     public func tab() {
@@ -416,7 +245,7 @@ public class TextFormatter {
             padding = "    "
         }
         
-        let mutable = NSMutableAttributedString(attributedString: getAttributedString().attributedSubstring(from: pRange)).unLoadCheckboxes()
+        let mutable = NSMutableAttributedString(attributedString: getAttributedString().attributedSubstring(from: pRange)).unloadTasks()
 
         let string = mutable.string
         var result = String()
@@ -439,7 +268,7 @@ public class TextFormatter {
         let selectRange = NSRange(location: location + padding.count, length: length + addsChars)
         
         let mutableResult = NSMutableAttributedString(string: result)
-        mutableResult.loadCheckboxes()
+        mutableResult.loadTasks()
 
         #if os(OSX)
             textView.textStorage?.removeAttribute(.todo, range: pRange)
@@ -458,7 +287,7 @@ public class TextFormatter {
     public func unTab() {
         guard let pRange = getParagraphRange() else { return }
 
-        let mutable = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: pRange)).unLoadCheckboxes()
+        let mutable = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: pRange)).unloadTasks()
         let string = mutable.string
 
         var result = String()
@@ -530,7 +359,7 @@ public class TextFormatter {
 
         let selectRange = NSRange(location: selectLocation, length: selectLength)
         let mutableResult = NSMutableAttributedString(string: result)
-        mutableResult.loadCheckboxes()
+        mutableResult.loadTasks()
 
         #if os(OSX)
             textView.textStorage?.removeAttribute(.todo, range: pRange)
@@ -658,16 +487,6 @@ public class TextFormatter {
         
         // First & Last
         if (sRange.location == 0 || sRange.location == self.storage.length) && paragraph.count == 0 && self.note.isMarkdown() {
-        #if os(OSX)
-            if textView.textStorage?.length == 0 {
-                textView.textStorageProcessor?.shouldForceRescan = true
-            }
-        #else
-            if textView.textStorage.length == 0 {
-                textView.textStorageProcessor?.shouldForceRescan = true
-            }
-        #endif
-            
             self.insertText("\t\n", replacementRange: sRange)
             self.setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
             return
@@ -860,7 +679,7 @@ public class TextFormatter {
         guard let pRange = getParagraphRange() else { return }
 
         let attributedString = getAttributedString().attributedSubstring(from: pRange)
-        let mutable = NSMutableAttributedString(attributedString: attributedString).unLoadCheckboxes()
+        let mutable = NSMutableAttributedString(attributedString: attributedString).unloadTasks()
 
         if !attributedString.hasTodoAttribute() && selectedRange.length == 0 {
             var offset = 0
@@ -958,7 +777,7 @@ public class TextFormatter {
         
         mutableResult.addAttribute(.foregroundColor, value: textColor, range: NSRange(location: 0, length: mutableResult.length))
         mutableResult.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: 0, length: mutableResult.length))
-        mutableResult.loadCheckboxes()
+        mutableResult.loadTasks()
 
         let diff = mutableResult.length - attributedString.length
         let selectRange = selectedRange.length == 0 || lines.count == 1
@@ -1073,7 +892,6 @@ public class TextFormatter {
             let mutableString = NSMutableAttributedString(string: string)
             mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
 
-            textView.textStorageProcessor?.shouldForceRescan = true
             insertText(mutableString, replacementRange: selectedRange)
             return
         }
@@ -1083,8 +901,6 @@ public class TextFormatter {
     }
 
     public func codeBlock() {
-        textView.textStorageProcessor?.shouldForceRescan = true
-
         let currentRange = textView.selectedRange
         if currentRange.length > 0 {
             let substring = storage.attributedSubstring(from: currentRange)
@@ -1107,8 +923,6 @@ public class TextFormatter {
     }
 
     public func quote() {
-        textView.textStorageProcessor?.shouldForceRescan = true
-
         guard let pRange = getParagraphRange() else { return }
         let paragraph = storage.mutableString.substring(with: pRange)
 
@@ -1206,25 +1020,20 @@ public class TextFormatter {
             textView.isAutomaticQuoteSubstitutionEnabled = self.isAutomaticQuoteSubstitutionEnabled
             textView.isAutomaticDashSubstitutionEnabled = self.isAutomaticDashSubstitutionEnabled
         #endif
-        
-        if note.isMarkdown() {
-            setTypingAttributes(font: UserDefaultsManagement.noteFont)
+
+        setTypingAttributes(font: UserDefaultsManagement.noteFont)
+        var text: NSAttributedString?
+
+        #if os(OSX)
+            text = textView.attributedString()
+        #else
+            text = textView.attributedText
+        #endif
+
+        if let attributed = text {
+            note.save(attributed: attributed)
         }
 
-        if note.isMarkdown() || note.type == .RichText {
-            var text: NSAttributedString?
-            
-            #if os(OSX)
-                text = textView.attributedString()
-            #else
-                text = textView.attributedText
-            #endif
-            
-            if let attributed = text {
-                note.save(attributed: attributed)
-            }
-        }
-        
         #if os(iOS)
             textView.initUndoRedoButons()
         #endif
@@ -1386,7 +1195,7 @@ public class TextFormatter {
 
         let attributedString = getAttributedString().attributedSubstring(from: pRange)
         let mutable = NSMutableAttributedString(attributedString: attributedString)
-        let string = mutable.unLoadCheckboxes().string
+        let string = mutable.unloadTasks().string
 
         guard string.isContainsLetters else {
             insertText("- ")
@@ -1443,7 +1252,7 @@ public class TextFormatter {
 
         let attributedString = getAttributedString().attributedSubstring(from: pRange)
         let mutable = NSMutableAttributedString(attributedString: attributedString)
-        let string = mutable.unLoadCheckboxes().string
+        let string = mutable.unloadTasks().string
 
         guard string.isContainsLetters else {
             insertText("1. ")

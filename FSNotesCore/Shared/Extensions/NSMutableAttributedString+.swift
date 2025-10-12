@@ -15,97 +15,117 @@ import Cocoa
 #endif
 
 extension NSMutableAttributedString {
-    public func unLoadImages(note: Note? = nil) -> NSMutableAttributedString {
+    public func unloadImagesAndFiles() -> NSMutableAttributedString {
+        let result = NSMutableAttributedString(attributedString: self)
         var offset = 0
-        let content = self.mutableCopy() as? NSMutableAttributedString
 
-        self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
+        let fullRange = NSRange(location: 0, length: length)
+        let pathKey = NSAttributedString.Key("co.fluder.fsnotes.image.path")
+        let titleKey = NSAttributedString.Key("co.fluder.fsnotes.image.title")
 
-            if let textAttachment = value as? NSTextAttachment,
-                self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
-                var path: String?
-                var title: String?
-
-                let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-                let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
-
-                if let filePath = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
-
-                    path = filePath.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-                    title = self.attribute(titleKey, at: range.location, effectiveRange: nil) as? String
-                } else if let note = note,
-                    let imageData = textAttachment.fileWrapper?.regularFileContents {
-                    path = ImagesProcessor.writeFile(data: imageData, note: note)
-                } else if let note = note,
-                    let imageData = textAttachment.contents {
-                    path = ImagesProcessor.writeFile(data: imageData, note: note)
-                }
-
-                let newRange = NSRange(location: range.location + offset, length: range.length)
-
-                guard let unwrappedPath = path, unwrappedPath.count > 0 else { return }
-
-                let unrappedTitle = title ?? ""
-
-                content?.removeAttribute(.attachment, range: newRange)
-                content?.replaceCharacters(in: newRange, with: "![\(unrappedTitle)](\(unwrappedPath))")
-                offset += 4 + unwrappedPath.count + unrappedTitle.count
+        enumerateAttribute(.attachment, in: fullRange) { value, range, _ in
+            guard
+                value as? NSTextAttachment != nil,
+                self.attribute(.todo, at: range.location, effectiveRange: nil) == nil
+            else {
+                return
             }
+
+            guard
+                let filePath = self.attribute(pathKey, at: range.location, effectiveRange: nil) as? String,
+                !filePath.isEmpty,
+                let encodedPath = filePath.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            else {
+                return
+            }
+
+            let title = (self.attribute(titleKey, at: range.location, effectiveRange: nil) as? String) ?? ""
+            let replacement = "![\(title)](\(encodedPath))"
+
+            let adjustedRange = NSRange(location: range.location + offset, length: range.length)
+
+            result.removeAttribute(.attachment, range: adjustedRange)
+            result.replaceCharacters(in: adjustedRange, with: replacement)
+
+            offset += replacement.count - range.length
         }
 
-        return content!
+        return result
     }
 
-    public func unLoadCheckboxes() -> NSMutableAttributedString {
+    public func loadImagesAndFiles(note: Note) {
+        let paragraphRange = NSRange(0..<length)
         var offset = 0
-        let content = self.mutableCopy() as? NSMutableAttributedString
 
-        self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
-            if value != nil {
-                let newRange = NSRange(location: range.location + offset, length: 1)
+        var images = [URL]()
+        var attachemnts = [URL]()
 
-                guard range.length == 1,
-                    let value = self.attribute(.todo, at: range.location, effectiveRange: nil) as? Int
-                else { return }
+        FSParser.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard var range = result?.range else { return }
 
-                var gfm = "- [ ]"
-                if value == 1 {
-                    gfm = "- [x]"
-                }
-                content?.replaceCharacters(in: newRange, with: gfm)
-                offset += 4
+            range = NSRange(location: range.location - offset, length: range.length)
+            let mdLink = self.attributedSubstring(from: range).string
+
+            var path = String()
+            var title = String()
+
+            if let titleRange = result?.range(at: 2) {
+                title = self.mutableString.substring(with: NSRange(location: titleRange.location - offset, length: titleRange.length))
+            }
+
+            if let linkRange = result?.range(at: 3) {
+                path = self.mutableString.substring(with: NSRange(location: linkRange.location - offset, length: linkRange.length))
+            }
+
+            guard let cleanPath = path.removingPercentEncoding,
+                  let imageURL = note.getImageUrl(imageName: cleanPath)
+            else { return }
+
+            if imageURL.isRemote() {
+                //
+            } else if FileManager.default.fileExists(atPath: imageURL.path), imageURL.isImage || imageURL.isVideo {
+                images.append(imageURL)
+            } else {
+                attachemnts.append(imageURL)
+            }
+
+            let imageAttachment = NoteAttachment(title: title, path: cleanPath, url: imageURL, note: note)
+
+            if let attributedStringWithImage = imageAttachment.getAttributedString() {
+                offset += mdLink.count - 1
+                self.replaceCharacters(in: range, with: attributedStringWithImage)
             }
         }
 
-        return content!
+        note.imageUrl = images
+        note.attachments = attachemnts
     }
 
-    public func unLoad() -> NSMutableAttributedString {
-        return unLoadCheckboxes().unLoadImages()
-    }
+    public func unloadTasks() -> NSMutableAttributedString {
+        let result = NSMutableAttributedString(attributedString: self)
+        var offset = 0
+        let fullRange = NSRange(location: 0, length: length)
 
-    #if os(OSX)
-    public func unLoadUnderlines() -> NSMutableAttributedString {
-        self.enumerateAttribute(.underlineStyle, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
-            if value != nil {
-                self.addAttribute(.underlineColor, value: NSColor.black, range: range)
+        enumerateAttribute(.attachment, in: fullRange) { value, range, _ in
+            guard
+                value != nil,
+                range.length == 1,
+                let todoValue = self.attribute(.todo, at: range.location, effectiveRange: nil) as? Int
+            else {
+                return
             }
+
+            let gfm = todoValue == 1 ? "- [x]" : "- [ ]"
+            let adjustedRange = NSRange(location: range.location + offset, length: range.length)
+
+            result.replaceCharacters(in: adjustedRange, with: gfm)
+            offset += gfm.count - range.length
         }
 
-        return self
-    }
-    #endif
-
-    public func loadUnderlines() {
-        self.enumerateAttribute(.underlineStyle, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
-            if value != nil {
-                self.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
-            }
-        }
+        return result
     }
 
-    #if os(OSX)
-    public func loadCheckboxes() {
+    public func loadTasks() {
         while mutableString.contains("- [ ] ") {
             let range = mutableString.range(of: "- [ ] ")
             if length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {
@@ -118,33 +138,29 @@ extension NSMutableAttributedString {
             let parRange = mutableString.paragraphRange(for: range)
 
             if length >= range.upperBound, let checked = AttributedBox.getChecked() {
-
+                #if os(macOS)
                 let color = UserDataService.instance.isDark ? NSColor.white : NSColor.black
                 addAttribute(.strikethroughColor, value: color, range: parRange)
                 addAttribute(.strikethroughStyle, value: 1, range: parRange)
+                #else
+                addAttribute(.strikethroughColor, value: UIColor.blackWhite, range: parRange)
+                #endif
 
                 replaceCharacters(in: range, with: checked)
             }
         }
     }
-    #endif
 
-    public func replaceCheckboxes() {
-        #if IOS_APP || os(OSX)
-        while mutableString.contains("- [ ] ") {
-            let range = mutableString.range(of: "- [ ] ")
-            if length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {
-                replaceCharacters(in: range, with: unChecked)
-            }
-        }
+    public func unloadAttachments() -> NSMutableAttributedString {
+        return
+            unloadTasks()
+            .unloadImagesAndFiles()
+    }
 
-        while mutableString.contains("- [x] ") {
-            let range = mutableString.range(of: "- [x] ")
-            if length >= range.upperBound, let checked = AttributedBox.getChecked() {
-                replaceCharacters(in: range, with: checked)
-            }
-        }
-        #endif
+    public func loadAttachments(_ note: Note) -> NSMutableAttributedString {
+        loadImagesAndFiles(note: note)
+        loadTasks()
+        return self
     }
 
     public func replaceTag(name: String, with replaceString: String) {
@@ -211,5 +227,14 @@ extension NSMutableAttributedString {
 
             scanRange = NSRange(location: searchRange.location + replaceString.count + append, length: scanLength)
         }
+    }
+
+    func safeAddAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) {
+        guard range.location != NSNotFound,
+              range.location < length else { return }
+
+        let safeLength = min(range.length, length - range.location)
+        let safeRange = NSRange(location: range.location, length: safeLength)
+        addAttribute(name, value: value, range: safeRange)
     }
 }

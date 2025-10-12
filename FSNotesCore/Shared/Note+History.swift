@@ -137,9 +137,12 @@ extension Note {
 
             if #available(iOS 13.0, macOS 10.15, *) {
                 let data = NSData(contentsOf: src)
+                let encoding = String.Encoding.utf8.rawValue
                 if let content = try? data?.decompressed(using: .lz4) {
-                    let options = getDocOptions()
-                    if let attributedString = try? NSAttributedString(data: content as Data, options: options, documentAttributes: nil) {
+                    if let attributedString = try? NSAttributedString(data: content as Data, options: [
+                            .documentType : NSAttributedString.DocumentType.plain,
+                            .characterEncoding : NSNumber(value: encoding)
+                        ], documentAttributes: nil) {
                         self.content = NSMutableAttributedString(attributedString: attributedString)
                         save()
 

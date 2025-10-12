@@ -24,10 +24,7 @@ class NoteAttachment {
     public var note: Note?
     public var imageCache: URL?
 
-    public var editor: EditTextView?
-
-    init(editor: EditTextView, title: String, path: String, url: URL, note: Note? = nil) {
-        self.editor = editor
+    init(title: String, path: String, url: URL, note: Note? = nil) {
         self.title = title
         self.url = url
         self.path = path

@@ -7,11 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		110D09822E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
+		110D09832E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
+		110D09842E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
+		110D09852E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
+		110D09862E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
+		1161828D2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
+		1161828E2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
+		1161828F2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
+		1166D1F72E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
+		1166D1F82E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
+		1166D1F92E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
+		11AF633E2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
+		11AF633F2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
+		11AF63402E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11D702A62E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
 		11D702A72E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
 		11D702AC2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */; };
 		11D702AD2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */; };
 		11D702AE2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */; };
+		11D9431A2E643EF40010CC2B /* JavaScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943192E643EF20010CC2B /* JavaScript.swift */; };
+		11D9431B2E643EF40010CC2B /* JavaScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943192E643EF20010CC2B /* JavaScript.swift */; };
+		11D9431C2E643EF40010CC2B /* JavaScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943192E643EF20010CC2B /* JavaScript.swift */; };
+		11D9431E2E643F250010CC2B /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D9431D2E643F1F0010CC2B /* Swift.swift */; };
+		11D9431F2E643F250010CC2B /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D9431D2E643F1F0010CC2B /* Swift.swift */; };
+		11D943202E643F250010CC2B /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D9431D2E643F1F0010CC2B /* Swift.swift */; };
+		11D943222E643F410010CC2B /* Php.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943212E643F3B0010CC2B /* Php.swift */; };
+		11D943232E643F410010CC2B /* Php.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943212E643F3B0010CC2B /* Php.swift */; };
+		11D943242E643F410010CC2B /* Php.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943212E643F3B0010CC2B /* Php.swift */; };
+		11D943272E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
+		11D943282E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
+		11D943292E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		2799407C218484C900727B20 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
 		2998AEA58A4011FEA7C02ACE /* Pods_FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3A8E91DD978BBA557F778F9 /* Pods_FSNotesCore_macOS.framework */; };
@@ -251,7 +277,6 @@
 		D73A996E22FEC789002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
 		D73A996F22FEC78A002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
 		D73A997022FEC78A002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
-		D73B121023659CAA00AAE610 /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
 		D73B3135298FBF4400F46144 /* GitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73B3134298FBF4400F46144 /* GitViewController.swift */; };
 		D73BCC8C28EB5EC3008B3BBC /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5428EB5EBE008B3BBC /* Commit.swift */; };
 		D73BCC8D28EB5EC3008B3BBC /* Commit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC5428EB5EBE008B3BBC /* Commit.swift */; };
@@ -359,7 +384,6 @@
 		D73CEC912278ECA500D549F7 /* checkbox_empty_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D73CEC7F2278ECA500D549F7 /* checkbox_empty_white.png */; };
 		D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7465F27207F2CD600E46A52 /* Images.xcassets */; };
 		D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */; };
-		D7409FA5221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */; };
 		D74112281FABA21B00AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D74112291FABA29100AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D743FB5124CD72AC003A8913 /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
@@ -389,8 +413,6 @@
 		D74D47A7256DFACE00D97647 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189352102099B00FE3AF2 /* NSTextStorage+.swift */; };
 		D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
 		D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
-		D7503456285F7EF000086424 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189332102096000FE3AF2 /* NSTextStorage+.swift */; };
-		D7503457285F7EF000086424 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189332102096000FE3AF2 /* NSTextStorage+.swift */; };
 		D7503458285F7EFC00086424 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D00E78248FBFF6009AE455 /* UIView+.swift */; };
 		D7503459285F7F9700086424 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CBAFF3214D42E5002ECD5A /* Colors.swift */; };
 		D750345A285F7F9C00086424 /* NightMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D712FED1206F67C500370BA4 /* NightMode.swift */; };
@@ -403,9 +425,6 @@
 		D752D80923454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
 		D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
 		D752D80C23454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
-		D752D80F23463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
-		D752D81023463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
-		D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
 		D75627CE26D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627CF26D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
 		D75627D126D1165A000AF6EA /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75627CD26D1165A000AF6EA /* ImageFormat.swift */; };
@@ -508,7 +527,6 @@
 		D780166129E1E6AA00660689 /* dylanseegerDarkFull@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */; };
 		D780166229E1E6AA00660689 /* dylanseegerDarkFull@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */; };
 		D780166429E1E6C100660689 /* app-icon-dylanseegerDarkFull.png in Resources */ = {isa = PBXBuildFile; fileRef = D780166329E1E6C000660689 /* app-icon-dylanseegerDarkFull.png */; };
-		D780207C231FA147007F14DC /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
 		D78115602153AE89004FA1CA /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155E2153AE85004FA1CA /* back.png */; };
 		D78115612153AE89004FA1CA /* preview.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155F2153AE86004FA1CA /* preview.png */; };
 		D78115632153B36C004FA1CA /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78115622153B36C004FA1CA /* Buttons.swift */; };
@@ -691,8 +709,6 @@
 		D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */; };
 		D7CA7FD4232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
 		D7CA7FD5232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
-		D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
-		D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
 		D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
 		D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
 		D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CBAFF3214D42E5002ECD5A /* Colors.swift */; };
@@ -1036,8 +1052,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		110D09812E9C1525001555FA /* NSRange+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+.swift"; sourceTree = "<group>"; };
+		116182862E62B046005B5EE0 /* SwiftHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftHighlighter.swift; sourceTree = "<group>"; };
+		1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlockDetector.swift; sourceTree = "<group>"; };
+		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
 		11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlExtractor.swift; sourceTree = "<group>"; };
+		11D943192E643EF20010CC2B /* JavaScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScript.swift; sourceTree = "<group>"; };
+		11D9431D2E643F1F0010CC2B /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
+		11D943212E643F3B0010CC2B /* Php.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Php.swift; sourceTree = "<group>"; };
+		11D943262E643F5E0010CC2B /* GitHubLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubLight.swift; sourceTree = "<group>"; };
 		15136766333878E10A6B0457 /* Pods_FSNotes__Notarized_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__Notarized_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		275592961F3AE9B5006B8988 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		2799407B218484C900727B20 /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
@@ -1125,7 +1149,6 @@
 		D720240A22A9412B000A7691 /* Text.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Text.icns; sourceTree = "<group>"; };
 		D720240B22A9412B000A7691 /* TextBundle.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TextBundle.icns; sourceTree = "<group>"; };
 		D720241822A941A3000A7691 /* EncryptedTextPack.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EncryptedTextPack.icns; sourceTree = "<group>"; };
-		D72189332102096000FE3AF2 /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NSTextStorage+.swift"; path = "FSNotes iOS/Extensions/NSTextStorage+.swift"; sourceTree = SOURCE_ROOT; };
 		D72189352102099B00FE3AF2 /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextStorage+.swift"; sourceTree = "<group>"; };
 		D72682A929BE8E1F00F6E961 /* RepositoryAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAction.swift; sourceTree = "<group>"; };
 		D726DE89287ACC1E00F8406C /* NSWindow+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+.swift"; sourceTree = "<group>"; };
@@ -1226,7 +1249,6 @@
 		D73CEC7E2278ECA500D549F7 /* checkbox_flipped_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_flipped_white@2x.png"; sourceTree = "<group>"; };
 		D73CEC7F2278ECA500D549F7 /* checkbox_empty_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_empty_white.png; sourceTree = "<group>"; };
 		D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
-		D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Checkboxes.swift"; sourceTree = "<group>"; };
 		D74112271FABA21B00AB619A /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		D7465F27207F2CD600E46A52 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D7470D062170E890006B2A92 /* NSTextStorage++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextStorage++.swift"; sourceTree = "<group>"; };
@@ -1240,7 +1262,6 @@
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
 		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
-		D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attachments.swift"; sourceTree = "<group>"; };
 		D75627CD26D1165A000AF6EA /* ImageFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFormat.swift; sourceTree = "<group>"; };
 		D75629B027D4DB7E00F55588 /* CodeFontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeFontViewController.swift; sourceTree = "<group>"; };
 		D75629B227D4DE9F00F55588 /* CodeThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeThemeViewController.swift; sourceTree = "<group>"; };
@@ -1387,7 +1408,6 @@
 		D7C9029123547A1E00A89BD8 /* FSTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSTag.swift; sourceTree = "<group>"; };
 		D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Font.swift"; sourceTree = "<group>"; };
 		D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesGitViewController.swift; sourceTree = "<group>"; };
-		D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextProcessor.swift; sourceTree = "<group>"; };
 		D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableRowView.swift; sourceTree = "<group>"; };
 		D7CBAFF3214D42E5002ECD5A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D7CBAFF5214D495A002ECD5A /* search_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_white.png; sourceTree = "<group>"; };
@@ -1556,6 +1576,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11D943172E643ECF0010CC2B /* SwiftHighlighter */ = {
+			isa = PBXGroup;
+			children = (
+				11D943252E643F520010CC2B /* Themes */,
+				11D943182E643EE40010CC2B /* Languages */,
+				116182862E62B046005B5EE0 /* SwiftHighlighter.swift */,
+			);
+			path = SwiftHighlighter;
+			sourceTree = "<group>";
+		};
+		11D943182E643EE40010CC2B /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				11AF633D2E898430004E7157 /* Sql.swift */,
+				11D943212E643F3B0010CC2B /* Php.swift */,
+				11D9431D2E643F1F0010CC2B /* Swift.swift */,
+				11D943192E643EF20010CC2B /* JavaScript.swift */,
+			);
+			path = Languages;
+			sourceTree = "<group>";
+		};
+		11D943252E643F520010CC2B /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				11D943262E643F5E0010CC2B /* GitHubLight.swift */,
+			);
+			path = Themes;
+			sourceTree = "<group>";
+		};
 		6F13BB2320FEDE230005E120 /* FSNotesCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1568,13 +1617,14 @@
 		6F13BB2420FEDE230005E120 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */,
+				11D943172E643ECF0010CC2B /* SwiftHighlighter */,
 				D7218944210211B800FE3AF2 /* Business */,
 				6F13BB2720FEDE230005E120 /* Extensions */,
 				D7470D062170E890006B2A92 /* NSTextStorage++.swift */,
 				D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */,
 				D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */,
 				D730BD3B222DB9FC00E69C93 /* NameHelper.swift */,
-				D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */,
 				D752D80723454750006842F9 /* NSTextAttachment+.swift */,
 				D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */,
 				D7B4AC5D2471253100F3888A /* NoteMeta.swift */,
@@ -1592,6 +1642,7 @@
 		6F13BB2720FEDE230005E120 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				110D09812E9C1525001555FA /* NSRange+.swift */,
 				6F13BB2820FEDE230005E120 /* DateFormatter+.swift */,
 				6F13BB2920FEDE230005E120 /* String+.swift */,
 				6F13BB2A20FEDE230005E120 /* URL+.swift */,
@@ -1599,7 +1650,6 @@
 				D76E10C0215A55CE0017F4A3 /* Date+.swift */,
 				D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */,
 				D7E51712220D814D00A9CAD9 /* UTI.swift */,
-				D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */,
 				D768D754245E854D0028F344 /* NSAttributedString+.swift */,
 				D796EB40251E127300CE5C80 /* NSPasteboard+.swift */,
 				D7680FB125D02B2C00810DA8 /* FileManager+.swift */,
@@ -2320,7 +2370,6 @@
 		D7ED3FFC20CD0ADE001438EE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				D72189332102096000FE3AF2 /* NSTextStorage+.swift */,
 				D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */,
 				D7D00E78248FBFF6009AE455 /* UIView+.swift */,
 				D714496120C72D3400D7AD46 /* UIImage+.swift */,
@@ -2329,7 +2378,6 @@
 				D71FD2242101CFD0008BEFA1 /* UITextView+.swift */,
 				D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */,
 				D7C302C221F31E5F0041627F /* ImageAttachment+.swift */,
-				D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */,
 				D79A13CC2A0E9C980037510B /* UIColor+.swift */,
 			);
 			path = Extensions;
@@ -3316,6 +3364,7 @@
 				D72682AF29BE8E2100F6E961 /* RepositoryAction.swift in Sources */,
 				D792DD8727A6C980006ADC01 /* FSParser.swift in Sources */,
 				D7EFAF6D278B310300175A2F /* HighlighterTheme.swift in Sources */,
+				110D09822E9C152B001555FA /* NSRange+.swift in Sources */,
 				D74A254D29B4F8D600512912 /* ProjectSettings.swift in Sources */,
 				D7B34F9C25195D7E0007877E /* PreviewState.swift in Sources */,
 			);
@@ -3360,7 +3409,6 @@
 				D7104A68230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */,
 				D7503458285F7EFC00086424 /* UIView+.swift in Sources */,
-				D73B121023659CAA00AAE610 /* CodeTextProcessor.swift in Sources */,
 				D76F3682272563EC00D1FFB4 /* NSAttributedString+.swift in Sources */,
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,
 				D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
@@ -3375,10 +3423,10 @@
 				D7EFAF6C278B310300175A2F /* HighlighterTheme.swift in Sources */,
 				D792DD8627A6C980006ADC01 /* FSParser.swift in Sources */,
 				D730BD3F222DB9FC00E69C93 /* NameHelper.swift in Sources */,
-				D7503457285F7EF000086424 /* NSTextStorage+.swift in Sources */,
 				D7737393223D59CF00154B9E /* KeychainConfiguration.swift in Sources */,
 				D7CD5CDC21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D7BAC631249D1204008D29AA /* SettingsFilesNaming.swift in Sources */,
+				110D09842E9C152B001555FA /* NSRange+.swift in Sources */,
 				D730BD31222DABA100E69C93 /* NoteContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3390,7 +3438,6 @@
 				D70E9E012901AEB600A3C634 /* DiffEntry.swift in Sources */,
 				D70E9DF42901AEA800A3C634 /* Commit.swift in Sources */,
 				D70E9E172901AEF300A3C634 /* Tags.swift in Sources */,
-				D7409FA5221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift in Sources */,
 				D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */,
 				D79651B42517741400333AD4 /* ProgressState.swift in Sources */,
 				D70E9E0A2901AECF00A3C634 /* Remote.swift in Sources */,
@@ -3404,7 +3451,6 @@
 				D7A9C1DC29107B7600905619 /* Reference+Target.swift in Sources */,
 				D71FD21F2101B2D5008BEFA1 /* NoteAttachment.swift in Sources */,
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
-				D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D70E9E122901AEE100A3C634 /* FileHistoryIterator.swift in Sources */,
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
 				D736DDAD27BAC7940012ED70 /* Note+History.swift in Sources */,
@@ -3418,6 +3464,7 @@
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
+				11D9431E2E643F250010CC2B /* Swift.swift in Sources */,
 				D70E9DF52901AEAF00A3C634 /* Blob.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
@@ -3440,6 +3487,7 @@
 				D70E9DF82901AEAF00A3C634 /* Strings.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D70E9E022901AEBF00A3C634 /* Head.swift in Sources */,
+				11D9431C2E643EF40010CC2B /* JavaScript.swift in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
 				D730BD30222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
@@ -3456,11 +3504,12 @@
 				D70E9E062901AEC400A3C634 /* Index.swift in Sources */,
 				D70E9DF92901AEAF00A3C634 /* Progress.swift in Sources */,
 				D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */,
+				11AF63402E898435004E7157 /* Sql.swift in Sources */,
 				D70E9E082901AEC900A3C634 /* Reference.swift in Sources */,
 				D70E9DEE2901AE9100A3C634 /* Branch.swift in Sources */,
 				D70E9E042901AEBF00A3C634 /* Head+Merge.swift in Sources */,
+				1166D1F92E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
 				D70E9E0D2901AEDA00A3C634 /* Repository+Commit.swift in Sources */,
-				D7503456285F7EF000086424 /* NSTextStorage+.swift in Sources */,
 				D70E9E192901AEF900A3C634 /* TreeEntry.swift in Sources */,
 				D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */,
 				D750345F285F81F300086424 /* URL+.swift in Sources */,
@@ -3469,6 +3518,7 @@
 				D730BD3E222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7CF7EAB29E2093C00FEC0C5 /* SecurityViewController.swift in Sources */,
 				D7BDFE62201F678C00897A58 /* Note.swift in Sources */,
+				11D943272E643F630010CC2B /* GitHubLight.swift in Sources */,
 				D77015822C972B7500CFF0E8 /* SettingsTableViewCell.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
@@ -3486,7 +3536,6 @@
 				D77AD7FF27F9D1C90077BD45 /* Data+.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,
 				D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */,
-				D780207C231FA147007F14DC /* CodeTextProcessor.swift in Sources */,
 				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
 				D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */,
 				D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */,
@@ -3526,10 +3575,13 @@
 				D77E0538246312B400AD7772 /* StorageType.swift in Sources */,
 				D7B34F9A25195D7E0007877E /* PreviewState.swift in Sources */,
 				D72682AD29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
+				110D09852E9C152B001555FA /* NSRange+.swift in Sources */,
 				D70E9E0F2901AEDA00A3C634 /* Repository.swift in Sources */,
 				D70E9E152901AEEB00A3C634 /* Status.swift in Sources */,
 				D7EFAF6B278B310300175A2F /* HighlighterTheme.swift in Sources */,
+				11D943222E643F410010CC2B /* Php.swift in Sources */,
 				D7D00E79248FBFF7009AE455 /* UIView+.swift in Sources */,
+				1161828F2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
 				D7C33F6E29E09A690006C473 /* AppIconViewController.swift in Sources */,
 				D70E9DFE2901AEAF00A3C634 /* StaticSshKeyDelegate.swift in Sources */,
 				D7E7DB3327A9B17000408725 /* DatePickerViewController.swift in Sources */,
@@ -3563,8 +3615,10 @@
 				D7D97F3C290437A200C651D4 /* NSWindowController+.swift in Sources */,
 				D7DA9E1E21031901001CF0BE /* OutlineHeaderView.swift in Sources */,
 				D7D01AFD2C65203A00F545D0 /* PrinterLegacy.swift in Sources */,
+				11D943292E643F630010CC2B /* GitHubLight.swift in Sources */,
 				D7B3FE7121027A6D00764C39 /* UserDataService.swift in Sources */,
 				D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
+				11AF633E2E898435004E7157 /* Sql.swift in Sources */,
 				D73BCCF228EB5EC4008B3BBC /* TreeEntry.swift in Sources */,
 				D73BCD0428EB5EC4008B3BBC /* Repository+Commit.swift in Sources */,
 				D7E6ACE920832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
@@ -3579,7 +3633,7 @@
 				D7B34F9725195D7E0007877E /* PreviewState.swift in Sources */,
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
 				D73BCCAD28EB5EC3008B3BBC /* Signature.swift in Sources */,
-				D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
+				110D09832E9C152B001555FA /* NSRange+.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7B13DBD2C64F445008EBCAA /* Printer.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
@@ -3593,7 +3647,6 @@
 				D73BCC9528EB5EC3008B3BBC /* BranchesIterator.swift in Sources */,
 				D73BCD0728EB5EC4008B3BBC /* Reference.swift in Sources */,
 				D7B6E59A207912E300FE0E20 /* Project.swift in Sources */,
-				D752D80F23463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D777D7812009115C00D86B33 /* ImagesProcessor.swift in Sources */,
 				D708AC672000EF5800A1760F /* NoteType.swift in Sources */,
 				D73BCC9B28EB5EC3008B3BBC /* ConfigManager.swift in Sources */,
@@ -3624,6 +3677,7 @@
 				D7B4AC5E2471253100F3888A /* NoteMeta.swift in Sources */,
 				D730BD27222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7487FD821738A1900D09383 /* NSImage+.swift in Sources */,
+				11D9431A2E643EF40010CC2B /* JavaScript.swift in Sources */,
 				D75EE7F72078B22D0055F159 /* SidebarItem.swift in Sources */,
 				D783B505208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
 				D726DE8A287ACC1E00F8406C /* NSWindow+.swift in Sources */,
@@ -3642,12 +3696,14 @@
 				D730829223084340003185D1 /* MPreviewView.swift in Sources */,
 				D75EE7FA2078B3C00055F159 /* Sidebar.swift in Sources */,
 				D70B1FAB29213EDF003923DC /* HyperlinkTextField.swift in Sources */,
+				1166D1F72E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
 				11D702AD2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */,
 				D7D1DE68216D05A800AC1845 /* NameTextField.swift in Sources */,
 				D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */,
 				D7CA7FD4232652E300E9717A /* PreferencesGitViewController.swift in Sources */,
 				D7CD5CCD21820B7B0009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D76025B2204EEF64000B9F59 /* TextFormatter.swift in Sources */,
+				11D943242E643F410010CC2B /* Php.swift in Sources */,
 				D7038E2620FB24E000A54E69 /* NoteAttachment.swift in Sources */,
 				D73BCCE028EB5EC4008B3BBC /* Index.swift in Sources */,
 				D74112281FABA21B00AB619A /* MainWindow.swift in Sources */,
@@ -3713,6 +3769,7 @@
 				D72DAF0829B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7F5C0F5223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
 				D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
+				11D9431F2E643F250010CC2B /* Swift.swift in Sources */,
 				D73BCCA428EB5EC3008B3BBC /* Progress.swift in Sources */,
 				D73BCCB628EB5EC3008B3BBC /* Tags.swift in Sources */,
 				D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
@@ -3730,6 +3787,7 @@
 				D73BCCA728EB5EC3008B3BBC /* Blob.swift in Sources */,
 				D7153E092285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
+				1161828D2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
 				D73BCC9228EB5EC3008B3BBC /* Branches.swift in Sources */,
 				D79798A229C0FE6A00B9A878 /* SettingsViewController.swift in Sources */,
 				D79651B12517741400333AD4 /* ProgressState.swift in Sources */,
@@ -3745,8 +3803,10 @@
 				D7D97F3D290437A200C651D4 /* NSWindowController+.swift in Sources */,
 				D7DA9E1F21031901001CF0BE /* OutlineHeaderView.swift in Sources */,
 				D7D01AFE2C65208000F545D0 /* PrinterLegacy.swift in Sources */,
+				11D943282E643F630010CC2B /* GitHubLight.swift in Sources */,
 				D7B3FE7021027A5E00764C39 /* UserDataService.swift in Sources */,
 				D7315ED3215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
+				11AF633F2E898435004E7157 /* Sql.swift in Sources */,
 				D73BCCF328EB5EC4008B3BBC /* TreeEntry.swift in Sources */,
 				D73BCD0528EB5EC4008B3BBC /* Repository+Commit.swift in Sources */,
 				D7E6ACEA20832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
@@ -3761,7 +3821,7 @@
 				D7B34F9825195D7E0007877E /* PreviewState.swift in Sources */,
 				D777D782200912A400D86B33 /* ImagesProcessor.swift in Sources */,
 				D73BCCAE28EB5EC3008B3BBC /* Signature.swift in Sources */,
-				D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
+				110D09862E9C152B001555FA /* NSRange+.swift in Sources */,
 				D708AC682000F0E100A1760F /* NoteType.swift in Sources */,
 				D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */,
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
@@ -3774,7 +3834,6 @@
 				D73BCC9628EB5EC3008B3BBC /* BranchesIterator.swift in Sources */,
 				D73BCD0828EB5EC4008B3BBC /* Reference.swift in Sources */,
 				D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */,
-				D752D81023463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D75EE7FE2078C5460055F159 /* SidebarCellView.swift in Sources */,
 				D73BCC9C28EB5EC3008B3BBC /* ConfigManager.swift in Sources */,
 				D74112291FABA29100AB619A /* MainWindow.swift in Sources */,
@@ -3806,6 +3865,7 @@
 				D7B4AC5F2471253100F3888A /* NoteMeta.swift in Sources */,
 				D730BD28222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7487FD721738A1800D09383 /* NSImage+.swift in Sources */,
+				11D9431B2E643EF40010CC2B /* JavaScript.swift in Sources */,
 				D7E81C2F1F925B5F00416A91 /* ViewController.swift in Sources */,
 				D75EE7FB2078B3C00055F159 /* Sidebar.swift in Sources */,
 				D726DE8B287ACC1E00F8406C /* NSWindow+.swift in Sources */,
@@ -3824,12 +3884,14 @@
 				D7E81C321F925B5F00416A91 /* PrefsViewController.swift in Sources */,
 				D70B1FAC29213EE0003923DC /* HyperlinkTextField.swift in Sources */,
 				D76025B3204EEF64000B9F59 /* TextFormatter.swift in Sources */,
+				1166D1F82E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
 				11D702AE2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */,
 				D7D1DE69216D05A800AC1845 /* NameTextField.swift in Sources */,
 				D7038E2720FB24E000A54E69 /* NoteAttachment.swift in Sources */,
 				D7CA7FD5232652E300E9717A /* PreferencesGitViewController.swift in Sources */,
 				D7CD5CCC21820B7A0009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D7E81C331F925B5F00416A91 /* UserDefaultsManagement.swift in Sources */,
+				11D943232E643F410010CC2B /* Php.swift in Sources */,
 				D7E81C341F925B5F00416A91 /* EditTextView.swift in Sources */,
 				D7E81C361F925B5F00416A91 /* AppDelegate.swift in Sources */,
 				D73BCCE128EB5EC4008B3BBC /* Index.swift in Sources */,
@@ -3895,6 +3957,7 @@
 				D72DAF0929B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7F5C0F6223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
 				D73BCCA528EB5EC3008B3BBC /* Progress.swift in Sources */,
+				11D943202E643F250010CC2B /* Swift.swift in Sources */,
 				D73BCCB728EB5EC3008B3BBC /* Tags.swift in Sources */,
 				D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
 				D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
@@ -3912,6 +3975,7 @@
 				D73BCCA828EB5EC3008B3BBC /* Blob.swift in Sources */,
 				D7153E0A2285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
+				1161828E2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
 				D73BCC9328EB5EC3008B3BBC /* Branches.swift in Sources */,
 				D79798A329C0FE6A00B9A878 /* SettingsViewController.swift in Sources */,
 				D79651B22517741400333AD4 /* ProgressState.swift in Sources */,
@@ -4433,7 +4497,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 665;
+				CURRENT_PROJECT_VERSION = 666;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4473,7 +4537,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 665;
+				CURRENT_PROJECT_VERSION = 666;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;

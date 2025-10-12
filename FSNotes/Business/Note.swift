@@ -56,8 +56,8 @@ public class Note: NSObject  {
 
     public var password: String?
 
-    public var cachingInProgress: Bool = false
-    public var cacheHash: String?
+    public var cacheLock: Bool = false
+    public var cacheHash: UInt64?
     
     public var uploadPath: String?
     public var apiId: String?
@@ -66,6 +66,8 @@ public class Note: NSObject  {
 
     private var selectedRange: NSRange?
     private var contentOffset = CGPoint()
+
+    public var codeBlockRangesCache: [NSRange]?
 
     // Load exist
     
@@ -296,7 +298,7 @@ public class Note: NSObject  {
     func load(tags: Bool = true) {
         if let attributedString = getContent() {
             cacheHash = nil
-            content = NSMutableAttributedString(attributedString: attributedString)
+            content = attributedString.loadAttachments(self)
         }
 
         loadFileName()
@@ -310,15 +312,15 @@ public class Note: NSObject  {
     }
 
     func reload() -> Bool {
-        guard let modifiedAt = getFileModifiedDate() else {
-            return false
-        }
+        guard let modifiedAt = getFileModifiedDate() else { return false }
                         
         if (modifiedAt != modifiedLocalAt) {
             if let attributedString = getContent() {
                 cacheHash = nil
-                content = NSMutableAttributedString(attributedString: attributedString)
+                content = attributedString.loadAttachments(self)
+                cacheCodeBlocks()
             }
+
             loadModifiedLocalAt()
             return true
         }
@@ -329,7 +331,7 @@ public class Note: NSObject  {
     public func forceReload() {
         if container != .encryptedTextPack, let attributedString = getContent() {
             cacheHash = nil
-            content = NSMutableAttributedString(attributedString: attributedString)
+            content = attributedString.loadAttachments(self)
         }
     }
     
@@ -683,7 +685,9 @@ public class Note: NSObject  {
             }
 
             if imagesMeta.count > 0 {
-                save()
+                if save() {
+                    Storage.shared().add(self)
+                }
             }
         }
     }
@@ -767,20 +771,22 @@ public class Note: NSObject  {
         }
     }
     
-    func getContent() -> NSAttributedString? {
+    func getContent() -> NSMutableAttributedString? {
         guard container != .encryptedTextPack, let url = getContentFileURL() else { return nil }
 
         do {
-            let options = getDocOptions()
-
-            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
+            return try NSMutableAttributedString(url: url, options: [
+                .documentType : NSAttributedString.DocumentType.plain,
+                .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+            ], documentAttributes: nil)
         } catch {
-
             if let data = try? Data(contentsOf: url) {
-            let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
+                let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
 
-                let options = getDocOptions(with: String.Encoding.init(rawValue: encoding))
-                return try? NSAttributedString(url: url, options: options, documentAttributes: nil)
+                return try? NSMutableAttributedString(url: url, options: [
+                    .documentType : NSAttributedString.DocumentType.plain,
+                    .characterEncoding : NSNumber(value: encoding)
+                ], documentAttributes: nil)
             }
         }
         
@@ -791,24 +797,23 @@ public class Note: NSObject  {
         guard container != .encryptedTextPack else { return nil }
 
         do {
-            let options = getDocOptions()
-
-            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
+            return try NSAttributedString(url: url, options: [
+                .documentType : NSAttributedString.DocumentType.plain,
+                .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+            ], documentAttributes: nil)
         } catch {
 
             if let data = try? Data(contentsOf: url) {
             let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
 
-                let options = getDocOptions(with: String.Encoding.init(rawValue: encoding))
-                return try? NSAttributedString(url: url, options: options, documentAttributes: nil)
+                return try? NSAttributedString(url: url, options: [
+                    .documentType : NSAttributedString.DocumentType.plain,
+                    .characterEncoding : NSNumber(value: encoding)
+                ], documentAttributes: nil)
             }
         }
 
         return nil
-    }
-        
-    func isRTF() -> Bool {
-        return type == .RichText
     }
     
     func isMarkdown() -> Bool {
@@ -911,8 +916,8 @@ public class Note: NSObject  {
     
     func getPrettifiedContent() -> String {
         #if IOS_APP || os(OSX)
-            let mutable = NotesTextProcessor.convertAppTags(in: self.content)
-            let content = NotesTextProcessor.convertAppLinks(in: mutable)
+            let mutable = NotesTextProcessor.convertAppTags(in: self.content.unloadAttachments(), codeBlockRanges: codeBlockRangesCache)
+        let content = NotesTextProcessor.convertAppLinks(in: mutable, codeBlockRanges: codeBlockRangesCache)
             let result = cleanMetaData(content: content.string)
                 .replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
         
@@ -1000,6 +1005,8 @@ public class Note: NSObject  {
     }
 
     public func save(attributed: NSAttributedString) {
+        if container == .encryptedTextPack { return }
+
         let copy = attributed.copy() as? NSAttributedString
         modifiedLocalAt = Date()
 
@@ -1021,60 +1028,43 @@ public class Note: NSObject  {
         Storage.shared().plainWriter.addOperation(operation)
     }
 
+    #if os(iOS)
     public func saveSync(copy: NSAttributedString) {
         let mutableCopy = NSMutableAttributedString(attributedString: copy)
         let unloadedCopy = mutableCopy.unLoad()
 
-        self.content = unloadedCopy
         self.save(content: unloadedCopy)
     }
+    #endif
 
     public func save(content: NSMutableAttributedString) {
-        if isRTF() {
-            #if os(OSX)
-                self.content = content.unLoadUnderlines()
-            #else
-                self.content = content
-            #endif
-        } else {
-            self.content = content.unLoad()
-        }
+        self.content = content
 
+        let copy = content.unloadAttachments()
         modifiedLocalAt = Date()
-        save(attributedString: self.content)
+
+        if write(attributedString: copy) {
+            Storage.shared().add(self)
+        }
     }
 
     public func replace(tag: String, with string: String) {
-        if isMarkdown() {
-            self.content = content.unLoad()
-        }
-
         content.replaceTag(name: tag, with: string)
-        save()
+        _ = save()
     }
 
     public func delete(tag: String) {
-        if isMarkdown() {
-            self.content = content.unLoad()
-        }
-
         content.replaceTag(name: tag, with: "")
-        save()
+        _ = save()
     }
         
-    public func save(globalStorage: Bool = true) {
-        if self.isMarkdown() {
-            self.content = self.content.unLoadCheckboxes()
+    public func save() -> Bool {
+        let attributedString = self.content.unloadAttachments()
 
-            if UserDefaultsManagement.liveImagesPreview {
-                self.content = self.content.unLoadImages(note: self)
-            }
-        }
-
-        self.save(attributedString: self.content, globalStorage: globalStorage)
+        return write(attributedString: attributedString)
     }
 
-    private func save(attributedString: NSAttributedString, globalStorage: Bool = true) {
+    private func write(attributedString: NSAttributedString) -> Bool {
         let url = getURL()
         let attributes = getFileAttributes()
         
@@ -1114,12 +1104,10 @@ public class Note: NSObject  {
             }
         } catch {
             NSLog("Write error \(error)")
-            return
+            return false
         }
 
-        if globalStorage {
-            Storage.shared().add(self)
-        }
+        return true
     }
 
     private func getContentSaveURL() -> URL {
@@ -1248,16 +1236,10 @@ public class Note: NSObject  {
         do {
             let range = NSRange(location: 0, length: attributedString.length)
 
-            var documentAttributes = getDocAttributes()
-
-            if forcePlain {
-                documentAttributes = [
-                    .documentType : NSAttributedString.DocumentType.plain,
-                    .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
-                ]
-            }
-
-            return try attributedString.fileWrapper(from: range, documentAttributes: documentAttributes)
+            return try attributedString.fileWrapper(from: range, documentAttributes: [
+                .documentType : NSAttributedString.DocumentType.plain,
+                .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+            ])
         } catch {
             return FileWrapper()
         }
@@ -1273,34 +1255,6 @@ public class Note: NSObject  {
         }
 
         return title
-    }
-        
-    func getDocOptions(with encoding: String.Encoding = .utf8) -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
-        if type == .RichText {
-            return [.documentType : NSAttributedString.DocumentType.rtf]
-        }
-        
-        return [
-            .documentType : NSAttributedString.DocumentType.plain,
-            .characterEncoding : NSNumber(value: encoding.rawValue)
-        ]
-    }
-    
-    func getDocAttributes() -> [NSAttributedString.DocumentAttributeKey : Any] {
-        var options: [NSAttributedString.DocumentAttributeKey : Any]
-    
-        if (type == .RichText) {
-            options = [
-                .documentType : NSAttributedString.DocumentType.rtf
-            ]
-        } else {
-            options = [
-                .documentType : NSAttributedString.DocumentType.plain,
-                .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
-            ]
-        }
-    
-        return options
     }
     
     func isTrash() -> Bool {
@@ -1343,11 +1297,18 @@ public class Note: NSObject  {
                     let cleanTag = content.mutableString.substring(with: range)
                     
                     range = NSRange(location: range.location - 1, length: range.length + 1)
-                    
-                    let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: range, string: content)
+
+                    if let codeBlockRangesCache = codeBlockRangesCache {
+                        for codeRange in codeBlockRangesCache {
+                            if NSIntersectionRange(codeRange, range).length > 0 {
+                                return
+                            }
+                        }
+                    }
+
                     let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: range)
                     
-                    if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
+                    if spanBlock == nil && isValid(tag: cleanTag) {
                         
                         let parRange = content.mutableString.paragraphRange(for: range)
                         let par = content.mutableString.substring(with: parRange)
@@ -1503,57 +1464,7 @@ public class Note: NSObject  {
             return
         }
 
-        var i = 0
-        var urls: [URL] = []
-        var attachments: [URL] = []
-        var mdImages: [String] = []
-
-        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
-        {(result, flags, stop) -> Void in
-
-            let nsContent = content as NSString
-            if let range = result?.range(at: 0) {
-                mdImages.append(nsContent.substring(with: range))
-            }
-
-            guard let range = result?.range(at: 3),
-                nsContent.length >= range.location,
-                let imagePath = nsContent.substring(with: range).removingPercentEncoding
-            else { return }
-
-            if let url = self.getImageUrl(imageName: imagePath) {
-                if url.isRemote() {
-                    return
-                } else if FileManager.default.fileExists(atPath: url.path), url.isImage || url.isVideo {
-
-                    if container == .none && type == .Markdown {
-                        var prefix = imagePath
-                        if imagePath.first == "/" {
-                            prefix = String(imagePath.dropFirst())
-                        }
-                        let imageURL = project.url.appendingPathComponent(prefix)
-                        let mediaPath = imageURL.deletingLastPathComponent().path
-
-                        project.storage.hideImages(directory: mediaPath, srcPath: prefix)
-                    }
-
-                    urls.append(url)
-                    i += 1
-                } else {
-                    attachments.append(url)
-                }
-            }
-
-            if mdImages.count > 3 {
-                stop.pointee = true
-            }
-        })
-
         var cleanText = content
-        for image in mdImages {
-            cleanText = cleanText.replacingOccurrences(of: image, with: "")
-        }
-
         cleanText = cleanText.trimMDSyntax()
 
         if cleanText.startsWith(string: "---") {
@@ -1601,9 +1512,28 @@ public class Note: NSObject  {
             }
         }
 
-        self.imageUrl = urls
-        self.attachments = attachments
+        imageUrl = getImagesFromContent()
+
         self.isParsed = true
+    }
+
+    public func getImagesFromContent() -> [URL] {
+        var urls = [URL]()
+
+        let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+        let range = NSRange(location: 0, length: content.length)
+        content.enumerateAttribute(filePathKey, in: range) { (value, _, _) in
+            if let path = value as? String {
+                guard let cleanPath = path.removingPercentEncoding,
+                      let fileURL = getImageUrl(imageName: cleanPath) else { return }
+
+                if fileURL.isImage {
+                    urls.append(fileURL)
+                }
+            }
+        }
+
+        return urls
     }
 
     private func loadYaml(components: [String]) {
@@ -1729,15 +1659,18 @@ public class Note: NSObject  {
 
         note.originalExtension = url.pathExtension
         note.content = content
-        note.save(globalStorage: false)
 
-        if type == .Markdown {
-            let imagesMeta = getAllImages()
-            for imageMeta in imagesMeta {
-                moveFilesFlatToAssets(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: note.url)
-            }
+        guard note.write(attributedString: content.unloadAttachments()) else {
+            return note.url
+        }
 
-            note.save(globalStorage: false)
+        let imagesMeta = getAllImages()
+        for imageMeta in imagesMeta {
+            moveFilesFlatToAssets(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: note.url)
+        }
+
+        guard note.write(attributedString: content.unloadAttachments()) else {
+            return note.url
         }
 
         return note.url
@@ -1770,6 +1703,7 @@ public class Note: NSObject  {
         }
     }
 
+    // todo
     private func moveFilesFlatToAssets(note: Note, from imageURL: URL, imagePath: String, to dest: URL) {
         let dest = dest.appendingPathComponent("assets")
         let fileName = imageURL.lastPathComponent
@@ -2262,7 +2196,9 @@ public class Note: NSObject  {
         }
 
         content.append(NSAttributedString(string: prefix + "#" + name))
-        save()
+        if save() {
+            Storage.shared().add(self)
+        }
     }
 
     public func resetAttributesCache() {
@@ -2352,14 +2288,19 @@ public class Note: NSObject  {
     }
     
 
-func isOlderThan30Seconds(from date: Date? = nil) -> Bool {
-    guard let date = date else { return false }
+    func isOlderThan30Seconds(from date: Date? = nil) -> Bool {
+        guard let date = date else { return false }
 
-    let thirtySecondsAgo = Date().addingTimeInterval(-30)
-    return date < thirtySecondsAgo //Returns false if date is not older than 30 seconds
-}
+        let thirtySecondsAgo = Date().addingTimeInterval(-30)
+        return date < thirtySecondsAgo //Returns false if date is not older than 30 seconds
+    }
     
     public func loadPreviewState() {
         previewState = project.settings.notesPreview.contains(name)
+    }
+
+    public func cacheCodeBlocks() {
+        let ranges = CodeBlockDetector.shared.findCodeBlocks(in: content)
+        codeBlockRangesCache = ranges
     }
 }

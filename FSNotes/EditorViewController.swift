@@ -832,9 +832,11 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                 }
             }
 
-            noteDupe.save()
+            if noteDupe.save() {
+                Storage.shared().add(noteDupe)
+            }
 
-            Storage.shared().add(noteDupe)
+
             ViewController.shared()?.notesTableView.insertRows(notes: [noteDupe])
         }
     }
@@ -1117,12 +1119,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         view.window?.title = vcTitleLabel.stringValue
     }
     
-    func refillEditArea(saveTyping: Bool = false, force: Bool = false) {
+    func refillEditArea(force: Bool = false) {
         noteLoading = .incomplete
         vcPreviewButton?.state = vcEditor?.isPreviewEnabled() == true ? .on : .off
 
         if let note = vcEditor?.note {
-            vcEditor?.fill(note: note, saveTyping: saveTyping, force: force)
+            vcEditor?.fill(note: note, force: force)
         }
 
         noteLoading = .done
@@ -1417,10 +1419,10 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     }
     
     func focusEditArea() {
-        guard let editor = vcEditor, let note = editor.note,
-              !editor.isPreviewEnabled() || note.isRTF(),
-            note.container != .encryptedTextPack
-        else { return }
+        guard let editor = vcEditor,
+              let note = editor.note,
+              !editor.isPreviewEnabled(),
+              note.container != .encryptedTextPack else { return }
 
         editor.window?.makeFirstResponder(editor)
 
@@ -1475,7 +1477,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         }
     }
     
-    public func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil, load: Bool = false, openInNewWindow: Bool = false) -> Note? {
+    public func createNote(name: String = "", content: String = "", project: Project? = nil, load: Bool = false, openInNewWindow: Bool = false) -> Note? {
         
         guard let vc = ViewController.shared() else { return nil }
 
@@ -1493,9 +1495,11 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         
         guard let project = sidebarProject else { return nil }
 
-        let note = Note(name: name, project: project, type: type)
+        let note = Note(name: name, project: project)
         note.content = NSMutableAttributedString(string: text)
-        note.save()
+        if note.save() {
+            Storage.shared().add(note)
+        }
 
         _ = note.scanContentTags()
 

@@ -11,7 +11,7 @@ import AVKit
 
 extension NoteAttachment {
     public func load() -> NSTextAttachment? {
-        guard let container = self.editor?.textContainer else { return nil }
+        //guard let container = self.editor?.textContainer else { return nil }
 
         let attachment = NSTextAttachment()
 
@@ -20,10 +20,10 @@ extension NoteAttachment {
         if url.isImage {
             let imageSize = getSize(url: self.url)
             let size = self.getSize(width: imageSize.width, height: imageSize.height)
-            let cell = FSNTextAttachmentCell(textContainer: container, image: NSImage(size: size))
-            cell.image?.size = size
+            //let cell = FSNTextAttachmentCell(textContainer: container, image: NSImage(size: size))
+            //cell.image?.size = size
             attachment.image = nil
-            attachment.attachmentCell = cell
+            //attachment.attachmentCell = cell
             attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
 
             return attachment
@@ -38,10 +38,10 @@ extension NoteAttachment {
         let imageSize = NSSize(width: width, height: heigth)
 
         if let image = imageFromText(text: text, imageSize: imageSize) {
-            let cell = FSNTextAttachmentCell(textContainer: container, image: image)
-            cell.image?.size = size
+            //let cell = FSNTextAttachmentCell(textContainer: container, image: image)
+            //cell.image?.size = size
             attachment.image = nil
-            attachment.attachmentCell = cell
+            //attachment.attachmentCell = cell
             attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
             return attachment
         }

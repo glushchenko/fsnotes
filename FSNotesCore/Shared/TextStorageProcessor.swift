@@ -7,7 +7,6 @@
 //
 
 #if os(OSX)
-import AppKit
 import Cocoa
 import AVKit
 #else
@@ -16,9 +15,8 @@ import AVKit
 #endif
 
 class TextStorageProcessor: NSObject, NSTextStorageDelegate {
-    public var shouldForceRescan: Bool?
-    public var lastRemoved: String?
     public var editor: EditTextView?
+    public var detector = CodeBlockDetector()
 
 #if os(iOS)
     public func textStorage(
@@ -43,196 +41,60 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 #endif
 
     private func process(textStorage: NSTextStorage, range editedRange: NSRange, changeInLength delta: Int) {
-        guard let note = editor?.note, note.isMarkdown() else { return }
-        guard delta != 0 || shouldForceRescan == true else { return }
+        guard let note = editor?.note, textStorage.length > 0 else { return }
 
-        if note.content.string.md5 != note.cacheHash {
-            if editedRange.length > 300000 {
-                NotesTextProcessor.minimalHighlight(attributedString: textStorage, note: note)
-                return
-            }
-
-            if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
-                rescanAll(textStorage: textStorage)
-            } else {
-                rescanPartial(textStorage: textStorage, delta: delta, editedRange: editedRange)
-            }
-        } else {
-            textStorage.updateParagraphStyle()
+        defer {
+            loadImages(textStorage: textStorage, checkRange: editedRange)
+            textStorage.updateParagraphStyle(range: editedRange)
         }
 
-        loadImages(textStorage: textStorage, checkRange: editedRange)
+        if note.content.length == textStorage.length && (
+            editedRange.length > 300000 || note.content.string.fnv1a == note.cacheHash
+        ) { return }
 
-        shouldForceRescan = false
-        lastRemoved = nil
-    }
+        let codeBlockRanges = detector.findCodeBlocks(in: textStorage)
+        let paragraphRange = (textStorage.string as NSString).paragraphRange(for: editedRange)
 
-    private func shouldScanСompletely(textStorage: NSTextStorage, editedRange: NSRange) -> Bool {
-        if editedRange.length == textStorage.length {
-            return true
-        }
+        NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: paragraphRange, codeBlockRanges: codeBlockRanges)
 
-        let string = textStorage.mutableString.substring(with: editedRange)
+        // Code block founds
+        var result = detector.codeBlocks(textStorage: textStorage, editedRange: editedRange, delta: delta, newRanges: codeBlockRanges)
+        note.codeBlockRangesCache = codeBlockRanges
 
-        return
-            string == "`"
-            || string == "`\n"
-            || lastRemoved == "`"
-            || (
-                shouldForceRescan == true
-                && string.contains("```")
-            )
-    }
-
-    private func rescanAll(textStorage: NSTextStorage) {
-        guard let note = editor?.note else { return }
-
-        let range = NSRange(0..<textStorage.length)
-        textStorage.removeAttribute(.backgroundColor, range: range)
-
-        NotesTextProcessor.highlightMarkdown(attributedString: textStorage, note: note)
-        NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: textStorage)
-
-        textStorage.updateParagraphStyle()
-    }
-
-    private func rescanPartial(textStorage: NSTextStorage, delta: Int, editedRange: NSRange) {
-
-        // Rescan header yaml
-
-        var checkAt = editedRange.location - 1
-        if checkAt < 0 {
-            checkAt = 0
-        }
-
-        if let yamlRange = textStorage.attribute(.yamlBlock, at: checkAt, effectiveRange: nil) as? NSRange {
-            let fixRange = NSRange(location: 0, length: yamlRange.length + delta)
-            textStorage.removeAttribute(.yamlBlock, range: fixRange)
-            textStorage.removeAttribute(.foregroundColor, range: fixRange)
-        }
-
-        guard delta == 1 || delta == -1 else {
-            highlightMultiline(textStorage: textStorage, editedRange: editedRange)
-            return
-        }
-
-        let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
-        let parRange = textStorage.mutableString.paragraphRange(for: editedRange)
-
-        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: textStorage) {
-            textStorage.removeAttribute(.backgroundColor, range: parRange)
-            highlight(textStorage: textStorage, fencedRange: fencedRange, parRange: parRange, delta: delta, editedRange: editedRange)
-
-            if delta == 1,
-                textStorage.mutableString.substring(with: editedRange) == "\n",
-                textStorage.length >= fencedRange.upperBound + 1,
-                textStorage.attribute(.backgroundColor, at: fencedRange.upperBound, effectiveRange: nil) != nil {
-
-                textStorage.removeAttribute(.backgroundColor, range: NSRange(location: fencedRange.upperBound, length: 1))
-            }
-        } else if UserDefaultsManagement.indentedCodeBlockHighlighting,
-            let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
-            let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
-            highlight(textStorage: textStorage, indentedRange: codeBlockRanges, intersectedRange: intersectedRange, editedRange: editedRange)
-        } else {
-            if textStorage.attributedSubstring(from: editedRange).string == "\n" {
-                let editedParagraph = textStorage.mutableString.paragraphRange(for: NSRange(location: editedRange.location + 1, length: 0))
-
-                let nextLine = textStorage.attributedSubstring(from: editedParagraph).string
-                if !nextLine.startsWith(string: "```") && !nextLine.startsWith(string: "\t") && !nextLine.startsWith(string: "    ") {
-                    highlightParagraph(textStorage: textStorage, editedRange: editedParagraph)
+        // Highlight code block end (```), that wiped previously in highlightMarkdown
+        for range in codeBlockRanges {
+            if NSIntersectionRange(range, paragraphRange).length > 0 {
+                if result.edited == nil {
+                    result.code?.append(range)
                 }
             }
-
-            highlightParagraph(textStorage: textStorage, editedRange: editedRange)
         }
-    }
 
-    private func highlight(textStorage: NSTextStorage, fencedRange: NSRange, parRange: NSRange, delta: Int, editedRange: NSRange) {
-        let code = textStorage.mutableString.substring(with: fencedRange)
-        let language = NotesTextProcessor.getLanguage(code)
+        if let ranges = result.code {
+            for range in ranges {
+                // print("added code block \(range)")
+                let language = NotesTextProcessor.getLanguage(from: textStorage, startingAt: range.location)
 
-        NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
-
-        NotesTextProcessor.highlightFencedBackTick(range: fencedRange, attributedString: textStorage, language: language)
-
-        if delta == 1 {
-            let newChar = textStorage.mutableString.substring(with: editedRange)
-            let isNewLine = newChar == "\n"
-
-            let backgroundRange =
-                isNewLine && parRange.upperBound + 1 <= textStorage.length
-                    ? NSRange(parRange.location..<parRange.upperBound + 1)
-                    : parRange
-
-            textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: backgroundRange)
-        }
-    }
-
-    private func highlight(textStorage: NSTextStorage, indentedRange: [NSRange], intersectedRange: NSRange, editedRange: NSRange) {
-        let parRange = textStorage.mutableString.paragraphRange(for: editedRange)
-        let checkRange = intersectedRange.length < 500 ? intersectedRange : parRange
-
-        NotesTextProcessor.highlightCode(attributedString: textStorage, range: checkRange)
-    }
-
-    private func highlightParagraph(textStorage: NSTextStorage, editedRange: NSRange) {
-        let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
-        var parRange = textStorage.mutableString.paragraphRange(for: editedRange)
-        let paragraph = textStorage.mutableString.substring(with: parRange)
-
-        textStorage.updateParagraphStyle(range: parRange)
-
-        if paragraph.count == 2, textStorage.attributedSubstring(from: parRange).attribute(.backgroundColor, at: 1, effectiveRange: nil) != nil {
-            if let ranges = codeTextProcessor.getCodeBlockRanges(parRange: parRange) {
-                let invalidateBackgroundRange =
-                    ranges.count == 2
-                        ? NSRange(ranges.first!.upperBound..<ranges.last!.location)
-                        : parRange
-
-                textStorage.removeAttribute(.backgroundColor, range: invalidateBackgroundRange)
-
-                for range in ranges {
-                    NotesTextProcessor.highlightCode(attributedString: textStorage, range: range)
-                }
+                NotesTextProcessor
+                    .getHighlighter()
+                    .highlight(in: textStorage, range: range, language: language)
             }
-        } else {
-            textStorage.removeAttribute(.backgroundColor, range: parRange)
         }
 
-        // Proper paragraph scan for two line markup "==" and "--"
-        let prevParagraphLocation = parRange.lowerBound - 1
-        if prevParagraphLocation > 0 && (paragraph.starts(with: "==") || paragraph.starts(with: "--")) {
-            let prev = textStorage.mutableString.paragraphRange(for: NSRange(location: prevParagraphLocation, length: 0))
-            parRange = NSRange(location: prev.lowerBound, length: parRange.upperBound - prev.lowerBound)
+        if let editedBlock = result.edited, let editedParagraph = result.editedParagraph {
+            // print("edited paragraph \(editedParagraph) in block \(editedBlock)")
+            let language = NotesTextProcessor.getLanguage(from: textStorage, startingAt: editedBlock.location)
+
+            NotesTextProcessor
+                .getHighlighter()
+                .highlight(in: textStorage, range: editedParagraph, language: language, skipTicks: true)
         }
 
-        guard let note = editor?.note else { return }
-        NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange, note: note)
-        NotesTextProcessor.checkBackTick(styleApplier: textStorage, paragraphRange: parRange)
-    }
-
-    private func highlightMultiline(textStorage: NSTextStorage, editedRange: NSRange) {
-        let parRange = textStorage.mutableString.paragraphRange(for: editedRange)
-        let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
-
-        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: textStorage) {
-            let code = textStorage.mutableString.substring(with: fencedRange)
-            let language = NotesTextProcessor.getLanguage(code)
-
-            NotesTextProcessor.highlightCode(attributedString: textStorage, range: fencedRange, language: language)
-            NotesTextProcessor.highlightFencedBackTick(range: fencedRange, attributedString: textStorage)
-        } else if UserDefaultsManagement.indentedCodeBlockHighlighting,
-            let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
-            let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
-
-            let checkRange = intersectedRange.length > 1000 ? editedRange : intersectedRange
-            NotesTextProcessor.highlightCode(attributedString: textStorage, range: checkRange)
-        } else {
-            guard let note = editor?.note else { return }
-            NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange, note: note)
-            NotesTextProcessor.checkBackTick(styleApplier: textStorage, paragraphRange: parRange)
-            textStorage.updateParagraphStyle(range: parRange)
+        if let ranges = result.md {
+            for range in ranges {
+                // print("became markdown \(range)")
+                NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: range)
+            }
         }
     }
 
@@ -250,7 +112,9 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
         let affectedRange = NSRange(start..<finish)
         textStorage.enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
-            if let value = value as? NSTextAttachment, textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+            if let value = value as? NSTextAttachment,
+                textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+
                 #if os(iOS)
                     let paragraph = NSMutableParagraphStyle()
                     paragraph.alignment = value.isFile() ? .left : .center
@@ -267,16 +131,31 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
 #if os(OSX)
     public func loadImage(attachment: NSTextAttachment, url: URL, range: NSRange, textStorage: NSTextStorage) {
-        editor?.imagesLoaderQueue.addOperation {
-            guard url.isImage else { return }
+        guard let note = editor?.note else { return }
 
-            let size = attachment.bounds.size
-            let retinaSize = CGSize(width: size.width * 2, height: size.height * 2)
-            let image = NoteAttachment.getImage(url: url, size: retinaSize)
+        editor?.imagesLoaderQueue.addOperation {
+            var image: NSImage?
+            var size: NSSize?
+
+            if url.isImage {
+                let cgSize = attachment.bounds.size
+                let retinaSize = CGSize(width: cgSize.width * 2, height: cgSize.height * 2)
+                image = NoteAttachment.getImage(url: url, size: retinaSize)
+                size = NSSize(width: cgSize.width, height: cgSize.height)
+            } else {
+                let attachment = NoteAttachment(title: "", path: "", url: url, note: note)
+                let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
+                let text = attachment.getImageText()
+                let width = attachment.getImageWidth(text: text)
+                size = NSSize(width: width, height: heigth)
+                let imageSize = NSSize(width: width, height: heigth)
+                image = attachment.imageFromText(text: text, imageSize: imageSize)
+            }
 
             DispatchQueue.main.async {
                 guard let container = self.editor?.textContainer,
-                      let attachmentImage = image else { return }
+                      let attachmentImage = image,
+                      let size = size else { return }
 
                 let cell = FSNTextAttachmentCell(textContainer: container, image: attachmentImage)
                 cell.image?.size = size
@@ -292,6 +171,10 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                         }
                     }
 
+                    let paragraph = NSMutableParagraphStyle()
+                    paragraph.alignment = url.isImage ? .center : .left
+
+                    textStorage.safeAddAttribute(.paragraphStyle, value: paragraph, range: range)
                     manager.invalidateDisplay(forCharacterRange: range)
                 }
             }

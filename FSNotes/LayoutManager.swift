@@ -8,8 +8,27 @@
 
 import Cocoa
 
+fileprivate extension NSRange {
+    /// Clamp range to fit inside given maxRange
+    func clamped(to maxRange: NSRange) -> NSRange {
+        if maxRange.length == 0 { return NSRange(location: maxRange.location, length: 0) }
+        if self.location >= NSMaxRange(maxRange) { return NSRange(location: NSMaxRange(maxRange), length: 0) }
+        let start = max(self.location, maxRange.location)
+        let end = min(NSMaxRange(self), NSMaxRange(maxRange))
+        if end <= start { return NSRange(location: start, length: 0) }
+        return NSRange(location: start, length: end - start)
+    }
+}
+
 class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
+    weak var processor: TextStorageProcessor?
+    
     public var lineHeightMultiple: CGFloat = CGFloat(UserDefaultsManagement.lineHeightMultiple)
+    
+    // Настройки цветов для подсветки кода
+    private var codeBlockBackgroundColor: NSColor {
+        return NSColor.init(hex: "#F1F1F1")
+    }
 
     private var defaultFont: NSFont {
         return self.firstTextView?.font ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
@@ -21,8 +40,14 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         }
         
         let characterRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
-        let attributes = textStorage.attributes(at: characterRange.location, effectiveRange: nil)
+        // Защита: если characterRange выходит за пределы - вернуть дефолт
+        let storageRange = NSRange(location: 0, length: textStorage.length)
+        let safeCharRange = characterRange.clamped(to: storageRange)
+        guard safeCharRange.length > 0 else {
+            return defaultFont
+        }
         
+        let attributes = textStorage.attributes(at: safeCharRange.location, effectiveRange: nil)
         return attributes[.font] as? NSFont ?? defaultFont
     }
     
@@ -32,10 +57,16 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         }
         
         let characterRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+        let storageRange = NSRange(location: 0, length: textStorage.length)
+        let safeCharRange = characterRange.clamped(to: storageRange)
+        if safeCharRange.length == 0 {
+            return (false, 0)
+        }
+        
         var maxHeight: CGFloat = 0
         var hasAttachment = false
         
-        textStorage.enumerateAttribute(.attachment, in: characterRange, options: []) { value, range, stop in
+        textStorage.enumerateAttribute(.attachment, in: safeCharRange, options: []) { value, _, _ in
             if let attachment = value as? NSTextAttachment {
                 hasAttachment = true
                 let attachmentBounds = attachment.bounds
@@ -51,7 +82,98 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         let lineHeight = fontLineHeight * lineHeightMultiple
         return lineHeight
     }
+        
+    /// Возвращает true только если index попадает внутрь блока кода.
+    /// Важно: индекс, равный text.length, считается ВНЕ блока (невалидный для прямого доступа).
+    private func isInCodeBlock(characterIndex: Int) -> Bool {
+        guard let textStorage = self.textStorage else {
+            return false
+        }
+        
+        let ns = textStorage.string as NSString
+        let storageFullRange = NSRange(location: 0, length: ns.length)
+        // Проверка: если index равен длине (т.е. position после последнего символа) — считаем вне блока
+        if characterIndex < 0 || characterIndex >= NSMaxRange(storageFullRange) {
+            return false
+        }
+        
+        guard let codeBlocks = processor?.editor?.note?.codeBlockRangesCache else { return false }
+        return codeBlocks.contains { NSLocationInRange(characterIndex, $0) }
+    }
     
+    // MARK: - Drawing
+    
+    override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        // Сначала рисуем фон для блоков кода
+        drawCodeBlockBackground(forGlyphRange: glyphsToShow, at: origin)
+        
+        // Затем вызываем super - он нарисует выделение текста поверх
+        super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
+    }
+    
+    override func fillBackgroundRectArray(_ rectArray: UnsafePointer<NSRect>, count rectCount: Int, forCharacterRange charRange: NSRange, color: NSColor) {
+        // Блокируем отрисовку дефолтного фона внутри блоков кода
+        // (кроме выделения текста - оно должно быть видно)
+        let storageLength = self.textStorage?.length ?? 0
+        let storageFullRange = NSRange(location: 0, length: storageLength)
+        let safeCharRange = charRange.clamped(to: storageFullRange)
+        if color == NSColor.selectedTextBackgroundColor ||
+           color == NSColor.unemphasizedSelectedTextBackgroundColor ||
+           !isInCodeBlock(characterIndex: safeCharRange.location) {
+            super.fillBackgroundRectArray(rectArray, count: rectCount, forCharacterRange: charRange, color: color)
+        }
+    }
+    
+    private func drawCodeBlockBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        guard let textStorage = self.textStorage,
+              let context = NSGraphicsContext.current?.cgContext else {
+            return
+        }
+
+        let storageFullRange = NSRange(location: 0, length: textStorage.length)
+        guard let codeBlocks = processor?.editor?.note?.codeBlockRangesCache else { return }
+        guard let textContainer = self.textContainers.first else { return }
+
+        textContainer.lineFragmentPadding = 10
+
+        context.saveGState()
+
+        for codeBlockRange in codeBlocks {
+            let safeCharRange = codeBlockRange.clamped(to: storageFullRange)
+            if safeCharRange.length == 0 { continue }
+
+            let glyphRange = self.glyphRange(forCharacterRange: safeCharRange, actualCharacterRange: nil)
+            if glyphRange.length == 0 { continue }
+
+            let boundingRect = self.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+            if boundingRect.isEmpty { continue }
+
+            // Padding left/right
+            let horizontalPadding: CGFloat = 5.0
+            let paddedRect = boundingRect
+                .insetBy(dx: -horizontalPadding, dy: 0)
+                .offsetBy(dx: origin.x, dy: origin.y)
+
+            // Round borders
+            let radius: CGFloat = 5.0
+            let path = CGPath(roundedRect: paddedRect, cornerWidth: radius, cornerHeight: radius, transform: nil)
+
+            context.setFillColor(self.codeBlockBackgroundColor.cgColor)
+            context.addPath(path)
+            context.fillPath()
+
+            // Border 1px
+            context.addPath(path)
+            context.setStrokeColor(NSColor.lightGray.cgColor)
+            context.setLineWidth(1.0)
+            context.strokePath()
+
+            self.invalidateDisplay(forGlyphRange: glyphRange)
+        }
+
+        context.restoreGState()
+    }
+
     public func layoutManager(
             _ layoutManager: NSLayoutManager,
             shouldSetLineFragmentRect lineFragmentRect: UnsafeMutablePointer<NSRect>,
@@ -86,10 +208,10 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         }
 
         var rect = lineFragmentRect.pointee
-        rect.size.height = finalLineHeight
+        rect.size.height = ceil(finalLineHeight)
 
         var usedRect = lineFragmentUsedRect.pointee
-        usedRect.size.height = max(finalLineHeight, usedRect.size.height)
+        usedRect.size.height = max(rect.size.height, ceil(usedRect.size.height))
 
         lineFragmentRect.pointee = rect
         lineFragmentUsedRect.pointee = usedRect
@@ -114,9 +236,9 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         
         let lineHeight = self.lineHeight(for: defaultFont)
         var fragmentRect = fragmentRect
-        fragmentRect.size.height = lineHeight
+        fragmentRect.size.height = ceil(lineHeight)
         var usedRect = usedRect
-        usedRect.size.height = lineHeight
+        usedRect.size.height = ceil(lineHeight)
 
         super.setExtraLineFragmentRect(fragmentRect,
             usedRect: usedRect,

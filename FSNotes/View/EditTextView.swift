@@ -135,6 +135,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         customLayoutManager.addTextContainer(textContainer)
         customLayoutManager.delegate = customLayoutManager
         
+        customLayoutManager.processor = processor
+        
         textStorage.addLayoutManager(customLayoutManager)
     }
     
@@ -213,38 +215,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if menuItem.menu?.identifier?.rawValue == "formatMenu", !hasFocus() {
             return false
         }
-        
-        if note.isRTF() {
-            let disableRTF = [
-                "format.h1",
-                "format.h2",
-                "format.h3",
-                "format.h4",
-                "format.h5",
-                "format.h6",
-                "format.codeBlock",
-                "format.codeSpan",
-                "format.image",
-                "format.todo",
-                "format.link"
-            ]
 
-            if let ident = menuItem.identifier?.rawValue, disableRTF.contains(ident) {
-                menuItem.isHidden = true
-            }
-            
-            return !disableRTF.contains(menuItem.title)
-        } else {
-            let disable = [
-                NSLocalizedString("Underline", comment: "")
-            ]
-
-            if disable.contains(menuItem.title) {
-                menuItem.isHidden = true
-            }
-
-            return !disable.contains(menuItem.title)
+        let disable = [NSLocalizedString("Underline", comment: "")]
+        if disable.contains(menuItem.title) {
+            menuItem.isHidden = true
         }
+
+        return !disable.contains(menuItem.title)
     }
     
     // MARK: Overrides
@@ -352,33 +329,40 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     override func mouseMoved(with event: NSEvent) {
-        if let isHidden = editorViewController?.vcNonSelectedLabel?.isHidden as? Bool, !isHidden {
+        if editorViewController?.vcNonSelectedLabel?.isHidden == false {
             NSCursor.arrow.set()
             return
         }
 
         let point = self.convert(event.locationInWindow, from: nil)
-        let properPoint = NSPoint(x: point.x - textContainerInset.width, y: point.y)
+        let properPoint = NSPoint(
+            x: point.x - textContainerInset.width,
+            y: point.y - textContainerInset.height
+        )
 
-        guard let container = self.textContainer, let manager = self.layoutManager else { return }
+        guard let container = self.textContainer,
+              let manager = self.layoutManager,
+              let textStorage = self.textStorage else { return }
 
         let index = manager.characterIndex(for: properPoint, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
 
+        guard index < textStorage.length else { return }
+
         let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
-        
+
         if glyphRect.contains(properPoint), self.isTodo(index) {
             NSCursor.pointingHand.set()
             return
         }
 
-        // Clickable links move with cmd / shift
-        if glyphRect.contains(properPoint), let link = textStorage?.attribute(.link, at: index, effectiveRange: nil) {
-            
-            if textStorage?.attribute(.tag, at: index, effectiveRange: nil) != nil {
+        if glyphRect.contains(properPoint),
+           let link = textStorage.attribute(.link, at: index, effectiveRange: nil) {
+
+            if textStorage.attribute(.tag, at: index, effectiveRange: nil) != nil {
                 NSCursor.pointingHand.set()
                 return
             }
-            
+
             if link as? URL != nil {
                 if UserDefaultsManagement.clickableLinks
                     || event.modifierFlags.contains(.command)
@@ -387,16 +371,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                     NSCursor.pointingHand.set()
                     return
                 }
-                
+
                 NSCursor.iBeam.set()
                 return
             }
         }
-        
+
         if editorViewController?.vcEditor?.isPreviewEnabled() == true {
             return
         }
-        
+
         super.mouseMoved(with: event)
     }
     
@@ -664,10 +648,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
-            if let note = self.note, note.type == .RichText {
-                return super.writablePasteboardTypes
-            }
-            
             return
                 [NSPasteboard.PasteboardType.rtfd, NSPasteboard.PasteboardType.string, NSPasteboard.attributedTextType]
         }
@@ -675,10 +655,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override var readablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
-            if let note = self.note, note.type == .RichText {
-                return super.readablePasteboardTypes
-            }
-            
             return super.readablePasteboardTypes + [NSPasteboard.attributedTextType]
         }
     }
@@ -691,11 +667,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 if let imageData = image?.jpgData {
                     data = imageData
                     
-                    textStorageProcessor?.shouldForceRescan = true
                     saveClipboard(data: data, note: note, ext: "jpg")
-                    saveTextStorageContent(to: note)
-                    note.save()
-                    
+                    self.save()
+
                     if let container = textContainer {
                         textStorage?.sizeAttachmentImages(container: container)
                     }
@@ -707,11 +681,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
             
             if data.isPDF {
-                textStorageProcessor?.shouldForceRescan = true
                 saveClipboard(data: data, note: note, ext: "pdf")
-                saveTextStorageContent(to: note)
-                note.save()
-                
+                self.save()
+
                 if let container = textContainer {
                     textStorage?.sizeAttachmentImages(container: container)
                 }
@@ -724,25 +696,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
-        
-        if let note = self.note, note.type == .RichText {
-            return super.writeSelection(to: pboard, type: type)
-        }
-
         guard let storage = textStorage else { return false }
 
         let range = selectedRange()
         let attributedString = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: range))
 
         if type == .string {
-            let plainText = attributedString.unLoadImages().unLoadCheckboxes().string
-
+            let plainText = attributedString.unloadAttachments().string
             pboard.setString(plainText, forType: .string)
             return true
         }
 
         if type == NSPasteboard.attributedTextType {
-            let richString = attributedString.unLoadCheckboxes()
+            let richString = attributedString.unloadTasks()
 
             let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
             let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
@@ -771,7 +737,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         if type == .rtfd {
-            let richString = attributedString.unLoadCheckboxes()
+            let richString = attributedString.unloadTasks()
             if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
                 pboard.setData(rtfd, forType: NSPasteboard.PasteboardType.rtfd)
                 return true
@@ -779,7 +745,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         if type.rawValue == "NSStringPboardType" {
-            textStorageProcessor?.shouldForceRescan = true
             return super.writeSelection(to: pboard, type: type)
         }
 
@@ -788,15 +753,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     // Copy empty string
     override func copy(_ sender: Any?) {
-        if selectedRanges.count > 1, let note = self.note {
+        if selectedRanges.count > 1 {
             var combined = String()
             for range in selectedRanges {
                 if let range = range as? NSRange, let sub = attributedSubstring(forProposedRange: range, actualRange: nil) as? NSMutableAttributedString {
-                    if note.isMarkdown() {
-                        combined.append(sub.unLoadCheckboxes().unLoadImages().string + "\n")
-                    } else {
-                        combined.append(sub.string + "\n")
-                    }
+
+                    combined.append(sub.unloadAttachments().string + "\n")
                 }
             }
 
@@ -835,13 +797,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func paste(_ sender: Any?) {
         guard let note = self.note else { return }
 
-        guard note.isMarkdown() else {
-            super.paste(sender)
-
-            fillPlainAndRTFStyle(note: note, saveTyping: false)
-            return
-        }
-
         if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.attributedTextType) {
             let options = [
                 NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
@@ -849,7 +804,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             let attributedString = try? NSMutableAttributedString(data: rtfd, options: options, documentAttributes: nil)
 
-            attributedString?.loadCheckboxes()
+            attributedString?.loadTasks()
 
             if let attributedString = attributedString {
                 let currentRange = selectedRange()
@@ -861,17 +816,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 textStorage?.sizeAttachmentImages(container: container)
 
                 saveImages()
-                saveTextStorageContent(to: note)
+                self.save()
 
                 return
             }
         }
 
-        if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
+        if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string),
+            NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
             let attributed = NSMutableAttributedString(string: clipboard)
-            attributed.loadCheckboxes()
-
-            textStorageProcessor?.shouldForceRescan = true
+            attributed.loadTasks()
 
             let currentRange = selectedRange()
 
@@ -879,7 +833,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             self.insertText(attributed, replacementRange: currentRange)
             self.breakUndoCoalescing()
 
-            saveTextStorageContent(to: note)
+            self.save()
             return
         }
 
@@ -907,10 +861,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             ] as [NSAttributedString.DocumentReadingOptionKey : Any]
 
             let attributedString = try? NSMutableAttributedString(data: rtfd, options: options, documentAttributes: nil)
-            attributedString?.loadCheckboxes()
+            attributedString?.loadTasks()
 
             if let attributedString = attributedString {
-                plainText = attributedString.unLoad().string
+                plainText = attributedString.unloadAttachments().string
             }
         } else if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
             plainText = clipboard
@@ -919,13 +873,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         if let plainText = plainText {
-            textStorageProcessor?.shouldForceRescan = true
-
             self.breakUndoCoalescing()
             self.insertText(plainText, replacementRange: currentRange)
             self.breakUndoCoalescing()
 
-            saveTextStorageContent(to: note)
+            self.save()
             return
         }
 
@@ -980,11 +932,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     public func isEditable(note: Note) -> Bool {
-        if note.container == .encryptedTextPack {
-            return false
-        }
-        
-        if editorViewController?.vcEditor?.isPreviewEnabled() == true && !note.isRTF() {
+        if note.container == .encryptedTextPack { return false }
+
+        guard let editor = editorViewController?.vcEditor else { return false }
+
+        if editor.isPreviewEnabled() {
             return false
         }
         
@@ -998,12 +950,18 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public func getEVC() -> EditorViewController? {
         return self.window?.contentViewController as? EditorViewController
     }
-    
-    func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+
+    public func save() {
+        guard let note = self.note else { return }
+
+        note.save(attributed: self.attributedString())
+    }
+
+    func fill(note: Note, highlight: Bool = false, force: Bool = false) {
         if !note.isLoaded {
             note.load()
         }
-        
+
         textStorage?.setAttributedString(NSAttributedString(string: ""))
         
         // Hack for invalidate prev layout data (order is important, only before fill)
@@ -1048,12 +1006,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         editorViewController?.editorUndoManager = note.undoManager
 
-        if !saveTyping {
-            typingAttributes.removeAll()
-            typingAttributes[.font] = UserDefaultsManagement.noteFont
-        }
+        typingAttributes.removeAll()
+        typingAttributes[.font] = UserDefaultsManagement.noteFont
 
-        if isPreviewEnabled() && !note.isRTF() {
+        if isPreviewEnabled() {
             loadMarkdownWebView(note: note, force: force)
             return
         }
@@ -1064,20 +1020,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let storage = textStorage else { return }
 
         if note.isMarkdown(), let content = note.content.mutableCopy() as? NSMutableAttributedString {
-            if UserDefaultsManagement.liveImagesPreview {
-                content.loadImages(editor: self, note: note)
-            }
+            textStorageProcessor?.detector = CodeBlockDetector()
 
-            content.replaceCheckboxes()
-
-            textStorageProcessor?.shouldForceRescan = true
             storage.setAttributedString(content)
         } else {
             storage.setAttributedString(note.content)
-        }
-
-        if !note.isMarkdown()  {
-            fillPlainAndRTFStyle(note: note, saveTyping: saveTyping)
         }
         
         if highlight {
@@ -1115,29 +1062,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             /// Load note if needed
             markdownView?.load(note: note, force: force)
-        }
-    }
-
-    private func fillPlainAndRTFStyle(note: Note, saveTyping: Bool) {
-        guard let storage = textStorage else { return }
-
-        if note.type == .RichText && !saveTyping {
-            storage.updateFont()
-            storage.loadUnderlines()
-        }
-
-        setTextColor()
-
-        let range = NSRange(0..<storage.length)
-        let processor = NotesTextProcessor(storage: storage, range: range)
-        processor.higlightLinks()
-    }
-
-    private func setTextColor() {
-        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-            textColor = NSColor.init(named: "mainText")
-        } else {
-            textColor = UserDefaultsManagement.fontColor
         }
     }
 
@@ -1311,7 +1235,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     private func updateCursorForMouse(at event: NSEvent) {
         guard let container = self.textContainer,
-             let manager = self.layoutManager else { return }
+              let manager = self.layoutManager,
+              let textStorage = self.textStorage else { return }
 
         let pointInView = self.convert(event.locationInWindow, from: nil)
         
@@ -1326,8 +1251,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             fractionOfDistanceBetweenInsertionPoints: nil
         )
 
-        if let link = textStorage?.attribute(.link, at: index, effectiveRange: nil) {
-            if textStorage?.attribute(.tag, at: index, effectiveRange: nil) != nil {
+        guard index < textStorage.length else {
+            NSCursor.iBeam.set()
+            return
+        }
+
+        if let link = textStorage.attribute(.link, at: index, effectiveRange: nil) {
+            if textStorage.attribute(.tag, at: index, effectiveRange: nil) != nil {
                 NSCursor.pointingHand.set()
             } else if link as? URL != nil {
                 if UserDefaultsManagement.clickableLinks
@@ -1346,6 +1276,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func keyDown(with event: NSEvent) {
         defer {
             saveSelectedRange()
+        }
+        
+        // fixes backtick marked text 
+        if event.keyCode == kVK_ANSI_Grave {
+            super.insertText("`", replacementRange: selectedRange())
+            return
         }
 
         guard !(
@@ -1392,8 +1328,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             
             let formatter = TextFormatter(textView: self, note: note)
             if formatter.isListParagraph() {
-                textStorageProcessor?.shouldForceRescan = true
-                
                 if NSEvent.modifierFlags.contains(.shift) {
                     formatter.unTab()
                 } else {
@@ -1451,16 +1385,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                     _ = try? NSWorkspace.shared.open(url, options: .default, configuration: [:])
                 }
             }
-
-            return
-        }
-
-        if note.type == .RichText {
-            super.keyDown(with: event)
-
-            let range = getParagraphRange()
-            let processor = NotesTextProcessor(storage: textStorage, range: range)
-            processor.higlightLinks()
 
             return
         }
@@ -1541,13 +1465,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         tagsTimer?.invalidate()
         tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
-
-        if replacementString == "", let storage = textStorage {
-            let lastChar = storage.attributedSubstring(from: affectedCharRange).string
-            if lastChar.count == 1 {
-                textStorageProcessor?.lastRemoved = lastChar
-            }
-        }
 
         if note.isMarkdown() {
             deleteUnusedImages(checkRange: affectedCharRange)
@@ -1643,19 +1560,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             scrollToCursor()
         }
     }
-    
-    func saveTextStorageContent(to note: Note) {
-        guard note.container != .encryptedTextPack, let storage = self.textStorage else { return }
 
-        let string = storage.attributedSubstring(from: NSRange(0..<storage.length))
-
-        note.modifiedLocalAt = Date()
-        note.content =
-            NSMutableAttributedString(attributedString: string)
-                .unLoadImages()
-                .unLoadCheckboxes()
-    }
-    
     func setEditorTextColor(_ color: NSColor) {
         if let note = self.note, !note.isMarkdown() {
             textColor = color
@@ -1707,7 +1612,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             let caretLocation = characterIndexForInsertion(at: dropPoint)
 
             let mutable = NSMutableAttributedString(attributedString: text)
-            mutable.loadCheckboxes()
+            mutable.loadTasks()
 
             insertText(mutable, replacementRange: NSRange(location: caretLocation, length: 0))
 
@@ -1739,7 +1644,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             guard let imageUrl = note.getImageUrl(imageName: path) else { return false }
 
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
-            let attachment = NoteAttachment(editor: self, title: title, path: path, url: imageUrl)
+            let attachment = NoteAttachment(title: title, path: path, url: imageUrl)
 
             guard let attachmentText = attachment.getAttributedString() else { return false }
             guard locationDiff < storage.length else { return false }
@@ -1747,7 +1652,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
             textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attachmentText)
 
-            safeSave(note: note)
+            note.save(attributed: attributedString())
+
             setSelectedRange(NSRange(location: caretLocation, length: 0))
 
             return true
@@ -1765,7 +1671,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 self.insertText(title, replacementRange: replacementRange)
                 self.setSelectedRange(NSRange(location: caretLocation + title.count, length: 0))
 
-                self.safeSave(note: note)
+                self.save()
             }
 
             return true
@@ -1774,7 +1680,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
             urls.count > 0 {
 
-            safeSave(note: note)
+            note.save(attributed: attributedString())
 
             for (index, url) in urls.enumerated() {
                 fetchDataFromURL(url: url) { (data, error) in
@@ -1794,31 +1700,21 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
                         guard let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note) else { return }
 
-                        if UserDefaultsManagement.liveImagesPreview {
-                            let cleanPath = filePath.removingPercentEncoding ?? filePath
-                            guard let url = note.getImageUrl(imageName: cleanPath) else { return }
-                            let attachment = NoteAttachment(editor: self, title: "", path: cleanPath, url: url, note: note)
+                        let cleanPath = filePath.removingPercentEncoding ?? filePath
+                        guard let url = note.getImageUrl(imageName: cleanPath) else { return }
+                        let attachment = NoteAttachment(title: "", path: cleanPath, url: url, note: note)
 
-                            let newLine = urls.count > 0 && index != urls.count - 1
-                            if let string = attachment.getAttributedString(newLine: newLine) {
-                                self.textStorageProcessor?.shouldForceRescan = true
-
-                                self.insertText(string, replacementRange: replacementRange)
-                                replacementRange = NSRange(location: replacementRange.location + string.length, length: 0)
-                                self.setSelectedRange(replacementRange)
-                            }
-                        } else {
-                            let string = "![](\(filePath))\n"
+                        let newLine = urls.count > 0 && index != urls.count - 1
+                        if let string = attachment.getAttributedString(newLine: newLine) {
                             self.insertText(string, replacementRange: replacementRange)
-                            replacementRange = NSRange(location: replacementRange.location + string.count, length: 0)
+                            replacementRange = NSRange(location: replacementRange.location + string.length, length: 0)
                             self.setSelectedRange(replacementRange)
                         }
 
-                        if let storage = self.textStorage {
-                            NotesTextProcessor.highlightMarkdown(attributedString: storage, note: note)
-                            self.saveTextStorageContent(to: note)
-                            note.save()
-                        }
+//                        if let storage = self.textStorage {
+//                            NotesTextProcessor.highlightMarkdown(attributedString: storage)
+//                            self.save()
+//                        }
 
                         self.viewDelegate?.notesTableView.reloadRow(note: note)
                     }
@@ -1855,12 +1751,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         return extractTitle(from: htmlString)
     }
 
-    public func safeSave(note: Note) {
-        guard note.container != .encryptedTextPack else { return }
-        
-        note.save(attributed: attributedString())
-    }
-    
     func getSearchText() -> String {
         guard let search = ViewController.shared()?.search else { return String() }
 
@@ -1892,16 +1782,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func shiftLeft(_ sender: Any) {
         guard let note = self.note, isEditable else { return }
         let f = TextFormatter(textView: self, note: note)
-
-        textStorageProcessor?.shouldForceRescan = true
         f.unTab()
     }
     
     @IBAction func shiftRight(_ sender: Any) {
         guard let note = self.note, isEditable else { return }
         let f = TextFormatter(textView: self, note: note)
-
-        textStorageProcessor?.shouldForceRescan = true
         f.tab()
     }
 
@@ -1976,15 +1862,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             mutable.append(NSAttributedString(string: "```\n"))
 
-            textStorageProcessor?.shouldForceRescan = true
             insertText(mutable, replacementRange: currentRange)
             setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
             
             return
-        }
-
-        if textStorage?.length == 0 {
-            textStorageProcessor?.shouldForceRescan = true
         }
         
         insertText("```\n\n```\n", replacementRange: currentRange)
@@ -2004,7 +1885,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             mutable.append(NSAttributedString(string: "`"))
 
-            textStorageProcessor?.shouldForceRescan = true
             insertText(mutable, replacementRange: currentRange)
             return
         }
@@ -2157,12 +2037,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
         
-        if !UserDefaultsManagement.liveImagesPreview {
-            let url = URL(fileURLWithPath: link as! String)
-            NSWorkspace.shared.open(url)
-            return
-        }
-        
         let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
         let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
 
@@ -2204,9 +2078,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.textStorage?.addAttribute(titleKey, value: field.stringValue, range: range)
                 
-                if let note = self.note, note.container != .encryptedTextPack {
-                    note.save(attributed: self.attributedString())
-                }
+                self.save()
             }
             
             
@@ -2228,7 +2100,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         NotesTextProcessor.hl = nil
 
         guard let note = self.note else { return }
-        NotesTextProcessor.highlight(note: note)
+        NotesTextProcessor.highlight(attributedString: note.content)
 
         let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"
         let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"
@@ -2251,8 +2123,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if NSPasteboard.general.data(forType: .png) != nil ||
             NSPasteboard.general.data(forType: .tiff) != nil {
 
-            textStorageProcessor?.shouldForceRescan = true
-
             var ext = "png"
             var data = NSPasteboard.general.data(forType: .png)
 
@@ -2265,8 +2135,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 saveClipboard(data: data, note: note, ext: ext)
             }
 
-            saveTextStorageContent(to: note)
-            note.save()
+            self.save()
 
             if let container = textContainer {
                 textStorage?.sizeAttachmentImages(container: container)
@@ -2293,11 +2162,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 }
             }
 
-            textStorageProcessor?.shouldForceRescan = true
-
             saveClipboard(data: data, note: note, ext: ext, url: url)
-            saveTextStorageContent(to: note)
-            note.save()
+            self.save()
 
             if let container = textContainer {
                 textStorage?.sizeAttachmentImages(container: container)
@@ -2311,19 +2177,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     private func saveClipboard(data: Data, note: Note, ext: String? = nil, url: URL? = nil) {
         if let path = ImagesProcessor.writeFile(data: data, url: url, note: note, ext: ext) {
-
-            guard UserDefaultsManagement.liveImagesPreview else {
-                let newLineImage = NSAttributedString(string: "![](\(path))")
-                self.breakUndoCoalescing()
-                self.insertText(newLineImage, replacementRange: selectedRange())
-                self.breakUndoCoalescing()
-                return
-            }
-
             guard let path = path.removingPercentEncoding else { return }
             
             if let imageUrl = note.getImageUrl(imageName: path) {
-                let attachment = NoteAttachment(editor: self, title: "", path: path, url: imageUrl, note: note)
+                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, note: note)
 
                 if let attributedString = attachment.getAttributedString() {
                     let newLineImage = NSMutableAttributedString(attributedString: attributedString)

@@ -161,10 +161,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func getToolbar(for note: Note) -> UIToolbar {
-        if note.type == .RichText {
-            return self.getRTFToolbar()
-        }
-
         return self.getMarkdownToolbar()
     }
 
@@ -223,41 +219,22 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         editArea.initUndoRedoButons()
 
-        if note.isRTF() {
-            view.backgroundColor = UIColor.white
-            editArea.backgroundColor = UIColor.white
-        } else {
-            view.backgroundColor = UIColor.dropDownColor
-            editArea.backgroundColor = UIColor.dropDownColor
-        }
+        view.backgroundColor = UIColor.dropDownColor
+        editArea.backgroundColor = UIColor.dropDownColor
 
         if selectedRange == nil {
             saveSelectedRange()
         }
 
-        if note.isMarkdown() {
-            editArea.textStorageProcessor?.shouldForceRescan = true
+        if let content = note.content.mutableCopy() as? NSMutableAttributedString {
+            content.loadCheckboxes()
+            content.loadImages(note: note)
 
-            if let content = note.content.mutableCopy() as? NSMutableAttributedString {
-                content.replaceCheckboxes()
-
-                if UserDefaultsManagement.liveImagesPreview {
-                    content.loadImages(editor: editArea, note: note)
-                }
-
-                editArea.attributedText = content
-            }
-        } else {
-            editArea.attributedText = note.content
+            editArea.attributedText = content
         }
 
         configureToolbar()
         loadSelectedRange()
-
-        if note.type == .RichText {
-            editArea.textStorage.updateFont()
-        }
-
         editArea.delegate = self
 
         let storage = editArea.textStorage
@@ -269,12 +246,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             isHighlighted = true
         }
 
-        if note.type != .RichText {
-            editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
-        } else {
-            editArea.typingAttributes[.foregroundColor] =
-                UIColor.black
-        }
+        editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
     }
 
     @objc public func clickOnButton() {
@@ -286,14 +258,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     private func configureToolbar() {
         guard let note = self.note else { return }
-
-        if note.type == .RichText {
-            if self.toolbar != .rich {
-                self.toolbar = .rich
-                self.addToolBar(textField: editArea, toolbar: self.getRTFToolbar())
-            }
-            return
-        }
 
         if self.toolbar != .markdown {
             self.toolbar = .markdown
@@ -337,15 +301,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         tagsHandler(affectedCharRange: range, text: text)
         wikilinkHandler(textView: textView, text: text)
-
-        if text == "" {
-            let lastChar = textView.textStorage.attributedSubstring(from: range).string
-            if lastChar.count == 1 {
-                editArea.textStorageProcessor?.lastRemoved = lastChar
-            }
-        }
-
-        self.restoreRTFTypingAttributes(note: note)
 
         if note.isMarkdown() {
             deleteUnusedImages(checkRange: range)
@@ -677,14 +632,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
     }
 
-    private func restoreRTFTypingAttributes(note: Note) {
-        guard note.isRTF() else { return }
-
-        let formatter = TextFormatter(textView: editArea, note: note)
-
-        self.editArea.typingAttributes[.font] = formatter.getTypingAttributes()
-    }
-
     private func deleteBackwardPressed(text: String) -> Bool {
         if !self.isUndo, let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
             return true
@@ -727,10 +674,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let storage = editArea.textStorage
         let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         
-        if note.type == .RichText {
-            processor.higlightLinks()
-        }
-
         // Prevent textStorage refresh in CloudDriveManager
         note.modifiedLocalAt = Date()
         self.storageQueue.cancelAllOperations()
@@ -1152,41 +1095,19 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
             let url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + "." + imageExt)
 
-            if UserDefaultsManagement.liveImagesPreview {
-                self.editArea.saveImageClipboard(data: data, note: note, ext: imageExt)
+            self.editArea.saveImageClipboard(data: data, note: note, ext: imageExt)
 
-                if processed == urls.count {
-                    note.saveSync(copy: self.editArea.attributedText)
-                    note.invalidateCache()
+            if processed == urls.count {
+                note.saveSync(copy: self.editArea.attributedText)
+                note.invalidateCache()
 
-                    UIApplication.getVC().notesTable.reloadRows(notes: [note])
-                    continue
-                }
-
-                if urls.count != 1 {
-                    self.editArea.insertText("\n\n")
-                }
-
+                UIApplication.getVC().notesTable.reloadRows(notes: [note])
                 continue
             }
 
-            guard let path = ImagesProcessor.writeFile(data: data, url: url, note: note, ext: imageExt) else { return }
-
-             markup += "![](\(path))\n\n"
-
-             guard processed == urls.count else { continue }
-
-             DispatchQueue.main.async {
-                 self.editArea.insertText(markup)
-
-                 note.save(attributed: self.editArea.attributedText)
-                 UIApplication.getVC().notesTable.reloadRowForce(note: note)
-
-                 note.isParsed = false
-
-                 self.editArea.undoManager?.removeAllActions()
-                 self.refill()
-             }
+            if urls.count != 1 {
+                self.editArea.insertText("\n\n")
+            }
         }
     }
 
@@ -1237,10 +1158,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             .foregroundColor: UIColor.linksColor
         ]
 
-        if !note.isRTF() {
-            linkAttributes[.underlineColor] = UIColor.lightGray
-            linkAttributes[.underlineStyle] = 0
-        }
+        linkAttributes[.underlineColor] = UIColor.lightGray
+        linkAttributes[.underlineStyle] = 0
         
         if editArea != nil {
             editArea.linkTextAttributes = linkAttributes
@@ -1644,54 +1563,27 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                processed += 1
                let imageExt = "jpg"
 
-               if UserDefaultsManagement.liveImagesPreview {
+               DispatchQueue.main.async {
+                   self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
+               }
+
+               if processed == results.count {
                    DispatchQueue.main.async {
-                       self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
+                       note.saveSync(copy: self.editArea.attributedText)
+                       note.invalidateCache()
+
+                       UIApplication.getVC().notesTable.reloadRows(notes: [note])
                    }
-
-                   if processed == results.count {
-                       DispatchQueue.main.async {
-                           note.saveSync(copy: self.editArea.attributedText)
-                           note.invalidateCache()
-
-                           UIApplication.getVC().notesTable.reloadRows(notes: [note])
-                       }
-                       return
-                   }
-
-                   DispatchQueue.main.async {
-                       if results.count != 1 {
-                           self.editArea.insertText("\n\n")
-                       }
-
-                       self.dismiss(animated: true)
-                       self.editArea.becomeFirstResponder()
-                   }
-
                    return
                }
 
-               let path = "file:///tmp/" + UUID().uuidString + ".jpg"
-               let url = URL(fileURLWithPath: path)
-
-               guard let path = ImagesProcessor.writeFile(data: imageData, url: url, note: note, ext: imageExt) else { return }
-
-               markup += "![](\(path))\n\n"
-
-               guard processed == results.count else { return }
-
                DispatchQueue.main.async {
-                   self.editArea.insertText(markup)
+                   if results.count != 1 {
+                       self.editArea.insertText("\n\n")
+                   }
 
-                   note.saveSync(copy: self.editArea.attributedText)
-                   note.invalidateCache()
-
-                   UIApplication.getVC().notesTable.reloadRows(notes: [note])
-
-                   note.isParsed = false
-
-                   self.editArea.undoManager?.removeAllActions()
-                   self.refill()
+                   self.dismiss(animated: true)
+                   self.editArea.becomeFirstResponder()
                }
            })
         }

@@ -137,7 +137,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             return
         }
 
-        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unLoadCheckboxes()
+        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
 
         let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
         if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
@@ -191,7 +191,6 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
 
         note.invalidateCache()
-        textStorageProcessor?.shouldForceRescan = true
 
         for item in UIPasteboard.general.items {
             if let rtfd = item["es.fsnot.attributed.text"] as? Data {
@@ -247,7 +246,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             return
         }
 
-        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unLoadCheckboxes()
+        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
 
         let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
         if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String {

@@ -9,26 +9,22 @@
 import Foundation
 
 extension Note {
-    public func cache(backgroundThread: Bool = false) {
-        if cachingInProgress {
-            return
-        }
+    public func cache() {
+        if cacheLock { return }
 
-        let hash = content.string.md5
-        cachingInProgress = true
+        let hash = content.string.fnv1a
+        cacheLock = true
 
         if let copy = content.mutableCopy() as? NSMutableAttributedString {
-            copy.removeAttribute(.backgroundColor, range: NSRange(0..<copy.length))
+            NotesTextProcessor.highlight(attributedString: copy)
+            cacheCodeBlocks()
 
-            NotesTextProcessor.highlightMarkdown(attributedString: copy, paragraphRange: NSRange(location: 0, length: copy.length), note: self)
-            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: copy, backgroundThread: backgroundThread)
-
-            if content.string.md5 == copy.string.md5 {
+            if content.string.fnv1a == copy.string.fnv1a {
                 content = copy
                 cacheHash = hash
             }
         }
 
-        cachingInProgress = false
+        cacheLock = false
     }
 }

@@ -260,9 +260,7 @@ class ViewController: EditorViewController,
 
         let highlightCachePoint = Date()
         for note in self.storage.noteList {
-            if note.type == .Markdown {
-                note.cache(backgroundThread: true)
-            }
+            note.cache()
         }
         
         print("3. Notes attributes cache for \(self.storage.noteList.count) notes in \(highlightCachePoint.timeIntervalSinceNow * -1) seconds")
@@ -988,16 +986,6 @@ class ViewController: EditorViewController,
         let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
 
         _ = vc.createNote(content: inlineTags)
-    }
-
-    @IBAction func fileMenuNewRTF(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        
-        if let type = vc.getSidebarType(), type == .Trash {
-            vc.sidebarOutlineView.deselectAllRows()
-        }
-        
-        _ = vc.createNote(type: .RichText)
     }
         
     @IBAction func fileName(_ sender: NSTextField) {

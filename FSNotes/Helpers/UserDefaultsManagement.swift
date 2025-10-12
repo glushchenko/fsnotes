@@ -108,7 +108,6 @@ public class UserDefaultsManagement {
         static let LineHeightMultipleKey = "lineHeightMultipleKey"
         static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LineWidthKey = "lineWidth"
-        static let LiveImagesPreview = "liveImagesPreview"
         static let LockOnSleep = "lockOnSleep"
         static let LockOnScreenActivated = "lockOnScreenActivated"
         static let LockAfterIDLE = "lockAfterIdle"
@@ -526,18 +525,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.LastSelectedPath)
-        }
-    }
-    
-    static var liveImagesPreview: Bool {
-        get {
-            if let result = shared?.object(forKey: Constants.LiveImagesPreview) {
-                return result as! Bool
-            }
-            return true
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.LiveImagesPreview)
         }
     }
     

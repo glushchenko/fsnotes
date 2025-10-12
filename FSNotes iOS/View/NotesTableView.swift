@@ -120,7 +120,7 @@ class NotesTableView: UITableView,
                     }
 
                     self.reloadRows(notes: [note])
-                    NotesTextProcessor.highlight(note: note)
+                    NotesTextProcessor.highlight(content: note.content)
 
                     self.fill(note: note, indexPath: indexPath)
                 }
@@ -145,7 +145,7 @@ class NotesTableView: UITableView,
             self.viewDelegate?.unLock(notes: [note], completion: { success in
                 if let success = success, success.count > 0 {
                     self.reloadRows(notes: [note])
-                    NotesTextProcessor.highlight(note: note)
+                    NotesTextProcessor.highlight(content: note.content)
 
                     self.fill(note: note, indexPath: indexPath)
                 }
@@ -979,9 +979,10 @@ class NotesTableView: UITableView,
                 }
             }
 
-            noteDupe.save()
+            if noteDupe.save() {
+                Storage.shared().add(noteDupe)
+            }
 
-            viewDelegate?.storage.add(noteDupe)
             dupes.append(noteDupe)
         }
 

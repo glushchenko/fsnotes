@@ -37,7 +37,7 @@ class SearchQuery {
         return !note.name.isEmpty
             && (
                 self.filter.isEmpty && self.type != .Todo
-                    || self.type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
+                    || self.type == .Todo && note.content.hasTodoAttribute()
                     || self.terms != nil && self.isMatched(note: note, terms: self.terms!)
             ) && (
                 self.type == .All && note.project.isVisibleInCommon()

@@ -109,39 +109,6 @@ class FSParser {
 
     public static let tagsInlineRegex = FSParserRegex(pattern: tagsPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    public static func getFencedCodeBlockRange(paragraphRange: NSRange, string: NSMutableAttributedString) -> NSRange? {
-        guard UserDefaultsManagement.codeBlockHighlight else { return nil }
-
-        let regex = try? NSRegularExpression(pattern: FSParser.codeQuoteBlockPattern, options: [
-            NSRegularExpression.Options.allowCommentsAndWhitespace,
-            NSRegularExpression.Options.anchorsMatchLines
-            ])
-
-        var foundRange: NSRange?
-        regex?.enumerateMatches(
-            in: string.string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: NSRange(0..<string.length),
-            using: { (result, _, stop) -> Void in
-                guard let subResult = result else {
-                    return
-                }
-
-                if subResult.range.intersection(paragraphRange) != nil {
-                    if subResult.range.upperBound < string.length {
-                        foundRange = NSRange(location: subResult.range.location, length: subResult.range.length)
-                    } else {
-                        foundRange = subResult.range
-                    }
-
-                    stop.pointee = true
-                }
-            }
-        )
-
-        return foundRange
-    }
-
     public static func getSpanCodeBlockRange(content: NSMutableAttributedString, range: NSRange) -> NSRange? {
         var codeSpan: NSRange?
         let paragraphRange = content.mutableString.paragraphRange(for: range)

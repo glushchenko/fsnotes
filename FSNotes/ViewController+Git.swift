@@ -102,7 +102,8 @@ extension EditorViewController {
         note.checkout(commit: commit)
 
         _ = note.reload()
-        NotesTextProcessor.highlight(note: note)
+        NotesTextProcessor.highlight(attributedString: note.content)
+
         reloadAllOpenedWindows(note: note)
         
         ViewController.shared()?.notesTableView.reloadRow(note: note)
