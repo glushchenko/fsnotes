@@ -98,7 +98,7 @@ extension ViewController {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var urls = [URL]()
-        let items = note.getAllImages()
+        let items = note.content.getImagesAndFiles()
 
         for item in items {
             urls.append(item.url)

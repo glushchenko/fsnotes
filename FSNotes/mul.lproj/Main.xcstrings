@@ -4449,7 +4449,7 @@
     },
     "7D9-lM-GXX.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Highlight indented code blocks\"; ObjectID = \"7D9-lM-GXX\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

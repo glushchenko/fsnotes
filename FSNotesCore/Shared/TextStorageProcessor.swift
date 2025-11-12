@@ -99,6 +99,8 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
     }
 
     private func loadImages(textStorage: NSTextStorage, checkRange: NSRange) {
+        guard let note = editor?.note else { return }
+
         var start = checkRange.lowerBound
         var finish = checkRange.upperBound
 
@@ -112,39 +114,34 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
         let affectedRange = NSRange(start..<finish)
         textStorage.enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
-            if let value = value as? NSTextAttachment,
-                textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+            guard let attachment = value as? NSTextAttachment,
+                  var meta = attachment.getMeta() else { return }
 
-                #if os(iOS)
-                    let paragraph = NSMutableParagraphStyle()
-                    paragraph.alignment = value.isFile() ? .left : .center
-                    textStorage.addAttribute(.paragraphStyle, value: paragraph, range: range)
-                #endif
-
-                let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
-                if let url = textStorage.attribute(imageKey, at: range.location, effectiveRange: nil) as? URL {
-                    loadImage(attachment: value, url: url, range: range, textStorage: textStorage)
-                }
+            if let result = note.save(attachment: meta) {
+                attachment.saveMetaData(url: result.1, path: result.0, title: meta.title)
+                meta.url = result.1
             }
+
+            loadImage(attachment: attachment, url: meta.url, range: range, textStorage: textStorage)
         }
     }
 
 #if os(OSX)
     public func loadImage(attachment: NSTextAttachment, url: URL, range: NSRange, textStorage: NSTextStorage) {
-        guard let note = editor?.note else { return }
-
         editor?.imagesLoaderQueue.addOperation {
             var image: NSImage?
             var size: NSSize?
 
             if url.isImage {
-                let cgSize = attachment.bounds.size
-                let retinaSize = CGSize(width: cgSize.width * 2, height: cgSize.height * 2)
                 let imageSize = NoteAttachment.getSize(url: url)
                 size = NoteAttachment.getSize(width: imageSize.width, height: imageSize.height)
-                image = NoteAttachment.getImage(url: url, size: retinaSize)
+
+                if let size = size {
+                    let retinaSize = CGSize(width: size.width * 2, height: size.height * 2)
+                    image = NoteAttachment.getImage(url: url, size: retinaSize)
+                }
             } else {
-                let attachment = NoteAttachment(title: "", path: "", url: url, note: note)
+                let attachment = NoteAttachment(title: "", path: "", url: url)
                 let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
                 let text = attachment.getImageText()
                 let width = attachment.getImageWidth(text: text)

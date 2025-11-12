@@ -95,7 +95,6 @@ public class UserDefaultsManagement {
         static let HidePreviewImages = "hidePreviewImages"
         static let iCloudDrive = "iCloudDrive"
         static let ImagesWidthKey = "imagesWidthKey"
-        static let IndentedCodeBlockHighlighting = "IndentedCodeBlockHighlighting"
         static let IndentUsing = "indentUsing"
         static let InlineTags = "inlineTags"
         static let LastCommitMessage = "lastCommitMessage"
@@ -501,18 +500,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.codeBlockHighlight)
-        }
-    }
-
-    static var indentedCodeBlockHighlighting: Bool {
-        get {
-            if let highlight = shared?.object(forKey: Constants.IndentedCodeBlockHighlighting) {
-                return highlight as! Bool
-            }
-            return false
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.IndentedCodeBlockHighlighting)
         }
     }
 

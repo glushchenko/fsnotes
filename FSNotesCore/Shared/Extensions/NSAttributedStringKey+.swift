@@ -9,6 +9,22 @@
 import Foundation
 
 public extension NSAttributedString.Key {
+    static var fsAttachment: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.attachment")
+    }
+
+    static var attachmentUrl: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
+    }
+
+    static var attachmentPath: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+    }
+
+    static var attachmentTitle: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
+    }
+
     static var todo: NSAttributedString.Key {
         return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.todo")
     }

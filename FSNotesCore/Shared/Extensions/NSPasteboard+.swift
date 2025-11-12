@@ -9,15 +9,19 @@
 import Cocoa
 
 extension NSPasteboard {
-    public static var noteType: PasteboardType {
+    public static var note: PasteboardType {
         return NSPasteboard.PasteboardType("es.fsnot.pasteboard.note")
     }
 
-    public static var projectType: PasteboardType {
+    public static var project: PasteboardType {
         return NSPasteboard.PasteboardType("es.fsnot.pasteboard.project")
     }
 
-    public static var attributedTextType: PasteboardType {
-        return NSPasteboard.PasteboardType("es.fsnot.pasteboard.attributedText")
+    public static var rtfd: PasteboardType {
+        return NSPasteboard.PasteboardType("es.fsnot.pasteboard.rtfd")
     }
+
+//    public static var attributed: PasteboardType {
+//        return NSPasteboard.PasteboardType("es.fsnot.pasteboard.attributedText")
+//    }
 }

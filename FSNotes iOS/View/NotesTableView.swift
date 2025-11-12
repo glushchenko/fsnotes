@@ -973,7 +973,7 @@ class NotesTableView: UITableView,
 
             // Clone images
             if note.type == .Markdown && note.container == .none {
-                let images = note.getAllImages()
+                let images = note.content.getImagesAndFiles()
                 for image in images {
                     noteDupe.move(from: image.url, imagePath: image.path, to: note.project, copy: true)
                 }

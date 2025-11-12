@@ -79,7 +79,7 @@ extension EditorViewController {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(web + latinName + "/", forType: .string)
         
-        let images = note.getAllImages()
+        let images = note.content.getImagesAndFiles()
 
         DispatchQueue.global().async {
             do {

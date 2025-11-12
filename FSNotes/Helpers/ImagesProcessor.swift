@@ -9,7 +9,9 @@
 import Foundation
 
 public class ImagesProcessor {
-    
+
+
+
     public static func getFileName(from: URL? = nil, to: URL, ext: String? = nil) -> String? {
         let path = from?.absoluteString ?? to.absoluteString
         var name: String?

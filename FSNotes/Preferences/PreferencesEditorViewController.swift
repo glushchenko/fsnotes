@@ -13,7 +13,6 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var codeFontPreview: NSTextField!
     @IBOutlet weak var noteFontPreview: NSTextField!
     @IBOutlet weak var codeBlockHighlight: NSButton!
-    @IBOutlet weak var highlightIndentedCodeBlocks: NSButton!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
     @IBOutlet weak var indentUsing: NSPopUpButton!
     @IBOutlet weak var inEditorFocus: NSButton!
@@ -34,8 +33,6 @@ class PreferencesEditorViewController: NSViewController {
         self.view.window!.title = NSLocalizedString("Settings", comment: "")
 
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
-
-        highlightIndentedCodeBlocks.state = UserDefaultsManagement.indentedCodeBlockHighlighting ? NSControl.StateValue.on : NSControl.StateValue.off
 
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
         indentUsing.selectItem(at: UserDefaultsManagement.indentUsing)
@@ -204,19 +201,6 @@ class PreferencesEditorViewController: NSViewController {
         }
 
         vc.sidebarOutlineView.reloadSidebar()
-    }
-
-    @IBAction func highlightIndentedCodeBlocks(_ sender: NSButton) {
-        UserDefaultsManagement.indentedCodeBlockHighlighting = (sender.state == NSControl.StateValue.on)
-
-        Storage.shared().resetCacheAttributes()
-        
-        let editors = AppDelegate.getEditTextViews()
-        for editor in editors {
-            if let evc = editor.editorViewController {
-                evc.refillEditArea()
-            }
-        }
     }
     
     @IBAction func highlightLinks(_ sender: NSButton) {

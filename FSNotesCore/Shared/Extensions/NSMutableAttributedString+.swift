@@ -7,41 +7,34 @@
 //
 
 import Foundation
-
-#if os(iOS)
-import UIKit
-#else
-import Cocoa
-#endif
+import AppKit
 
 extension NSMutableAttributedString {
+
+    convenience init(url: URL, title: String = "", path: String) {
+        let attachment = NSTextAttachment(url: url, path: path, title: title)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = url.isImage ? .center : .left
+
+        let attributedAttachment = NSMutableAttributedString(attachment: attachment)
+        attributedAttachment.addAttributes([.paragraphStyle: paragraphStyle], range: NSRange(location: 0, length: 1))
+
+        self.init(attributedString: attributedAttachment)
+    }
+
     public func unloadImagesAndFiles() -> NSMutableAttributedString {
         let result = NSMutableAttributedString(attributedString: self)
         var offset = 0
 
-        let fullRange = NSRange(location: 0, length: length)
-        let pathKey = NSAttributedString.Key("co.fluder.fsnotes.image.path")
-        let titleKey = NSAttributedString.Key("co.fluder.fsnotes.image.title")
-
+        let fullRange = NSRange(location: 0, length: result.length)
         enumerateAttribute(.attachment, in: fullRange) { value, range, _ in
-            guard
-                value as? NSTextAttachment != nil,
-                self.attribute(.todo, at: range.location, effectiveRange: nil) == nil
-            else {
-                return
-            }
+            guard let value = value as? NSTextAttachment,
+                  let meta = value.getMeta() else { return }
 
-            guard
-                let filePath = self.attribute(pathKey, at: range.location, effectiveRange: nil) as? String,
-                !filePath.isEmpty,
-                let encodedPath = filePath.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            else {
-                return
-            }
+            let path = meta.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? meta.path
 
-            let title = (self.attribute(titleKey, at: range.location, effectiveRange: nil) as? String) ?? ""
-            let replacement = "![\(title)](\(encodedPath))"
-
+            let replacement = "![\(meta.title)](\(path))"
             let adjustedRange = NSRange(location: range.location + offset, length: range.length)
 
             result.removeAttribute(.attachment, range: adjustedRange)
@@ -54,51 +47,47 @@ extension NSMutableAttributedString {
     }
 
     public func loadImagesAndFiles(note: Note) {
-        let paragraphRange = NSRange(0..<length)
+        let fullRange = NSRange(location: 0, length: length)
         var offset = 0
 
-        var images = [URL]()
-        var attachemnts = [URL]()
+        var images: [URL] = []
+        var attachments: [URL] = []
 
-        FSParser.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard var range = result?.range else { return }
+        FSParser.imageInlineRegex.matches(string, range: fullRange) { result in
+            guard let result = result else { return }
 
-            range = NSRange(location: range.location - offset, length: range.length)
-            let mdLink = self.attributedSubstring(from: range).string
+            var range = result.range
+            range.location -= offset
 
-            var path = String()
-            var title = String()
+            let title = result.optionalRange(at: 2).flatMap {
+                self.mutableString.substring(with: NSRange(location: $0.location - offset, length: $0.length))
+            } ?? ""
 
-            if let titleRange = result?.range(at: 2) {
-                title = self.mutableString.substring(with: NSRange(location: titleRange.location - offset, length: titleRange.length))
-            }
+            let path = result.optionalRange(at: 3).flatMap {
+                self.mutableString.substring(with: NSRange(location: $0.location - offset, length: $0.length))
+            } ?? ""
 
-            if let linkRange = result?.range(at: 3) {
-                path = self.mutableString.substring(with: NSRange(location: linkRange.location - offset, length: linkRange.length))
-            }
-
-            guard let cleanPath = path.removingPercentEncoding,
-                  let imageURL = note.getImageUrl(imageName: cleanPath)
+            guard
+                let cleanPath = path.removingPercentEncoding,
+                let fileURL = note.getAttachmentFileUrl(name: cleanPath)
             else { return }
 
-            if imageURL.isRemote() {
-                //
-            } else if FileManager.default.fileExists(atPath: imageURL.path), imageURL.isImage || imageURL.isVideo {
-                images.append(imageURL)
+            if fileURL.isRemote() {
+                //skip
+            } else if FileManager.default.fileExists(atPath: fileURL.path),
+                      fileURL.isImage || fileURL.isVideo {
+                images.append(fileURL)
             } else {
-                attachemnts.append(imageURL)
+                attachments.append(fileURL)
             }
 
-            let imageAttachment = NoteAttachment(title: title, path: cleanPath, url: imageURL, note: note)
-
-            if let attributedStringWithImage = imageAttachment.getAttributedString() {
-                offset += mdLink.count - 1
-                self.replaceCharacters(in: range, with: attributedStringWithImage)
-            }
+            let attributedAttachment = NSMutableAttributedString(url: fileURL, title: title, path: cleanPath)
+            self.replaceCharacters(in: range, with: attributedAttachment)
+            offset += range.length - 1
         }
 
         note.imageUrl = images
-        note.attachments = attachemnts
+        note.attachments = attachments
     }
 
     public func unloadTasks() -> NSMutableAttributedString {
@@ -164,69 +153,37 @@ extension NSMutableAttributedString {
     }
 
     public func replaceTag(name: String, with replaceString: String) {
-        var scanRange = NSRange(location: 0, length: mutableString.length)
-        while true {
-            let searchRange = mutableString.range(of: name, options: .caseInsensitive, range: scanRange)
-            if searchRange.upperBound > mutableString.length {
-                break
-            }
+        let escapedName = NSRegularExpression.escapedPattern(for: name)
+        let pattern = "(?<=^|\\s)\(escapedName)(?=$|\\s|/)"
 
-            var location = searchRange.location
-            var prepend = 0
-
-            if searchRange.location > 0 {
-                prepend = 1
-                location -= 1
-            }
-
-            var length = searchRange.length + prepend
-            var append = 0
-
-            if searchRange.location + searchRange.length < mutableString.length {
-                append = 1
-                length += 1
-            }
-
-            let correctedRange = NSRange(location: location, length: length)
-            let result = mutableString.substring(with: correctedRange)
-
-            var replaceRange = searchRange
-
-            // drop string
-            if replaceString.count == 0 {
-                // space OR new line OR start position
-                if [" ", "\t", "\n"].contains(result.first) || prepend == 0 {
-                    if replaceString.count == 0 {
-                        if result.last == "/" {
-                            let scanLength = mutableString.length - searchRange.upperBound
-                            scanRange = NSRange(location: searchRange.upperBound, length: scanLength)
-
-                            continue
-                        }
-
-                        if [" ", "\n"].contains(result.last) {
-                            replaceRange = NSRange(location: searchRange.location, length: searchRange.length + 1)
-                        }
-                    }
-                }
-
-                // just replace
-                mutableString.replaceCharacters(in: replaceRange, with: replaceString)
-            } else {
-
-                // replace only if no tag chars
-                if ["/", " ", "\t", "\n"].contains(result.last) || append == 0 {
-                    mutableString.replaceCharacters(in: replaceRange, with: replaceString)
-                }
-            }
-
-            let scanLength = mutableString.length - (searchRange.location + append + replaceString.count)
-            if  scanLength <= 0 {
-                break
-            }
-
-            scanRange = NSRange(location: searchRange.location + replaceString.count + append, length: scanLength)
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]) else {
+            return
         }
+
+        let fullRange = NSRange(location: 0, length: mutableString.length)
+        let matches = regex.matches(in: mutableString as String, options: [], range: fullRange)
+
+        for match in matches.reversed() {
+            if replaceString.isEmpty {
+                mutableString.replaceCharacters(in: match.range, with: "")
+            } else {
+                mutableString.replaceCharacters(in: match.range, with: replaceString)
+            }
+        }
+    }
+
+    public func getImagesAndFiles() -> [Attachment] {
+        var res = [Attachment]()
+
+        let fullRange = NSRange(location: 0, length: length)
+        enumerateAttribute(.attachment, in: fullRange) { value, _, _ in
+            guard let attachment = value as? NSTextAttachment,
+                  let meta = attachment.getMeta() else { return }
+
+            res.append(meta)
+        }
+
+        return res
     }
 
     func safeAddAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) {
@@ -236,5 +193,19 @@ extension NSMutableAttributedString {
         let safeLength = min(range.length, length - range.location)
         let safeRange = NSRange(location: range.location, length: safeLength)
         addAttribute(name, value: value, range: safeRange)
+    }
+
+    public static func buildFromRtfd(data: Data) -> NSMutableAttributedString? {
+        let options = [
+            NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
+        ] as [NSAttributedString.DocumentReadingOptionKey : Any]
+
+        if let attributed = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil) {
+            attributed.loadTasks()
+
+            return attributed
+        }
+
+        return nil
     }
 }

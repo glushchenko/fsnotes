@@ -62,8 +62,8 @@ class SidebarOutlineView: NSOutlineView,
         dataSource = self
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String),
-            NSPasteboard.noteType,
-            NSPasteboard.projectType
+            NSPasteboard.note,
+            NSPasteboard.project
         ])
         super.draw(dirtyRect)
     }
@@ -343,7 +343,7 @@ class SidebarOutlineView: NSOutlineView,
         guard let sidebarItems = self.sidebarItems else { return false }
         
         // Drag and drop project (reorder)
-        if let data = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
+        if let data = info.draggingPasteboard.string(forType: NSPasteboard.project) {
             let url = URL(fileURLWithPath: data)
             
             guard let project = Storage.shared().getProjectBy(url: url) else { return false }
@@ -405,7 +405,7 @@ class SidebarOutlineView: NSOutlineView,
         let board = info.draggingPasteboard
 
         var urls = [URL]()
-        if let data = info.draggingPasteboard.data(forType: NSPasteboard.noteType),
+        if let data = info.draggingPasteboard.data(forType: NSPasteboard.note),
            let unarchivedData = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] {
             urls = unarchivedData
         }
@@ -501,13 +501,13 @@ class SidebarOutlineView: NSOutlineView,
         guard let project = item as? Project, getSidebarTags() == nil else { return nil }
 
         let item = NSPasteboardItem()
-        item.setString(project.url.path, forType: NSPasteboard.projectType)
+        item.setString(project.url.path, forType: NSPasteboard.project)
 
         return item
     }
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
-        if let archivedData = info.draggingPasteboard.string(forType: NSPasteboard.projectType) {
+        if let archivedData = info.draggingPasteboard.string(forType: NSPasteboard.project) {
             let url = URL(fileURLWithPath: archivedData)
             
             guard let project = Storage.shared().getProjectBy(url: url) else {
@@ -527,7 +527,7 @@ class SidebarOutlineView: NSOutlineView,
         var isLocalNote = false
         var urls = [URL]()
 
-        if let archivedData = info.draggingPasteboard.data(forType: NSPasteboard.noteType),
+        if let archivedData = info.draggingPasteboard.data(forType: NSPasteboard.note),
            let urlsUnarchived = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: archivedData) as? [URL] {
             urls = urlsUnarchived
 

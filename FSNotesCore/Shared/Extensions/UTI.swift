@@ -19,10 +19,6 @@ public extension String {
         return tag(withClass: kUTTagClassMIMEType)
     }
 
-    var utiFileExtension: String? {
-        return tag(withClass: kUTTagClassFilenameExtension)
-    }
-
     var mimeTypeUTI: String? {
         return uti(withClass: kUTTagClassMIMEType)
     }

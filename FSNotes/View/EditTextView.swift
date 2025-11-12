@@ -204,8 +204,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     // MARK: Menu
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let note = self.note else { return false }
-
         menuItem.isHidden = false
 
         if menuItem.menu?.identifier?.rawValue == "editMenu" {
@@ -289,16 +287,34 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         super.toggleAutomaticDashSubstitution(sender)
     }
 
+    private var dragDetected = false
+
     override func mouseDown(with event: NSEvent) {
-        
-        guard let note = self.note, note.type == .Markdown else { return super.mouseDown(with: event) }
+        guard let note = self.note else { return }
         guard note.container != .encryptedTextPack else {
             editorViewController?.unLock(notes: [note])
             editorViewController?.vcNonSelectedLabel?.isHidden = false
             return
         }
-        
-        guard let container = self.textContainer, let manager = self.layoutManager else { return super.mouseDown(with: event) }
+
+        if editorViewController?.vcEditor?.isPreviewEnabled() == false {
+            self.isEditable = true
+        }
+
+        dragDetected = false
+        saveSelectedRange()
+        super.mouseDown(with: event)
+
+        if !self.dragDetected {
+            self.handleClick(event)
+            self.dragDetected = false
+        }
+    }
+
+    private func handleClick(_ event: NSEvent) {
+        guard let container = self.textContainer,
+              let manager = self.layoutManager
+        else { return }
 
         let point = self.convert(event.locationInWindow, from: nil)
         let properPoint = NSPoint(x: point.x - textContainerInset.width, y: point.y)
@@ -307,8 +323,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
 
-        if glyphRect.contains(properPoint), isTodo(index) {
-            guard let f = self.getTextFormatter() else { return super.mouseDown(with: event) }
+        guard glyphRect.contains(properPoint) else { return }
+
+        if isTodo(index) {
+            guard let f = self.getTextFormatter() else {
+                return
+            }
+
             f.toggleTodo(index)
 
             NSApp.mainWindow?.makeFirstResponder(nil)
@@ -316,18 +337,63 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             DispatchQueue.main.async {
                 NSCursor.pointingHand.set()
             }
-            
+
             return
         }
-        
-        super.mouseDown(with: event)
-        saveSelectedRange()
-        
-        if editorViewController?.vcEditor?.isPreviewEnabled() == false {
-            self.isEditable = true
+
+        if hasAttachment(at: index) {
+            if event.modifierFlags.contains(.command) {
+                openTitleEditor(at: index)
+            } else {
+                openFileViewer(at: index)
+            }
+
+            return
         }
     }
-    
+
+    private func openTitleEditor(at: Int) {
+        guard let vc = editorViewController,
+              let window = vc.view.window,
+              var attachment = getAttachment(at: at) else { return }
+
+        vc.alert = NSAlert()
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+        field.placeholderString = "All Hail the Crimson King"
+        field.stringValue = attachment.title
+
+        vc.alert?.messageText = NSLocalizedString("Please enter image title:", comment: "Edit area")
+        vc.alert?.accessoryView = field
+        vc.alert?.alertStyle = .informational
+        vc.alert?.addButton(withTitle: "OK")
+        vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                attachment.title = field.stringValue
+
+                if let nsTextAttachment = self.getNsTextAttachment(at: at) {
+                    nsTextAttachment.configure(attachment: attachment)
+                    
+                    _ = self.note?.save()
+                }
+            }
+            vc.alert = nil
+        }
+
+        field.becomeFirstResponder()
+    }
+
+    private func openFileViewer(at: Int) {
+        guard let attachment = getAttachment(at: at) else { return }
+        let url = attachment.url
+
+        if !url.isImage {
+            NSWorkspace.shared.activateFileViewerSelecting([url])
+            return
+        }
+
+        NSWorkspace.shared.open(url)
+    }
+
     override func mouseMoved(with event: NSEvent) {
         if editorViewController?.vcNonSelectedLabel?.isHidden == false {
             NSCursor.arrow.set()
@@ -383,7 +449,34 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         super.mouseMoved(with: event)
     }
-    
+
+    public func getNsTextAttachment(at: Int) -> NSTextAttachment? {
+        return textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment
+    }
+
+    public func hasAttachment(at: Int) -> Bool {
+        guard let attachment = textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment else {
+            return false
+        }
+
+        return attachment.getMeta() != nil
+    }
+
+    public func getAttachment(at: Int) -> Attachment? {
+        if let attachment = textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment,
+           let meta = attachment.getMeta() {
+            return meta
+        }
+
+        return nil
+    }
+
+    public func setAttachment(at: Int, attachment: Attachment) {
+        guard let textAttachment = textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment else { return }
+
+        textAttachment.configure(attachment: attachment)
+    }
+
     public func isTodo(_ location: Int) -> Bool {
         guard let storage = self.textStorage else { return false }
         
@@ -652,56 +745,24 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
-            return
-                [NSPasteboard.PasteboardType.rtfd, NSPasteboard.PasteboardType.string, NSPasteboard.attributedTextType]
+            return [
+                NSPasteboard.rtfd,
+                NSPasteboard.PasteboardType.string,
+            ]
         }
     }
 
     override var readablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
-            return super.readablePasteboardTypes + [NSPasteboard.attributedTextType]
+            return super.readablePasteboardTypes + [NSPasteboard.rtfd]
         }
-    }
-
-    override func readSelection(from pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
-        if let note = self.note, var data = pboard.data(forType: type) {
-            if type == .tiff || type == .png {
-                let image = NSImage(data: data)
-                
-                if let imageData = image?.jpgData {
-                    data = imageData
-                    
-                    saveClipboard(data: data, note: note, ext: "jpg")
-                    self.save()
-
-                    if let container = textContainer {
-                        textStorage?.sizeAttachmentImages(container: container)
-                    }
-                    
-                    return true
-                }
-                
-                return false
-            }
-            
-            if data.isPDF {
-                saveClipboard(data: data, note: note, ext: "pdf")
-                self.save()
-
-                if let container = textContainer {
-                    textStorage?.sizeAttachmentImages(container: container)
-                }
-                
-                return true
-            }
-        }
-
-        return super.readSelection(from: pboard, type: type)
     }
 
     override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
         guard let storage = textStorage else { return false }
 
+        dragDetected = true
+        
         let range = selectedRange()
         let attributedString = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: range))
 
@@ -711,45 +772,30 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return true
         }
 
-        if type == NSPasteboard.attributedTextType {
-            let richString = attributedString.unloadTasks()
+        if type == NSPasteboard.rtfd {
+            let range = NSMakeRange(0, attributedString.length)
 
-            let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
-            let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+            attributedString.enumerateAttribute(.attachment, in: range, options: .reverse, using:  {(value: Any?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
 
-            richString.enumerateAttribute(.attachment, in: NSMakeRange(0,(richString.length)), options: .reverse, using:  {(_ value: Any?, _ range: NSRange, _ stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+                guard let value = value as? NSTextAttachment,
+                      let meta = value.getMeta(),
+                      let data = try? Data(contentsOf: meta.url)
+                else { return }
 
-                guard let textAttachment = value as? NSTextAttachment,
-                      let url = richString.attribute(imageKey, at: range.location, effectiveRange: nil) as? URL,
-                      let image = try? Data(contentsOf: url) else { return }
+                let preferredName = meta.url.lastPathComponent
+                let title = meta.title
 
-                richString.removeAttribute(pathKey, range: range)
-                richString.removeAttribute(imageKey, range: range)
-
-                let imageWrapper = FileWrapper(regularFileWithContents: image)
-                let fileExtension = ImageFormat.get(from: image).rawValue
-
-                imageWrapper.preferredFilename = "\(UUID()).\(fileExtension)"
-                textAttachment.fileWrapper = imageWrapper
+                let rtfdAttachment = NSTextAttachment()
+                rtfdAttachment.saveMetaData(data: data, preferredName: preferredName, title: title)
+                attributedString.addAttribute(.attachment, value: rtfdAttachment, range: range)
             })
 
-            if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
-                pboard.setData(rtfd, forType: NSPasteboard.attributedTextType)
-
-                return super.writeSelection(to: pboard, type: type)
-            }
-        }
-
-        if type == .rtfd {
             let richString = attributedString.unloadTasks()
             if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
-                pboard.setData(rtfd, forType: NSPasteboard.PasteboardType.rtfd)
+                pboard.setData(rtfd, forType: NSPasteboard.rtfd)
+
                 return true
             }
-        }
-
-        if type.rawValue == "NSStringPboardType" {
-            return super.writeSelection(to: pboard, type: type)
         }
 
         return false
@@ -801,71 +847,62 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func paste(_ sender: Any?) {
         guard let note = self.note else { return }
 
-        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.attributedTextType) {
-            let options = [
-                NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
-            ] as [NSAttributedString.DocumentReadingOptionKey : Any]
+        // RTFD
+        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.rtfd),
+           let attributedString = NSMutableAttributedString.buildFromRtfd(data: rtfd) {
 
-            let attributedString = try? NSMutableAttributedString(data: rtfd, options: options, documentAttributes: nil)
+            breakUndoCoalescing()
+            insertText(attributedString, replacementRange: selectedRange())
+            breakUndoCoalescing()
 
-            attributedString?.loadTasks()
+            return
+        }
 
-            if let attributedString = attributedString {
-                let currentRange = selectedRange()
+        // Plain text
+        if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string),
+            NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
 
-                insertText(attributedString, replacementRange: currentRange)
-                breakUndoCoalescing()
+            let attributed = NSMutableAttributedString(string: clipboard)
+            attributed.loadTasks()
 
-                guard let container = textContainer else { return }
-                textStorage?.sizeAttachmentImages(container: container)
+            breakUndoCoalescing()
+            insertText(attributed, replacementRange: selectedRange())
+            breakUndoCoalescing()
 
-                saveImages()
-                self.save()
+            return
+        }
 
+        if let url = NSURL(from: NSPasteboard.general) {
+            if url.isFileURL && saveFile(url: url as URL, in: note) {
                 return
             }
         }
 
-        if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string),
-            NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
-            let attributed = NSMutableAttributedString(string: clipboard)
-            attributed.loadTasks()
+        // Images png or tiff
+        for type in [NSPasteboard.PasteboardType.png, .tiff] {
+            if let data = NSPasteboard.general.data(forType: type) {
+                let attachment = NSTextAttachment()
+                attachment.saveMetaData(data: data)
 
-            let currentRange = selectedRange()
+                let attributed = NSMutableAttributedString(attachment: attachment)
 
-            self.breakUndoCoalescing()
-            self.insertText(attributed, replacementRange: currentRange)
-            self.breakUndoCoalescing()
-
-            self.save()
-            return
-        }
-
-        if pasteImageFromClipboard(in: note) {
-            return
+                breakUndoCoalescing()
+                insertText(attributed, replacementRange: selectedRange())
+                breakUndoCoalescing()
+                
+                return
+            }
         }
 
         super.paste(sender)
     }
 
     override func pasteAsPlainText(_ sender: Any?) {
-        guard let note = self.note else { return }
-
-        guard note.isMarkdown() else {
-            super.pasteAsPlainText(sender)
-            return
-        }
-
         let currentRange = selectedRange()
         var plainText: String?
 
-        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.attributedTextType) {
-            let options = [
-                NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
-            ] as [NSAttributedString.DocumentReadingOptionKey : Any]
-
-            let attributedString = try? NSMutableAttributedString(data: rtfd, options: options, documentAttributes: nil)
-            attributedString?.loadTasks()
+        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.rtfd) {
+            let attributedString = NSMutableAttributedString.buildFromRtfd(data: rtfd)
 
             if let attributedString = attributedString {
                 plainText = attributedString.unloadAttachments().string
@@ -881,7 +918,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             self.insertText(plainText, replacementRange: currentRange)
             self.breakUndoCoalescing()
 
-            self.save()
             return
         }
 
@@ -904,31 +940,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         super.cut(sender)
-    }
-
-    public func saveImages() {
-        guard let storage = textStorage else { return }
-
-        storage.enumerateAttribute(.attachment, in: NSRange(location: 0, length: storage.length)) { (value, range, _) in
-
-            guard let textAttachment = value as? NSTextAttachment,
-                storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil else {
-                return
-            }
-
-            let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-
-            if (storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String) != nil {
-                return
-            }
-
-            if let note = self.note,
-                let imageData = textAttachment.fileWrapper?.regularFileContents,
-                let path = ImagesProcessor.writeFile(data: imageData, note: note) {
-
-                storage.addAttribute(filePathKey, value: path, range: range)
-            }
-        }
     }
 
     func getSelectedNote() -> Note? {
@@ -983,7 +994,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         unregisterDraggedTypes()
         registerForDraggedTypes([
-            NSPasteboard.noteType,
+            NSPasteboard.note,
             NSPasteboard.PasteboardType.fileURL,
             NSPasteboard.PasteboardType.URL,
             NSPasteboard.PasteboardType.string
@@ -1470,19 +1481,17 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         tagsTimer?.invalidate()
         tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
 
-        if note.isMarkdown() {
-            deleteUnusedImages(checkRange: affectedCharRange)
+        deleteUnusedImages(checkRange: affectedCharRange)
 
-            typingAttributes.removeValue(forKey: .todo)
-            typingAttributes.removeValue(forKey: .tag)
+        typingAttributes.removeValue(forKey: .todo)
+        typingAttributes.removeValue(forKey: .tag)
 
-            if let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
-                paragraphStyle.alignment = .left
-            }
+        if let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
+            paragraphStyle.alignment = .left
+        }
 
-            if textStorage?.length == 0 {
-                typingAttributes[.foregroundColor] = UserDataService.instance.isDark ? NSColor.white : NSColor.black
-            }
+        if textStorage?.length == 0 {
+            typingAttributes[.foregroundColor] = UserDataService.instance.isDark ? NSColor.white : NSColor.black
         }
 
         return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
@@ -1597,136 +1606,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        let board = sender.draggingPasteboard
-        let range = selectedRange
+        guard let note = self.note, let storage = textStorage else { return false }
+        
+        let pasteboard = sender.draggingPasteboard
         let dropPoint = convert(sender.draggingLocation, from: nil)
         let caretLocation = characterIndexForInsertion(at: dropPoint)
-        var replacementRange = NSRange(location: caretLocation, length: 0)
+        let replacementRange = NSRange(location: caretLocation, length: 0)
 
-        guard let note = self.note, let storage = textStorage else { return false }
-
-        if let data = board.data(forType: .rtfd),
-            let text = NSAttributedString(rtfd: data, documentAttributes: nil),
-            text.length > 0,
-            range.length > 0
-        {
-            insertText("", replacementRange: range)
-
-            let dropPoint = convert(sender.draggingLocation, from: nil)
-            let caretLocation = characterIndexForInsertion(at: dropPoint)
-
-            let mutable = NSMutableAttributedString(attributedString: text)
-            mutable.loadTasks()
-
-            insertText(mutable, replacementRange: NSRange(location: caretLocation, length: 0))
-
-            guard let container = textContainer else { return false }
-            storage.sizeAttachmentImages(container: container)
-
-            DispatchQueue.main.async {
-                self.setSelectedRange(NSRange(location: caretLocation, length: mutable.length))
-            }
-            
-            return true
-        }
-
-        if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "attributedText")), 
-            let attributedText = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSMutableAttributedString.self, from: data) {
-
-            let dropPoint = convert(sender.draggingLocation, from: nil)
-            let caretLocation = characterIndexForInsertion(at: dropPoint)
-            
-            let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-            let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
-            let positionKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.position")
-            
-            guard
-                let path = attributedText.attribute(filePathKey, at: 0, effectiveRange: nil) as? String,
-                let title = attributedText.attribute(titleKey, at: 0, effectiveRange: nil) as? String,
-                let position = attributedText.attribute(positionKey, at: 0, effectiveRange: nil) as? Int else { return false }
-            
-            guard let imageUrl = note.getImageUrl(imageName: path) else { return false }
-
-            let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
-            let attachment = NoteAttachment(title: title, path: path, url: imageUrl)
-
-            guard let attachmentText = attachment.getAttributedString() else { return false }
-            guard locationDiff < storage.length else { return false }
-            
-            textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
-            textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attachmentText)
-
-            note.save(attributed: attributedString())
-
-            setSelectedRange(NSRange(location: caretLocation, length: 0))
-
-            return true
-        }
-
-        if let archivedData = board.data(forType: NSPasteboard.noteType),
-           let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: archivedData) as? [URL],
-           let url = urls.first,
-           let draggableNote = Storage.shared().getBy(url: url) {
-
-            let title = "[[" + draggableNote.title + "]]"
-            NSApp.mainWindow?.makeFirstResponder(self)
-
-            DispatchQueue.main.async {
-                self.insertText(title, replacementRange: replacementRange)
-                self.setSelectedRange(NSRange(location: caretLocation + title.count, length: 0))
-
-                self.save()
-            }
-
-            return true
-        }
-        
-        if let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
-            urls.count > 0 {
-
-            note.save(attributed: attributedString())
-
-            for (index, url) in urls.enumerated() {
-                fetchDataFromURL(url: url) { (data, error) in
-                    if let error = error {
-                        print("Error fetching data: \(error.localizedDescription)")
-                        return
-                    }
-
-                    guard let data = data else { return }
-
-                    DispatchQueue.main.async {
-                        if url.absoluteString.startsWith(string: "https://") || url.absoluteString.startsWith(string: "http://") {
-                            let title = self.getHTMLTitle(from: data) ?? ""
-                            self.insertText("[\(title)](\(url.absoluteString))", replacementRange: replacementRange)
-                            return
-                        }
-
-                        guard let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note) else { return }
-
-                        let cleanPath = filePath.removingPercentEncoding ?? filePath
-                        guard let url = note.getImageUrl(imageName: cleanPath) else { return }
-                        let attachment = NoteAttachment(title: "", path: cleanPath, url: url, note: note)
-
-                        let newLine = urls.count > 0 && index != urls.count - 1
-                        if let string = attachment.getAttributedString(newLine: newLine) {
-                            self.insertText(string, replacementRange: replacementRange)
-                            replacementRange = NSRange(location: replacementRange.location + string.length, length: 0)
-                            self.setSelectedRange(replacementRange)
-                        }
-
-//                        if let storage = self.textStorage {
-//                            NotesTextProcessor.highlightMarkdown(attributedString: storage)
-//                            self.save()
-//                        }
-
-                        self.viewDelegate?.notesTableView.reloadRow(note: note)
-                    }
-                }
-            }
-
-            return true
-        }
+        if handleAttributedText(pasteboard, note: note, storage: storage, replacementRange: replacementRange) { return true }
+        if handleNoteReference(pasteboard, note: note, replacementRange: replacementRange) { return true }
+        if handleURLs(pasteboard, note: note, replacementRange: replacementRange) { return true }
 
         return super.performDragOperation(sender)
     }
@@ -1953,7 +1842,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        if sender.draggingPasteboard.data(forType: NSPasteboard.noteType) != nil {
+        if sender.draggingPasteboard.data(forType: NSPasteboard.note) != nil {
             let dropPoint = convert(sender.draggingLocation, from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
             setSelectedRange(NSRange(location: caretLocation, length: 0))
@@ -1961,30 +1850,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         return super.draggingUpdated(sender)
-    }
-
-    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        if sender.draggingPasteboard.data(forType: NSPasteboard.noteType) != nil {
-            NSApp.mainWindow?.makeFirstResponder(self)
-            return .copy
-        }
-
-        guard let selected = attributedSubstring(forProposedRange: selectedRange(), actualRange: nil) else { return .generic }
-        
-        let attributedString = NSMutableAttributedString(attributedString: selected)
-        let positionKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.position")
-        attributedString.addAttribute(positionKey, value: selectedRange().location, range: NSRange(0..<1))
-        
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: attributedString, requiringSecureCoding: true)
-            let type = NSPasteboard.PasteboardType.init(rawValue: "attributedText")
-            let board = sender.draggingPasteboard
-            board.setData(data, forType: type)
-        } catch {
-            print("Failed to archive attributed string: \(error)")
-        }
-
-        return .copy
     }
 
     override func clicked(onLink link: Any, at charIndex: Int) {
@@ -2040,56 +1905,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             super.clicked(onLink: link, at: charIndex)
             return
         }
-        
-        let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
-        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-
-        if let event = NSApp.currentEvent,
-            !event.modifierFlags.contains(.command),
-            let note = self.note,
-            let path = (char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String)?.removingPercentEncoding,
-            let url = note.getImageUrl(imageName: path) {
-
-            if !url.isImage {
-                NSWorkspace.shared.activateFileViewerSelecting([url])
-                return
-            }
-
-            let isOpened = NSWorkspace.shared.openFile(url.path, withApplication: "Preview", andDeactivate: true)
-
-            if isOpened { return }
-
-            let url = URL(fileURLWithPath: url.path)
-            NSWorkspace.shared.open(url)
-            return
-        }
-
-        guard let vc = editorViewController, let window = vc.view.window else { return }
-
-        vc.alert = NSAlert()
-        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-        field.placeholderString = "All Hail the Crimson King"
-        
-        if let title = char?.attribute(titleKey, at: 0, effectiveRange: nil) as? String {
-            field.stringValue = title
-        }
-        
-        vc.alert?.messageText = NSLocalizedString("Please enter image title:", comment: "Edit area")
-        vc.alert?.accessoryView = field
-        vc.alert?.alertStyle = .informational
-        vc.alert?.addButton(withTitle: "OK")
-        vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                self.textStorage?.addAttribute(titleKey, value: field.stringValue, range: range)
-                
-                self.save()
-            }
-            
-            
-            vc.alert = nil
-        }
-        
-        field.becomeFirstResponder()
     }
 
     override func viewDidChangeEffectiveAppearance() {
@@ -2115,87 +1930,22 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         viewDelegate?.refillEditArea(force: true)
     }
 
-    private func pasteImageFromClipboard(in note: Note) -> Bool {
-        if let url = NSURL(from: NSPasteboard.general) {
-            if !url.isFileURL {
-                return false
-            }
-
-            return saveFile(url: url as URL, in: note)
-        }
-
-        if NSPasteboard.general.data(forType: .png) != nil ||
-            NSPasteboard.general.data(forType: .tiff) != nil {
-
-            var ext = "png"
-            var data = NSPasteboard.general.data(forType: .png)
-
-            if data == nil {
-                data = NSPasteboard.general.data(forType: .tiff)
-                ext = "jpg"
-            }
-
-            if let data = data {
-                saveClipboard(data: data, note: note, ext: ext)
-            }
-
-            self.save()
-
-            if let container = textContainer {
-                textStorage?.sizeAttachmentImages(container: container)
-            }
-
-            return true
-        }
-
-        return false
-    }
-
     private func saveFile(url: URL, in note: Note) -> Bool {
         if let data = try? Data(contentsOf: url) {
-            var ext: String?
+            let attachment = NSTextAttachment()
+            let preferredName = url.lastPathComponent
+            attachment.saveMetaData(data: data, preferredName: preferredName)
 
-            if let _ = NSImage(data: data) {
-                ext = "jpg"
-                if let source = CGImageSourceCreateWithData(data as CFData, nil) {
-                    let uti = CGImageSourceGetType(source)
+            let attributed = NSMutableAttributedString(attachment: attachment)
 
-                    if let fileExtension = (uti as String?)?.utiFileExtension {
-                        ext = fileExtension
-                    }
-                }
-            }
-
-            saveClipboard(data: data, note: note, ext: ext, url: url)
-            self.save()
-
-            if let container = textContainer {
-                textStorage?.sizeAttachmentImages(container: container)
-            }
+            breakUndoCoalescing()
+            insertText(attributed, replacementRange: selectedRange())
+            breakUndoCoalescing()
 
             return true
         }
 
         return false
-    }
-
-    private func saveClipboard(data: Data, note: Note, ext: String? = nil, url: URL? = nil) {
-        if let path = ImagesProcessor.writeFile(data: data, url: url, note: note, ext: ext) {
-            guard let path = path.removingPercentEncoding else { return }
-            
-            if let imageUrl = note.getImageUrl(imageName: path) {
-                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, note: note)
-
-                if let attributedString = attachment.getAttributedString() {
-                    let newLineImage = NSMutableAttributedString(attributedString: attributedString)
-
-                    self.breakUndoCoalescing()
-                    self.insertText(newLineImage, replacementRange: selectedRange())
-                    self.breakUndoCoalescing()
-                    return
-                }
-            }
-        }
     }
 
     public func updateTextContainerInset() {
@@ -2225,26 +1975,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         var removedImages = [URL: URL]()
 
         storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
-            if let _ = value as? NSTextAttachment, storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+            guard let attachment = value as? NSTextAttachment,
+            let meta = attachment.getMeta() else { return }
 
-                let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+            do {
+                guard let resultingItemUrl = Storage.shared().trashItem(url: meta.url) else { return }
 
-                if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
-
-                    if let note = self.note {
-                        guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
-
-                        do {
-                            guard let resultingItemUrl = Storage.shared().trashItem(url: imageURL) else { return }
-
-                            try FileManager.default.moveItem(at: imageURL, to: resultingItemUrl)
-
-                            removedImages[resultingItemUrl] = imageURL
-                        } catch {
-                            print(error)
-                        }
-                    }
-                }
+                try FileManager.default.moveItem(at: meta.url, to: resultingItemUrl)
+                removedImages[resultingItemUrl] = meta.url
+            } catch {
+                print(error)
             }
         }
 

@@ -46,7 +46,7 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
         imageScrollView.addGestureRecognizer(tapGesture)
 
         var urls = [URL]()
-        if let result = note?.getAllImages() {
+        if let result = note?.content.getImagesAndFiles() {
             for item in result {
                 urls.append(item.url)
             }

@@ -190,7 +190,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 #endif
 
                 if let editor = editor {
-                    let attachment = NoteAttachment(title: "", path: "", url: imageURL, note: note)
+                    let attachment = NoteAttachment(title: "", path: "", url: imageURL)
 
                     if let imageData = attachment.getAttachmentImage()?.jpgData {
                         let base64 = imageData.base64EncodedString()
@@ -762,7 +762,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             let path = note.content.attributedSubstring(from: range).string
             guard let imagePath = path.removingPercentEncoding else { return }
 
-            if let url = note.getImageUrl(imageName: imagePath) {
+            if let url = note.getAttachmentFileUrl(name: imagePath) {
                 if url.isRemote() {
                     return
                 }

@@ -514,7 +514,7 @@ public class Note: NSObject  {
                 try? FileManager.default.removeItem(at: url)
 
                 if type == .Markdown && container == .none {
-                    let urls = getAllImages()
+                    let urls = content.getImagesAndFiles()
                     for url in urls {
                         try? FileManager.default.removeItem(at: url.url)
                     }
@@ -577,7 +577,7 @@ public class Note: NSObject  {
             }
 
             if type == .Markdown && container == .none {
-                let urls = getAllImages()
+                let urls = content.getImagesAndFiles()
                 for url in urls {
                     try? FileManager.default.removeItem(at: url.url)
                 }
@@ -674,7 +674,7 @@ public class Note: NSObject  {
 
     public func moveImages(to project: Project) {
         if type == .Markdown && container == .none {
-            let imagesMeta = getAllImages()
+            let imagesMeta = content.getImagesAndFiles()
             for imageMeta in imagesMeta {
                 let imagePath = project.url.appendingPathComponent(imageMeta.path).path
                 project.storage.hideImages(directory: imagePath, srcPath: imagePath)
@@ -1366,65 +1366,46 @@ public class Note: NSObject  {
         return true
     }
     
-    public func getImageUrl(imageName: String) -> URL? {
-        if imageName.starts(with: "http://") || imageName.starts(with: "https://") {
-            return URL(string: imageName)
+    public func getAttachmentFileUrl(name: String) -> URL? {
+        if name.count == 0 {
+            return nil
+        }
+
+        if name.starts(with: "http://") || name.starts(with: "https://") {
+            return URL(string: name)
         }
 
         if isEncrypted() && (
-            imageName.starts(with: "/i/") || imageName.starts(with: "i/")
+            name.starts(with: "/i/") || name.starts(with: "i/")
         ) {
-            return project.url.appendingPathComponent(imageName)
+            return project.url.appendingPathComponent(name)
         }
         
         if isTextBundle() {
-            return getURL().appendingPathComponent(imageName)
+            return getURL().appendingPathComponent(name)
         }
-        
-        if type == .Markdown {
-            return project.url.appendingPathComponent(imageName)
-        }
-        
-        return nil
-    }
-    
-    public func getAllImages(content: NSMutableAttributedString? = nil) -> [(url: URL, path: String)] {
-        let content = content ?? self.content
-        var res = [(url: URL, path: String)]()
 
-        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
-            {(result, flags, stop) -> Void in
-
-            guard let range = result?.range(at: 3), content.length >= range.location else { return }
-
-            let imagePath = content.attributedSubstring(from: range).string.removingPercentEncoding
-
-            if let imagePath = imagePath, let url = self.getImageUrl(imageName: imagePath), !url.isRemote() {
-                res.append((url: url, path: imagePath))
-            }
-        })
-
-        return res
+        return project.url.appendingPathComponent(name)
     }
 
     public func dropImagesCache() {
-        let urls = getAllImages()
+        let items = content.getImagesAndFiles()
 
-        for url in urls {
+        for item in items{
             var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
             temporary.appendPathComponent("ThumbnailsBigInline")
 
-            let cacheUrl = temporary.appendingPathComponent(url.0.absoluteString.md5 + "." + url.0.pathExtension)
+            let cacheUrl = temporary.appendingPathComponent(item.url.absoluteString.md5 + "." + item.url.pathExtension)
             try? FileManager.default.removeItem(at: cacheUrl)
         }
     }
 
     public func countCheckSum() -> String {
-        let urls = getAllImages()
+        let items = content.getImagesAndFiles()
         var size = UInt64(0)
 
-        for url in urls {
-            size += url.0.fileSize
+        for item in items {
+            size += item.url.fileSize
         }
 
         return content.string.md5 + String(size)
@@ -1520,16 +1501,19 @@ public class Note: NSObject  {
     public func getImagesFromContent() -> [URL] {
         var urls = [URL]()
 
-        let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-        let range = NSRange(location: 0, length: content.length)
-        content.enumerateAttribute(filePathKey, in: range) { (value, _, _) in
-            if let path = value as? String {
-                guard let cleanPath = path.removingPercentEncoding,
-                      let fileURL = getImageUrl(imageName: cleanPath) else { return }
+        if !isLoaded {
+            return imageUrl ?? urls
+        }
 
-                if fileURL.isImage {
-                    urls.append(fileURL)
-                }
+        let range = NSRange(location: 0, length: content.length)
+        content.enumerateAttribute(.attachment, in: range) { (value, _, _) in
+            let value = value as? NSTextAttachment
+
+            guard let metaData = value?.fileWrapper?.regularFileContents,
+                  let meta = try? JSONDecoder().decode(Attachment.self, from: metaData) else { return }
+
+            if meta.url.isImage {
+                urls.append(meta.url)
             }
         }
 
@@ -1583,17 +1567,6 @@ public class Note: NSObject  {
         self.preview = String()
         self.title = String()
         self.isParsed = false
-    }
-
-    public func getMdImagePath(name: String) -> String {
-        let encoded = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let name = encoded ?? name
-
-        if isTextBundle() {
-            return "assets/\(name)"
-        }
-
-        return "i/\(name)"
     }
 
     public func isEqualURL(url: URL) -> Bool {
@@ -1660,16 +1633,18 @@ public class Note: NSObject  {
         note.originalExtension = url.pathExtension
         note.content = content
 
-        guard note.write(attributedString: content.unloadAttachments()) else {
-            return note.url
-        }
+        let imagesMeta = content.getImagesAndFiles()
+        let mutableContent = content.unloadAttachments()
 
-        let imagesMeta = getAllImages()
+        // write textbundle body
+        guard note.write(attributedString: mutableContent) else { return note.url }
+
         for imageMeta in imagesMeta {
-            moveFilesFlatToAssets(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: note.url)
+            moveFilesFlatToAssets(attributedString: mutableContent, from: imageMeta.url, imagePath: imageMeta.path, to: note.url)
         }
 
-        guard note.write(attributedString: content.unloadAttachments()) else {
+        // write updated image pathes
+        guard note.write(attributedString: mutableContent) else {
             return note.url
         }
 
@@ -1697,16 +1672,16 @@ public class Note: NSObject  {
 
             try? FileManager.default.moveItem(at: flatURL, to: uniqueURL)
 
-            moveFilesAssetsToFlat(content: uniqueURL, src: textBundleURL, project: project)
+            moveFilesAssetsToFlat(src: textBundleURL, project: project)
 
             try? FileManager.default.removeItem(at: textBundleURL)
         }
     }
 
-    // todo
-    private func moveFilesFlatToAssets(note: Note, from imageURL: URL, imagePath: String, to dest: URL) {
+    private func moveFilesFlatToAssets(attributedString: NSMutableAttributedString, from imageURL: URL, imagePath: String, to dest: URL) {
         let dest = dest.appendingPathComponent("assets")
-        let fileName = imageURL.lastPathComponent
+
+        guard let fileName = imageURL.lastPathComponent.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
 
         if !FileManager.default.fileExists(atPath: dest.path) {
             try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
@@ -1723,21 +1698,20 @@ public class Note: NSObject  {
 
             guard find != replace else { return }
 
-            while note.content.mutableString.contains(find) {
-                let range = note.content.mutableString.range(of: find)
-                note.content.replaceCharacters(in: range, with: replace)
+            while attributedString.mutableString.contains(find) {
+                let range = attributedString.mutableString.range(of: find)
+                attributedString.replaceCharacters(in: range, with: replace)
             }
         } catch {
             print("Enc error: \(error)")
         }
     }
 
-    private func moveFilesAssetsToFlat(content: URL, src: URL, project: Project) {
-        guard let content = try? String(contentsOf: content) else { return }
+    private func moveFilesAssetsToFlat(src: URL, project: Project) {
+        let mutableContent =
+            NSMutableAttributedString(attributedString: content).unloadAttachments()
 
-        let mutableContent = NSMutableAttributedString(attributedString: NSAttributedString(string: content))
-
-        let imagesMeta = getAllImages(content: mutableContent)
+        let imagesMeta = content.getImagesAndFiles()
         for imageMeta in imagesMeta {
             let fileName = imageMeta.url.lastPathComponent
             var dst: URL?
@@ -1769,8 +1743,10 @@ public class Note: NSObject  {
                 }
             }
 
-            let find = "](assets/" + fileName + ")"
-            let replace = "](" + prefix + fileName + ")"
+            guard let escapedFileName = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { continue }
+
+            let find = "](assets/" + escapedFileName + ")"
+            let replace = "](" + prefix + escapedFileName + ")"
 
             guard find != replace else { return }
 
@@ -1778,9 +1754,10 @@ public class Note: NSObject  {
                 let range = mutableContent.mutableString.range(of: find)
                 mutableContent.replaceCharacters(in: range, with: replace)
             }
-
-            try? mutableContent.string.write(to: url, atomically: true, encoding: String.Encoding.utf8)
         }
+
+        content = mutableContent
+        _ = save()
     }
 
     private func loadTextBundle() -> Bool {
@@ -2314,5 +2291,65 @@ public class Note: NSObject  {
         }
 
         return false
+    }
+
+    public func save(attachment: Attachment) -> (String, URL)? {
+        guard let data = attachment.data else { return nil }
+        let preferredName = attachment.preferredName
+
+        // Get attach dir
+        let attachDir = getAttachDirectory(data: data)
+
+        // Create if not exist
+        if !FileManager.default.fileExists(atPath: attachDir.path, isDirectory: nil) {
+            try? FileManager.default.createDirectory(at: attachDir, withIntermediateDirectories: true, attributes: nil)
+        }
+
+        guard let fileName = getFileName(dst: attachDir, preferredName: preferredName) else { return nil }
+
+        let fileUrl = attachDir.appendingPathComponent(fileName)
+
+        do {
+            try data.write(to: fileUrl, options: .atomic)
+        } catch {
+            print("Attachment error: \(error)")
+            return nil
+        }
+
+        let lastTwo = fileUrl.deletingLastPathComponent().lastPathComponent + "/" + fileUrl.lastPathComponent
+
+        return (lastTwo, fileUrl)
+    }
+
+    public func getAttachDirectory(data: Data) -> URL {
+        if isTextBundle() {
+            return getURL().appendingPathComponent("assets", isDirectory: true)
+        }
+
+        let prefix = data.getFileType() != .unknown ? "i" : "files"
+
+        return project.url.appendingPathComponent(prefix, isDirectory: true)
+    }
+
+    public func getFileName(dst: URL, preferredName: String? = nil) -> String? {
+        var name = preferredName ?? UUID().uuidString.lowercased()
+        let ext = (name as NSString).pathExtension
+
+        while true {
+            let destination = dst.appendingPathComponent(name)
+            let icloud = destination.appendingPathExtension("icloud")
+
+            if FileManager.default.fileExists(atPath: destination.path) || FileManager.default.fileExists(atPath: icloud.path) {
+                let newBase = UUID().uuidString.lowercased()
+                if ext.isEmpty {
+                    name = newBase
+                } else {
+                    name = "\(newBase).\(ext)"
+                }
+                continue
+            }
+
+            return name
+        }
     }
 }

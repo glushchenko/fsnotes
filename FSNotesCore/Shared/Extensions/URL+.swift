@@ -180,4 +180,9 @@ public extension URL {
 
         return mimeType
     }
+
+    var isWebURL: Bool {
+        guard let scheme = scheme?.lowercased() else { return false }
+        return scheme == "http" || scheme == "https"
+    }
 }
