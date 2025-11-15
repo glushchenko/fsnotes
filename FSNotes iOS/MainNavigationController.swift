@@ -15,7 +15,7 @@ class MainNavigationController: UINavigationController {
         topViewController?.view.endEditing(true)
 
         DispatchQueue.main.async {
-            UIApplication.getVC().loadPlusButton()
+            //UIApplication.getVC().loadPlusButton()
         }
 
         return super.popViewController(animated: animated)

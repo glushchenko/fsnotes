@@ -10,11 +10,11 @@ import UIKit
 
 class Buttons {
     public static func getRateUs(target: Any, selector: Selector) -> UIBarButtonItem {
-        return UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: target, action: selector)
+        return UIBarButtonItem(systemImageName: "heart", target: target, selector: selector)
     }
 
     public static func getAdd(target: Any, selector: Selector) -> UIBarButtonItem {
-        return UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: target, action: selector)
+        return UIBarButtonItem(systemImageName: "plus", target: target, selector: selector)
     }
 
     public static func getDone(target: Any, selector: Selector) -> UIBarButtonItem {
@@ -22,14 +22,14 @@ class Buttons {
     }
 
     public static func getShare(target: Any, selector: Selector) -> UIBarButtonItem {
-        return UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: target, action: selector)
+        return UIBarButtonItem(systemImageName: "square.and.arrow.up", target: target, selector: selector)
     }
 
     public static func getCrop(target: Any, selector: Selector) -> UIBarButtonItem {
-        return UIBarButtonItem(image: UIImage(systemName: "crop"), style: .plain, target: target, action: selector)
+        return UIBarButtonItem(systemImageName: "crop", target: target, selector: selector)
     }
 
     public static func getTrash(target: Any, selector: Selector) -> UIBarButtonItem {
-        return UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: target, action: selector)
+        return UIBarButtonItem(systemImageName: "trash", target: target, selector: selector)
     }
 }

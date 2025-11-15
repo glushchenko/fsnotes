@@ -112,7 +112,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UIApplication.getEVC().userActivity?.invalidate()
 
         loadPreSafeArea()
-        loadPlusButton()
+        //loadPlusButton()
 
         if let sidebarItem = UIApplication.getVC().lastSidebarItem {
             configureNavMenu(for: sidebarItem)
@@ -159,14 +159,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             
             loadNews()
             
-            let appDelegate = UIApplication.getDelegate()
-            if let shortcut = appDelegate.launchedShortcutItem {
+            if let sceneDelegate = UIApplication.getSceneDelegate(),
+               let shortcut = sceneDelegate.launchedShortcutItem {
                 handleShortCutItem(shortcut)
-                appDelegate.launchedShortcutItem = nil
+                sceneDelegate.launchedShortcutItem = nil
             } else {
                 self.restoreLastController()
             }
-            
+
             DispatchQueue.global(qos: .userInteractive).async {
                 self.loadDB()
             }
@@ -223,16 +223,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.metadataQueue.qualityOfService = .userInteractive
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
-        let appSettingsImage = UIImage(systemName: "sidebar.left", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
-        let appSettings = UIBarButtonItem(image: appSettingsImage, style: .plain, target: self, action: #selector(toggleSidebar))
-        appSettings.tintColor = UIColor.mainTheme
-
-        let generalSettingsImage = UIImage(systemName: "gear", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
-        let generalSettings = UIBarButtonItem(image: generalSettingsImage, style: .plain, target: self, action: #selector(openSettings))
-        generalSettings.tintColor = UIColor.mainTheme
-
-        navigationItem.leftBarButtonItems = [appSettings, generalSettings]
+        navigationItem.leftBarButtonItems = [
+            UIBarButtonItem(systemImageName: "sidebar.left", target: self, selector: #selector(toggleSidebar)),
+            UIBarButtonItem(systemImageName: "gear", target: self, selector: #selector(openSettings))
+        ]
 
         setNavTitle(folder: NSLocalizedString("Inbox", comment: ""))
         
@@ -242,7 +236,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             sidebarTableView.sectionHeaderTopPadding = 0
         }
 
-        loadPlusButton()
+        //loadPlusButton()
 
         notesTable.viewDelegate = self
         notesTable.dragInteractionEnabled = true
@@ -262,20 +256,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func configureNavMenu(for sidebarItem: SidebarItem) {
         lastSidebarItem = sidebarItem
 
-        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
-        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
-
-        if #available(iOS 14.0, *) {
-            let menu = makeSidebarSettingsMenu(for: sidebarItem)
-            let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
-            navSettings.tintColor = UIColor.mainTheme
-            navigationItem.rightBarButtonItem = navSettings
-            return
+        if let menu = makeSidebarSettingsMenu(for: sidebarItem) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(systemImageName: "ellipsis.circle", menu: menu)
         }
-
-        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(openSidebarSettings))
-        navSettings.tintColor = UIColor.mainTheme
-        navigationItem.rightBarButtonItem = navSettings
     }
 
     public func setNavTitle(folder: String? = nil, qty: String? = nil) {
@@ -459,7 +442,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let projects = storage.getProjects()
         
         for project in projects {
-            print("Reading project \(project.label) (\(project.url))")
+            // print("Reading project: \(project.label) (\(project.url))")
             _ = project.loadNotes()
         }
         
@@ -751,7 +734,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.navigationItem.searchController?.searchBar.becomeFirstResponder()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.loadPlusButton()
+                //self.loadPlusButton()
             }
         }
     }
@@ -1080,7 +1063,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             isLandscape = isLand
 
             DispatchQueue.main.async {
-                self.loadPlusButton()
+                //self.loadPlusButton()
                 self.loadNews()
             }
         }
@@ -1185,14 +1168,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             notesTableBottomContraint.constant = keyboardSize.height
             sidebarTableBottomConstraint.constant = keyboardSize.height
-            loadPlusButton()
+            //loadPlusButton()
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
         notesTableBottomContraint.constant = 0
         sidebarTableBottomConstraint.constant = 0
-        loadPlusButton()
+        //loadPlusButton()
     }
 
     public func refreshTextStorage(note: Note) {

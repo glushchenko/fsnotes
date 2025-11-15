@@ -105,15 +105,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         
         navigationItem.largeTitleDisplayMode = .never
 
-        let imageSearch = UIImage(systemName: "magnifyingglass")
-        let imagePlus = UIImage(systemName: "plus")
-
         var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(image: imageSearch, style: .plain, target: self, action: #selector(search)))
-        if #available(iOS 14.0, *) {
-            items.append(UIBarButtonItem.flexibleSpace())
-        }
-        items.append(UIBarButtonItem(image: imagePlus, style: .plain, target: self, action: #selector(newNote)))
+        items.append(UIBarButtonItem(systemImageName: "magnifyingglass", target: self, selector: #selector(search)))
+        items.append(UIBarButtonItem.flexibleSpace())
+        items.append(UIBarButtonItem(systemImageName: "plus", target: self, selector: #selector(newNote)))
 
         navigationController?.toolbar.tintColor = UIColor.mainTheme
         toolbarItems = items
@@ -171,23 +166,21 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func configureNavMenu() {
-        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
-        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
+        guard let note = self.note else { return }
+        guard let menu = UIApplication.getVC().notesTable.makeBulkMenu(editor: true, note: note) else { return }
 
-        if #available(iOS 14.0, *) {
-            if let note = self.note {
-                let menu =  UIApplication.getVC().notesTable.makeBulkMenu(editor: true, note: note)
-                let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
-                navSettings.tintColor = UIColor.mainTheme
-                navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
-            }
-            return
-        }
+        let buttonName =
+            editArea.note?.previewState == true
+                ? "eye.slash"
+                : "eye"
 
-        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(clickOnButton))
-        navSettings.tintColor = UIColor.mainTheme
+        let previewBarItem = UIBarButtonItem(systemImageName: buttonName, target: self, selector: #selector(togglePreview))
+        previewBarItem.tag = 5
 
-        navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(systemImageName: "ellipsis.circle", menu: menu),
+            previewBarItem
+        ]
     }
 
     public func fill(note: Note, selectedRange: NSRange? = nil, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
@@ -1332,15 +1325,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
     }
 
-    public func getTogglePreviewButton() -> UIBarButtonItem {
-        let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .light, scale: .default)
-        let buttonName = editArea.note?.previewState == true ? "eye.slash" : "eye"
-        let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
-        let menuBarItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(togglePreview))
-        menuBarItem.tag = 5
-        return menuBarItem
-    }
-
     public func getPreviewView() -> MPreviewView? {
         for sub in self.view.subviews {
             if sub.isKind(of: MPreviewView.self) {
@@ -1375,13 +1359,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let buttonName = note.previewState ? "eye.slash" : "eye"
 
-        if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }) {
+        if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }),
+           let button = buttonBar.customView as? UIButton {
 
-            let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .light, scale: .default)
-            if let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme) {
-
-                buttonBar.image = image
-            }
+            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+            let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
+            button.setImage(image, for: .normal)
         }
 
         // Handoff needs update in cursor position changed

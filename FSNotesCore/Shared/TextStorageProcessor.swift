@@ -165,9 +165,10 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                 attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
             #endif
 
-                textStorage.edited(.editedAttributes, range: range, changeInLength: 0)
-                manager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
-                manager.ensureLayout(forCharacterRange: range)
+                let safe = self.safeRange(range, in: textStorage)
+
+                textStorage.edited(.editedAttributes, range: safe, changeInLength: 0)
+                manager.invalidateLayout(forCharacterRange: safe, actualCharacterRange: nil)
             }
         }
     }
@@ -178,5 +179,12 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         #else
             return CGFloat(UserDefaultsManagement.imagesWidth)
         #endif
+    }
+
+    private func safeRange(_ range: NSRange, in textStorage: NSTextStorage) -> NSRange {
+        let storageLength = textStorage.length
+        let loc = min(max(0, range.location), storageLength)
+        let end = min(max(0, range.location + range.length), storageLength)
+        return NSRange(location: loc, length: end - loc)
     }
 }
