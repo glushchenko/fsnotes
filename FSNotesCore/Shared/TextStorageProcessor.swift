@@ -122,35 +122,38 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                 meta.url = result.1
             }
 
-            loadImage(attachment: attachment, url: meta.url, range: range, textStorage: textStorage)
+            let maxWidth = getImageMaxWidth()
+            loadImage(attachment: attachment, url: meta.url, range: range, textStorage: textStorage, maxWidth: maxWidth)
         }
     }
 
-#if os(OSX)
-    public func loadImage(attachment: NSTextAttachment, url: URL, range: NSRange, textStorage: NSTextStorage) {
+    public func loadImage(attachment: NSTextAttachment, url: URL, range: NSRange, textStorage: NSTextStorage, maxWidth: CGFloat) {
         editor?.imagesLoaderQueue.addOperation {
-            var image: NSImage?
-            var size: NSSize?
+            var image: PlatformImage?
+            var size: CGSize?
 
             if url.isImage {
-                let imageSize = NoteAttachment.getSize(url: url)
-                size = NoteAttachment.getSize(width: imageSize.width, height: imageSize.height)
+                let imageSize = url.getBorderSize(maxWidth: maxWidth)
 
-                if let size = size {
-                    let retinaSize = CGSize(width: size.width * 2, height: size.height * 2)
-                    image = NoteAttachment.getImage(url: url, size: retinaSize)
-                }
+                size = imageSize
+                image = NoteAttachment.getImage(url: url, size: imageSize)
             } else {
-                let attachment = NoteAttachment(title: "", path: "", url: url)
-                let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
-                let text = attachment.getImageText()
-                let width = attachment.getImageWidth(text: text)
-                size = NSSize(width: width, height: heigth)
-                let imageSize = NSSize(width: width, height: heigth)
-                image = attachment.imageFromText(text: text, imageSize: imageSize)
+                let attachment = NoteAttachment(url: url)
+                if let attachmentImage = attachment.getAttachmentImage() {
+                    size = attachmentImage.size
+                    image = attachmentImage
+                }
             }
 
             DispatchQueue.main.async {
+                guard let manager = self.editor?.layoutManager as? NSLayoutManager else { return }
+
+            #if os(iOS)
+                attachment.image = image
+                if let size = size {
+                    attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+                }
+            #elseif os(OSX)
                 guard let container = self.editor?.textContainer,
                       let attachmentImage = image,
                       let size = size else { return }
@@ -160,43 +163,20 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                 attachment.image = nil
                 attachment.attachmentCell = cell
                 attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
+            #endif
 
-                if let manager = self.editor?.layoutManager {
-                    if #available(OSX 10.13, *) {
-                    } else {
-                        if textStorage.mutableString.length >= range.upperBound {
-                            manager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
-                        }
-                    }
-
-                    let paragraph = NSMutableParagraphStyle()
-                    paragraph.alignment = url.isImage ? .center : .left
-
-                    textStorage.safeAddAttribute(.paragraphStyle, value: paragraph, range: range)
-                    manager.invalidateDisplay(forCharacterRange: range)
-                }
+                textStorage.edited(.editedAttributes, range: range, changeInLength: 0)
+                manager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
+                manager.ensureLayout(forCharacterRange: range)
             }
         }
     }
-#else
 
-    public func loadImage(attachment: NSTextAttachment, url: URL, range: NSRange, textStorage: NSTextStorage) {
-        editor?.imagesLoaderQueue.addOperation {
-            guard let size = attachment.image?.size else { return }
-
-            let scale = UIScreen.main.scale
-            let retinaSize = CGSize(width: size.width * scale, height: size.height * scale)
-
-            if let image = NoteAttachment.getImage(url: url, size: retinaSize) {
-                attachment.image = image
-            }
-
-            DispatchQueue.main.async {
-                if let manager = self.editor?.layoutManager as? NSLayoutManager {
-                    manager.invalidateDisplay(forCharacterRange: range)
-                }
-            }
-        }
+    private func getImageMaxWidth() -> CGFloat {
+        #if os(iOS)
+            return UIApplication.getVC().view.frame.width - 35
+        #else
+            return CGFloat(UserDefaultsManagement.imagesWidth)
+        #endif
     }
-#endif
 }

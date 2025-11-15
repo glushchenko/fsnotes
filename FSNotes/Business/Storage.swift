@@ -724,6 +724,7 @@ class Storage {
     }
     
     func removeNotes(notes: [Note], fsRemove: Bool = true, completely: Bool = false, completion: @escaping ([URL: URL]?) -> ()) {
+    #if !SHARE_EXT
         guard notes.count > 0 else {
             completion(nil)
             return
@@ -749,6 +750,7 @@ class Storage {
         } else {
             completion(nil)
         }
+    #endif
     }
 
     private func fetchAllDirectories(url: URL) -> [URL]? {

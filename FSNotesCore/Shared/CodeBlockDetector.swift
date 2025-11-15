@@ -7,7 +7,10 @@
 //
 
 import Foundation
+
+#if os(OSX)
 import Cocoa
+#endif
 
 class CodeBlockDetector {
 

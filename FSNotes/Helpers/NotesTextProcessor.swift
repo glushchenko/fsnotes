@@ -64,7 +64,7 @@ public class NotesTextProcessor {
     public static var codeBackground: NSColor {
         get {
             if let theme = HighlighterTheme(rawValue: UserDefaultsManagement.codeTheme) {
-                return NSColor(hex: theme.backgroundHex)
+                return PlatformColor(hex: theme.backgroundHex)
             }
 
             return NSColor(named: "code") ?? NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
@@ -1312,7 +1312,7 @@ public class NotesTextProcessor {
         }
     }
     
-    fileprivate static func getHeaderFont(level: Int, baseFont: NSFont) -> NSFont {
+    fileprivate static func getHeaderFont(level: Int, baseFont: PlatformFont) -> PlatformFont {
         let baseFontSize = baseFont.pointSize
         let headerSize: CGFloat
         
@@ -1327,8 +1327,12 @@ public class NotesTextProcessor {
         }
         
         let fontDescriptor = baseFont.fontDescriptor.withSize(headerSize)
-        
-        return NSFont(descriptor: fontDescriptor, size: headerSize) ?? baseFont
+
+        #if os(OSX)
+            return PlatformFont(descriptor: fontDescriptor, size: headerSize) ?? baseFont
+        #else
+            return PlatformFont(descriptor: fontDescriptor, size: headerSize)
+        #endif
     }
 }
 

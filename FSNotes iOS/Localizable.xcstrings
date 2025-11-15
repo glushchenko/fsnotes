@@ -5364,6 +5364,7 @@
     },
     "Live Images Preview" : {
       "comment" : "Settings",
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

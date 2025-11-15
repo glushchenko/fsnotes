@@ -24,13 +24,25 @@
 		1122C8EE2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
 		1122C8EF2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
 		1122C8F02E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
+		113685522EC795B80033767F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AD7FB27F9D1C90077BD45 /* Data+.swift */; };
+		113685532EC796EF0033767F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
+		1136855A2EC7A21F0033767F /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685592EC7A2130033767F /* NSMutableAttributedString+.swift */; };
+		1136855C2EC7A6A50033767F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136855B2EC7A69C0033767F /* Platform.swift */; };
+		1136855D2EC7A6A50033767F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136855B2EC7A69C0033767F /* Platform.swift */; };
+		1136855E2EC7A6A50033767F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136855B2EC7A69C0033767F /* Platform.swift */; };
+		1136855F2EC7A6A50033767F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136855B2EC7A69C0033767F /* Platform.swift */; };
+		113685602EC7A6A50033767F /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1136855B2EC7A69C0033767F /* Platform.swift */; };
+		113685622EC869950033767F /* URL+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685612EC869860033767F /* URL+Image.swift */; };
+		113685632EC869950033767F /* URL+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685612EC869860033767F /* URL+Image.swift */; };
+		113685642EC869950033767F /* URL+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685612EC869860033767F /* URL+Image.swift */; };
+		113685652EC869950033767F /* URL+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685612EC869860033767F /* URL+Image.swift */; };
+		113685662EC869950033767F /* URL+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685612EC869860033767F /* URL+Image.swift */; };
 		1161828D2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
 		1161828E2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
 		1161828F2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
 		1166D1F72E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
 		1166D1F82E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
 		1166D1F92E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
-		116D6AD12EBD1EAC0003F9C8 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
 		11AF633E2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF633F2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF63402E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
@@ -738,7 +750,6 @@
 		D7CD5CC5218209820009D63B /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D7CD5CC6218209960009D63B /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7CD5CC7218209BD0009D63B /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
-		D7CD5CC8218209D10009D63B /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
 		D7CD5CC9218209D80009D63B /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D7CD5CCB21820A380009D63B /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CCA21820A380009D63B /* UserDefaultsManagement+.swift */; };
 		D7CD5CCC21820B7A0009D63B /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CCA21820A380009D63B /* UserDefaultsManagement+.swift */; };
@@ -746,7 +757,6 @@
 		D7CD5CCE21820C9D0009D63B /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB2820FEDE230005E120 /* DateFormatter+.swift */; };
 		D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB2A20FEDE230005E120 /* URL+.swift */; };
 		D7CD5CD121820CCD0009D63B /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
-		D7CD5CD221820CDC0009D63B /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */; };
 		D7CD5CD421820D640009D63B /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D7CD5CD521820D700009D63B /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
 		D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
@@ -1065,6 +1075,9 @@
 		110E409D2EA0150000C62F49 /* NSTextCheckingResult+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextCheckingResult+.swift"; sourceTree = "<group>"; };
 		110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+DragOperation.swift"; sourceTree = "<group>"; };
 		1122C8EB2E9EF9C20055A58E /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
+		113685592EC7A2130033767F /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
+		1136855B2EC7A69C0033767F /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		113685612EC869860033767F /* URL+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Image.swift"; sourceTree = "<group>"; };
 		116182862E62B046005B5EE0 /* SwiftHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftHighlighter.swift; sourceTree = "<group>"; };
 		1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlockDetector.swift; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
@@ -1592,6 +1605,7 @@
 				11D943252E643F520010CC2B /* Themes */,
 				11D943182E643EE40010CC2B /* Languages */,
 				116182862E62B046005B5EE0 /* SwiftHighlighter.swift */,
+				1136855B2EC7A69C0033767F /* Platform.swift */,
 			);
 			path = SwiftHighlighter;
 			sourceTree = "<group>";
@@ -1627,10 +1641,10 @@
 		6F13BB2420FEDE230005E120 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */,
 				11D943172E643ECF0010CC2B /* SwiftHighlighter */,
 				D7218944210211B800FE3AF2 /* Business */,
 				6F13BB2720FEDE230005E120 /* Extensions */,
+				1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */,
 				D7470D062170E890006B2A92 /* NSTextStorage++.swift */,
 				D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */,
 				D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */,
@@ -1652,6 +1666,7 @@
 		6F13BB2720FEDE230005E120 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				113685612EC869860033767F /* URL+Image.swift */,
 				110E409D2EA0150000C62F49 /* NSTextCheckingResult+.swift */,
 				110D09812E9C1525001555FA /* NSRange+.swift */,
 				6F13BB2820FEDE230005E120 /* DateFormatter+.swift */,
@@ -2024,6 +2039,7 @@
 		D75F3337205EC34800CC887E /* FSNotes iOS Share */ = {
 			isa = PBXGroup;
 			children = (
+				113685592EC7A2130033767F /* NSMutableAttributedString+.swift */,
 				D75F3344205ECE8900CC887E /* FSNotes iOS Share.entitlements */,
 				D75F3338205EC34800CC887E /* ShareViewController.swift */,
 				D75F333D205EC34800CC887E /* Info.plist */,
@@ -3346,6 +3362,7 @@
 				1122C8F02E9EF9C90055A58E /* Attachment.swift in Sources */,
 				D7487FD6217389F800D09383 /* NSImage+.swift in Sources */,
 				D768D755245E854D0028F344 /* NSAttributedString+.swift in Sources */,
+				1136855D2EC7A6A50033767F /* Platform.swift in Sources */,
 				D726DE8D287ACC1E00F8406C /* NSWindow+.swift in Sources */,
 				D70D6CDF225D16D800A07A01 /* NSAppearance+.swift in Sources */,
 				D743FB5124CD72AC003A8913 /* SettingsFilesNaming.swift in Sources */,
@@ -3369,6 +3386,7 @@
 				110E409E2EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				D7CD5CCB21820A380009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D74D47A4256DFA4500D97647 /* FSNTextAttahcmentCell.swift in Sources */,
+				113685662EC869950033767F /* URL+Image.swift in Sources */,
 				D79651B62517741400333AD4 /* ProgressState.swift in Sources */,
 				D7B4AC632471253100F3888A /* NoteMeta.swift in Sources */,
 				D7B2B6E8245EEA5F0084B78D /* LanguageType.swift in Sources */,
@@ -3404,24 +3422,26 @@
 				D7CD5CE321836A230009D63B /* UIFont+.swift in Sources */,
 				D72682AE29BE8E2100F6E961 /* RepositoryAction.swift in Sources */,
 				D79651B52517741400333AD4 /* ProgressState.swift in Sources */,
-				116D6AD12EBD1EAC0003F9C8 /* NSTextAttachment+.swift in Sources */,
 				D7680FB625D02B2C00810DA8 /* FileManager+.swift in Sources */,
-				D7CD5CD221820CDC0009D63B /* NSMutableAttributedString+.swift in Sources */,
 				D7737394223D59D300154B9E /* KeychainPasswordItem.swift in Sources */,
 				D7CD5CD121820CCD0009D63B /* Date+.swift in Sources */,
 				D7CD5CC7218209BD0009D63B /* SortBy.swift in Sources */,
 				D7B34F9B25195D7E0007877E /* PreviewState.swift in Sources */,
 				D77E0539246312B400AD7772 /* StorageType.swift in Sources */,
 				D7CD5CD521820D700009D63B /* ImagesProcessor.swift in Sources */,
+				113685522EC795B80033767F /* Data+.swift in Sources */,
 				D79A13CE2A0E9C980037510B /* UIColor+.swift in Sources */,
 				D7E9FEBC2C4AA64B0025D8E3 /* SearchQuery.swift in Sources */,
+				1136855F2EC7A6A50033767F /* Platform.swift in Sources */,
 				D7B2B6EC245EEA790084B78D /* LanguageType.swift in Sources */,
 				1122C8ED2E9EF9C90055A58E /* Attachment.swift in Sources */,
 				D7CD5CC9218209D80009D63B /* NoteType.swift in Sources */,
 				D7CD5CC5218209820009D63B /* UserDefaultsManagement.swift in Sources */,
+				1136855A2EC7A21F0033767F /* NSMutableAttributedString+.swift in Sources */,
 				D75F3339205EC34800CC887E /* ShareViewController.swift in Sources */,
 				D7104A68230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */,
+				113685532EC796EF0033767F /* Note.swift in Sources */,
 				D7503458285F7EFC00086424 /* UIView+.swift in Sources */,
 				D76F3682272563EC00D1FFB4 /* NSAttributedString+.swift in Sources */,
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,
@@ -3433,13 +3453,13 @@
 				D7CD5CC42181F7530009D63B /* Storage.swift in Sources */,
 				110E409F2EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				D7CD5CC6218209960009D63B /* Project.swift in Sources */,
-				D7CD5CC8218209D10009D63B /* Note.swift in Sources */,
 				D7CD5CD421820D640009D63B /* NSAttributedStringKey+.swift in Sources */,
 				D7EFAF6C278B310300175A2F /* HighlighterTheme.swift in Sources */,
 				D792DD8627A6C980006ADC01 /* FSParser.swift in Sources */,
 				D730BD3F222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7737393223D59CF00154B9E /* KeychainConfiguration.swift in Sources */,
 				D7CD5CDC21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
+				113685642EC869950033767F /* URL+Image.swift in Sources */,
 				D7BAC631249D1204008D29AA /* SettingsFilesNaming.swift in Sources */,
 				110D09842E9C152B001555FA /* NSRange+.swift in Sources */,
 				D730BD31222DABA100E69C93 /* NoteContainer.swift in Sources */,
@@ -3513,6 +3533,7 @@
 				D70E9DFF2901AEAF00A3C634 /* Errors.swift in Sources */,
 				D712FED2206F67C500370BA4 /* NightMode.swift in Sources */,
 				D7470D092170E890006B2A92 /* NSTextStorage++.swift in Sources */,
+				113685632EC869950033767F /* URL+Image.swift in Sources */,
 				D70E9DF72901AEAF00A3C634 /* ConfigManager.swift in Sources */,
 				D70E9E102901AEDA00A3C634 /* RepositoryManager.swift in Sources */,
 				D73794BF2336642500E75A28 /* ImagePreviewViewController.swift in Sources */,
@@ -3570,6 +3591,7 @@
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
+				1136855E2EC7A6A50033767F /* Platform.swift in Sources */,
 				D70E9DF62901AEAF00A3C634 /* Error.swift in Sources */,
 				D70E9E182901AEF300A3C634 /* Tag.swift in Sources */,
 				D7BB2E0129A0157700D5055A /* Storage+Git.swift in Sources */,
@@ -3725,6 +3747,7 @@
 				D7CDE9DC2161767A00DC5978 /* AppearanceType.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
 				D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */,
+				113685602EC7A6A50033767F /* Platform.swift in Sources */,
 				D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */,
 				D7CCEDB92C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
@@ -3785,6 +3808,7 @@
 				D72DAF0829B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7F5C0F5223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
 				D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
+				113685652EC869950033767F /* URL+Image.swift in Sources */,
 				11D9431F2E643F250010CC2B /* Swift.swift in Sources */,
 				D73BCCA428EB5EC3008B3BBC /* Progress.swift in Sources */,
 				D73BCCB628EB5EC3008B3BBC /* Tags.swift in Sources */,
@@ -3915,6 +3939,7 @@
 				D7CDE9DD2161767B00DC5978 /* AppearanceType.swift in Sources */,
 				D7D372F8207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */,
 				D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */,
+				1136855C2EC7A6A50033767F /* Platform.swift in Sources */,
 				D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7470D082170E890006B2A92 /* NSTextStorage++.swift in Sources */,
 				D7CCEDBA2C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
@@ -3975,6 +4000,7 @@
 				D72DAF0929B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7F5C0F6223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
 				D73BCCA528EB5EC3008B3BBC /* Progress.swift in Sources */,
+				113685622EC869950033767F /* URL+Image.swift in Sources */,
 				11D943202E643F250010CC2B /* Swift.swift in Sources */,
 				D73BCCB728EB5EC3008B3BBC /* Tags.swift in Sources */,
 				D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */,

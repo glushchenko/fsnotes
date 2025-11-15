@@ -190,7 +190,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 #endif
 
                 if let editor = editor {
-                    let attachment = NoteAttachment(title: "", path: "", url: imageURL)
+                    let attachment = NoteAttachment(url: imageURL)
 
                     if let imageData = attachment.getAttachmentImage()?.jpgData {
                         let base64 = imageData.base64EncodedString()
@@ -245,7 +245,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     public func cleanCache() {
         URLCache.shared.removeAllCachedResponses()
 
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        DispatchQueue.main.async {
+            HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        }
 
         WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
             records.forEach { record in

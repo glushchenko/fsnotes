@@ -11,294 +11,300 @@ import AVKit
 
 #if os(OSX)
     import Cocoa
+    typealias PlatformImage = NSImage
 #else
     import UIKit
+    typealias PlatformImage = UIImage
 #endif
+
+// MARK: - NoteAttachment
 
 class NoteAttachment {
 
-    private var path: String
+    // MARK: - Properties
 
-    public var url: URL
-    public var title: String
+    public let url: URL
     public var imageCache: URL?
 
-    init(title: String, path: String, url: URL) {
-        self.title = title
+    // MARK: - Constants
+
+    private enum Constants {
+        static let previewPrefix = "Preview"
+        static let thumbnailPrefixMacOS = "ThumbnailsBig"
+        static let thumbnailPrefixIOS = "ThumbnailsBigInline"
+        static let fontFamily = "Avenir Next"
+        static let fontNameIOS = "AvenirNext-BoldItalic"
+        static let defaultFontSize: CGFloat = 14.0
+        static let fileSizeThreshold = 10000
+        static let bytesInMB: Double = 1_000_000
+
+        #if os(iOS)
+        static let thumbnailPrefix = thumbnailPrefixIOS
+        #else
+        static let thumbnailPrefix = thumbnailPrefixMacOS
+        #endif
+    }
+
+    // MARK: - Initialization
+
+    init(url: URL) {
         self.url = url
-        self.path = path
     }
 
-    public static func getSize(url: URL) -> CGSize {
-        var width = 0
-        var height = 0
-        var orientation = 0
-
-        if url.isVideo {
-            guard let track = AVURLAsset(url: url).tracks(withMediaType: AVMediaType.video).first else {
-                return CGSize(width: width, height: height)
-            }
-
-            let size = track.naturalSize.applying(track.preferredTransform)
-            return CGSize(width: abs(size.width), height: abs(size.height))
-        }
-
-        let url = NSURL(fileURLWithPath: url.path)
-        if let imageSource = CGImageSourceCreateWithURL(url, nil) {
-            let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary?
-            width = imageProperties?[kCGImagePropertyPixelWidth] as? Int ?? 0
-            height = imageProperties?[kCGImagePropertyPixelHeight] as? Int ?? 0
-            orientation = imageProperties?[kCGImagePropertyOrientation] as? Int ?? 0
-
-            if case 5...8 = orientation {
-                height = imageProperties?[kCGImagePropertyPixelWidth] as? Int ?? 0
-                width = imageProperties?[kCGImagePropertyPixelHeight] as? Int ?? 0
-            }
-        }
-
-        return CGSize(width: width, height: height)
-    }
-
-    public static func getCacheUrl(from url: URL, prefix: String = "Preview") -> URL? {
-        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        temporary.appendPathComponent(prefix)
-
-        return temporary.appendingPathComponent(url.absoluteString.md5 + "." + url.pathExtension)
-    }
-
-    public static func savePreviewImage(url: URL, image: Image, prefix: String = "Preview") {
-        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        temporary.appendPathComponent(prefix)
-
-        if !FileManager.default.fileExists(atPath: temporary.path) {
-            try? FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: true, attributes: nil)
-        }
-
-        if let url = self.getCacheUrl(from: url, prefix: prefix) {
-            if let data = image.jpgData {
-                try? data.write(to: url)
-            }
-        }
-    }
+    // MARK: - Public Methods
 
     public func getImageText() -> String {
-        let fileSize = self.url.fileSize
-        var sizeTitle = String()
-
-        if fileSize > 10000 {
-            sizeTitle = String(format: "%.2f", Double(fileSize) / 1000000) + " MB"
-        } else {
-            sizeTitle = String(fileSize) + " bytes"
-        }
-
-        let text = " \(self.url.lastPathComponent) – \(sizeTitle) 📎 "
-        return text
+        let fileSize = url.fileSize
+        let sizeTitle = formatFileSize(Int(fileSize))
+        return " \(url.lastPathComponent) – \(sizeTitle) 📎 "
     }
 
     public func getImageWidth(text: String) -> Double {
         let font = getAttachmentFont()
-        let labelWidth = (text as NSString).size(withAttributes: [.font: font]).width
-
-        return labelWidth
+        return (text as NSString).size(withAttributes: [.font: font]).width
     }
 
-    #if os(OSX)
-    public func getAttachmentImage() -> NSImage? {
-        let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
+    public func getAttachmentImage() -> PlatformImage? {
+        let height = UserDefaultsManagement.noteFont.getAttachmentHeight()
         let text = getImageText()
         let width = getImageWidth(text: text)
-        let imageSize = NSSize(width: width, height: heigth)
+        let imageSize = CGSize(width: width, height: height)
 
-        if let image = imageFromText(text: text, imageSize: imageSize) {
-            return image
-        }
-
-        return nil
+        return imageFromText(text: text, imageSize: imageSize)
     }
 
-    public static func getSize(width: CGFloat, height: CGFloat) -> NSSize {
-        var maxWidth = UserDefaultsManagement.imagesWidth
+    // MARK: - Private Methods
 
-        if maxWidth == Float(1000) {
-            maxWidth = Float(width)
+    private func formatFileSize(_ size: Int) -> String {
+        if size > Constants.fileSizeThreshold {
+            let sizeInMB = Double(size) / Constants.bytesInMB
+            return String(format: "%.2f MB", sizeInMB)
         }
-
-        let ratio: Float = Float(maxWidth) / Float(width)
-        var size = NSSize(width: Int(width), height: Int(height))
-
-        if ratio < 1 {
-            size = NSSize(width: Int(maxWidth), height: Int(Float(height) * Float(ratio)))
-        }
-
-        return size
+        return "\(size) bytes"
     }
 
-    public static func getImage(url: URL, size: CGSize) -> NSImage? {
-        let imageData = try? Data(contentsOf: url)
-        var finalImage: NSImage?
+    private func getAttachmentFont() -> PlatformFont {
+        #if os(OSX)
+        let traits = NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(
+            NSFontBoldTrait | NSFontItalicTrait
+        ))
 
-        if url.isVideo {
-            let asset = AVURLAsset(url: url, options: nil)
-            let imgGenerator = AVAssetImageGenerator(asset: asset)
-            if let cgImage = try? imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil) {
-                finalImage = NSImage(cgImage: cgImage, size: size)
-            }
-        } else if let imageData = imageData {
-            finalImage = NSImage(data: imageData)
-        }
-
-        guard let image = finalImage else { return nil }
-        var thumbImage: NSImage?
-        thumbImage = finalImage
-
-        if let cacheURL = self.getCacheUrl(from: url, prefix: "ThumbnailsBig"), FileManager.default.fileExists(atPath: cacheURL.path) {
-            thumbImage = NSImage(contentsOfFile: cacheURL.path)
-        } else if
-            let resizedImage = image.resized(to: size) {
-            thumbImage = resizedImage
-
-            self.savePreviewImage(url: url, image: resizedImage, prefix: "ThumbnailsBig")
-        }
-
-        return thumbImage
+        return NSFontManager().font(
+            withFamily: Constants.fontFamily,
+            traits: traits,
+            weight: 1,
+            size: CGFloat(UserDefaultsManagement.fontSize)
+        ) ?? PlatformFont.systemFont(ofSize: Constants.defaultFontSize)
+        #else
+        return PlatformFont(name: Constants.fontNameIOS, size: CGFloat(UserDefaultsManagement.fontSize))
+            ?? PlatformFont.systemFont(ofSize: Constants.defaultFontSize)
+        #endif
     }
 
-    public func getAttachmentFont() -> NSFont {
-        let traits = NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontBoldTrait|NSFontItalicTrait))
-
-        if let font = NSFontManager().font(withFamily: "Avenir Next", traits: traits, weight: 1, size: CGFloat(UserDefaultsManagement.fontSize)) {
-            return font
-        }
-
-        return NSFont.systemFont(ofSize: 14.0)
-    }
-
-    public func imageFromText(text: String, imageSize: NSSize) -> NSImage? {
+    public func imageFromText(text: String, imageSize: CGSize) -> PlatformImage? {
         let font = getAttachmentFont()
-
-        let textColor =  UserDataService.instance.isDark ? NSColor.white : NSColor.black
-        let backgroundColor = UserDataService.instance.isDark ? NSColor(red: 0.16, green: 0.17, blue: 0.18, alpha: 1.00) : NSColor.white
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-
-        let attributes = [
-            NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: textColor,
-            NSAttributedString.Key.backgroundColor: backgroundColor,
-            NSAttributedString.Key.paragraphStyle: paragraphStyle,
-        ]
-
+        let attributes = createTextAttributes(font: font)
         let textSize = text.size(withAttributes: attributes)
-        let imageRect = NSRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
 
-        let image = NSImage(size: imageRect.size)
-        image.lockFocus()
-
-        // Fill background color
-        backgroundColor.setFill()
-        imageRect.fill()
-
-        // Draw text
-        let textRect = NSRect(x: (imageSize.width - textSize.width) / 2.0, y: (imageSize.height - textSize.height) / 2.0, width: textSize.width, height: textSize.height)
-        text.draw(in: textRect, withAttributes: attributes)
-
-        image.unlockFocus()
-
-        return image
-    }
-    #endif
-
-    #if os(iOS)
-    public func getAttachmentImage() -> UIImage? {
-        let heigth = UserDefaultsManagement.noteFont.getAttachmentHeight()
-        let text = getImageText()
-        let width = getImageWidth(text: text)
-        let imageSize = CGSize(width: width, height: heigth)
-
-        if let image = imageFromText(text: text, imageSize: imageSize) {
-            return image
-        }
-
-        return nil
+        #if os(OSX)
+        return createImageMacOS(text: text, imageSize: imageSize, attributes: attributes, textSize: textSize)
+        #else
+        return createImageIOS(text: text, imageSize: imageSize, attributes: attributes, textSize: textSize)
+        #endif
     }
 
-    private func getImageSize(imageSize: CGSize) -> CGSize? {
-        let controller = UIApplication.getVC()
-        let maxWidth = controller.view.frame.width - 35
-
-        guard imageSize.width > maxWidth else {
-            return imageSize
-        }
-
-        let scale = maxWidth / imageSize.width
-        let newHeight = imageSize.height * scale
-
-        return CGSize(width: maxWidth, height: newHeight)
-    }
-
-    public static func resize(image: UIImage, size: CGSize) -> UIImage? {
-        UIGraphicsBeginImageContext(size)
-        image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return newImage
-    }
-
-    public static func getImage(url: URL, size: CGSize) -> UIImage? {
-        let imageData = try? Data(contentsOf: url)
-        var finalImage: UIImage?
-
-        if url.isVideo {
-            let asset = AVURLAsset(url: url, options: nil)
-            let imgGenerator = AVAssetImageGenerator(asset: asset)
-            if let cgImage = try? imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil) {
-                finalImage = UIImage(cgImage: cgImage)
-            }
-        } else if let imageData = imageData {
-            finalImage = UIImage(data: imageData)
-        }
-
-        guard let image = finalImage else { return nil }
-        var thumbImage: UIImage?
-
-        if let cacheURL = self.getCacheUrl(from: url, prefix: "ThumbnailsBigInline"), FileManager.default.fileExists(atPath: cacheURL.path) {
-            thumbImage = UIImage(contentsOfFile: cacheURL.path)
-        } else if
-            let resizedImage = self.resize(image: image, size: size) {
-            thumbImage = resizedImage
-            self.savePreviewImage(url: url, image: resizedImage, prefix: "ThumbnailsBigInline")
-        }
-
-        return thumbImage
-    }
-
-    public func getAttachmentFont() -> UIFont {
-        if let font = UIFont(name: "AvenirNext-BoldItalic", size: CGFloat(UserDefaultsManagement.fontSize)) {
-            return font
-        }
-        return UIFont.systemFont(ofSize: 14.0)
-    }
-
-    public func imageFromText(text: String, imageSize: CGSize) -> UIImage? {
-        let font = getAttachmentFont()
-        let textColor = NotesTextProcessor.fontColor
-        let backgroundColor = self.editor?.backgroundColor ?? UIColor.white
-
+    private func createTextAttributes(font: PlatformFont) -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
 
-        let attributes: [NSAttributedString.Key: Any] = [
+        #if os(OSX)
+        let isDark = UserDataService.instance.isDark
+        let textColor: PlatformColor = isDark ? .white : .black
+        let backgroundColor: PlatformColor = isDark ?
+            NSColor(red: 0.16, green: 0.17, blue: 0.18, alpha: 1.00) : .white
+        #else
+        let textColor = NotesTextProcessor.fontColor
+        let backgroundColor = UIColor.dropDownColor
+        #endif
+
+        return [
             .font: font,
             .foregroundColor: textColor,
             .backgroundColor: backgroundColor,
-            .paragraphStyle: paragraphStyle,
+            .paragraphStyle: paragraphStyle
         ]
+    }
 
-        let textSize = text.size(withAttributes: attributes)
-        let imageRect = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
+    private func calculateCenteredRect(textSize: CGSize, containerSize: CGSize) -> CGRect {
+        return CGRect(
+            x: (containerSize.width - textSize.width) / 2.0,
+            y: (containerSize.height - textSize.height) / 2.0,
+            width: textSize.width,
+            height: textSize.height
+        )
+    }
+
+    private func getScale() -> CGFloat {
+        #if os(OSX)
+        return NSScreen.main?.backingScaleFactor ?? 1.0
+        #elseif os(iOS)
+        return UIScreen.main.scale
+        #else
+        return 1.0
+        #endif
+    }
+}
+
+// MARK: - Static Utility Methods (Platform-Independent)
+
+extension NoteAttachment {
+    public static func getCacheUrl(from url: URL, prefix: String = Constants.previewPrefix) -> URL? {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent(prefix)
+
+        let filename = url.absoluteString.md5 + "." + url.pathExtension
+        return temporary.appendingPathComponent(filename)
+    }
+
+    public static func savePreviewImage(url: URL, image: PlatformImage, prefix: String = Constants.previewPrefix) {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent(prefix)
+
+        createDirectoryIfNeeded(at: temporary)
+
+        guard let cacheUrl = getCacheUrl(from: url, prefix: prefix),
+              let data = image.jpgData else {
+            return
+        }
+
+        try? data.write(to: cacheUrl)
+    }
+
+    private static func createDirectoryIfNeeded(at url: URL) {
+        if !FileManager.default.fileExists(atPath: url.path) {
+            try? FileManager.default.createDirectory(
+                at: url,
+                withIntermediateDirectories: true,
+                attributes: nil
+            )
+        }
+    }
+
+    public static func getImage(url: URL, size: CGSize) -> PlatformImage? {
+        guard let image = loadImage(from: url, size: size) else {
+            return nil
+        }
+
+        return getCachedOrResizedImage(original: image, url: url, size: size)
+    }
+
+    private static func loadImage(from url: URL, size: CGSize) -> PlatformImage? {
+        if url.isVideo {
+            return generateVideoThumbnail(from: url, size: size)
+        }
+
+        guard let imageData = try? Data(contentsOf: url) else {
+            return nil
+        }
+
+        #if os(OSX)
+        return NSImage(data: imageData)
+        #else
+        return UIImage(data: imageData)
+        #endif
+    }
+
+    private static func generateVideoThumbnail(from url: URL, size: CGSize) -> PlatformImage? {
+        let asset = AVURLAsset(url: url, options: nil)
+        let generator = AVAssetImageGenerator(asset: asset)
+
+        guard let cgImage = try? generator.copyCGImage(
+            at: CMTimeMake(value: 0, timescale: 1),
+            actualTime: nil
+        ) else {
+            return nil
+        }
+
+        #if os(OSX)
+        return NSImage(cgImage: cgImage, size: size)
+        #else
+        return UIImage(cgImage: cgImage)
+        #endif
+    }
+
+    private static func getCachedOrResizedImage(
+        original: PlatformImage,
+        url: URL,
+        size: CGSize
+    ) -> PlatformImage? {
+        let cacheURL = getCacheUrl(from: url, prefix: Constants.thumbnailPrefix)
+
+        if let cacheURL = cacheURL,
+           FileManager.default.fileExists(atPath: cacheURL.path) {
+            #if os(OSX)
+            if let cached = NSImage(contentsOfFile: cacheURL.path) {
+                return cached
+            }
+            #else
+            if let cached = UIImage(contentsOfFile: cacheURL.path) {
+                return cached
+            }
+            #endif
+        }
+
+        guard let resized = original.resized(to: size) else {
+            return original
+        }
+
+        savePreviewImage(url: url, image: resized, prefix: Constants.thumbnailPrefix)
+        return resized
+    }
+
+    private static func resizeImage(_ image: PlatformImage, to size: CGSize) -> PlatformImage? {
+        return image
+    }
+}
+
+// MARK: - macOS Specific Methods
+
+#if os(OSX)
+extension NoteAttachment {
+    private func createImageMacOS(
+        text: String,
+        imageSize: CGSize,
+        attributes: [NSAttributedString.Key: Any],
+        textSize: CGSize
+    ) -> NSImage? {
+        let imageRect = NSRect(origin: .zero, size: imageSize)
+        let image = NSImage(size: imageRect.size)
+
+        image.lockFocus()
+        defer { image.unlockFocus() }
+
+        // Fill background
+        (attributes[.backgroundColor] as? NSColor)?.setFill()
+        imageRect.fill()
+
+        // Draw centered text
+        let textRect = calculateCenteredRect(textSize: textSize, containerSize: imageSize)
+        text.draw(in: textRect, withAttributes: attributes)
+
+        return image
+    }
+}
+#endif
+
+// MARK: - iOS Specific Methods
+
+#if os(iOS)
+extension NoteAttachment {
+    private func createImageIOS(
+        text: String,
+        imageSize: CGSize,
+        attributes: [NSAttributedString.Key: Any],
+        textSize: CGSize
+    ) -> UIImage? {
+        let imageRect = CGRect(origin: .zero, size: imageSize)
 
         UIGraphicsBeginImageContextWithOptions(imageRect.size, false, 0.0)
         defer { UIGraphicsEndImageContext() }
@@ -307,19 +313,15 @@ class NoteAttachment {
             return nil
         }
 
-        // Fill background color
-        backgroundColor.setFill()
+        // Fill background
+        (attributes[.backgroundColor] as? UIColor)?.setFill()
         context.fill(imageRect)
 
-        // Draw text
-        let textRect = CGRect(x: (imageSize.width - textSize.width) / 2.0, y: (imageSize.height - textSize.height) / 2.0, width: textSize.width, height: textSize.height)
+        // Draw centered text
+        let textRect = calculateCenteredRect(textSize: textSize, containerSize: imageSize)
         text.draw(in: textRect, withAttributes: attributes)
 
-        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
-            return nil
-        }
-
-        return image
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
-    #endif
 }
+#endif

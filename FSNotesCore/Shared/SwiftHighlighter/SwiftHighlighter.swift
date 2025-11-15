@@ -1,5 +1,9 @@
 import Foundation
+#if os(OSX)
 import AppKit
+#else
+import UIKit
+#endif
 
 // MARK: - Core Types
 
@@ -66,27 +70,22 @@ extension Match {
 
 public struct HighlightStyle {
     public struct TextStyle {
-        public var color: NSColor
-        public var traits: NSFontDescriptor.SymbolicTraits = []
-
-        public init(color: NSColor, traits: NSFontDescriptor.SymbolicTraits = []) {
-            self.color = color
-            self.traits = traits
-        }
+        public var color: PlatformColor
+        public var traits: FontTraits = []
     }
 
-    public var font: NSFont = NSFont.systemFont(ofSize: 14)
-    public var foregroundColor: NSColor = .black
+    public var font: PlatformFont = PlatformFont.systemFont(ofSize: 14)
+    public var foregroundColor: PlatformColor = .black
     public var styles: [String: TextStyle] = [:]
 
     public init() {}
 
     public func attributes(for scope: String) -> [NSAttributedString.Key: Any] {
         guard let style = styles[scope] else {
-            return [.font: font, .foregroundColor: NSColor.labelColor]
+            return [.font: font, .foregroundColor: PlatformColor.label]
         }
-        let descriptor = font.fontDescriptor.withSymbolicTraits(style.traits)
-        let customFont = NSFont(descriptor: descriptor, size: font.pointSize) ?? font
+
+        let customFont = PlatformFont.withTraits(font: font, traits: style.traits)
         return [.font: customFont, .foregroundColor: style.color]
     }
 }
@@ -101,7 +100,7 @@ class AttributedStringRenderer {
         self.style = style
         self.baseAttributes = [
             .font: style.font,
-            .foregroundColor: NSColor.labelColor
+            .foregroundColor: PlatformColor.label
         ]
     }
 
@@ -185,7 +184,7 @@ public class SwiftHighlighter {
         guard let langDef = getLanguage(language) else {
             let baseAttrs: [NSAttributedString.Key: Any] = [
                 .font: options.style.font,
-                .foregroundColor: NSColor.labelColor
+                .foregroundColor: PlatformColor.label
             ]
             return NSAttributedString(string: code, attributes: baseAttrs)
         }

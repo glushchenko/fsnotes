@@ -227,8 +227,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         if let content = note.content.mutableCopy() as? NSMutableAttributedString {
-            content.loadCheckboxes()
-            content.loadImages(note: note)
+            content.loadTasks()
+            content.loadImagesAndFiles(note: note)
 
             editArea.attributedText = content
         }
@@ -257,12 +257,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     private func configureToolbar() {
-        guard let note = self.note else { return }
-
-        if self.toolbar != .markdown {
-            self.toolbar = .markdown
-            self.addToolBar(textField: editArea, toolbar: getMarkdownToolbar())
-        }
+        self.toolbar = .markdown
+        self.addToolBar(textField: editArea, toolbar: getMarkdownToolbar())
 
         if let scroll = editArea.inputAccessoryView as? UIScrollView {
             scroll.contentOffset = .zero
@@ -578,22 +574,17 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
             if let _ = value as? NSTextAttachment, storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
 
-                let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+                if let attachment = storage.attribute(.attachment, at: range.location, effectiveRange: nil) as? NSTextAttachment,
+                   let meta = attachment.getMeta() {
 
-                if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
+                    let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(meta.url.lastPathComponent)
 
-                    if let note = editArea.note {
-                        guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
+                    do {
+                        try FileManager.default.moveItem(at: meta.url, to: trashURL)
 
-                        let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageURL.lastPathComponent)
-
-                        do {
-                            try FileManager.default.moveItem(at: imageURL, to: trashURL)
-
-                            removedImages[trashURL] = imageURL
-                        } catch {
-                            print(error)
-                        }
+                        removedImages[trashURL] = meta.url
+                    } catch {
+                        print(error)
                     }
                 }
             }
@@ -678,13 +669,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         note.modifiedLocalAt = Date()
         self.storageQueue.cancelAllOperations()
 
-        let text = self.editArea.attributedText.copy() as? NSAttributedString
+        let text = self.editArea.attributedText.mutableCopy() as? NSMutableAttributedString
 
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self, let text = text else {return}
 
-            note.saveSync(copy: text)
+            note.save(content: text)
 
             if note.isEncrypted() && !note.isUnlocked() {
                 DispatchQueue.main.async {
@@ -1098,8 +1089,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             self.editArea.saveImageClipboard(data: data, note: note, ext: imageExt)
 
             if processed == urls.count {
-                note.saveSync(copy: self.editArea.attributedText)
-                note.invalidateCache()
+                if let content = self.editArea.attributedText.mutableCopy() as? NSMutableAttributedString {
+                    note.save(content: content)
+                    note.invalidateCache()
+                }
 
                 UIApplication.getVC().notesTable.reloadRows(notes: [note])
                 continue
@@ -1202,19 +1195,21 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
             let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
 
-            guard let path = myTextView.textStorage.attribute(pathKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
+            guard let attachment = myTextView.textStorage.attribute(.attachment, at: characterIndex, effectiveRange: nil) as? NSTextAttachment,
+                    let note = self.note,
+                    let meta = attachment.getMeta() else { return }
 
-            if let data = try? Data(contentsOf: url), let someImage = UIImage(data: data) {
+            if let data = try? Data(contentsOf: meta.url), let someImage = UIImage(data: data) {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let imagePreviewViewController = storyBoard.instantiateViewController(withIdentifier: "imagePreviewViewController") as! ImagePreviewViewController
 
                 imagePreviewViewController.image = someImage
-                imagePreviewViewController.url = url
+                imagePreviewViewController.url = meta.url
                 imagePreviewViewController.note = note
                 
                 navigationController?.pushViewController(imagePreviewViewController, animated: true)
-            } else if (FileManager.default.fileExists(atPath: url.path)) {
-                quickLook(url: url)
+            } else if (FileManager.default.fileExists(atPath: meta.url.path)) {
+                quickLook(url: meta.url)
             }
 
             return
@@ -1554,7 +1549,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         guard let note = self.note else { return }
 
         var processed = 0
-        var markup = String()
 
         for result in results {
            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
@@ -1569,10 +1563,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                if processed == results.count {
                    DispatchQueue.main.async {
-                       note.saveSync(copy: self.editArea.attributedText)
-                       note.invalidateCache()
-
-                       UIApplication.getVC().notesTable.reloadRows(notes: [note])
+                       if let content = self.editArea.attributedText.mutableCopy() as? NSMutableAttributedString {
+                           note.save(content: content)
+                           note.invalidateCache()
+                           UIApplication.getVC().notesTable.reloadRows(notes: [note])
+                       }
                    }
                    return
                }

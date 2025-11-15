@@ -125,7 +125,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                             finished = finished + 1
                             if started == finished {
-                                if note.save() {
+                                if note.saveSimple() {
                                     Storage.shared().add(note)
                                 }
                                 self.close()
@@ -138,7 +138,7 @@ class ShareViewController: SLComposeServiceViewController {
                             guard let url = URL(string: contentText) else {
                                 // File URL provided, but text is loaded in textView
                                 note.append(string: NSMutableAttributedString(string: contentText))
-                                if note.save() {
+                                if note.saveSimple() {
                                     Storage.shared().add(note)
                                 }
                                 self.close()
@@ -155,7 +155,7 @@ class ShareViewController: SLComposeServiceViewController {
                                 note.append(string: string)
                             }
 
-                            if note.save() {
+                            if note.saveSimple() {
                                 Storage.shared().add(note)
                             }
                             self.close()
@@ -168,7 +168,7 @@ class ShareViewController: SLComposeServiceViewController {
                             let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
                             note.append(string: string)
 
-                            if note.save() {
+                            if note.saveSimple() {
                                 Storage.shared().add(note)
                             }
                             

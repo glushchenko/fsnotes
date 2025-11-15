@@ -149,8 +149,8 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
                     evc.editArea.selectedRange = imageRange
                     evc.editArea.insertText("")
 
-                    if let copy = evc.editArea.attributedText.copy() as? NSAttributedString {
-                        note.saveSync(copy: copy)
+                    if let copy = evc.editArea.attributedText.mutableCopy() as? NSMutableAttributedString {
+                        note.save(content: copy)
                         note.invalidateCache()
                     }
 

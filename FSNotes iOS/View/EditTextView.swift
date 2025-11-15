@@ -139,10 +139,10 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
 
-        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
-            let imageUrl = note.getImageUrl(imageName: path),
-            let data = try? Data(contentsOf: imageUrl),
+        if self.selectedRange.length == 1,
+            let attachment = attributedString.attribute(.attachment, at: 0, effectiveRange: nil) as? NSTextAttachment,
+            let meta = attachment.getMeta(),
+            let data = try? Data(contentsOf: meta.url),
             let image = UIImage(data: data),
             let jpgData = image.jpegData(compressionQuality: 1) {
 
@@ -197,7 +197,7 @@ class EditTextView: UITextView, UITextViewDelegate {
                 if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
 
                     let attributedString = NSMutableAttributedString(attributedString: attributedString)
-                    attributedString.loadCheckboxes()
+                    attributedString.loadTasks()
                     
                     let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
                     attributedString.removeAttribute(.backgroundColor, range: NSRange(0..<attributedString.length))
@@ -248,12 +248,12 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
 
-        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String {
+        if self.selectedRange.length == 1,
+            let attachment = attributedString.attribute(.attachment, at: 0, effectiveRange: nil) as? NSTextAttachment,
+           let meta = attachment.getMeta() {
 
             DispatchQueue.global().async {
-                if let imageUrl = note.getImageUrl(imageName: path),
-                    let data = try? Data(contentsOf: imageUrl),
+                if let data = try? Data(contentsOf: meta.url),
                     let image = UIImage(data: data),
                     let jpgData = image.jpegData(compressionQuality: 1) {
 
@@ -310,24 +310,22 @@ class EditTextView: UITextView, UITextViewDelegate {
 
     public func saveImageClipboard(data: Data, note: Note, ext: String? = nil) {
         if let path = ImagesProcessor.writeFile(data: data, note: note, ext: ext) {
-            if let imageUrl = note.getImageUrl(imageName: path) {
+            if let imageUrl = note.getAttachmentFileUrl(name: path) {
 
                 let range = NSRange(location: selectedRange.location, length: 1)
-                let attachment = NoteAttachment(editor: self, title: "", path: path, url: imageUrl)
+                let attachment = NSTextAttachment(url: imageUrl, path: "", title: "")
+                let attributedString = NSMutableAttributedString(attachment: attachment)
 
-                if let attributedString = attachment.getAttributedString() {
+                undoManager?.beginUndoGrouping()
+                textStorage.replaceCharacters(in: selectedRange, with: attributedString)
+                selectedRange = NSRange(location: selectedRange.location + attributedString.length, length: 0)
+                undoManager?.endUndoGrouping()
 
-                    undoManager?.beginUndoGrouping()
-                    textStorage.replaceCharacters(in: selectedRange, with: attributedString)
-                    selectedRange = NSRange(location: selectedRange.location + attributedString.length, length: 0)
-                    undoManager?.endUndoGrouping()
+                let undo = Undo(range: range, string: attributedString)
+                undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
 
-                    let undo = Undo(range: range, string: attributedString)
-                    undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
-
-                    initUndoRedoButons()
-                    return
-                }
+                initUndoRedoButons()
+                return
             }
         }
     }

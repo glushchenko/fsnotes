@@ -6,53 +6,51 @@
 //  Copyright © 2025 Oleksandr Hlushchenko. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
+#else
+import UIKit
+#endif
 
 struct GitHubLightTheme {
     static func make() -> HighlightStyle {
         var style = HighlightStyle()
         style.font = UserDefaultsManagement.codeFont
         style.foregroundColor = UserDefaultsManagement.fontColor
-        style.styles = [
-            // Базовые элементы
-            "keyword": .init(color: NSColor(hex: "#333333"), traits: .bold),        // if, class, function, SELECT
-            "string": .init(color: NSColor(hex: "#dd1144")),                       // "string", 'string'
-            "number": .init(color: NSColor(hex: "#008080")),                       // 123, 3.14
-            "comment": .init(color: NSColor(hex: "#999988"), traits: .italic),     // // comment, /* comment */
-            "literal": .init(color: NSColor(hex: "#008080")),                      // true, false, null, TRUE, FALSE
-            "variable": .init(color: NSColor(hex: "#008080")),                     // $var, @var, let name
-            "modifier": .init(color: NSColor(hex: "#333333"), traits: .bold),      // public, private, static
-            
-            // Функции и классы
-            "function": .init(color: NSColor(hex: "#990000"), traits: .bold),      // functionName(), COUNT()
-            "class": .init(color: NSColor(hex: "#0066cc"), traits: .bold),         // ClassName, TableName, String, INT
-            "params": .init(color: NSColor(hex: "#795da3")),                       // параметры функций
-            
-            // SQL специфичные
-            "built_in": .init(color: NSColor(hex: "#0086b3"), traits: .bold),      // COUNT, SUM, NOW, Array
-            "type": .init(color: NSColor(hex: "#458")),                            // VARCHAR, INT, String, Bool
-            
-            // Операторы и пунктуация
-            "operator": .init(color: NSColor(hex: "#333333")),                     // +, -, =, !=, &&, ||
-            "punctuation": .init(color: NSColor(hex: "#333333")),                  // (), [], {}, ,, ;
-            
-            // Мета-теги и специальные элементы
-            "meta": .init(color: NSColor(hex: "#BAB8B8")),                         // <?php, ?>, HTML tags
-            "subst": .init(color: NSColor(hex: "#333333")),                        // подстановки в строках
-            
-            // Дополнительные scope'ы для расширяемости
-            "attribute": .init(color: NSColor(hex: "#0086b3")),                    // HTML/XML атрибуты
-            "symbol": .init(color: NSColor(hex: "#990073")),                       // символы, константы
-            "regexp": .init(color: NSColor(hex: "#009926")),                       // регулярные выражения
-            "link": .init(color: NSColor(hex: "#0066cc")),                         // ссылки в Markdown
-            "tag": .init(color: NSColor(hex: "#000080")),                          // HTML теги
-            "name": .init(color: NSColor(hex: "#0066cc")),                         // имена тегов
-            "quote": .init(color: NSColor(hex: "#dd1144")),                        // цитаты в Markdown
-            "deletion": .init(color: NSColor(hex: "#bd2c00")),                     // удаленный текст в diff
-            "addition": .init(color: NSColor(hex: "#55a532")),                     // добавленный текст в diff
-            "strong": .init(color: NSColor(hex: "#333333"), traits: .bold),        // жирный текст в Markdown
-            "emphasis": .init(color: NSColor(hex: "#333333"), traits: .italic)     // курсив в Markdown
-        ]
+
+        style.styles["keyword"]   = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"), traits: [.bold])
+        style.styles["string"]    = HighlightStyle.TextStyle(color: PlatformColor(hex: "#dd1144"))
+        style.styles["number"]    = HighlightStyle.TextStyle(color: PlatformColor(hex: "#008080"))
+        style.styles["comment"]   = HighlightStyle.TextStyle(color: PlatformColor(hex: "#999988"), traits: [.italic])
+        style.styles["literal"]   = HighlightStyle.TextStyle(color: PlatformColor(hex: "#008080"))
+        style.styles["variable"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#008080"))
+        style.styles["modifier"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"), traits: [.bold])
+
+        style.styles["function"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#990000"), traits: [.bold])
+        style.styles["class"]     = HighlightStyle.TextStyle(color: PlatformColor(hex: "#0066cc"), traits: [.bold])
+        style.styles["params"]    = HighlightStyle.TextStyle(color: PlatformColor(hex: "#795da3"))
+
+        style.styles["built_in"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#0086b3"), traits: [.bold])
+        style.styles["type"]      = HighlightStyle.TextStyle(color: PlatformColor(hex: "#458"))
+
+        style.styles["operator"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"))
+        style.styles["punctuation"] = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"))
+
+        style.styles["meta"]      = HighlightStyle.TextStyle(color: PlatformColor(hex: "#BAB8B8"))
+        style.styles["subst"]     = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"))
+
+        style.styles["attribute"] = HighlightStyle.TextStyle(color: PlatformColor(hex: "#0086b3"))
+        style.styles["symbol"]    = HighlightStyle.TextStyle(color: PlatformColor(hex: "#990073"))
+        style.styles["regexp"]    = HighlightStyle.TextStyle(color: PlatformColor(hex: "#009926"))
+        style.styles["link"]      = HighlightStyle.TextStyle(color: PlatformColor(hex: "#0066cc"))
+        style.styles["tag"]       = HighlightStyle.TextStyle(color: PlatformColor(hex: "#000080"))
+        style.styles["name"]      = HighlightStyle.TextStyle(color: PlatformColor(hex: "#0066cc"))
+        style.styles["quote"]     = HighlightStyle.TextStyle(color: PlatformColor(hex: "#dd1144"))
+        style.styles["deletion"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#bd2c00"))
+        style.styles["addition"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#55a532"))
+        style.styles["strong"]    = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"), traits: [.bold])
+        style.styles["emphasis"]  = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"), traits: [.italic])
+
         return style
     }
 }

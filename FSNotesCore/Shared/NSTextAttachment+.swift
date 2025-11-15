@@ -6,16 +6,26 @@
 //  Copyright © 2019 Oleksandr Glushchenko. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
+#else
+import UIKit
+#endif
 
 extension NSTextAttachment {
     convenience init(url: URL, path: String, title: String) {
         let meta = Attachment(url: url, title: title, path: path)
 
         if let encoded = try? JSONEncoder().encode(meta) {
-            let fileWrapper = FileWrapper(regularFileWithContents: encoded)
-            fileWrapper.preferredFilename = "attachment.bin"
-            self.init(fileWrapper: fileWrapper)
+            let fileWrapperContainer = FileWrapper(regularFileWithContents: encoded)
+            #if os(iOS)
+            self.init()
+            fileWrapper = fileWrapperContainer
+            #elseif os(macOS)
+            self.init(fileWrapper: fileWrapperContainer)
+            #else
+            self.init()
+            #endif
         } else {
             self.init()
         }

@@ -170,6 +170,10 @@ public extension URL {
         return UTTypeConformsTo(fileUTI, kUTTypeImage)
     }
 
+    var isMedia: Bool {
+        return isImage || isVideo
+    }
+
     var mimeType: String {
         guard
             let identifier = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)?.takeRetainedValue(),

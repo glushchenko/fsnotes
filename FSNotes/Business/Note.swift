@@ -296,6 +296,10 @@ public class Note: NSObject  {
     }
     
     func load(tags: Bool = true) {
+        #if SHARE_EXT
+            return
+        #endif
+
         if let attributedString = getContent() {
             cacheHash = nil
             content = attributedString.loadAttachments(self)
@@ -1027,15 +1031,6 @@ public class Note: NSObject  {
         Storage.shared().plainWriter.cancelAllOperations()
         Storage.shared().plainWriter.addOperation(operation)
     }
-
-    #if os(iOS)
-    public func saveSync(copy: NSAttributedString) {
-        let mutableCopy = NSMutableAttributedString(attributedString: copy)
-        let unloadedCopy = mutableCopy.unLoad()
-
-        self.save(content: unloadedCopy)
-    }
-    #endif
 
     public func save(content: NSMutableAttributedString) {
         self.content = content
@@ -2277,8 +2272,10 @@ public class Note: NSObject  {
     }
 
     public func cacheCodeBlocks() {
+    #if !SHARE_EXT
         let ranges = CodeBlockDetector.shared.findCodeBlocks(in: content)
         codeBlockRangesCache = ranges
+    #endif
     }
 
     public func isInCodeBlockRange(range: NSRange) -> Bool {
@@ -2351,5 +2348,9 @@ public class Note: NSObject  {
 
             return name
         }
+    }
+
+    public func saveSimple() -> Bool {
+        return write(attributedString: content)
     }
 }

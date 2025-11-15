@@ -7,7 +7,12 @@
 //
 
 import Foundation
+
+#if os(OSX)
 import AppKit
+#else
+import UIKit
+#endif
 
 extension NSMutableAttributedString {
 
@@ -73,7 +78,8 @@ extension NSMutableAttributedString {
             else { return }
 
             if fileURL.isRemote() {
-                //skip
+                return
+                
             } else if FileManager.default.fileExists(atPath: fileURL.path),
                       fileURL.isImage || fileURL.isVideo {
                 images.append(fileURL)
