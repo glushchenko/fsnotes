@@ -32,4 +32,18 @@ class Buttons {
     public static func getTrash(target: Any, selector: Selector) -> UIBarButtonItem {
         return UIBarButtonItem(systemImageName: "trash", target: target, selector: selector)
     }
+
+    public static func getNewNote(target: Any, selector: Selector) -> UIBarButtonItem {
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .default)
+        let image = UIImage(systemName: "square.and.pencil", withConfiguration: config)?
+            .imageWithColor(color1: UIColor.mainTheme)
+
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.tintColor = .mainTheme
+        button.imageEdgeInsets = UIEdgeInsets(top: -2, left: 3, bottom: 2, right: -3)
+        button.addTarget(target, action: selector, for: .touchUpInside)
+
+        return UIBarButtonItem(customView: button)
+    }
 }

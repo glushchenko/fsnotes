@@ -11,14 +11,14 @@ import UIKit
 
 extension UITableViewController {
     public func initZeroNavigationBackground() {
-        let style = NSMutableParagraphStyle()
-        style.firstLineHeadIndent = 0
-
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.largeTitleTextAttributes = [NSAttributedString.Key.paragraphStyle : style]
-
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+//        let style = NSMutableParagraphStyle()
+//        style.firstLineHeadIndent = 0
+//
+//        let appearance = UINavigationBarAppearance()
+//        appearance.configureWithOpaqueBackground()
+//        appearance.largeTitleTextAttributes = [NSAttributedString.Key.paragraphStyle : style]
+//
+//        navigationController?.navigationBar.standardAppearance = appearance
+//        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
 }

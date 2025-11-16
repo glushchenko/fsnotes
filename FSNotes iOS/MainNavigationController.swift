@@ -29,7 +29,6 @@ class MainNavigationController: UINavigationController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let evc = UIApplication.getEVC()
             
-            evc.topBorder.backgroundColor = UIColor.toolbarBorder.cgColor
             evc.editArea.textStorage.updateCheckboxList()
 
             if let previewView = evc.getPreviewView() {

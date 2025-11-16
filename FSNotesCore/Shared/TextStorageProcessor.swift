@@ -93,7 +93,8 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         if let ranges = result.md {
             for range in ranges {
                 // print("became markdown \(range)")
-                NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: range)
+                let safeRange = safeRange(range, in: textStorage)
+                NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: safeRange)
             }
         }
     }

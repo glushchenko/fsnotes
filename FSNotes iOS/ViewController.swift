@@ -82,16 +82,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureSearchController()
 
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.setToolbarHidden(true, animated: false)
-        view.backgroundColor = .whiteBlack
 
-        // configure proper title margin
-        let style = NSMutableParagraphStyle()
-        style.firstLineHeadIndent = 10
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem.flexibleSpace())
+        items.append(Buttons.getNewNote(target: self, selector: #selector(newButtonAction)))
+
+        toolbarItems = items
+        navigationController?.setToolbarHidden(false, animated: true)
+
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.largeTitleTextAttributes = [NSAttributedString.Key.paragraphStyle : style]
+        appearance.configureWithDefaultBackground()
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+        //appearance.titleTextAttributes = [.foregroundColor: UIColor.mainTheme]
 
         super.viewWillAppear(animated)
     }
@@ -218,7 +221,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func configureUI() {
-        UINavigationBar.appearance().isTranslucent = false
+        //UINavigationBar.appearance().isTranslucent = true
 
         self.metadataQueue.qualityOfService = .userInteractive
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)

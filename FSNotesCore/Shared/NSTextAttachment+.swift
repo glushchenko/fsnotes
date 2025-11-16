@@ -10,6 +10,7 @@
 import AppKit
 #else
 import UIKit
+import UniformTypeIdentifiers
 #endif
 
 extension NSTextAttachment {
@@ -17,11 +18,10 @@ extension NSTextAttachment {
         let meta = Attachment(url: url, title: title, path: path)
 
         if let encoded = try? JSONEncoder().encode(meta) {
-            let fileWrapperContainer = FileWrapper(regularFileWithContents: encoded)
             #if os(iOS)
-            self.init()
-            fileWrapper = fileWrapperContainer
+            self.init(data: encoded, ofType: UTType.data.identifier)
             #elseif os(macOS)
+            let fileWrapperContainer = FileWrapper(regularFileWithContents: encoded)
             self.init(fileWrapper: fileWrapperContainer)
             #else
             self.init()
@@ -42,10 +42,17 @@ extension NSTextAttachment {
     }
 
     public func getMeta() -> Attachment? {
+        #if os(iOS)
+        if let data = contents,
+           let meta = try? JSONDecoder().decode(Attachment.self, from: data) {
+            return meta
+        }
+        #elseif os(OSX)
         if let data = fileWrapper?.regularFileContents,
            let meta = try? JSONDecoder().decode(Attachment.self, from: data) {
             return meta
         }
+        #endif
 
         return nil
     }
@@ -57,7 +64,6 @@ extension NSTextAttachment {
         guard let encoded = try? JSONEncoder().encode(meta) else { return }
 
         let fileWrapper = FileWrapper(regularFileWithContents: encoded)
-        fileWrapper.preferredFilename = "attachment.bin"
 
         self.fileWrapper = fileWrapper
     }
@@ -79,10 +85,7 @@ extension NSTextAttachment {
         }
 
         guard let encoded = try? JSONEncoder().encode(meta) else { return }
-
         let fileWrapper = FileWrapper(regularFileWithContents: encoded)
-        fileWrapper.preferredFilename = "attachment.bin"
-
         self.fileWrapper = fileWrapper
     }
 
@@ -90,7 +93,6 @@ extension NSTextAttachment {
         guard let encoded = try? JSONEncoder().encode(attachment) else { return }
 
         let fileWrapper = FileWrapper(regularFileWithContents: encoded)
-        fileWrapper.preferredFilename = "attachment.bin"
 
         self.fileWrapper = fileWrapper
     }

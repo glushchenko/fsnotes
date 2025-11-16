@@ -389,9 +389,10 @@ class EditTextView: UITextView, UITextViewDelegate {
     public func isImage(at location: Int) -> Bool {
         let storage = self.textStorage
 
-        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-
-        if storage.length > location, storage.attribute(pathKey, at: location, effectiveRange: nil) != nil {
+        if storage.length > location,
+            let attachment = storage.attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment,
+            attachment.getMeta() != nil
+        {
             return true
         }
 
