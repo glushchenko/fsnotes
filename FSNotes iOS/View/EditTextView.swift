@@ -22,9 +22,6 @@ class EditTextView: UITextView, UITextViewDelegate {
     public var keyboardIsOpened = true
     public var callCounter = 0
     
-    private var undoIcon = UIImage(named: "undo.png")
-    private var redoIcon = UIImage(named: "redo.png")
-
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
             super.init(coder: coder)
@@ -236,23 +233,8 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
     
     public func initUndoRedoButons() {
-        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
-        
-        let img = um.canUndo ? undoIcon : undoIcon?.alpha(0.5)
-        let redoImg = um.canRedo ? redoIcon : redoIcon?.alpha(0.5)
-
-        if let scroll = self.inputAccessoryView as? UIScrollView, let toolBar = scroll.subviews.first as? UIToolbar, let items = toolBar.items {
-            for item in items {
-                
-                if item.action == #selector(EditorViewController.undoPressed) {
-                    item.image = img
-                }
-                
-                if item.action == #selector(EditorViewController.redoPressed) {
-                    item.image = redoImg
-                }
-            }
-        }
+        UIApplication.getEVC().undoBarButton?.isEnabled = undoManager?.canUndo == true
+        UIApplication.getEVC().redoBarButton?.isEnabled = undoManager?.canRedo == true
     }
     
     public func isTodo(at location: Int) -> Bool {

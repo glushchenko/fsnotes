@@ -142,19 +142,15 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
         let alertController = UIAlertController(title: NSLocalizedString("Picture removing", comment: ""), message: messageText, preferredStyle: .alert)
 
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
-            if let url = self.url, let note = self.note {
-                let evc = UIApplication.getEVC()
+            if let url = self.url, let _ = self.note, let textView = UIApplication.getEVC().editArea {
+                if let imageRange = textView.textStorage.getImageRange(url: url) {
+                    textView.selectedRange = imageRange
 
-                if let imageRange = evc.editArea.textStorage.getImageRange(url: url) {
-                    evc.editArea.selectedRange = imageRange
-                    evc.editArea.insertText("")
-
-                    if let copy = evc.editArea.attributedText.mutableCopy() as? NSMutableAttributedString {
-                        note.save(content: copy)
-                        note.invalidateCache()
+                    if let should = textView.delegate?.textView?(textView, shouldChangeTextIn: imageRange, replacementText: "") {
+                        guard should else { return }
                     }
 
-                    UIApplication.getVC().notesTable.reloadRows(notes: [note])
+                    textView.insertAttributedText(NSAttributedString(string: ""))
                 }
             }
 

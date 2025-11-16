@@ -26,6 +26,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     var inProgress = false
     var change = 0
 
+    public var undoBarButton: UIBarButtonItem?
+    public var redoBarButton: UIBarButtonItem?
+
     @IBOutlet weak var editArea: EditTextView!
 
     var rowUpdaterTimer = Timer()
@@ -699,10 +702,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         scroll.addSubview(toolbar)
         toolbar.frame.origin = .zero
         textField.inputAccessoryView = scroll
-
-        if let etv = textField as? EditTextView {
-            etv.initUndoRedoButons()
-        }
     }
 
     private func getMarkdownToolbar() -> UIToolbar {
@@ -750,18 +749,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let unindentButton = UIBarButtonItem(systemImageName: "decrease.indent", target: self, selector: #selector(EditorViewController.unIndentPressed))
         items.append(unindentButton)
 
-        let undoButton = UIBarButtonItem(systemImageName: "arrow.uturn.backward", target: self, selector: #selector(EditorViewController.undoPressed))
-        items.append(undoButton)
+        self.undoBarButton = UIBarButtonItem(systemImageName: "arrow.uturn.backward", target: self, selector: #selector(EditorViewController.undoPressed))
+        items.append(self.undoBarButton!)
 
-        let redoButton = UIBarButtonItem(systemImageName: "arrow.uturn.forward", target: self, selector: #selector(EditorViewController.redoPressed))
-        items.append(redoButton)
+        self.redoBarButton = UIBarButtonItem(systemImageName: "arrow.uturn.forward", target: self, selector: #selector(EditorViewController.redoPressed))
+        items.append(self.redoBarButton!)
 
-        // Устанавливаем ширину кнопок
         var totalWidth: CGFloat = 0
         for item in items {
-            //item.width = 52
-            //totalWidth += item.width
-
             if item.tag == 0x03 {
                 item.width = 30
                 totalWidth += 30
@@ -775,7 +770,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         toolBar.setItems(items, animated: false)
         toolBar.isUserInteractionEnabled = true
 
-        // Настраиваем appearance
         let appearance = UIToolbarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .darkGray

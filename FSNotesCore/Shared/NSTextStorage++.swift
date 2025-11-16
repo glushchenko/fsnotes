@@ -18,8 +18,7 @@ extension NSTextStorage {
         var foundRange: NSRange?
 
         enumerateAttribute(.attachment, in: affectedRange) { (value, range, stop) in
-            guard let value = value as? NSTextAttachment,
-                  let meta = value.getMeta(),
+            guard let meta = getMeta(at: range.location),
                   url.path == meta.url.path else { return }
 
             foundRange = range
