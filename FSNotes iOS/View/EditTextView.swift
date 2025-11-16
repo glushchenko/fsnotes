@@ -132,55 +132,39 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func cut(_ sender: Any?) {
-        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
+        let selectedRange = self.selectedRange
+        guard selectedRange.length > 0 else { return }
 
-        if self.selectedRange.length == 1,
-            let attachment = attributedString.attribute(.attachment, at: 0, effectiveRange: nil) as? NSTextAttachment,
-            let meta = attachment.getMeta(),
-            let data = try? Data(contentsOf: meta.url),
-            let image = UIImage(data: data),
-            let jpgData = image.jpegData(compressionQuality: 1) {
+        let selectedString = textStorage.attributedSubstring(from: selectedRange)
+        let attributedString = NSMutableAttributedString(attributedString: selectedString).unloadTasks()
+        attributedString.saveData()
 
-            let location = selectedRange.location
+        do {
+            let data = try NSKeyedArchiver.archivedData(
+                withRootObject: attributedString,
+                requiringSecureCoding: false
+            )
 
-            if let textRange = getTextRange() {
-                self.replace(textRange, withText: "")
-            }
-
-            self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
-            self.selectedRange = NSRange(location: location, length: 0)
-
-            UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
-            return
+            UIPasteboard.general.setItems([
+                [UIPasteboard.attributed: data],
+                [kUTTypePlainText as String: attributedString.string]
+            ])
+        } catch {
+            print("Serialization error: \(error)")
         }
 
-        if self.textStorage.length >= self.selectedRange.upperBound {
-            if let rtfd = try? attributedString.data(
-                from: NSMakeRange(0, attributedString.length),
-                documentAttributes: [
-                    NSAttributedString.DocumentAttributeKey.documentType:
-                        NSAttributedString.DocumentType.rtfd
-                ]
-            ) {
-                UIPasteboard.general.setData(rtfd, forPasteboardType: "es.fsnot.attributed.text"
-                )
-
-                if let textRange = getTextRange() {
-                    self.replace(textRange, withText: "")
-                }
-
-                return
-            }
-
-            let item = [kUTTypeUTF8PlainText as String : attributedString.string as Any]
-            UIPasteboard.general.items = [item]
+        if let should = delegate?.textView?(self, shouldChangeTextIn: selectedRange, replacementText: "") {
+            guard should else { return }
         }
 
-        super.cut(sender)
+        let empty = NSAttributedString(string: "")
+        self.insertAttributedText(empty)
     }
+
 
     override func paste(_ sender: Any?) {
         let pb = UIPasteboard.general
+        var toInsert: NSAttributedString?
 
         if let data = pb.data(forPasteboardType: UIPasteboard.attributed) {
             do {
@@ -190,36 +174,39 @@ class EditTextView: UITextView, UITextViewDelegate {
                 ) {
                     let mutable = NSMutableAttributedString(attributedString: attributed)
                     mutable.loadTasks()
-                    _ = mutable.loadAttachments(self.note!)
-
-                    self.insertAttributedText(mutable)
-                    return
+                    toInsert = mutable
                 }
             } catch {
                 print("Paste error: \(error)")
             }
         }
 
-        if let plain = pb.string {
+        if toInsert == nil, let plain = pb.string {
             let mutable = NSMutableAttributedString(string: plain)
             mutable.loadTasks()
+            toInsert = mutable
+        }
 
-            self.insertAttributedText(mutable)
+        guard let attrToInsert = toInsert else {
+            super.paste(sender)
             return
         }
 
-        super.paste(sender)
+        let range = self.selectedRange
+        if let should = delegate?.textView?(self, shouldChangeTextIn: range, replacementText: attrToInsert.string), !should {
+            return
+        }
+
+        self.insertAttributedText(attrToInsert)
     }
 
     override func copy(_ sender: Any?) {
-        let selectedString = textStorage.attributedSubstring(from: self.selectedRange)
-        let attributedString = NSMutableAttributedString(attributedString: selectedString).unloadTasks()
+        guard selectedRange.length > 0 else { return }
 
-        // resave it
-        let range = NSRange(location: 0, length: attributedString.length)
-        attributedString.enumerateAttribute(.attachment, in: range) { (value, range, _) in
-            attributedString.addAttribute(.attachmentSave, value: true, range: range)
-        }
+        let selectedString = textStorage.attributedSubstring(from: self.selectedRange)
+        
+        let attributedString = NSMutableAttributedString(attributedString: selectedString).unloadTasks()
+        attributedString.saveData()
 
         do {
             let data = try NSKeyedArchiver.archivedData(

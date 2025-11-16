@@ -233,10 +233,10 @@ extension NSMutableAttributedString {
         let range = NSRange(location: location, length: 1)
 
         #if os(iOS)
-        if attribute(.attachmentSave, at: location, effectiveRange: nil) != nil {
-            guard let url = attribute(.attachmentUrl, at: location, effectiveRange: nil) as? URL else { return nil }
+        if let data = attribute(.attachmentSave, at: location, effectiveRange: nil) as? Data {
             removeAttribute(.attachmentSave, range: range)
-            return try? Data(contentsOf: url)
+
+            return data
         }
         #else
             guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) else { return nil }
@@ -245,4 +245,16 @@ extension NSMutableAttributedString {
 
         return nil
     }
+
+#if os(iOS)
+    public func saveData() {
+        let range = NSRange(location: 0, length: length)
+        enumerateAttribute(.attachmentUrl, in: range) { (value, range, _) in
+            guard let url = value as? URL,
+                  let data = try? Data(contentsOf: url) else { return }
+
+            addAttribute(.attachmentSave, value: data, range: range)
+        }
+    }
+#endif
 }

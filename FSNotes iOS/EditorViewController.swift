@@ -32,7 +32,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     public var tagsTimer: Timer?
     private let dropDown = DropDown()
-    public var isUndoAction: Bool = false
 
     private var isLandscape: Bool?
 
@@ -265,24 +264,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
     }
 
-    // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-
-        if isUndoAction {
-            isUndoAction = false
-            return true
-        }
-
         guard let note = self.note else { return true }
 
         tagsHandler(affectedCharRange: range, text: text)
         wikilinkHandler(textView: textView, text: text)
 
-        if note.isMarkdown() {
-            deleteUnusedImages(checkRange: range)
-
-            self.applyStrikeTypingAttribute(range: range)
-        }
+        deleteUnusedImages(checkRange: range)
+        applyStrikeTypingAttribute(range: range)
 
         // New line
         if text == "\n" {
@@ -548,38 +537,15 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     private func deleteUnusedImages(checkRange: NSRange) {
-        let storage = editArea.textStorage
-        var removedImages = [URL: URL]()
-
-        storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
-            guard let meta = storage.getMeta(at: range.location) else { return }
-
-            let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(meta.url.lastPathComponent)
+        editArea.textStorage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
+            guard let meta = editArea.textStorage.getMeta(at: range.location) else { return }
 
             do {
-                try FileManager.default.moveItem(at: meta.url, to: trashURL)
+                if let data = try? Data(contentsOf: meta.url) {
+                    editArea.textStorage.addAttribute(.attachmentSave, value: data, range: range)
 
-                removedImages[trashURL] = meta.url
-            } catch {
-                print(error)
-            }
-        }
-
-        if removedImages.count > 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.editArea.undoManager?.registerUndo(withTarget: self, handler: { (targetSelf) in
-                    targetSelf.unDeleteImages(removedImages)
-                })
-
-                self.editArea.undoManager?.setActionName("Delete image")
-            }
-        }
-    }
-
-    @objc public func unDeleteImages(_ urls: [URL: URL]) {
-        for (src, dst) in urls {
-            do {
-                try FileManager.default.moveItem(at: src, to: dst)
+                    try FileManager.default.removeItem(at: meta.url)
+                }
             } catch {
                 print(error)
             }
@@ -591,7 +557,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let paragraphRange = string.paragraphRange(for: range)
         let paragraph = editArea.textStorage.attributedSubstring(from: paragraphRange)
 
-        if paragraph.length > 0, let attachment = paragraph.attribute(NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.todo"), at: 0, effectiveRange: nil) as? Int, attachment == 1 {
+        if paragraph.length > 0, let attachment = paragraph.attribute(.todo, at: 0, effectiveRange: nil) as? Int, attachment == 1 {
             editArea.typingAttributes[.strikethroughStyle] = 1
         } else {
             editArea.typingAttributes.removeValue(forKey: .strikethroughStyle)
@@ -1040,42 +1006,18 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
     
     @objc func undoPressed() {
-        isUndoAction = true
-
-        let evc = UIApplication.getEVC()
-
-        guard let ea = evc.editArea,
-            let um = ea.undoManager else {
-            return
-        }
-        
-        self.isUndo = true
-
-        if um.undoActionName == "Delete image" {
-            um.undo()
-        }
-
+        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
         um.undo()
-
         ea.initUndoRedoButons()
     }
     
     @objc func redoPressed() {
-        isUndoAction = true
-
-        let evc = UIApplication.getEVC()
-        guard let ea = evc.editArea,
-            let um = ea.undoManager else {
-            return
-        }
-        
+        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
         um.redo()
         ea.initUndoRedoButons()
     }
 
     func initLinksColor() {
-        guard let note = self.note else { return }
-
         var linkAttributes: [NSAttributedString.Key : Any] = [
             .foregroundColor: UIColor.linksColor
         ]
