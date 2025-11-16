@@ -116,12 +116,14 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         let affectedRange = NSRange(start..<finish)
         textStorage.enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
             guard let attachment = value as? NSTextAttachment,
-                  var meta = attachment.getMeta() else { return }
+                  let meta = textStorage.getMeta(at: range.location) else { return }
 
+        #if os(OSX)
             if let result = note.save(attachment: meta) {
                 attachment.saveMetaData(url: result.1, path: result.0, title: meta.title)
                 meta.url = result.1
             }
+        #endif
 
             let maxWidth = getImageMaxWidth()
             loadImage(attachment: attachment, url: meta.url, range: range, textStorage: textStorage, maxWidth: maxWidth)

@@ -14,19 +14,19 @@ public extension NSAttributedString.Key {
     }
 
     static var attachmentUrl: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
+        return NSAttributedString.Key(rawValue: "es.fsnot.image.url")
     }
 
     static var attachmentPath: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+        return NSAttributedString.Key(rawValue: "es.fsnot.image.path")
     }
 
     static var attachmentTitle: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
+        return NSAttributedString.Key(rawValue: "es.fsnot.image.title")
     }
 
     static var todo: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.todo")
+        return NSAttributedString.Key(rawValue: "es.fsnot.image.todo")
     }
 
     static var tag: NSAttributedString.Key {

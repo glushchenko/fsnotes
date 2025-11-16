@@ -651,6 +651,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         operation.addExecutionBlock { [weak self] in
             guard let self = self, let text = text else {return}
 
+            print("pre unload")
+            print(text.string)
+
+            print("unload")
+            print(text.unloadAttachments().string)
+
             note.save(content: text)
 
             if note.isEncrypted() && !note.isUnlocked() {
@@ -1127,9 +1133,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 //                return
 //            }
 
-            guard let attachment = myTextView.textStorage.attribute(.attachment, at: characterIndex, effectiveRange: nil) as? NSTextAttachment,
-                    let note = self.note,
-                    let meta = attachment.getMeta() else { return }
+            guard let meta = myTextView.textStorage.getMeta(at: characterIndex) else { return }
 
             if let data = try? Data(contentsOf: meta.url), let someImage = UIImage(data: data) {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

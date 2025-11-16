@@ -18,34 +18,43 @@ extension NSMutableAttributedString {
 
     convenience init(url: URL, title: String = "", path: String) {
         let attachment = NSTextAttachment(url: url, path: path, title: title)
+        let attributedAttachment = NSMutableAttributedString(attachment: attachment)
 
+        let range = NSRange(location: 0, length: 1)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = url.isImage ? .center : .left
 
-        let attributedAttachment = NSMutableAttributedString(attachment: attachment)
-        attributedAttachment.addAttributes([.paragraphStyle: paragraphStyle], range: NSRange(location: 0, length: 1))
+        attributedAttachment.addAttributes([.paragraphStyle: paragraphStyle], range: range)
+
+    #if os(iOS)
+        // Only one way to store metadata in iOS
+        attributedAttachment.addAttribute(.attachmentUrl, value: url, range: range)
+        attributedAttachment.addAttribute(.attachmentPath, value: path, range: range)
+        attributedAttachment.addAttribute(.attachmentTitle, value: title, range: range)
+    #endif
 
         self.init(attributedString: attributedAttachment)
     }
 
     public func unloadImagesAndFiles() -> NSMutableAttributedString {
         let result = NSMutableAttributedString(attributedString: self)
-        var offset = 0
-
         let fullRange = NSRange(location: 0, length: result.length)
-        enumerateAttribute(.attachment, in: fullRange) { value, range, _ in
+
+        enumerateAttribute(.attachment, in: fullRange, options: .reverse) { value, range, _ in
+        #if os(OSX)
             guard let value = value as? NSTextAttachment,
                   let meta = value.getMeta() else { return }
 
+            let title = meta.title
             let path = meta.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? meta.path
+        #else
+            guard let path = result.attribute(.attachmentPath, at: range.location, effectiveRange: nil) as? String else { return }
+            let title = result.attribute(.attachmentTitle, at: range.location, effectiveRange: nil) as? String ?? String()
+        #endif
 
-            let replacement = "![\(meta.title)](\(path))"
-            let adjustedRange = NSRange(location: range.location + offset, length: range.length)
-
-            result.removeAttribute(.attachment, range: adjustedRange)
-            result.replaceCharacters(in: adjustedRange, with: replacement)
-
-            offset += replacement.count - range.length
+            let replacement = "![\(title)](\(path))"
+            result.removeAttribute(.attachment, range: range)
+            result.replaceCharacters(in: range, with: replacement)
         }
 
         return result
@@ -79,7 +88,7 @@ extension NSMutableAttributedString {
 
             if fileURL.isRemote() {
                 return
-                
+
             } else if FileManager.default.fileExists(atPath: fileURL.path),
                       fileURL.isImage || fileURL.isVideo {
                 images.append(fileURL)
@@ -182,10 +191,8 @@ extension NSMutableAttributedString {
         var res = [Attachment]()
 
         let fullRange = NSRange(location: 0, length: length)
-        enumerateAttribute(.attachment, in: fullRange) { value, _, _ in
-            guard let attachment = value as? NSTextAttachment,
-                  let meta = attachment.getMeta() else { return }
-
+        enumerateAttribute(.attachment, in: fullRange) { value, range, _ in
+            guard let meta = getMeta(at: range.location) else { return }
             res.append(meta)
         }
 
@@ -213,5 +220,21 @@ extension NSMutableAttributedString {
         }
 
         return nil
+    }
+
+    public func getMeta(at location: Int) -> Attachment? {
+    #if os(iOS)
+        guard let url = attribute(.attachmentUrl, at: location, effectiveRange: nil) as? URL,
+              let path = attribute(.attachmentPath, at: location, effectiveRange: nil) as? String else { return nil }
+
+        let title = attribute(.attachmentTitle, at: location, effectiveRange: nil) as? String ?? String()
+        let meta = Attachment(url: url, title: title, path: path)
+
+        return meta
+    #else
+        guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) else { return nil }
+
+        return attachment.getMeta()
+    #endif
     }
 }

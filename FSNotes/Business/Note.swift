@@ -1437,6 +1437,7 @@ public class Note: NSObject  {
         let content = text ?? self.content.string
 
         if (title.count > 0 || imageUrl != nil) && self.isParsed {
+            print("skip loading preview")
             return
         }
 
@@ -1501,11 +1502,8 @@ public class Note: NSObject  {
         }
 
         let range = NSRange(location: 0, length: content.length)
-        content.enumerateAttribute(.attachment, in: range) { (value, _, _) in
-            let value = value as? NSTextAttachment
-
-            guard let metaData = value?.fileWrapper?.regularFileContents,
-                  let meta = try? JSONDecoder().decode(Attachment.self, from: metaData) else { return }
+        content.enumerateAttribute(.attachment, in: range) { (value, vRange, _) in
+            guard let meta = content.getMeta(at: vRange.location) else { return }
 
             if meta.url.isImage {
                 urls.append(meta.url)

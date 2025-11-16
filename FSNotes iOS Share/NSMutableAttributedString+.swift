@@ -59,4 +59,8 @@ extension NSMutableAttributedString {
     public static func buildFromRtfd(data: Data) -> NSMutableAttributedString? {
         return nil
     }
+
+    public func getMeta(at location: Int) -> Attachment? {
+        return nil
+    }
 }

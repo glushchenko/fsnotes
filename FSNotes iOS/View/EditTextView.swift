@@ -132,11 +132,6 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func cut(_ sender: Any?) {
-        guard let note = self.note else {
-            super.cut(sender)
-            return
-        }
-
         let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
 
         if self.selectedRange.length == 1,
@@ -241,11 +236,6 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func copy(_ sender: Any?) {
-        guard let note = self.note else {
-            super.copy(sender)
-            return
-        }
-
         let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
 
         if self.selectedRange.length == 1,
@@ -389,14 +379,14 @@ class EditTextView: UITextView, UITextViewDelegate {
     public func isImage(at location: Int) -> Bool {
         let storage = self.textStorage
 
-        if storage.length > location,
-            let attachment = storage.attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment,
-            attachment.getMeta() != nil
-        {
-            return true
-        }
+        guard storage.length > location,
+              let attachment = storage.attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment else { return false }
 
-        return false
+        #if os(OSX)
+            return attachment.getMeta() != nil
+        #endif
+
+        return storage.attribute(.attachmentUrl, at: location, effectiveRange: nil) as? URL != nil
     }
 
     public func isLink(at location: Int) -> Bool {
