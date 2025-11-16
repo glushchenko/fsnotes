@@ -113,7 +113,7 @@ public class Note: NSObject  {
     init(meta: NoteMeta, project: Project) {
         isLoadedFromCache = true
         
-        if meta.title.count > 0 || meta.imageUrl != nil {
+        if meta.title.count > 0 || meta.imageUrl != nil || meta.attachments != nil {
             isParsed = true
         }
         
@@ -2288,10 +2288,7 @@ public class Note: NSObject  {
         return false
     }
 
-    public func save(attachment: Attachment) -> (String, URL)? {
-        guard let data = attachment.data else { return nil }
-        let preferredName = attachment.preferredName
-
+    public func save(data: Data, preferredName: String? = nil) -> (String, URL)? {
         // Get attach dir
         let attachDir = getAttachDirectory(data: data)
 

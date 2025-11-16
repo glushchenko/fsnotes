@@ -9,28 +9,28 @@
 import Foundation
 
 public extension NSAttributedString.Key {
-    static var fsAttachment: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "es.fsnot.attachment")
+    static var attachmentSave: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.attachment.save")
     }
 
     static var attachmentUrl: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "es.fsnot.image.url")
+        return NSAttributedString.Key(rawValue: "es.fsnot.attachment.url")
     }
 
     static var attachmentPath: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "es.fsnot.image.path")
+        return NSAttributedString.Key(rawValue: "es.fsnot.attachment.path")
     }
 
     static var attachmentTitle: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "es.fsnot.image.title")
+        return NSAttributedString.Key(rawValue: "es.fsnot.attachment.title")
     }
 
     static var todo: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "es.fsnot.image.todo")
+        return NSAttributedString.Key(rawValue: "es.fsnot.todo")
     }
 
     static var tag: NSAttributedString.Key {
-        return NSAttributedString.Key(rawValue: "es.fsnot.attributed.tag")
+        return NSAttributedString.Key(rawValue: "es.fsnot.tag")
     }
 
     static var yamlBlock: NSAttributedString.Key {

@@ -41,16 +41,10 @@ extension NSMutableAttributedString {
         let fullRange = NSRange(location: 0, length: result.length)
 
         enumerateAttribute(.attachment, in: fullRange, options: .reverse) { value, range, _ in
-        #if os(OSX)
-            guard let value = value as? NSTextAttachment,
-                  let meta = value.getMeta() else { return }
+            guard let meta = getMeta(at: range.location) else { return }
 
-            let title = meta.title
             let path = meta.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? meta.path
-        #else
-            guard let path = result.attribute(.attachmentPath, at: range.location, effectiveRange: nil) as? String else { return }
-            let title = result.attribute(.attachmentTitle, at: range.location, effectiveRange: nil) as? String ?? String()
-        #endif
+            let title = meta.title.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? meta.title
 
             let replacement = "![\(title)](\(path))"
             result.removeAttribute(.attachment, range: range)
@@ -199,15 +193,6 @@ extension NSMutableAttributedString {
         return res
     }
 
-    func safeAddAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) {
-        guard range.location != NSNotFound,
-              range.location < length else { return }
-
-        let safeLength = min(range.length, length - range.location)
-        let safeRange = NSRange(location: range.location, length: safeLength)
-        addAttribute(name, value: value, range: safeRange)
-    }
-
     public static func buildFromRtfd(data: Data) -> NSMutableAttributedString? {
         let options = [
             NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
@@ -223,12 +208,16 @@ extension NSMutableAttributedString {
     }
 
     public func getMeta(at location: Int) -> Attachment? {
+        guard location >= 0 && location < self.length else { return nil }
+
     #if os(iOS)
         guard let url = attribute(.attachmentUrl, at: location, effectiveRange: nil) as? URL,
               let path = attribute(.attachmentPath, at: location, effectiveRange: nil) as? String else { return nil }
 
         let title = attribute(.attachmentTitle, at: location, effectiveRange: nil) as? String ?? String()
-        let meta = Attachment(url: url, title: title, path: path)
+
+        var meta = Attachment(url: url, title: title, path: path)
+        meta.preferredName = url.lastPathComponent
 
         return meta
     #else
@@ -236,5 +225,24 @@ extension NSMutableAttributedString {
 
         return attachment.getMeta()
     #endif
+    }
+
+    public func getData(at location: Int) -> Data? {
+        guard location >= 0 && location < self.length else { return nil }
+        
+        let range = NSRange(location: location, length: 1)
+
+        #if os(iOS)
+        if attribute(.attachmentSave, at: location, effectiveRange: nil) != nil {
+            guard let url = attribute(.attachmentUrl, at: location, effectiveRange: nil) as? URL else { return nil }
+            removeAttribute(.attachmentSave, range: range)
+            return try? Data(contentsOf: url)
+        }
+        #else
+            guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) else { return nil }
+            return attachment.getMeta()?.data
+        #endif
+
+        return nil
     }
 }

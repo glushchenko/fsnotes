@@ -118,15 +118,27 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
             guard let attachment = value as? NSTextAttachment,
                   let meta = textStorage.getMeta(at: range.location) else { return }
 
-        #if os(OSX)
-            if let result = note.save(attachment: meta) {
-                attachment.saveMetaData(url: result.1, path: result.0, title: meta.title)
-                meta.url = result.1
-            }
-        #endif
+            var url = meta.url
 
+            // 1. check data to save (copy/paste, drag/drop)
+            if let data = textStorage.getData(at: range.location),
+                let result = note.save(data: data, preferredName: meta.preferredName) {
+
+                #if os(iOS)
+                    textStorage.addAttributes([
+                        .attachmentUrl: result.1,
+                        .attachmentPath: result.0
+                    ], range: range)
+                #else
+                    attachment.saveMetaData(url: result.1, path: result.0, title: meta.title)
+                #endif
+
+                url = result.1
+            }
+
+            // 2. load
             let maxWidth = getImageMaxWidth()
-            loadImage(attachment: attachment, url: meta.url, range: range, textStorage: textStorage, maxWidth: maxWidth)
+            loadImage(attachment: attachment, url: url, range: range, textStorage: textStorage, maxWidth: maxWidth)
         }
     }
 
@@ -135,7 +147,7 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
             var image: PlatformImage?
             var size: CGSize?
 
-            if url.isImage {
+            if url.isMedia {
                 let imageSize = url.getBorderSize(maxWidth: maxWidth)
 
                 size = imageSize

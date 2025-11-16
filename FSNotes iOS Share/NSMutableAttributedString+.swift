@@ -52,10 +52,6 @@ extension NSMutableAttributedString {
         return []
     }
 
-    func safeAddAttribute(_ name: NSAttributedString.Key, value: Any, range: NSRange) {
-
-    }
-
     public static func buildFromRtfd(data: Data) -> NSMutableAttributedString? {
         return nil
     }

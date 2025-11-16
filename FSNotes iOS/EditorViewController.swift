@@ -552,21 +552,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         var removedImages = [URL: URL]()
 
         storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
-            if let _ = value as? NSTextAttachment, storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+            guard let meta = storage.getMeta(at: range.location) else { return }
 
-                if let attachment = storage.attribute(.attachment, at: range.location, effectiveRange: nil) as? NSTextAttachment,
-                   let meta = attachment.getMeta() {
+            let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(meta.url.lastPathComponent)
 
-                    let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(meta.url.lastPathComponent)
+            do {
+                try FileManager.default.moveItem(at: meta.url, to: trashURL)
 
-                    do {
-                        try FileManager.default.moveItem(at: meta.url, to: trashURL)
-
-                        removedImages[trashURL] = meta.url
-                    } catch {
-                        print(error)
-                    }
-                }
+                removedImages[trashURL] = meta.url
+            } catch {
+                print(error)
             }
         }
 
@@ -650,12 +645,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self, let text = text else {return}
-
-            print("pre unload")
-            print(text.string)
-
-            print("unload")
-            print(text.unloadAttachments().string)
 
             note.save(content: text)
 

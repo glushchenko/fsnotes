@@ -180,91 +180,61 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func paste(_ sender: Any?) {
-        guard let note = self.note else {
-            super.paste(sender)
-            return
-        }
+        let pb = UIPasteboard.general
 
-        note.invalidateCache()
+        if let data = pb.data(forPasteboardType: UIPasteboard.attributed) {
+            do {
+                if let attributed = try NSKeyedUnarchiver.unarchivedObject(
+                    ofClass: NSAttributedString.self,
+                    from: data
+                ) {
+                    let mutable = NSMutableAttributedString(attributedString: attributed)
+                    mutable.loadTasks()
+                    _ = mutable.loadAttachments(self.note!)
 
-        for item in UIPasteboard.general.items {
-            if let rtfd = item["es.fsnot.attributed.text"] as? Data {
-                if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
-
-                    let attributedString = NSMutableAttributedString(attributedString: attributedString)
-                    attributedString.loadTasks()
-                    
-                    let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
-                    attributedString.removeAttribute(.backgroundColor, range: NSRange(0..<attributedString.length))
-
-                    if let selTextRange = selectedTextRange, let undoManager = undoManager {
-                        undoManager.beginUndoGrouping()
-                        self.replace(selTextRange, withText: attributedString.string)
-                        self.textStorage.replaceCharacters(in: newRange, with: attributedString)
-                        undoManager.endUndoGrouping()
-                    }
-
-                    self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: 0, length: self.textStorage.length))
-
-                    note.save(attributed: attributedText)
-
-                    UIApplication.getVC().notesTable.reloadData()
+                    self.insertAttributedText(mutable)
                     return
                 }
+            } catch {
+                print("Paste error: \(error)")
             }
+        }
 
-            if let image = item["public.jpeg"] as? UIImage, let data = image.jpegData(compressionQuality: 1) {
-                saveImageClipboard(data: data, note: note)
+        if let plain = pb.string {
+            let mutable = NSMutableAttributedString(string: plain)
+            mutable.loadTasks()
 
-                note.save(attributed: attributedText)
-
-                UIApplication.getVC().notesTable.reloadData()
-                return
-            }
-
-            if let image = item["public.png"] as? UIImage, let data = image.pngData() {
-                saveImageClipboard(data: data, note: note)
-
-                note.save(attributed: attributedText)
-
-                UIApplication.getVC().notesTable.reloadData()
-                return
-            }
+            self.insertAttributedText(mutable)
+            return
         }
 
         super.paste(sender)
     }
 
     override func copy(_ sender: Any?) {
-        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unloadTasks()
+        let selectedString = textStorage.attributedSubstring(from: self.selectedRange)
+        let attributedString = NSMutableAttributedString(attributedString: selectedString).unloadTasks()
 
-        if self.selectedRange.length == 1,
-            let attachment = attributedString.attribute(.attachment, at: 0, effectiveRange: nil) as? NSTextAttachment,
-           let meta = attachment.getMeta() {
-
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: meta.url),
-                    let image = UIImage(data: data),
-                    let jpgData = image.jpegData(compressionQuality: 1) {
-
-                    UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
-                }
-            }
-
-            return
+        // resave it
+        let range = NSRange(location: 0, length: attributedString.length)
+        attributedString.enumerateAttribute(.attachment, in: range) { (value, range, _) in
+            attributedString.addAttribute(.attachmentSave, value: true, range: range)
         }
 
-        if self.textStorage.length >= self.selectedRange.upperBound {
-            if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
+        do {
+            let data = try NSKeyedArchiver.archivedData(
+                withRootObject: attributedString,
+                requiringSecureCoding: false
+            )
 
-                UIPasteboard.general.setItems([
-                    [kUTTypePlainText as String: attributedString.string],
-                    ["es.fsnot.attributed.text": rtfd],
-                    [kUTTypeFlatRTFD as String: rtfd]
-                ])
+            UIPasteboard.general.setItems([
+                [UIPasteboard.attributed: data],
+                [kUTTypePlainText as String: attributedString.string]
+            ])
 
-                return
-            }
+            return
+        } catch {
+            print("Serialization error: \(error)")
         }
 
         super.copy(sender)
@@ -377,16 +347,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     public func isImage(at location: Int) -> Bool {
-        let storage = self.textStorage
-
-        guard storage.length > location,
-              let attachment = storage.attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment else { return false }
-
-        #if os(OSX)
-            return attachment.getMeta() != nil
-        #endif
-
-        return storage.attribute(.attachmentUrl, at: location, effectiveRange: nil) as? URL != nil
+        return textStorage.getMeta(at: location) != nil
     }
 
     public func isLink(at location: Int) -> Bool {
