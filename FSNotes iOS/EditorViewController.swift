@@ -917,7 +917,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let actionSheet = UIAlertController(title: NSLocalizedString("Images source:", comment: ""), message: nil, preferredStyle: .actionSheet)
 
         let photos = UIAlertAction(title: NSLocalizedString("Photos", comment: ""), style: .default, handler: { _ in
-            self.imagePressed()
+            var conf = PHPickerConfiguration(photoLibrary: .shared())
+            conf.selectionLimit = 10
+
+            let picker = PHPickerViewController(configuration: conf)
+            picker.delegate = self
+
+            self.present(picker, animated: true, completion: nil)
         })
         actionSheet.addAction(photos)
 
@@ -946,55 +952,22 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         present(actionSheet, animated: true, completion: nil)
     }
 
-    @objc func imagePressed() {
-        var conf = PHPickerConfiguration(photoLibrary: .shared())
-        conf.selectionLimit = 10
-
-        let picker = PHPickerViewController(configuration: conf)
-        picker.delegate = self
-
-        present(picker, animated: true, completion: nil)
-    }
-
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let note = self.note else { return }
-
-        var processed = 0
-        var markup = String()
-
         for url in urls {
-            guard var data = try? Data(contentsOf: url) else { continue }
+            guard let data = try? Data(contentsOf: url) else { continue }
 
-            processed += 1
+            let attachment = NSTextAttachment()
+            let mutable = NSMutableAttributedString(attachment: attachment)
+            mutable.addAttributes([
+                .attachmentSave: data,
+                .attachmentUrl: URL(fileURLWithPath: "/tmp/" + url.lastPathComponent),
+                .attachmentPath: String()
+            ], range: NSRange(location: 0, length: 1))
 
-            let format = ImageFormat.get(from: data)
-            var imageExt = "jpg"
+            mutable.append(NSAttributedString(string: "\n\n"))
 
-            switch format {
-            case .heic:
-                if let jpegData = UIImage(data: data)?.jpegData(compressionQuality: 1) {
-                    data = jpegData
-                }
-            default:
-                imageExt = format.rawValue
-            }
-
-            let url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + "." + imageExt)
-
-            self.editArea.saveImageClipboard(data: data, note: note, ext: imageExt)
-
-            if processed == urls.count {
-                if let content = self.editArea.attributedText.mutableCopy() as? NSMutableAttributedString {
-                    note.save(content: content)
-                    note.invalidateCache()
-                }
-
-                UIApplication.getVC().notesTable.reloadRows(notes: [note])
-                continue
-            }
-
-            if urls.count != 1 {
-                self.editArea.insertText("\n\n")
+            DispatchQueue.main.async {
+                self.editArea.insertAttributedText(mutable)
             }
         }
     }
@@ -1403,41 +1376,24 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
 
-        guard let note = self.note else { return }
-
-        var processed = 0
-
         for result in results {
-           result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
-               guard let photo = object as? UIImage, let imageData = photo.jpgData else { return }
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
+                guard let photo = object as? UIImage, let imageData = photo.jpgData else { return }
 
-               processed += 1
-               let imageExt = "jpg"
+                let attachment = NSTextAttachment()
+                let mutable = NSMutableAttributedString(attachment: attachment)
+                mutable.addAttributes([
+                    .attachmentSave: imageData,
+                    .attachmentUrl: URL(fileURLWithPath: "/tmp/" + UUID().uuidString + ".jpg"),
+                    .attachmentPath: String()
+                ], range: NSRange(location: 0, length: 1))
 
-               DispatchQueue.main.async {
-                   self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
-               }
+                mutable.append(NSAttributedString(string: "\n\n"))
 
-               if processed == results.count {
-                   DispatchQueue.main.async {
-                       if let content = self.editArea.attributedText.mutableCopy() as? NSMutableAttributedString {
-                           note.save(content: content)
-                           note.invalidateCache()
-                           UIApplication.getVC().notesTable.reloadRows(notes: [note])
-                       }
-                   }
-                   return
-               }
-
-               DispatchQueue.main.async {
-                   if results.count != 1 {
-                       self.editArea.insertText("\n\n")
-                   }
-
-                   self.dismiss(animated: true)
-                   self.editArea.becomeFirstResponder()
-               }
-           })
+                DispatchQueue.main.async {
+                    self.editArea.insertAttributedText(mutable)
+                }
+            })
         }
     }
 

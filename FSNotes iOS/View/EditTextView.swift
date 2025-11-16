@@ -254,59 +254,6 @@ class EditTextView: UITextView, UITextViewDelegate {
             }
         }
     }
-
-    public func saveImageClipboard(data: Data, note: Note, ext: String? = nil) {
-        if let path = ImagesProcessor.writeFile(data: data, note: note, ext: ext) {
-            if let imageUrl = note.getAttachmentFileUrl(name: path) {
-
-                let range = NSRange(location: selectedRange.location, length: 1)
-                let attachment = NSTextAttachment(url: imageUrl, path: "", title: "")
-                let attributedString = NSMutableAttributedString(attachment: attachment)
-
-                undoManager?.beginUndoGrouping()
-                textStorage.replaceCharacters(in: selectedRange, with: attributedString)
-                selectedRange = NSRange(location: selectedRange.location + attributedString.length, length: 0)
-                undoManager?.endUndoGrouping()
-
-                let undo = Undo(range: range, string: attributedString)
-                undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
-
-                initUndoRedoButons()
-                return
-            }
-        }
-    }
-
-    @IBAction func undoImage(_ object: Any) {
-        guard let undo = object as? Undo else { return }
-
-        undoManager?.beginUndoGrouping()
-        textStorage.replaceCharacters(in: undo.range, with: "")
-        undoManager?.endUndoGrouping()
-
-        let range = NSRange(location: undo.range.location, length: 0)
-        let redo = Undo(range: range, string: undo.string)
-
-        undoManager?.registerUndo(withTarget: self, selector: #selector(redoImage), object: redo)
-
-        initUndoRedoButons()
-    }
-
-    @IBAction func redoImage(_ object: Any) {
-        guard let redo = object as? Undo else { return }
-
-        undoManager?.beginUndoGrouping()
-        textStorage.replaceCharacters(in: redo.range, with: redo.string)
-        selectedRange = NSRange(location: selectedRange.location + redo.string.length, length: 0)
-        undoManager?.endUndoGrouping()
-
-        let range = NSRange(location: redo.range.location, length: redo.string.length)
-        let undo = Undo(range: range, string: redo.string)
-
-        undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
-
-        initUndoRedoButons()
-    }
     
     public func isTodo(at location: Int) -> Bool {
         let storage = self.textStorage
