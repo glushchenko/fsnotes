@@ -555,7 +555,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func loadNews() {
-        guard //storage.isReadedNewsOutdated(),
+        guard storage.isReadedNewsOutdated(),
               let newsURL = storage.getNews(),
               let defaultProject = storage.getDefault() else { return }
 
