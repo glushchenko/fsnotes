@@ -212,9 +212,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         if let content = note.content.mutableCopy() as? NSMutableAttributedString {
-            content.loadTasks()
-            content.loadImagesAndFiles(note: note)
-
             editArea.attributedText = content
         }
 
@@ -626,7 +623,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             }
 
             note.invalidateCache()
-            note.loadPreviewInfo(text: note.content.string)
+            note.loadPreviewInfo()
 
             vc.updateSpotlightIndex(notes: [note])
 

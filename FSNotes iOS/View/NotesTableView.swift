@@ -807,15 +807,34 @@ class NotesTableView: UITableView,
     }
 
     public func showLoader() {
-        let title = NSLocalizedString("Loading...", comment: "")
-        let alert = UIAlertController(title: nil, message: title, preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: " ", preferredStyle: .alert)
 
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.medium
-        loadingIndicator.startAnimating();
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.startAnimating()
 
-        alert.view.addSubview(loadingIndicator)
+        let label = UILabel()
+        label.text = NSLocalizedString("Loading...", comment: "")
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let stack = UIStackView(arrangedSubviews: [loadingIndicator, label])
+        stack.axis = .horizontal
+        stack.spacing = 14
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
+        alert.view.addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: alert.view.centerYAnchor, constant: 6),
+
+            stack.leadingAnchor.constraint(greaterThanOrEqualTo: alert.view.leadingAnchor, constant: 20),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: alert.view.trailingAnchor, constant: -20),
+        ])
 
         UIApplication.getNC()?.present(alert, animated: true)
     }

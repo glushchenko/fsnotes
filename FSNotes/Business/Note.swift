@@ -796,29 +796,6 @@ public class Note: NSObject  {
         
         return nil
     }
-
-    func getAltContent(url: URL) -> NSAttributedString? {
-        guard container != .encryptedTextPack else { return nil }
-
-        do {
-            return try NSAttributedString(url: url, options: [
-                .documentType : NSAttributedString.DocumentType.plain,
-                .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
-            ], documentAttributes: nil)
-        } catch {
-
-            if let data = try? Data(contentsOf: url) {
-            let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
-
-                return try? NSAttributedString(url: url, options: [
-                    .documentType : NSAttributedString.DocumentType.plain,
-                    .characterEncoding : NSNumber(value: encoding)
-                ], documentAttributes: nil)
-            }
-        }
-
-        return nil
-    }
     
     func isMarkdown() -> Bool {
         return type == .Markdown
@@ -1383,29 +1360,6 @@ public class Note: NSObject  {
         return project.url.appendingPathComponent(name)
     }
 
-    public func dropImagesCache() {
-        let items = content.getImagesAndFiles()
-
-        for item in items{
-            var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-            temporary.appendPathComponent("ThumbnailsBigInline")
-
-            let cacheUrl = temporary.appendingPathComponent(item.url.absoluteString.md5 + "." + item.url.pathExtension)
-            try? FileManager.default.removeItem(at: cacheUrl)
-        }
-    }
-
-    public func countCheckSum() -> String {
-        let items = content.getImagesAndFiles()
-        var size = UInt64(0)
-
-        for item in items {
-            size += item.url.fileSize
-        }
-
-        return content.string.md5 + String(size)
-    }
-
     #if os(OSX)
     public func getDupeName() -> String? {
         var url = self.url
@@ -1433,11 +1387,10 @@ public class Note: NSObject  {
     }
     #endif
 
-    public func loadPreviewInfo(text: String? = nil) {
-        let content = text ?? self.content.string
+    public func loadPreviewInfo() {
+        let content = self.content.string
 
-        if (title.count > 0 || imageUrl != nil) && self.isParsed {
-            print("skip loading preview")
+        if (title.count > 0 || imageUrl != nil || attachments != nil) && self.isParsed {
             return
         }
 
@@ -1497,15 +1450,11 @@ public class Note: NSObject  {
     public func getImagesFromContent() -> [URL] {
         var urls = [URL]()
 
-        if !isLoaded {
-            return imageUrl ?? urls
-        }
-
         let range = NSRange(location: 0, length: content.length)
         content.enumerateAttribute(.attachment, in: range) { (value, vRange, _) in
             guard let meta = content.getMeta(at: vRange.location) else { return }
 
-            if meta.url.isImage {
+            if meta.url.isMedia {
                 urls.append(meta.url)
             }
         }
@@ -1749,7 +1698,7 @@ public class Note: NSObject  {
             }
         }
 
-        content = mutableContent
+        content = mutableContent.loadAttachments(self)
         _ = save()
     }
 

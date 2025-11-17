@@ -765,6 +765,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             if let sc = navigationItem.searchController {
                 sc.isActive = false
                 sc.searchBar.resignFirstResponder()
+
+                searchBar.text = ""
+
+                buildSearchQuery()
+                reloadNotesTable()
             }
         } else {
             configureSearchController()
@@ -780,6 +785,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let content = searchBar.text
         searchBar.text = ""
+
+        buildSearchQuery()
+        reloadNotesTable()
+
         self.createNote(content: content)
     }
 

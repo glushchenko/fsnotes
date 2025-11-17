@@ -830,12 +830,12 @@ class HandlerCheckbox: NSObject, WKScriptMessageHandler {
                 #if os(iOS)
                 AudioServicesPlaySystemSound(1519)
                 #endif
-
-                note.save(content: content)
             }
 
             i = i + 1
         }
+
+        note.save(content: content.loadAttachments(note))
     }
 }
 

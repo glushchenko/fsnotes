@@ -597,8 +597,6 @@
 		D7BE112422DA2FE200435866 /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112322DA2FE200435866 /* launch.png */; };
 		D7BE112522DB168C00435866 /* lock-closed.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD472238365700E69C93 /* lock-closed.png */; };
 		D7BE112622DB168C00435866 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
-		D7BE112922DB1C8600435866 /* padlock-unlocked-ios.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */; };
-		D7BE112A22DB1C8600435866 /* padlock-locked-ios.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112822DB1C8600435866 /* padlock-locked-ios.png */; };
 		D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
 		D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
 		D7C2205A2A0D44A10006006D /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F8894A2A0D3E19003645DE /* launchscreen.png */; };
@@ -1218,8 +1216,6 @@
 		D7BDFE6B201F6DC200897A58 /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D7BDFE6F201F788D00897A58 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		D7BE112322DA2FE200435866 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
-		D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "padlock-unlocked-ios.png"; sourceTree = "<group>"; };
-		D7BE112822DB1C8600435866 /* padlock-locked-ios.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "padlock-locked-ios.png"; sourceTree = "<group>"; };
 		D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderCellView.swift; sourceTree = "<group>"; };
 		D7C33F6D29E09A690006C473 /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
 		D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@3x.png"; sourceTree = "<group>"; };
@@ -1771,8 +1767,6 @@
 				D7C33F6F29E09E6D0006C473 /* app-icons */,
 				D71C79BC253F3BF5003BD724 /* close-window.png */,
 				D7F8894A2A0D3E19003645DE /* launchscreen.png */,
-				D7BE112822DB1C8600435866 /* padlock-locked-ios.png */,
-				D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */,
 				D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */,
 				D73CEC6E2278ECA500D549F7 /* checkbox_flipped_white.png */,
 				D73CEC6F2278ECA500D549F7 /* checkbox_empty@3x.png */,
@@ -2522,7 +2516,6 @@
 				D73CEC8E2278ECA500D549F7 /* checkbox.png in Resources */,
 				D73CEC882278ECA500D549F7 /* checkbox_white@2x.png in Resources */,
 				D73CEC812278ECA500D549F7 /* checkbox_empty@3x.png in Resources */,
-				D7BE112A22DB1C8600435866 /* padlock-locked-ios.png in Resources */,
 				D7CF7EBC29E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png in Resources */,
 				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
 				D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */,
@@ -2550,7 +2543,6 @@
 				D73CEC852278ECA500D549F7 /* checkbox@2x.png in Resources */,
 				D780166429E1E6C100660689 /* app-icon-dylanseegerDarkFull.png in Resources */,
 				D7CF7EB729E2CFD400FEC0C5 /* dylanseeger@2x~ipad.png in Resources */,
-				D7BE112922DB1C8600435866 /* padlock-unlocked-ios.png in Resources */,
 				D73CEC8F2278ECA500D549F7 /* checkbox_flipped_white@3x.png in Resources */,
 				D7163D2F24E81B5C00B1FC05 /* Main.storyboard in Resources */,
 				D7BDFE6D201F6E8F00897A58 /* Initial in Resources */,
