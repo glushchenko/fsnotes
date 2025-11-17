@@ -220,6 +220,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         editArea.delegate = self
 
         let storage = editArea.textStorage
+        storage.updateCheckboxList()
 
         let search = getSearchText()
         if search.count > 0 {
@@ -725,7 +726,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let wikiButton = UIBarButtonItem(systemImageName: "link", target: self, selector: #selector(EditorViewController.wikilink))
         items.append(wikiButton)
 
-        let imageButton = UIBarButtonItem(systemImageName: "photo", target: self, selector: #selector(EditorViewController.insertImage))
+        let imageButton = UIBarButtonItem(systemImageName: "paperclip", target: self, selector: #selector(EditorViewController.insertFile))
         items.append(imageButton)
 
         let codeblockButton = UIBarButtonItem(systemImageName: "swift", target: self, selector: #selector(EditorViewController.codeBlockButton))
@@ -904,7 +905,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
     }
 
-    @objc func insertImage() {
+    @objc func insertFile() {
         let actionSheet = UIAlertController(title: NSLocalizedString("Images source:", comment: ""), message: nil, preferredStyle: .actionSheet)
 
         let photos = UIAlertAction(title: NSLocalizedString("Photos", comment: ""), style: .default, handler: { _ in
@@ -920,7 +921,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let iCloudDrive = UIAlertAction(title: NSLocalizedString("Documents", comment: ""), style: .default, handler: { _ in
 
-            let documentPickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.image], asCopy: true)
+            let documentPickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.data], asCopy: true)
             documentPickerController.delegate = self
             documentPickerController.allowsMultipleSelection = true
             documentPickerController.modalPresentationStyle = .formSheet

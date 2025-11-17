@@ -555,7 +555,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func loadNews() {
-        guard storage.isReadedNewsOutdated(),
+        guard //storage.isReadedNewsOutdated(),
               let newsURL = storage.getNews(),
               let defaultProject = storage.getDefault() else { return }
 
@@ -596,13 +596,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         news.layer.borderWidth = 1
         news.layer.borderColor = UIColor.gray.cgColor
 
-        let closeButton = UIButton(frame: CGRect(origin: CGPoint(x: width - 10 - 50, y: 10), size: CGSize(width: 50, height: 50)))
-        let image = UIImage(named: "close-window.png")
-        closeButton.setImage(image, for: UIControl.State.normal)
-        closeButton.tintColor = UIColor.mainTheme
-        closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
-        closeButton.layer.zPosition = 110
-        news.addSubview(closeButton)
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: "xmark.circle.fill")
+            config.preferredSymbolConfigurationForImage = .init(pointSize: 25)
+            config.baseForegroundColor = UIColor.mainTheme
+
+            let closeButton = UIButton(frame: CGRect(x: width - 5 - 60, y: 5, width: 60, height: 60))
+            closeButton.configuration = config
+
+            closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
+            news.addSubview(closeButton)
+        }
 
         UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.addSubview(news)
 
@@ -939,6 +944,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc public func closeNews() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+
         newsPopup?.removeFromSuperview()
         newsOverlay?.removeFromSuperview()
 
