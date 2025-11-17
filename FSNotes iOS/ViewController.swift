@@ -83,19 +83,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         navigationController?.navigationBar.prefersLargeTitles = true
 
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem.flexibleSpace())
-        items.append(Buttons.getNewNote(target: self, selector: #selector(newButtonAction)))
-
-        toolbarItems = items
-        navigationController?.setToolbarHidden(false, animated: true)
-
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithDefaultBackground()
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-
-        //appearance.titleTextAttributes = [.foregroundColor: UIColor.mainTheme]
-
         super.viewWillAppear(animated)
     }
 
@@ -140,8 +127,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureUI()
         configureNotifications()
         configureGestures()
-        configureSearchController()
-        
+
         gitQueue.qualityOfService = .userInteractive
         gitQueue.maxConcurrentOperationCount = 1
         gitQueue.isSuspended = true
@@ -158,6 +144,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadPreSafeArea()
 
         if !initialLoadingState {
+            configureSearchController()
+            configureToolbar()
+
             initialLoadingState = true
             
             loadNews()
@@ -333,7 +322,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         searchController.searchBar.searchBarStyle = .minimal
         searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")
         searchController.searchBar.returnKeyType = .done
-        searchController.searchBar.showsCancelButton = false
+
+        if #available(iOS 26.0, *) {
+            searchController.searchBar.showsCancelButton = true
+        } else {
+            searchController.searchBar.showsCancelButton = false
+        }
+
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.keyboardAppearance = traitCollection.userInterfaceStyle == .dark ? .dark : .default
 
@@ -342,6 +337,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         navigationItem.searchController = searchController
+    }
+
+    public func configureToolbar() {
+        var items = [UIBarButtonItem]()
+        if #available(iOS 26.0, *) {
+            items.append(navigationItem.searchBarPlacementBarButtonItem)
+        }
+        items.append(UIBarButtonItem.flexibleSpace())
+        items.append(Buttons.getNewNote(target: self, selector: #selector(newButtonAction)))
+
+        toolbarItems = items
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     public func enableSearchFocus() {
@@ -754,9 +761,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-
-        // hack for reinstantinate large title
-        configureSearchController()
+        if #available(iOS 26.0, *) {
+            if let sc = navigationItem.searchController {
+                sc.isActive = false
+                sc.searchBar.resignFirstResponder()
+            }
+        } else {
+            configureSearchController()
+        }
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
