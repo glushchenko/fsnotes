@@ -102,7 +102,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UIApplication.getEVC().userActivity?.invalidate()
 
         loadPreSafeArea()
-        //loadPlusButton()
 
         if let sidebarItem = UIApplication.getVC().lastSidebarItem {
             configureNavMenu(for: sidebarItem)
@@ -227,8 +226,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if #available(iOS 15.0, *) {
             sidebarTableView.sectionHeaderTopPadding = 0
         }
-
-        //loadPlusButton()
 
         notesTable.viewDelegate = self
         notesTable.dragInteractionEnabled = true
@@ -747,10 +744,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.navigationItem.searchController?.searchBar.becomeFirstResponder()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                //self.loadPlusButton()
-            }
         }
     }
 
@@ -891,47 +884,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func getSearchBar() -> UISearchBar? {
         return navigationItem.searchController?.searchBar 
-    }
-
-    func loadPlusButton() {
-        if let button = getButton(tag: 1) {
-            let width = self.view.frame.width
-            let height = self.view.frame.height
-
-            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 85), y: CGFloat(height - 85)), size: CGSize(width: 60, height: 60))
-            return
-        }
-
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 85, y: self.view.frame.height - 85), size: CGSize(width: 60, height: 60)))
-
-        var image = UIImage()
-        if #available(iOS 15.0, *) {
-            let colorsConfig = UIImage.SymbolConfiguration(paletteColors: [.white, UIColor.mainTheme])
-            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill", withConfiguration: colorsConfig)?.resize(maxWidthHeight: 60) {
-                image = imageUnwrapped
-            }
-        } else {
-            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill")?.withTintColor(UIColor.mainTheme).resize(maxWidthHeight: 60) {
-                image = imageUnwrapped
-            }
-        }
-
-        button.setImage(image, for: UIControl.State.normal)
-        button.tag = 1
-        button.addTarget(self, action: #selector(self.newButtonAction), for: .touchUpInside)
-        button.layer.zPosition = 101
-        self.view.addSubview(button)
-    }
-
-    public func getButton(tag: Int) -> UIButton? {
-        for sub in self.view.subviews {
-
-            if sub.tag == tag {
-                return sub as? UIButton
-            }
-        }
-
-        return nil
     }
 
     @objc func newButtonAction() {
@@ -1094,7 +1046,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             isLandscape = isLand
 
             DispatchQueue.main.async {
-                //self.loadPlusButton()
                 self.loadNews()
             }
         }
@@ -1199,14 +1150,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             notesTableBottomContraint.constant = keyboardSize.height
             sidebarTableBottomConstraint.constant = keyboardSize.height
-            //loadPlusButton()
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
         notesTableBottomContraint.constant = 0
         sidebarTableBottomConstraint.constant = 0
-        //loadPlusButton()
     }
 
     public func refreshTextStorage(note: Note) {

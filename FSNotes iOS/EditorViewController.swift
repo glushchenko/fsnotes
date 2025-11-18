@@ -270,9 +270,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         tagsHandler(affectedCharRange: range, text: text)
         wikilinkHandler(textView: textView, text: text)
-
         deleteUnusedImages(checkRange: range)
-        applyStrikeTypingAttribute(range: range)
 
         // New line
         if text == "\n" {
@@ -303,76 +301,83 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let textStorage = editArea.textStorage
 
-        if text.count == 1, !["", " ", "\t", "\n"].contains(text) {
-            let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0))
-
-            var nextChar = " "
-            let nextCharLocation = affectedCharRange.location + 1
-            if editArea.selectedRange.length == 0, nextCharLocation <= textStorage.length {
-                let nextCharRange = NSRange(location: affectedCharRange.location, length: 1)
-                nextChar = textStorage.mutableString.substring(with: nextCharRange)
+        // close dropdown
+        if ["", " ", "\t", "\n"].contains(text) {
+            if !dropDown.isHidden {
+                dropDown.hide()
             }
+            return
+        }
 
-            if affectedCharRange.location - 1 >= 0 {
-                let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
+        // one char
+        guard text.count == 1 else { return }
 
-                if (textStorage.string as NSString).substring(with: hashRange) == "#" && text != "#" && nextChar.isWhitespace {
+        let nextCharLocation = affectedCharRange.location + 1
+        let nextChar: String
 
-                    let vc = UIApplication.getVC()
+        if editArea.selectedRange.length == 0, nextCharLocation <= textStorage.length {
+            let nextCharRange = NSRange(location: affectedCharRange.location, length: 1)
+            nextChar = textStorage.mutableString.substring(with: nextCharRange)
+        } else {
+            nextChar = " "
+        }
 
-                    var projects = [Project]()
-                    if let project = Storage.shared().searchQuery.projects.first {
-                        projects.append(project)
-                    } else {
-                        projects = Storage.shared().getProjects()
-                    }
-                    
-                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
-                    self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
+        if affectedCharRange.location > 0 {
+            let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
+            let prevChar = (textStorage.string as NSString).substring(with: hashRange)
 
-                    self.complete(offset: hashRange.location, text: text)
+            if prevChar == "#" && nextChar.isWhitespace {
+                let filteredTags = self.getAllTags().filter { $0.lowercased().starts(with: text.lowercased()) }
+
+                if filteredTags.isEmpty {
+                    dropDown.hide()
+                } else {
+                    dropDown.dataSource = filteredTags
+                    complete(offset: hashRange.location, text: text)
                 }
-            }
-
-            textStorage.mutableString.enumerateSubstrings(in: parRange, options: .byWords, using: { word, range, _, stop in
-                if word == nil || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
-                    return
-                }
-
-                let hashRange = NSRange(location: range.location - 1, length: 1)
-
-                if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
-
-                    let vc = UIApplication.getVC()
-                    if let project = Storage.shared().searchQuery.projects.first {
-                        let tags = vc.sidebarTableView.getAllTags(projects: [project])
-
-                        if let word = word {
-                            self.dropDown.dataSource = tags.filter({ $0.starts(with: word + text) })
-                        }
-
-                        self.complete(offset: hashRange.location, range: range, text: text)
-                        stop.pointee = true
-                    }
-
-                    return
-                }
-            })
-
-            if text == "#" {
-                let vc = UIApplication.getVC()
-
-                if let project = Storage.shared().searchQuery.projects.first {
-                    let tags = vc.sidebarTableView.getAllTags(projects: [project])
-                    self.dropDown.dataSource = tags
-                    self.complete(offset: self.editArea.selectedRange.location)
-                }
+                return
             }
         }
 
-        if ["", " ", "\t", "\n"].contains(text), !dropDown.isHidden {
-            dropDown.hide()
+        let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0))
+        textStorage.mutableString.enumerateSubstrings(in: parRange, options: .byWords) { word, range, _, stop in
+            guard let word = word,
+                  affectedCharRange.location <= range.upperBound,
+                  affectedCharRange.location >= range.lowerBound,
+                  range.location > 0 else {
+                return
+            }
+
+            let hashRange = NSRange(location: range.location - 1, length: 1)
+            let prevChar = (textStorage.string as NSString).substring(with: hashRange)
+
+            if prevChar == "#" && nextChar.isWhitespace {
+                let searchText = word + text
+                let filteredTags = self.getAllTags().filter { $0.lowercased().starts(with: searchText.lowercased()) }
+
+                if filteredTags.isEmpty {
+                    self.dropDown.hide()
+                } else {
+                    self.dropDown.dataSource = filteredTags
+                    self.complete(offset: hashRange.location, range: range, text: text)
+                }
+
+                stop.pointee = true
+            }
         }
+    }
+
+    private func getAllTags() -> [String] {
+        let vc = UIApplication.getVC()
+        var projects = [Project]()
+        if let project = Storage.shared().searchQuery.projects.first {
+            projects.append(project)
+        } else {
+            projects = Storage.shared().getProjects()
+        }
+        let allTags = vc.sidebarTableView.getAllTags(projects: projects)
+
+        return allTags
     }
 
     private func wikilinkHandler(textView: UITextView, text: String) {
@@ -496,16 +501,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             customView.removeFromSuperview()
 
             // WikiLinks
-            if let range = replacementRange {
-                guard
-                    let textView = self.editArea,
-                    let start = textView.position(from: textView.beginningOfDocument, offset: range.location),
-                    let end = textView.position(from: start, offset: range.length),
-                    let selectedRange = textView.textRange(from: start, to: end)
-                else { return }
-
-                self.editArea.replace(selectedRange, withText: item)
-                self.editArea.selectedRange = NSRange(location: range.location + item.count + 2, length: 0)
+            if let replacementRange = replacementRange {
+                self.editArea.selectedRange = replacementRange
+                self.editArea.insertText(item)
                 return
             }
 
@@ -550,18 +548,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             } catch {
                 print(error)
             }
-        }
-    }
-
-    private func applyStrikeTypingAttribute(range: NSRange) {
-        let string = editArea.textStorage.string as NSString
-        let paragraphRange = string.paragraphRange(for: range)
-        let paragraph = editArea.textStorage.attributedSubstring(from: paragraphRange)
-
-        if paragraph.length > 0, let attachment = paragraph.attribute(.todo, at: 0, effectiveRange: nil) as? Int, attachment == 1 {
-            editArea.typingAttributes[.strikethroughStyle] = 1
-        } else {
-            editArea.typingAttributes.removeValue(forKey: .strikethroughStyle)
         }
     }
 

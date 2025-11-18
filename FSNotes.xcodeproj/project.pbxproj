@@ -1745,9 +1745,9 @@
 		D75F3337205EC34800CC887E /* FSNotes iOS Share */ = {
 			isa = PBXGroup;
 			children = (
-				113685592EC7A2130033767F /* NSMutableAttributedString+.swift */,
 				D75F3344205ECE8900CC887E /* FSNotes iOS Share.entitlements */,
 				D75F3338205EC34800CC887E /* ShareViewController.swift */,
+				113685592EC7A2130033767F /* NSMutableAttributedString+.swift */,
 				D75F333D205EC34800CC887E /* Info.plist */,
 				D7163D3324E81D9900B1FC05 /* MainInterface.storyboard */,
 				42E001C92ADAC2930099E7AD /* Localizable.xcstrings */,
