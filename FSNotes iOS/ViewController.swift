@@ -215,7 +215,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
         navigationItem.leftBarButtonItems = [
-            UIBarButtonItem(systemImageName: "sidebar.left", target: self, selector: #selector(toggleSidebar)),
+            UIBarButtonItem(systemImageName: "sidebar.left", target: self, selector: #selector(openSidebar)),
             UIBarButtonItem(systemImageName: "gear", target: self, selector: #selector(openSettings))
         ]
 
@@ -378,7 +378,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    @IBAction public func toggleSidebar() {
+    @IBAction public func openSidebar() {
         if UserDefaultsManagement.sidebarIsOpened {
             hideSidebar()
         } else {

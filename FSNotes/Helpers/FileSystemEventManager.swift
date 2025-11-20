@@ -14,7 +14,7 @@ class FileSystemEventManager {
     private var delegate: ViewController
     private var watcher: FileWatcher?
     private var observedFolders: [String]
-    private var textBundleItems = ["text.markdown", "text.md", "text.txt", "text.rtf", "info.json"]
+    private var textBundleItems = ["text.markdown", "text.md", "text.txt", "info.json"]
 
     init(storage: Storage, delegate: ViewController) {
         self.storage = storage

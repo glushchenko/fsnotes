@@ -32,7 +32,7 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
                     _ = UIApplication.getNC()?.popViewController(animated: true)
                     
                     if !UserDefaultsManagement.sidebarIsOpened {
-                        UIApplication.getVC().toggleSidebar()
+                        UIApplication.getVC().openSidebar()
                     }
                     
                     if let project = projects.first {

@@ -945,7 +945,7 @@ public class Project: NSObject {
             )
         else { return nil }
 
-        let extensions = ["md", "markdown", "txt", "rtf", "fountain", "textbundle", "etp", "jpg", "png", "gif", "jpeg", "json", "JPG", "PNG", ".icloud", ".cache", ".Trash", "i"]
+        let extensions = ["md", "markdown", "txt", "fountain", "textbundle", "etp", "jpg", "png", "gif", "jpeg", "json", "JPG", "PNG", ".icloud", ".cache", ".Trash", "i"]
 
         let urls = fileEnumerator.allObjects.compactMap({ $0 as? URL })
             .filter({

@@ -29,7 +29,6 @@ class Storage {
         "md",
         "markdown",
         "txt",
-        "rtf",
         "fountain",
         "textbundle",
         "etp" // Encrypted Text Pack

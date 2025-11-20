@@ -23,6 +23,7 @@
 		111013182ECA102200B6CF1B /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D796EB40251E127300CE5C80 /* Pasteboard.swift */; };
 		1118448D2ECF9E9D00A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
 		1118448E2ECF9E9D00A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
+		111844932ECFA5B500A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
 		1122C8EC2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
 		1122C8ED2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
 		1122C8EE2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
@@ -189,8 +190,6 @@
 		D71C4A4E1F520F1B00EBA30B /* MPreview.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* MPreview.bundle */; };
 		D71FD21F2101B2D5008BEFA1 /* NoteAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* NoteAttachment.swift */; };
 		D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71FD2242101CFD0008BEFA1 /* UITextView+.swift */; };
-		D720240C22A9412B000A7691 /* RTF.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720240822A9412B000A7691 /* RTF.icns */; };
-		D720240D22A9412B000A7691 /* RTF.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720240822A9412B000A7691 /* RTF.icns */; };
 		D720240F22A9412B000A7691 /* Markdown.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720240922A9412B000A7691 /* Markdown.icns */; };
 		D720241022A9412B000A7691 /* Markdown.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720240922A9412B000A7691 /* Markdown.icns */; };
 		D720241222A9412B000A7691 /* Text.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720240A22A9412B000A7691 /* Text.icns */; };
@@ -520,7 +519,6 @@
 		D79C26262872384C00CB70E6 /* EditorViewController+Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79C26242872384C00CB70E6 /* EditorViewController+Sharing.swift */; };
 		D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D79FE8A21F77D04A00113CFD /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
-		D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
 		D7A41C9B2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A41C9C2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
@@ -580,10 +578,6 @@
 		D7BE112622DB168C00435866 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
 		D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
 		D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
-		D7C2205A2A0D44A10006006D /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F8894A2A0D3E19003645DE /* launchscreen.png */; };
-		D7C2205B2A0D44A20006006D /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F8894A2A0D3E19003645DE /* launchscreen.png */; };
-		D7C2205D2A0D44A40006006D /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F8894A2A0D3E19003645DE /* launchscreen.png */; };
-		D7C2205E2A0D44A50006006D /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F8894A2A0D3E19003645DE /* launchscreen.png */; };
 		D7C33F6E29E09A690006C473 /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C33F6D29E09A690006C473 /* AppIconViewController.swift */; };
 		D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */; };
 		D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */; };
@@ -787,8 +781,6 @@
 		D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */; };
 		D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */; };
 		D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */; };
-		D7F8894B2A0D3E1A003645DE /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F8894A2A0D3E19003645DE /* launchscreen.png */; };
-		D7F8894C2A0D3E1A003645DE /* launchscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F8894A2A0D3E19003645DE /* launchscreen.png */; };
 		D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 		D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
 		D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
@@ -990,7 +982,6 @@
 		D71B9D852868BF7F00D2F323 /* TextStorageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStorageProcessor.swift; sourceTree = "<group>"; };
 		D71C4A4D1F520F0E00EBA30B /* MPreview.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MPreview.bundle; sourceTree = "<group>"; };
 		D71FD2242101CFD0008BEFA1 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
-		D720240822A9412B000A7691 /* RTF.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = RTF.icns; sourceTree = "<group>"; };
 		D720240922A9412B000A7691 /* Markdown.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Markdown.icns; sourceTree = "<group>"; };
 		D720240A22A9412B000A7691 /* Text.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Text.icns; sourceTree = "<group>"; };
 		D720240B22A9412B000A7691 /* TextBundle.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TextBundle.icns; sourceTree = "<group>"; };
@@ -1153,7 +1144,6 @@
 		D79A13CC2A0E9C980037510B /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		D79C26242872384C00CB70E6 /* EditorViewController+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+Sharing.swift"; sourceTree = "<group>"; };
 		D79FE8A01F77D04A00113CFD /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ios-512x512@2x.png"; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlock.swift; sourceTree = "<group>"; };
 		D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditorViewController.swift; sourceTree = "<group>"; };
@@ -1259,7 +1249,6 @@
 		D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSecurityViewController.swift; sourceTree = "<group>"; };
 		D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesAdvancedViewController.swift; sourceTree = "<group>"; };
 		D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
-		D7F8894A2A0D3E19003645DE /* launchscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchscreen.png; sourceTree = "<group>"; };
 		D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextProcessor.swift; sourceTree = "<group>"; };
 		D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+QuickLook.swift"; sourceTree = "<group>"; };
 		D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
@@ -1543,7 +1532,6 @@
 			isa = PBXGroup;
 			children = (
 				D720240922A9412B000A7691 /* Markdown.icns */,
-				D720240822A9412B000A7691 /* RTF.icns */,
 				D720240A22A9412B000A7691 /* Text.icns */,
 				D720240B22A9412B000A7691 /* TextBundle.icns */,
 				D720241822A941A3000A7691 /* EncryptedTextPack.icns */,
@@ -1721,8 +1709,6 @@
 			isa = PBXGroup;
 			children = (
 				D7C33F6F29E09E6D0006C473 /* app-icons */,
-				D7F8894A2A0D3E19003645DE /* launchscreen.png */,
-				D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -2416,7 +2402,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7C2205A2A0D44A10006006D /* launchscreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2424,7 +2409,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7C2205B2A0D44A20006006D /* launchscreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2432,7 +2416,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7F8894C2A0D3E1A003645DE /* launchscreen.png in Resources */,
 				42E001CA2ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
 				D7163D3424E81D9900B1FC05 /* MainInterface.storyboard in Resources */,
 			);
@@ -2448,6 +2431,7 @@
 				D7CF7EBC29E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png in Resources */,
 				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
 				D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */,
+				111844932ECFA5B500A175E4 /* Assets.xcassets in Resources */,
 				D780165E29E19FD800660689 /* app-icon-dylanseegerDark.png in Resources */,
 				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D780166129E1E6AA00660689 /* dylanseegerDarkFull@3x.png in Resources */,
@@ -2471,13 +2455,11 @@
 				D7BDFE6D201F6E8F00897A58 /* Initial in Resources */,
 				D7CF7EBA29E2CFD400FEC0C5 /* dylanseeger@3x~ipad.png in Resources */,
 				D7F2F1C321C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
-				D7F8894B2A0D3E1A003645DE /* launchscreen.png in Resources */,
 				D7F2F1C021C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
 				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */,
 				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7CF7EB929E2CFD400FEC0C5 /* kmstrr@3x~ipad.png in Resources */,
-				D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */,
 				D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */,
 				D7BE112522DB168C00435866 /* lock-closed.png in Resources */,
 				D7DF48CF29E1765C00FFD0B2 /* app-icon-dylanseeger.png in Resources */,
@@ -2533,7 +2515,6 @@
 				D720241922A941A3000A7691 /* EncryptedTextPack.icns in Resources */,
 				D7F2F1AF21C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
 				D720240F22A9412B000A7691 /* Markdown.icns in Resources */,
-				D7C2205E2A0D44A50006006D /* launchscreen.png in Resources */,
 				D7DD79591F4E60D000D5724B /* SourceCodePro-It.ttf in Resources */,
 				42E001C62ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
 				D730BD482238365800E69C93 /* lock-closed.png in Resources */,
@@ -2541,7 +2522,6 @@
 				D7F2F1C421C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
 				D7F2F19721C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
-				D720240C22A9412B000A7691 /* RTF.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2552,7 +2532,6 @@
 				D759D1FF2276D4C300961E90 /* icon.png in Resources */,
 				D7F2F1BC21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
-				D7C2205D2A0D44A40006006D /* launchscreen.png in Resources */,
 				D7E81C4B1F925B5F00416A91 /* MPreview.bundle in Resources */,
 				D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */,
 				D7F2F1B921C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
@@ -2567,7 +2546,6 @@
 				D720241322A9412B000A7691 /* Text.icns in Resources */,
 				D730BD4C223837F300E69C93 /* lock-open.png in Resources */,
 				D7E81C4E1F925B5F00416A91 /* SourceCodePro-Regular.ttf in Resources */,
-				D720240D22A9412B000A7691 /* RTF.icns in Resources */,
 				D7F2F1A121C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
 				D7F2F19821C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7F2F1A421C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
@@ -3668,7 +3646,7 @@
 				CURRENT_PROJECT_VERSION = 314;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3699,7 +3677,7 @@
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3735,7 +3713,7 @@
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3772,7 +3750,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4018,7 +3996,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.11.0;
+				MARKETING_VERSION = 7.0.0;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4059,7 +4037,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.11.0;
+				MARKETING_VERSION = 7.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
