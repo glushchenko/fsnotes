@@ -40,7 +40,7 @@ extension NSMutableAttributedString {
         let result = NSMutableAttributedString(attributedString: self)
         let fullRange = NSRange(location: 0, length: result.length)
 
-        enumerateAttribute(.attachment, in: fullRange, options: .reverse) { value, range, _ in
+        enumerateAttribute(.attachment, in: fullRange, options: .reverse) { _, range, _ in
             guard let meta = getMeta(at: range.location) else { return }
 
             let path = meta.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? meta.path
@@ -221,7 +221,7 @@ extension NSMutableAttributedString {
 
         return meta
     #else
-        guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) else { return nil }
+        guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment else { return nil }
 
         return attachment.getMeta()
     #endif
@@ -239,7 +239,7 @@ extension NSMutableAttributedString {
             return data
         }
         #else
-            guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) else { return nil }
+            guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment else { return nil }
             return attachment.getMeta()?.data
         #endif
 
