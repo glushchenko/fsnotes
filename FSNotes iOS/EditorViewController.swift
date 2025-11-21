@@ -18,7 +18,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     public var note: Note?
     public var quickLookURL: URL?
 
-    private var isHighlighted: Bool = false
     private var isUndo = false
     private let storageQueue = OperationQueue()
     private var toolbar: Toolbar = .markdown
@@ -221,13 +220,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let storage = editArea.textStorage
         storage.updateCheckboxList()
-
-        let search = getSearchText()
-        if search.count > 0 {
-            let processor = NotesTextProcessor(storage: storage)
-            processor.highlightKeyword(search: search)
-            isHighlighted = true
-        }
+        storage.highlightKeyword(search: getSearchText())
 
         editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
     }
@@ -581,14 +574,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         //vc.cloudDriveManager?.metadataQuery.disableUpdates()
         
         guard let note = self.note else { return }
-        
-        if isHighlighted {
-            let search = getSearchText()
-            let processor = NotesTextProcessor(storage: textView.textStorage)
-            processor.highlightKeyword(search: search, remove: true)
-            isHighlighted = false
-        }
-        
+
         // Prevent textStorage refresh in CloudDriveManager
         note.modifiedLocalAt = Date()
         self.storageQueue.cancelAllOperations()

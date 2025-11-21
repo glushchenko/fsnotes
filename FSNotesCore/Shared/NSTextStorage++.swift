@@ -13,6 +13,24 @@ import UIKit
 #endif
 
 extension NSTextStorage {
+#if os(OSX)
+    public var highlightColor: NSColor {
+        get {
+            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+                return NSColor(named: "highlight")!
+            } else {
+                return NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
+            }
+        }
+    }
+#else
+    public var highlightColor: UIColor {
+        get {
+            return UIColor.highlightColor
+        }
+    }
+#endif
+
     public func getImageRange(url: URL) -> NSRange? {
         let affectedRange = NSRange(0..<length)
         var foundRange: NSRange?
@@ -194,6 +212,65 @@ extension NSTextStorage {
                     }
                 }
             }
+        }
+    }
+
+    public func highlightKeyword(search: String) {
+        guard search.count > 0, UserDefaultsManagement.searchHighlight else { return }
+
+        let searchTerm = NSRegularExpression.escapedPattern(for: search)
+        let pattern = "(\(searchTerm))"
+        let range = NSRange(location: 0, length: length)
+
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [.caseInsensitive])
+
+            regex.enumerateMatches(
+                in: self.string,
+                options: [],
+                range: range
+            ) { textCheckingResult, _, _ in
+                guard let subRange = textCheckingResult?.range else { return }
+                guard subRange.location < self.length else { return }
+
+                if let currentBackgroundColor = self.attribute(.backgroundColor, at: subRange.location, effectiveRange: nil) {
+                    self.addAttribute(.highlight, value: currentBackgroundColor, range: subRange)
+                } else {
+                    self.addAttribute(.highlight, value: NSNull(), range: subRange)
+                }
+
+                self.addAttribute(.backgroundColor, value: self.highlightColor, range: subRange)
+            }
+        } catch {
+            print(error)
+        }
+    }
+
+    public func removeHighlight() {
+        let range = NSRange(location: 0, length: length)
+
+        self.enumerateAttribute(
+            .highlight,
+            in: range,
+            options: []
+        ) { value, subRange, _ in
+            guard value != nil else { return }
+
+            #if os(macOS)
+            if let originalColor = value as? NSColor {
+                self.addAttribute(.backgroundColor, value: originalColor, range: subRange)
+            } else {
+                self.removeAttribute(.backgroundColor, range: subRange)
+            }
+            #else
+            if let originalColor = value as? UIColor {
+                self.addAttribute(.backgroundColor, value: originalColor, range: subRange)
+            } else {
+                self.removeAttribute(.backgroundColor, range: subRange)
+            }
+            #endif
+
+            self.removeAttribute(.highlight, range: subRange)
         }
     }
 }

@@ -18,7 +18,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var note: Note?
     public var viewDelegate: ViewController?
     
-    var isHighlighted: Bool = false
     let storage = Storage.shared()
     let caretWidth: CGFloat = 2
     var downView: MPreviewView?
@@ -45,7 +44,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 return false
             }
 
-            removeHighlight()
+            textStorage?.removeHighlight()
         }
         
         return super.becomeFirstResponder()
@@ -1043,10 +1042,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
         
         if highlight {
-            let search = getSearchText()
-            let processor = NotesTextProcessor(storage: storage)
-            processor.highlightKeyword(search: search)
-            isHighlighted = true
+            textStorage?.highlightKeyword(search: getSearchText())
         }
 
         loadSelectedRange()
@@ -1081,22 +1077,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     func removeHighlight() {
-        guard isHighlighted else {
-            return
-        }
-        
-        isHighlighted = false
-        
-        // save cursor position
-        let cursorLocation = selectedRanges[0].rangeValue.location
 
-        if let search = viewDelegate?.search.lastSearchQuery, search.count > 0  {
-            let processor = NotesTextProcessor(storage: textStorage)
-            processor.highlightKeyword(search: search, remove: true)
-        }
-        
-        // restore cursor
-        setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
     }
     
     public func lockEncryptedView() {

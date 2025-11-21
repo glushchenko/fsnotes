@@ -41,7 +41,13 @@ class EditTextView: UITextView, UITextViewDelegate {
         autocorrectionType = UserDefaultsManagement.editorAutocorrection ? .yes : .no
         spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
     }
-    
+
+    override func becomeFirstResponder() -> Bool {
+        textStorage.removeHighlight()
+        
+        return super.becomeFirstResponder()
+    }
+
     public func initTextStorage() {
         let processor = TextStorageProcessor()
         processor.editor = self

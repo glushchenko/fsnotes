@@ -77,16 +77,6 @@ public class NotesTextProcessor {
         }
     }
 
-    open var highlightColor: NSColor {
-        get {
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: "highlight")!
-            } else {
-                return NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
-            }
-        }
-    }
-
     public static var quoteColor: NSColor {
         get {
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
@@ -119,12 +109,6 @@ public class NotesTextProcessor {
         }
     }
     
-    open var highlightColor: UIColor {
-        get {
-            return UIColor.highlightColor
-        }
-    }
-
     public static var quoteColor: UIColor {
         get {
             return UIColor.darkGray
@@ -1262,56 +1246,7 @@ public class NotesTextProcessor {
             }
         }
     }
-    
 
-
-    func highlightKeyword(search: String = "", remove: Bool = false) {
-        guard let storage = self.storage, search.count > 0, UserDefaultsManagement.searchHighlight else { return }
-
-        let searchTerm = NSRegularExpression.escapedPattern(for: search)
-        let attributedString = NSMutableAttributedString(attributedString: storage)
-        let pattern = "(\(searchTerm))"
-        let range: NSRange = NSMakeRange(0, storage.length)
-                
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
-            
-            regex.enumerateMatches(
-                in: storage.string,
-                options: NSRegularExpression.MatchingOptions(),
-                range: range,
-                using: {
-                    (textCheckingResult, matchingFlags, stop) -> Void in
-                    guard let subRange = textCheckingResult?.range else {
-                        return
-                    }
-
-                    if remove {
-                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NoteAttribute.highlight) {
-                            storage.removeAttribute(NoteAttribute.highlight, range: subRange)
-                            storage.addAttribute(NSAttributedString.Key.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
-                            return
-                        } else {
-                            storage.removeAttribute(NSAttributedString.Key.backgroundColor, range: subRange)
-                        }
-                    } else {
-                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedString.Key.backgroundColor) {
-                            attributedString.addAttribute(NoteAttribute.highlight, value: true, range: subRange)
-                        }
-
-                        attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: highlightColor, range: subRange)
-                    }
-                }
-            )
-
-            if !remove {
-                storage.setAttributedString(attributedString)
-            }
-        } catch {
-            print(error)
-        }
-    }
-    
     fileprivate static func getHeaderFont(level: Int, baseFont: PlatformFont) -> PlatformFont {
         let baseFontSize = baseFont.pointSize
         let headerSize: CGFloat

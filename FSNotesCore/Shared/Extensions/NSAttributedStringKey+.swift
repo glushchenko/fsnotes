@@ -36,4 +36,8 @@ public extension NSAttributedString.Key {
     static var yamlBlock: NSAttributedString.Key {
         return NSAttributedString.Key(rawValue: "es.fsnot.yaml")
     }
+
+    static var highlight: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.highlight")
+    }
 }

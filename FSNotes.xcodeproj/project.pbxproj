@@ -531,8 +531,6 @@
 		D7A9C1DB29107A0800905619 /* Git in Frameworks */ = {isa = PBXBuildFile; productRef = D7A9C1DA29107A0800905619 /* Git */; };
 		D7A9C1DC29107B7600905619 /* Reference+Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BCC8B28EB5EC3008B3BBC /* Reference+Target.swift */; };
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
-		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
-		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B13DBD2C64F445008EBCAA /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B13DBC2C64F445008EBCAA /* Printer.swift */; };
 		D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B13DBC2C64F445008EBCAA /* Printer.swift */; };
 		D7B2B6E8245EEA5F0084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
@@ -616,7 +614,6 @@
 		D7CD5CD121820CCD0009D63B /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
 		D7CD5CD421820D640009D63B /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D7CD5CD521820D700009D63B /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
-		D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7CD5CDB21832C190009D63B /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */; };
 		D7CD5CDC21832C190009D63B /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */; };
 		D7CD5CE321836A230009D63B /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76025C2204F2820000B9F59 /* UIFont+.swift */; };
@@ -640,7 +637,6 @@
 		D7D01AFD2C65203A00F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
 		D7D01AFE2C65208000F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
-		D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7D1DE68216D05A800AC1845 /* NameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1DE67216D05A800AC1845 /* NameTextField.swift */; };
 		D7D1DE69216D05A800AC1845 /* NameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1DE67216D05A800AC1845 /* NameTextField.swift */; };
 		D7D2F27E2B54BD42003DCA47 /* Shout in Frameworks */ = {isa = PBXBuildFile; productRef = D7D2F27D2B54BD42003DCA47 /* Shout */; };
@@ -1150,7 +1146,6 @@
 		D7A65C5820F11C38003E5ADC /* LanguageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageType.swift; sourceTree = "<group>"; };
 		D7A9C1D52910784400905619 /* Project+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Git.swift"; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
-		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
 		D7B13DBC2C64F445008EBCAA /* Printer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
 		D7B3391420DE0FB100B36460 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		D7B34F9625195D7E0007877E /* PreviewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewState.swift; sourceTree = "<group>"; };
@@ -1852,7 +1847,6 @@
 				D75EE7F62078B22D0055F159 /* SidebarItem.swift */,
 				D7E025071F3B6DDB00EDDA32 /* Storage.swift */,
 				D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */,
-				D7B024A62019BCF3008544C3 /* NoteAttribute.swift */,
 				D708AC662000EF5800A1760F /* NoteType.swift */,
 				D78678CA2093AE10001A6620 /* UndoData.swift */,
 				D7B3391420DE0FB100B36460 /* TagList.swift */,
@@ -2876,7 +2870,6 @@
 				1136855A2EC7A21F0033767F /* NSMutableAttributedString+.swift in Sources */,
 				D75F3339205EC34800CC887E /* ShareViewController.swift in Sources */,
 				D7104A68230BD8C500B6D8EE /* SortDirection.swift in Sources */,
-				D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */,
 				113685532EC796EF0033767F /* Note.swift in Sources */,
 				D76F3682272563EC00D1FFB4 /* NSAttributedString+.swift in Sources */,
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,
@@ -2933,7 +2926,6 @@
 				D70E9DEF2901AE9400A3C634 /* Branches.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
-				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
 				11D9431E2E643F250010CC2B /* Swift.swift in Sources */,
 				D70E9DF52901AEAF00A3C634 /* Blob.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
@@ -3215,7 +3207,6 @@
 				D792DD9027A6D3BE006ADC01 /* Colors.swift in Sources */,
 				D7013E0026C3B116006F58E3 /* NSColor+.swift in Sources */,
 				D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */,
-				D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */,
 				D7A9C1D62910784400905619 /* Project+Git.swift in Sources */,
 				D7153DFD2285A93300A2C20F /* AboutWindowController.swift in Sources */,
 				D74D479F256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
@@ -3398,7 +3389,6 @@
 				D77AD7FD27F9D1C90077BD45 /* Data+.swift in Sources */,
 				D7679377201F0BFD000F7BBF /* SortBy.swift in Sources */,
 				D7E81C391F925B5F00416A91 /* FileWatcherEvent.swift in Sources */,
-				D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */,
 				D73BCCEA28EB5EC4008B3BBC /* Head+Checkout.swift in Sources */,
 				D73BCCCF28EB5EC4008B3BBC /* PasswordAuthentication.swift in Sources */,
 				D7D7CD3B232774BC0016AC15 /* ViewController+Git.swift in Sources */,
