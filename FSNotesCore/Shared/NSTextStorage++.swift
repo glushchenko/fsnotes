@@ -84,67 +84,49 @@ extension NSTextStorage {
      * Implements https://github.com/glushchenko/fsnotes/issues/311
      */
     public func addTabStops(range: NSRange, tabs: [NSTextTab]) {
-        var paragraph = NSMutableParagraphStyle()
         let font = UserDefaultsManagement.noteFont
+        let lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        let paragraphRange = mutableString.paragraphRange(for: range)
 
-        mutableString.enumerateSubstrings(in: range, options: .byParagraphs) { value, parRange, _, _ in
-            var parRange = parRange
+        let markers = ["* ", "- ", "+ ", "> "]
 
-            if let value = value,
-                value.count > 1,
+        mutableString.enumerateSubstrings(in: paragraphRange, options: .byParagraphs) { value, parRange, _, _ in
+            guard let value = value else { return }
 
-                value.starts(with: "    ")
-                || value.starts(with: "  ")
-                || value.starts(with: "\t")
-                || value.starts(with: "* ")
-                || value.starts(with: "- ")
-                || value.starts(with: "+ ")
-                || value.starts(with: "> ")
-                || self.getNumberListPrefix(paragraph: value) != nil {
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.lineSpacing = lineSpacing
+            paragraph.alignment = .left
+            paragraph.tabStops = tabs
 
+            if value.count > 1 {
                 let prefix = value.getSpacePrefix()
-                let checkList = [
-                    prefix + "* ",
-                    prefix + "- ",
-                    prefix + "+ ",
-                    prefix + "> ",
-                    "* ",
-                    "- ",
-                    "+ ",
-                    "> "
-                ]
+                var matchedPrefix: String?
 
-                var result = String()
-                for checkItem in checkList {
-                    if value.starts(with: checkItem) {
-                        result = checkItem
-                        break
+                if prefix.isEmpty {
+                    for marker in markers {
+                        if value.hasPrefix(marker) {
+                            matchedPrefix = marker
+                            break
+                        }
+                    }
+                } else {
+                    for marker in markers {
+                        let fullMarker = prefix + marker
+                        if value.hasPrefix(fullMarker) {
+                            matchedPrefix = fullMarker
+                            break
+                        }
                     }
                 }
 
-                if let prefix = self.getNumberListPrefix(paragraph: value) {
-                    result = prefix
+                if matchedPrefix == nil {
+                    matchedPrefix = self.getNumberListPrefix(paragraph: value)
                 }
 
-                let width = result.widthOfString(usingFont: font, tabs: tabs)
-
-                paragraph = NSMutableParagraphStyle()
-                paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-                paragraph.alignment = .left
-                paragraph.headIndent = width
-            } else {
-
-                // Fixes new line size (proper line spacing)
-                if parRange.length == 0 && parRange.location > 0 {
-                    parRange = NSRange(location: parRange.location, length: 1)
+                if let prefix = matchedPrefix {
+                    paragraph.headIndent = prefix.widthOfString(usingFont: font, tabs: tabs)
                 }
-
-                paragraph = NSMutableParagraphStyle()
-                paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-                paragraph.alignment = .left
             }
-
-            paragraph.tabStops = tabs
 
             self.addAttribute(.paragraphStyle, value: paragraph, range: parRange)
         }
@@ -162,34 +144,19 @@ extension NSTextStorage {
         return tabs
     }
 
+    private static let numberListRegex = try! NSRegularExpression(
+        pattern: #"^(\s*)(\d+)(\.)(\s+)"#,
+        options: []
+    )
+
     public func getNumberListPrefix(paragraph: String) -> String? {
-        var result = String()
-        var numberFound = false
-        var dotFound = false
+        guard !paragraph.isEmpty else { return nil }
 
-        for char in paragraph {
-            if char.isWhitespace {
-                result.append(char)
-                if dotFound && numberFound {
-                    return result
-                }
-                continue
-            } else if char.isNumber {
-                numberFound = true
-                result.append(char)
-                continue
-            } else if char == "." {
-                if !numberFound {
-                    return nil
-                }
-                dotFound = true
-                result.append(char)
-                continue
-            }
+        let nsString = paragraph as NSString
+        let range = NSRange(location: 0, length: min(nsString.length, 20))
 
-            if !numberFound || !dotFound {
-                return nil
-            }
+        if let match = Self.numberListRegex.firstMatch(in: paragraph, options: [], range: range) {
+            return nsString.substring(with: match.range)
         }
 
         return nil
