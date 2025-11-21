@@ -21,8 +21,6 @@
 		110E40A52EA039CE00C62F49 /* EditTextView+DragOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */; };
 		111013152EC8F1B600B6CF1B /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111013142EC8F1B600B6CF1B /* ImagePreviewViewController.swift */; };
 		111013182ECA102200B6CF1B /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D796EB40251E127300CE5C80 /* Pasteboard.swift */; };
-		1118448D2ECF9E9D00A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
-		1118448E2ECF9E9D00A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
 		111844932ECFA5B500A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
 		1122C8EC2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
 		1122C8ED2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
@@ -2492,7 +2490,6 @@
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
 				D720241522A9412B000A7691 /* TextBundle.icns in Resources */,
 				D7F2F1A621C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
-				1118448D2ECF9E9D00A175E4 /* Assets.xcassets in Resources */,
 				D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */,
 				D730BD4B223837F300E69C93 /* lock-open.png in Resources */,
 				D7F2F1A321C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
@@ -2536,7 +2533,6 @@
 				42E001C72ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
 				D7F2F19E21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
 				D7F2F1B321C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
-				1118448E2ECF9E9D00A175E4 /* Assets.xcassets in Resources */,
 				D720241322A9412B000A7691 /* Text.icns in Resources */,
 				D730BD4C223837F300E69C93 /* lock-open.png in Resources */,
 				D7E81C4E1F925B5F00416A91 /* SourceCodePro-Regular.ttf in Resources */,

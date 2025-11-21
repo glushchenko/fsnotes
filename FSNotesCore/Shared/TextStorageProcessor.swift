@@ -168,6 +168,11 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                 if let size = size {
                     attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
                 }
+
+                // iOS only unknown behaviour
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = url.isMedia ? .center : .left
+                textStorage.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
             #elseif os(OSX)
                 guard let container = self.editor?.textContainer,
                       let attachmentImage = image,
