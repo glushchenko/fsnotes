@@ -421,6 +421,8 @@ public class TextFormatter {
     }
     
     public func link() {
+        textView.undoManager?.beginUndoGrouping()
+
         let text = "[" + attributedString.string + "]()"
         replaceWith(string: text, range: range)
         
@@ -429,23 +431,32 @@ public class TextFormatter {
         } else {
             setSelectedRange(NSMakeRange(range.upperBound + 3, 0))
         }
+
+        textView.undoManager?.endUndoGrouping()
     }
 
-#if os(OSX)
     public func wikiLink() {
+        textView.undoManager?.beginUndoGrouping()
+
         let text = "[[" + attributedString.string + "]]"
         replaceWith(string: text, range: range)
 
         if (text.count == 4) {
             setSelectedRange(NSMakeRange(range.location + 2, 0))
+
+            #if os(OSX)
             textView.complete(nil)
+            #endif
         } else {
             setSelectedRange(NSMakeRange(range.location + 2, text.count - 4))
         }
+
+        textView.undoManager?.endUndoGrouping()
     }
-#endif
 
     public func image() {
+        textView.undoManager?.beginUndoGrouping()
+
         let text = "![" + attributedString.string + "]()"
         replaceWith(string: text)
         
@@ -454,6 +465,8 @@ public class TextFormatter {
         } else {
             setSelectedRange(NSMakeRange(range.upperBound + 4, 0))
         }
+
+        textView.undoManager?.endUndoGrouping()
     }
     
     public func isListParagraph() -> Bool {
@@ -1001,10 +1014,8 @@ public class TextFormatter {
             } else {
                 selectedRange = textView.selectedTextRange!
             }
-        
-            textView.undoManager?.beginUndoGrouping()
+
             textView.replace(selectedRange, withText: string)
-            textView.undoManager?.endUndoGrouping()
         #else
             var r = textView.selectedRange
             if let range = range {

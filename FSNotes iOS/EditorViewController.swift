@@ -495,8 +495,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
             // WikiLinks
             if let replacementRange = replacementRange {
+                editArea.undoManager?.beginUndoGrouping()
                 self.editArea.selectedRange = replacementRange
                 self.editArea.insertText(item)
+                editArea.undoManager?.endUndoGrouping()
                 return
             }
 
@@ -823,15 +825,15 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc func wikilink() {
-        editArea.insertText("[[]]")
-        let location = editArea.selectedRange.location - 2
-        let range = NSRange(location: location, length: 0)
-        editArea.selectedRange = range
+        guard let note = note else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.wikiLink()
 
         guard let titles = Storage.shared().getTitles() else { return }
 
         self.dropDown.dataSource = titles
-        self.complete(offset: location, replacementRange: range)
+        self.complete(offset: editArea.selectedRange.location, replacementRange: editArea.selectedRange)
     }
 
     @objc func codeBlockButton() {
