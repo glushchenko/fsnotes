@@ -48,35 +48,36 @@ extension NSTextStorage {
 
     public func updateParagraphStyle(range: NSRange? = nil) {
         let scanRange = range ?? NSRange(0..<length)
-
-        if scanRange.length == 0 {
-            return
-        }
+        
+        guard scanRange.length != 0 else { return }
 
         beginEditing()
-
         let font = UserDefaultsManagement.noteFont
         let tabs = getTabStops()
-
         addTabStops(range: scanRange, tabs: tabs)
-
         let spaceWidth = " ".widthOfString(usingFont: font, tabs: tabs)
 
-        // Todo head indents
-        enumerateAttribute(.attachment, in: scanRange, options: .init()) { value, range, _ in
-            if attribute(.todo, at: range.location, effectiveRange: nil) != nil {
-                let parRange = mutableString.paragraphRange(for: NSRange(location: range.location, length: 0))
-                let parStyle = NSMutableParagraphStyle()
-                parStyle.headIndent = spaceWidth + 16
-                parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-                addAttribute(.paragraphStyle, value: parStyle, range: parRange)
+        let parRange = mutableString.paragraphRange(for: scanRange)
 
-                removeAttribute(.font, range: parRange)
-                addAttribute(.font, value: UserDefaultsManagement.noteFont, range: parRange)
-                fixAttributes(in: parRange)
+        enumerateAttribute(.attachment, in: parRange, options: .init()) { value, range, _ in
+            guard attribute(.todo, at: range.location, effectiveRange: nil) != nil else { return }
+
+            let currentParRange = mutableString.paragraphRange(for: range)
+
+            var attachmentWidth: CGFloat = 0
+            if let attachment = value as? NSTextAttachment {
+                let attachmentBounds = attachment.bounds
+                attachmentWidth = attachmentBounds.width
             }
-        }
 
+            let parStyle = NSMutableParagraphStyle()
+            parStyle.headIndent = spaceWidth + attachmentWidth
+            parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+            addAttribute(.paragraphStyle, value: parStyle, range: currentParRange)
+            removeAttribute(.font, range: currentParRange)
+            addAttribute(.font, value: UserDefaultsManagement.noteFont, range: currentParRange)
+            fixAttributes(in: currentParRange)
+        }
         endEditing()
     }
 

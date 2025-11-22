@@ -918,17 +918,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         for url in urls {
-            guard let data = try? Data(contentsOf: url) else { continue }
-
-            let attachment = NSTextAttachment()
-            let mutable = NSMutableAttributedString(attachment: attachment)
-            mutable.addAttributes([
-                .attachmentSave: data,
-                .attachmentUrl: URL(fileURLWithPath: "/tmp/" + url.lastPathComponent),
-                .attachmentPath: String()
-            ], range: NSRange(location: 0, length: 1))
-
-            mutable.append(NSAttributedString(string: "\n\n"))
+            guard let data = try? Data(contentsOf: url),
+                  let mutable = NSMutableAttributedString.build(data: data, preferredName: url.lastPathComponent) else { continue }
 
             DispatchQueue.main.async {
                 self.editArea.insertAttributedText(mutable)

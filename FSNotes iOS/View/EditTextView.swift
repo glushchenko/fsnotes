@@ -8,6 +8,7 @@
 
 import UIKit
 import MobileCoreServices
+import UniformTypeIdentifiers
 
 class EditTextView: UITextView, UITextViewDelegate {
 
@@ -169,7 +170,14 @@ class EditTextView: UITextView, UITextViewDelegate {
         let pb = UIPasteboard.general
         var toInsert: NSAttributedString?
 
-        if let data = pb.data(forPasteboardType: UIPasteboard.attributed) {
+        if let imageData = pb.data(forPasteboardType: UTType.png.identifier) ??
+                           pb.data(forPasteboardType: UTType.jpeg.identifier) ??
+                           pb.data(forPasteboardType: UTType.image.identifier) {
+
+            toInsert = NSMutableAttributedString.build(data: imageData)
+        }
+
+        else if let data = pb.data(forPasteboardType: UIPasteboard.attributed) {
             do {
                 if let attributed = try NSKeyedUnarchiver.unarchivedObject(
                     ofClass: NSAttributedString.self,
@@ -184,7 +192,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             }
         }
 
-        if toInsert == nil, let plain = pb.string {
+        else if let plain = pb.string {
             let mutable = NSMutableAttributedString(string: plain)
             mutable.loadTasks()
             toInsert = mutable

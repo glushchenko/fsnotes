@@ -257,4 +257,25 @@ extension NSMutableAttributedString {
         }
     }
 #endif
+
+    public static func build(data: Data, preferredName: String? = nil) -> NSMutableAttributedString? {
+        var preferredName = preferredName
+
+        if preferredName == nil {
+            let ext = data.getFileType().rawValue
+            preferredName = UUID().uuidString + "." + ext
+        }
+
+        let attachment = NSTextAttachment()
+        let mutable = NSMutableAttributedString(attachment: attachment)
+        mutable.addAttributes([
+            .attachmentSave: data,
+            .attachmentUrl: URL(fileURLWithPath: "/tmp/" + preferredName!),
+            .attachmentPath: String()
+        ], range: NSRange(location: 0, length: 1))
+
+        mutable.append(NSAttributedString(string: "\n\n"))
+
+        return mutable
+    }
 }
