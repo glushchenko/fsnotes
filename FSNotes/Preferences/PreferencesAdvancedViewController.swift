@@ -161,8 +161,10 @@ class PreferencesAdvancedViewController: NSViewController {
             if let cacheUrl = project.getCacheURL() {
                 try? FileManager.default.removeItem(at: cacheUrl)
             }
+
+            project.isReadyForCacheSaving = false
         }
-        
+
         restart()
     }
     

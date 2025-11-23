@@ -36,7 +36,7 @@ public extension String {
     func trim() -> String {
         return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }
-    
+
     func trimMDSyntax() -> String {
         return self
             .replacingOccurrences(of: "###### ", with: " ")
@@ -51,6 +51,7 @@ public extension String {
             .replacingOccurrences(of: "[[", with: "")
             .replacingOccurrences(of: "]]", with: "")
             .replacingOccurrences(of: "{{TOC}}", with: "")
+            .replacingOccurrences(of: "\u{FFFC}", with: "")
     }
 
     func getPrefixMatchSequentially(char: String) -> String? {
@@ -259,9 +260,9 @@ extension StringProtocol where Index == String.Index {
 }
 
 public extension String {
-  subscript(value: Int) -> Character {
-    self[index(at: value)]
-  }
+    subscript(value: Int) -> Character {
+        self[index(at: value)]
+    }
 }
 
 public extension String {

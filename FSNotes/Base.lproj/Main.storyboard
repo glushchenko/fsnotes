@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24128" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24128"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24412"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -2523,7 +2523,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs" customClass="AboutImageView" customModule="FSNotes" customModuleProvider="target">
-                                <rect key="frame" x="225" y="461" width="67" height="70"/>
+                                <rect key="frame" x="226" y="461" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
@@ -2531,7 +2531,7 @@ Gw
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="225" y="400" width="67" height="17"/>
+                                <rect key="frame" x="226" y="400" width="67" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2542,7 +2542,7 @@ Gw
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="107" y="300" width="304" height="32"/>
+                                <rect key="frame" x="108" y="300" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Copyright © 2017-2024 Oleksandr Hlushchenko.
@@ -2555,7 +2555,7 @@ All rights reserved.</string>
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="186" y="425" width="146" height="16"/>
+                                <rect key="frame" x="187" y="425" width="146" height="16"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2568,7 +2568,7 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="482" height="32"/>
+                                <rect key="frame" x="18" y="20" width="484" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2581,7 +2581,7 @@ Olena Hlushcneko</string>
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
-                                <rect key="frame" x="216" y="60" width="85" height="16"/>
+                                <rect key="frame" x="217" y="60" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Icons design:" id="FKf-Ph-LiA">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2589,7 +2589,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="221" y="264" width="76" height="16"/>
+                                <rect key="frame" x="222" y="264" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2597,10 +2597,10 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="478" height="5"/>
+                                <rect key="frame" x="20" y="381" width="480" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="232" y="347" width="54" height="16"/>
+                                <rect key="frame" x="233" y="347" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2608,13 +2608,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="478" height="160"/>
+                                <rect key="frame" x="20" y="96" width="480" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="476" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="478" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="476" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="478" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2656,7 +2656,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="330.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="332.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -2669,11 +2669,11 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Svh-Z4-DD5">
-                                                            <rect key="frame" x="139.5" y="0.0" width="327" height="24"/>
+                                                            <rect key="frame" x="139.5" y="0.0" width="329" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
-                                                                    <rect key="frame" x="0.0" y="4" width="328" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="4" width="330" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zoX-MN-b3x">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3555,7 +3555,7 @@ Olena Hlushcneko</string>
         <scene sceneID="cwg-C1-p0s">
             <objects>
                 <viewController title="Editor" id="ssC-ed-19K" customClass="PreferencesEditorViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="GY1-6c-5uL">
+                    <view key="view" id="GY1-6c-5uL">
                         <rect key="frame" x="0.0" y="0.0" width="498" height="494"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -4373,7 +4373,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="8Sd-jT-XTG" firstAttribute="top" secondItem="Fi8-x1-uYd" secondAttribute="bottom" constant="8" symbolic="YES" id="wdx-Xt-c5d"/>
                             <constraint firstItem="qKm-Ud-lP4" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="centerX" id="wrn-en-VJA"/>
                             <constraint firstItem="Atm-xW-q1V" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="yP7-6b-9AL"/>
-                            <constraint firstItem="wBg-NB-AcO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0VK-px-m8C" secondAttribute="trailing" symbolic="YES" id="yhq-ng-3LF"/>
+                            <constraint firstItem="wBg-NB-AcO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0VK-px-m8C" secondAttribute="trailing" constant="12" symbolic="YES" id="yhq-ng-3LF"/>
                             <constraint firstItem="eiE-QT-Gmx" firstAttribute="leading" secondItem="UMU-6c-hjh" secondAttribute="leading" id="yvd-g9-W8U"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fi8-x1-uYd" secondAttribute="trailing" symbolic="YES" id="z0k-Lq-e92"/>
                         </constraints>
@@ -4893,7 +4893,7 @@ Olena Hlushcneko</string>
         <image name="icon" width="1024" height="1024"/>
         <image name="icon_alt" width="1024" height="1024"/>
         <image name="new_note_button" width="76" height="76"/>
-        <image name="pin" width="128" height="128"/>
+        <image name="pin" width="64" height="64"/>
         <image name="prefsAdvanced" width="171" height="171"/>
         <image name="prefsEditor" width="128" height="128"/>
         <image name="prefsGeneral" width="120" height="120"/>

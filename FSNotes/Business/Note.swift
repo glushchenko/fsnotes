@@ -1421,14 +1421,22 @@ public class Note: NSObject  {
 
         if let first = components.first {
             if project.settings.isFirstLineAsTitle() {
-                loadYaml(components: components)
+                let yamlResult = loadYaml(components: components)
 
-                if title.count == 0 {
-                    title = first.trim()
-                    preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
-                    firstLineAsTitle = true
+                if let result = yamlResult {
+                    title = result.0
+                    preview = result.1
                 } else {
-                    preview = getPreviewLabel(with: components.joined(separator: " "))
+                    let rows = components.dropFirst()
+                    var previewResult = String()
+
+                    if rows.count > 0 {
+                        previewResult = getPreviewLabel(with: rows.joined(separator: " "))
+                        firstLineAsTitle = true
+                    }
+
+                    title = first.trim()
+                    preview = previewResult
                 }
             } else {
                 loadTitleFromFileName()
@@ -1462,9 +1470,12 @@ public class Note: NSObject  {
         return urls
     }
 
-    private func loadYaml(components: [String]) {
+    private func loadYaml(components: [String]) -> (String, String)? {
         var tripleMinus = 0
         var previewFragments = [String]()
+
+        var titleRow = String()
+        var previewRow = String()
 
         if components.first == "---", components.count > 1 {
             for string in components {
@@ -1475,7 +1486,7 @@ public class Note: NSObject  {
                 let res = string.matchingStrings(regex: "^title: ([\"\'”“]?)([^\n]+)\\1$")
 
                 if res.count > 0 {
-                    title = res[0][2].trim()
+                    titleRow = res[0][2].trim()
                     firstLineAsTitle = true
                 }
 
@@ -1490,8 +1501,14 @@ public class Note: NSObject  {
                 .joined(separator: " ")
                 .replacingOccurrences(of: "---", with: "")
 
-            preview = getPreviewLabel(with: previewString)
+            previewRow = getPreviewLabel(with: previewString)
         }
+
+        if titleRow.count > 0 {
+            return (titleRow, previewRow)
+        }
+
+        return nil
     }
 
     private func loadTitleFromFileName() {
