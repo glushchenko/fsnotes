@@ -738,7 +738,7 @@ public class NotesTextProcessor {
 
                 if let ranges = codeBlockRanges {
                     for range in ranges {
-                        if NSIntersectionRange(range, paragraphRange).length > 0 {
+                        if NSIntersectionRange(range, parRange).length > 0 {
                             return
                         }
                     }

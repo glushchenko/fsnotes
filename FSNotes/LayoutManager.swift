@@ -24,8 +24,7 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     weak var processor: TextStorageProcessor?
     
     public var lineHeightMultiple: CGFloat = CGFloat(UserDefaultsManagement.lineHeightMultiple)
-    
-    // Настройки цветов для подсветки кода
+
     private var codeBlockBackgroundColor: NSColor {
         return NSColor.init(hex: "#F1F1F1")
     }
@@ -40,7 +39,6 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         }
         
         let characterRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
-        // Защита: если characterRange выходит за пределы - вернуть дефолт
         let storageRange = NSRange(location: 0, length: textStorage.length)
         let safeCharRange = characterRange.clamped(to: storageRange)
         guard safeCharRange.length > 0 else {
@@ -82,9 +80,7 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         let lineHeight = fontLineHeight * lineHeightMultiple
         return lineHeight
     }
-        
-    /// Возвращает true только если index попадает внутрь блока кода.
-    /// Важно: индекс, равный text.length, считается ВНЕ блока (невалидный для прямого доступа).
+
     private func isInCodeBlock(characterIndex: Int) -> Bool {
         guard let textStorage = self.textStorage else {
             return false
@@ -92,7 +88,7 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         
         let ns = textStorage.string as NSString
         let storageFullRange = NSRange(location: 0, length: ns.length)
-        // Проверка: если index равен длине (т.е. position после последнего символа) — считаем вне блока
+
         if characterIndex < 0 || characterIndex >= NSMaxRange(storageFullRange) {
             return false
         }
@@ -104,16 +100,12 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     // MARK: - Drawing
     
     override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
-        // Сначала рисуем фон для блоков кода
         drawCodeBlockBackground(forGlyphRange: glyphsToShow, at: origin)
-        
-        // Затем вызываем super - он нарисует выделение текста поверх
+
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
     }
     
     override func fillBackgroundRectArray(_ rectArray: UnsafePointer<NSRect>, count rectCount: Int, forCharacterRange charRange: NSRange, color: NSColor) {
-        // Блокируем отрисовку дефолтного фона внутри блоков кода
-        // (кроме выделения текста - оно должно быть видно)
         let storageLength = self.textStorage?.length ?? 0
         let storageFullRange = NSRange(location: 0, length: storageLength)
         let safeCharRange = charRange.clamped(to: storageFullRange)

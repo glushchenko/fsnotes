@@ -1256,7 +1256,7 @@ public class Note: NSObject  {
         var tags = [String]()
         
         do {
-            let range = NSRange(location: 0, length: content.length)
+            let range = NSRange(location: 0, length: content.string.count)
             let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
             
             re.enumerateMatches(

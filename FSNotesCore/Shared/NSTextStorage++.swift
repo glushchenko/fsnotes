@@ -145,7 +145,7 @@ extension NSTextStorage {
         return tabs
     }
 
-    private static let numberListRegex = try! NSRegularExpression(
+    private static let numberListRegex = try? NSRegularExpression(
         pattern: #"^(\s*)(\d+)(\.)(\s+)"#,
         options: []
     )
@@ -156,7 +156,7 @@ extension NSTextStorage {
         let nsString = paragraph as NSString
         let range = NSRange(location: 0, length: min(nsString.length, 20))
 
-        if let match = Self.numberListRegex.firstMatch(in: paragraph, options: [], range: range) {
+        if let match = Self.numberListRegex?.firstMatch(in: paragraph, options: [], range: range) {
             return nsString.substring(with: match.range)
         }
 
@@ -166,7 +166,7 @@ extension NSTextStorage {
     public func updateCheckboxList() {
         let fullRange = NSRange(location: 0, length: self.length)
 
-        enumerateAttribute(.todo, in: fullRange, options: []) { value, range, stop in
+        enumerateAttribute(.todo, in: fullRange, options: []) { value, range, _ in
             if let value = value as? Int {
                 let attribute = self.attribute(.attachment, at: range.location, longestEffectiveRange: nil, in: fullRange)
 
