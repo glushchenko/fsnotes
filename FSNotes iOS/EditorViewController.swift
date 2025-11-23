@@ -132,6 +132,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewWillDisappear(_ animated: Bool) {
         editArea.endEditing(true)
+
+        UIApplication.getNC()?.navigationItem.searchController = nil
     }
 
     override var disablesAutomaticKeyboardDismissal: Bool {

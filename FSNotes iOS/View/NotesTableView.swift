@@ -633,19 +633,19 @@ class NotesTableView: UITableView,
 
     public func insertRows(notes: [Note]) {
         guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
+
         vc.storage.loadPins(notes: notes)
 
         var toInsert = [Note]()
-
         for note in notes {
             guard vc.storage.searchQuery.isFit(note: note),
-                !self.notes.contains(where: {$0 === note})
+                  !self.notes.contains(where: {$0 === note})
             else { continue }
-
             toInsert.append(note)
         }
 
         guard toInsert.count > 0 else { return }
+
         vc.updateSpotlightIndex(notes: toInsert)
 
         let nonSorted = self.notes + toInsert
@@ -659,8 +659,9 @@ class NotesTableView: UITableView,
 
         self.notes = sorted
 
+        beginUpdates()
         insertRows(at: indexPaths, with: .fade)
-        reloadRows(notes: notes, resetKeys: true)
+        endUpdates()
     }
 
     public func reloadRows(notes: [Note], resetKeys: Bool = false) {
@@ -1082,38 +1083,24 @@ class NotesTableView: UITableView,
 
     public func moveRowUp(note: Note) {
         guard let vc = viewDelegate,
-            vc.isNoteInsertionAllowed(),
-            vc.storage.searchQuery.isFit(note: note),
-            let at = notes.firstIndex(where: {$0 === note})
+              vc.isNoteInsertionAllowed(),
+              vc.storage.searchQuery.isFit(note: note),
+              let at = notes.firstIndex(where: {$0 === note})
         else { return }
 
-        var to = 0
-
         let sorted = vc.storage.sortNotes(noteList: notes)
-        to = sorted.firstIndex(of: note) ?? at
+        guard let to = sorted.firstIndex(of: note) else { return }
+        guard at != to else { return }
 
         let atIndexPath = IndexPath(row: at, section: 0)
         let toIndexPath = IndexPath(row: to, section: 0)
 
-        if at != to {
-            let note = notes.remove(at: at)
-            notes.insert(note, at: to)
-            moveRow(at: atIndexPath, to: toIndexPath)
-        }
+        let movedNote = notes.remove(at: at)
+        notes.insert(movedNote, at: to)
 
-        if atIndexPath != toIndexPath {
-            reloadRows(at: [atIndexPath, toIndexPath], with: .automatic)
-        }
-
-        // scroll to hack
-        // https://stackoverflow.com/questions/26244293/scrolltorowatindexpath-with-uitableview-does-not-work
-        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        //            if note.project.sortBy == .modificationDate, let first = self.notes.first {
-        //                self.scrollTo(note: first)
-        //            } else {
-        //                self.scrollTo(note: note)
-        //            }
-        //        }
+        beginUpdates()
+        moveRow(at: atIndexPath, to: toIndexPath)
+        endUpdates()
     }
 
     @objc public func toggleSelectAll() {

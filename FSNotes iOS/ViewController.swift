@@ -64,7 +64,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var currentFolder: String?
 
     lazy var searchBar = UISearchBar(frame: CGRect.zero)
-    private var searchController: UISearchController?
     
     // Pass for access from CloudDriveManager
     public var editorViewController: EditorViewController?
@@ -79,11 +78,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var initialLoadingState = false
 
     override func viewWillAppear(_ animated: Bool) {
-        configureSearchController()
-
         navigationController?.navigationBar.prefersLargeTitles = true
 
         super.viewWillAppear(animated)
+
+        navigationItem.searchController = nil
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -118,6 +117,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         super.viewDidAppear(animated)
+
+        configureSearchController()
     }
 
     override func viewDidLoad() {
@@ -144,7 +145,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if !initialLoadingState {
             configureSearchController()
-            configureToolbar()
 
             initialLoadingState = true
             
@@ -334,6 +334,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         navigationItem.searchController = searchController
+        configureToolbar()
     }
 
     public func configureToolbar() {
