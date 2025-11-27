@@ -175,16 +175,20 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
-        var newRect = NSRect(origin: rect.origin, size: rect.size)
+        guard let layoutManager = self.layoutManager,
+              let textContainer = self.textContainer,
+              let textStorage = self.textStorage else {
+            super.drawInsertionPoint(in: rect, color: color, turnedOn: flag)
+            return
+        }
+
+        var newRect = rect
         newRect.size.width = self.caretWidth
 
-        if let range = getParagraphRange(), range.upperBound != textStorage?.length || (
-            range.upperBound == textStorage?.length
-            && textStorage?.string.last == "\n"
-            && selectedRange().location != textStorage?.length
-        ) {
-            newRect.size.height = newRect.size.height - CGFloat(UserDefaultsManagement.editorLineSpacing)
-        }
+        let charIndex = min(selectedRange().location, textStorage.length - 1)
+        let glyphIndex = layoutManager.glyphIndexForCharacter(at: charIndex)
+        let lineRect = layoutManager.lineFragmentRect(forGlyphAt: glyphIndex, effectiveRange: nil, withoutAdditionalLayout: true)
+        newRect.size.height = lineRect.height
 
         let clr = NSColor(red:0.47, green:0.53, blue:0.69, alpha:1.0)
         super.drawInsertionPoint(in: newRect, color: clr, turnedOn: flag)
