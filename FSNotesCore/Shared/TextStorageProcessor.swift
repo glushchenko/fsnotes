@@ -122,16 +122,12 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
             // 1. check data to save (copy/paste, drag/drop)
             if let data = textStorage.getData(at: range.location),
-                let result = note.save(data: data, preferredName: meta.preferredName) {
+               let result = note.save(data: data, preferredName: meta.url.lastPathComponent) {
 
-                #if os(iOS)
-                    textStorage.addAttributes([
-                        .attachmentUrl: result.1,
-                        .attachmentPath: result.0
-                    ], range: range)
-                #else
-                    attachment.saveMetaData(url: result.1, path: result.0, title: meta.title)
-                #endif
+                textStorage.addAttributes([
+                    .attachmentUrl: result.1,
+                    .attachmentPath: result.0
+                ], range: range)
 
                 url = result.1
             }

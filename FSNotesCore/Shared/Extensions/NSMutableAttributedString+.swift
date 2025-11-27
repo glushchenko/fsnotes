@@ -17,21 +17,15 @@ import UIKit
 extension NSMutableAttributedString {
 
     convenience init(url: URL, title: String = "", path: String) {
-        let attachment = NSTextAttachment(url: url, path: path, title: title)
+        let attachment = NSTextAttachment()
         let attributedAttachment = NSMutableAttributedString(attachment: attachment)
 
         let range = NSRange(location: 0, length: 1)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = url.isImage ? .center : .left
 
-        attributedAttachment.addAttributes([.paragraphStyle: paragraphStyle], range: range)
-
-    #if os(iOS)
         // Only one way to store metadata in iOS
         attributedAttachment.addAttribute(.attachmentUrl, value: url, range: range)
         attributedAttachment.addAttribute(.attachmentPath, value: path, range: range)
         attributedAttachment.addAttribute(.attachmentTitle, value: title, range: range)
-    #endif
 
         self.init(attributedString: attributedAttachment)
     }
@@ -181,11 +175,11 @@ extension NSMutableAttributedString {
         }
     }
 
-    public func getImagesAndFiles() -> [Attachment] {
-        var res = [Attachment]()
+    public func getImagesAndFiles() -> [(url: URL, title: String, path: String)] {
+        var res = [(url: URL, title: String, path: String)]()
 
         let fullRange = NSRange(location: 0, length: length)
-        enumerateAttribute(.attachment, in: fullRange) { value, range, _ in
+        enumerateAttribute(.attachment, in: fullRange) { _, range, _ in
             guard let meta = getMeta(at: range.location) else { return }
             res.append(meta)
         }
@@ -193,60 +187,30 @@ extension NSMutableAttributedString {
         return res
     }
 
-    public static func buildFromRtfd(data: Data) -> NSMutableAttributedString? {
-        let options = [
-            NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
-        ] as [NSAttributedString.DocumentReadingOptionKey : Any]
-
-        if let attributed = try? NSMutableAttributedString(data: data, options: options, documentAttributes: nil) {
-            attributed.loadTasks()
-
-            return attributed
-        }
-
-        return nil
-    }
-
-    public func getMeta(at location: Int) -> Attachment? {
+    public func getMeta(at location: Int) -> (url: URL, title: String, path: String)? {
         guard location >= 0 && location < self.length else { return nil }
 
-    #if os(iOS)
         guard let url = attribute(.attachmentUrl, at: location, effectiveRange: nil) as? URL,
               let path = attribute(.attachmentPath, at: location, effectiveRange: nil) as? String else { return nil }
 
         let title = attribute(.attachmentTitle, at: location, effectiveRange: nil) as? String ?? String()
 
-        var meta = Attachment(url: url, title: title, path: path)
-        meta.preferredName = url.lastPathComponent
-
-        return meta
-    #else
-        guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment else { return nil }
-
-        return attachment.getMeta()
-    #endif
+        return (url: url, title: title, path: path)
     }
 
     public func getData(at location: Int) -> Data? {
         guard location >= 0 && location < self.length else { return nil }
-        
-        let range = NSRange(location: location, length: 1)
 
-        #if os(iOS)
+        let range = NSRange(location: location, length: 1)
         if let data = attribute(.attachmentSave, at: location, effectiveRange: nil) as? Data {
             removeAttribute(.attachmentSave, range: range)
 
             return data
         }
-        #else
-            guard let attachment = attribute(.attachment, at: location, effectiveRange: nil) as? NSTextAttachment else { return nil }
-            return attachment.getMeta()?.data
-        #endif
 
         return nil
     }
 
-#if os(iOS)
     public func saveData() {
         let range = NSRange(location: 0, length: length)
         enumerateAttribute(.attachmentUrl, in: range) { (value, range, _) in
@@ -256,7 +220,6 @@ extension NSMutableAttributedString {
             addAttribute(.attachmentSave, value: data, range: range)
         }
     }
-#endif
 
     public static func build(data: Data, preferredName: String? = nil) -> NSMutableAttributedString? {
         var preferredName = preferredName

@@ -48,15 +48,11 @@ extension NSMutableAttributedString {
 
     }
 
-    public func getImagesAndFiles() -> [Attachment] {
+    public func getImagesAndFiles() -> [(url: URL, title: String, path: String)] {
         return []
     }
 
-    public static func buildFromRtfd(data: Data) -> NSMutableAttributedString? {
-        return nil
-    }
-
-    public func getMeta(at location: Int) -> Attachment? {
+    public func getMeta(at location: Int) -> (url: URL, title: String, path: String)? {
         return nil
     }
 }

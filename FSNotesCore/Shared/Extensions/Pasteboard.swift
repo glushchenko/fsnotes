@@ -18,8 +18,8 @@ extension NSPasteboard {
         .init("es.fsnot.pasteboard.project")
     }
 
-    public static var rtfd: NSPasteboard.PasteboardType {
-        .init("es.fsnot.pasteboard.rtfd")
+    public static var attributed: NSPasteboard.PasteboardType {
+        .init("es.fsnot.pasteboard.attributed")
     }
 }
 

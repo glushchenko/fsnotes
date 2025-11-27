@@ -10,27 +10,11 @@
 import AppKit
 #else
 import UIKit
-import UniformTypeIdentifiers
 #endif
 
+import UniformTypeIdentifiers
+
 extension NSTextAttachment {
-    convenience init(url: URL, path: String, title: String) {
-        let meta = Attachment(url: url, title: title, path: path)
-
-        if let encoded = try? JSONEncoder().encode(meta) {
-            #if os(iOS)
-            self.init(data: encoded, ofType: UTType.data.identifier)
-            #elseif os(macOS)
-            let fileWrapperContainer = FileWrapper(regularFileWithContents: encoded)
-            self.init(fileWrapper: fileWrapperContainer)
-            #else
-            self.init()
-            #endif
-        } else {
-            self.init()
-        }
-    }
-
     public func isFile() -> Bool {
         #if os(iOS)
             return false
@@ -39,61 +23,5 @@ extension NSTextAttachment {
         #if os(OSX)
             return (attachmentCell?.cellSize().height == 30)
         #endif
-    }
-
-    public func getMeta() -> Attachment? {
-        #if os(iOS)
-        if let data = contents,
-           let meta = try? JSONDecoder().decode(Attachment.self, from: data) {
-            return meta
-        }
-        #elseif os(OSX)
-        if let data = fileWrapper?.regularFileContents,
-           let meta = try? JSONDecoder().decode(Attachment.self, from: data) {
-            return meta
-        }
-        #endif
-
-        return nil
-    }
-
-    public func saveMetaData(data: Data, preferredName: String? = nil, title: String? = nil) {
-        var meta = Attachment(data: data, preferredName: preferredName, title: title)
-
-        meta.url = URL(fileURLWithPath: "this_path_is_not_exist")
-        guard let encoded = try? JSONEncoder().encode(meta) else { return }
-
-        let fileWrapper = FileWrapper(regularFileWithContents: encoded)
-
-        self.fileWrapper = fileWrapper
-    }
-
-    public func saveMetaData(url: URL? = nil, path: String? = nil, title: String? = nil) {
-        guard var meta = getMeta() else { return }
-        meta.data = nil
-
-        if let url = url {
-            meta.url = url
-        }
-
-        if let path = path {
-            meta.path = path
-        }
-
-        if let title = title {
-            meta.title = title
-        }
-
-        guard let encoded = try? JSONEncoder().encode(meta) else { return }
-        let fileWrapper = FileWrapper(regularFileWithContents: encoded)
-        self.fileWrapper = fileWrapper
-    }
-
-    public func configure(attachment: Attachment) {
-        guard let encoded = try? JSONEncoder().encode(attachment) else { return }
-
-        let fileWrapper = FileWrapper(regularFileWithContents: encoded)
-
-        self.fileWrapper = fileWrapper
     }
 }

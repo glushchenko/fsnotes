@@ -22,8 +22,8 @@ extension EditTextView
         // drag
         insertText("", replacementRange: removeRange)
 
-        guard let data = pasteboard.data(forType: NSPasteboard.rtfd),
-              let attributedString = NSMutableAttributedString.buildFromRtfd(data: data) else { return false }
+        guard let data = pasteboard.data(forType: NSPasteboard.attributed),
+              let attributedString = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NSAttributedString else { return false }
 
         // drop
         insertText(attributedString, replacementRange: insertRange)

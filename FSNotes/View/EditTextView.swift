@@ -373,20 +373,25 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 attachment.title = field.stringValue
 
-                if let nsTextAttachment = self.getNsTextAttachment(at: at) {
-                    nsTextAttachment.configure(attachment: attachment)
-                    
-                    _ = self.note?.save()
+                var range = NSRange()
+                if self.textStorage?.attribute(.attachment, at: at, effectiveRange: &range) as? NSTextAttachment != nil {
+                    self.textStorage?.addAttribute(.attachmentTitle, value: attachment.title, range: range)
+
+                    let content = NSMutableAttributedString(attributedString: self.attributedString())
+                    _ = self.note?.save(content: content)
                 }
             }
             vc.alert = nil
         }
 
-        field.becomeFirstResponder()
+        DispatchQueue.main.async {
+            field.becomeFirstResponder()
+        }
     }
 
     private func openFileViewer(at: Int) {
         guard let attachment = getAttachment(at: at) else { return }
+
         let url = attachment.url
 
         if !url.isImage {
@@ -453,31 +458,21 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         super.mouseMoved(with: event)
     }
 
-    public func getNsTextAttachment(at: Int) -> NSTextAttachment? {
-        return textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment
-    }
-
     public func hasAttachment(at: Int) -> Bool {
-        guard let attachment = textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment else {
+        guard textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment != nil else {
             return false
         }
 
-        return attachment.getMeta() != nil
+        return textStorage?.getMeta(at: at) != nil
     }
 
-    public func getAttachment(at: Int) -> Attachment? {
-        if let attachment = textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment,
-           let meta = attachment.getMeta() {
+    public func getAttachment(at: Int) -> (url: URL, title: String, path: String)? {
+        if textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment != nil,
+           let meta = textStorage?.getMeta(at: at) {
             return meta
         }
 
         return nil
-    }
-
-    public func setAttachment(at: Int, attachment: Attachment) {
-        guard let textAttachment = textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment else { return }
-
-        textAttachment.configure(attachment: attachment)
     }
 
     public func isTodo(_ location: Int) -> Bool {
@@ -749,7 +744,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
             return [
-                NSPasteboard.rtfd,
+                NSPasteboard.attributed,
                 NSPasteboard.PasteboardType.string,
             ]
         }
@@ -757,7 +752,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override var readablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
-            return super.readablePasteboardTypes + [NSPasteboard.rtfd]
+            return super.readablePasteboardTypes + [NSPasteboard.attributed]
         }
     }
 
@@ -775,28 +770,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return true
         }
 
-        if type == NSPasteboard.rtfd {
-            let range = NSMakeRange(0, attributedString.length)
+        if type == NSPasteboard.attributed {
+            let attributedString = attributedString.unloadTasks()
+            attributedString.saveData()
 
-            attributedString.enumerateAttribute(.attachment, in: range, options: .reverse, using:  {(value: Any?, range: NSRange, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
-
-                guard let value = value as? NSTextAttachment,
-                      let meta = value.getMeta(),
-                      let data = try? Data(contentsOf: meta.url)
-                else { return }
-
-                let preferredName = meta.url.lastPathComponent
-                let title = meta.title
-
-                let rtfdAttachment = NSTextAttachment()
-                rtfdAttachment.saveMetaData(data: data, preferredName: preferredName, title: title)
-                attributedString.addAttribute(.attachment, value: rtfdAttachment, range: range)
-            })
-
-            let richString = attributedString.unloadTasks()
-            if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
-                pboard.setData(rtfd, forType: NSPasteboard.rtfd)
-
+            if let data = try? NSKeyedArchiver.archivedData(
+                withRootObject: attributedString,
+                requiringSecureCoding: false
+            ) {
+                pboard.setData(data, forType: NSPasteboard.attributed)
                 return true
             }
         }
@@ -851,11 +833,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let note = self.note else { return }
 
         // RTFD
-        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.rtfd),
-           let attributedString = NSMutableAttributedString.buildFromRtfd(data: rtfd) {
+        if let rtfdData = NSPasteboard.general.data(forType: NSPasteboard.attributed),
+           let attributed = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(rtfdData) as? NSAttributedString {
+
+            let mutable = NSMutableAttributedString(attributedString: attributed)
+            mutable.loadTasks()
 
             breakUndoCoalescing()
-            insertText(attributedString, replacementRange: selectedRange())
+            insertText(mutable, replacementRange: selectedRange())
             breakUndoCoalescing()
 
             return
@@ -884,10 +869,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         // Images png or tiff
         for type in [NSPasteboard.PasteboardType.png, .tiff] {
             if let data = NSPasteboard.general.data(forType: type) {
-                let attachment = NSTextAttachment()
-                attachment.saveMetaData(data: data)
-
-                let attributed = NSMutableAttributedString(attachment: attachment)
+                guard let attributed = NSMutableAttributedString.build(data: data) else { continue }
 
                 breakUndoCoalescing()
                 insertText(attributed, replacementRange: selectedRange())
@@ -904,12 +886,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         let currentRange = selectedRange()
         var plainText: String?
 
-        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.rtfd) {
-            let attributedString = NSMutableAttributedString.buildFromRtfd(data: rtfd)
+        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.attributed),
+           let attributedString = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(rtfd) as? NSAttributedString {
 
-            if let attributedString = attributedString {
-                plainText = attributedString.unloadAttachments().string
-            }
+            let mutable = NSMutableAttributedString(attributedString: attributedString)
+            plainText = mutable.unloadAttachments().string
         } else if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
             plainText = clipboard
         } else if let url = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) {
@@ -1917,11 +1898,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     private func saveFile(url: URL, in note: Note) -> Bool {
         if let data = try? Data(contentsOf: url) {
-            let attachment = NSTextAttachment()
             let preferredName = url.lastPathComponent
-            attachment.saveMetaData(data: data, preferredName: preferredName)
 
-            let attributed = NSMutableAttributedString(attachment: attachment)
+            guard let attributed = NSMutableAttributedString.build(data: data, preferredName: preferredName) else { return false }
 
             breakUndoCoalescing()
             insertText(attributed, replacementRange: selectedRange())
@@ -1960,8 +1939,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         var removedImages = [URL: URL]()
 
         storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
-            guard let attachment = value as? NSTextAttachment,
-            let meta = attachment.getMeta() else { return }
+            guard let meta = storage.getMeta(at: range.location) else { return }
 
             do {
                 guard let resultingItemUrl = Storage.shared().trashItem(url: meta.url) else { return }

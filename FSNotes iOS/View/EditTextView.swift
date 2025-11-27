@@ -151,7 +151,7 @@ class EditTextView: UITextView, UITextViewDelegate {
 
             UIPasteboard.general.setItems([
                 [UIPasteboard.attributed: data],
-                [kUTTypePlainText as String: attributedString.string]
+                [UTType.plainText.identifier: attributedString.string]
             ])
         } catch {
             print("Serialization error: \(error)")
@@ -227,7 +227,7 @@ class EditTextView: UITextView, UITextViewDelegate {
 
             UIPasteboard.general.setItems([
                 [UIPasteboard.attributed: data],
-                [kUTTypePlainText as String: attributedString.string]
+                [UTType.plainText.identifier: attributedString.string]
             ])
 
             return

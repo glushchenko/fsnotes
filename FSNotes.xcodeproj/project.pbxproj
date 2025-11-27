@@ -22,11 +22,6 @@
 		111013152EC8F1B600B6CF1B /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111013142EC8F1B600B6CF1B /* ImagePreviewViewController.swift */; };
 		111013182ECA102200B6CF1B /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D796EB40251E127300CE5C80 /* Pasteboard.swift */; };
 		111844932ECFA5B500A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
-		1122C8EC2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
-		1122C8ED2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
-		1122C8EE2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
-		1122C8EF2E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
-		1122C8F02E9EF9C90055A58E /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1122C8EB2E9EF9C20055A58E /* Attachment.swift */; };
 		113685522EC795B80033767F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AD7FB27F9D1C90077BD45 /* Data+.swift */; };
 		113685532EC796EF0033767F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
 		1136855A2EC7A21F0033767F /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685592EC7A2130033767F /* NSMutableAttributedString+.swift */; };
@@ -896,7 +891,6 @@
 		110E409D2EA0150000C62F49 /* NSTextCheckingResult+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextCheckingResult+.swift"; sourceTree = "<group>"; };
 		110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+DragOperation.swift"; sourceTree = "<group>"; };
 		111013142EC8F1B600B6CF1B /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
-		1122C8EB2E9EF9C20055A58E /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		113685592EC7A2130033767F /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
 		1136855B2EC7A69C0033767F /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		113685612EC869860033767F /* URL+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Image.swift"; sourceTree = "<group>"; };
@@ -1535,7 +1529,6 @@
 		D7218944210211B800FE3AF2 /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				1122C8EB2E9EF9C20055A58E /* Attachment.swift */,
 				D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */,
 				D7038E2520FB24E000A54E69 /* NoteAttachment.swift */,
 				D74B7B642137D3A1007F5331 /* AttributedBox.swift */,
@@ -2786,7 +2779,6 @@
 				D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */,
 				D730BD32222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D7680FB725D02B2C00810DA8 /* FileManager+.swift in Sources */,
-				1122C8F02E9EF9C90055A58E /* Attachment.swift in Sources */,
 				D7487FD6217389F800D09383 /* NSImage+.swift in Sources */,
 				D768D755245E854D0028F344 /* NSAttributedString+.swift in Sources */,
 				1136855D2EC7A6A50033767F /* Platform.swift in Sources */,
@@ -2860,7 +2852,6 @@
 				D7E9FEBC2C4AA64B0025D8E3 /* SearchQuery.swift in Sources */,
 				1136855F2EC7A6A50033767F /* Platform.swift in Sources */,
 				D7B2B6EC245EEA790084B78D /* LanguageType.swift in Sources */,
-				1122C8ED2E9EF9C90055A58E /* Attachment.swift in Sources */,
 				D7CD5CC9218209D80009D63B /* NoteType.swift in Sources */,
 				D7CD5CC5218209820009D63B /* UserDefaultsManagement.swift in Sources */,
 				1136855A2EC7A21F0033767F /* NSMutableAttributedString+.swift in Sources */,
@@ -2970,7 +2961,6 @@
 				D70E9DEE2901AE9100A3C634 /* Branch.swift in Sources */,
 				D70E9E042901AEBF00A3C634 /* Head+Merge.swift in Sources */,
 				1166D1F92E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
-				1122C8EE2E9EF9C90055A58E /* Attachment.swift in Sources */,
 				D70E9E0D2901AEDA00A3C634 /* Repository+Commit.swift in Sources */,
 				D70E9E192901AEF900A3C634 /* TreeEntry.swift in Sources */,
 				D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */,
@@ -3237,7 +3227,6 @@
 				D73BCCA428EB5EC3008B3BBC /* Progress.swift in Sources */,
 				D73BCCB628EB5EC3008B3BBC /* Tags.swift in Sources */,
 				D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
-				1122C8EC2E9EF9C90055A58E /* Attachment.swift in Sources */,
 				D7104A64230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627CE26D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */,
@@ -3427,7 +3416,6 @@
 				D73BCCB728EB5EC3008B3BBC /* Tags.swift in Sources */,
 				D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
 				D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
-				1122C8EF2E9EF9C90055A58E /* Attachment.swift in Sources */,
 				D7104A65230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627CF26D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */,
