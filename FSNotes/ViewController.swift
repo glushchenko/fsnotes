@@ -8,7 +8,6 @@
 
 import Cocoa
 import MASShortcut
-import FSNotesCore_macOS
 import Foundation
 import Shout
 import UserNotifications

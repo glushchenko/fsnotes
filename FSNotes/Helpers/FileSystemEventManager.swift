@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import FSNotesCore_macOS
 
 class FileSystemEventManager {
     private var storage: Storage

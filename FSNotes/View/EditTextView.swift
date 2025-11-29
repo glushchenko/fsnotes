@@ -9,7 +9,6 @@
 import Cocoa
 import Highlightr
 import Carbon.HIToolbox
-import FSNotesCore_macOS
 
 class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelegate {
     

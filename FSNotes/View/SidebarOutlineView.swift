@@ -10,8 +10,6 @@ import Cocoa
 import Foundation
 import Carbon.HIToolbox
 
-import FSNotesCore_macOS
-
 class SidebarOutlineView: NSOutlineView,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource,

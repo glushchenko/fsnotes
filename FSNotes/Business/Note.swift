@@ -2314,4 +2314,25 @@ public class Note: NSObject  {
     public func saveSimple() -> Bool {
         return write(attributedString: content)
     }
+
+    #if os(macOS)
+    public func cache() {
+        if cacheLock { return }
+
+        let hash = content.string.fnv1a
+        cacheLock = true
+
+        if let copy = content.mutableCopy() as? NSMutableAttributedString {
+            NotesTextProcessor.highlight(attributedString: copy)
+            cacheCodeBlocks()
+
+            if content.string.fnv1a == copy.string.fnv1a {
+                content = copy
+                cacheHash = hash
+            }
+        }
+
+        cacheLock = false
+    }
+    #endif
 }
