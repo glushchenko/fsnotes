@@ -201,8 +201,8 @@ extension NSMutableAttributedString {
     public func getData(at location: Int) -> Data? {
         guard location >= 0 && location < self.length else { return nil }
 
-        let range = NSRange(location: location, length: 1)
-        if let data = attribute(.attachmentSave, at: location, effectiveRange: nil) as? Data {
+        var range = NSRange()
+        if let data = attribute(.attachmentSave, at: location, effectiveRange: &range) as? Data {
             removeAttribute(.attachmentSave, range: range)
 
             return data

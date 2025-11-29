@@ -175,22 +175,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
-        guard let layoutManager = self.layoutManager,
-              let textContainer = self.textContainer,
-              let textStorage = self.textStorage else {
-            super.drawInsertionPoint(in: rect, color: color, turnedOn: flag)
-            return
-        }
-
         var newRect = rect
-        newRect.size.width = self.caretWidth
+        newRect.size.width = caretWidth
 
-        let charIndex = min(selectedRange().location, textStorage.length - 1)
-        let glyphIndex = layoutManager.glyphIndexForCharacter(at: charIndex)
-        let lineRect = layoutManager.lineFragmentRect(forGlyphAt: glyphIndex, effectiveRange: nil, withoutAdditionalLayout: true)
-        newRect.size.height = lineRect.height
-
-        let clr = NSColor(red:0.47, green:0.53, blue:0.69, alpha:1.0)
+        let clr = NSColor(red: 0.47, green: 0.53, blue: 0.69, alpha: 1.0)
         super.drawInsertionPoint(in: newRect, color: clr, turnedOn: flag)
     }
 
@@ -788,6 +776,17 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     // Copy empty string
     override func copy(_ sender: Any?) {
+        let attrString = attributedSubstring(forProposedRange: self.selectedRange, actualRange: nil)
+
+        if self.selectedRange.length == 1,
+            let url = attrString?.attribute(.attachmentUrl, at: 0, effectiveRange: nil) as? URL
+        {
+            let pb = NSPasteboard.general
+            pb.clearContents()
+            pb.writeObjects([url as NSURL])
+            return
+        }
+
         if selectedRanges.count > 1 {
             var combined = String()
             for range in selectedRanges {
@@ -1933,33 +1932,17 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     private func deleteUnusedImages(checkRange: NSRange) {
-        guard let storage = textStorage else { return }
-        guard let note = self.note else { return }
-
-        var removedImages = [URL: URL]()
+        guard let storage = textStorage, self.note != nil else { return }
 
         storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
             guard let meta = storage.getMeta(at: range.location) else { return }
 
             do {
-                guard let resultingItemUrl = Storage.shared().trashItem(url: meta.url) else { return }
+                if let data = try? Data(contentsOf: meta.url) {
+                    storage.addAttribute(.attachmentSave, value: data, range: range)
 
-                try FileManager.default.moveItem(at: meta.url, to: resultingItemUrl)
-                removedImages[resultingItemUrl] = meta.url
-            } catch {
-                print(error)
-            }
-        }
-
-        if removedImages.count > 0 {
-            note.undoManager.registerUndo(withTarget: self, selector: #selector(unDeleteImages), object: removedImages)
-        }
-    }
-
-    @objc public func unDeleteImages(_ urls: [URL: URL]) {
-        for (src, dst) in urls {
-            do {
-                try FileManager.default.moveItem(at: src, to: dst)
+                    try FileManager.default.removeItem(at: meta.url)
+                }
             } catch {
                 print(error)
             }
