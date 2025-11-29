@@ -12,7 +12,7 @@ import AppKit
 
 extension UserDefaultsManagement {
     private struct Constants {
-        static let AppearanceTypeKey = "appearanceType"
+        static let AppearanceTypeKey = "appearanceType2025"
         static let codeTheme = "codeTheme"
         static let codeThemeDark = "codeThemeDark"
         static let darkMode = "darkMode"
@@ -34,11 +34,7 @@ extension UserDefaultsManagement {
                 return AppearanceType(rawValue: result)!
             }
 
-            if #available(OSX 10.14, *) {
-                return AppearanceType.System
-            } else {
-                return AppearanceType.Custom
-            }
+            return AppearanceType.System
         }
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: Constants.AppearanceTypeKey)
@@ -199,13 +195,7 @@ extension UserDefaultsManagement {
 
     static var fontColor: Color {
         get {
-            if let returnFontColor = shared?.object(forKey: Constants.FontColorKey) as? Data,
-               let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: Color.self, from: returnFontColor) {
-
-                return color
-            } else {
-                return self.DefaultFontColor
-            }
+            return self.DefaultFontColor
         }
         set {
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
@@ -216,11 +206,7 @@ extension UserDefaultsManagement {
 
     static var bgColor: Color {
         get {
-            if let returnBgColor = shared?.object(forKey: Constants.BgColorKey) as? Data, let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: Color.self, from: returnBgColor) {
-                return color
-            } else {
-                return self.DefaultBgColor
-            }
+            return self.DefaultBgColor
         }
         set {
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {

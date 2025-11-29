@@ -23,11 +23,7 @@ public class NotesTextProcessor {
 
     public static var fontColor: NSColor {
         get {
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: "mainText")!
-            } else {
-                return UserDefaultsManagement.fontColor
-            }
+            return NSColor(named: "mainText")!
         }
     }
 #else
@@ -79,11 +75,7 @@ public class NotesTextProcessor {
 
     public static var quoteColor: NSColor {
         get {
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: "quoteColor")!
-            } else {
-                return NSColor.darkGray
-            }
+            return NSColor(named: "quoteColor")!
         }
     }
 #else

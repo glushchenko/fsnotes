@@ -412,7 +412,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
 
-        if glyphRect.contains(properPoint), self.isTodo(index) {
+        if glyphRect.contains(properPoint), self.isTodo(index) || self.hasAttachment(at: index) {
             NSCursor.pointingHand.set()
             return
         }
@@ -1030,10 +1030,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         loadSelectedRange()
-
-        if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
-            backgroundColor = UserDefaultsManagement.bgColor
-        }
     }
 
     private func loadMarkdownWebView(note: Note, force: Bool) {

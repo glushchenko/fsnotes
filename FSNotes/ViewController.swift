@@ -306,12 +306,6 @@ class ViewController: EditorViewController,
         notesScrollView.scrollerStyle = .overlay
         sidebarScrollView.scrollerStyle = .overlay
 
-        if UserDefaultsManagement.appearanceType == .Custom {
-            titleBarView.wantsLayer = true
-            titleBarView.layer?.backgroundColor = UserDefaultsManagement.bgColor.cgColor
-            titleLabel.backgroundColor = UserDefaultsManagement.bgColor
-        }
-
         if let cell = search.cell as? NSSearchFieldCell {
             cell.searchButtonCell?.target = self
             cell.searchButtonCell?.action = #selector(openRecentPopup(_:))
@@ -421,13 +415,9 @@ class ViewController: EditorViewController,
         self.editor.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
         self.editor.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
 
-        if UserDefaultsManagement.appearanceType != AppearanceType.Custom {
-            if #available(OSX 10.13, *) {
-                self.editor?.linkTextAttributes = [
-                    .foregroundColor:  NSColor.init(named: "link")!
-                ]
-            }
-        }
+        self.editor?.linkTextAttributes = [
+            .foregroundColor:  NSColor.init(named: "link")!
+        ]
 
         self.editor.usesFindBar = true
         self.editor.isIncrementalSearchingEnabled = true

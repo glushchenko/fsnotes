@@ -13,10 +13,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet weak var cellSpacing: NSSlider!
-    @IBOutlet weak var noteFontLabel: NSTextField!
-    @IBOutlet weak var noteFontColor: NSColorWell!
-    @IBOutlet weak var backgroundColor: NSColorWell!
-    @IBOutlet weak var backgroundLabel: NSTextField!
     @IBOutlet weak var textMatchAutoSelection: NSButton!
     @IBOutlet weak var previewFontSize: NSPopUpButton!
     @IBOutlet weak var hideImagesPreview: NSButton!
@@ -27,15 +23,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 460)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let hideBackgroundOption = UserDefaultsManagement.appearanceType != .Custom
-
-        backgroundColor.isHidden = hideBackgroundOption
-        backgroundLabel.isHidden = hideBackgroundOption
     }
 
     override func viewDidAppear() {
@@ -52,9 +39,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
 
-        noteFontColor.color = UserDefaultsManagement.fontColor
-        backgroundColor.color = UserDefaultsManagement.bgColor
-
         textMatchAutoSelection.state = UserDefaultsManagement.textMatchAutoSelection ? .on : .off
 
         previewFontSize.selectItem(withTag: UserDefaultsManagement.previewFontSize)
@@ -64,12 +48,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
-
-        backgroundColor.isHidden = false
-        backgroundLabel.isHidden = false
-
-        noteFontColor.isHidden = false
-        noteFontLabel.isHidden = false
     }
 
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
@@ -114,33 +92,8 @@ class PreferencesUserInterfaceViewController: NSViewController {
         vc.notesTableView.reloadData()
     }
 
-    @IBAction func setFontColor(_ sender: NSColorWell) {
-        Storage.shared().resetCacheAttributes()
-        
-        UserDefaultsManagement.appearanceType = .Custom
-        UserDefaultsManagement.fontColor = sender.color
-        
-        let editors = AppDelegate.getEditTextViews()
-        for editor in editors {
-            editor.setEditorTextColor(sender.color)
-            editor.editorViewController?.refillEditArea()
-        }
-    }
-
-    @IBAction func setBgColor(_ sender: NSColorWell) {
-        guard let vc = ViewController.shared() else { return }
-
-        UserDefaultsManagement.appearanceType = .Custom
-        UserDefaultsManagement.bgColor = sender.color
-
-        vc.editor.backgroundColor = sender.color
-        vc.titleBarView?.layer?.backgroundColor = sender.color.cgColor
-        vc.titleLabel.backgroundColor = sender.color
-    }
-
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
         guard let vc = ViewController.shared() else { return }
-
 
         vc.setTableRowHeight()
     }

@@ -16,11 +16,7 @@ extension NSTextStorage {
 #if os(OSX)
     public var highlightColor: NSColor {
         get {
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: "highlight")!
-            } else {
-                return NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
-            }
+            return NSColor(named: "highlight")!
         }
     }
 #else

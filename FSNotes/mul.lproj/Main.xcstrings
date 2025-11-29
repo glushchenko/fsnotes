@@ -5703,7 +5703,7 @@
     },
     "8oP-79-BAN.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Note Color:\"; ObjectID = \"8oP-79-BAN\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -22005,7 +22005,7 @@
     },
     "j8S-CW-gCM.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Custom\"; ObjectID = \"j8S-CW-gCM\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -30441,7 +30441,7 @@
     },
     "Psk-r4-JT5.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Background:\"; ObjectID = \"Psk-r4-JT5\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
