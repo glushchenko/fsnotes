@@ -336,8 +336,8 @@
 		D7487FED2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */; };
-		D74D479F256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */; };
-		D74D47A0256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */; };
+		D74D479F256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */; };
+		D74D47A0256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */; };
 		D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
 		D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
 		D750345E285F817D00086424 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB2920FEDE230005E120 /* String+.swift */; };
@@ -930,7 +930,7 @@
 		D74922111FACE9B100C45108 /* Down.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Down.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74B7B642137D3A1007F5331 /* AttributedBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedBox.swift; sourceTree = "<group>"; };
 		D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
-		D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNTextAttahcmentCell.swift; sourceTree = "<group>"; };
+		D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNTextAttachmentCell.swift; sourceTree = "<group>"; };
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
 		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
@@ -1226,7 +1226,6 @@
 				D752D80723454750006842F9 /* NSTextAttachment+.swift */,
 				D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */,
 				D7B4AC5D2471253100F3888A /* NoteMeta.swift */,
-				D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */,
 				D792DD8127A6C980006ADC01 /* FSParser.swift */,
 				D736DDAC27BAC7940012ED70 /* Note+History.swift */,
 				D71B9D852868BF7F00D2F323 /* TextStorageProcessor.swift */,
@@ -1677,6 +1676,7 @@
 				D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */,
 				6F13BB3820FEDE230005E120 /* UserDataService.swift */,
 				D75EE7F92078B3C00055F159 /* Sidebar.swift */,
+				D74D479E256DF2EB00D97647 /* FSNTextAttachmentCell.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2677,7 +2677,7 @@
 				D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */,
 				D7A9C1D62910784400905619 /* Project+Git.swift in Sources */,
 				D7153DFD2285A93300A2C20F /* AboutWindowController.swift in Sources */,
-				D74D479F256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
+				D74D479F256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
 				8F7136EE23490CBF004DFA6E /* Markdown.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
@@ -2865,7 +2865,7 @@
 				D7E81C3A1F925B5F00416A91 /* NotesTableView.swift in Sources */,
 				D7A9C1D72910784400905619 /* Project+Git.swift in Sources */,
 				D7153DFE2285A93300A2C20F /* AboutWindowController.swift in Sources */,
-				D74D47A0256DF2EB00D97647 /* FSNTextAttahcmentCell.swift in Sources */,
+				D74D47A0256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D7767C7F234E47B9006A0716 /* Markdown.swift in Sources */,
 				D7E81C3D1F925B5F00416A91 /* SandboxBookmark.swift in Sources */,
@@ -3036,7 +3036,7 @@
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3077,7 +3077,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

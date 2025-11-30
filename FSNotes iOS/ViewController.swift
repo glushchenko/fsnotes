@@ -339,15 +339,39 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func configureToolbar() {
         var items = [UIBarButtonItem]()
+
         if #available(iOS 26.0, *) {
             items.append(navigationItem.searchBarPlacementBarButtonItem)
         }
-        items.append(UIBarButtonItem.flexibleSpace())
-        items.append(Buttons.getNewNote(target: self, selector: #selector(newButtonAction)))
+
+        items.append(.flexibleSpace())
+
+        items.append(
+            Buttons.getNewNote(
+                target: self,
+                selector: #selector(newButtonAction)
+            )
+        )
+        
+        if needsRightPadding() {
+            let rightPadding = UIBarButtonItem(
+                barButtonSystemItem: .fixedSpace,
+                target: nil,
+                action: nil
+            )
+            rightPadding.width = 30
+            items.append(rightPadding)
+        }
 
         toolbarItems = items
         navigationController?.setToolbarHidden(false, animated: true)
     }
+
+    private func needsRightPadding() -> Bool {
+        if #available(iOS 26.0, *) { return false }
+        return true
+    }
+
 
     public func enableSearchFocus() {
         searchFocus = true

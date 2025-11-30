@@ -674,6 +674,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     private func getMarkdownToolbar() -> UIToolbar {
+        if #available(iOS 26.0, *) {
+            return getModernToolbar()
+        } else {
+            return getLegacyToolbar()
+        }
+    }
+    
+    private func getModernToolbar() -> UIToolbar {
         var items = [UIBarButtonItem]()
 
         let todoButton = UIBarButtonItem(systemImageName: "checkmark.square", target: self, selector: #selector(EditorViewController.todoPressed))
@@ -744,9 +752,94 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         appearance.backgroundColor = .darkGray
         appearance.shadowColor = .clear
         toolBar.standardAppearance = appearance
-        if #available(iOS 15.0, *) {
-            toolBar.scrollEdgeAppearance = appearance
+        toolBar.scrollEdgeAppearance = appearance
+
+        return toolBar
+    }
+    
+    private func getLegacyToolbar() -> UIToolbar {
+        var items = [UIBarButtonItem]()
+
+        let todoImage = UIImage(named: "toolbarTodo")?.resize(maxWidthHeight: 27)
+        let todoButton = UIBarButtonItem(image: todoImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
+        items.append(todoButton)
+
+        if UserDefaultsManagement.inlineTags {
+            let tagImage = UIImage(named: "toolbarTag")?.resize(maxWidthHeight: 25)
+            let tagButton = UIBarButtonItem(image: tagImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.tagPressed))
+            items.append(tagButton)
         }
+
+        let boldImage = UIImage(named: "toolbarBold")?.resize(maxWidthHeight: 21)
+        let boldButton = UIBarButtonItem(image: boldImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
+        items.append(boldButton)
+
+        let italicImage = UIImage(named: "toolbarItalic")?.resize(maxWidthHeight: 18)
+        let italicButton = UIBarButtonItem(image: italicImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
+        italicButton.tag = 0x03
+        items.append(italicButton)
+
+        let headerImage = UIImage(named: "toolbarHeader")?.resize(maxWidthHeight: 22)
+        let headerButton = UIBarButtonItem(image: headerImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
+        items.append(headerButton)
+
+        let wikiImage = UIImage(named: "toolbarWiki")?.resize(maxWidthHeight: 25)
+        let wikiButton = UIBarButtonItem(image: wikiImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.wikilink))
+        items.append(wikiButton)
+
+        let toolbarImage = UIImage(named: "toolbarImage")?.resize(maxWidthHeight: 26)
+        let imageButton = UIBarButtonItem(image: toolbarImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.insertFile))
+        items.append(imageButton)
+
+        let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 24)
+        let codeblockButton = UIBarButtonItem(image: codeBlockImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.codeBlockButton))
+        items.append(codeblockButton)
+
+        let quoteImage = UIImage(named: "quote")?.resize(maxWidthHeight: 21)
+        let quoteButton = UIBarButtonItem(image: quoteImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.quotePressed))
+        items.append(quoteButton)
+
+        let orderedListImage = UIImage(named: "ordered_list")?.resize(maxWidthHeight: 25)
+        let orderedListButton = UIBarButtonItem(image: orderedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.orderedListPressed))
+        items.append(orderedListButton)
+
+        let numberedListImage = UIImage(named: "numbered_list")?.resize(maxWidthHeight: 25)
+        let numberedListButton = UIBarButtonItem(image: numberedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.numberedListPressed))
+        items.append(numberedListButton)
+
+        let indentRightImage = UIImage(named: "toolbarIndentRight")?.resize(maxWidthHeight: 25)
+        let indentButton = UIBarButtonItem(image: indentRightImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
+        items.append(indentButton)
+
+        let indentLeftImage = UIImage(named: "toolbarIndentLeft")?.resize(maxWidthHeight: 25)
+        let unindentButton = UIBarButtonItem(image: indentLeftImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
+        items.append(unindentButton)
+
+        let undoImage = UIImage(named: "undo")?.resize(maxWidthHeight: 25)
+        let undoButton = UIBarButtonItem(image: undoImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
+        items.append(undoButton)
+
+        let redoImage = UIImage(named: "redo")?.resize(maxWidthHeight: 25)
+        let redoButton = UIBarButtonItem(image: redoImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+        items.append(redoButton)
+
+        var width = CGFloat(0)
+        for item in items {
+            if item.tag == 0x03 {
+                item.width = 30
+                width += 30
+            } else {
+                item.width = 50
+                width += 50
+            }
+        }
+
+        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 50))
+        toolBar.backgroundColor = .darkGray
+        toolBar.isTranslucent = false
+        toolBar.tintColor = UIColor.mainTheme
+        toolBar.setItems(items, animated: false)
+        toolBar.isUserInteractionEnabled = true
 
         return toolBar
     }
