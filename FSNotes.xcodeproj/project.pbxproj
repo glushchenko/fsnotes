@@ -459,8 +459,6 @@
 		D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D79FE8A21F77D04A00113CFD /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
-		D7A41C9B2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
-		D7A41C9C2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A549C324DD9D3400537544 /* SettingsEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */; };
 		D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
@@ -474,8 +472,6 @@
 		D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B13DBC2C64F445008EBCAA /* Printer.swift */; };
 		D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7B2B6EC245EEA790084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
-		D7B3391520DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
-		D7B3391620DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
 		D7B34F9725195D7E0007877E /* PreviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B34F9625195D7E0007877E /* PreviewState.swift */; };
 		D7B34F9825195D7E0007877E /* PreviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B34F9625195D7E0007877E /* PreviewState.swift */; };
 		D7B34F9A25195D7E0007877E /* PreviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B34F9625195D7E0007877E /* PreviewState.swift */; };
@@ -1011,13 +1007,11 @@
 		D79C26242872384C00CB70E6 /* EditorViewController+Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+Sharing.swift"; sourceTree = "<group>"; };
 		D79FE8A01F77D04A00113CFD /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
-		D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlock.swift; sourceTree = "<group>"; };
 		D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditorViewController.swift; sourceTree = "<group>"; };
 		D7A65C5820F11C38003E5ADC /* LanguageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageType.swift; sourceTree = "<group>"; };
 		D7A9C1D52910784400905619 /* Project+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Git.swift"; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B13DBC2C64F445008EBCAA /* Printer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
-		D7B3391420DE0FB100B36460 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		D7B34F9625195D7E0007877E /* PreviewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewState.swift; sourceTree = "<group>"; };
 		D7B4AC5D2471253100F3888A /* NoteMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMeta.swift; sourceTree = "<group>"; };
 		D7B6E599207912E300FE0E20 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
@@ -1214,6 +1208,7 @@
 		6F13BB2320FEDE230005E120 /* FSNotesCore */ = {
 			isa = PBXGroup;
 			children = (
+				D7C52B8028C7A8C2001B2065 /* Git */,
 				11D943172E643ECF0010CC2B /* SwiftHighlighter */,
 				D7218944210211B800FE3AF2 /* Business */,
 				6F13BB2720FEDE230005E120 /* Extensions */,
@@ -1229,9 +1224,14 @@
 				D792DD8127A6C980006ADC01 /* FSParser.swift */,
 				D736DDAC27BAC7940012ED70 /* Note+History.swift */,
 				D71B9D852868BF7F00D2F323 /* TextStorageProcessor.swift */,
+				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
+				D777D7802009115C00D86B33 /* ImagesProcessor.swift */,
 				D72682A929BE8E1F00F6E961 /* RepositoryAction.swift */,
 				D7CC44C02A1E5E4F00743857 /* ViewController+WebApi.swift */,
 				11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */,
+				D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */,
+				D76025B1204EEF64000B9F59 /* TextFormatter.swift */,
+				D730829123084340003185D1 /* MPreviewView.swift */,
 			);
 			path = FSNotesCore;
 			sourceTree = "<group>";
@@ -1291,6 +1291,9 @@
 		D7218944210211B800FE3AF2 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				D7B6E599207912E300FE0E20 /* Project.swift */,
+				D79FE8A01F77D04A00113CFD /* Note.swift */,
+				D714749C279D7DBC001A8B29 /* SearchQuery.swift */,
 				D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */,
 				D7038E2520FB24E000A54E69 /* NoteAttachment.swift */,
 				D74B7B642137D3A1007F5331 /* AttributedBox.swift */,
@@ -1306,6 +1309,15 @@
 				D75627CD26D1165A000AF6EA /* ImageFormat.swift */,
 				D7EFAF67278B310300175A2F /* HighlighterTheme.swift */,
 				D7CC44C52A1E5F7600743857 /* ApiResponse.swift */,
+				D7E025071F3B6DDB00EDDA32 /* Storage.swift */,
+				D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */,
+				D708AC662000EF5800A1760F /* NoteType.swift */,
+				D78678CA2093AE10001A6620 /* UndoData.swift */,
+				D7A65C5820F11C38003E5ADC /* LanguageType.swift */,
+				D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */,
+				D72DAF0729B27D75001243BB /* ProjectSettings.swift */,
+				8F7136ED23490CBF004DFA6E /* Markdown.swift */,
+				D75EE7F62078B22D0055F159 /* SidebarItem.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1547,10 +1559,8 @@
 		D7793C711F211C6000CA39B7 /* FSNotes */ = {
 			isa = PBXGroup;
 			children = (
-				D7C52B8028C7A8C2001B2065 /* Git */,
 				D75C903C223EF727002A9CAD /* Preferences */,
 				D7CD5F6A1F51184A006AA35D /* Extensions */,
-				D7B6E59C20794B4C00FE0E20 /* Business */,
 				D7E6D9D520808652003ECAFC /* Helpers */,
 				D7E6D9D2208085BB003ECAFC /* View */,
 				D7793C721F211C6000CA39B7 /* AppDelegate.swift */,
@@ -1578,28 +1588,6 @@
 				D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */,
 			);
 			path = FSNotes;
-			sourceTree = "<group>";
-		};
-		D7B6E59C20794B4C00FE0E20 /* Business */ = {
-			isa = PBXGroup;
-			children = (
-				D7B6E599207912E300FE0E20 /* Project.swift */,
-				D79FE8A01F77D04A00113CFD /* Note.swift */,
-				D714749C279D7DBC001A8B29 /* SearchQuery.swift */,
-				D75EE7F92078B3C00055F159 /* Sidebar.swift */,
-				D75EE7F62078B22D0055F159 /* SidebarItem.swift */,
-				D7E025071F3B6DDB00EDDA32 /* Storage.swift */,
-				D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */,
-				D708AC662000EF5800A1760F /* NoteType.swift */,
-				D78678CA2093AE10001A6620 /* UndoData.swift */,
-				D7B3391420DE0FB100B36460 /* TagList.swift */,
-				D7A65C5820F11C38003E5ADC /* LanguageType.swift */,
-				D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */,
-				D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */,
-				8F7136ED23490CBF004DFA6E /* Markdown.swift */,
-				D72DAF0729B27D75001243BB /* ProjectSettings.swift */,
-			);
-			path = Business;
 			sourceTree = "<group>";
 		};
 		D7C52B8028C7A8C2001B2065 /* Git */ = {
@@ -1672,7 +1660,6 @@
 				2799407B218484C900727B20 /* TitleBarView.swift */,
 				D7153E082285EC6100A2C20F /* TitleTextField.swift */,
 				D768D75B245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift */,
-				D730829123084340003185D1 /* MPreviewView.swift */,
 				D70B1FAA29213EDF003923DC /* HyperlinkTextField.swift */,
 				D7BCF034296B0DAA00F72A4F /* AboutImageView.swift */,
 				D7CCEDB82C6BA2F300A3BB83 /* ClickableTextField.swift */,
@@ -1686,14 +1673,11 @@
 				D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */,
 				D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */,
 				D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */,
-				D777D7802009115C00D86B33 /* ImagesProcessor.swift */,
-				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
 				D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */,
-				D76025B1204EEF64000B9F59 /* TextFormatter.swift */,
-				D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */,
 				D7B13DBC2C64F445008EBCAA /* Printer.swift */,
 				D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */,
 				6F13BB3820FEDE230005E120 /* UserDataService.swift */,
+				D75EE7F92078B3C00055F159 /* Sidebar.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2750,11 +2734,9 @@
 				D7E32C2C28F8D0740048614B /* StaticSshKeyDelegate.swift in Sources */,
 				11F3F4852EDB0E2A00435CBF /* String+.swift in Sources */,
 				D7C9029223547A1E00A89BD8 /* FSTag.swift in Sources */,
-				D7B3391520DE0FB100B36460 /* TagList.swift in Sources */,
 				D730BD2E222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD35222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D79FE8A21F77D04A00113CFD /* Note.swift in Sources */,
-				D7A41C9B2316A8BE00DAAFEB /* CodeBlock.swift in Sources */,
 				D73BCCA728EB5EC3008B3BBC /* Blob.swift in Sources */,
 				D7153E092285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
@@ -2940,11 +2922,9 @@
 				D7E32C2D28F8D0750048614B /* StaticSshKeyDelegate.swift in Sources */,
 				11F3F4862EDB0E2A00435CBF /* String+.swift in Sources */,
 				D7C9029323547A1E00A89BD8 /* FSTag.swift in Sources */,
-				D7B3391620DE0FB100B36460 /* TagList.swift in Sources */,
 				D730BD2F222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD36222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7E81C461F925B5F00416A91 /* Note.swift in Sources */,
-				D7A41C9C2316A8BE00DAAFEB /* CodeBlock.swift in Sources */,
 				D73BCCA828EB5EC3008B3BBC /* Blob.swift in Sources */,
 				D7153E0A2285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
