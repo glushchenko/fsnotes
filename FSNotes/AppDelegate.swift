@@ -377,10 +377,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         switch UserDefaultsManagement.dockIcon {
         case 0:
-            image = NSImage(named: "icon.png")
+            image = NSImage(named: "AppIconModern")
             break
         case 1:
-            image = NSImage(named: "icon_alt.png")
+            image = NSImage(named: "AppIconClassic")
             break
         default:
             break
