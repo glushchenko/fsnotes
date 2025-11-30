@@ -1,0 +1,109 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-gray:1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : {
+            "automatic-gradient" : "srgb:0.00000,0.74277,1.00000,1.00000"
+          },
+          "image-name" : "Untitled-15.svg",
+          "name" : "row1",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -153.79487500000016,
+              157.33406250000007
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "automatic-gradient" : "srgb:0.00000,0.27616,1.00000,1.00000"
+          },
+          "image-name" : "Untitled-14.svg",
+          "name" : "row2",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -248.06381250000013,
+              32.89393749999999
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "automatic-gradient" : "srgb:0.00000,0.27616,1.00000,1.00000"
+          },
+          "image-name" : "Untitled-13.svg",
+          "name" : "row3",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -196.13787500000012,
+              -69.6507187499999
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "automatic-gradient" : "srgb:0.00000,0.27616,1.00000,1.00000"
+          },
+          "image-name" : "Untitled-12.svg",
+          "name" : "row4",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -149.16081250000013,
+              -181.203125
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "automatic-gradient" : "srgb:0.00000,0.74277,1.00000,1.00000"
+          },
+          "image-name" : "Untitled-8.svg",
+          "name" : "row5",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -7.970875000000149,
+              54.2109375
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "automatic-gradient" : "srgb:0.00000,0.27451,1.00000,1.00000"
+          },
+          "image-name" : "Untitled-11.svg",
+          "name" : "lightning",
+          "position" : {
+            "scale" : 2,
+            "translation-in-points" : [
+              172.49609375,
+              -35.471000000000004
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

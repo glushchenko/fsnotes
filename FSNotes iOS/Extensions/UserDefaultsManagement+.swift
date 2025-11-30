@@ -11,7 +11,7 @@ import UIKit
 
 extension UserDefaultsManagement {
     private struct Constants {
-        static let appIcon = "appIcon"
+        static let appIcon = "appIcon2025"
         static let codeTheme = "codeTheme"
         static let currentNote = "currentNote"
         static let currentLocation = "currentLocation"

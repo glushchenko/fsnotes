@@ -251,6 +251,11 @@ public extension String {
     private func index(at location: Int) -> String.Index? {
         return self.index(startIndex, offsetBy: location, limitedBy: endIndex)
     }
+
+    func capitalizingFirstLetter() -> String {
+        guard !isEmpty else { return self }
+        return prefix(1).uppercased() + dropFirst()
+    }
 }
 
 extension StringProtocol where Index == String.Index {

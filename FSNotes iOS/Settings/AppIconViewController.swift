@@ -10,34 +10,26 @@ import UIKit
 
 class AppIconViewController: UITableViewController {
     enum AppIconRows: Int, CaseIterable {
-        case system
-        case kmstrr
-        case dylanseeger
-        case dylanseegerDark
-        case dylanseegerDarkFull
+        case modern
+        case classic
+        case ny2026
 
         public func getName() -> String {
             switch self {
-            case .system:
-                return "System"
-            case .kmstrr:
-                return "Classic"
-            case .dylanseeger:
+            case .modern:
                 return "Modern"
-            case .dylanseegerDark:
-                return "Modern (Dark)"
-            case .dylanseegerDarkFull:
-                return "Modern (Black)"
+            case .classic:
+                return "Classic"
+            case .ny2026:
+                return "Neo"
             }
         }
 
         var description : String {
             switch self {
-            case .system: return "system"
-            case .kmstrr: return "kmstrr"
-            case .dylanseeger: return "dylanseeger"
-            case .dylanseegerDark: return "dylanseegerDark"
-            case .dylanseegerDarkFull: return "dylanseegerDarkFull"
+            case .modern: return "modern"
+            case .classic: return "classic-2025"
+            case .ny2026: return "ny-2026"
             }
         }
 
@@ -68,16 +60,16 @@ class AppIconViewController: UITableViewController {
             cell.accessoryType = .checkmark
 
             if let icon = AppIconRows(rawValue: indexPath.row)?.description {
-                let name = icon == "system" ? nil : icon + "Icon"
+                let name = icon == "modern" ? nil : icon
 
                 UIApplication.shared.setAlternateIconName(name) { error in
                     if let error = error {
                         print("Error setting alternate icon \(String(describing: name)): \(error.localizedDescription)")
+                    } else {
+                        UserDefaultsManagement.appIcon = indexPath.row
                     }
                 }
             }
-
-            UserDefaultsManagement.appIcon = indexPath.row
         }
 
         tableView.deselectRow(at: indexPath, animated: false)
@@ -105,14 +97,12 @@ class AppIconViewController: UITableViewController {
         cell.imageView?.layer.cornerRadius = 20
 
         if let icon = AppIconRows(rawValue: indexPath.row) {
-            var iconName = icon.description
-            if icon.description == "system" {
-                iconName = "dylanseeger"
-            }
+            let iconName = "AppIcon" + icon.description.capitalizingFirstLetter()
 
-            if let image = UIImage(named: "app-icon-\(iconName)") {
+            if let image = UIImage(named: iconName) {
                 cell.imageView?.image = image
             }
+
             cell.textLabel?.text = icon.getName()
         }
 

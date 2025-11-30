@@ -1,0 +1,55 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "extended-srgb:0.68627,0.32157,0.87059,1.00000",
+      "display-p3:0.00000,0.66275,0.87843,1.00000"
+    ],
+    "orientation" : {
+      "start" : {
+        "x" : 0.5,
+        "y" : 0
+      },
+      "stop" : {
+        "x" : 0.5,
+        "y" : 0.7
+      }
+    }
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : {
+            "automatic-gradient" : "extended-gray:1.00000,1.00000"
+          },
+          "image-name" : "document-lightning-24-regular.svg",
+          "name" : "document-lightning-24-regular",
+          "opacity" : 0.9,
+          "position-specializations" : [
+            {
+              "idiom" : "square",
+              "value" : {
+                "scale" : 1.4,
+                "translation-in-points" : [
+                  23.2528076171875,
+                  -6.20391845703125
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}

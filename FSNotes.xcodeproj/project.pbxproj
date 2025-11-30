@@ -19,7 +19,6 @@
 		110E40A52EA039CE00C62F49 /* EditTextView+DragOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */; };
 		111013152EC8F1B600B6CF1B /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111013142EC8F1B600B6CF1B /* ImagePreviewViewController.swift */; };
 		111013182ECA102200B6CF1B /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D796EB40251E127300CE5C80 /* Pasteboard.swift */; };
-		111844932ECFA5B500A175E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
 		113685522EC795B80033767F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AD7FB27F9D1C90077BD45 /* Data+.swift */; };
 		113685532EC796EF0033767F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
 		1136855A2EC7A21F0033767F /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685592EC7A2130033767F /* NSMutableAttributedString+.swift */; };
@@ -33,15 +32,23 @@
 		113685652EC869950033767F /* URL+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685612EC869860033767F /* URL+Image.swift */; };
 		113685682EC889E20033767F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685672EC889DC0033767F /* SceneDelegate.swift */; };
 		1136856A2EC8AE2F0033767F /* UIBarButtonItem+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685692EC8AE260033767F /* UIBarButtonItem+.swift */; };
+		113EEBD72EDBA63D00A94F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
 		1161828D2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
 		1161828E2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
 		1161828F2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116182862E62B046005B5EE0 /* SwiftHighlighter.swift */; };
 		1166D1F72E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
 		1166D1F82E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
 		1166D1F92E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
+		1175E0922EDC929400B92794 /* ny-2026.icon in Resources */ = {isa = PBXBuildFile; fileRef = 1175E0912EDC929400B92794 /* ny-2026.icon */; };
+		117CA3182EDB99EA004DDE9B /* app-icon-dylanseegerDark.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */; };
+		117CA31A2EDB99EA004DDE9B /* app-icon-kmstrr.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF48CC29E1765B00FFD0B2 /* app-icon-kmstrr.png */; };
+		117CA31C2EDB99EA004DDE9B /* app-icon-dylanseeger.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF48CD29E1765B00FFD0B2 /* app-icon-dylanseeger.png */; };
+		117CA3212EDB99EA004DDE9B /* app-icon-dylanseegerDarkFull.png in Resources */ = {isa = PBXBuildFile; fileRef = D780166329E1E6C000660689 /* app-icon-dylanseegerDarkFull.png */; };
+		11A95B622EDC56DC0081ED29 /* modern.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11A95B612EDC56DC0081ED29 /* modern.icon */; };
 		11AF633E2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF633F2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF63402E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
+		11BD71662EDC87B700541BF9 /* classic-2025.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11BD71652EDC87B700541BF9 /* classic-2025.icon */; };
 		11D702A62E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
 		11D702A72E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
 		11D702AC2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */; };
@@ -429,11 +436,7 @@
 		D77F41B32A0D48F500E2B7A2 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */; };
 		D77F89DF28D38B5D00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
 		D77F89E028D38B5E00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
-		D780165B29E19F3F00660689 /* dylanseegerDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165929E19F3F00660689 /* dylanseegerDark@2x.png */; };
-		D780165C29E19F3F00660689 /* dylanseegerDark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165A29E19F3F00660689 /* dylanseegerDark@3x.png */; };
 		D780165E29E19FD800660689 /* app-icon-dylanseegerDark.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */; };
-		D780166129E1E6AA00660689 /* dylanseegerDarkFull@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */; };
-		D780166229E1E6AA00660689 /* dylanseegerDarkFull@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */; };
 		D780166429E1E6C100660689 /* app-icon-dylanseegerDarkFull.png in Resources */ = {isa = PBXBuildFile; fileRef = D780166329E1E6C000660689 /* app-icon-dylanseegerDarkFull.png */; };
 		D78115632153B36C004FA1CA /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78115622153B36C004FA1CA /* Buttons.swift */; };
 		D78115672153D4D9004FA1CA /* ProjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78115662153D4D9004FA1CA /* ProjectsViewController.swift */; };
@@ -528,10 +531,6 @@
 		D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
 		D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
 		D7C33F6E29E09A690006C473 /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C33F6D29E09A690006C473 /* AppIconViewController.swift */; };
-		D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */; };
-		D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */; };
-		D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */; };
-		D7C33F7B29E0C1CA0006C473 /* kmstrr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */; };
 		D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */; };
 		D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */; };
 		D7C9029223547A1E00A89BD8 /* FSTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* FSTag.swift */; };
@@ -574,14 +573,6 @@
 		D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D7CF7EAB29E2093C00FEC0C5 /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */; };
-		D7CF7EB629E2CFD400FEC0C5 /* dylanseegerDark@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EAE29E2CFD200FEC0C5 /* dylanseegerDark@3x~ipad.png */; };
-		D7CF7EB729E2CFD400FEC0C5 /* dylanseeger@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EAF29E2CFD300FEC0C5 /* dylanseeger@2x~ipad.png */; };
-		D7CF7EB829E2CFD400FEC0C5 /* kmstrr@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB029E2CFD300FEC0C5 /* kmstrr@2x~ipad.png */; };
-		D7CF7EB929E2CFD400FEC0C5 /* kmstrr@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB129E2CFD300FEC0C5 /* kmstrr@3x~ipad.png */; };
-		D7CF7EBA29E2CFD400FEC0C5 /* dylanseeger@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB229E2CFD300FEC0C5 /* dylanseeger@3x~ipad.png */; };
-		D7CF7EBB29E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB329E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png */; };
-		D7CF7EBC29E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */; };
-		D7CF7EBD29E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */; };
 		D7D01AFD2C65203A00F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
 		D7D01AFE2C65208000F545D0 /* PrinterLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
@@ -826,7 +817,10 @@
 		113685692EC8AE260033767F /* UIBarButtonItem+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+.swift"; sourceTree = "<group>"; };
 		116182862E62B046005B5EE0 /* SwiftHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftHighlighter.swift; sourceTree = "<group>"; };
 		1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlockDetector.swift; sourceTree = "<group>"; };
+		1175E0912EDC929400B92794 /* ny-2026.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "ny-2026.icon"; sourceTree = "<group>"; };
+		11A95B612EDC56DC0081ED29 /* modern.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = modern.icon; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
+		11BD71652EDC87B700541BF9 /* classic-2025.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "classic-2025.icon"; sourceTree = "<group>"; };
 		11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlExtractor.swift; sourceTree = "<group>"; };
 		11D943192E643EF20010CC2B /* JavaScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScript.swift; sourceTree = "<group>"; };
@@ -1021,11 +1015,7 @@
 		D77E05282463124300AD7772 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
 		D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Web.swift"; sourceTree = "<group>"; };
-		D780165929E19F3F00660689 /* dylanseegerDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@2x.png"; sourceTree = "<group>"; };
-		D780165A29E19F3F00660689 /* dylanseegerDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@3x.png"; sourceTree = "<group>"; };
 		D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseegerDark.png"; sourceTree = "<group>"; };
-		D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@3x.png"; sourceTree = "<group>"; };
-		D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@2x.png"; sourceTree = "<group>"; };
 		D780166329E1E6C000660689 /* app-icon-dylanseegerDarkFull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app-icon-dylanseegerDarkFull.png"; sourceTree = "<group>"; };
 		D78115622153B36C004FA1CA /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		D78115662153D4D9004FA1CA /* ProjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
@@ -1069,10 +1059,6 @@
 		D7BE112322DA2FE200435866 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
 		D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderCellView.swift; sourceTree = "<group>"; };
 		D7C33F6D29E09A690006C473 /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
-		D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@3x.png"; sourceTree = "<group>"; };
-		D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@2x.png"; sourceTree = "<group>"; };
-		D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@3x.png"; sourceTree = "<group>"; };
-		D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@2x.png"; sourceTree = "<group>"; };
 		D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+More.swift"; sourceTree = "<group>"; };
 		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
 		D7C9029123547A1E00A89BD8 /* FSTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSTag.swift; sourceTree = "<group>"; };
@@ -1091,14 +1077,6 @@
 		D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceType.swift; sourceTree = "<group>"; };
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
 		D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
-		D7CF7EAE29E2CFD200FEC0C5 /* dylanseegerDark@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@3x~ipad.png"; sourceTree = "<group>"; };
-		D7CF7EAF29E2CFD300FEC0C5 /* dylanseeger@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@2x~ipad.png"; sourceTree = "<group>"; };
-		D7CF7EB029E2CFD300FEC0C5 /* kmstrr@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@2x~ipad.png"; sourceTree = "<group>"; };
-		D7CF7EB129E2CFD300FEC0C5 /* kmstrr@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kmstrr@3x~ipad.png"; sourceTree = "<group>"; };
-		D7CF7EB229E2CFD300FEC0C5 /* dylanseeger@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseeger@3x~ipad.png"; sourceTree = "<group>"; };
-		D7CF7EB329E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@2x~ipad.png"; sourceTree = "<group>"; };
-		D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDarkFull@3x~ipad.png"; sourceTree = "<group>"; };
-		D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dylanseegerDark@2x~ipad.png"; sourceTree = "<group>"; };
 		D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterLegacy.swift; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		D7D1DE67216D05A800AC1845 /* NameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextField.swift; sourceTree = "<group>"; };
@@ -1211,6 +1189,16 @@
 				D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */,
 			);
 			path = SourceCodePro;
+			sourceTree = "<group>";
+		};
+		11C23F022EDC486E0064C5B5 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				11A95B612EDC56DC0081ED29 /* modern.icon */,
+				11BD71652EDC87B700541BF9 /* classic-2025.icon */,
+				1175E0912EDC929400B92794 /* ny-2026.icon */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 		11D943172E643ECF0010CC2B /* SwiftHighlighter */ = {
@@ -1525,6 +1513,7 @@
 		D7679387201F21F5000F7BBF /* FSNotes iOS */ = {
 			isa = PBXGroup;
 			children = (
+				11C23F022EDC486E0064C5B5 /* Icons */,
 				D7FDA4F8236DBCF500C3B4AA /* Business */,
 				D7ED3FFC20CD0ADE001438EE /* Extensions */,
 				D7F6CFEE2056ABDB008C584A /* Settings */,
@@ -1644,22 +1633,6 @@
 		D7C33F6F29E09E6D0006C473 /* app-icons */ = {
 			isa = PBXGroup;
 			children = (
-				D7CF7EAF29E2CFD300FEC0C5 /* dylanseeger@2x~ipad.png */,
-				D7CF7EB229E2CFD300FEC0C5 /* dylanseeger@3x~ipad.png */,
-				D7C33F7529E0C1C90006C473 /* dylanseeger@2x.png */,
-				D7C33F7629E0C1C90006C473 /* dylanseeger@3x.png */,
-				D7CF7EB529E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png */,
-				D7CF7EAE29E2CFD200FEC0C5 /* dylanseegerDark@3x~ipad.png */,
-				D780165929E19F3F00660689 /* dylanseegerDark@2x.png */,
-				D780165A29E19F3F00660689 /* dylanseegerDark@3x.png */,
-				D7CF7EB329E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png */,
-				D7CF7EB429E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png */,
-				D780166029E1E6AA00660689 /* dylanseegerDarkFull@2x.png */,
-				D780165F29E1E6AA00660689 /* dylanseegerDarkFull@3x.png */,
-				D7CF7EB029E2CFD300FEC0C5 /* kmstrr@2x~ipad.png */,
-				D7CF7EB129E2CFD300FEC0C5 /* kmstrr@3x~ipad.png */,
-				D7C33F7729E0C1CA0006C473 /* kmstrr@2x.png */,
-				D7C33F7429E0C1C90006C473 /* kmstrr@3x.png */,
 				D7DF48CD29E1765B00FFD0B2 /* app-icon-dylanseeger.png */,
 				D7DF48CC29E1765B00FFD0B2 /* app-icon-kmstrr.png */,
 				D780165D29E19FD800660689 /* app-icon-dylanseegerDark.png */,
@@ -2120,6 +2093,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				117CA3182EDB99EA004DDE9B /* app-icon-dylanseegerDark.png in Resources */,
+				117CA31A2EDB99EA004DDE9B /* app-icon-kmstrr.png in Resources */,
+				117CA31C2EDB99EA004DDE9B /* app-icon-dylanseeger.png in Resources */,
+				117CA3212EDB99EA004DDE9B /* app-icon-dylanseegerDarkFull.png in Resources */,
 				42E001CA2ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
 				D7163D3424E81D9900B1FC05 /* MainInterface.storyboard in Resources */,
 			);
@@ -2131,55 +2108,42 @@
 			files = (
 				D7F2F1AE21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7F2F1B121C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
-				D7CF7EBB29E2CFD400FEC0C5 /* dylanseegerDarkFull@2x~ipad.png in Resources */,
-				D7CF7EBC29E2CFD400FEC0C5 /* dylanseegerDarkFull@3x~ipad.png in Resources */,
 				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
-				D7C33F7929E0C1CA0006C473 /* dylanseeger@2x.png in Resources */,
-				111844932ECFA5B500A175E4 /* Assets.xcassets in Resources */,
 				D780165E29E19FD800660689 /* app-icon-dylanseegerDark.png in Resources */,
 				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
-				D780166129E1E6AA00660689 /* dylanseegerDarkFull@3x.png in Resources */,
 				D75F1DF1206D660D00F70B28 /* MPreview.bundle in Resources */,
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
 				D7BE112622DB168C00435866 /* lock-open.png in Resources */,
 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
 				D7F2F1BD21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
+				11A95B622EDC56DC0081ED29 /* modern.icon in Resources */,
+				1175E0922EDC929400B92794 /* ny-2026.icon in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
 				D7F2F1B421C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
-				D780166229E1E6AA00660689 /* dylanseegerDarkFull@2x.png in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
-				D7CF7EB829E2CFD400FEC0C5 /* kmstrr@2x~ipad.png in Resources */,
-				D7CF7EBD29E2CFD400FEC0C5 /* dylanseegerDark@2x~ipad.png in Resources */,
 				D7F2F19F21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
 				D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
 				D780166429E1E6C100660689 /* app-icon-dylanseegerDarkFull.png in Resources */,
-				D7CF7EB729E2CFD400FEC0C5 /* dylanseeger@2x~ipad.png in Resources */,
 				D7163D2F24E81B5C00B1FC05 /* Main.storyboard in Resources */,
 				D7BDFE6D201F6E8F00897A58 /* Initial in Resources */,
-				D7CF7EBA29E2CFD400FEC0C5 /* dylanseeger@3x~ipad.png in Resources */,
+				11BD71662EDC87B700541BF9 /* classic-2025.icon in Resources */,
 				D7F2F1C321C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
 				D7F2F1C021C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
 				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
-				D7C33F7829E0C1CA0006C473 /* kmstrr@3x.png in Resources */,
 				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
-				D7CF7EB929E2CFD400FEC0C5 /* kmstrr@3x~ipad.png in Resources */,
-				D7C33F7A29E0C1CA0006C473 /* dylanseeger@3x.png in Resources */,
 				D7BE112522DB168C00435866 /* lock-closed.png in Resources */,
 				D7DF48CF29E1765C00FFD0B2 /* app-icon-dylanseeger.png in Resources */,
 				42E001CF2ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
 				D7ECE68A22B6B481006A14C6 /* TextBundle.icns in Resources */,
 				D77F41B32A0D48F500E2B7A2 /* Launch Screen.storyboard in Resources */,
 				D7DF48CE29E1765C00FFD0B2 /* app-icon-kmstrr.png in Resources */,
-				D780165B29E19F3F00660689 /* dylanseegerDark@2x.png in Resources */,
 				D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D7BE112422DA2FE200435866 /* launch.png in Resources */,
 				D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7F2F1A821C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				42E001CC2ADAC2930099E7AD /* InfoPlist.xcstrings in Resources */,
-				D7CF7EB629E2CFD400FEC0C5 /* dylanseegerDark@3x~ipad.png in Resources */,
-				D780165C29E19F3F00660689 /* dylanseegerDark@3x.png in Resources */,
-				D7C33F7B29E0C1CA0006C473 /* kmstrr@2x.png in Resources */,
+				113EEBD72EDBA63D00A94F29 /* Assets.xcassets in Resources */,
 				D7F2F1A221C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2282,8 +2246,8 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 				"${BUILT_PRODUCTS_DIR}/Punycode-macOS/Punycode.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
@@ -2291,8 +2255,8 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Punycode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -2332,8 +2296,8 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FSNotes (iCloud)/Pods-FSNotes (iCloud)-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 				"${BUILT_PRODUCTS_DIR}/Punycode-macOS/Punycode.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
@@ -2341,8 +2305,8 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Punycode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -3104,7 +3068,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 314;
+				CURRENT_PROJECT_VERSION = 316;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
@@ -3113,16 +3077,20 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.10.1;
+				MARKETING_VERSION = 7.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SHARE_EXT;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -3134,7 +3102,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 314;
+				CURRENT_PROJECT_VERSION = 316;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -3144,16 +3112,20 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.10.1;
+				MARKETING_VERSION = 7.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SHARE_EXT;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -3162,23 +3134,24 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E73B6900CD2E14B0D5E51599 /* Pods-FSNotes iOS.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = modern;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS/FSNotes iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 314;
+				CURRENT_PROJECT_VERSION = 316;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.10.1;
+				MARKETING_VERSION = 7.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3201,24 +3174,25 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4796D64E77383E6A5A3F900B /* Pods-FSNotes iOS.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = modern;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CFNETWORK_DIAGNOSTICS = 1;
 				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS/FSNotes iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 314;
+				CURRENT_PROJECT_VERSION = 316;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.10.1;
+				MARKETING_VERSION = 7.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
