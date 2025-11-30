@@ -568,21 +568,7 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.NightModeAuto)
         }
     }
-    
-    #if os(iOS)
-        static var nightModeType: NightMode {
-            get {
-                if let result = shared?.object(forKey: Constants.NightModeType) {
-                    return NightMode(rawValue: result as! Int) ?? .disabled
-                }
-                return NightMode(rawValue: 0x00) ?? .disabled
-            }
-            set {
-                shared?.set(newValue.rawValue, forKey: Constants.NightModeType)
-            }
-        }
-    #endif
-    
+        
     static var maxNightModeBrightnessLevel: Float {
         get {
             if let result = shared?.object(forKey: Constants.NightModeBrightnessLevel) {

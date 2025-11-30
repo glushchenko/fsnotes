@@ -20,7 +20,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     private var isUndo = false
     private let storageQueue = OperationQueue()
-    private var toolbar: Toolbar = .markdown
 
     var inProgress = false
     var change = 0
@@ -663,10 +662,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
-    }
-
-    public func resetToolbar() {
-        toolbar = .none
     }
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {

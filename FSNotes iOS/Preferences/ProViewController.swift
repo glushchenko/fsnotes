@@ -116,8 +116,6 @@ class ProViewController: UITableViewController {
             }
 
             vc.resizeSidebar(withAnimation: true)
-
-            UIApplication.getEVC().resetToolbar()
         case 2:
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
             UserDefaultsManagement.useTextBundleMetaToStoreDates = uiSwitch.isOn

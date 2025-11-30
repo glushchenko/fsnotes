@@ -46,8 +46,6 @@ class GitViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initZeroNavigationBackground()
-
         UIApplication.shared.isIdleTimerDisabled = true
 
         DispatchQueue.main.async {
