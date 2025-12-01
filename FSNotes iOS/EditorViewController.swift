@@ -59,6 +59,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         editArea.imagesLoaderQueue.qualityOfService = .userInteractive
 
         super.viewDidLoad()
+        
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem(systemImageName: "magnifyingglass", target: self, selector: #selector(search)))
+        items.append(UIBarButtonItem.flexibleSpace())
+        items.append(UIBarButtonItem(systemImageName: "plus", target: self, selector: #selector(newNote)))
+
+        toolbarItems = items
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
@@ -105,15 +112,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         
         navigationItem.largeTitleDisplayMode = .never
 
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(systemImageName: "magnifyingglass", target: self, selector: #selector(search)))
-        items.append(UIBarButtonItem.flexibleSpace())
-        items.append(UIBarButtonItem(systemImageName: "plus", target: self, selector: #selector(newNote)))
-
-        navigationController?.toolbar.tintColor = UIColor.mainTheme
-        toolbarItems = items
-
         navigationController?.setToolbarHidden(false, animated: true)
+        navigationController?.toolbar.tintColor = UIColor.mainTheme
         navigationController?.navigationBar.tintColor = UIColor.mainTheme
     }
 
@@ -215,7 +215,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.attributedText = content
         }
 
-        configureToolbar()
+        if let scroll = editArea.inputAccessoryView as? UIScrollView {
+            scroll.contentOffset = .zero
+        }
+        
         loadSelectedRange()
         editArea.delegate = self
 
@@ -231,12 +234,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         guard let note = self.note else { return }
 
         vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
-    }
-
-    private func configureToolbar() {
-        if let scroll = editArea.inputAccessoryView as? UIScrollView {
-            scroll.contentOffset = .zero
-        }
     }
     
     @objc func refill() {

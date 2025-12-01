@@ -656,7 +656,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 ? String("img { max-height: 90vh; }")
                 : String()
 
-        theme = theme ?? UserDefaultsManagement.codeTheme
+        let isDark = UserDataService.instance.isDark
+        theme = theme ?? UserDefaultsManagement.codeTheme.getCssName(isDark: isDark)
         
         if forceLightTheme {
             theme = UserDefaultsManagement.lightCodeTheme

@@ -542,10 +542,9 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-
-        navigationController?.setToolbarHidden(true, animated: true)
-
         configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     @objc func duplicateNotes() {
@@ -554,10 +553,9 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-
-        navigationController?.setToolbarHidden(true, animated: true)
-
         configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     @objc func moveNotes() {
@@ -566,20 +564,18 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-
-        navigationController?.setToolbarHidden(true, animated: true)
-
         configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     @objc func cancel() {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-
-        navigationController?.setToolbarHidden(true, animated: true)
-
         configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     private func createFolder(selectedProject: Project?) {

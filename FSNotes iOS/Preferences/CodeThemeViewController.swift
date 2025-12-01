@@ -11,16 +11,8 @@ import UIKit
 class CodeThemeViewController: UITableViewController {
     private var themeNames = [
         "github",
-        "solarized-light",
-        "solarized-dark",
-        "vs",
-        "atom-one-light",
-        "atom-one-dark",
-        "monokai-sublime",
-        "xcode",
-        "zenburn",
-        "tomorrow",
-        "agate",
+        "solarized",
+        "atom-one"
     ]
 
     override func viewDidLoad() {
@@ -34,14 +26,16 @@ class CodeThemeViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if themeNames[indexPath.row] == UserDefaultsManagement.codeTheme {
+        if themeNames[indexPath.row] == UserDefaultsManagement.codeTheme.getName() {
             cell.accessoryType = .checkmark
         }
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let theme = label.text {
-            UserDefaultsManagement.codeTheme = theme
+            if let theme = EditorTheme(themeName: theme) {
+                UserDefaultsManagement.codeTheme = theme
+            }
 
             NotesTextProcessor.hl = nil
             MPreviewView.template = nil

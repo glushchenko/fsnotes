@@ -1542,7 +1542,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     func getPreviewStyle() -> String {
         var codeStyle = ""
-        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
+        let isDark = UserDataService.instance.isDark
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme.getCssName(isDark: isDark) + ".min", ofType: "css") {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
         

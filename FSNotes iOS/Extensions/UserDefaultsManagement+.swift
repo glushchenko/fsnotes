@@ -12,7 +12,6 @@ import UIKit
 extension UserDefaultsManagement {
     private struct Constants {
         static let appIcon = "appIcon2025"
-        static let codeTheme = "codeTheme"
         static let currentNote = "currentNote"
         static let currentLocation = "currentLocation"
         static let currentLength = "currentLength"
@@ -34,23 +33,6 @@ extension UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.appIcon)
-        }
-    }
-
-    static var codeTheme: String {
-        get {
-            if let theme = shared?.object(forKey: Constants.codeTheme) as? String {
-                return theme
-            }
-
-            if UITraitCollection.current.userInterfaceStyle == .dark {
-                return "monokai-sublime"
-            }
-
-            return "github"
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.codeTheme)
         }
     }
 

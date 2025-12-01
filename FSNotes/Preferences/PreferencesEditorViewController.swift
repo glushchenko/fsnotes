@@ -40,7 +40,7 @@ class PreferencesEditorViewController: NSViewController {
         indentUsing.selectItem(at: UserDefaultsManagement.indentUsing)
         autocloseBrackets.state = UserDefaultsManagement.autocloseBrackets ? .on : .off
 
-        markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
+        markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme.getName())
 
         lineSpacing.floatValue = Float((UserDefaultsManagement.lineHeightMultiple - 1) * 10)
         imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
@@ -79,7 +79,10 @@ class PreferencesEditorViewController: NSViewController {
         }
 
         Storage.shared().resetCacheAttributes()
-        UserDefaultsManagement.codeTheme = item.title
+        
+        if let theme = EditorTheme(themeName: item.title) {
+            UserDefaultsManagement.codeTheme = theme
+        }
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {

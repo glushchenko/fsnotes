@@ -76,6 +76,7 @@ public struct HighlightStyle {
 
     public var font: PlatformFont = PlatformFont.systemFont(ofSize: 14)
     public var foregroundColor: PlatformColor = .black
+    public var backgroundColor: PlatformColor = .white
     public var styles: [String: TextStyle] = [:]
 
     public init() {}

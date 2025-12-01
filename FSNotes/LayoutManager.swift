@@ -25,10 +25,6 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     
     public var lineHeightMultiple: CGFloat = CGFloat(UserDefaultsManagement.lineHeightMultiple)
 
-    private var codeBlockBackgroundColor: NSColor {
-        return NSColor.init(hex: "#F1F1F1")
-    }
-
     private var defaultFont: NSFont {
         return self.firstTextView?.font ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
     }
@@ -150,7 +146,8 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             let radius: CGFloat = 5.0
             let path = CGPath(roundedRect: paddedRect, cornerWidth: radius, cornerHeight: radius, transform: nil)
 
-            context.setFillColor(self.codeBlockBackgroundColor.cgColor)
+            // Background
+            context.setFillColor(NotesTextProcessor.getHighlighter().options.style.backgroundColor.cgColor)
             context.addPath(path)
             context.fillPath()
 

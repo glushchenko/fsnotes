@@ -2470,7 +2470,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs" customClass="AboutImageView" customModule="FSNotes" customModuleProvider="target">
-                                <rect key="frame" x="228" y="461" width="67" height="70"/>
+                                <rect key="frame" x="229" y="461" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
@@ -2478,7 +2478,7 @@ Gw
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="228" y="400" width="67" height="17"/>
+                                <rect key="frame" x="229" y="400" width="67" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2489,7 +2489,7 @@ Gw
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="110" y="300" width="304" height="32"/>
+                                <rect key="frame" x="111" y="300" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Copyright © 2017-2024 Oleksandr Hlushchenko.
@@ -2502,7 +2502,7 @@ All rights reserved.</string>
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="189" y="425" width="146" height="16"/>
+                                <rect key="frame" x="190" y="425" width="146" height="16"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2515,7 +2515,7 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="488" height="32"/>
+                                <rect key="frame" x="18" y="20" width="490" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2528,7 +2528,7 @@ Olena Hlushcneko</string>
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
-                                <rect key="frame" x="219" y="60" width="85" height="16"/>
+                                <rect key="frame" x="220" y="60" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Icons design:" id="FKf-Ph-LiA">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2536,7 +2536,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="224" y="264" width="76" height="16"/>
+                                <rect key="frame" x="225" y="264" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2544,10 +2544,10 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="484" height="5"/>
+                                <rect key="frame" x="20" y="381" width="486" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="235" y="347" width="54" height="16"/>
+                                <rect key="frame" x="236" y="347" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2555,13 +2555,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="484" height="160"/>
+                                <rect key="frame" x="20" y="96" width="486" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="482" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="484" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="482" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="484" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2603,7 +2603,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="336.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="338.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -2616,11 +2616,11 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Svh-Z4-DD5">
-                                                            <rect key="frame" x="139.5" y="0.0" width="333" height="24"/>
+                                                            <rect key="frame" x="139.5" y="0.0" width="335" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
-                                                                    <rect key="frame" x="0.0" y="4" width="334" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="4" width="336" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zoX-MN-b3x">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3527,37 +3527,19 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xZA-pB-1nm">
-                                <rect key="frame" x="211" y="423" width="144" height="25"/>
+                                <rect key="frame" x="211" y="423" width="99" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="github" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="v1K-9W-2aB" id="ai1-t2-fc1">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="OOr-cO-sjv">
                                         <items>
-                                            <menuItem title="github" state="on" id="v1K-9W-2aB"/>
-                                            <menuItem title="solarized-light" id="SpX-N8-9td"/>
-                                            <menuItem title="solarized-dark" id="9Nw-oE-QJe"/>
-                                            <menuItem title="vs" id="cwc-a7-vkr">
+                                            <menuItem title="github" state="on" id="v1K-9W-2aB">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="atom-one-light" id="ME1-My-h4q">
+                                            <menuItem title="solarized" id="SpX-N8-9td">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="atom-one-dark" id="Rog-4H-qth">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="monokai-sublime" id="AaQ-hp-VpR">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="xcode" id="1Tz-tN-qVO">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="zenburn" id="FCZ-jz-Xb0">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="tomorrow" id="g18-hs-VcA">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="agate" id="xpl-3U-eFW">
+                                            <menuItem title="atom-one" id="ME1-My-h4q">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
                                         </items>

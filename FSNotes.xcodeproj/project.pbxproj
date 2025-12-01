@@ -47,6 +47,26 @@
 		11AF633F2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF63402E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11BD71662EDC87B700541BF9 /* classic-2025.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11BD71652EDC87B700541BF9 /* classic-2025.icon */; };
+		11BD8F922EDDEC3D000673A7 /* GitHubDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F912EDDEC33000673A7 /* GitHubDark.swift */; };
+		11BD8F932EDDEC3D000673A7 /* GitHubDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F912EDDEC33000673A7 /* GitHubDark.swift */; };
+		11BD8F942EDDEC3D000673A7 /* GitHubDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F912EDDEC33000673A7 /* GitHubDark.swift */; };
+		11BD8F962EDDF32E000673A7 /* SolarizedLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F952EDDF320000673A7 /* SolarizedLight.swift */; };
+		11BD8F972EDDF32E000673A7 /* SolarizedLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F952EDDF320000673A7 /* SolarizedLight.swift */; };
+		11BD8F982EDDF32E000673A7 /* SolarizedLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F952EDDF320000673A7 /* SolarizedLight.swift */; };
+		11BD8F9A2EDDF336000673A7 /* SolarizedDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F992EDDF332000673A7 /* SolarizedDark.swift */; };
+		11BD8F9B2EDDF336000673A7 /* SolarizedDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F992EDDF332000673A7 /* SolarizedDark.swift */; };
+		11BD8F9C2EDDF336000673A7 /* SolarizedDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F992EDDF332000673A7 /* SolarizedDark.swift */; };
+		11BD8F9E2EDE0235000673A7 /* AtomOneLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F9D2EDE022C000673A7 /* AtomOneLight.swift */; };
+		11BD8F9F2EDE0235000673A7 /* AtomOneLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F9D2EDE022C000673A7 /* AtomOneLight.swift */; };
+		11BD8FA02EDE0235000673A7 /* AtomOneLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F9D2EDE022C000673A7 /* AtomOneLight.swift */; };
+		11BD8FA22EDE024D000673A7 /* AtomOneDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8FA12EDE023E000673A7 /* AtomOneDark.swift */; };
+		11BD8FA32EDE024D000673A7 /* AtomOneDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8FA12EDE023E000673A7 /* AtomOneDark.swift */; };
+		11BD8FA42EDE024D000673A7 /* AtomOneDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8FA12EDE023E000673A7 /* AtomOneDark.swift */; };
+		11BD8FA62EDE0683000673A7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8FA52EDE0679000673A7 /* Theme.swift */; };
+		11BD8FA72EDE0683000673A7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8FA52EDE0679000673A7 /* Theme.swift */; };
+		11BD8FA82EDE0683000673A7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8FA52EDE0679000673A7 /* Theme.swift */; };
+		11BD8FAA2EDE1AF8000673A7 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
+		11BD8FAB2EDE1AF8000673A7 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
 		11D702A62E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
 		11D702A72E5ADDED004DBAEC /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */; };
 		11D702AC2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */; };
@@ -792,6 +812,12 @@
 		11A95B612EDC56DC0081ED29 /* modern.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = modern.icon; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
 		11BD71652EDC87B700541BF9 /* classic-2025.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "classic-2025.icon"; sourceTree = "<group>"; };
+		11BD8F912EDDEC33000673A7 /* GitHubDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubDark.swift; sourceTree = "<group>"; };
+		11BD8F952EDDF320000673A7 /* SolarizedLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarizedLight.swift; sourceTree = "<group>"; };
+		11BD8F992EDDF332000673A7 /* SolarizedDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarizedDark.swift; sourceTree = "<group>"; };
+		11BD8F9D2EDE022C000673A7 /* AtomOneLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomOneLight.swift; sourceTree = "<group>"; };
+		11BD8FA12EDE023E000673A7 /* AtomOneDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomOneDark.swift; sourceTree = "<group>"; };
+		11BD8FA52EDE0679000673A7 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		11D702A52E5ADDE2004DBAEC /* LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		11D702AB2E5B8E02004DBAEC /* HtmlExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlExtractor.swift; sourceTree = "<group>"; };
 		11D943192E643EF20010CC2B /* JavaScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScript.swift; sourceTree = "<group>"; };
@@ -1187,6 +1213,7 @@
 				11D943252E643F520010CC2B /* Themes */,
 				11D943182E643EE40010CC2B /* Languages */,
 				116182862E62B046005B5EE0 /* SwiftHighlighter.swift */,
+				11BD8FA52EDE0679000673A7 /* Theme.swift */,
 				1136855B2EC7A69C0033767F /* Platform.swift */,
 			);
 			path = SwiftHighlighter;
@@ -1206,6 +1233,11 @@
 		11D943252E643F520010CC2B /* Themes */ = {
 			isa = PBXGroup;
 			children = (
+				11BD8FA12EDE023E000673A7 /* AtomOneDark.swift */,
+				11BD8F9D2EDE022C000673A7 /* AtomOneLight.swift */,
+				11BD8F992EDDF332000673A7 /* SolarizedDark.swift */,
+				11BD8F952EDDF320000673A7 /* SolarizedLight.swift */,
+				11BD8F912EDDEC33000673A7 /* GitHubDark.swift */,
 				11D943262E643F5E0010CC2B /* GitHubLight.swift */,
 			);
 			path = Themes;
@@ -2352,6 +2384,7 @@
 				D7B4AC622471253100F3888A /* NoteMeta.swift in Sources */,
 				D75627D226D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D7E9FEBA2C4AA59D0025D8E3 /* SidebarItemType.swift in Sources */,
+				11BD8FAB2EDE1AF8000673A7 /* UserDataService.swift in Sources */,
 				D7CD5CC42181F7530009D63B /* Storage.swift in Sources */,
 				110E409F2EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				D7CD5CC6218209960009D63B /* Project.swift in Sources */,
@@ -2384,8 +2417,11 @@
 				D794559A27C1B3F9000C283F /* ExternalViewController.swift in Sources */,
 				8F7136F023490CBF004DFA6E /* Markdown.swift in Sources */,
 				D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */,
+				11BD8F9B2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
+				11BD8F972EDDF32E000673A7 /* SolarizedLight.swift in Sources */,
 				D70E9DF12901AE9B00A3C634 /* KeyAuthentication.swift in Sources */,
 				D7A9C1DC29107B7600905619 /* Reference+Target.swift in Sources */,
+				11BD8FAA2EDE1AF8000673A7 /* UserDataService.swift in Sources */,
 				D71FD21F2101B2D5008BEFA1 /* NoteAttachment.swift in Sources */,
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
 				D70E9E122901AEE100A3C634 /* FileHistoryIterator.swift in Sources */,
@@ -2421,6 +2457,7 @@
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
 				D70E9E052901AEC400A3C634 /* Index+Files.swift in Sources */,
 				D70E9DF82901AEAF00A3C634 /* Strings.swift in Sources */,
+				11BD8FA72EDE0683000673A7 /* Theme.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D70E9E022901AEBF00A3C634 /* Head.swift in Sources */,
 				11598DA32EDCB8D40036E387 /* UIFont+.swift in Sources */,
@@ -2449,6 +2486,7 @@
 				D70E9E0D2901AEDA00A3C634 /* Repository+Commit.swift in Sources */,
 				D70E9E192901AEF900A3C634 /* TreeEntry.swift in Sources */,
 				D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */,
+				11BD8F942EDDEC3D000673A7 /* GitHubDark.swift in Sources */,
 				D750345F285F81F300086424 /* URL+.swift in Sources */,
 				D7680FB525D02B2C00810DA8 /* FileManager+.swift in Sources */,
 				D7BDFE6A201F68B700897A58 /* NotesTableView.swift in Sources */,
@@ -2469,6 +2507,7 @@
 				D71760932826CAC4009794D8 /* MPreviewView.swift in Sources */,
 				D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */,
 				D77AD7FF27F9D1C90077BD45 /* Data+.swift in Sources */,
+				11BD8F9E2EDE0235000673A7 /* AtomOneLight.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,
 				D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */,
 				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
@@ -2498,6 +2537,7 @@
 				D70E9DFD2901AEAF00A3C634 /* OID.swift in Sources */,
 				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
 				D70E9E162901AEF300A3C634 /* TagIterator.swift in Sources */,
+				11BD8FA22EDE024D000673A7 /* AtomOneDark.swift in Sources */,
 				D7A9C1D92910784400905619 /* Project+Git.swift in Sources */,
 				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
 				D7EDEDFD21920402000B8C1A /* NoteCellView+.swift in Sources */,
@@ -2611,6 +2651,7 @@
 				D73BCCEF28EB5EC4008B3BBC /* Head+Merge.swift in Sources */,
 				D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D7B4AC5E2471253100F3888A /* NoteMeta.swift in Sources */,
+				11BD8F932EDDEC3D000673A7 /* GitHubDark.swift in Sources */,
 				D730BD27222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7487FD821738A1900D09383 /* NSImage+.swift in Sources */,
 				11D9431A2E643EF40010CC2B /* JavaScript.swift in Sources */,
@@ -2627,11 +2668,13 @@
 				D77F89DF28D38B5D00BECC87 /* ViewController+Web.swift in Sources */,
 				D73BCD0128EB5EC4008B3BBC /* Repository+Lookup.swift in Sources */,
 				D7E51713220D814D00A9CAD9 /* UTI.swift in Sources */,
+				11BD8FA32EDE024D000673A7 /* AtomOneDark.swift in Sources */,
 				D71B9D862868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
 				D730829223084340003185D1 /* MPreviewView.swift in Sources */,
 				D75EE7FA2078B3C00055F159 /* Sidebar.swift in Sources */,
 				D70B1FAB29213EDF003923DC /* HyperlinkTextField.swift in Sources */,
 				1166D1F72E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
+				11BD8FA02EDE0235000673A7 /* AtomOneLight.swift in Sources */,
 				11D702AD2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */,
 				D7D1DE68216D05A800AC1845 /* NameTextField.swift in Sources */,
 				D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */,
@@ -2647,6 +2690,7 @@
 				D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */,
 				113685602EC7A6A50033767F /* Platform.swift in Sources */,
 				D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
+				11BD8F982EDDF32E000673A7 /* SolarizedLight.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */,
 				D7CCEDB92C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AA29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
@@ -2678,6 +2722,7 @@
 				D7A9C1D62910784400905619 /* Project+Git.swift in Sources */,
 				D7153DFD2285A93300A2C20F /* AboutWindowController.swift in Sources */,
 				D74D479F256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
+				11BD8F9C2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
 				8F7136EE23490CBF004DFA6E /* Markdown.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
@@ -2711,6 +2756,7 @@
 				D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
 				D7104A64230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627CE26D1165A000AF6EA /* ImageFormat.swift in Sources */,
+				11BD8FA82EDE0683000673A7 /* Theme.swift in Sources */,
 				D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */,
 				D78678CB2093AE10001A6620 /* UndoData.swift in Sources */,
 				D7E32C2C28F8D0740048614B /* StaticSshKeyDelegate.swift in Sources */,
@@ -2799,6 +2845,7 @@
 				D7E81C2E1F925B5F00416A91 /* PrefsWindowController.swift in Sources */,
 				D783B506208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
 				D7B4AC5F2471253100F3888A /* NoteMeta.swift in Sources */,
+				11BD8F922EDDEC3D000673A7 /* GitHubDark.swift in Sources */,
 				D730BD28222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7487FD721738A1800D09383 /* NSImage+.swift in Sources */,
 				11D9431B2E643EF40010CC2B /* JavaScript.swift in Sources */,
@@ -2815,11 +2862,13 @@
 				D73BCD0228EB5EC4008B3BBC /* Repository+Lookup.swift in Sources */,
 				D7E51714220D814D00A9CAD9 /* UTI.swift in Sources */,
 				D71B9D872868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
+				11BD8FA42EDE024D000673A7 /* AtomOneDark.swift in Sources */,
 				D730829323084340003185D1 /* MPreviewView.swift in Sources */,
 				D7E81C321F925B5F00416A91 /* PrefsViewController.swift in Sources */,
 				D70B1FAC29213EE0003923DC /* HyperlinkTextField.swift in Sources */,
 				D76025B3204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				1166D1F82E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
+				11BD8F9F2EDE0235000673A7 /* AtomOneLight.swift in Sources */,
 				11D702AE2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */,
 				D7D1DE69216D05A800AC1845 /* NameTextField.swift in Sources */,
 				D7038E2720FB24E000A54E69 /* NoteAttachment.swift in Sources */,
@@ -2835,6 +2884,7 @@
 				D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */,
 				1136855C2EC7A6A50033767F /* Platform.swift in Sources */,
 				D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
+				11BD8F962EDDF32E000673A7 /* SolarizedLight.swift in Sources */,
 				D7470D082170E890006B2A92 /* NSTextStorage++.swift in Sources */,
 				D7CCEDBA2C6BA2F300A3BB83 /* ClickableTextField.swift in Sources */,
 				D72682AB29BE8E2000F6E961 /* RepositoryAction.swift in Sources */,
@@ -2866,6 +2916,7 @@
 				D7A9C1D72910784400905619 /* Project+Git.swift in Sources */,
 				D7153DFE2285A93300A2C20F /* AboutWindowController.swift in Sources */,
 				D74D47A0256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
+				11BD8F9A2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D7767C7F234E47B9006A0716 /* Markdown.swift in Sources */,
 				D7E81C3D1F925B5F00416A91 /* SandboxBookmark.swift in Sources */,
@@ -2899,6 +2950,7 @@
 				D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
 				D7104A65230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627CF26D1165A000AF6EA /* ImageFormat.swift in Sources */,
+				11BD8FA62EDE0683000673A7 /* Theme.swift in Sources */,
 				D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */,
 				D78678CC2093AE10001A6620 /* UndoData.swift in Sources */,
 				D7E32C2D28F8D0750048614B /* StaticSshKeyDelegate.swift in Sources */,

@@ -164,6 +164,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         super.viewDidLoad()
+        
+        configureToolbar()
     }
 
     @objc public func didBecomeActive() {
@@ -334,7 +336,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         navigationItem.searchController = searchController
-        configureToolbar()
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     public func configureToolbar() {
@@ -364,7 +366,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         toolbarItems = items
-        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     private func needsRightPadding() -> Bool {

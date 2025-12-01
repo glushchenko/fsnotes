@@ -67,7 +67,7 @@ public class UserDefaultsManagement {
         static let CodeFontSizeKey = "codeFontSize"
         static let codeBlockHighlight = "codeBlockHighlight"
         static let CodeBlocksWithSyntaxHighlighting = "codeBlocksWithSyntaxHighlighting"
-        static let codeTheme = "codeTheme"
+        static let codeTheme = "codeTheme2025"
         static let ContinuousSpellChecking = "continuousSpellChecking"
         static let CrashedLastTime = "crashedLastTime"
         static let CustomWebServer = "customWebServer"
@@ -1748,4 +1748,21 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.CodeFontSizeKey)
         }
     }
+
+#if !SHARE_EXT
+    static var codeTheme: EditorTheme {
+            get {
+            guard
+                let raw = UserDefaults.standard.string(forKey: Constants.codeTheme),
+                let theme = EditorTheme(rawValue: raw)
+            else {
+                return .atomOne
+            }
+            return theme
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.codeTheme)
+        }
+    }
+#endif
 }

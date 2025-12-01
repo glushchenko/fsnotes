@@ -801,7 +801,7 @@
     },
     "1Tz-tN-qVO.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"xcode\"; ObjectID = \"1Tz-tN-qVO\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5931,7 +5931,7 @@
     },
     "9Nw-oE-QJe.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"solarized-dark\"; ObjectID = \"9Nw-oE-QJe\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -7641,7 +7641,7 @@
     },
     "AaQ-hp-VpR.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"monokai-sublime\"; ObjectID = \"AaQ-hp-VpR\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -11175,7 +11175,7 @@
     },
     "cwc-a7-vkr.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"vs\"; ObjectID = \"cwc-a7-vkr\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -15279,7 +15279,7 @@
     },
     "FCZ-jz-Xb0.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"zenburn\"; ObjectID = \"FCZ-jz-Xb0\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -16989,7 +16989,7 @@
     },
     "g18-hs-VcA.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"tomorrow\"; ObjectID = \"g18-hs-VcA\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -25538,114 +25538,114 @@
       }
     },
     "ME1-My-h4q.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"atom-one-light\"; ObjectID = \"ME1-My-h4q\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"atom-one\"; ObjectID = \"ME1-My-h4q\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "atom-one-light"
+            "value" : "atom-one"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Atom One Light"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "atom-one-light"
           }
         }
@@ -33177,7 +33177,7 @@
     },
     "Rog-4H-qth.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"atom-one-dark\"; ObjectID = \"Rog-4H-qth\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -35342,114 +35342,114 @@
       }
     },
     "SpX-N8-9td.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"solarized-light\"; ObjectID = \"SpX-N8-9td\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"solarized\"; ObjectID = \"SpX-N8-9td\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "solarized-light"
+            "value" : "solarized"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Solarized Light"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Salaried-light"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "solarized-light"
           }
         }
@@ -41955,7 +41955,7 @@
     },
     "xpl-3U-eFW.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"agate\"; ObjectID = \"xpl-3U-eFW\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

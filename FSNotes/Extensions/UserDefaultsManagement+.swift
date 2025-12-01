@@ -116,37 +116,6 @@ extension UserDefaultsManagement {
         }
     }
 
-    static var codeTheme: String {
-        get {
-            if #available(OSX 10.14, *) {
-                if UserDataService.instance.isDark {
-                    if let theme = UserDefaults.standard.object(forKey: Constants.codeThemeDark) as? String {
-                        return theme
-                    }
-
-                    return "monokai-sublime"
-                }
-            }
-
-            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
-                return theme
-            }
-
-            return "github"
-        }
-        set {
-            if #available(OSX 10.14, *) {
-                if UserDataService.instance.isDark {
-                    UserDefaults.standard.set(newValue, forKey: Constants.codeThemeDark)
-
-                    return
-                }
-            }
-
-            UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
-        }
-    }
-
     static var dockIcon: Int {
         get {
             if let tag = UserDefaults.standard.object(forKey: Constants.dockIcon) as? Int {

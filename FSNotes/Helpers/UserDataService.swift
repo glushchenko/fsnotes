@@ -8,6 +8,10 @@
 
 import Foundation
 
+#if os(iOS)
+import UIKit
+#endif
+
 public class UserDataService {
     public static let instance = UserDataService()
 
@@ -51,7 +55,11 @@ public class UserDataService {
 
     public var isDark: Bool {
         get {
+        #if os(iOS)
+            return UITraitCollection.current.userInterfaceStyle == .dark
+        #else
             return _isDark
+        #endif
         }
         set {
             _isDark = newValue

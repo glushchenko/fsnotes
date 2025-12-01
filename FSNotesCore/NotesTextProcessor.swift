@@ -50,20 +50,19 @@ public class NotesTextProcessor {
     
     public static var yamlOpenerColor = Color.systemRed
     
+    public static var codeBackground: PlatformColor {
+        get {
+            let isDark = UserDataService.instance.isDark
+            let editorTheme = UserDefaultsManagement.codeTheme.makeStyle(isDark: isDark)
+            
+            return editorTheme.backgroundColor
+        }
+    }
+    
 #if os(OSX)
     public static var font: NSFont {
         get {
             return UserDefaultsManagement.noteFont
-        }
-    }
-
-    public static var codeBackground: NSColor {
-        get {
-            if let theme = HighlighterTheme(rawValue: UserDefaultsManagement.codeTheme) {
-                return PlatformColor(hex: theme.backgroundHex)
-            }
-
-            return NSColor(named: "code") ?? NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         }
     }
 
@@ -82,16 +81,6 @@ public class NotesTextProcessor {
     public static var font: UIFont {
         get {
             return UserDefaultsManagement.noteFont
-        }
-    }
-
-    public static var codeBackground: UIColor {
-        get {
-            if let theme = HighlighterTheme(rawValue: UserDefaultsManagement.codeTheme) {
-                return UIColor.getBy(hex: theme.backgroundHex)
-            }
-
-            return UIColor.codeBackground
         }
     }
 
@@ -138,7 +127,9 @@ public class NotesTextProcessor {
             return instance
         }
 
-        let highlighter = SwiftHighlighter(options: .init(style: GitHubLightTheme.make()))
+        let isDark = UserDataService.instance.isDark
+        let style = UserDefaultsManagement.codeTheme.makeStyle(isDark: isDark)
+        let highlighter = SwiftHighlighter(options: .init(style: style))
         self.hl = highlighter
         
         return highlighter

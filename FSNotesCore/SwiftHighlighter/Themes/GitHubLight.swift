@@ -16,7 +16,9 @@ struct GitHubLightTheme {
     static func make() -> HighlightStyle {
         var style = HighlightStyle()
         style.font = UserDefaultsManagement.codeFont
+        
         style.foregroundColor = UserDefaultsManagement.fontColor
+        style.backgroundColor = PlatformColor(hex: "#F1F1F1")
 
         style.styles["keyword"]   = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"), traits: [.bold])
         style.styles["string"]    = HighlightStyle.TextStyle(color: PlatformColor(hex: "#dd1144"))
