@@ -251,7 +251,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             fill(note: note)
 
             if keyboardIsOpen {
-                editArea.becomeFirstResponder()
+                _ = editArea.becomeFirstResponder()
             }
         }
     }

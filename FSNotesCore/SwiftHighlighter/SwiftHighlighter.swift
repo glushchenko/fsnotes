@@ -157,6 +157,23 @@ public class SwiftHighlighter {
             self.registerLanguage("php", definition: PHPLanguage())
             self.registerLanguage("javascript", definition: JavaScriptLanguage())
             self.registerLanguage("sql", definition: SQLLanguage())
+            self.registerLanguage("python", definition: PythonLanguage())
+            self.registerLanguage("c", definition: CLanguage())
+            self.registerLanguage("cpp", definition: CPlusPlusLanguage())
+            self.registerLanguage("java", definition: JavaLanguage())
+            self.registerLanguage("go", definition: GoLanguage())
+            self.registerLanguage("rust", definition: RustLanguage())
+            self.registerLanguage("csharp", definition: CSharpLanguage())
+            self.registerLanguage("kotlin", definition: KotlinLanguage())
+            self.registerLanguage("r", definition: RLanguage())
+            self.registerLanguage("ruby", definition: RubyLanguage())
+            self.registerLanguage("matlab", definition: MatlabLanguage())
+            self.registerLanguage("dart", definition: DartLanguage())
+            self.registerLanguage("vb", definition: VisualBasicLanguage())
+            self.registerLanguage("assembly", definition: AssemblyLanguage())
+            self.registerLanguage("scratch", definition: ScratchLanguage())
+            self.registerLanguage("groovy", definition: GroovyLanguage())
+            self.registerLanguage("objectivec", definition: ObjectiveCLanguage())
         }
     }
 

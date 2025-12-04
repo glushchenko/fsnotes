@@ -299,6 +299,18 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         return false
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        guard traitCollection.hasDifferentColorAppearance(
+            comparedTo: previousTraitCollection
+        ) else { return }
+
+        NotesTextProcessor.hl = nil
+        
+        UIApplication.getEVC().refill()
+    }
 }
 
 struct Undo {

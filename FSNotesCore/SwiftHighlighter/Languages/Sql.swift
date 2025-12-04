@@ -94,30 +94,17 @@ struct SQLLanguage: LanguageDefinition {
     ]
 
     let contains: [Mode] = [
-        // Комментарии (должны быть первыми!)
         Mode(scope: "comment", begin: "--.*$"),
         Mode(scope: "comment", begin: "#.*$"),
         Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
-
-        // Строки (приоритет выше чем идентификаторы)
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)*'"),
         Mode(scope: "string", begin: "\"(?:[^\"\\\\]|\\\\.)*\""),
-        
-        // Числа
         Mode(scope: "number", begin: "\\b(?:0[xX][0-9a-fA-F]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)\\b"),
-
-        // Переменные (для MySQL, PostgreSQL)
         Mode(scope: "variable", begin: "@[a-zA-Z_][a-zA-Z0-9_]*\\b"),
         Mode(scope: "variable", begin: "@@[a-zA-Z_][a-zA-Z0-9_]*\\b"),
         Mode(scope: "variable", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*\\b"),
-        
-        // Идентификаторы в обратных кавычках (для MySQL)
         Mode(scope: "class", begin: "`([a-zA-Z_][a-zA-Z0-9_]*)`"),
-        
-        // Простые функции (имя перед скобкой)
         Mode(scope: "function", begin: "\\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*\\()"),
-        
-        // Операторы
         Mode(scope: "operator", begin: "\\+|\\-|\\*|/|%|=|!=|<>|<=|>=|<|>|\\|\\||&&")
     ]
 }
