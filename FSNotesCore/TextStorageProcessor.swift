@@ -72,22 +72,16 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
         if let ranges = result.code {
             for range in ranges {
-                // print("added code block \(range)")
-                let language = NotesTextProcessor.getLanguage(from: textStorage, startingAt: range.location)
-
                 NotesTextProcessor
                     .getHighlighter()
-                    .highlight(in: textStorage, range: range, language: language)
+                    .highlight(in: textStorage, fullRange: range)
             }
         }
 
         if let editedBlock = result.edited, let editedParagraph = result.editedParagraph {
-            // print("edited paragraph \(editedParagraph) in block \(editedBlock)")
-            let language = NotesTextProcessor.getLanguage(from: textStorage, startingAt: editedBlock.location)
-
             NotesTextProcessor
                 .getHighlighter()
-                .highlight(in: textStorage, range: editedParagraph, language: language, skipTicks: true)
+                .highlight(in: textStorage, fullRange: editedBlock, editedRange: editedParagraph)
         }
 
         if let ranges = result.md {

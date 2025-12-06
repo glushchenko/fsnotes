@@ -156,30 +156,6 @@ public class NotesTextProcessor {
         return codeSpan
     }
 
-    public static func getLanguage(from attributedString: NSMutableAttributedString, startingAt start: Int) -> String? {
-        let s = attributedString.string
-        guard start >= 0, start < s.count else { return nil }
-
-        let startIndex = s.index(s.startIndex, offsetBy: start)
-        let remaining = s[startIndex...]
-
-        // Starts with ```
-        guard remaining.hasPrefix("```") else { return nil }
-
-        // Move index by 3
-        guard let afterBackticks = s.index(startIndex, offsetBy: 3, limitedBy: s.endIndex) else { return nil }
-        
-        var index = afterBackticks
-        let endIndex = s.endIndex
-        
-        // Search for language before space or line break
-        while index < endIndex, s[index] != "\n", s[index] != " " {
-            index = s.index(after: index)
-        }
-        
-        return index == afterBackticks ? nil : String(s[afterBackticks..<index])
-    }
-
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
@@ -299,11 +275,9 @@ public class NotesTextProcessor {
         NotesTextProcessor.highlightMarkdown(attributedString: attributedString, codeBlockRanges: ranges)
 
         for range in ranges {
-            let language = NotesTextProcessor.getLanguage(from: attributedString, startingAt: range.location)
-
             NotesTextProcessor
                 .getHighlighter()
-                .highlight(in: attributedString, range: range, language: language)
+                .highlight(in: attributedString, fullRange: range)
         }
     }
 

@@ -39,10 +39,11 @@ public struct Mode {
         self.contains = contains
 
         if let begin = begin {
-            self._beginRegex = try? NSRegularExpression(pattern: begin, options: [])
+            self._beginRegex = try? NSRegularExpression(pattern: begin, options: [.anchorsMatchLines])
         }
+        
         if let end = end {
-            self._endRegex = try? NSRegularExpression(pattern: end, options: [])
+            self._endRegex = try? NSRegularExpression(pattern: end, options: [.anchorsMatchLines])
         }
     }
 
@@ -174,6 +175,9 @@ public class SwiftHighlighter {
             self.registerLanguage("scratch", definition: ScratchLanguage())
             self.registerLanguage("groovy", definition: GroovyLanguage())
             self.registerLanguage("objectivec", definition: ObjectiveCLanguage())
+            self.registerLanguage("scala", definition: ScalaLanguage())
+            self.registerLanguage("bash", definition: BashLanguage())
+            self.registerLanguage("haskell", definition: HaskellLanguage())
         }
     }
 
@@ -294,38 +298,115 @@ public class SwiftHighlighter {
         return matches
     }
 
-    public func highlight(in attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil, skipTicks: Bool = false) {
-        guard let plainRange = Range(range, in: attributedString.string) else { return }
-        guard let language = language, let langDef = getLanguage(language) else { return }
-
-        let substring = String(attributedString.string[plainRange])
-
-        // Reset code font
+    public func highlight(
+        in attributedString: NSMutableAttributedString,
+        fullRange: NSRange,
+        editedRange: NSRange? = nil
+    ) {
+        let language = getLanguage(from: attributedString, startingAt: fullRange.location)
+        let langDefinition = language.flatMap { getLanguage($0) }
+        
+        let shouldHighlightTicks = editedRange.map { fullRange.location == $0.location } ?? true
+        let codeRange = calculateCodeRange(
+            fullRange: fullRange,
+            editedRange: editedRange,
+            language: language
+        )
+        
+        // Reset formatting (no language)
         attributedString.addAttributes([
             .font: options.style.font,
             .foregroundColor: options.style.foregroundColor
-        ], range: range)
-
-        let matches = processLanguage(langDef, text: substring)
-        renderer.apply(matches: matches, to: attributedString, offset: range.location)
-
-        attributedString.fixAttributes(in: range)
-
-        // Highlight back ticks
-        if !skipTicks {
-            let  color = Color.init(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.00)
-            let langRange = NSRange(location: range.location + 3, length: language.count)
-            attributedString.addAttribute(.foregroundColor, value: color, range: langRange)
-
-            // Open range font and foreground
-            let openRange = NSRange(location: range.location, length: 3)
-            attributedString.addAttribute(.foregroundColor, value: Color.lightGray, range: openRange)
-            attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: openRange)
-
-            // Close range foreground
-            let closeRange = NSRange(location: range.upperBound - 4, length: 4)
-            attributedString.addAttribute(.foregroundColor, value: Color.lightGray, range: closeRange)
+        ], range: codeRange)
+        
+        // Apply code highlighting
+        if let langDefinition = langDefinition,
+           codeRange.length > 0,
+           let codePlainRange = Range(codeRange, in: attributedString.string) {
+            let codeText = String(attributedString.string[codePlainRange])
+            let matches = processLanguage(langDefinition, text: codeText)
+            renderer.apply(matches: matches, to: attributedString, offset: codeRange.location)
         }
+        
+        attributedString.fixAttributes(in: codeRange)
+        
+        // Appply ticks and lang highlighting
+        if shouldHighlightTicks {
+            highlightCodeBlockDelimiters(
+                in: attributedString,
+                range: fullRange,
+                language: language,
+                hasLanguageDefinition: langDefinition != nil
+            )
+        }
+    }
+
+    private func calculateCodeRange(
+        fullRange: NSRange,
+        editedRange: NSRange?,
+        language: String?
+    ) -> NSRange {
+        if let editedRange = editedRange, fullRange.location != editedRange.location {
+            return editedRange
+        }
+        
+        let codeStartOffset = language.map { 3 + $0.count } ?? 0
+        
+        return NSRange(
+            location: fullRange.location + codeStartOffset,
+            length: max(0, fullRange.length - codeStartOffset)
+        )
+    }
+
+    private func highlightCodeBlockDelimiters(
+        in attributedString: NSMutableAttributedString,
+        range: NSRange,
+        language: String?,
+        hasLanguageDefinition: Bool
+    ) {
+        let grayColor = Color.lightGray
+        let greenColor = Color(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.0)
+        
+        // open ```
+        let openRange = NSRange(location: range.location, length: 3)
+        attributedString.addAttributes([
+            .foregroundColor: grayColor,
+            .font: NotesTextProcessor.codeFont
+        ], range: openRange)
+        
+        // lang
+        if hasLanguageDefinition, let language = language, !language.isEmpty {
+            let langRange = NSRange(location: range.location + 3, length: language.count)
+            attributedString.addAttribute(.foregroundColor, value: greenColor, range: langRange)
+        }
+        
+        // close ```
+        let closeRange = NSRange(location: range.upperBound - 4, length: 4)
+        attributedString.addAttribute(.foregroundColor, value: grayColor, range: closeRange)
+    }
+    
+    private func getLanguage(from attributedString: NSMutableAttributedString, startingAt start: Int) -> String? {
+        let s = attributedString.string
+        guard start >= 0, start < s.count else { return nil }
+
+        let startIndex = s.index(s.startIndex, offsetBy: start)
+        let remaining = s[startIndex...]
+
+        // Starts with ```
+        guard remaining.hasPrefix("```") else { return nil }
+
+        // Move index by 3
+        guard let afterBackticks = s.index(startIndex, offsetBy: 3, limitedBy: s.endIndex) else { return nil }
+        
+        var index = afterBackticks
+        let endIndex = s.endIndex
+        
+        // Search for language before space or line break
+        while index < endIndex, s[index] != "\n", s[index] != " " {
+            index = s.index(after: index)
+        }
+        
+        return index == afterBackticks ? nil : String(s[afterBackticks..<index]).trim()
     }
 }
 

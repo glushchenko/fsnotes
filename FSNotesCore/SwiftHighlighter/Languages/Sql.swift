@@ -95,7 +95,7 @@ struct SQLLanguage: LanguageDefinition {
 
     let contains: [Mode] = [
         Mode(scope: "comment", begin: "--.*$"),
-        Mode(scope: "comment", begin: "#.*$"),
+        Mode(scope: "comment", begin: "\\#.*$"),
         Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)*'"),
         Mode(scope: "string", begin: "\"(?:[^\"\\\\]|\\\\.)*\""),

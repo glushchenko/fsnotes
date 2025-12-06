@@ -848,7 +848,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string),
             NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.fileURL) == nil {
 
-            let attributed = NSMutableAttributedString(string: clipboard)
+            let attributed = NSMutableAttributedString(string: clipboard.trim())
             attributed.loadTasks()
 
             breakUndoCoalescing()

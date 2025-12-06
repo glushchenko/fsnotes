@@ -21,7 +21,7 @@ class CodeBlockDetector {
     private var previousRanges: [NSRange] = []
 
     init() {
-        self.pattern = "(?<=\\n|\\A)```[a-zA-Z0-9() \t]*\\n([\\s\\S]*?)\\n```(?=\\n|\\Z)"
+        self.pattern = "(?<=\\n|\\A)```[a-zA-Z0-9]*\\n([\\s\\S]*?)\\n```(?=\\n|\\Z)"
 
         do {
             self.regex = try NSRegularExpression(pattern: pattern, options: [])

@@ -67,6 +67,15 @@
 		11BD8FA82EDE0683000673A7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8FA52EDE0679000673A7 /* Theme.swift */; };
 		11BD8FAA2EDE1AF8000673A7 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
 		11BD8FAB2EDE1AF8000673A7 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
+		11BF066A2EE331B5006C7336 /* Scala.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF06692EE331B2006C7336 /* Scala.swift */; };
+		11BF066B2EE331B5006C7336 /* Scala.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF06692EE331B2006C7336 /* Scala.swift */; };
+		11BF066C2EE331B5006C7336 /* Scala.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF06692EE331B2006C7336 /* Scala.swift */; };
+		11BF066E2EE33201006C7336 /* Bash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF066D2EE331FE006C7336 /* Bash.swift */; };
+		11BF066F2EE33201006C7336 /* Bash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF066D2EE331FE006C7336 /* Bash.swift */; };
+		11BF06702EE33201006C7336 /* Bash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF066D2EE331FE006C7336 /* Bash.swift */; };
+		11BF06722EE33262006C7336 /* Haskell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF06712EE3325F006C7336 /* Haskell.swift */; };
+		11BF06732EE33262006C7336 /* Haskell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF06712EE3325F006C7336 /* Haskell.swift */; };
+		11BF06742EE33262006C7336 /* Haskell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BF06712EE3325F006C7336 /* Haskell.swift */; };
 		11D6C0C72EE2256B006017F0 /* Python.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0C62EE22567006017F0 /* Python.swift */; };
 		11D6C0C82EE2256B006017F0 /* Python.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0C62EE22567006017F0 /* Python.swift */; };
 		11D6C0C92EE2256B006017F0 /* Python.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0C62EE22567006017F0 /* Python.swift */; };
@@ -869,6 +878,9 @@
 		11BD8F9D2EDE022C000673A7 /* AtomOneLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomOneLight.swift; sourceTree = "<group>"; };
 		11BD8FA12EDE023E000673A7 /* AtomOneDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomOneDark.swift; sourceTree = "<group>"; };
 		11BD8FA52EDE0679000673A7 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		11BF06692EE331B2006C7336 /* Scala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scala.swift; sourceTree = "<group>"; };
+		11BF066D2EE331FE006C7336 /* Bash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bash.swift; sourceTree = "<group>"; };
+		11BF06712EE3325F006C7336 /* Haskell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haskell.swift; sourceTree = "<group>"; };
 		11D6C0C62EE22567006017F0 /* Python.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Python.swift; sourceTree = "<group>"; };
 		11D6C0CA2EE225E1006017F0 /* C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C.swift; sourceTree = "<group>"; };
 		11D6C0CE2EE22799006017F0 /* CPlusPlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPlusPlus.swift; sourceTree = "<group>"; };
@@ -1290,6 +1302,9 @@
 		11D943182E643EE40010CC2B /* Languages */ = {
 			isa = PBXGroup;
 			children = (
+				11BF06712EE3325F006C7336 /* Haskell.swift */,
+				11BF066D2EE331FE006C7336 /* Bash.swift */,
+				11BF06692EE331B2006C7336 /* Scala.swift */,
 				11D6C1062EE22EE8006017F0 /* ObjectiveC.swift */,
 				11D6C1022EE22E8B006017F0 /* Groovy.swift */,
 				11D6C0FE2EE22E48006017F0 /* Scratch.swift */,
@@ -2536,6 +2551,7 @@
 				D7503460285F827800086424 /* DateFormatter+.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				1136856A2EC8AE2F0033767F /* UIBarButtonItem+.swift in Sources */,
+				11BF066B2EE331B5006C7336 /* Scala.swift in Sources */,
 				D75629B327D4DE9F00F55588 /* CodeThemeViewController.swift in Sources */,
 				D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */,
 				113685682EC889E20033767F /* SceneDelegate.swift in Sources */,
@@ -2616,6 +2632,7 @@
 				D714749B279CE8EE001A8B29 /* MainNavigationController.swift in Sources */,
 				11D6C0EC2EE22C6B006017F0 /* Ruby.swift in Sources */,
 				D750345E285F817D00086424 /* String+.swift in Sources */,
+				11BF06702EE33201006C7336 /* Bash.swift in Sources */,
 				D714749D279D7DBC001A8B29 /* SearchQuery.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D70E9DF22901AE9E00A3C634 /* Authentication.swift in Sources */,
@@ -2657,6 +2674,7 @@
 				11D943222E643F410010CC2B /* Php.swift in Sources */,
 				1161828F2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
 				D7C33F6E29E09A690006C473 /* AppIconViewController.swift in Sources */,
+				11BF06742EE33262006C7336 /* Haskell.swift in Sources */,
 				D70E9DFE2901AEAF00A3C634 /* StaticSshKeyDelegate.swift in Sources */,
 				D7E7DB3327A9B17000408725 /* DatePickerViewController.swift in Sources */,
 				D71B9D892868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
@@ -2720,6 +2738,7 @@
 				D7B13DBD2C64F445008EBCAA /* Printer.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
 				D77A12382C469AD0001B388B /* SearchQuery.swift in Sources */,
+				11BF06722EE33262006C7336 /* Haskell.swift in Sources */,
 				11D6C0E42EE22BF2006017F0 /* Kotlin.swift in Sources */,
 				D7D3D2A427BEEA61001C1497 /* Note+History.swift in Sources */,
 				D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */,
@@ -2843,6 +2862,7 @@
 				D730BD3C222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7153E052285C09C00A2C20F /* AboutViewController.swift in Sources */,
 				D73BCCB928EB5EC3008B3BBC /* Tag.swift in Sources */,
+				11BF066A2EE331B5006C7336 /* Scala.swift in Sources */,
 				11D6C0F52EE22D3B006017F0 /* Dart.swift in Sources */,
 				D768D75C245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
@@ -2869,6 +2889,7 @@
 				11D9431F2E643F250010CC2B /* Swift.swift in Sources */,
 				D73BCCA428EB5EC3008B3BBC /* Progress.swift in Sources */,
 				D73BCCB628EB5EC3008B3BBC /* Tags.swift in Sources */,
+				11BF066E2EE33201006C7336 /* Bash.swift in Sources */,
 				D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
 				D7104A64230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627CE26D1165A000AF6EA /* ImageFormat.swift in Sources */,
@@ -2931,6 +2952,7 @@
 				D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */,
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
 				D77A12372C469ACF001B388B /* SearchQuery.swift in Sources */,
+				11BF06732EE33262006C7336 /* Haskell.swift in Sources */,
 				11D6C0E32EE22BF2006017F0 /* Kotlin.swift in Sources */,
 				D7D3D2A527BEEA62001C1497 /* Note+History.swift in Sources */,
 				D73BCCF628EB5EC4008B3BBC /* Tree.swift in Sources */,
@@ -3054,6 +3076,7 @@
 				D730BD3D222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7153E062285C09C00A2C20F /* AboutViewController.swift in Sources */,
 				D73BCCBA28EB5EC3008B3BBC /* Tag.swift in Sources */,
+				11BF066C2EE331B5006C7336 /* Scala.swift in Sources */,
 				11D6C0F42EE22D3B006017F0 /* Dart.swift in Sources */,
 				D768D75D245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
@@ -3080,6 +3103,7 @@
 				11D943202E643F250010CC2B /* Swift.swift in Sources */,
 				D73BCCB728EB5EC3008B3BBC /* Tags.swift in Sources */,
 				D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
+				11BF066F2EE33201006C7336 /* Bash.swift in Sources */,
 				D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */,
 				D7104A65230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627CF26D1165A000AF6EA /* ImageFormat.swift in Sources */,

@@ -8,7 +8,7 @@
 
 struct AssemblyLanguage: LanguageDefinition {
     let name = "Assembly"
-    let aliases: [String]? = ["asm", "s", "asm86", "nasm", "masm", "gas"]
+    let aliases: [String]? = ["asm", "asm86", "nasm", "masm", "gas"]
     let caseInsensitive = true
     let keywords: [String: [String]]? = [
         "keyword": [
