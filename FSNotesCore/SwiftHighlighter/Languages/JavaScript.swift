@@ -34,21 +34,19 @@ struct JavaScriptLanguage: LanguageDefinition {
     ]
 
     let contains: [Mode] = [
-        // Однострочные комментарии
         Mode(scope: "comment", begin: "//", end: "\n", contains: []),
         Mode(scope: "comment", begin: "#", end: "\n", contains: []),
-        // Многострочные комментарии
         Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
         Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
+        
         Mode(scope: "function", begin: "\\bfunction\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         Mode(scope: "class", begin: "\\bclass\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         Mode(scope: "class", begin: "\\bextends\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
 
-        // Строки
         CommonModes.stringDouble,
         CommonModes.stringSingle,
+        
         Mode(scope: "string", begin: "`", end: "`", contains: [
-            // Подстановки внутри шаблонных строк
             Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: [])
         ]),
     ]

@@ -120,10 +120,10 @@ struct MatlabLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // Block comments
-        Mode(scope: "comment", begin: "%\\{", end: "%\\}", contains: []),
+        Mode(scope: "comment", begin: "%\\{", end: "%\\}"),
         
         // Line comments
-        Mode(scope: "comment", begin: "%", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "%", end: "\n"),
         
         // Function definitions
         Mode(scope: "function", begin: "\\bfunction\\s+(?:\\[?[^\\]]*\\]?\\s*=\\s*)?([a-zA-Z_][a-zA-Z0-9_]*)"),

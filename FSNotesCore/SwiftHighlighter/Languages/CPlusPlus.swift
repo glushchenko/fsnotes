@@ -68,34 +68,24 @@ struct CPlusPlusLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Препроцессорные директивы
         Mode(scope: "meta", begin: "^\\s*#\\s*(?:include|define|undef|if|ifdef|ifndef|else|elif|endif|error|pragma|line|warning)\\b.*$"),
         
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "//", end: "\n"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
         
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
+        Mode(scope: "meta", begin: "template\\s*<", end: ">"),
         
-        // Шаблоны
-        Mode(scope: "meta", begin: "template\\s*<", end: ">", contains: []),
-        
-        // Определение классов
         Mode(scope: "class", begin: "\\b(?:class|struct)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
-        
-        // Определение namespace
         Mode(scope: "class", begin: "\\bnamespace\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Определение функций
         Mode(scope: "function", begin: "\\b[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=\\()"),
         
         // Raw string literals (C++11)
-        Mode(scope: "string", begin: "R\"\\(", end: "\\)\"", contains: []),
+        Mode(scope: "string", begin: "R\"\\(", end: "\\)\""),
         
-        // Строки
+        
         CommonModes.stringDouble,
         
-        // Символьные литералы
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)+'"),
         Mode(scope: "string", begin: "L'(?:[^'\\\\]|\\\\.)+'"),  // Wide char
         Mode(scope: "string", begin: "u'(?:[^'\\\\]|\\\\.)+'"),  // UTF-16

@@ -118,31 +118,31 @@ struct ScalaLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // Scaladoc comments
-        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
+        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         Mode(scope: "meta", begin: "@[a-zA-Z_][a-zA-Z0-9_]*"),
         Mode(scope: "meta", begin: "'[a-zA-Z_][a-zA-Z0-9_]*\\b"),
         Mode(scope: "class", begin: "\\b(?:class|object|trait|enum|case class|case object)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
-        Mode(scope: "class", begin: "\\bpackage\\s+([a-zA-Z_][a-zA-Z0-9_.]*)", contains: []),
+        Mode(scope: "class", begin: "\\bpackage\\s+([a-zA-Z_][a-zA-Z0-9_.]*)"),
         Mode(scope: "function", begin: "\\bdef\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         Mode(scope: "meta", begin: "\\b(?:val|var)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
         // String interpolation
         Mode(scope: "string", begin: "s\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         Mode(scope: "string", begin: "f\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         
         // Raw strings
-        Mode(scope: "string", begin: "raw\"", end: "\"", contains: []),
+        Mode(scope: "string", begin: "raw\"", end: "\""),
         
         // Triple-quoted strings (multiline)
-        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: []),
+        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
         
         CommonModes.stringDouble,
         

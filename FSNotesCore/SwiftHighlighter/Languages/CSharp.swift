@@ -89,56 +89,41 @@ struct CSharpLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // XML documentation comments
-        Mode(scope: "comment.doc", begin: "///", end: "\n", contains: []),
+        Mode(scope: "comment.doc", begin: "///", end: "\n"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        
-        // Препроцессорные директивы
         Mode(scope: "meta", begin: "^\\s*#\\s*(?:if|else|elif|endif|define|undef|warning|error|line|region|endregion|pragma)\\b.*$"),
+        Mode(scope: "meta", begin: "\\[", end: "\\]"),
         
-        // Атрибуты
-        Mode(scope: "meta", begin: "\\[", end: "\\]", contains: []),
-        
-        // Определение классов, интерфейсов, структур, энумов, записей
         Mode(scope: "class", begin: "\\b(?:class|interface|struct|enum|record)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
+        Mode(scope: "class", begin: "\\bnamespace\\s+([a-zA-Z_][a-zA-Z0-9_.]*)"),
         
-        // Определение namespace
-        Mode(scope: "class", begin: "\\bnamespace\\s+([a-zA-Z_][a-zA-Z0-9_.]*)", contains: []),
-        
-        // Определение методов и свойств
         Mode(scope: "function", begin: "\\b[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=\\()"),
         
         // Verbatim string literals
-        Mode(scope: "string", begin: "@\"", end: "\"", contains: []),
+        Mode(scope: "string", begin: "@\"", end: "\""),
         
         // Interpolated strings
         Mode(scope: "string", begin: "\\$\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}", contains: [])
+            Mode(scope: "subst", begin: "\\{", end: "\\}")
         ]),
         
         // Verbatim interpolated strings
         Mode(scope: "string", begin: "\\$@\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}", contains: [])
+            Mode(scope: "subst", begin: "\\{", end: "\\}")
         ]),
         Mode(scope: "string", begin: "@\\$\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}", contains: [])
+            Mode(scope: "subst", begin: "\\{", end: "\\}")
         ]),
         
         // Raw string literals (C# 11)
-        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: []),
+        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
         
-        // Обычные строки
         CommonModes.stringDouble,
         
-        // Символьные литералы
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)+'"),
         
-        // Числа
         // Binary (C# 7.0+)
         Mode(scope: "number", begin: "\\b0[bB][01_]+(?:[uUlLfFdDmM]+)?\\b"),
         // Hex

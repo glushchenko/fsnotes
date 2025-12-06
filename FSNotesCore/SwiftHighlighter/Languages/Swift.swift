@@ -30,63 +30,52 @@ struct SwiftLanguage: LanguageDefinition {
     ]
 
     let contains: [Mode] = [
-        // Комментарии
         CommonModes.comment(begin: "//", end: "\n"),
         CommonModes.comment(begin: "/\\*", end: "\\*/"),
 
-        // Строки / числа
         CommonModes.stringDouble,
         CommonModes.number,
 
-        // Переменные (только имена переменных, let/var будут подсвечены как keywords)
         Mode(
             scope: "variable",
             begin: "\\b(?:let|var)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"
         ),
 
-        // Функции (только имена функций, func будет подсвечен как keyword)
         Mode(
             scope: "function",
             begin: "\\bfunc\\s+([a-zA-Z_][a-zA-Z0-9_]*)"
         ),
 
-        // Инициализаторы
         Mode(
             scope: "function",
             begin: "\\binit\\s*(?:\\(|\\s)"
         ),
 
-        // Деинициализаторы
         Mode(
             scope: "function",
             begin: "\\bdeinit\\s*(?:\\{|\\s|$)"
         ),
 
-        // Классы, структуры, енумы, протоколы, расширения
         Mode(
             scope: "class",
             begin: "\\b(?:class|struct|enum|protocol|extension)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"
         ),
 
-        // Наследование/соответствие протоколам
         Mode(
             scope: "class",
             begin: ":\\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\\s*,\\s*[a-zA-Z_][a-zA-Z0-9_]*)*)"
         ),
 
-        // Типы в объявлениях переменных (после двоеточия)
         Mode(
             scope: "class",
             begin: ":\\s*([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\\?|!)?)"
         ),
 
-        // Приведение типов (as)
         Mode(
             scope: "class",
             begin: "\\bas\\s+([a-zA-Z_][a-zA-Z0-9_]*(?:<[^>]*>)?(?:\\?|!)?)"
         ),
 
-        // Проверка типов (is)
         Mode(
             scope: "class",
             begin: "\\bis\\s+([a-zA-Z_][a-zA-Z0-9_]*)"

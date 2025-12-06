@@ -75,34 +75,24 @@ struct JavaLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Javadoc comments
-        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
-        
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
         
         // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         
-        // Аннотации
         Mode(scope: "meta", begin: "@[a-zA-Z_][a-zA-Z0-9_]*(?:\\.[a-zA-Z_][a-zA-Z0-9_]*)*"),
         
-        // Определение классов и интерфейсов
         Mode(scope: "class", begin: "\\b(?:class|interface|enum|record)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
-        
-        // Определение методов
         Mode(scope: "function", begin: "\\b[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=\\()"),
         
         // Text blocks (Java 15+)
-        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: []),
+        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
         
-        // Строки
         CommonModes.stringDouble,
         
-        // Символьные литералы
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)+'"),
         
-        // Числа
         // Binary (Java 7+)
         Mode(scope: "number", begin: "\\b0[bB][01]+[lLfFdD]?\\b"),
         // Hex

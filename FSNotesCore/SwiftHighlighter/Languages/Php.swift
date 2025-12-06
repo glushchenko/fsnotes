@@ -43,45 +43,25 @@ struct PHPLanguage: LanguageDefinition {
     ]
 
     let contains: [Mode] = [
-        // Комментарии
-        Mode(scope: "comment", begin: "//", end: "\n"),
-        Mode(scope: "comment", begin: "#", end: "\n"),
         Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//[^\n]*"),
+        Mode(scope: "comment", begin: "#[^\n]*"),
 
-        // Строки
         CommonModes.stringDouble,
         CommonModes.stringSingle,
 
-        // Числа (в PHP есть hex, bin, oct, float с e)
         Mode(scope: "number", begin: "\\b(0[xX][0-9a-fA-F]+|0[bB][01]+|0[oO][0-7]+|\\d+(?:_\\d+)*(?:\\.\\d+(?:_\\d+)*)?(?:[eE][+-]?\\d+)?)\\b"),
-
-        // Переменные
+        
         Mode(scope: "variable", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*\\b"),
 
-        // PHP-теги
-        // PHP открывающие теги
         Mode(scope: "meta", begin: "<\\?php\\b"),
         Mode(scope: "meta", begin: "<\\?(?!=\\?)"),
         Mode(scope: "meta", begin: "\\?>"),
 
-        Mode(
-            scope: "class",
-            begin: "\\b(?:class|interface|trait)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"
-        ),
+        Mode(scope: "class", begin: "\\b(?:class|interface|trait)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
+        Mode(scope: "class", begin: "\\bextends\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
+        Mode(scope: "class", begin: "\\bimplements\\s+([a-zA-Z_][a-zA-Z0-9_]*(?:\\s*,\\s*[a-zA-Z_][a-zA-Z0-9_]*)*)"),
 
-        // Для extends:
-        Mode(
-            scope: "class",
-            begin: "\\bextends\\s+([a-zA-Z_][a-zA-Z0-9_]*)"
-        ),
-
-        // Для implements:
-        Mode(
-            scope: "class",
-            begin: "\\bimplements\\s+([a-zA-Z_][a-zA-Z0-9_]*(?:\\s*,\\s*[a-zA-Z_][a-zA-Z0-9_]*)*)"
-        ),
-
-        // Для функций:
         Mode(
             scope: "function",
             begin: "\\b(?:fn|function)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"

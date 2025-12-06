@@ -106,11 +106,8 @@ struct RubyLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // RDoc comments
-        Mode(scope: "comment.doc", begin: "^=begin", end: "^=end", contains: []),
-        
-        // Обычные комментарии
-        Mode(scope: "comment", begin: "#", end: "\n", contains: []),
+        Mode(scope: "comment.doc", begin: "^=begin", end: "^=end"),
+        Mode(scope: "comment", begin: "#", end: "\n"),
         
         // Symbols
         Mode(scope: "meta", begin: ":[a-zA-Z_][a-zA-Z0-9_]*[!?=]?"),
@@ -127,43 +124,40 @@ struct RubyLanguage: LanguageDefinition {
         Mode(scope: "meta", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*"),
         Mode(scope: "meta", begin: "\\$[0-9]+"),
         Mode(scope: "meta", begin: "\\$[!@&`'+~=/\\\\,;.<>*$?:\"]"),
-        
-        // Определение классов
+
         Mode(scope: "class", begin: "\\bclass\\s+([A-Z][a-zA-Z0-9_]*)"),
-        
-        // Определение модулей
         Mode(scope: "class", begin: "\\bmodule\\s+([A-Z][a-zA-Z0-9_]*)"),
         
         // Определение методов
         Mode(scope: "function", begin: "\\bdef\\s+(?:self\\.)?([a-zA-Z_][a-zA-Z0-9_]*[!?=]?)"),
         
         // Percent literals - strings
-        Mode(scope: "string", begin: "%[qQ]?\\{", end: "\\}", contains: []),
-        Mode(scope: "string", begin: "%[qQ]?\\[", end: "\\]", contains: []),
-        Mode(scope: "string", begin: "%[qQ]?\\(", end: "\\)", contains: []),
-        Mode(scope: "string", begin: "%[qQ]?<", end: ">", contains: []),
-        Mode(scope: "string", begin: "%[qQ]?\\|", end: "\\|", contains: []),
-        Mode(scope: "string", begin: "%[qQ]?/", end: "/", contains: []),
+        Mode(scope: "string", begin: "%[qQ]?\\{", end: "\\}"),
+        Mode(scope: "string", begin: "%[qQ]?\\[", end: "\\]"),
+        Mode(scope: "string", begin: "%[qQ]?\\(", end: "\\)"),
+        Mode(scope: "string", begin: "%[qQ]?<", end: ">"),
+        Mode(scope: "string", begin: "%[qQ]?\\|", end: "\\|"),
+        Mode(scope: "string", begin: "%[qQ]?/", end: "/"),
         
         // Percent literals - arrays
-        Mode(scope: "string", begin: "%[wW]\\{", end: "\\}", contains: []),
-        Mode(scope: "string", begin: "%[wW]\\[", end: "\\]", contains: []),
-        Mode(scope: "string", begin: "%[wW]\\(", end: "\\)", contains: []),
+        Mode(scope: "string", begin: "%[wW]\\{", end: "\\}"),
+        Mode(scope: "string", begin: "%[wW]\\[", end: "\\]"),
+        Mode(scope: "string", begin: "%[wW]\\(", end: "\\)"),
         
         // Heredocs
-        Mode(scope: "string", begin: "<<[-~]?['\"]?([A-Z_]+)['\"]?", end: "^\\1$", contains: []),
+        Mode(scope: "string", begin: "<<[-~]?['\"]?([A-Z_]+)['\"]?", end: "^\\1$"),
         
         // Regular expressions
-        Mode(scope: "string", begin: "/(?![*/])", end: "/[imxo]*", contains: []),
-        Mode(scope: "string", begin: "%r\\{", end: "\\}[imxo]*", contains: []),
-        Mode(scope: "string", begin: "%r\\[", end: "\\][imxo]*", contains: []),
-        Mode(scope: "string", begin: "%r\\(", end: "\\)[imxo]*", contains: []),
-        Mode(scope: "string", begin: "%r<", end: ">[imxo]*", contains: []),
-        Mode(scope: "string", begin: "%r\\|", end: "\\|[imxo]*", contains: []),
+        Mode(scope: "string", begin: "/(?![*/])", end: "/[imxo]*"),
+        Mode(scope: "string", begin: "%r\\{", end: "\\}[imxo]*"),
+        Mode(scope: "string", begin: "%r\\[", end: "\\][imxo]*"),
+        Mode(scope: "string", begin: "%r\\(", end: "\\)[imxo]*"),
+        Mode(scope: "string", begin: "%r<", end: ">[imxo]*"),
+        Mode(scope: "string", begin: "%r\\|", end: "\\|[imxo]*"),
         
         // String interpolation
         Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "#\\{", end: "\\}", contains: [])
+            Mode(scope: "subst", begin: "#\\{", end: "\\}")
         ]),
         
         // Single quoted strings (no interpolation)
@@ -171,10 +165,9 @@ struct RubyLanguage: LanguageDefinition {
         
         // Backtick strings (command execution)
         Mode(scope: "string", begin: "`", end: "`", contains: [
-            Mode(scope: "subst", begin: "#\\{", end: "\\}", contains: [])
+            Mode(scope: "subst", begin: "#\\{", end: "\\}")
         ]),
         
-        // Числа
         // Binary
         Mode(scope: "number", begin: "\\b0[bB][01_]+\\b"),
         // Octal

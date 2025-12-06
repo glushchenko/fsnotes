@@ -63,51 +63,41 @@ struct RustLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // Doc comments
-        Mode(scope: "comment.doc", begin: "///", end: "\n", contains: []),
-        Mode(scope: "comment.doc", begin: "//!", end: "\n", contains: []),
-        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
-        Mode(scope: "comment.doc", begin: "/\\*!", end: "\\*/", contains: []),
+        Mode(scope: "comment.doc", begin: "///", end: "\n"),
+        Mode(scope: "comment.doc", begin: "//!", end: "\n"),
+        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/"),
+        Mode(scope: "comment.doc", begin: "/\\*!", end: "\\*/"),
         
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        
-        // Атрибуты
-        Mode(scope: "meta", begin: "#!?\\[", end: "\\]", contains: []),
+        Mode(scope: "meta", begin: "#!?\\[", end: "\\]"),
         
         // Lifetime annotations
         Mode(scope: "meta", begin: "'[a-zA-Z_][a-zA-Z0-9_]*\\b"),
         
-        // Макросы
         Mode(scope: "function", begin: "\\b[a-zA-Z_][a-zA-Z0-9_]*!"),
         
-        // Определение функций
         Mode(scope: "function", begin: "\\bfn\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Определение типов, структур, энумов, трейтов
         Mode(scope: "class", begin: "\\b(?:struct|enum|trait|type|union)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
         // Raw string literals
-        Mode(scope: "string", begin: "r#+\"", end: "\"#+", contains: []),
-        Mode(scope: "string", begin: "r\"", end: "\"", contains: []),
+        Mode(scope: "string", begin: "r#+\"", end: "\"#+"),
+        Mode(scope: "string", begin: "r\"", end: "\""),
         
         // Byte string literals
-        Mode(scope: "string", begin: "b\"", end: "\"", contains: []),
-        Mode(scope: "string", begin: "br#+\"", end: "\"#+", contains: []),
-        Mode(scope: "string", begin: "br\"", end: "\"", contains: []),
+        Mode(scope: "string", begin: "b\"", end: "\""),
+        Mode(scope: "string", begin: "br#+\"", end: "\"#+"),
+        Mode(scope: "string", begin: "br\"", end: "\""),
         
-        // Обычные строки
         CommonModes.stringDouble,
         
-        // Символьные литералы
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)+'"),
         
         // Byte literals
         Mode(scope: "string", begin: "b'(?:[^'\\\\]|\\\\.)+'"),
         
-        // Числа
         // Binary
         Mode(scope: "number", begin: "\\b0b[01_]+(?:[ui](?:8|16|32|64|128|size))?\\b"),
         // Octal

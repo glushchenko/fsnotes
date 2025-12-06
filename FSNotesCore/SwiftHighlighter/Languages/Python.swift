@@ -51,39 +51,30 @@ struct PythonLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "#", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "#", end: "\n"),
         
-        // Декораторы
         Mode(scope: "meta", begin: "@[a-zA-Z_][a-zA-Z0-9_]*(?:\\.[a-zA-Z_][a-zA-Z0-9_]*)*"),
         
-        // Определение функций
         Mode(scope: "function", begin: "\\bdef\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Определение классов
         Mode(scope: "class", begin: "\\bclass\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Строки с тройными кавычками (многострочные)
-        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: []),
-        Mode(scope: "string", begin: "'''", end: "'''", contains: []),
+        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
+        Mode(scope: "string", begin: "'''", end: "'''"),
         
-        // f-строки (форматированные строки)
         Mode(scope: "string", begin: "f\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}", contains: [])
+            Mode(scope: "subst", begin: "\\{", end: "\\}")
         ]),
         Mode(scope: "string", begin: "f'", end: "'", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}", contains: [])
+            Mode(scope: "subst", begin: "\\{", end: "\\}")
         ]),
         
-        // Обычные строки
         CommonModes.stringDouble,
         CommonModes.stringSingle,
         
-        // r-строки (raw strings)
         Mode(scope: "string", begin: "r\"(?:[^\"\\\\]|\\\\.)*\""),
         Mode(scope: "string", begin: "r'(?:[^'\\\\]|\\\\.)*'"),
         
-        // Числа
         CommonModes.number,
         Mode(scope: "number", begin: "\\b0[xX][0-9a-fA-F]+\\b"), // Hex
         Mode(scope: "number", begin: "\\b0[oO][0-7]+\\b"),        // Octal

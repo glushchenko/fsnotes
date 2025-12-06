@@ -175,35 +175,23 @@ struct ObjectiveCLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        
-        // Препроцессорные директивы
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         Mode(scope: "meta", begin: "^\\s*#\\s*(?:import|include|define|undef|if|ifdef|ifndef|else|elif|endif|error|pragma|warning)\\b.*$"),
-        
-        // @-директивы (keywords)
+
         Mode(scope: "keyword", begin: "@(?:interface|implementation|protocol|end|class|selector|encode|property|synthesize|dynamic|try|catch|throw|finally|synchronized|autoreleasepool|optional|required)\\b"),
         
-        // Определение интерфейсов
         Mode(scope: "class", begin: "@interface\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
-        
-        // Определение протоколов
         Mode(scope: "class", begin: "@protocol\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
-        
-        // Определение имплементаций
         Mode(scope: "class", begin: "@implementation\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Методы (instance and class)
         Mode(scope: "function", begin: "^\\s*[-+]\\s*\\([^)]+\\)\\s*[a-zA-Z_][a-zA-Z0-9_:]*"),
         
         // Selectors
-        Mode(scope: "meta", begin: "@selector\\s*\\(", end: "\\)", contains: []),
+        Mode(scope: "meta", begin: "@selector\\s*\\(", end: "\\)"),
         
         // NSString literals
-        Mode(scope: "string", begin: "@\"", end: "\"", contains: []),
+        Mode(scope: "string", begin: "@\"", end: "\""),
         
         // C strings
         CommonModes.stringDouble,
@@ -215,15 +203,14 @@ struct ObjectiveCLanguage: LanguageDefinition {
         Mode(scope: "number", begin: "@(?:\\d+\\.?\\d*|0[xX][0-9a-fA-F]+|YES|NO)\\b"),
         
         // Array literals
-        Mode(scope: "meta", begin: "@\\[", end: "\\]", contains: []),
+        Mode(scope: "meta", begin: "@\\[", end: "\\]"),
         
         // Dictionary literals
-        Mode(scope: "meta", begin: "@\\{", end: "\\}", contains: []),
+        Mode(scope: "meta", begin: "@\\{", end: "\\}"),
         
         // Blocks
-        Mode(scope: "function", begin: "\\^\\s*(?:\\([^)]*\\))?\\s*\\{", end: "\\}", contains: []),
+        Mode(scope: "function", begin: "\\^\\s*(?:\\([^)]*\\))?\\s*\\{", end: "\\}"),
         
-        // Числа
         // Hex
         Mode(scope: "number", begin: "\\b0[xX][0-9a-fA-F]+[uUlL]*\\b"),
         // Octal

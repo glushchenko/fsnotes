@@ -100,57 +100,48 @@ struct DartLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // Documentation comments
-        Mode(scope: "comment.doc", begin: "///", end: "\n", contains: []),
-        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
-        
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
+        Mode(scope: "comment.doc", begin: "///", end: "\n"),
+        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         
         // Metadata/Annotations
         Mode(scope: "meta", begin: "@[a-zA-Z_][a-zA-Z0-9_]*"),
         
-        // Определение классов
         Mode(scope: "class", begin: "\\b(?:class|enum|mixin|extension)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
-        
-        // Определение интерфейсов (abstract class)
         Mode(scope: "class", begin: "\\babstract\\s+class\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Определение функций и методов
         Mode(scope: "function", begin: "\\b[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=\\()"),
         
         // Raw strings
-        Mode(scope: "string", begin: "r\"\"\"", end: "\"\"\"", contains: []),
-        Mode(scope: "string", begin: "r'''", end: "'''", contains: []),
-        Mode(scope: "string", begin: "r\"", end: "\"", contains: []),
-        Mode(scope: "string", begin: "r'", end: "'", contains: []),
+        Mode(scope: "string", begin: "r\"\"\"", end: "\"\"\""),
+        Mode(scope: "string", begin: "r'''", end: "'''"),
+        Mode(scope: "string", begin: "r\"", end: "\""),
+        Mode(scope: "string", begin: "r'", end: "'"),
         
         // Multi-line strings with interpolation
         Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         Mode(scope: "string", begin: "'''", end: "'''", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         
         // Regular strings with interpolation
         Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         Mode(scope: "string", begin: "'", end: "'", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         
         // Symbols
         Mode(scope: "meta", begin: "#[a-zA-Z_][a-zA-Z0-9_]*"),
         
-        // Числа
         // Hex
         Mode(scope: "number", begin: "\\b0[xX][0-9a-fA-F]+\\b"),
         // Scientific notation

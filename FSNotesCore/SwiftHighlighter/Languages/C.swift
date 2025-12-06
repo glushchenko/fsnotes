@@ -53,25 +53,17 @@ struct CLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Препроцессорные директивы
         Mode(scope: "meta", begin: "^\\s*#\\s*(?:include|define|undef|if|ifdef|ifndef|else|elif|endif|error|pragma|line)\\b.*$"),
         
-        // Однострочные комментарии (C99)
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "//", end: "\n"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
         
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        
-        // Определение функций
         Mode(scope: "function", begin: "\\b[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=\\()"),
         
-        // Строки
         CommonModes.stringDouble,
         
-        // Символьные литералы
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)+'"),
         
-        // Числа
         // Hex
         Mode(scope: "number", begin: "\\b0[xX][0-9a-fA-F]+[uUlL]*\\b"),
         // Octal

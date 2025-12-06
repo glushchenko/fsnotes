@@ -139,35 +139,27 @@ struct AssemblyLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Блочные комментарии (некоторые ассемблеры)
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
         
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: ";", end: "\n", contains: []),
-        Mode(scope: "comment", begin: "#", end: "\n", contains: []),
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        Mode(scope: "comment", begin: "@", end: "\n", contains: []),
+        Mode(scope: "comment", begin: ";", end: "\n"),
+        Mode(scope: "comment", begin: "#", end: "\n"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
+        Mode(scope: "comment", begin: "@", end: "\n"),
         
-        // Директивы препроцессора
         Mode(scope: "meta", begin: "^\\s*%(?:define|undef|include|ifdef|ifndef|if|elif|else|endif|macro|endmacro|rep|endrep)\\b"),
         Mode(scope: "meta", begin: "^\\.(?:text|data|bss|section|global|extern|align|ascii|asciz|byte|word|long|quad)\\b"),
         Mode(scope: "meta", begin: "^\\s*\\.\\w+"),
         
-        // Метки
-        Mode(scope: "function", begin: "^[a-zA-Z_][a-zA-Z0-9_]*:", contains: []),
-        Mode(scope: "function", begin: "^\\.[a-zA-Z_][a-zA-Z0-9_]*:", contains: []),
+        Mode(scope: "function", begin: "^[a-zA-Z_][a-zA-Z0-9_]*:"),
+        Mode(scope: "function", begin: "^\\.[a-zA-Z_][a-zA-Z0-9_]*:"),
         
-        // Локальные метки (цифровые)
-        Mode(scope: "function", begin: "^\\d+:", contains: []),
+        Mode(scope: "function", begin: "^\\d+:"),
         
-        // Строки
         CommonModes.stringDouble,
         CommonModes.stringSingle,
         
-        // Символьные константы
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)'"),
         
-        // Числа
         // Binary
         Mode(scope: "number", begin: "\\b0[bB][01]+[hH]?\\b"),
         Mode(scope: "number", begin: "\\b[01]+[bB]\\b"),
@@ -183,7 +175,6 @@ struct AssemblyLanguage: LanguageDefinition {
         // Float
         Mode(scope: "number", begin: "\\b\\d+\\.\\d+(?:[eE][+-]?\\d+)?\\b"),
         
-        // Адресация в квадратных скобках
-        Mode(scope: "meta", begin: "\\[", end: "\\]", contains: []),
+        Mode(scope: "meta", begin: "\\[", end: "\\]"),
     ]
 }

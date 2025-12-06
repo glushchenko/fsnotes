@@ -119,25 +119,25 @@ struct VisualBasicLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // XML Documentation comments
-        Mode(scope: "comment.doc", begin: "'''", end: "\n", contains: []),
+        Mode(scope: "comment.doc", begin: "'''", end: "\n"),
         
         // REM comments (legacy)
-        Mode(scope: "comment", begin: "(?i)\\bREM\\b", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "(?i)\\bREM\\b", end: "\n"),
         
         // Single quote comments
-        Mode(scope: "comment", begin: "'", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "'", end: "\n"),
         
         // Preprocessor directives
         Mode(scope: "meta", begin: "^\\s*#(?:If|ElseIf|Else|End If|Region|End Region|Const|ExternalSource|End ExternalSource)\\b.*$"),
         
         // Attributes
-        Mode(scope: "meta", begin: "<", end: ">", contains: []),
+        Mode(scope: "meta", begin: "<", end: ">"),
         
         // Labels (for GoTo)
         Mode(scope: "meta", begin: "^\\s*[a-zA-Z_][a-zA-Z0-9_]*:"),
         
         // Date literals
-        Mode(scope: "string", begin: "#", end: "#", contains: []),
+        Mode(scope: "string", begin: "#", end: "#"),
         
         // Strings with double quotes
         CommonModes.stringDouble,

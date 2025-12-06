@@ -80,31 +80,18 @@ struct GoLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        
-        // Определение функций
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         Mode(scope: "function", begin: "\\bfunc\\s+(?:\\([^)]*\\)\\s+)?([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Определение типов
         Mode(scope: "class", begin: "\\btype\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
-        
-        // Определение интерфейсов и структур
         Mode(scope: "class", begin: "\\b(?:struct|interface)\\b"),
         
         // Raw string literals (backticks)
-        Mode(scope: "string", begin: "`", end: "`", contains: []),
-        
-        // Строки с интерпретацией
-        Mode(scope: "string", begin: "\"", end: "\"", contains: []),
-        
-        // Rune literals (символы)
+        Mode(scope: "string", begin: "`", end: "`"),
+        Mode(scope: "string", begin: "\"", end: "\""),
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)+'"),
         
-        // Числа
         // Hex
         Mode(scope: "number", begin: "\\b0[xX][0-9a-fA-F]+(?:\\.[0-9a-fA-F]+)?[pP]?[+-]?\\d*\\b"),
         // Octal

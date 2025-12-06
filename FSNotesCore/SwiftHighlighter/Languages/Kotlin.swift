@@ -92,13 +92,13 @@ struct KotlinLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // KDoc comments
-        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/"),
         
         // Multistring
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
         
         // Onestring
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "//", end: "\n"),
         
         // Annotattions
         Mode(scope: "meta", begin: "@[a-zA-Z_][a-zA-Z0-9_]*(?:::[a-zA-Z_][a-zA-Z0-9_]*)?"),
@@ -112,12 +112,12 @@ struct KotlinLanguage: LanguageDefinition {
         Mode(scope: "function", begin: "\\b(?:val|var)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
         Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         
         Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         

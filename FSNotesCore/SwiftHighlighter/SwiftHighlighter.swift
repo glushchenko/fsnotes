@@ -219,16 +219,21 @@ public class SwiftHighlighter {
         var protectedRanges: [Range<String.Index>] = []
 
         for mode in language.contains {
-            let modeMatches = processMode(mode, text: text, searchRange: text.startIndex..<text.endIndex, parentScope: nil)
+            let modeMatches = processMode(
+                mode,
+                text: text,
+                searchRange: text.startIndex..<text.endIndex,
+                protectedRanges: protectedRanges
+            )
+            
             for modeMatch in modeMatches {
                 if !protectedRanges.contains(where: { $0.overlaps(modeMatch.range) }) {
                     matches.append(modeMatch)
+                    if ["comment", "string", "comment.doc", "subst"].contains(modeMatch.scope) {
+                        protectedRanges.append(modeMatch.range)
+                    }
                 }
             }
-
-            protectedRanges.append(contentsOf: modeMatches
-                .filter { ["comment", "string", "comment.doc", "subst"].contains($0.scope) }
-                .map { $0.range })
         }
 
         if let keywords = language.keywords {
@@ -256,7 +261,7 @@ public class SwiftHighlighter {
         _ mode: Mode,
         text: String,
         searchRange: Range<String.Index>,
-        parentScope: String?
+        protectedRanges: [Range<String.Index>] = []
     ) -> [Match] {
         var matches: [Match] = []
         var currentIndex = searchRange.lowerBound
@@ -269,13 +274,27 @@ public class SwiftHighlighter {
                   let matchRange = Range(match.range, in: text)
             else { break }
 
+            if protectedRanges.contains(where: { $0.contains(matchRange.lowerBound) }) {
+                if let protectedRange = protectedRanges.first(where: { $0.contains(matchRange.lowerBound) }) {
+                    currentIndex = protectedRange.upperBound
+                } else {
+                    currentIndex = text.index(after: matchRange.lowerBound)
+                }
+                continue
+            }
+
             var matchEnd = matchRange.upperBound
 
             if let endRegex = mode.endRegex {
                 let nsEndRange = NSRange(matchEnd..<searchRange.upperBound, in: text)
                 if let endMatch = endRegex.firstMatch(in: text, range: nsEndRange),
                    let endRange = Range(endMatch.range, in: text) {
-                    matchEnd = endRange.upperBound
+                    
+                    if mode.scope == "comment" && mode.end == "\n" {
+                        matchEnd = endRange.lowerBound
+                    } else {
+                        matchEnd = endRange.upperBound
+                    }
                 }
             }
 
@@ -283,13 +302,6 @@ public class SwiftHighlighter {
 
             if let scope = mode.scope {
                 matches.append(Match(range: finalRange, scope: scope, text: text))
-            }
-
-            if let children = mode.contains {
-                for child in children {
-                    let childMatches = processMode(child, text: text, searchRange: finalRange, parentScope: mode.scope ?? parentScope)
-                    matches.append(contentsOf: childMatches)
-                }
             }
 
             currentIndex = finalRange.upperBound
@@ -305,11 +317,19 @@ public class SwiftHighlighter {
     ) {
         let language = getLanguage(from: attributedString, startingAt: fullRange.location)
         let langDefinition = language.flatMap { getLanguage($0) }
-        
         let shouldHighlightTicks = editedRange.map { fullRange.location == $0.location } ?? true
+        
+        // Expand for comments
+        let expandedRange = expandRangeForMultilineConstructs(
+            in: attributedString.string,
+            editedRange: editedRange,
+            fullRange: fullRange,
+            language: langDefinition
+        )
+        
         let codeRange = calculateCodeRange(
             fullRange: fullRange,
-            editedRange: editedRange,
+            editedRange: expandedRange,
             language: language
         )
         
@@ -407,6 +427,82 @@ public class SwiftHighlighter {
         }
         
         return index == afterBackticks ? nil : String(s[afterBackticks..<index]).trim()
+    }
+    
+    private func expandRangeForMultilineConstructs(
+        in text: String,
+        editedRange: NSRange?,
+        fullRange: NSRange,
+        language: LanguageDefinition?
+    ) -> NSRange? {
+        guard let editedRange = editedRange,
+              editedRange.location != fullRange.location,
+              let language = language else {
+            return editedRange
+        }
+        
+        // Получаем многострочные режимы из языка
+        let multilineModes = language.contains.filter { mode in
+            mode.begin != nil && mode.end != nil
+        }
+        
+        guard !multilineModes.isEmpty else {
+            return editedRange
+        }
+        
+        let nsText = text as NSString
+        var expandedLocation = editedRange.location
+        var expandedEnd = editedRange.location + editedRange.length
+        
+        // Ищем начало многострочной конструкции перед editedRange
+        for mode in multilineModes {
+            guard let beginRegex = mode.beginRegex,
+                  let endRegex = mode.endRegex else {
+                continue
+            }
+            
+            // Ищем открывающий паттерн перед editedRange
+            let searchRange = NSRange(location: 0, length: editedRange.location)
+            let matches = beginRegex.matches(in: text, range: searchRange)
+            
+            for match in matches.reversed() {
+                let startLoc = match.range.location
+                
+                // Проверяем, есть ли закрывающий паттерн между найденным началом и editedRange
+                let betweenRange = NSRange(
+                    location: startLoc + match.range.length,
+                    length: editedRange.location - (startLoc + match.range.length)
+                )
+                
+                let endMatch = endRegex.firstMatch(in: text, range: betweenRange)
+                
+                // Если закрывающего паттерна нет, значит мы внутри многострочной конструкции
+                if endMatch == nil {
+                    expandedLocation = min(expandedLocation, startLoc)
+                    
+                    // Ищем конец конструкции после editedRange
+                    let afterRange = NSRange(
+                        location: editedRange.location + editedRange.length,
+                        length: nsText.length - (editedRange.location + editedRange.length)
+                    )
+                    
+                    if let endMatchAfter = endRegex.firstMatch(in: text, range: afterRange) {
+                        expandedEnd = max(expandedEnd, endMatchAfter.range.location + endMatchAfter.range.length)
+                    }
+                    break
+                }
+            }
+        }
+        
+        // Возвращаем расширенный диапазон
+        if expandedLocation != editedRange.location || expandedEnd != (editedRange.location + editedRange.length) {
+            return NSRange(
+                location: expandedLocation,
+                length: expandedEnd - expandedLocation
+            )
+        }
+        
+        return editedRange
     }
 }
 

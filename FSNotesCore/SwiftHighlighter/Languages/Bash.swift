@@ -98,11 +98,11 @@ struct BashLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // Shebang
-        Mode(scope: "comment", begin: "^#!", end: "\n", contains: []),
-        Mode(scope: "comment", begin: "#", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "^#!", end: "\n"),
+        Mode(scope: "comment", begin: "#", end: "\n"),
         
         // Heredoc
-        Mode(scope: "string", begin: "<<-?\\s*(['\"]?)([a-zA-Z_][a-zA-Z0-9_]*)\\1", end: "^\\2$", contains: []),
+        Mode(scope: "string", begin: "<<-?\\s*(['\"]?)([a-zA-Z_][a-zA-Z0-9_]*)\\1", end: "^\\2$"),
         
         // Variables
         Mode(scope: "meta", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*"),
@@ -114,7 +114,7 @@ struct BashLanguage: LanguageDefinition {
         Mode(scope: "meta", begin: "\\$[0-9@*#?$!_-]"),
         
         // Command substitution (backticks)
-        //Mode(scope: "string", begin: "`", end: "`", contains: []),
+        Mode(scope: "string", begin: "`", end: "`"),
         
         // Strings with double quotes (allows variable expansion)
         Mode(scope: "string", begin: "\"", end: "\"", contains: [
@@ -127,7 +127,7 @@ struct BashLanguage: LanguageDefinition {
         CommonModes.stringSingle,
         
         // ANSI-C quoting
-        Mode(scope: "string", begin: "\\$'", end: "'", contains: []),
+        Mode(scope: "string", begin: "\\$'", end: "'"),
         
         // Functions
         Mode(scope: "function", begin: "^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(\\s*\\)"),

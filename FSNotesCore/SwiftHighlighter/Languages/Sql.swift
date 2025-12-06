@@ -97,14 +97,19 @@ struct SQLLanguage: LanguageDefinition {
         Mode(scope: "comment", begin: "--.*$"),
         Mode(scope: "comment", begin: "\\#.*$"),
         Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)*'"),
         Mode(scope: "string", begin: "\"(?:[^\"\\\\]|\\\\.)*\""),
+        
         Mode(scope: "number", begin: "\\b(?:0[xX][0-9a-fA-F]+|\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)\\b"),
+        
         Mode(scope: "variable", begin: "@[a-zA-Z_][a-zA-Z0-9_]*\\b"),
         Mode(scope: "variable", begin: "@@[a-zA-Z_][a-zA-Z0-9_]*\\b"),
-        Mode(scope: "variable", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*\\b"),
+        Mode(scope: "variable", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*\\b")
+        ,
         Mode(scope: "class", begin: "`([a-zA-Z_][a-zA-Z0-9_]*)`"),
         Mode(scope: "function", begin: "\\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*\\()"),
+        
         Mode(scope: "operator", begin: "\\+|\\-|\\*|/|%|=|!=|<>|<=|>=|<|>|\\|\\||&&")
     ]
 }

@@ -113,49 +113,38 @@ struct GroovyLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Groovydoc comments
-        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment", begin: "//", end: "\n"),
+        Mode(scope: "comment", begin: "^#!", end: "\n"),
         
-        // Многострочные комментарии
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        
-        // Однострочные комментарии
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        
-        // Shebang (для скриптов)
-        Mode(scope: "comment", begin: "^#!", end: "\n", contains: []),
-        
-        // Аннотации
         Mode(scope: "meta", begin: "@[a-zA-Z_][a-zA-Z0-9_]*(?:\\.[a-zA-Z_][a-zA-Z0-9_]*)*"),
-        
-        // Определение классов, интерфейсов, трейтов, энумов
         Mode(scope: "class", begin: "\\b(?:class|interface|trait|enum)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        // Определение методов
         Mode(scope: "function", begin: "\\b(?:def|void|public|private|protected|static)\\s+[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=\\()"),
         
         // Triple-quoted strings (multi-line)
         Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
-        Mode(scope: "string", begin: "'''", end: "'''", contains: []),
+        Mode(scope: "string", begin: "'''", end: "'''"),
         
         // Slashy strings (regex-friendly)
         Mode(scope: "string", begin: "/(?![*/])", end: "/", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         
         // Dollar slashy strings
         Mode(scope: "string", begin: "\\$/", end: "/\\$", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         
         // GString (interpolated strings)
         Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: []),
+            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
             Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
         ]),
         
@@ -166,9 +155,8 @@ struct GroovyLanguage: LanguageDefinition {
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)'"),
         
         // Closures highlighting
-        Mode(scope: "function", begin: "\\{", end: "\\}", contains: []),
+        Mode(scope: "function", begin: "\\{", end: "\\}"),
         
-        // Числа
         // Binary
         Mode(scope: "number", begin: "\\b0[bB][01]+[lLgGiI]?\\b"),
         // Octal

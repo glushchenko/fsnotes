@@ -99,21 +99,16 @@ struct ScratchLanguage: LanguageDefinition {
         ]
     ]
     let contains: [Mode] = [
-        // Комментарии (как в JavaScript, так как Scratch часто конвертируется в JS)
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment", begin: "//", end: "\n"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
         
-        // Блоки (специальный синтаксис)
         Mode(scope: "function", begin: "\\b(?:define|when|forever|repeat|if|else)\\b"),
         
-        // Переменные и списки
         Mode(scope: "meta", begin: "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*(?:=|<-))"),
         
-        // Строки
         CommonModes.stringDouble,
         CommonModes.stringSingle,
         
-        // Числа
         // Float
         Mode(scope: "number", begin: "\\b\\d+\\.\\d+\\b"),
         // Integer
@@ -121,13 +116,9 @@ struct ScratchLanguage: LanguageDefinition {
         // Negative numbers
         Mode(scope: "number", begin: "-\\d+\\.?\\d*\\b"),
         
-        // Булевы значения и специальные константы
         Mode(scope: "literal", begin: "\\b(?:true|false)\\b"),
-        
-        // Операторы сравнения и логические
         Mode(scope: "keyword", begin: "(?:and|or|not|<|>|=)"),
         
-        // Цвета (в hex формате для Scratch)
         Mode(scope: "number", begin: "#[0-9a-fA-F]{6}\\b"),
     ]
 }

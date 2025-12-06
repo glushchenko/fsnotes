@@ -110,31 +110,21 @@ struct RLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // Roxygen comments (documentation)
-        Mode(scope: "comment.doc", begin: "#'", end: "\n", contains: []),
+        Mode(scope: "comment.doc", begin: "#'", end: "\n"),
+        Mode(scope: "comment", begin: "#", end: "\n"),
         
-        // Обычные комментарии
-        Mode(scope: "comment", begin: "#", end: "\n", contains: []),
-        
-        // Определение функций
         Mode(scope: "function", begin: "\\b([a-zA-Z_][a-zA-Z0-9._]*)\\s*(?:=|<-)\\s*function"),
-        
-        // Вызов функций
         Mode(scope: "function", begin: "\\b[a-zA-Z_][a-zA-Z0-9._]*\\s*(?=\\()"),
         
         // Raw strings (R 4.0+)
-        Mode(scope: "string", begin: "[rR]\"\\(", end: "\\)\"", contains: []),
-        Mode(scope: "string", begin: "[rR]'\\(", end: "\\)'", contains: []),
+        Mode(scope: "string", begin: "[rR]\"\\(", end: "\\)\""),
+        Mode(scope: "string", begin: "[rR]'\\(", end: "\\)'"),
         
-        // Строки с двойными кавычками
         CommonModes.stringDouble,
-        
-        // Строки с одинарными кавычками
         CommonModes.stringSingle,
         
-        // Backtick identifiers (нестандартные имена переменных)
-        Mode(scope: "string", begin: "`", end: "`", contains: []),
+        Mode(scope: "string", begin: "`", end: "`"),
         
-        // Числа
         // Hex
         Mode(scope: "number", begin: "\\b0[xX][0-9a-fA-F]+[Ll]?\\b"),
         // Scientific notation

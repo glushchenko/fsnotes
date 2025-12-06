@@ -136,13 +136,13 @@ struct HaskellLanguage: LanguageDefinition {
     ]
     let contains: [Mode] = [
         // Block comments (nested)
-        Mode(scope: "comment", begin: "\\{-", end: "-\\}", contains: []),
+        Mode(scope: "comment", begin: "\\{-", end: "-\\}"),
         
         // Line comments
-        Mode(scope: "comment", begin: "--", end: "\n", contains: []),
+        Mode(scope: "comment", begin: "--", end: "\n"),
         
         // Pragmas
-        Mode(scope: "meta", begin: "\\{-#", end: "#-\\}", contains: []),
+        Mode(scope: "meta", begin: "\\{-#", end: "#-\\}"),
         
         // Module declaration
         Mode(scope: "class", begin: "\\bmodule\\s+([A-Z][a-zA-Z0-9_]*(?:\\.[A-Z][a-zA-Z0-9_]*)*)"),
@@ -166,10 +166,10 @@ struct HaskellLanguage: LanguageDefinition {
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\(?:[abfnrtv\\\\\"'&]|o[0-7]+|x[0-9a-fA-F]+|[0-9]+|\\^[@-_]|NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL))'"),
         
         // String literals
-        Mode(scope: "string", begin: "\"", end: "\"", contains: []),
+        Mode(scope: "string", begin: "\"", end: "\""),
         
         // Multi-line strings (with backslash continuation)
-        Mode(scope: "string", begin: "\"", end: "\"", contains: []),
+        Mode(scope: "string", begin: "\"", end: "\""),
         
         // Numbers
         // Binary (GHC 7.10+)
