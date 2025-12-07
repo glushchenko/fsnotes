@@ -650,7 +650,7 @@ class Storage {
         return
             noteList.filter{
                 !$0.project.isTrash
-                && $0.title.lowercased().contains(contains.lowercased())
+                && $0.title.localizedCaseInsensitiveContains(contains)
             }
     }
 

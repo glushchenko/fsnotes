@@ -178,6 +178,9 @@ public class SwiftHighlighter {
             self.registerLanguage("scala", definition: ScalaLanguage())
             self.registerLanguage("bash", definition: BashLanguage())
             self.registerLanguage("haskell", definition: HaskellLanguage())
+            self.registerLanguage("erlang", definition: ErlangLanguage())
+            self.registerLanguage("perl", definition: PerlLanguage())
+            self.registerLanguage("lua", definition: LuaLanguage())
         }
     }
 

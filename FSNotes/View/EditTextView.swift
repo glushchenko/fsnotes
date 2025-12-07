@@ -487,247 +487,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         return false
     }
 
-    private func isBetweenBraces(location: Int) -> (String, NSRange)? {
-        guard let storage = textStorage else { return nil }
-
-        let string = Array(storage.string)
-        let length = string.count
-
-        guard location < length else { return nil }
-
-        var firstLeftFound = false
-        var firstRigthFound = false
-
-        var rigthFound = false
-        var leftFound = false
-
-        var i = location - 1
-        var j = location
-
-        while i >= 0 {
-            let char = string[i]
-            if firstLeftFound {
-                leftFound = char == "["
-                break
-            }
-
-            if char.isNewline {
-                break
-            }
-
-            if char == "[" {
-                firstLeftFound = true
-            }
-
-            i -= 1
-        }
-
-        while length > j {
-            let char = string[j]
-            if firstRigthFound {
-                rigthFound = char == "]"
-                break
-            }
-
-            if char.isNewline {
-                break
-            }
-
-            if char == "]" {
-                firstRigthFound = true
-            }
-
-            j += 1
-        }
-
-        var result = String()
-        if leftFound && rigthFound {
-            result =
-                String(string[i...j])
-
-            result = result
-                .replacingOccurrences(of: "[[", with: "")
-                .replacingOccurrences(of: "]]", with: "")
-
-            return (result, NSRange(i...j))
-        }
-
-        return nil
-    }
-
-    private var completeRange = NSRange()
-
-    override var rangeForUserCompletion: NSRange {
-        guard let storageString = textStorage?.string else { return super.rangeForUserCompletion }
-
-        let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: selectedRange.location)
-        let distance = string.distance(from: storageString.startIndex, to: to)
-
-        if let result = isBetweenBraces(location: distance) {
-            let range = result.1
-
-            // decode multibyte offset for Emoji like "🇺🇦"
-            let startIndex = string.index(string.startIndex, offsetBy: range.lowerBound + 2)
-            let startRange = NSRange(startIndex...startIndex, in: string)
-            let replacementRange = NSRange(location: startRange.lowerBound, length: result.0.count)
-
-            return replacementRange
-        }
-
-        if UserDefaultsManagement.inlineTags {
-            var location = distance
-            var length = 0
-
-            while true {
-                if location - 1 < 0 {
-                    break
-                }
-
-                let scanRange = NSRange(location: location - 1, length: 1)
-                let char = textStorage?.attributedSubstring(from: scanRange).string
-
-                if char?.isWhitespace != nil {
-                    break
-                }
-
-                if char == "#" {
-                    return NSRange(location: location, length: length)
-                }
-
-                length += 1
-                location = location - 1
-            }
-        }
-
-        return super.rangeForUserCompletion
-    }
-
-    override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
-
-        guard let storageString = textStorage?.string else { return nil }
-
-        let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: selectedRange.location)
-        let distance = string.distance(from: storageString.startIndex, to: to)
-
-        if let result = isBetweenBraces(location: distance) {
-            if let notes = storage.getBy(contains: result.0) {
-                let titles = notes.map{ String($0.title) }.filter({ $0.count > 0 }).filter({ $0 != result.0
-
-                }).sorted()
-
-                return titles
-            }
-
-            return nil
-        }
-
-        let mainWord = (string as NSString).substring(with: charRange)
-
-        if UserDefaultsManagement.inlineTags {
-            if note?.isInCodeBlockRange(range: charRange) == true {
-                return nil
-            }
-
-            if (string as NSString).substring(with: charRange) == "#" {
-                if let tags = viewDelegate?.sidebarOutlineView.getAllTags() {
-                    let list = tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }
-
-                    return unfoldTags(list: list).sorted { $0.count < $1.count }
-                }
-
-                return nil
-            } else if charRange.location > 0,
-                let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: charRange.location, length: 0)),
-                let paragraph = textStorage?.mutableString.substring(with: parRange)
-            {
-                let words = paragraph.components(separatedBy: " ")
-
-                var i = parRange.location
-                for word in words {
-                    let range = NSRange(location: i + 1, length: word.count)
-                    i += word.count + 1
-
-                    if word == "" || charRange.location > range.upperBound || charRange.location < range.lowerBound || range.location <= 0 {
-                        continue
-                    }
-
-                    if let tags = viewDelegate?.sidebarOutlineView.getAllTags(),
-                        let partialWord = textStorage?.mutableString.substring(with: NSRange(range.location..<charRange.upperBound)) {
-
-                        var parts = partialWord.components(separatedBy: "/")
-                        _ = parts.popLast()
-
-                        if !partialWord.contains("/") {
-                            let list = tags.filter({ $0.starts(with: partialWord )})
-
-                            return unfoldTags(list: list, isFirstLevel: true, word: mainWord).sorted { $0.count < $1.count }
-                        }
-
-                        let excludePart = parts.joined(separator: "/")
-                        let offset = excludePart.count + 1
-
-                        if partialWord.last != "/" {
-                            let list = tags.filter({ $0.starts(with: partialWord )})
-                                .filter({ $0 != partialWord })
-                                .compactMap({ String($0[offset...]) })
-
-                            return unfoldTags(list: list, word: mainWord).sorted { $0.count < $1.count }
-                        }
-
-                        if let lastPart = parts.popLast() {
-                            let list = tags.filter({ $0.starts(with: partialWord )})
-                                .filter({ $0 != partialWord })
-                                .compactMap({ String(lastPart + "/" + $0[offset...]) })
-
-                            return unfoldTags(list: list, word: mainWord).sorted { $0.count < $1.count }
-                        }
-
-                        return nil
-                    }
-                }
-            }
-        }
-
-        return nil
-    }
-
-    private func unfoldTags(list: [String], isFirstLevel: Bool = false, word: String = "") -> [String] {
-
-        let check = word + "/"
-        if list.filter({ $0.starts(with: check)}).count > 0 {
-            return []
-        }
-
-        var list: Set<String> = Set(list)
-
-        for listItem in list {
-            if listItem.contains("/") {
-                let items = listItem.components(separatedBy: "/")
-
-                var start = items.first!
-                var first = true
-
-                for item in items {
-                    if first {
-                        first = false
-                        if isFirstLevel, !list.contains(start) {
-                            list.insert(start)
-                        }
-                        continue
-                    }
-
-                    start += ("/" + item)
-
-                    if !list.contains(start) {
-                        list.insert(start)
-                    }
-                }
-            }
-        }
-
-        return Array(list).sorted()
-    }
-
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
             return [
@@ -829,6 +588,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override func paste(_ sender: Any?) {
         guard let note = self.note else { return }
+        let start = selectedRange().location
 
         // RTFD
         if let rtfdData = NSPasteboard.general.data(forType: NSPasteboard.attributed),
@@ -840,7 +600,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             breakUndoCoalescing()
             insertText(mutable, replacementRange: selectedRange())
             breakUndoCoalescing()
-
+            
+            selectInserted(start: start, length: attributed.length)
             return
         }
 
@@ -855,6 +616,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             insertText(attributed, replacementRange: selectedRange())
             breakUndoCoalescing()
 
+            selectInserted(start: start, length: attributed.length)
             return
         }
 
@@ -873,11 +635,17 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 insertText(attributed, replacementRange: selectedRange())
                 breakUndoCoalescing()
                 
+                selectInserted(start: start, length: attributed.length)
                 return
             }
         }
 
         super.paste(sender)
+    }
+    
+    private func selectInserted(start: Int, length: Int) {
+        let range = NSRange(location: start, length: length)
+        self.setSelectedRange(range)
     }
 
     override func pasteAsPlainText(_ sender: Any?) {
@@ -1366,119 +1134,54 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         super.keyDown(with: event)
     }
-
-    override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
+    
+    override func shouldChangeText(in range: NSRange, replacementString: String?) -> Bool {
         guard let note = self.note else {
-            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+            return super.shouldChangeText(in: range, replacementString: replacementString)
         }
-        
+
         note.resetAttributesCache()
-        
-        if let par = getParagraphRange(),
-            let text = textStorage?.mutableString.substring(with: par), text.contains("[["), text.contains("]]") {
+                
+        scheduleTagScan(for: note)
+        deleteUnusedImages(checkRange: range)
+        resetTypingAttributes()
 
-            guard let storageString = textStorage?.string else { return false }
-            let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: affectedCharRange.location)
-            let distance = string.distance(from: storageString.startIndex, to: to)
-
-            if isBetweenBraces(location: distance) != nil {
-                if !hasMarkedText() {
-                    DispatchQueue.main.async {
-                        self.complete(nil)
-                    }
-                }
-
-                return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
-            }
-        }
-
-        if UserDefaultsManagement.inlineTags {
-            if let repl = replacementString, repl.count == 1, !["", " ", "\t", "\n"].contains(repl), let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0)) {
-
-                var nextChar = " "
-                let nextCharLocation = affectedCharRange.location + 1
-                if selectedRange().length == 0, let textStorage = textStorage, nextCharLocation <= textStorage.length {
-                    let nextCharRange = NSRange(location: affectedCharRange.location, length: 1)
-                    nextChar = textStorage.mutableString.substring(with: nextCharRange)
-                }
-
-                if let paragraph = textStorage?.mutableString.substring(with: parRange) {
-                    let words = paragraph.components(separatedBy: " ")
-                    var i = parRange.location
-                    for word in words {
-                        let range = NSRange(location: i + 1, length: word.count)
-
-                        i += word.count + 1
-
-                        if word == ""
-                            || affectedCharRange.location >= range.upperBound
-                            || affectedCharRange.location < range.lowerBound
-                            || range.location <= 0 {
-                            continue
-                        }
-
-
-                        let hashRange = NSRange(location: range.location - 1, length: 1)
-                        if (self.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
-                            if !hasMarkedText() {
-                                DispatchQueue.main.async {
-                                    self.complete(nil)
-                                }
-                                
-                                return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        if let vc = ViewController.shared(),
-           !vc.tagsScannerQueue.contains(note) {
-            vc.tagsScannerQueue.append(note)
-        }
-
-        tagsTimer?.invalidate()
-        tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
-
-        deleteUnusedImages(checkRange: affectedCharRange)
-
-        typingAttributes.removeValue(forKey: .todo)
-        typingAttributes.removeValue(forKey: .tag)
-
-        if let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
-            paragraphStyle.alignment = .left
-        }
-
-        if textStorage?.length == 0 {
-            typingAttributes[.foregroundColor] = UserDataService.instance.isDark ? NSColor.white : NSColor.black
-        }
-
-        return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+        return super.shouldChangeText(in: range, replacementString: replacementString)
     }
-
-    override func insertCompletion(_ word: String, forPartialWordRange charRange: NSRange, movement: Int, isFinal flag: Bool) {
-        guard let storageString = textStorage?.string else { return }
-
-        let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: selectedRange.location)
-        let distance = string.distance(from: storageString.startIndex, to: to)
-
-        if nil != isBetweenBraces(location: distance) {
-            if movement == NSReturnTextMovement {
-                super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: true)
-            }
+    
+    // MARK: Autocomplete overrides
+    
+    var suppressCompletion = false
+    
+    override func didChangeText() {
+        super.didChangeText()
+        
+        if suppressCompletion {
+            suppressCompletion = false
             return
         }
-
-        var final = flag
-
-        if let event = self.window?.currentEvent, event.type == .keyDown, ["_", "/"].contains(event.characters) {
-            final = false
+        
+        if detectCompletionContext() != .none {
+            complete(nil)
         }
-
-        super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: final)
     }
-
+    
+    override func completions(forPartialWordRange charRange: NSRange,
+                            indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+        return handleCompletions(index: index)
+    }
+    
+    override func insertCompletion(_ word: String,
+                                  forPartialWordRange charRange: NSRange,
+                                  movement: Int,
+                                  isFinal flag: Bool) {
+        handleInsertCompletion(word: word, movement: movement, isFinal: flag)
+    }
+    
+    override var rangeForUserCompletion: NSRange {
+        return calculateCompletionRange()
+    }
+    
     @objc public func scanTagsAndAutoRename() {
         guard let vc = ViewController.shared() else { return }
         let notes = vc.tagsScannerQueue
@@ -2136,5 +1839,30 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         preview = false
         
         note?.previewState = false
+    }
+    
+    public func scheduleTagScan(for note: Note) {
+        if let vc = ViewController.shared(),
+           !vc.tagsScannerQueue.contains(note) {
+            vc.tagsScannerQueue.append(note)
+        }
+
+        tagsTimer?.invalidate()
+        tagsTimer = Timer.scheduledTimer(
+            timeInterval: 2.5,
+            target: self,
+            selector: #selector(scanTagsAndAutoRename),
+            userInfo: nil,
+            repeats: false
+        )
+    }
+
+    public func resetTypingAttributes() {
+        typingAttributes.removeValue(forKey: .todo)
+        typingAttributes.removeValue(forKey: .tag)
+
+        if let style = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
+            style.alignment = .left
+        }
     }
 }
