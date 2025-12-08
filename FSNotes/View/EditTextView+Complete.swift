@@ -326,7 +326,15 @@ extension EditTextView {
     private func insertCodeBlockCompletion(_ word: String, startPos: Int) {
         let currentPos = selectedRange().location
         let replaceRange = NSRange(location: startPos, length: currentPos - startPos)
-        let completion = "\(word)\n\n```"
+        
+        var completion = "\(word)\n\n```"
+        if let ranges = note?.codeBlockRangesCache {
+            for range in ranges {
+                if range.contains(startPos) {
+                    completion = word
+                }
+            }
+        }
         
         suppressCompletion = true
         
