@@ -405,7 +405,10 @@ public class SwiftHighlighter {
         
         // close ```
         let closeRange = NSRange(location: range.upperBound - 4, length: 4)
-        attributedString.addAttribute(.foregroundColor, value: grayColor, range: closeRange)
+        attributedString.addAttributes([
+            .foregroundColor: grayColor,
+            .font: NotesTextProcessor.codeFont
+        ], range: closeRange)
     }
     
     private func getLanguage(from attributedString: NSMutableAttributedString, startingAt start: Int) -> String? {
@@ -466,17 +469,27 @@ public class SwiftHighlighter {
                 }
             } else {
                 for beginMatch in allMatches.reversed() {
-                    guard beginMatch.range.location < editedRange.location else { continue }
+                    if beginMatch.range.location > editedRange.location + editedRange.length {
+                        continue
+                    }
+                    
+                    let searchStart = beginMatch.range.location + beginMatch.range.length
+                    let searchEnd = codeRange.location + codeRange.length
+                    
+                    guard searchEnd > searchStart else { continue }
                     
                     let searchRange = NSRange(
-                        location: beginMatch.range.location + beginMatch.range.length,
-                        length: (codeRange.location + codeRange.length) - (beginMatch.range.location + beginMatch.range.length)
+                        location: searchStart,
+                        length: searchEnd - searchStart
                     )
                     
                     if let endMatch = endRegex.firstMatch(in: attributedString.string, range: searchRange) {
-                        if endMatch.range.location > editedRange.location {
+                        let endMatchEnd = endMatch.range.location + endMatch.range.length
+                        
+                        if editedRange.location >= beginMatch.range.location &&
+                           editedRange.location <= endMatchEnd {
                             expandedLocation = min(expandedLocation, beginMatch.range.location)
-                            expandedEnd = max(expandedEnd, endMatch.range.location + endMatch.range.length)
+                            expandedEnd = max(expandedEnd, endMatchEnd)
                             break
                         }
                     }

@@ -49,7 +49,17 @@ extension EditTextView {
     
     private func detectCodeBlockContext(at location: Int, in text: NSString) -> CompletionContext? {
         guard location >= 3 else { return nil }
-        
+        guard let ranges = note?.codeBlockRangesCache,
+            ranges.contains(where: { $0.contains(location) })
+                || (
+                    // Allow if no code block before
+                    !ranges.contains(where: { $0.contains(location - 1) }) &&
+                    !ranges.contains(where: { $0.contains(location) })
+                )
+        else {
+            return nil
+        }
+
         let checkRange = NSRange(location: location - 3, length: 3)
         let lastChars = text.substring(with: checkRange)
         
@@ -76,7 +86,7 @@ extension EditTextView {
     private func detectCodeBlockLanguageInput(at location: Int, in text: NSString) -> CompletionContext? {
         var searchPos = location - 1
         
-        while searchPos >= 2 && location - searchPos < 30 {
+        while searchPos >= 0 && location - searchPos < 30 {
             if searchPos + 3 <= text.length {
                 let checkRange = NSRange(location: searchPos, length: 3)
                 let chars = text.substring(with: checkRange)
@@ -327,23 +337,31 @@ extension EditTextView {
         let currentPos = selectedRange().location
         let replaceRange = NSRange(location: startPos, length: currentPos - startPos)
         
-        var completion = "\(word)\n\n```"
+        let nextLineRange = NSRange(location: currentPos + 1, length: 3)
+        let nextLine = (self.string as NSString)
+            .safeSubstring(with: nextLineRange)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        let nextLineHasBackticks = (nextLine == "```")
+
+        var completion = nextLineHasBackticks
+            ? "\(word)\n"
+            : "\(word)\n\n```"
+
+        // Inside code block without ```
         if let ranges = note?.codeBlockRangesCache {
-            for range in ranges {
-                if range.contains(startPos) {
-                    completion = word
-                }
+            for r in ranges where r.contains(startPos) {
+                completion = word
+                break
             }
         }
-        
+
         suppressCompletion = true
-        
+
         if shouldChangeText(in: replaceRange, replacementString: completion) {
             replaceCharacters(in: replaceRange, with: completion)
             didChangeText()
-            
-            let newPos = startPos + word.count + 1
-            setSelectedRange(NSRange(location: newPos, length: 0))
+            setSelectedRange(NSRange(location: startPos + word.count + 1, length: 0))
         }
     }
     
@@ -400,5 +418,21 @@ extension EditTextView {
         case .none:
             return NSRange(location: location, length: 0)
         }
+    }
+}
+
+extension NSString {
+    func safeSubstring(with range: NSRange) -> String {
+        let length = self.length
+
+        if length == 0 { return "" }
+
+        let safeLocation = max(0, min(range.location, length - 1))
+        let safeLength = max(0, min(range.length, length - safeLocation))
+
+        if safeLength == 0 { return "" }
+
+        let safeRange = NSRange(location: safeLocation, length: safeLength)
+        return self.substring(with: safeRange)
     }
 }
