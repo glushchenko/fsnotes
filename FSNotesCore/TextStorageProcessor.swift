@@ -37,6 +37,14 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
         guard editedMask != .editedAttributes else { return }
         process(textStorage: textStorage, range: editedRange, changeInLength: delta)
+            
+        if editedMask.contains(.editedCharacters), delta < 0 {
+            if let layoutManager = textStorage.layoutManagers.first,
+               let textContainer = layoutManager.textContainers.first,
+               let textView = textContainer.textView {
+                textView.needsDisplay = true
+            }
+        }
     }
 #endif
 
