@@ -93,9 +93,9 @@
 		11D6C0CB2EE225E7006017F0 /* C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CA2EE225E1006017F0 /* C.swift */; };
 		11D6C0CC2EE225E7006017F0 /* C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CA2EE225E1006017F0 /* C.swift */; };
 		11D6C0CD2EE225E7006017F0 /* C.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CA2EE225E1006017F0 /* C.swift */; };
-		11D6C0CF2EE2279E006017F0 /* CPlusPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CE2EE22799006017F0 /* CPlusPlus.swift */; };
-		11D6C0D02EE2279E006017F0 /* CPlusPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CE2EE22799006017F0 /* CPlusPlus.swift */; };
-		11D6C0D12EE2279E006017F0 /* CPlusPlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CE2EE22799006017F0 /* CPlusPlus.swift */; };
+		11D6C0CF2EE2279E006017F0 /* Cpp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CE2EE22799006017F0 /* Cpp.swift */; };
+		11D6C0D02EE2279E006017F0 /* Cpp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CE2EE22799006017F0 /* Cpp.swift */; };
+		11D6C0D12EE2279E006017F0 /* Cpp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0CE2EE22799006017F0 /* Cpp.swift */; };
 		11D6C0D32EE227F9006017F0 /* Java.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0D22EE227F6006017F0 /* Java.swift */; };
 		11D6C0D42EE227F9006017F0 /* Java.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0D22EE227F6006017F0 /* Java.swift */; };
 		11D6C0D52EE227F9006017F0 /* Java.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0D22EE227F6006017F0 /* Java.swift */; };
@@ -105,9 +105,9 @@
 		11D6C0DB2EE22B0F006017F0 /* Rust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DA2EE22B0D006017F0 /* Rust.swift */; };
 		11D6C0DC2EE22B0F006017F0 /* Rust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DA2EE22B0D006017F0 /* Rust.swift */; };
 		11D6C0DD2EE22B0F006017F0 /* Rust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DA2EE22B0D006017F0 /* Rust.swift */; };
-		11D6C0DF2EE22B77006017F0 /* CSharp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DE2EE22B74006017F0 /* CSharp.swift */; };
-		11D6C0E02EE22B77006017F0 /* CSharp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DE2EE22B74006017F0 /* CSharp.swift */; };
-		11D6C0E12EE22B77006017F0 /* CSharp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DE2EE22B74006017F0 /* CSharp.swift */; };
+		11D6C0DF2EE22B77006017F0 /* Csharp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DE2EE22B74006017F0 /* Csharp.swift */; };
+		11D6C0E02EE22B77006017F0 /* Csharp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DE2EE22B74006017F0 /* Csharp.swift */; };
+		11D6C0E12EE22B77006017F0 /* Csharp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0DE2EE22B74006017F0 /* Csharp.swift */; };
 		11D6C0E32EE22BF2006017F0 /* Kotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0E22EE22BEE006017F0 /* Kotlin.swift */; };
 		11D6C0E42EE22BF2006017F0 /* Kotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0E22EE22BEE006017F0 /* Kotlin.swift */; };
 		11D6C0E52EE22BF2006017F0 /* Kotlin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0E22EE22BEE006017F0 /* Kotlin.swift */; };
@@ -123,9 +123,9 @@
 		11D6C0F32EE22D3B006017F0 /* Dart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F22EE22D39006017F0 /* Dart.swift */; };
 		11D6C0F42EE22D3B006017F0 /* Dart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F22EE22D39006017F0 /* Dart.swift */; };
 		11D6C0F52EE22D3B006017F0 /* Dart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F22EE22D39006017F0 /* Dart.swift */; };
-		11D6C0F72EE22D78006017F0 /* VisualBasic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F62EE22D73006017F0 /* VisualBasic.swift */; };
-		11D6C0F82EE22D78006017F0 /* VisualBasic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F62EE22D73006017F0 /* VisualBasic.swift */; };
-		11D6C0F92EE22D78006017F0 /* VisualBasic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F62EE22D73006017F0 /* VisualBasic.swift */; };
+		11D6C0F72EE22D78006017F0 /* Vb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F62EE22D73006017F0 /* Vb.swift */; };
+		11D6C0F82EE22D78006017F0 /* Vb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F62EE22D73006017F0 /* Vb.swift */; };
+		11D6C0F92EE22D78006017F0 /* Vb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0F62EE22D73006017F0 /* Vb.swift */; };
 		11D6C0FB2EE22E00006017F0 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0FA2EE22DFC006017F0 /* Assembly.swift */; };
 		11D6C0FC2EE22E00006017F0 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0FA2EE22DFC006017F0 /* Assembly.swift */; };
 		11D6C0FD2EE22E00006017F0 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6C0FA2EE22DFC006017F0 /* Assembly.swift */; };
@@ -898,17 +898,17 @@
 		11BF067D2EE49689006C7336 /* Erlang.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Erlang.swift; sourceTree = "<group>"; };
 		11D6C0C62EE22567006017F0 /* Python.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Python.swift; sourceTree = "<group>"; };
 		11D6C0CA2EE225E1006017F0 /* C.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = C.swift; sourceTree = "<group>"; };
-		11D6C0CE2EE22799006017F0 /* CPlusPlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPlusPlus.swift; sourceTree = "<group>"; };
+		11D6C0CE2EE22799006017F0 /* Cpp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cpp.swift; sourceTree = "<group>"; };
 		11D6C0D22EE227F6006017F0 /* Java.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Java.swift; sourceTree = "<group>"; };
 		11D6C0D62EE229E7006017F0 /* Go.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Go.swift; sourceTree = "<group>"; };
 		11D6C0DA2EE22B0D006017F0 /* Rust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rust.swift; sourceTree = "<group>"; };
-		11D6C0DE2EE22B74006017F0 /* CSharp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSharp.swift; sourceTree = "<group>"; };
+		11D6C0DE2EE22B74006017F0 /* Csharp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Csharp.swift; sourceTree = "<group>"; };
 		11D6C0E22EE22BEE006017F0 /* Kotlin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kotlin.swift; sourceTree = "<group>"; };
 		11D6C0E62EE22C0F006017F0 /* R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
 		11D6C0EA2EE22C69006017F0 /* Ruby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ruby.swift; sourceTree = "<group>"; };
 		11D6C0EE2EE22CB8006017F0 /* Matlab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matlab.swift; sourceTree = "<group>"; };
 		11D6C0F22EE22D39006017F0 /* Dart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dart.swift; sourceTree = "<group>"; };
-		11D6C0F62EE22D73006017F0 /* VisualBasic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualBasic.swift; sourceTree = "<group>"; };
+		11D6C0F62EE22D73006017F0 /* Vb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vb.swift; sourceTree = "<group>"; };
 		11D6C0FA2EE22DFC006017F0 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		11D6C0FE2EE22E48006017F0 /* Scratch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratch.swift; sourceTree = "<group>"; };
 		11D6C1022EE22E8B006017F0 /* Groovy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Groovy.swift; sourceTree = "<group>"; };
@@ -1327,17 +1327,17 @@
 				11D6C1022EE22E8B006017F0 /* Groovy.swift */,
 				11D6C0FE2EE22E48006017F0 /* Scratch.swift */,
 				11D6C0FA2EE22DFC006017F0 /* Assembly.swift */,
-				11D6C0F62EE22D73006017F0 /* VisualBasic.swift */,
+				11D6C0F62EE22D73006017F0 /* Vb.swift */,
 				11D6C0F22EE22D39006017F0 /* Dart.swift */,
 				11D6C0EE2EE22CB8006017F0 /* Matlab.swift */,
 				11D6C0EA2EE22C69006017F0 /* Ruby.swift */,
 				11D6C0E62EE22C0F006017F0 /* R.swift */,
 				11D6C0E22EE22BEE006017F0 /* Kotlin.swift */,
-				11D6C0DE2EE22B74006017F0 /* CSharp.swift */,
+				11D6C0DE2EE22B74006017F0 /* Csharp.swift */,
 				11D6C0DA2EE22B0D006017F0 /* Rust.swift */,
 				11D6C0D62EE229E7006017F0 /* Go.swift */,
 				11D6C0D22EE227F6006017F0 /* Java.swift */,
-				11D6C0CE2EE22799006017F0 /* CPlusPlus.swift */,
+				11D6C0CE2EE22799006017F0 /* Cpp.swift */,
 				11D6C0CA2EE225E1006017F0 /* C.swift */,
 				11D6C0C62EE22567006017F0 /* Python.swift */,
 				11AF633D2E898430004E7157 /* Sql.swift */,
@@ -2597,7 +2597,7 @@
 				D70E9DF72901AEAF00A3C634 /* ConfigManager.swift in Sources */,
 				11D6C0E92EE22C11006017F0 /* R.swift in Sources */,
 				D70E9E102901AEDA00A3C634 /* RepositoryManager.swift in Sources */,
-				11D6C0CF2EE2279E006017F0 /* CPlusPlus.swift in Sources */,
+				11D6C0CF2EE2279E006017F0 /* Cpp.swift in Sources */,
 				D73794BF2336642500E75A28 /* (null) in Sources */,
 				D70E9E062901AEC400A3C634 /* Index.swift in Sources */,
 				D70E9DF92901AEAF00A3C634 /* Progress.swift in Sources */,
@@ -2702,11 +2702,11 @@
 				D71B9D892868BF7F00D2F323 /* TextStorageProcessor.swift in Sources */,
 				D7CD5CDB21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D79A13CD2A0E9C980037510B /* UIColor+.swift in Sources */,
-				11D6C0F82EE22D78006017F0 /* VisualBasic.swift in Sources */,
+				11D6C0F82EE22D78006017F0 /* Vb.swift in Sources */,
 				D72DAF0B29B27D75001243BB /* ProjectSettings.swift in Sources */,
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */,
-				11D6C0E02EE22B77006017F0 /* CSharp.swift in Sources */,
+				11D6C0E02EE22B77006017F0 /* Csharp.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
 				D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */,
 				D73B3135298FBF4400F46144 /* GitViewController.swift in Sources */,
@@ -2861,7 +2861,7 @@
 				D7CC44C62A1E5F7600743857 /* ApiResponse.swift in Sources */,
 				D73BCC8F28EB5EC3008B3BBC /* Branch.swift in Sources */,
 				D73BCCBC28EB5EC3008B3BBC /* RevisionIterator.swift in Sources */,
-				11D6C0D12EE2279E006017F0 /* CPlusPlus.swift in Sources */,
+				11D6C0D12EE2279E006017F0 /* Cpp.swift in Sources */,
 				11D6C0D42EE227F9006017F0 /* Java.swift in Sources */,
 				D7487FED2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D77AD7FC27F9D1C90077BD45 /* Data+.swift in Sources */,
@@ -2893,7 +2893,7 @@
 				D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7CC44C12A1E5E4F00743857 /* ViewController+WebApi.swift in Sources */,
 				D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */,
-				11D6C0E12EE22B77006017F0 /* CSharp.swift in Sources */,
+				11D6C0E12EE22B77006017F0 /* Csharp.swift in Sources */,
 				D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */,
 				D7F5C0F2223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */,
 				D768D759245E86680028F344 /* NSAttributedString+.swift in Sources */,
@@ -2936,7 +2936,7 @@
 				110E40A02EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				11D6C0FF2EE22E4A006017F0 /* Scratch.swift in Sources */,
 				D73BCC9228EB5EC3008B3BBC /* Branches.swift in Sources */,
-				11D6C0F92EE22D78006017F0 /* VisualBasic.swift in Sources */,
+				11D6C0F92EE22D78006017F0 /* Vb.swift in Sources */,
 				D79798A229C0FE6A00B9A878 /* SettingsViewController.swift in Sources */,
 				D79651B12517741400333AD4 /* ProgressState.swift in Sources */,
 				D792DD9627A6D71C006ADC01 /* String+Punycode.swift in Sources */,
@@ -3079,7 +3079,7 @@
 				D7CC44C72A1E5F7600743857 /* ApiResponse.swift in Sources */,
 				D73BCC9028EB5EC3008B3BBC /* Branch.swift in Sources */,
 				D73BCCBD28EB5EC3008B3BBC /* RevisionIterator.swift in Sources */,
-				11D6C0D02EE2279E006017F0 /* CPlusPlus.swift in Sources */,
+				11D6C0D02EE2279E006017F0 /* Cpp.swift in Sources */,
 				11D6C0D52EE227F9006017F0 /* Java.swift in Sources */,
 				D7487FEC2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D77AD7FD27F9D1C90077BD45 /* Data+.swift in Sources */,
@@ -3111,7 +3111,7 @@
 				D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7CC44C22A1E5E4F00743857 /* ViewController+WebApi.swift in Sources */,
 				D7E81C3F1F925B5F00416A91 /* NSFont+.swift in Sources */,
-				11D6C0DF2EE22B77006017F0 /* CSharp.swift in Sources */,
+				11D6C0DF2EE22B77006017F0 /* Csharp.swift in Sources */,
 				D7E81C411F925B5F00416A91 /* SearchTextField.swift in Sources */,
 				D7F5C0F3223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */,
 				D73BCC9F28EB5EC3008B3BBC /* Error.swift in Sources */,
@@ -3154,7 +3154,7 @@
 				110E40A22EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				11D6C1012EE22E4A006017F0 /* Scratch.swift in Sources */,
 				D73BCC9328EB5EC3008B3BBC /* Branches.swift in Sources */,
-				11D6C0F72EE22D78006017F0 /* VisualBasic.swift in Sources */,
+				11D6C0F72EE22D78006017F0 /* Vb.swift in Sources */,
 				D79798A329C0FE6A00B9A878 /* SettingsViewController.swift in Sources */,
 				D79651B22517741400333AD4 /* ProgressState.swift in Sources */,
 				D792DD9727A6D71C006ADC01 /* String+Punycode.swift in Sources */,

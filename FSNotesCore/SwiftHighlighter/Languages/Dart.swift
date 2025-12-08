@@ -120,24 +120,12 @@ struct DartLanguage: LanguageDefinition {
         Mode(scope: "string", begin: "r'", end: "'"),
         
         // Multi-line strings with interpolation
-        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
-        Mode(scope: "string", begin: "'''", end: "'''", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
+        Mode(scope: "string", begin: "'''", end: "'''"),
         
         // Regular strings with interpolation
-        Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
-        Mode(scope: "string", begin: "'", end: "'", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "\"", end: "\""),
+        Mode(scope: "string", begin: "'", end: "'"),
         
         // Symbols
         Mode(scope: "meta", begin: "#[a-zA-Z_][a-zA-Z0-9_]*"),

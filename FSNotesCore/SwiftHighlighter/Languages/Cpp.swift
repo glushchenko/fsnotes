@@ -6,7 +6,7 @@
 //  Copyright © 2025 Oleksandr Hlushchenko. All rights reserved.
 //
 
-struct CPlusPlusLanguage: LanguageDefinition {
+struct CppLanguage: LanguageDefinition {
     let name = "C++"
     let aliases: [String]? = ["cpp", "cc", "cxx", "c++", "hpp", "hh", "hxx", "h++"]
     let caseInsensitive = false

@@ -62,12 +62,8 @@ struct PythonLanguage: LanguageDefinition {
         Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
         Mode(scope: "string", begin: "'''", end: "'''"),
         
-        Mode(scope: "string", begin: "f\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}")
-        ]),
-        Mode(scope: "string", begin: "f'", end: "'", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}")
-        ]),
+        Mode(scope: "string", begin: "f\"", end: "\""),
+        Mode(scope: "string", begin: "f'", end: "'"),
         
         CommonModes.stringDouble,
         CommonModes.stringSingle,

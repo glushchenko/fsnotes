@@ -117,11 +117,7 @@ struct BashLanguage: LanguageDefinition {
         Mode(scope: "string", begin: "`", end: "`"),
         
         // Strings with double quotes (allows variable expansion)
-        Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*"),
-            Mode(scope: "subst", begin: "\\$\\{[^}]+\\}"),
-            Mode(scope: "subst", begin: "\\$\\([^)]+\\)")
-        ]),
+        Mode(scope: "string", begin: "\"", end: "\""),
         
         // Strings with single quotes (no expansion)
         CommonModes.stringSingle,

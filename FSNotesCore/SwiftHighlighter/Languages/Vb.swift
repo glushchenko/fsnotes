@@ -6,7 +6,7 @@
 //  Copyright © 2025 Oleksandr Hlushchenko. All rights reserved.
 //
 
-struct VisualBasicLanguage: LanguageDefinition {
+struct VbLanguage: LanguageDefinition {
     let name = "Visual Basic"
     let aliases: [String]? = ["vb", "vba", "vbnet", "vb.net"]
     let caseInsensitive = true

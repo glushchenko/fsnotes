@@ -129,14 +129,8 @@ struct ScalaLanguage: LanguageDefinition {
         Mode(scope: "meta", begin: "\\b(?:val|var)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
         // String interpolation
-        Mode(scope: "string", begin: "s\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
-        Mode(scope: "string", begin: "f\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "s\"", end: "\""),
+        Mode(scope: "string", begin: "f\"", end: "\""),
         
         // Raw strings
         Mode(scope: "string", begin: "raw\"", end: "\""),

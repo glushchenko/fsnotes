@@ -34,10 +34,10 @@ struct JavaScriptLanguage: LanguageDefinition {
     ]
 
     let contains: [Mode] = [
-        Mode(scope: "comment", begin: "//", end: "\n", contains: []),
-        Mode(scope: "comment", begin: "#", end: "\n", contains: []),
-        Mode(scope: "comment", begin: "/\\*", end: "\\*/", contains: []),
-        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/", contains: []),
+        Mode(scope: "comment", begin: "//", end: "\n"),
+        Mode(scope: "comment", begin: "#", end: "\n"),
+        Mode(scope: "comment", begin: "/\\*", end: "\\*/"),
+        Mode(scope: "comment.doc", begin: "/\\*\\*", end: "\\*/"),
         
         Mode(scope: "function", begin: "\\bfunction\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         Mode(scope: "class", begin: "\\bclass\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
@@ -46,8 +46,6 @@ struct JavaScriptLanguage: LanguageDefinition {
         CommonModes.stringDouble,
         CommonModes.stringSingle,
         
-        Mode(scope: "string", begin: "`", end: "`", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}", contains: [])
-        ]),
+        Mode(scope: "string", begin: "`", end: "`"),
     ]
 }

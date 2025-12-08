@@ -105,17 +105,11 @@ struct CSharpLanguage: LanguageDefinition {
         Mode(scope: "string", begin: "@\"", end: "\""),
         
         // Interpolated strings
-        Mode(scope: "string", begin: "\\$\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}")
-        ]),
+        Mode(scope: "string", begin: "\\$\"", end: "\""),
         
         // Verbatim interpolated strings
-        Mode(scope: "string", begin: "\\$@\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}")
-        ]),
-        Mode(scope: "string", begin: "@\\$\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\{", end: "\\}")
-        ]),
+        Mode(scope: "string", begin: "\\$@\"", end: "\""),
+        Mode(scope: "string", begin: "@\\$\"", end: "\""),
         
         // Raw string literals (C# 11)
         Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),

@@ -111,15 +111,8 @@ struct KotlinLanguage: LanguageDefinition {
         
         Mode(scope: "function", begin: "\\b(?:val|var)\\s+([a-zA-Z_][a-zA-Z0-9_]*)"),
         
-        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
-        
-        Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
+        Mode(scope: "string", begin: "\"", end: "\""),
         
         Mode(scope: "string", begin: "'(?:[^'\\\\]|\\\\.)+'"),
         

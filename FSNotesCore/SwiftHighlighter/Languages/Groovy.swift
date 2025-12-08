@@ -124,29 +124,17 @@ struct GroovyLanguage: LanguageDefinition {
         Mode(scope: "function", begin: "\\b(?:def|void|public|private|protected|static)\\s+[a-zA-Z_][a-zA-Z0-9_]*\\s*(?=\\()"),
         
         // Triple-quoted strings (multi-line)
-        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "\"\"\"", end: "\"\"\""),
         Mode(scope: "string", begin: "'''", end: "'''"),
         
         // Slashy strings (regex-friendly)
-        Mode(scope: "string", begin: "/(?![*/])", end: "/", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "/(?![*/])", end: "/"),
         
         // Dollar slashy strings
-        Mode(scope: "string", begin: "\\$/", end: "/\\$", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "\\$/", end: "/\\$"),
         
         // GString (interpolated strings)
-        Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "\\$\\{", end: "\\}"),
-            Mode(scope: "subst", begin: "\\$[a-zA-Z_][a-zA-Z0-9_]*")
-        ]),
+        Mode(scope: "string", begin: "\"", end: "\""),
         
         // Regular strings (single quotes, no interpolation)
         CommonModes.stringSingle,

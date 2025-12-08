@@ -156,17 +156,13 @@ struct RubyLanguage: LanguageDefinition {
         Mode(scope: "string", begin: "%r\\|", end: "\\|[imxo]*"),
         
         // String interpolation
-        Mode(scope: "string", begin: "\"", end: "\"", contains: [
-            Mode(scope: "subst", begin: "#\\{", end: "\\}")
-        ]),
+        Mode(scope: "string", begin: "\"", end: "\""),
         
         // Single quoted strings (no interpolation)
         CommonModes.stringSingle,
         
         // Backtick strings (command execution)
-        Mode(scope: "string", begin: "`", end: "`", contains: [
-            Mode(scope: "subst", begin: "#\\{", end: "\\}")
-        ]),
+        Mode(scope: "string", begin: "`", end: "`"),
         
         // Binary
         Mode(scope: "number", begin: "\\b0[bB][01_]+\\b"),

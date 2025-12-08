@@ -36,6 +36,9 @@ extension EditTextView {
             return codeBlockContext
         }
         
+        guard let ranges = note?.codeBlockRangesCache,
+              !ranges.contains(where: { $0.contains(location) }) else { return .none }
+                
         if let tagContext = detectTagContext(at: location, in: text) {
             return tagContext
         }
