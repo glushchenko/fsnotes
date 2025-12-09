@@ -698,16 +698,22 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             width = 0
         }
 
-        let codeLineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.codeFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
-        let lineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.noteFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
         let codeBackground = NotesTextProcessor.getHighlighter().options.style.backgroundColor.hexString
 
     #if os(iOS)
         let fontSize = UserDefaultsManagement.noteFont.pointSize
         let codeFontSize = fontSize
+        
+        let tagAttributes = [NSAttributedString.Key.font: UserDefaultsManagement.codeFont]
+        let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes as [NSAttributedString.Key : Any])
+        let codeLineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
+        let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
     #else
         let fontSize = UserDefaultsManagement.fontSize
         let codeFontSize = UserDefaultsManagement.codeFontSize
+        
+        let codeLineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.codeFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
+        let lineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.noteFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
     #endif
         
         let maxImageWidth = Int(UserDefaultsManagement.imagesWidth)

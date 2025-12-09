@@ -182,6 +182,12 @@ public class SwiftHighlighter {
             self.registerLanguage("perl", definition: PerlLanguage())
             self.registerLanguage("lua", definition: LuaLanguage())
             self.registerLanguage("clojure", definition: ClojureLanguage())
+            self.registerLanguage("html", definition: HTMLLanguage())
+            self.registerLanguage("css", definition: CSSLanguage())
+            self.registerLanguage("sh", definition: ShellLanguage())
+            self.registerLanguage("ts", definition: TypeScriptLanguage())
+            self.registerLanguage("lisp", definition: LispLanguage())
+            
         }
     }
 
