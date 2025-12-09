@@ -656,18 +656,11 @@ public class TextFormatter {
         // New Line insertion
 
         var newLine = "\n"
-        
         var prefix: String?
         
-        if UserDefaultsManagement.indentUsing == 0x00  && currentParagraph.string.starts(with: "\t") {
+        if currentParagraph.string.starts(with: "\t") {
             prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t")
-        }
-
-        if UserDefaultsManagement.indentUsing == 0x01  && currentParagraph.string.starts(with: "  ") {
-            prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
-        }
-
-        if UserDefaultsManagement.indentUsing == 0x02  && currentParagraph.string.starts(with: "    ") {
+        } else if currentParagraph.string.starts(with: "  ") {
             prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
         }
 

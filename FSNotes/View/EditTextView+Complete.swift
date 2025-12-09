@@ -36,6 +36,8 @@ extension EditTextView {
             return codeBlockContext
         }
         
+        
+        // Disable completion in code blocks
         guard let ranges = note?.codeBlockRangesCache,
               !ranges.contains(where: { $0.contains(location) }) else { return .none }
                 

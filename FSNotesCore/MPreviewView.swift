@@ -698,14 +698,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             width = 0
         }
 
-        let tagAttributes = [NSAttributedString.Key.font: UserDefaultsManagement.codeFont]
-        let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes as [NSAttributedString.Key : Any])
-        let codeLineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
-
-        // Line height compute
-        let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
-
-        let codeBackground = NotesTextProcessor.codeBackground.hexString
+        let codeLineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.codeFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
+        let lineHeight = computeDefaultLineHeight(for: UserDefaultsManagement.noteFont, lineHeightMultiple: UserDefaultsManagement.lineHeightMultiple)
+        let codeBackground = NotesTextProcessor.getHighlighter().options.style.backgroundColor.hexString
 
     #if os(iOS)
         let fontSize = UserDefaultsManagement.noteFont.pointSize
@@ -789,6 +784,15 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
     public func clean() {
         loadHTMLString("", baseURL: nil)
+    }
+    
+    private static func computeDefaultLineHeight(for font: Font, lineHeightMultiple: CGFloat = 1.0) -> CGFloat {
+        let asc = font.ascender
+        let desc = abs(font.descender)
+        let lead = font.leading
+
+        let base = asc + desc + lead
+        return base * lineHeightMultiple
     }
 }
 

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1102DDB12EE4C280005029A6 /* EditTextView+Complete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1102DDB02EE4C277005029A6 /* EditTextView+Complete.swift */; };
 		1102DDB22EE4C280005029A6 /* EditTextView+Complete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1102DDB02EE4C277005029A6 /* EditTextView+Complete.swift */; };
+		110BE0112EE86B4A00C5E456 /* Clojure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BE0102EE86B4600C5E456 /* Clojure.swift */; };
+		110BE0122EE86B4A00C5E456 /* Clojure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BE0102EE86B4600C5E456 /* Clojure.swift */; };
+		110BE0132EE86B4A00C5E456 /* Clojure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BE0102EE86B4600C5E456 /* Clojure.swift */; };
 		110D09832E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
 		110D09842E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
 		110D09852E9C152B001555FA /* NSRange+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110D09812E9C1525001555FA /* NSRange+.swift */; };
@@ -317,7 +320,7 @@
 		D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDA827B5DD370012ED70 /* EditorSelectionRect.swift */; };
 		D736DDAB27BABFFB0012ED70 /* RevisionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAA27BABFF80012ED70 /* RevisionsViewController.swift */; };
 		D736DDAD27BAC7940012ED70 /* Note+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAC27BAC7940012ED70 /* Note+History.swift */; };
-		D73794BF2336642500E75A28 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		D73794BF2336642500E75A28 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794C023366F5200E75A28 /* ImageScrollView.swift */; };
 		D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
 		D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
@@ -863,6 +866,7 @@
 
 /* Begin PBXFileReference section */
 		1102DDB02EE4C277005029A6 /* EditTextView+Complete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+Complete.swift"; sourceTree = "<group>"; };
+		110BE0102EE86B4600C5E456 /* Clojure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clojure.swift; sourceTree = "<group>"; };
 		110D09812E9C1525001555FA /* NSRange+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRange+.swift"; sourceTree = "<group>"; };
 		110E409D2EA0150000C62F49 /* NSTextCheckingResult+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextCheckingResult+.swift"; sourceTree = "<group>"; };
 		110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+DragOperation.swift"; sourceTree = "<group>"; };
@@ -1317,6 +1321,7 @@
 		11D943182E643EE40010CC2B /* Languages */ = {
 			isa = PBXGroup;
 			children = (
+				110BE0102EE86B4600C5E456 /* Clojure.swift */,
 				11BF067D2EE49689006C7336 /* Erlang.swift */,
 				11BF06792EE495C0006C7336 /* Perl.swift */,
 				11BF06752EE49542006C7336 /* Lua.swift */,
@@ -2524,6 +2529,7 @@
 				D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */,
 				D79651B42517741400333AD4 /* ProgressState.swift in Sources */,
 				D70E9E0A2901AECF00A3C634 /* Remote.swift in Sources */,
+				110BE0112EE86B4A00C5E456 /* Clojure.swift in Sources */,
 				D70E9DF32901AEA100A3C634 /* PasswordAuthentication.swift in Sources */,
 				D70E9E132901AEE600A3C634 /* Statuses.swift in Sources */,
 				D792DD8527A6C980006ADC01 /* FSParser.swift in Sources */,
@@ -2592,7 +2598,7 @@
 				11D6C0E92EE22C11006017F0 /* R.swift in Sources */,
 				D70E9E102901AEDA00A3C634 /* RepositoryManager.swift in Sources */,
 				11D6C0CF2EE2279E006017F0 /* Cpp.swift in Sources */,
-				D73794BF2336642500E75A28 /* BuildFile in Sources */,
+				D73794BF2336642500E75A28 /* (null) in Sources */,
 				D70E9E062901AEC400A3C634 /* Index.swift in Sources */,
 				D70E9DF92901AEAF00A3C634 /* Progress.swift in Sources */,
 				D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */,
@@ -2875,6 +2881,7 @@
 				D74D479F256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				11BD8F9C2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
+				110BE0122EE86B4A00C5E456 /* Clojure.swift in Sources */,
 				8F7136EE23490CBF004DFA6E /* Markdown.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
 				D7487F932173503C00D09383 /* AttributedBox.swift in Sources */,
@@ -3093,6 +3100,7 @@
 				D74D47A0256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				11BD8F9A2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,
+				110BE0132EE86B4A00C5E456 /* Clojure.swift in Sources */,
 				D7767C7F234E47B9006A0716 /* Markdown.swift in Sources */,
 				D7E81C3D1F925B5F00416A91 /* SandboxBookmark.swift in Sources */,
 				D7487F922173503C00D09383 /* AttributedBox.swift in Sources */,

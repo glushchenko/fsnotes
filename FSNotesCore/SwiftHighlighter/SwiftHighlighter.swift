@@ -181,6 +181,7 @@ public class SwiftHighlighter {
             self.registerLanguage("erlang", definition: ErlangLanguage())
             self.registerLanguage("perl", definition: PerlLanguage())
             self.registerLanguage("lua", definition: LuaLanguage())
+            self.registerLanguage("clojure", definition: ClojureLanguage())
         }
     }
 
