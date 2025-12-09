@@ -15,7 +15,6 @@ def ios_pods
 end
 
 def common_pods
-    pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'libcmark_gfm', :git => 'https://github.com/glushchenko/libcmark_gfm', :branch => 'master' 
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
@@ -50,7 +49,6 @@ end
 target 'FSNotes iOS Share Extension' do
     platform :ios, IOS_TARGET_VERSION
 
-    pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
 end
@@ -83,7 +81,6 @@ post_install do |installer|
 
     if target.name == 'SSZipArchive-iOS' ||
       target.name == 'RNCryptor-iOS' ||
-      target.name == 'Highlightr-iOS' ||
       target.name == 'DropDown' ||
       target.name == 'DKCamera' ||
       target.name == 'CropViewController'

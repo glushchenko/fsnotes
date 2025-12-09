@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Highlightr
 import Carbon.HIToolbox
 
 class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelegate {
@@ -1241,20 +1240,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if let note = self.note, !note.isMarkdown() {
             textColor = color
         }
-    }
-    
-    func getPreviewStyle() -> String {
-        var codeStyle = ""
-        let isDark = UserDataService.instance.isDark
-        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme.getCssName(isDark: isDark) + ".min", ofType: "css") {
-            codeStyle = try! String.init(contentsOfFile: hgPath)
-        }
-        
-        guard let familyName = UserDefaultsManagement.noteFont.familyName else {
-            return codeStyle
-        }
-        
-        return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.codeFontSize)px \(UserDefaultsManagement.codeFontName);} \(codeStyle)"
     }
     
     override func awakeFromNib() {

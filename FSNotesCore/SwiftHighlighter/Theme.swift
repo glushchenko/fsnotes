@@ -57,7 +57,7 @@ enum EditorTheme: String, CaseIterable, Codable {
     func getCssName(isDark: Bool) -> String {
         switch self {
         case .github:
-            return "github"
+            return "github-" + (isDark ? "dark" : "light")
         case .atomOne:
             return "atom-one-" + (isDark ? "dark" : "light")
         case .solarized:

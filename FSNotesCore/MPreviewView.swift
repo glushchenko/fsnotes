@@ -7,7 +7,6 @@
 //
 
 import WebKit
-import Highlightr
 import SSZipArchive
 
 #if os(iOS)
@@ -646,7 +645,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var css = "<style>"
         
         if print {
-            theme = "github"
+            theme = "github-light"
             fullScreen = true
             useFixedImageHeight = false
         }
@@ -656,19 +655,25 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 ? String("img { max-height: 90vh; }")
                 : String()
 
-        let isDark = UserDataService.instance.isDark
-        theme = theme ?? UserDefaultsManagement.codeTheme.getCssName(isDark: isDark)
-        
         if forceLightTheme {
-            theme = UserDefaultsManagement.lightCodeTheme
+            theme = UserDefaultsManagement.codeTheme.getCssName(isDark: false)
             fullScreen = true
+        } else {
+            let isDark = UserDataService.instance.isDark
+            theme = theme ?? UserDefaultsManagement.codeTheme.getCssName(isDark: isDark)
         }
 
         var codeStyle = String()
-        if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme! + ".min", ofType: "css") {
-            codeStyle = try! String.init(contentsOfFile: hgPath)
-        }
+        
+        if let bundleURL = Bundle.main.url(forResource: "MPreview", withExtension: "bundle"),
+            let mPreviewBundle = Bundle(url: bundleURL),
+            let theme = theme,
+            let cssURL = mPreviewBundle.url(forResource: theme, withExtension: "min.css", subdirectory: "styles"),
+            let content = try? String(contentsOf: cssURL, encoding: .utf8) {
 
+            codeStyle = content
+        }
+        
         #if os(iOS)
             let codeFamilyName = UserDefaultsManagement.codeFont.familyName
             var familyName = UserDefaultsManagement.noteFont.familyName

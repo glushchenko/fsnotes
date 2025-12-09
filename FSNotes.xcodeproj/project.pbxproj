@@ -317,7 +317,7 @@
 		D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDA827B5DD370012ED70 /* EditorSelectionRect.swift */; };
 		D736DDAB27BABFFB0012ED70 /* RevisionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAA27BABFF80012ED70 /* RevisionsViewController.swift */; };
 		D736DDAD27BAC7940012ED70 /* Note+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAC27BAC7940012ED70 /* Note+History.swift */; };
-		D73794BF2336642500E75A28 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D73794BF2336642500E75A28 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794C023366F5200E75A28 /* ImageScrollView.swift */; };
 		D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
 		D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
@@ -2296,7 +2296,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 				"${BUILT_PRODUCTS_DIR}/Punycode-macOS/Punycode.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
@@ -2305,7 +2304,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Punycode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
@@ -2346,7 +2344,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FSNotes (iCloud)/Pods-FSNotes (iCloud)-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 				"${BUILT_PRODUCTS_DIR}/Punycode-macOS/Punycode.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
@@ -2355,7 +2352,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Punycode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
@@ -2374,7 +2370,6 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Highlightr-iOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/Punycode-iOS/Punycode.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-iOS/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive-iOS/SSZipArchive.framework",
@@ -2385,7 +2380,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Punycode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -2598,7 +2592,7 @@
 				11D6C0E92EE22C11006017F0 /* R.swift in Sources */,
 				D70E9E102901AEDA00A3C634 /* RepositoryManager.swift in Sources */,
 				11D6C0CF2EE2279E006017F0 /* Cpp.swift in Sources */,
-				D73794BF2336642500E75A28 /* (null) in Sources */,
+				D73794BF2336642500E75A28 /* BuildFile in Sources */,
 				D70E9E062901AEC400A3C634 /* Index.swift in Sources */,
 				D70E9DF92901AEAF00A3C634 /* Progress.swift in Sources */,
 				D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */,
