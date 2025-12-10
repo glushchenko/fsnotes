@@ -196,9 +196,27 @@ class ViewController: EditorViewController,
     }
     
     override func viewDidAppear() {
+        
+        // Init window size
+        if UserDefaultsManagement.isFirstLaunch {
+            if let window = self.view.window {
+                let newSize = NSSize(width: 1200, height: window.frame.height)
+                window.setContentSize(newSize)
+                window.center()
+            }
+            
+            self.sidebarSplitView.setPosition(200, ofDividerAt: 0)
+            self.splitView.setPosition(300, ofDividerAt: 0)
+            
+            UserDefaultsManagement.sidebarTableWidth = 200
+            UserDefaultsManagement.notesTableWidth = 300
+            
+            UserDefaultsManagement.isFirstLaunch = false
+        }
+        
         // Restore window position
-
-        if sidebarOutlineView.isFirstLaunch, let x = UserDefaultsManagement.lastScreenX, let y = UserDefaultsManagement.lastScreenY {
+        if let x = UserDefaultsManagement.lastScreenX,
+            let y = UserDefaultsManagement.lastScreenY {
             view.window?.setFrameOrigin(NSPoint(x: x, y: y))
 
             UserDefaultsManagement.lastScreenX = nil
@@ -1078,18 +1096,18 @@ class ViewController: EditorViewController,
             : vc.splitView.subviews[0].frame.width
 
         if size == 0 {
-            var size = UserDefaultsManagement.sidebarSize
-            if UserDefaultsManagement.sidebarSize == 0 {
-                size = 250
+            var size = UserDefaultsManagement.notesTableWidth
+            if UserDefaultsManagement.notesTableWidth == 0 {
+                size = 300
             }
 
             vc.splitView.shouldHideDivider = false
             vc.splitView.setPosition(size, ofDividerAt: 0)
         } else if vc.splitView.shouldHideDivider {
             vc.splitView.shouldHideDivider = false
-            vc.splitView.setPosition(UserDefaultsManagement.sidebarSize, ofDividerAt: 0)
+            vc.splitView.setPosition(UserDefaultsManagement.notesTableWidth, ofDividerAt: 0)
         } else {
-            UserDefaultsManagement.sidebarSize = size
+            UserDefaultsManagement.notesTableWidth = size
 
             vc.splitView.shouldHideDivider = true
             vc.splitView.setPosition(0, ofDividerAt: 0)
@@ -1106,10 +1124,10 @@ class ViewController: EditorViewController,
         guard let vc = ViewController.shared() else { return }
 
         if isVisibleSidebar() {
-            UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
+            UserDefaultsManagement.sidebarTableWidth = vc.sidebarSplitView.subviews[0].frame.width
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
         } else {
-            vc.sidebarSplitView.setPosition(CGFloat(UserDefaultsManagement.realSidebarSize), ofDividerAt: 0)
+            vc.sidebarSplitView.setPosition(UserDefaultsManagement.sidebarTableWidth, ofDividerAt: 0)
 
             vc.reloadSideBar()
         }
@@ -1770,7 +1788,7 @@ class ViewController: EditorViewController,
             return
         }
         
-        if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
+        if UserDefaultsManagement.hideSidebarTable || sidebarSplitView.subviews[0].frame.width < 50 {
             
             searchTopConstraint.constant = CGFloat(25)
             return

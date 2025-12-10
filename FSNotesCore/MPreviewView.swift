@@ -244,7 +244,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     public func cleanCache() {
         URLCache.shared.removeAllCachedResponses()
 
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
         }
 

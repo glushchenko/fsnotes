@@ -24,7 +24,7 @@ extension Project {
         }
 
         let key = String(url.path.md5.prefix(4))
-        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(key + " - " + label + ".git")
+        let repoURL = UserDefaultsManagement.gitStorage!.appendingPathComponent(key + " - " + label + ".git")
 
         return repoURL
     }
@@ -64,7 +64,7 @@ extension Project {
         let repoURL = getRepositoryUrl()
 
         // Prepare temporary dir
-        let tempURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+        let tempURL = UserDefaultsManagement.gitStorage!.appendingPathComponent("tmp")
 
         try? FileManager.default.removeItem(at: tempURL)
         try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true)
@@ -89,7 +89,7 @@ extension Project {
         let repoURL = getRepositoryUrl()
 
         // Prepare temporary dir
-        let tempURL = UserDefaultsManagement.gitStorage.appendingPathComponent("tmp")
+        guard let tempURL = UserDefaultsManagement.gitStorage?.appendingPathComponent("tmp") else { return nil }
 
         try? FileManager.default.removeItem(at: tempURL)
         try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true)

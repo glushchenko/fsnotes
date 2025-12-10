@@ -56,10 +56,12 @@ class PreferencesGitViewController: SettingsViewController {
                         return
                 }
 
-                let currentURL = UserDefaultsManagement.gitStorage
-
                 let bookmarksManager = SandboxBookmark.sharedInstance()
-                bookmarksManager.remove(url: currentURL)
+                
+                if let currentURL = UserDefaultsManagement.gitStorage {
+                    bookmarksManager.remove(url: currentURL)
+                }
+                
                 bookmarksManager.store(url: url)
                 bookmarksManager.save()
 
@@ -70,11 +72,15 @@ class PreferencesGitViewController: SettingsViewController {
     }
 
     @IBAction func showFinder(_ sender: Any) {
-        NSWorkspace.shared.activateFileViewerSelecting([UserDefaultsManagement.gitStorage])
+        guard let storage = UserDefaultsManagement.gitStorage else { return }
+        
+        NSWorkspace.shared.activateFileViewerSelecting([storage])
     }
 
     @IBAction func showTerminal(_ sender: Any) {
-        NSWorkspace.shared.openFile(UserDefaultsManagement.gitStorage.path, withApplication: "Terminal.app")
+        guard let storage = UserDefaultsManagement.gitStorage else { return }
+        
+        NSWorkspace.shared.openFile(storage.path, withApplication: "Terminal.app")
     }
 
     @IBAction func backupMethod(_ sender: NSButton) {

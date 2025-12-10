@@ -19,7 +19,6 @@ extension UserDefaultsManagement {
         static let editorAutocorrection = "editorAutocorrection"
         static let editorState = "editorState"
         static let editorSuggestions = "editorSuggestions"
-        static let IsFirstLaunch = "isFirstLaunch"
         static let ImportURLsKey = "ImportURLs"
     }
 
@@ -57,18 +56,6 @@ extension UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: "sidebarIsOpened")
-        }
-    }
-
-    static var isFirstLaunch: Bool {
-        get {
-            if let result = shared?.object(forKey: Constants.IsFirstLaunch) as? Bool {
-                return result
-            }
-            return true
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.IsFirstLaunch)
         }
     }
 

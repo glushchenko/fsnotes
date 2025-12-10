@@ -737,6 +737,10 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     func outlineViewSelectionDidChange(_ notification: Notification) {
+        defer {
+            isFirstLaunch = false
+        }
+        
         guard let vd = viewDelegate else { return }
         guard let view = notification.object as? NSOutlineView else { return }
 
@@ -765,7 +769,8 @@ class SidebarOutlineView: NSOutlineView,
 
         if let item = view.item(atRow: i) as? SidebarItem {
             if UserDefaultsManagement.lastSidebarItem == item.type.rawValue
-                && !hasChangedTagsState && !isFirstLaunch {
+                && !hasChangedTagsState
+                && !isFirstLaunch {
                 return
             }
 
@@ -774,7 +779,9 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         if let selectedProject = view.item(atRow: i) as? Project {
-            if UserDefaultsManagement.lastProjectURL == selectedProject.url && !hasChangedTagsState && !isFirstLaunch {
+            if UserDefaultsManagement.lastProjectURL == selectedProject.url
+                && !hasChangedTagsState
+                && !isFirstLaunch {
                 return
             }
 
