@@ -72,45 +72,58 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 let tagAttributes = attributedString().attributes(at: range.location, effectiveRange: nil)
 
                 let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-                var lineRect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: container)
-
-                lineRect.origin.x += self.textContainerOrigin.x
-                lineRect.origin.y += self.textContainerOrigin.y
-                lineRect = self.convertToLayer(lineRect)
-                lineRect = lineRect.integral
-
-                let ascent = font.ascender            // > 0
-                let descent = abs(font.descender)     // > 0
+                
+                let ascent = font.ascender
+                let descent = abs(font.descender)
                 let fontHeight = ascent + descent
 
-                let verticalInset = max(0, (lineRect.height - fontHeight) / 2)
-                var tagRect = NSRect(
-                    x: lineRect.minX,
-                    y: lineRect.minY + verticalInset,
-                    width: lineRect.width - 3,
-                    height: fontHeight
-                )
+                layoutManager.enumerateLineFragments(forGlyphRange: glyphRange) { rect, usedRect, textContainer, lineGlyphRange, stop in
 
-                let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes)
-                tagRect.size.width += oneCharSize.width * 0.25
-                tagRect = tagRect.integral
+                    let intersectionRange = NSIntersectionRange(glyphRange, lineGlyphRange)
+                    guard intersectionRange.length > 0 else { return }
+                    
+                    var fragmentRect = layoutManager.boundingRect(forGlyphRange: intersectionRange, in: textContainer)
+                    
+                    fragmentRect.origin.x += self.textContainerOrigin.x
+                    fragmentRect.origin.y += self.textContainerOrigin.y
+                    fragmentRect = self.convertToLayer(fragmentRect)
+                    fragmentRect = fragmentRect.integral
 
-                NSGraphicsContext.saveGraphicsState()
-                let path = NSBezierPath(roundedRect: tagRect, xRadius: 3, yRadius: 3)
-                NSColor.tagColor.setFill()
-                path.fill()
+                    let verticalInset = max(0, (fragmentRect.height - fontHeight) / 2)
+                    var tagRect = NSRect(
+                        x: fragmentRect.minX,
+                        y: fragmentRect.minY + verticalInset,
+                        width: fragmentRect.width - 3,
+                        height: fontHeight
+                    )
 
-                var drawAttrs = tagAttributes
-                drawAttrs[.font] = font
-                drawAttrs[.foregroundColor] = NSColor.white
-                drawAttrs.removeValue(forKey: .link)
-                drawAttrs.removeValue(forKey: .baselineOffset)
+                    let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes)
+                    tagRect.size.width += oneCharSize.width * 0.25
+                    tagRect = tagRect.integral
 
-                let baselineOrigin = NSPoint(x: tagRect.minX, y: tagRect.minY + descent - 3)
+                    NSGraphicsContext.saveGraphicsState()
+                    let path = NSBezierPath(roundedRect: tagRect, xRadius: 3, yRadius: 3)
+                    NSColor.tagColor.setFill()
+                    path.fill()
 
-                (tag as NSString).draw(at: baselineOrigin, withAttributes: drawAttrs)
+                    let fragmentCharRange = layoutManager.characterRange(forGlyphRange: intersectionRange, actualGlyphRange: nil)
+                    let fragmentText = (tag as NSString).substring(with: NSRange(
+                        location: fragmentCharRange.location - range.location,
+                        length: fragmentCharRange.length
+                    ))
 
-                NSGraphicsContext.restoreGraphicsState()
+                    var drawAttrs = tagAttributes
+                    drawAttrs[.font] = font
+                    drawAttrs[.foregroundColor] = NSColor.white
+                    drawAttrs.removeValue(forKey: .link)
+                    drawAttrs.removeValue(forKey: .baselineOffset)
+
+                    let baselineOrigin = NSPoint(x: tagRect.minX, y: tagRect.minY + descent - 3)
+
+                    (fragmentText as NSString).draw(at: baselineOrigin, withAttributes: drawAttrs)
+
+                    NSGraphicsContext.restoreGraphicsState()
+                }
             }
         }
     }

@@ -187,6 +187,7 @@ public class SwiftHighlighter {
             self.registerLanguage("sh", definition: ShellLanguage())
             self.registerLanguage("ts", definition: TypeScriptLanguage())
             self.registerLanguage("lisp", definition: LispLanguage())
+            self.registerLanguage("mermaid", definition: MermaidLanguage())
             
         }
     }
