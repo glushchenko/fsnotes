@@ -23,9 +23,6 @@ class SearchQuery {
         self.filter = filter
         
         terms = filter.split(separator: " ")
-        
-        print(terms != nil)
-        print(self.filter.isEmpty)
     }
 
     public func isFit(note: Note) -> Bool {
