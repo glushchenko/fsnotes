@@ -9,7 +9,9 @@
 import UIKit
 import CoreServices
 
-class GitViewController: UITableViewController {    
+class GitViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableView: UITableView!
+    
     enum GitSection: Int, CaseIterable {
         case automation
         case credentials
@@ -41,8 +43,17 @@ class GitViewController: UITableViewController {
 
     override func viewDidLoad() {
         self.title = NSLocalizedString("Git", comment: "Settings")
+        
+        navigationItem.largeTitleDisplayMode = .always
+        
+        tableView.delegate = self
+        tableView.dataSource = self
 
         super.viewDidLoad()
+        
+        setupKeyboardObservers()
+        
+        tableView.keyboardDismissMode = .interactive
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,15 +71,8 @@ class GitViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         UIApplication.shared.isIdleTimerDisabled = false
     }
-    
-    override func viewDidLayoutSubviews() {
-        if let rect = self.navigationController?.navigationBar.frame {
-            let y = rect.size.height
-            self.tableView.contentInset = UIEdgeInsets( top: y / 2, left: 0, bottom: 0, right: 0)
-        }
-    }
-        
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+            
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return GitSection(rawValue: section)?.title
     }
 
@@ -76,7 +80,7 @@ class GitViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == GitSection.credentials.rawValue && indexPath.row == 0 {
             changePrivateKey(tableView: tableView, indexPath: indexPath)
         }
@@ -88,15 +92,11 @@ class GitViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 20
-        }
-
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let project = project else { return UITableViewCell() }
 
         if indexPath.section == GitSection.automation.rawValue {
@@ -220,11 +220,11 @@ class GitViewController: UITableViewController {
         return cell
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return GitSection.allCases.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         }
@@ -382,19 +382,6 @@ class GitViewController: UITableViewController {
 
         let state = project.getRepositoryState()
         leftButton?.setTitle(state.title, for: .normal)
-
-//        if #available(iOS 15.0, *) {
-//            leftButton?.configuration = .filled()
-//            rightButton?.configuration = .gray()
-//        } else {
-//            leftButton?.backgroundColor = .systemBlue
-//            leftButton?.setTitleColor(.white, for: .normal)
-//            leftButton?.layer.cornerRadius = 8
-//
-//            rightButton?.backgroundColor = .systemRed
-//            rightButton?.setTitleColor(.white, for: .normal)
-//            rightButton?.layer.cornerRadius = 8
-//        }
     }
 
     @objc public func autoPullDidChange(_ sender: UISwitch) {
@@ -408,6 +395,45 @@ class GitViewController: UITableViewController {
 
     public func setProgress(message: String) {
         progress?.log(message: message)
+    }
+    
+    private func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        let keyboardHeight = keyboardFrame.height
+        let bottomSafeArea = view.safeAreaInsets.bottom
+        
+        UIView.animate(withDuration: 0.3) {
+            self.tableView.contentInset.bottom = keyboardHeight - bottomSafeArea
+            self.tableView.verticalScrollIndicatorInsets.bottom = keyboardHeight - bottomSafeArea
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        UIView.animate(withDuration: 0.3) {
+            self.tableView.contentInset.bottom = 0
+            self.tableView.verticalScrollIndicatorInsets.bottom = 0
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

@@ -35,7 +35,7 @@ extension Project {
         }
 
         let key = settingsKey.md5.prefix(6)
-        let repoURL = UserDefaultsManagement.gitStorage.appendingPathComponent(key + " - " + label + ".git")
+        let repoURL = UserDefaultsManagement.gitStorage!.appendingPathComponent(key + " - " + label + ".git")
 
         return repoURL
     }

@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -383,113 +382,125 @@
             <point key="canvasLocation" x="3347.663551401869" y="132.82937365010801"/>
         </scene>
         <!--Git View Controller-->
-        <scene sceneID="M5N-cm-AgV">
+        <scene sceneID="NcJ-YW-Hg9">
             <objects>
-                <tableViewController storyboardIdentifier="gitSettingsViewController" id="NXo-6g-GpZ" customClass="GitViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Nj5-cV-CWW">
+                <viewController storyboardIdentifier="gitSettingsViewController" id="xra-g7-LQm" customClass="GitViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eyI-Ns-wcU">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Nj5-cV-CWW">
+                                <rect key="frame" x="0.0" y="118" width="430" height="746"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gitTableViewCell" id="oHp-PD-cNW" customClass="GitTableViewCell" customModule="FSNotes_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55.333332061767578" width="430" height="51"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oHp-PD-cNW" id="L8C-L6-AT1">
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="51"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="cancel" translatesAutoresizingMaskIntoConstraints="NO" id="2L9-ws-4au">
+                                                    <rect key="frame" x="244.99999999999997" y="8.3333333333333321" width="87.666666666666657" height="34.333333333333343"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal" title="Remove">
+                                                        <color key="titleColor" systemColor="systemRedColor"/>
+                                                    </state>
+                                                    <buttonConfiguration key="configuration" style="gray" title="Remove">
+                                                        <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
+                                                        <color key="baseForegroundColor" systemColor="systemRedColor"/>
+                                                    </buttonConfiguration>
+                                                </button>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Ssq-3E-vWD">
+                                                    <rect key="frame" x="205" y="15.666666666666664" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zz2-R4-zDV">
+                                                    <rect key="frame" x="97.333333333333314" y="8.3333333333333321" width="87.666666666666686" height="34.333333333333343"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal" title="Init"/>
+                                                    <buttonConfiguration key="configuration" style="filled" title="Init">
+                                                        <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
+                                                    </buttonConfiguration>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Ssq-3E-vWD" firstAttribute="leading" secondItem="zz2-R4-zDV" secondAttribute="trailing" constant="20" id="2rY-h3-c4f"/>
+                                                <constraint firstItem="2L9-ws-4au" firstAttribute="centerY" secondItem="zz2-R4-zDV" secondAttribute="centerY" id="3KN-eT-nH9"/>
+                                                <constraint firstItem="Ssq-3E-vWD" firstAttribute="centerX" secondItem="L8C-L6-AT1" secondAttribute="centerX" id="5ij-TU-4I4"/>
+                                                <constraint firstItem="Ssq-3E-vWD" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="DhW-tf-ogF"/>
+                                                <constraint firstItem="zz2-R4-zDV" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="SAh-w7-0gI"/>
+                                                <constraint firstItem="2L9-ws-4au" firstAttribute="width" secondItem="zz2-R4-zDV" secondAttribute="width" id="Saa-7b-7ac"/>
+                                                <constraint firstItem="2L9-ws-4au" firstAttribute="leading" secondItem="Ssq-3E-vWD" secondAttribute="trailing" constant="20" id="hHm-YV-mVC"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="activity" destination="Ssq-3E-vWD" id="n9Y-id-UOC"/>
+                                            <outlet property="cloneButton" destination="zz2-R4-zDV" id="DnY-AP-Ogr"/>
+                                            <outlet property="removeButton" destination="2L9-ws-4au" id="DAa-BV-ckA"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gitA" textLabel="zbT-aV-jkK" style="IBUITableViewCellStyleDefault" id="mEX-ec-VWj">
+                                        <rect key="frame" x="0.0" y="106.33333206176758" width="430" height="51"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mEX-ec-VWj" id="8f8-7c-SCK">
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="51"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zbT-aV-jkK">
+                                                    <rect key="frame" x="20" y="0.0" width="390" height="51"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gitB" textLabel="wDM-Ne-CeL" style="IBUITableViewCellStyleDefault" id="A20-E4-Ykl">
+                                        <rect key="frame" x="0.0" y="157.33333206176758" width="430" height="51"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A20-E4-Ykl" id="AOu-pP-Nqv">
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="51"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wDM-Ne-CeL">
+                                                    <rect key="frame" x="20" y="0.0" width="390" height="51"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="qy2-R9-1Xs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gitTableViewCell" id="oHp-PD-cNW" customClass="GitTableViewCell" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="55.333332061767578" width="430" height="51"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oHp-PD-cNW" id="L8C-L6-AT1">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="51"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" role="cancel" translatesAutoresizingMaskIntoConstraints="NO" id="2L9-ws-4au">
-                                            <rect key="frame" x="244.99999999999997" y="8.3333333333333321" width="87.666666666666657" height="34.333333333333343"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" title="Remove">
-                                                <color key="titleColor" systemColor="systemRedColor"/>
-                                            </state>
-                                            <buttonConfiguration key="configuration" style="gray" title="Remove">
-                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
-                                                <color key="baseForegroundColor" systemColor="systemRedColor"/>
-                                            </buttonConfiguration>
-                                        </button>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Ssq-3E-vWD">
-                                            <rect key="frame" x="205" y="15.666666666666664" width="20" height="20"/>
-                                        </activityIndicatorView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zz2-R4-zDV">
-                                            <rect key="frame" x="97.333333333333314" y="8.3333333333333321" width="87.666666666666686" height="34.333333333333343"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" title="Init"/>
-                                            <buttonConfiguration key="configuration" style="filled" title="Init">
-                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
-                                            </buttonConfiguration>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="Ssq-3E-vWD" firstAttribute="leading" secondItem="zz2-R4-zDV" secondAttribute="trailing" constant="20" id="2rY-h3-c4f"/>
-                                        <constraint firstItem="2L9-ws-4au" firstAttribute="centerY" secondItem="zz2-R4-zDV" secondAttribute="centerY" id="3KN-eT-nH9"/>
-                                        <constraint firstItem="Ssq-3E-vWD" firstAttribute="centerX" secondItem="L8C-L6-AT1" secondAttribute="centerX" id="5ij-TU-4I4"/>
-                                        <constraint firstItem="Ssq-3E-vWD" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="DhW-tf-ogF"/>
-                                        <constraint firstItem="zz2-R4-zDV" firstAttribute="centerY" secondItem="L8C-L6-AT1" secondAttribute="centerY" id="SAh-w7-0gI"/>
-                                        <constraint firstItem="2L9-ws-4au" firstAttribute="width" secondItem="zz2-R4-zDV" secondAttribute="width" id="Saa-7b-7ac"/>
-                                        <constraint firstItem="2L9-ws-4au" firstAttribute="leading" secondItem="Ssq-3E-vWD" secondAttribute="trailing" constant="20" id="hHm-YV-mVC"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="activity" destination="Ssq-3E-vWD" id="n9Y-id-UOC"/>
-                                    <outlet property="cloneButton" destination="zz2-R4-zDV" id="DnY-AP-Ogr"/>
-                                    <outlet property="removeButton" destination="2L9-ws-4au" id="DAa-BV-ckA"/>
-                                </connections>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gitA" textLabel="zbT-aV-jkK" style="IBUITableViewCellStyleDefault" id="mEX-ec-VWj">
-                                <rect key="frame" x="0.0" y="106.33333206176758" width="430" height="51"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mEX-ec-VWj" id="8f8-7c-SCK">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="51"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zbT-aV-jkK">
-                                            <rect key="frame" x="20" y="0.0" width="390" height="51"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gitB" textLabel="wDM-Ne-CeL" style="IBUITableViewCellStyleDefault" id="A20-E4-Ykl">
-                                <rect key="frame" x="0.0" y="157.33333206176758" width="430" height="51"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A20-E4-Ykl" id="AOu-pP-Nqv">
-                                    <rect key="frame" x="0.0" y="0.0" width="430" height="51"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wDM-Ne-CeL">
-                                            <rect key="frame" x="20" y="0.0" width="390" height="51"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="NXo-6g-GpZ" id="Ss9-Gk-ahU"/>
-                            <outlet property="delegate" destination="NXo-6g-GpZ" id="fYg-bh-lvT"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UIK-y9-VZX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstItem="Nj5-cV-CWW" firstAttribute="bottom" secondItem="qy2-R9-1Xs" secondAttribute="bottom" id="F2g-cS-En7"/>
+                            <constraint firstItem="Nj5-cV-CWW" firstAttribute="trailing" secondItem="qy2-R9-1Xs" secondAttribute="trailing" id="Ks7-hk-82h"/>
+                            <constraint firstItem="Nj5-cV-CWW" firstAttribute="top" secondItem="qy2-R9-1Xs" secondAttribute="top" id="Ukg-EW-CHo"/>
+                            <constraint firstItem="Nj5-cV-CWW" firstAttribute="leading" secondItem="qy2-R9-1Xs" secondAttribute="leading" id="VFY-bn-Q7N"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="Nj5-cV-CWW" id="BEr-rb-NEe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WUf-bM-PDg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4166" y="132"/>
+            <point key="canvasLocation" x="4133.0232558139533" y="132.61802575107296"/>
         </scene>
     </scenes>
     <resources>
         <image name="lock.fill" catalog="system" width="111" height="128"/>
         <image name="pin_white.png" width="128" height="128"/>
         <namedColor name="fsColor">
-            <color red="0.080000000000000002" green="0.59999999999999998" blue="0.84999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.079999998211860657" green="0.60000002384185791" blue="0.85000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
