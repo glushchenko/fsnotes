@@ -16,14 +16,6 @@ class SearchQuery {
     init() {}
 
     public func setType(_ type: SidebarItemType) {
-        if type == .Todo {
-            if terms == nil || terms!.count == 0 {
-                terms = ["- [ ] "]
-            } else {
-                terms!.append("- [ ] ")
-            }
-        }
-
         self.type = type
     }
 
@@ -31,14 +23,16 @@ class SearchQuery {
         self.filter = filter
         
         terms = filter.split(separator: " ")
+        
+        print(terms != nil)
+        print(self.filter.isEmpty)
     }
 
     public func isFit(note: Note) -> Bool {
         return !note.name.isEmpty
             && (
-                self.filter.isEmpty && self.type != .Todo
-                    || self.type == .Todo && note.content.hasTodoAttribute()
-                    || self.terms != nil && self.isMatched(note: note, terms: self.terms!)
+                self.filter.isEmpty
+                || self.terms != nil && self.isMatched(note: note, terms: self.terms!)
             ) && (
                 self.type == .All && note.project.isVisibleInCommon()
                 || self.type == .Inbox && note.project.isDefault
@@ -58,6 +52,9 @@ class SearchQuery {
             ) && !(
                 note.project.isEncrypted &&
                 note.project.isLocked()
+            ) && (
+                self.type != .Todo
+                || self.type == .Todo && note.content.hasTodoAttribute()
             )
     }
 

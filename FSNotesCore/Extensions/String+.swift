@@ -36,6 +36,10 @@ public extension String {
     func trim() -> String {
         return self.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
     }
+    
+    func trimSpaces() -> String {
+        return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
+    }
 
     func trimMDSyntax() -> String {
         return self

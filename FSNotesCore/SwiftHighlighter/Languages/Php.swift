@@ -20,7 +20,7 @@ struct PHPLanguage: LanguageDefinition {
             "int","integer","isset","iterable","list","match","mixed","new","never","object",
             "or","readonly","real","return","string","switch","throw","try","unset","use",
             "var","void","while","xor","yield","die","echo","exit","include","include_once",
-            "print","require","require_once"
+            "print","require","require_once", "var_dump"
         ],
         "literal": ["true","false","null","TRUE","FALSE","NULL"],
         "built_in": [

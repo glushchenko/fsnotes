@@ -41,7 +41,12 @@ struct SQLLanguage: LanguageDefinition {
             // Other
             "AS", "DISTINCT", "CASE", "WHEN", "THEN", "ELSE", "END",
             "IF", "ELSEIF", "ENDIF", "WHILE", "LOOP", "REPEAT",
-            "DECLARE", "CURSOR", "FETCH", "CLOSE", "OPEN"
+            "DECLARE", "CURSOR", "FETCH", "CLOSE", "OPEN",
+            
+            "FUNCTION", "PROCEDURE", "DIV", "CALL", "FOR", "CONTINUE", "HANDLER", "LEAVE",
+            
+            "GRANT", "TO", "USER", "IDENTIFIED", "CASCADE", "FOREIGN_KEY_CHECKS", "COLLATE",
+            "CHARSET", "RETURNS"
         ],
         
         "built_in": [
@@ -55,8 +60,8 @@ struct SQLLanguage: LanguageDefinition {
             "CHARINDEX", "INSTR", "LOCATE", "POSITION", "ASCII", "CHAR",
             
             // Date/Time functions
-            "NOW", "CURDATE", "CURTIME", "DATE", "TIME", "DATETIME",
-            "TIMESTAMP", "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "SECOND",
+            "NOW", "CURDATE", "CURTIME",
+            "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "SECOND",
             "DATEDIFF", "DATEADD", "DATE_FORMAT", "STR_TO_DATE",
             
             // Math functions
@@ -74,7 +79,7 @@ struct SQLLanguage: LanguageDefinition {
             // Numeric types
             "INT", "INTEGER", "SMALLINT", "TINYINT", "MEDIUMINT", "BIGINT",
             "DECIMAL", "NUMERIC", "FLOAT", "DOUBLE", "REAL", "BIT",
-            "BOOLEAN", "BOOL", "SERIAL",
+            "BOOLEAN", "BOOL", "SERIAL", "UNSIGNED",
             
             // String types
             "CHAR", "VARCHAR", "TEXT", "TINYTEXT", "MEDIUMTEXT", "LONGTEXT",

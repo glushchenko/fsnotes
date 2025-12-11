@@ -386,7 +386,7 @@ public class TextFormatter {
         if paragraph.starts(with: "######") {
             paragraph = paragraph
                 .replacingOccurrences(of: "#", with: "")
-                .trim()
+                .trimSpaces()
         } else if paragraph.starts(with: "#") {
             prefix = string
         } else {
@@ -405,7 +405,7 @@ public class TextFormatter {
             paragraph = paragraph.replacingOccurrences(of: prefix, with: "")
         } else {
             paragraph =
-                prefix + paragraph.replacingOccurrences(of: "#", with: "").trim()
+                prefix + paragraph.replacingOccurrences(of: "#", with: "").trimSpaces()
         }
 
         let diff = paragraph.contains("\n") ? 1 : 0
