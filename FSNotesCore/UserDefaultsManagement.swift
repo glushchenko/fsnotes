@@ -632,7 +632,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.LineHeightMultipleKey) as? Float {
                 return CGFloat(result)
             } else {
-                return 1.5
+                return 1.4
             }
         }
         set {

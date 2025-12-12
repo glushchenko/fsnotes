@@ -1456,13 +1456,10 @@ class ViewController: EditorViewController,
     }
         
     func focusTable() {
-        DispatchQueue.main.async {
-            let index = self.notesTableView.selectedRow > -1 ? self.notesTableView.selectedRow : 0
-
-            self.notesTableView.window?.makeFirstResponder(self.notesTableView)
-            self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-            self.notesTableView.scrollRowToVisible(index)
-        }
+        let index = self.notesTableView.selectedRow > -1 ? self.notesTableView.selectedRow : 0
+        self.notesTableView.window?.makeFirstResponder(self.notesTableView)
+        self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+        self.notesTableView.scrollRowToVisible(index)
     }
     
     func cleanSearchAndEditArea(shouldBecomeFirstResponder: Bool = true, completion: (() -> ())? = nil) {
