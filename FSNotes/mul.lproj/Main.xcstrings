@@ -7867,6 +7867,30 @@
         }
       }
     },
+    "aLg-MQ-amx.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Italic:\"; ObjectID = \"aLg-MQ-amx\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Italic:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Курсив:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Курсив:"
+          }
+        }
+      }
+    },
     "ASf-hd-2fT.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Repositories:\"; ObjectID = \"ASf-hd-2fT\";",
       "extractionState" : "extracted_with_value",
@@ -13563,6 +13587,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "副本"
+          }
+        }
+      }
+    },
+    "e7y-7Z-36y.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"_\"; ObjectID = \"e7y-7Z-36y\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "_"
           }
         }
       }
@@ -22683,6 +22719,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "1级标题"
+          }
+        }
+      }
+    },
+    "jRr-Ih-RYc.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"**\"; ObjectID = \"jRr-Ih-RYc\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "**"
           }
         }
       }
@@ -39331,6 +39379,18 @@
         }
       }
     },
+    "VV2-X2-moA.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"*\"; ObjectID = \"VV2-X2-moA\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "*"
+          }
+        }
+      }
+    },
     "VwE-w2-fAG.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Toggle Container\"; ObjectID = \"VwE-w2-fAG\";",
       "extractionState" : "extracted_with_value",
@@ -41379,6 +41439,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重命名"
+          }
+        }
+      }
+    },
+    "xeP-Zg-vmO.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Bold:\"; ObjectID = \"xeP-Zg-vmO\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bold:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жирный:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жирний:"
           }
         }
       }
@@ -43545,6 +43629,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "查找和替换…"
+          }
+        }
+      }
+    },
+    "yMX-hz-B8Y.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"__\"; ObjectID = \"yMX-hz-B8Y\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "__"
           }
         }
       }

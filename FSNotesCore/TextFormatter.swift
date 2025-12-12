@@ -114,7 +114,8 @@ public class TextFormatter {
                 selectRange = NSMakeRange(range.location, length + 4)
             }
 
-            insertText("**" + string + "**", selectRange: selectRange)
+            let char = UserDefaultsManagement.bold
+            insertText(char + string + char, selectRange: selectRange)
         }
     }
     
@@ -156,7 +157,8 @@ public class TextFormatter {
                 selectRange = NSMakeRange(range.location, length + 2)
             }
 
-            insertText("_" + string + "_", selectRange: selectRange)
+            let char = UserDefaultsManagement.italic
+            insertText(char + string + char, selectRange: selectRange)
         }
     }
 

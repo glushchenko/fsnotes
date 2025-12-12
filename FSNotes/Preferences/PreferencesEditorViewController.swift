@@ -24,6 +24,13 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var inlineTags: NSButton!
     @IBOutlet weak var clickableLinks: NSButton!
     
+    @IBOutlet weak var italicAsterisk: NSButton!
+    @IBOutlet weak var italicUnderscore: NSButton!
+    
+    @IBOutlet weak var boldAsterisk: NSButton!
+    @IBOutlet weak var boldUnderscore: NSButton!
+    
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 495)
@@ -54,6 +61,12 @@ class PreferencesEditorViewController: NSViewController {
         
         setCodeFontPreview()
         setNoteFontPreview()
+        
+        italicAsterisk.state = UserDefaultsManagement.italic == "*" ? .on : .off
+        italicUnderscore.state = UserDefaultsManagement.italic == "_" ? .on : .off
+        
+        boldAsterisk.state = UserDefaultsManagement.bold == "**" ? .on : .off
+        boldUnderscore.state = UserDefaultsManagement.bold == "__" ? .on : .off
     }
 
     //MARK: global variables
@@ -267,7 +280,21 @@ class PreferencesEditorViewController: NSViewController {
         setCodeFontPreview()
         setNoteFontPreview()
     }
-
+    
+    @IBAction func changeItalic(_ sender: NSButton) {
+        UserDefaultsManagement.italic = sender.identifier?.rawValue == "italicAsterisk" ? "*" : "_"
+        
+        italicAsterisk.state = sender.identifier?.rawValue == "italicAsterisk" ? .on : .off
+        italicUnderscore.state = sender.identifier?.rawValue == "italicUnderscore" ? .on : .off
+    }
+    
+    @IBAction func changeBold(_ sender: NSButton) {
+        UserDefaultsManagement.bold = sender.identifier?.rawValue == "boldAsterisk" ? "**" : "__"
+        
+        boldAsterisk.state = sender.identifier?.rawValue == "boldAsterisk" ? .on : .off
+        boldUnderscore.state = sender.identifier?.rawValue == "boldUnderscore" ? .on : .off
+    }
+    
     private func setCodeFontPreview() {
         let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
 
