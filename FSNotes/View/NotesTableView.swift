@@ -65,6 +65,17 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func mouseDown(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         
+        let point = convert(event.locationInWindow, from: nil)
+        let row = self.row(at: point)
+        
+        if row >= 0, noteList.indices.contains(row) {
+            let note = noteList[row]
+            if event.modifierFlags.contains(.option) {
+                NSWorkspace.shared.activateFileViewerSelecting([note.url])
+                return
+            }
+        }
+        
         if let selectedProject = vc.sidebarOutlineView.getSelectedProject(),
             selectedProject.isLocked()
         {
