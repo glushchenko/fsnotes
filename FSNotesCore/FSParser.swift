@@ -28,7 +28,8 @@ class FSParser {
             [^
                 \s          # no whitespace
                 \#          # no hashes
-                ,?!"`';:\.   # no punctuation
+                \+          # no plus sign https://github.com/glushchenko/fsnotes/issues/1303
+                ,?!"`';:\.  # no punctuation 
                 \\          # no backslash
                 (){}\[\]    # no bracket pairs
             ]+
