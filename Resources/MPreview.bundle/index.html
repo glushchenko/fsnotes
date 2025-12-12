@@ -292,9 +292,14 @@
         }
         
         let loadMemaid = () => {
+            let mermaidTheme = 'default';
+            if ('{FSNOTES_APPEARANCE}' == 'darkmode') {
+                mermaidTheme = 'dark';
+            }
+
             var config = {
                 startOnLoad: true,
-                theme: 'forest',
+                theme: mermaidTheme,
                 flowchart: {
                     useMaxWidth: false,
                     htmlLabels: true
