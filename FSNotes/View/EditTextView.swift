@@ -1165,6 +1165,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     var suppressCompletion = false
     
+    public var forceSystemAutocomplete = false
+    private var isSystemCompletionSession = false
+    
     override func didChangeText() {
         super.didChangeText()
         
@@ -1179,18 +1182,39 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     override func completions(forPartialWordRange charRange: NSRange,
-                            indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+                              indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+
+        if forceSystemAutocomplete {
+            isSystemCompletionSession = true
+            forceSystemAutocomplete = false
+            return super.completions(forPartialWordRange: charRange, indexOfSelectedItem: index)
+        }
+
         return handleCompletions(index: index)
     }
-    
+
     override func insertCompletion(_ word: String,
-                                  forPartialWordRange charRange: NSRange,
-                                  movement: Int,
-                                  isFinal flag: Bool) {
+                                   forPartialWordRange charRange: NSRange,
+                                   movement: Int,
+                                   isFinal flag: Bool) {
+
+        if isSystemCompletionSession {
+            super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: flag)
+
+            if flag {
+                isSystemCompletionSession = false
+            }
+            return
+        }
+
         handleInsertCompletion(word: word, movement: movement, isFinal: flag)
     }
-    
+
     override var rangeForUserCompletion: NSRange {
+        if isSystemCompletionSession {
+            return super.rangeForUserCompletion
+        }
+
         return calculateCompletionRange()
     }
     

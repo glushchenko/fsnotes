@@ -732,6 +732,12 @@ class ViewController: EditorViewController,
                 return false
             }
         }
+        
+        if event.keyCode == kVK_Escape && event.modifierFlags.contains(.option) {
+            editor.forceSystemAutocomplete = true
+            (view.window?.firstResponder as? NSTextView)?.complete(nil)
+            return true
+        }
                 
         // Focus search bar on ESC
         if (
