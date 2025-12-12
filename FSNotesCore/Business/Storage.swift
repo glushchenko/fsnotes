@@ -504,20 +504,20 @@ class Storage {
             case .modificationDate, .none:
                 return self.sortDirectionState == .asc && note.modifiedLocalAt < next.modifiedLocalAt || self.sortDirectionState == .desc && note.modifiedLocalAt > next.modifiedLocalAt
             case .title:
-                var title = note.title.lowercased()
-                var nextTitle = next.title.lowercased()
-
+                var title = note.title
+                var nextTitle = next.title
                 if note.isEncryptedAndLocked() {
-                    title = note.fileName.lowercased()
+                    title = note.fileName
                 }
-
                 if next.isEncryptedAndLocked() {
-                    nextTitle = next.fileName.lowercased()
+                    nextTitle = next.fileName
                 }
-
-                return
-                    self.sortDirectionState == .asc && title < nextTitle ||
-                    self.sortDirectionState == .desc && title > nextTitle
+                
+                let comparisonResult = title.localizedStandardCompare(nextTitle)
+                
+                return self.sortDirectionState == .asc
+                    ? comparisonResult == .orderedAscending
+                    : comparisonResult == .orderedDescending
             }
         }
         
