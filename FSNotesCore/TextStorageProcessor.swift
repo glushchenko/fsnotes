@@ -57,7 +57,7 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         }
 
         if note.content.length == textStorage.length && (
-            editedRange.length > 300000 || note.content.string.fnv1a == note.cacheHash
+            note.content.string.fnv1a == note.cacheHash
         ) { return }
 
         let codeBlockRanges = detector.findCodeBlocks(in: textStorage)
@@ -94,7 +94,6 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
         if let ranges = result.md {
             for range in ranges {
-                // print("became markdown \(range)")
                 let safeRange = safeRange(range, in: textStorage)
                 NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: safeRange)
             }

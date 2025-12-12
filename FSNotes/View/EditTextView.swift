@@ -57,7 +57,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         if #available(OSX 10.16, *) {
             guard let textStorage = self.textStorage,
-                  let container = self.textContainer,
                   let layoutManager = self.layoutManager
             else { return }
 
@@ -188,7 +187,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
         var newRect = rect
         newRect.size.width = caretWidth
-
+        
+        // Fixes last line height
+        
+        if let textStorage = self.textStorage,
+           let layoutManager = self.layoutManager as? LayoutManager {
+            let insertionPoint = self.selectedRange().location
+            
+            if insertionPoint == textStorage.length && insertionPoint > 0 {
+                let fontLineHeight = layoutManager.lineHeight(for: UserDefaultsManagement.noteFont)
+                newRect.size.height = fontLineHeight
+            }
+        }
+        
         let clr = NSColor(red: 0.47, green: 0.53, blue: 0.69, alpha: 1.0)
         super.drawInsertionPoint(in: newRect, color: clr, turnedOn: flag)
     }
@@ -835,10 +846,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
     }
 
-    func removeHighlight() {
-
-    }
-    
     public func lockEncryptedView() {
         textStorage?.setAttributedString(NSAttributedString())
         markdownView?.removeFromSuperview()
@@ -1612,7 +1619,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         downView?.evaluateJavaScript(switchScript)
 
-        // TODO: implement code block live theme changer
         viewDelegate?.refillEditArea(force: true)
     }
 

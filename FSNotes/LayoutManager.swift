@@ -71,7 +71,7 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         return (hasAttachment, maxHeight)
     }
 
-    private func lineHeight(for font: NSFont) -> CGFloat {
+    public func lineHeight(for font: NSFont) -> CGFloat {
         let fontLineHeight = self.defaultLineHeight(for: font)
         let lineHeight = fontLineHeight * lineHeightMultiple
         return lineHeight
