@@ -443,30 +443,24 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     public func selectNext() {
         UserDataService.instance.searchTrigger = false
-
+        
         let i = selectedRow + 1
-        if (noteList.indices.contains(i)) {
-            saveNavigationHistory(note: noteList[i])
-        }
-
-        if (noteList.indices.contains(i)) {
-            self.selectRowIndexes([i], byExtendingSelection: false)
-            self.scrollRowToVisible(i)
-        }
+        guard noteList.indices.contains(i) else { return }
+        
+        saveNavigationHistory(note: noteList[i])
+        selectRowIndexes([i], byExtendingSelection: false)
+        scrollRowToVisible(i)
     }
-    
+
     public func selectPrev() {
         UserDataService.instance.searchTrigger = false
-
+        
         let i = selectedRow - 1
-        if (noteList.indices.contains(i)) {
-            saveNavigationHistory(note: noteList[i])
-        }
-
-        if (noteList.indices.contains(i)) {
-            self.selectRowIndexes([i], byExtendingSelection: false)
-            self.scrollRowToVisible(i)
-        }
+        guard noteList.indices.contains(i) else { return }
+        
+        saveNavigationHistory(note: noteList[i])
+        selectRowIndexes([i], byExtendingSelection: false)
+        scrollRowToVisible(i)
     }
     
     public func selectRow(_ i: Int) {
@@ -498,14 +492,22 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     public func removeRows(notes: [Note]) {
         guard let vc = ViewController.shared() else { return }
 
-        beginUpdates()
+        var indexSet = IndexSet()
         for note in notes {
             if let i = noteList.firstIndex(where: {$0 === note}) {
-                let indexSet = IndexSet(integer: i)
-                noteList.remove(at: i)
-                removeRows(at: indexSet, withAnimation: .slideDown)
+                indexSet.insert(i)
             }
         }
+        
+        guard !indexSet.isEmpty else { return }
+        
+        beginUpdates()
+        
+        for i in indexSet.sorted().reversed() {
+            noteList.remove(at: i)
+        }
+        
+        removeRows(at: indexSet, withAnimation: .slideDown)
         endUpdates()
 
         if UserDefaultsManagement.inlineTags {
@@ -522,9 +524,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 insert.append(note)
             }
         }
-
+        
+        guard !insert.isEmpty else { return }
+        beginUpdates()
+        
         noteList.append(contentsOf: insert)
-
         self.noteList = vc.storage.sortNotes(noteList: self.noteList)
         
         var indexSet = IndexSet()
@@ -535,6 +539,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         
         self.insertRows(at: indexSet, withAnimation: .effectFade)
+        endUpdates()
         
         for note in insert {
             vc.sidebarOutlineView.insertTags(note: note)
@@ -576,23 +581,29 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func reloadRow(note: Note) {
+        if Thread.isMainThread {
+            performReload(note: note)
+        } else {
+            DispatchQueue.main.async {
+                self.performReload(note: note)
+            }
+        }
+    }
+    
+    private func performReload(note: Note) {
         note.invalidateCache()
         note.loadPreviewInfo()
+        
+        guard let i = self.noteList.firstIndex(of: note) else { return }
         let urls = note.imageUrl
-
-        DispatchQueue.main.async {
-            if let i = self.noteList.firstIndex(of: note) {
-                if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
-
-                    cell.date.stringValue = note.getDateForLabel()
-                    cell.loadImagesPreview(position: i, urls: urls)
-                    cell.attachHeaders(note: note)
-                    cell.renderPin()
-                    cell.applyPreviewStyle()
-
-                    self.noteHeightOfRows(withIndexesChanged: [i])
-                }
-            }
+        
+        if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
+            cell.date.stringValue = note.getDateForLabel()
+            cell.loadImagesPreview(position: i, urls: urls)
+            cell.attachHeaders(note: note)
+            cell.renderPin()
+            cell.applyPreviewStyle()
+            self.noteHeightOfRows(withIndexesChanged: [i])
         }
     }
     
@@ -613,7 +624,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
 
         history.append(note.url)
-        historyPosition = history.count - 1
+        
+        if history.count > 100 {
+            history.removeFirst()
+        } else {
+            historyPosition = history.count - 1
+        }
     }
     
     public func enableLockedProject() {
