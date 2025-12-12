@@ -987,24 +987,32 @@ public class Note: NSObject  {
 
     public func save(attributed: NSAttributedString) {
         if container == .encryptedTextPack { return }
-
-        let copy = attributed.copy() as? NSAttributedString
+        
+        guard let copy = attributed.copy() as? NSAttributedString else {
+            return
+        }
+        
         modifiedLocalAt = Date()
-
+        
         let operation = BlockOperation()
-        operation.addExecutionBlock({
-            if let copy = copy {
-                let mutable = NSMutableAttributedString(attributedString: copy)
-                self.save(content: mutable)
-
-                usleep(1000000)
-
-                if !operation.isCancelled {
-                    self.isBlocked = false
-                }
+        operation.addExecutionBlock { [weak self] in
+            guard let self = self else {
+                return
             }
-        })
-
+            
+            if operation.isCancelled {
+                return
+            }
+            
+            let mutable = NSMutableAttributedString(attributedString: copy)
+            self.save(content: mutable)
+            usleep(1000000)
+            
+            if !operation.isCancelled {
+                self.isBlocked = false
+            }
+        }
+        
         Storage.shared().plainWriter.cancelAllOperations()
         Storage.shared().plainWriter.addOperation(operation)
     }
