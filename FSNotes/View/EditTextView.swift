@@ -1544,59 +1544,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         return super.draggingUpdated(sender)
     }
-
+    
     override func clicked(onLink link: Any, at charIndex: Int) {
-        if let link = link as? String, link.isValidEmail(), let mail = URL(string: "mailto:\(link)") {
-            NSWorkspace.shared.open(mail)
-            return
-        }
-
-        // Scroll to [TestJump](#TestJump) link
-        if let link = link as? String, link.startsWith(string: "#") {
-            let title = String(link.dropFirst()).replacingOccurrences(of: "-", with: " ")
-
-            if let index = textStorage?.string.range(of: "# " + title) {
-                if let range = textStorage?.string.nsRange(from: index) {
-                    setSelectedRange(range)
-                    scrollRangeToVisible(range)
-                    return
-                }
-            }
-        }
-
-        let range = NSRange(location: charIndex, length: 1)
+        if handleEmailLink(link) { return }
         
-        let char = attributedSubstring(forProposedRange: range, actualRange: nil)
-        if char?.attribute(.attachment, at: 0, effectiveRange: nil) == nil {
-            if let event = NSApp.currentEvent {
-                var url: URL?
-                
-                if let link = link as? URL {
-                    url = link
-                }
-                
-                if let link = link as? String, let link = URL(string: link) {
-                    url = link
-                }
-                
-                if let url = url, url.scheme != "fsnotes" {
-                    if event.modifierFlags.contains(.shift) {
-                        _ = try? NSWorkspace.shared.open(url, options: .withoutActivation, configuration: [:])
-                        return
-                    } else if event.modifierFlags.contains(.command) {
-                        NSWorkspace.shared.open(url)
-                        return
-                    } else {
-                        if !UserDefaultsManagement.clickableLinks {
-                            setSelectedRange(NSRange(location: charIndex, length: 0))
-                            return
-                        }
-                    }
-                }
-            }
+        if handleAnchorLink(link) { return }
 
-            super.clicked(onLink: link, at: charIndex)
-            return
+        if !isAttachmentAtPosition(charIndex) {
+            if handleRegularLink(link, at: charIndex) { return }
         }
     }
 

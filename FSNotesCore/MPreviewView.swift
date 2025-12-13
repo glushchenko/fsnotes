@@ -32,9 +32,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         
         let handlerCheckbox = HandlerCheckbox(note: note)
         userContentController.add(handlerCheckbox, name: "checkbox")
+        
         userContentController.add(HandlerMouse(), name: "mouse")
         userContentController.add(HandlerClipboard(), name: "clipboard")
-        userContentController.add(HandlerOpen(), name: "open")
+        
+        let handlerOpener = HandlerOpen(note: note)
+        userContentController.add(handlerOpener, name: "open")
+        
         userContentController.add(HandlerQuickLook(), name: "quicklook")
 
         let configuration = WKWebViewConfiguration()
@@ -894,11 +898,19 @@ class HandlerClipboard: NSObject, WKScriptMessageHandler {
 }
 
 class HandlerOpen: NSObject, WKScriptMessageHandler {
+    private var note: Note?
+    
+    init(note: Note) {
+        self.note = note
+    }
+    
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
-
+        guard let note = note else { return }
         guard let action = message.body as? String else { return }
-        let cleanText = action.trim()
+        
+        var cleanText = action.trim()
+        cleanText = cleanText.removingPercentEncoding ?? cleanText
 
         if cleanText.contains("wkPreview/index.html")
             || cleanText.contains("MPreview.bundle/index.html")
@@ -908,7 +920,13 @@ class HandlerOpen: NSObject, WKScriptMessageHandler {
         }
         
         #if os(OSX)
-            if let url = URL(string: cleanText) {
+            let result = cleanText.replacingOccurrences(
+                of: "^.*?/(tmp/wkPreview|Resources/MPreview\\.bundle)/",
+                with: "",
+                options: .regularExpression
+            )
+        
+            if let url = result.createURL(for: note) {
                 NSWorkspace.shared.activateFileViewerSelecting([url])
             }
         #endif

@@ -509,6 +509,77 @@ public class NotesTextProcessor {
             }
         }
         #endif
+        
+        NotesTextProcessor.anchorInlineGFMRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            attributedString.addAttribute(.font, value: codeFont, range: range)
+            attributedString.fixAttributes(in: range)
+            
+            var destinationLink : String?
+            
+            NotesTextProcessor.coupleRoundRegex.matches(string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                
+                if let linkRange = result?.range(at: 3), linkRange.length > 0 {
+                    let substring = attributedString.mutableString.substring(with: linkRange)
+                    guard substring.count > 0 else { return }
+                    destinationLink = substring
+                    attributedString.addAttribute(.link, value: substring, range: linkRange)
+                    
+                    let fullURL = attributedString.mutableString.substring(with: innerRange)
+                    if let angleStart = fullURL.range(of: "<")?.lowerBound,
+                       let angleEnd = fullURL.range(of: ">", options: .backwards)?.upperBound {
+                        let startOffset = fullURL.distance(from: fullURL.startIndex, to: angleStart)
+                        let endOffset = fullURL.distance(from: fullURL.startIndex, to: angleEnd)
+                        
+                        let openAngleRange = NSRange(location: innerRange.location + startOffset, length: 1)
+                        attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openAngleRange)
+                        hideSyntaxIfNecessary(range: openAngleRange)
+                        
+                        let closeAngleRange = NSRange(location: innerRange.location + endOffset - 1, length: 1)
+                        attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeAngleRange)
+                        hideSyntaxIfNecessary(range: closeAngleRange)
+                    }
+                } else if let linkRange = result?.range(at: 4), linkRange.length > 0 {
+                    let substring = attributedString.mutableString.substring(with: linkRange)
+                    guard substring.count > 0 else { return }
+                    destinationLink = substring
+                    attributedString.addAttribute(.link, value: substring, range: linkRange)
+                }
+                
+                hideSyntaxIfNecessary(range: innerRange)
+            }
+            
+            // Opening [
+            NotesTextProcessor.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                hideSyntaxIfNecessary(range: innerRange)
+            }
+            
+            // Closing ]
+            NotesTextProcessor.closingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                hideSyntaxIfNecessary(range: innerRange)
+            }
+            
+            guard let destinationLinkString = destinationLink else { return }
+            
+            // Title [text]
+            NotesTextProcessor.coupleSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                var _range = innerRange
+                _range.location = _range.location + 1
+                _range.length = _range.length - 2
+                
+                let substring = attributedString.mutableString.substring(with: _range)
+                guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+                
+                attributedString.addAttribute(.link, value: destinationLinkString, range: _range)
+            }
+        }
 
         // We detect and process app urls [[link]]
         NotesTextProcessor.appUrlRegex.matches(string, range: paragraphRange) { (result) -> Void in
@@ -951,6 +1022,35 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let anchorInlineRegex = MarklightRegex(pattern: anchorInlinePattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
+    
+    // Mark: GFM links
+    
+    fileprivate static let anchorInlineGFMPattern = [
+        "(                           # wrap whole match in $1",
+        "    \\[",
+        "        (\(NotesTextProcessor.getNestedBracketsPattern()))   # link text = $2",
+        "    \\]",
+        "    \\(                     # literal paren",
+        "        \\p{Z}*",
+        "        (?:                 # URL group (non-capturing)",
+        "            <               # opening angle bracket",
+        "            ([^>]+)         # href with spaces = $3",
+        "            >               # closing angle bracket",
+        "        |                   # OR",
+        "            (\(NotesTextProcessor.getNestedParensPattern()))   # regular href = $4",
+        "        )",
+        "        \\p{Z}*",
+        "        (                   # $5",
+        "        (['\"])           # quote char = $6",
+        "        (.*?)               # title = $7",
+        "        \\6                 # matching quote",
+        "        \\p{Z}*                # ignore any spaces between closing quote and )",
+        "        )?                  # title is optional",
+        "    \\)",
+        ")"
+    ].joined(separator: "\n")
+
+    public static let anchorInlineGFMRegex = MarklightRegex(pattern: anchorInlineGFMPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
     // Mark: Images
     

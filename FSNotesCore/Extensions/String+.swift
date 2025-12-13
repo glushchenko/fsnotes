@@ -260,6 +260,28 @@ public extension String {
         guard !isEmpty else { return self }
         return prefix(1).uppercased() + dropFirst()
     }
+    
+    func createURL(for note: Note? = nil) -> URL? {
+        var normalizedPath = self
+        
+        // Expand ~ to user home directory
+        if normalizedPath.hasPrefix("~") {
+            normalizedPath = "/Users/\(NSUserName())" + normalizedPath.dropFirst()
+        }
+        
+        // Handle absolute paths
+        if normalizedPath.hasPrefix("/") {
+            return URL(fileURLWithPath: normalizedPath)
+        }
+        
+        if let note = note, normalizedPath.hasPrefix("./") {
+            normalizedPath = note.project.url.path + normalizedPath.dropFirst()
+            return URL(fileURLWithPath: normalizedPath)
+        }
+        
+        // Handle regular URLs
+        return URL(string: normalizedPath)
+    }
 }
 
 extension StringProtocol where Index == String.Index {

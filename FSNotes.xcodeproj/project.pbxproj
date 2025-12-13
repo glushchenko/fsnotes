@@ -62,6 +62,8 @@
 		1166D1F82E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
 		1166D1F92E91BA8800B061CA /* CodeBlockDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */; };
 		1175E0922EDC929400B92794 /* ny-2026.icon in Resources */ = {isa = PBXBuildFile; fileRef = 1175E0912EDC929400B92794 /* ny-2026.icon */; };
+		117C0E4D2EEDB9C30086419C /* EditTextView+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */; };
+		117C0E4E2EEDB9C40086419C /* EditTextView+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */; };
 		11A95B622EDC56DC0081ED29 /* modern.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11A95B612EDC56DC0081ED29 /* modern.icon */; };
 		11AF633E2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF633F2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
@@ -908,6 +910,7 @@
 		1175E09B2EDCA60200B92794 /* FSNotes 4.0 for iOS.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "FSNotes 4.0 for iOS.textbundle"; sourceTree = "<group>"; };
 		1175E09C2EDCA60200B92794 /* FSNotes 5.0 Change Log.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "FSNotes 5.0 Change Log.textbundle"; sourceTree = "<group>"; };
 		1175E09D2EDCA60200B92794 /* Meet FSNotes 6.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "Meet FSNotes 6.textbundle"; sourceTree = "<group>"; };
+		117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+Clicked.swift"; sourceTree = "<group>"; };
 		11A95B612EDC56DC0081ED29 /* modern.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = modern.icon; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
 		11BD71652EDC87B700541BF9 /* classic-2025.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "classic-2025.icon"; sourceTree = "<group>"; };
@@ -1822,6 +1825,7 @@
 		D7E6D9D2208085BB003ECAFC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */,
 				1102DDB02EE4C277005029A6 /* EditTextView+Complete.swift */,
 				110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */,
 				D797004B1F3DD10700BAD94D /* EditTextView.swift */,
@@ -2775,6 +2779,7 @@
 				D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
 				11D6C0E72EE22C11006017F0 /* R.swift in Sources */,
 				11AF633E2E898435004E7157 /* Sql.swift in Sources */,
+				117C0E4D2EEDB9C30086419C /* EditTextView+Clicked.swift in Sources */,
 				D73BCCF228EB5EC4008B3BBC /* TreeEntry.swift in Sources */,
 				11BF067B2EE495C2006C7336 /* Perl.swift in Sources */,
 				D73BCD0428EB5EC4008B3BBC /* Repository+Commit.swift in Sources */,
@@ -3000,6 +3005,7 @@
 				D7315ED3215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
 				11D6C0E82EE22C11006017F0 /* R.swift in Sources */,
 				11AF633F2E898435004E7157 /* Sql.swift in Sources */,
+				117C0E4E2EEDB9C40086419C /* EditTextView+Clicked.swift in Sources */,
 				D73BCCF328EB5EC4008B3BBC /* TreeEntry.swift in Sources */,
 				11BF067C2EE495C2006C7336 /* Perl.swift in Sources */,
 				D73BCD0528EB5EC4008B3BBC /* Repository+Commit.swift in Sources */,
