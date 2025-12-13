@@ -600,9 +600,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func reloadRow(note: Note) {
-        if Thread.isMainThread {
-            performReload(note: note)
-        } else {
+        DispatchQueue.global(qos: .userInitiated).async {
+            note.invalidateCache()
+            note.loadPreviewInfo()
+
             DispatchQueue.main.async {
                 self.performReload(note: note)
             }
@@ -610,9 +611,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     private func performReload(note: Note) {
-        note.invalidateCache()
-        note.loadPreviewInfo()
-        
         guard let i = self.noteList.firstIndex(of: note) else { return }
         let urls = note.imageUrl
         

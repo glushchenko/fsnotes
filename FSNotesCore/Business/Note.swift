@@ -1396,14 +1396,11 @@ public class Note: NSObject  {
     #endif
 
     public func loadPreviewInfo() {
-        let content = self.content.string
-
         if (title.count > 0 || (imageUrl != nil && imageUrl!.count > 0)) && self.isParsed {
             return
         }
-
-        var cleanText = content
-        cleanText = cleanText.trimMDSyntax()
+        
+        var cleanText = self.content.string.trimMDSyntax()
 
         if cleanText.startsWith(string: "---") {
             FSParser.yamlBlockRegex.matches(cleanText, range: NSRange(location: 0, length: cleanText.count)) { (result) -> Void in
