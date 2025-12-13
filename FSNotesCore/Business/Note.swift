@@ -113,7 +113,7 @@ public class Note: NSObject  {
     init(meta: NoteMeta, project: Project) {
         isLoadedFromCache = true
         
-        if meta.title.count > 0 || meta.imageUrl != nil || meta.attachments != nil {
+        if meta.title.count > 0 || (meta.imageUrl != nil && meta.imageUrl!.count > 0) {
             isParsed = true
         }
         
@@ -1398,7 +1398,7 @@ public class Note: NSObject  {
     public func loadPreviewInfo() {
         let content = self.content.string
 
-        if (title.count > 0 || imageUrl != nil || attachments != nil) && self.isParsed {
+        if (title.count > 0 || (imageUrl != nil && imageUrl!.count > 0)) && self.isParsed {
             return
         }
 
@@ -1412,7 +1412,7 @@ public class Note: NSObject  {
                 if let swiftRange = cleanText.swiftRange(from: range) {
                     let yamlText = cleanText[swiftRange]
                 
-                    self.loadYaml(components: yamlText.components(separatedBy: NSCharacterSet.newlines))
+                    _ = self.loadYaml(components: yamlText.components(separatedBy: NSCharacterSet.newlines))
                     
                     cleanText = cleanText.replacingOccurrences(of: yamlText, with: "")
                 }
