@@ -223,7 +223,24 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         usedRect: NSRect,
         textContainer container: NSTextContainer) {
         
-        let lineHeight = self.lineHeight(for: defaultFont)
+        var fontToUse: NSFont
+        
+        if let textStorage = self.textStorage, textStorage.length > 0 {
+            let lastCharIndex = textStorage.length - 1
+            let lastChar = textStorage.string[textStorage.string.index(textStorage.string.startIndex, offsetBy: lastCharIndex)]
+            let attributes = textStorage.attributes(at: lastCharIndex, effectiveRange: nil)
+            
+            if lastChar != "\n", let font = attributes[.font] as? NSFont {
+                fontToUse = font
+            } else {
+                fontToUse = UserDefaultsManagement.noteFont
+            }
+        } else {
+            fontToUse = UserDefaultsManagement.noteFont
+        }
+        
+        let lineHeight = self.lineHeight(for: fontToUse)
+        
         var fragmentRect = fragmentRect
         fragmentRect.size.height = ceil(lineHeight)
         var usedRect = usedRect

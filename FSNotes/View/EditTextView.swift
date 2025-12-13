@@ -195,7 +195,18 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             let insertionPoint = self.selectedRange().location
             
             if insertionPoint == textStorage.length && insertionPoint > 0 {
-                let fontLineHeight = layoutManager.lineHeight(for: UserDefaultsManagement.noteFont)
+                let lastCharIndex = textStorage.length - 1
+                let lastChar = textStorage.string[textStorage.string.index(textStorage.string.startIndex, offsetBy: lastCharIndex)]
+                let fontToUse: NSFont
+                
+                let attributes = textStorage.attributes(at: lastCharIndex, effectiveRange: nil)
+                if lastChar != "\n", let font = attributes[.font] as? NSFont {
+                    fontToUse = font
+                } else {
+                    fontToUse = UserDefaultsManagement.noteFont
+                }
+                
+                let fontLineHeight = layoutManager.lineHeight(for: fontToUse)
                 newRect.size.height = fontLineHeight
             }
         }
