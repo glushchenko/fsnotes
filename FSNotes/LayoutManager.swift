@@ -224,13 +224,14 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         textContainer container: NSTextContainer) {
         
         var fontToUse: NSFont
-        
+
         if let textStorage = self.textStorage, textStorage.length > 0 {
-            let lastCharIndex = textStorage.length - 1
-            let lastChar = textStorage.string[textStorage.string.index(textStorage.string.startIndex, offsetBy: lastCharIndex)]
-            let attributes = textStorage.attributes(at: lastCharIndex, effectiveRange: nil)
-            
-            if lastChar != "\n", let font = attributes[.font] as? NSFont {
+            let lastIndex = textStorage.length - 1
+            let attributes = textStorage.attributes(at: lastIndex, effectiveRange: nil)
+            let nsString = textStorage.string as NSString
+            let lastCharIsNewline = nsString.character(at: lastIndex) == 0x0A // '\n'
+
+            if !lastCharIsNewline, let font = attributes[.font] as? NSFont {
                 fontToUse = font
             } else {
                 fontToUse = UserDefaultsManagement.noteFont

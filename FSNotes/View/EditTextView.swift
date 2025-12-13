@@ -194,20 +194,23 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
            let layoutManager = self.layoutManager as? LayoutManager {
             let insertionPoint = self.selectedRange().location
             
-            if insertionPoint == textStorage.length && insertionPoint > 0 {
-                let lastCharIndex = textStorage.length - 1
-                let lastChar = textStorage.string[textStorage.string.index(textStorage.string.startIndex, offsetBy: lastCharIndex)]
-                let fontToUse: NSFont
+            if insertionPoint == textStorage.length, insertionPoint > 0 {
+                let lastIndex = insertionPoint - 1
+                let attributes = textStorage.attributes(at: lastIndex, effectiveRange: nil)
                 
-                let attributes = textStorage.attributes(at: lastCharIndex, effectiveRange: nil)
-                if lastChar != "\n", let font = attributes[.font] as? NSFont {
+                let isNewline: Bool = {
+                    let ns = textStorage.string as NSString
+                    return ns.character(at: lastIndex) == 0x0A // '\n'
+                }()
+
+                let fontToUse: NSFont
+                if !isNewline, let font = attributes[.font] as? NSFont {
                     fontToUse = font
                 } else {
                     fontToUse = UserDefaultsManagement.noteFont
                 }
                 
-                let fontLineHeight = layoutManager.lineHeight(for: fontToUse)
-                newRect.size.height = fontLineHeight
+                newRect.size.height = layoutManager.lineHeight(for: fontToUse)
             }
         }
         
