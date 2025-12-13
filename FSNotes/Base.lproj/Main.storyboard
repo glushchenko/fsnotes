@@ -2489,7 +2489,7 @@ Gw
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="114" y="300" width="304" height="32"/>
+                                <rect key="frame" x="115" y="300" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Copyright © 2017-2024 Oleksandr Hlushchenko.
@@ -2502,7 +2502,7 @@ All rights reserved.</string>
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="193" y="425" width="146" height="16"/>
+                                <rect key="frame" x="194" y="425" width="146" height="16"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2515,7 +2515,7 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="496" height="32"/>
+                                <rect key="frame" x="18" y="20" width="498" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2536,7 +2536,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="228" y="264" width="76" height="16"/>
+                                <rect key="frame" x="229" y="264" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2544,10 +2544,10 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="492" height="5"/>
+                                <rect key="frame" x="20" y="381" width="494" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="239" y="347" width="54" height="16"/>
+                                <rect key="frame" x="240" y="347" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2555,13 +2555,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="492" height="160"/>
+                                <rect key="frame" x="20" y="96" width="494" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="490" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="492" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="490" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="492" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2603,7 +2603,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="344.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="346.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -2616,11 +2616,11 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Svh-Z4-DD5">
-                                                            <rect key="frame" x="139.5" y="0.0" width="342" height="24"/>
+                                                            <rect key="frame" x="139.5" y="0.0" width="344" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
-                                                                    <rect key="frame" x="0.0" y="4" width="342" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="4" width="344" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zoX-MN-b3x">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -3762,7 +3762,7 @@ Olena Hlushcneko</string>
                                     <action selector="codeBlockHighlight:" target="ssC-ed-19K" id="Ygz-lW-YAb"/>
                                 </connections>
                             </button>
-                            <box verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="dof-lA-EwF">
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="dof-lA-EwF">
                                 <rect key="frame" x="20" y="93" width="458" height="5"/>
                             </box>
                             <button identifier="italicAsterisk" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iOb-Wa-2km">
@@ -3811,7 +3811,7 @@ Olena Hlushcneko</string>
                                     <action selector="changeBold:" target="ssC-ed-19K" id="blk-X5-ZLx"/>
                                 </connections>
                             </button>
-                            <button identifier="boldUnderscore" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1p-hH-bBl">
+                            <button identifier="boldUnderscore" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y1p-hH-bBl">
                                 <rect key="frame" x="251" y="34" width="41" height="18"/>
                                 <buttonCell key="cell" type="radio" title="__" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="yMX-hz-B8Y">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -3832,16 +3832,17 @@ Olena Hlushcneko</string>
                             <constraint firstItem="XOm-C4-sCs" firstAttribute="trailing" secondItem="gk5-il-WSG" secondAttribute="trailing" id="2tZ-iJ-9IK"/>
                             <constraint firstItem="3el-ze-TIn" firstAttribute="top" secondItem="Vrr-sG-fOD" secondAttribute="bottom" constant="8" symbolic="YES" id="39i-sb-qOk"/>
                             <constraint firstItem="f8R-08-jeb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7Az-gx-yGL" secondAttribute="trailing" constant="8" symbolic="YES" id="3PJ-mf-t4z"/>
-                            <constraint firstItem="dKW-T5-3Vc" firstAttribute="trailing" secondItem="3el-ze-TIn" secondAttribute="trailing" id="4UJ-cQ-ulb"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RxO-oS-Sa7" secondAttribute="trailing" constant="35" id="55U-mx-Vne"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="5OV-Wf-0cj"/>
                             <constraint firstItem="Vrr-sG-fOD" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="5rK-mc-8tF"/>
                             <constraint firstItem="Kcg-vn-Dwj" firstAttribute="leading" secondItem="mLR-t7-nz0" secondAttribute="leading" id="7ES-Fk-IxN"/>
+                            <constraint firstItem="dKW-T5-3Vc" firstAttribute="trailing" secondItem="3el-ze-TIn" secondAttribute="trailing" id="7Ld-MX-BiG"/>
                             <constraint firstItem="gl0-rI-S66" firstAttribute="centerY" secondItem="3el-ze-TIn" secondAttribute="centerY" id="7xL-Ri-Z0d"/>
                             <constraint firstItem="gl0-rI-S66" firstAttribute="leading" secondItem="3el-ze-TIn" secondAttribute="trailing" constant="25" id="8Pb-xC-Flq"/>
                             <constraint firstItem="cMm-a9-mcN" firstAttribute="trailing" secondItem="bEN-ep-bl6" secondAttribute="trailing" id="8pv-Qz-KPk"/>
                             <constraint firstItem="cMm-a9-mcN" firstAttribute="trailing" secondItem="GnH-BV-JGa" secondAttribute="trailing" id="981-PH-aBD"/>
                             <constraint firstItem="GnH-BV-JGa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="9Sd-X7-etJ"/>
+                            <constraint firstItem="y1p-hH-bBl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9qv-bd-BU8" secondAttribute="leading" id="9lA-6Q-Sgj"/>
                             <constraint firstItem="DQU-Se-i0R" firstAttribute="centerY" secondItem="bEN-ep-bl6" secondAttribute="centerY" id="B21-9b-4sR"/>
                             <constraint firstItem="B07-UG-KXb" firstAttribute="leading" secondItem="rmv-ik-PYa" secondAttribute="trailing" constant="25" id="BHd-tb-ZsE"/>
                             <constraint firstItem="cj1-ab-Sv6" firstAttribute="top" secondItem="2ZF-VY-6Ij" secondAttribute="bottom" constant="20" id="CJe-3R-a6A"/>
@@ -3857,7 +3858,9 @@ Olena Hlushcneko</string>
                             <constraint firstItem="cMm-a9-mcN" firstAttribute="top" secondItem="GnH-BV-JGa" secondAttribute="bottom" constant="8" symbolic="YES" id="GmS-cz-t0z"/>
                             <constraint firstItem="cO6-GH-v1T" firstAttribute="top" secondItem="dKW-T5-3Vc" secondAttribute="bottom" constant="8" symbolic="YES" id="H1s-B2-taj"/>
                             <constraint firstItem="cMm-a9-mcN" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="HKt-yF-oe8"/>
+                            <constraint firstItem="dKW-T5-3Vc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="20" symbolic="YES" id="HPd-75-v8x"/>
                             <constraint firstItem="xZA-pB-1nm" firstAttribute="centerY" secondItem="UiV-vt-WHK" secondAttribute="centerY" id="ILO-oX-1tz"/>
+                            <constraint firstAttribute="trailing" secondItem="y1p-hH-bBl" secondAttribute="trailing" constant="206" id="Jcw-ud-Gtl"/>
                             <constraint firstItem="BAc-kR-eMo" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="20" symbolic="YES" id="K6Z-iF-q6Y"/>
                             <constraint firstItem="7Az-gx-yGL" firstAttribute="leading" secondItem="QvM-a9-vnf" secondAttribute="trailing" constant="25" id="LJ1-fc-86S"/>
                             <constraint firstItem="3el-ze-TIn" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" priority="10" constant="35" id="O2p-SW-ast"/>
@@ -3874,6 +3877,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="DQU-Se-i0R" firstAttribute="trailing" secondItem="T2k-ya-69N" secondAttribute="trailing" id="XZ8-jk-bVH"/>
                             <constraint firstItem="rmv-ik-PYa" firstAttribute="trailing" secondItem="cMm-a9-mcN" secondAttribute="trailing" id="YqS-w0-sAd"/>
                             <constraint firstItem="dmd-5j-kY7" firstAttribute="leading" secondItem="DQU-Se-i0R" secondAttribute="leading" id="Zka-1c-GpW"/>
+                            <constraint firstItem="dof-lA-EwF" firstAttribute="leading" secondItem="2ZF-VY-6Ij" secondAttribute="leading" id="aqr-wY-N1l"/>
                             <constraint firstItem="cMm-a9-mcN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="awX-kU-inO"/>
                             <constraint firstItem="3el-ze-TIn" firstAttribute="leading" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="114" id="bQW-pO-I6b"/>
                             <constraint firstItem="T2k-ya-69N" firstAttribute="leading" secondItem="cMm-a9-mcN" secondAttribute="trailing" priority="500" constant="25" id="bZA-li-8cT"/>
@@ -3915,7 +3919,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="xZA-pB-1nm" firstAttribute="leading" secondItem="UiV-vt-WHK" secondAttribute="trailing" constant="25" id="rIl-Ed-uYN"/>
                             <constraint firstAttribute="bottom" secondItem="ySi-3O-8zp" secondAttribute="bottom" constant="35" id="rRh-eK-aWM"/>
                             <constraint firstAttribute="trailing" secondItem="fYl-Tw-kcO" secondAttribute="trailing" constant="35" id="rb6-2g-dvg"/>
-                            <constraint firstItem="dKW-T5-3Vc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="156" id="roo-sq-hf2"/>
+                            <constraint firstItem="cO6-GH-v1T" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="20" symbolic="YES" id="sIb-T1-xam"/>
                             <constraint firstItem="Kcg-vn-Dwj" firstAttribute="trailing" secondItem="mLR-t7-nz0" secondAttribute="trailing" id="t3P-9h-M9O"/>
                             <constraint firstItem="7Az-gx-yGL" firstAttribute="top" secondItem="B07-UG-KXb" secondAttribute="bottom" constant="10" symbolic="YES" id="t7Z-Fy-QdR"/>
                             <constraint firstItem="DQU-Se-i0R" firstAttribute="leading" secondItem="T2k-ya-69N" secondAttribute="leading" id="tbH-DJ-3Mt"/>
@@ -3926,8 +3930,10 @@ Olena Hlushcneko</string>
                             <constraint firstItem="9qv-bd-BU8" firstAttribute="centerY" secondItem="dKW-T5-3Vc" secondAttribute="centerY" id="viq-c7-D8b"/>
                             <constraint firstItem="y1p-hH-bBl" firstAttribute="centerY" secondItem="cO6-GH-v1T" secondAttribute="centerY" id="wkx-jp-KWV"/>
                             <constraint firstItem="rmv-ik-PYa" firstAttribute="centerY" secondItem="B07-UG-KXb" secondAttribute="centerY" id="xg5-Ka-fyG"/>
+                            <constraint firstItem="y1p-hH-bBl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ySi-3O-8zp" secondAttribute="trailing" constant="2" id="xos-np-uEB"/>
                             <constraint firstItem="GnH-BV-JGa" firstAttribute="trailing" secondItem="QvM-a9-vnf" secondAttribute="trailing" id="yef-tJ-6pg"/>
                             <constraint firstItem="dof-lA-EwF" firstAttribute="top" secondItem="Kcg-vn-Dwj" secondAttribute="bottom" constant="20" id="yvx-pF-jgL"/>
+                            <constraint firstItem="dof-lA-EwF" firstAttribute="trailing" secondItem="2ZF-VY-6Ij" secondAttribute="trailing" id="zQm-5d-zfY"/>
                             <constraint firstItem="mLR-t7-nz0" firstAttribute="trailing" secondItem="XOm-C4-sCs" secondAttribute="trailing" id="zc0-G9-yAY"/>
                         </constraints>
                     </view>
