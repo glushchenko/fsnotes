@@ -41,6 +41,14 @@ class NoteCellView: NSTableCellView {
     public static var pinEncryptedImages = [String: NSImage]()
     public static var pinSharedImages = [String: NSImage]()
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imagePreview?.image = nil
+        imagePreviewSecond?.image = nil
+        imagePreviewThird?.image = nil
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
