@@ -14,7 +14,7 @@ struct AtomOneDarkTheme {
 
         // .hljs
         style.foregroundColor = PlatformColor(hex: "#abb2bf")
-        style.backgroundColor = PlatformColor(hex: "#282c34")
+        style.backgroundColor = PlatformColor(hex: "#3a3f4a")
 
         // .hljs-comment, .hljs-quote (italic)
         style.styles["comment"] = .init(
