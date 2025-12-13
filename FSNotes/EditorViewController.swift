@@ -933,17 +933,24 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     }
     
     @IBAction func deleteNote(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        
         var forceRemove = false
-
         if let menuItem = sender as? NSMenuItem,
             menuItem.identifier?.rawValue == "fileMenu.forceRemove" ||
             menuItem.identifier?.rawValue == "context.fileMenu.forceRemove" {
             forceRemove = true
         }
-
-        guard let vc = ViewController.shared() else { return }
+        
         guard let notes = getSelectedNotes() else { return }
+        let rows = vc.notesTableView.selectedRowIndexes
+        
+        removeNotes(notes: notes, forceRemove: forceRemove, rows: rows)
+    }
 
+    public func removeNotes(notes: [Note], forceRemove: Bool = false, rows: IndexSet? = nil) {
+        guard let vc = ViewController.shared() else { return }
+        
         let si = vc.getSidebarItem()
         if si?.isTrash() == true || forceRemove {
             vc.removeForever()
@@ -959,40 +966,41 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             return
         }
         
-        let selectedRow = vc.notesTableView.selectedRowIndexes.min()
+        let currentNote = vc.editor.note
+        let shouldClearEditor = currentNote != nil && notes.contains(where: { $0 === currentNote })
 
         UserDataService.instance.searchTrigger = true
-
         vc.notesTableView.removeRows(notes: notes)
-
+        
         // Delete tags
         for note in notes {
             let tags = note.tags
             note.tags.removeAll()
             vc.sidebarOutlineView.removeTags(tags)
         }
-
+        
         vc.storage.removeNotes(notes: notes) { urls in
             if let md = AppDelegate.mainWindowController {
                 let undoManager = md.notesListUndoManager
-
                 if let ntv = vc.notesTableView {
                     undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
                     undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
                 }
-
-                if let i = selectedRow, i > -1 {
-                    if vc.notesTableView.noteList.count > i {
-                        vc.notesTableView.selectRow(i)
+                
+                if let rows = rows, let minRow = rows.min(), minRow > -1 {
+                    if vc.notesTableView.noteList.count > minRow {
+                        vc.notesTableView.selectRow(minRow)
                     } else {
                         vc.notesTableView.selectRow(vc.notesTableView.noteList.count - 1)
                     }
                 }
-
+                
                 UserDataService.instance.searchTrigger = false
             }
-
-            vc.editor.clear()
+            
+            if shouldClearEditor {
+                vc.editor.clear()
+            }
         }
         
         // Call from window, close it!
@@ -1003,8 +1011,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             }
             return
         }
-
-        // If is main window – focus to notes list
+        
+        // If is main window – focus to notes list
         if let cvc = NSApplication.shared.keyWindow?.contentViewController,
            cvc.isKind(of: ViewController.self) {
             NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)

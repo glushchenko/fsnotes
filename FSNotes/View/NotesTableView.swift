@@ -313,6 +313,25 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return defaultCell
     }
     
+    func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableView.RowActionEdge) -> [NSTableViewRowAction] {
+        guard edge == .trailing else { return [] }
+        guard noteList.indices.contains(row) else { return [] }
+        
+        let deleteAction = NSTableViewRowAction(style: .destructive, title: NSLocalizedString("Delete", comment: "")) { [weak self] (action, row) in
+            guard let self = self else { return }
+            guard self.noteList.indices.contains(row) else { return }
+            let noteToDelete = self.noteList[row]
+            
+            if let vc = self.window?.contentViewController as? ViewController {
+                vc.removeNotes(notes: [noteToDelete])
+            }
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        
+        return [deleteAction]
+    }
+    
     func makeCell(note: Note) -> NoteCellView {
         let cell = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
 
