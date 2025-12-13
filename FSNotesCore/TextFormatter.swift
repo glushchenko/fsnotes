@@ -473,13 +473,17 @@ public class TextFormatter {
     
     public func isListParagraph() -> Bool {
         guard let currentPR = getParagraphRange() else { return false }
-        let paragraph = storage.attributedSubstring(from: currentPR).string
+        let paragraph = storage.attributedSubstring(from: currentPR)
         
-        if TextFormatter.getAutocompleteCharsMatch(string: paragraph) != nil {
+        if TextFormatter.getAutocompleteCharsMatch(string: paragraph.string) != nil {
             return true
         }
 
-        if TextFormatter.getAutocompleteDigitsMatch(string: paragraph) != nil {
+        if TextFormatter.getAutocompleteDigitsMatch(string: paragraph.string) != nil {
+            return true
+        }
+        
+        if paragraph.hasTodoAttribute() {
             return true
         }
         
