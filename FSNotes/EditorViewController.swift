@@ -651,7 +651,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     @IBAction func pinMenu(_ sender: Any) {
         guard let notes = getSelectedNotes() else { return }
         
-        ViewController.shared()?.pin(selectedNotes: notes)
+        ViewController.shared()?.pin(selectedNotes: notes, toggle: true)
     }
     
     @IBAction func editorMenu(_ sender: Any) {

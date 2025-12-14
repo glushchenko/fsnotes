@@ -1553,7 +1553,7 @@ class ViewController: EditorViewController,
         }
     }
     
-    func pin(selectedNotes: [Note]) {
+    func pin(selectedNotes: [Note], toggle: Bool = false) {
         if selectedNotes.count == 0 {
             return
         }
@@ -1567,7 +1567,11 @@ class ViewController: EditorViewController,
                   let cell = rowView.view(atColumn: 0) as? NoteCellView else { continue }
             
             updatedNotes.append((atRow, selectedNote))
-            selectedNote.togglePin()
+            
+            if toggle {
+                selectedNote.togglePin()
+            }
+            
             cell.renderPin()
         }
 
@@ -1758,10 +1762,16 @@ class ViewController: EditorViewController,
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
                 if key == "co.fluder.fsnotes.pins.shared" {
-                    let changedNotes = storage.getUpdatedPins()
-                    
+                    let result = storage.restoreCloudPins()
+
                     DispatchQueue.main.async {
-                        ViewController.shared()?.pin(selectedNotes: changedNotes)
+                        if let added = result.added {
+                            ViewController.shared()?.pin(selectedNotes: added)
+                        }
+
+                        if let removed = result.removed {
+                            ViewController.shared()?.pin(selectedNotes: removed)
+                        }
                     }
                 }
                 

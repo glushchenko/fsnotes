@@ -113,7 +113,7 @@ public class Project: NSObject {
             let key = getLongSettingsKey()
             
             #if CLOUD_RELATED_BLOCK
-                let keyStore = NSUbiquitousKeyValueStore()
+            let keyStore = NSUbiquitousKeyValueStore.default
                 keyStore.set(data, forKey: key)
                 keyStore.synchronize()
             #else
@@ -132,7 +132,7 @@ public class Project: NSObject {
         var data: Data?
                 
         #if CLOUD_RELATED_BLOCK
-            let keyStore = NSUbiquitousKeyValueStore()
+        let keyStore = NSUbiquitousKeyValueStore.default
             data = keyStore.data(forKey: key)
         #else
             if let documentDir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
@@ -309,7 +309,7 @@ public class Project: NSObject {
             print("From disk: \(notes.count)")
         }
 
-        notes = loadPins(for: notes)
+        loadPins(for: notes)
 
         for note in notes {
             storage.add(note)
@@ -356,18 +356,20 @@ public class Project: NSObject {
         }
     }
 
-    public func loadPins(for notes: [Note]) -> [Note] {
+    public func loadPins(for notes: [Note]) {
     #if CLOUD_RELATED_BLOCK
-        if let names = NSUbiquitousKeyValueStore().array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
-            for name in names {
-                if let note = notes.first(where: { $0.url.path.hasSuffix(name) }) {
-                    note.isPinned = true
-                }
-            }
+        for note in notes {
+            note.isPinned = false
+        }
+        
+        let store = NSUbiquitousKeyValueStore.default
+        let names = store.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] ?? []
+        let pinned = Set(names)
+        
+        for note in notes {
+            note.isPinned = pinned.contains(note.getRelatedPath())
         }
     #endif
-
-        return notes
     }
     
     func fileExist(fileName: String, ext: String) -> Bool {        
@@ -496,111 +498,6 @@ public class Project: NSObject {
         
         return "FSNotes › \(label)"
     }
-    
-//    public func loadSettings() {
-//        return
-//
-//        if label == "Welcome" {
-//            sortBy = .title
-//            sortDirection = .asc
-//        }
-//
-//    #if os(OSX)
-//        var settings: [String : Any]?
-//
-//        if let relativePath = getRelativePath() {
-//            let key = relativePath.count == 0 ? "root-directory" : relativePath
-//
-//            if let result = NSUbiquitousKeyValueStore().dictionary(forKey: key) {
-//                settings = result
-//            }
-//        } else if let data = self.settingsList,
-//            let result = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String : Any] {
-//            settings = result
-//        }
-//
-//        guard let settings = settings else { return }
-//
-//        if let common = settings["showInCommon"] as? Bool {
-//            self.showInCommon = common
-//        }
-//
-//        if let sidebar = settings["showInSidebar"] as? Bool {
-//            self.showInSidebar = sidebar
-//        }
-//
-//        if let sidebar = settings["showNestedFoldersContent"] as? Bool {
-//            self.showNestedFoldersContent = sidebar
-//        }
-//
-//        if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
-//            if sort != .none {
-//                sortBy = sort
-//
-//                if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
-//                    sortDirection = direction
-//                }
-//            }
-//        }
-//
-//        if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
-//            self.firstLineAsTitle = firstLineAsTitle
-//        } else {
-//            self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-//        }
-//
-//        if let priority = settings["priority"] as? Int {
-//            self.priority = priority
-//        }
-//
-//        if let origin = settings["gitOrigin"] as? String {
-//            self.gitOrigin = origin
-//        }
-//
-//        return
-//    #endif
-//
-//        if let settings = UserDefaultsManagement.shared?.object(forKey: getPathChecksum()) as? NSObject {
-//            if let common = settings.value(forKey: "showInCommon") as? Bool {
-//                self.showInCommon = common
-//            }
-//
-//            if let sidebar = settings.value(forKey: "showInSidebar") as? Bool {
-//                self.showInSidebar = sidebar
-//            }
-//
-//            if let sidebar = settings.value(forKey: "showNestedFoldersContent") as? Bool {
-//                self.showNestedFoldersContent = sidebar
-//            }
-//
-//            if let sortString = settings.value(forKey: "sortBy") as? String,
-//                let sort = SortBy(rawValue: sortString)
-//            {
-//                if sort != .none {
-//                    sortBy = sort
-//
-//                    if let directionString = settings.value(forKey: "sortDirection") as? String,
-//                        let direction = SortDirection(rawValue: directionString) {
-//                        sortDirection = direction
-//                    }
-//                }
-//            }
-//
-//            if let firstLineAsTitle = settings.value(forKey: "firstLineAsTitle") as? Bool {
-//                self.firstLineAsTitle = firstLineAsTitle
-//            } else {
-//                self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-//            }
-//
-//            if let originString = settings.value(forKey: "gitOrigin") as? String {
-//                gitOrigin = originString
-//            }
-//
-//            return
-//        }
-//
-//        self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-//    }
 
     public func getRelativePath() -> String? {
         if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {

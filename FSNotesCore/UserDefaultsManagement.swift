@@ -19,7 +19,7 @@ public class UserDefaultsManagement {
     static var apiPath = "https://api.fsnot.es/"
     static var webPath = "https://p.fsnot.es/"
 
-    public static var global = NSUbiquitousKeyValueStore()
+    public static var global = NSUbiquitousKeyValueStore.default
     
 #if os(OSX)
     typealias Color = NSColor

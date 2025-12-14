@@ -61,7 +61,7 @@ class Storage {
 #if CLOUD_RELATED_BLOCK
         // Sync pins and related stuff
         
-        NSUbiquitousKeyValueStore().synchronize()
+        NSUbiquitousKeyValueStore.default.synchronize()
 #endif
 
         // Load root
@@ -845,7 +845,7 @@ class Storage {
                 names.append(note.getRelatedPath())
             }
 
-            let keyStore = NSUbiquitousKeyValueStore()
+            let keyStore = NSUbiquitousKeyValueStore.default
             keyStore.set(names, forKey: "co.fluder.fsnotes.pins.shared")
             keyStore.synchronize()
         
@@ -856,7 +856,7 @@ class Storage {
 
     public func loadPins(notes: [Note]) {
         #if CLOUD_RELATED_BLOCK
-        let keyStore = NSUbiquitousKeyValueStore()
+        let keyStore = NSUbiquitousKeyValueStore.default
         keyStore.synchronize()
 
         guard let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String]
@@ -875,7 +875,7 @@ class Storage {
         var removed = [Note]()
 
         #if CLOUD_RELATED_BLOCK
-        let keyStore = NSUbiquitousKeyValueStore()
+        let keyStore = NSUbiquitousKeyValueStore.default
         keyStore.synchronize()
         
         if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
@@ -888,8 +888,8 @@ class Storage {
                 }
             }
 
-            for name in names {
-                if let note = getByUrl(endsWith: name), !note.isPinned {
+            for note in noteList {
+                if !note.isPinned, names.contains(note.getRelatedPath()) {
                     note.addPin(cloudSave: false)
                     added.append(note)
                 }
@@ -900,33 +900,6 @@ class Storage {
         return (removed, added)
     }
     
-    public func getUpdatedPins() -> [Note] {
-        var notes = [Note]()
-
-        #if CLOUD_RELATED_BLOCK
-        let keyStore = NSUbiquitousKeyValueStore()
-        keyStore.synchronize()
-        
-        if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
-            if let pinned = getPinned() {
-                for note in pinned {
-                    if !names.contains(note.getRelatedPath()) {
-                        notes.append(note)
-                    }
-                }
-            }
-
-            for name in names {
-                if let note = getByUrl(endsWith: name), !note.isPinned {
-                    notes.append(note)
-                }
-            }
-        }
-        #endif
-
-        return notes
-    }
-
     public func getPinned() -> [Note]? {
         return noteList.filter({ $0.isPinned })
     }
