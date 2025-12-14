@@ -223,23 +223,25 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-        var title = String()
         var urls = [URL]()
+        var contentUrls = [URL]()
+        
         for row in rowIndexes {
             let note = noteList[row]
             urls.append(note.url)
-
-            if let unwarpped = note.title.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                title = "fsnotes://find/" +  unwarpped
+            
+            if let url = note.getContentFileURL() {
+                contentUrls.append(url)
             }
         }
-
-        pboard.setString(title, forType: NSPasteboard.PasteboardType.string)
-
+        
+        pboard.clearContents()
+        pboard.writeObjects(contentUrls as [NSPasteboardWriting])
+        
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: urls, requiringSecureCoding: true) {
             pboard.setData(data, forType: NSPasteboard.note)
         }
-
+        
         return true
     }
 
