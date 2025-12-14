@@ -1396,17 +1396,23 @@ public class Note: NSObject  {
             }
         }
         
-        let nsText = content.string as NSString
-        let range = nsText.range(of: "\n")
-        let firstLine = range.location != NSNotFound
-            ? nsText.substring(to: range.location)
-            : content.string
+        if project.settings.isFirstLineAsTitle() {
+            let lines = getNonEmptyLines()
+            if !lines.isEmpty {
+                title = lines.first!.trim()
                 
-        if !firstLine.isEmpty, project.settings.isFirstLineAsTitle() {
-            processWithFirstLineAsTitle(firstLine)
-        } else {
-            loadTitleFromFileName()
+                let result = lines.dropFirst()
+                preview =
+                    result.joined(separator: " ")
+                        .trimMDSyntax()
+                        .condenseWhitespace()
+                
+                return
+            }
         }
+        
+        loadTitleFromFileName()
+        preview = getPreviewLabel()
     }
 
     public func getImagesFromContent() -> [URL] {

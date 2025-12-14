@@ -891,6 +891,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
         
         self.note = nil
+        
+        if let vc = viewDelegate {
+            vc.updateCounters()
+        }
     }
 
     @IBAction func boldMenu(_ sender: Any) {

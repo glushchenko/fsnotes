@@ -38,27 +38,16 @@ extension Note {
                 return cleaned.isEmpty ? nil : cleaned
             }
     }
-
-    func processWithFirstLineAsTitle(_ firstLine: String) {
-        title = firstLine
-            .trimMDSyntax()
-            .trim()
-        
-        preview = getNextNonEmptyLines(count: 10)
-            .trimMDSyntax()
-            .trim()
-    }
     
-    func getNextNonEmptyLines(count: Int = 10, skipFirst: Bool = true) -> String {
+    func getNonEmptyLines() -> [String] {
         let nsText = content.string as NSString
         let length = nsText.length
         var lines: [String] = []
-        lines.reserveCapacity(count)
+        lines.reserveCapacity(10)
         
         var location = 0
-        var shouldSkip = skipFirst
         
-        while lines.count < count && location < length {
+        while lines.count < 10 && location < length {
             let remainingRange = NSRange(location: location, length: length - location)
             let range = nsText.rangeOfCharacter(from: .newlines, range: remainingRange)
             
@@ -66,10 +55,13 @@ extension Note {
                 let lineLength = range.location - location
                 
                 if lineLength > 0 {
-                    if shouldSkip {
-                        shouldSkip = false
-                    } else {
-                        let line = nsText.substring(with: NSRange(location: location, length: lineLength))
+                    var line = nsText.substring(with: NSRange(location: location, length: lineLength))
+
+                    if location == 0 {
+                        line = line.trimMDSyntax()
+                    }
+                    
+                    if !line.isEmpty {
                         lines.append(line)
                     }
                 }
@@ -77,14 +69,14 @@ extension Note {
                 location = range.location + range.length
             } else {
                 let line = nsText.substring(from: location)
-                if !line.isEmpty && !shouldSkip {
+                if !line.isEmpty {
                     lines.append(line)
                 }
                 break
             }
         }
         
-        return lines.joined(separator: " ")
+        return lines
     }
     
     func loadYaml(components: [String]) -> (String, String)? {
