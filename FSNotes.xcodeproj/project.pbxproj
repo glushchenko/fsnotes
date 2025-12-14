@@ -69,6 +69,8 @@
 		117C0E4D2EEDB9C30086419C /* EditTextView+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */; };
 		117C0E4E2EEDB9C40086419C /* EditTextView+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */; };
 		11A95B622EDC56DC0081ED29 /* modern.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11A95B612EDC56DC0081ED29 /* modern.icon */; };
+		11ABE5E22EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */; };
+		11ABE5E32EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */; };
 		11AF633E2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF633F2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF63402E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
@@ -917,6 +919,7 @@
 		1175E09D2EDCA60200B92794 /* Meet FSNotes 6.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "Meet FSNotes 6.textbundle"; sourceTree = "<group>"; };
 		117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+Clicked.swift"; sourceTree = "<group>"; };
 		11A95B612EDC56DC0081ED29 /* modern.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = modern.icon; sourceTree = "<group>"; };
+		11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCounterView.swift; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
 		11BD71652EDC87B700541BF9 /* classic-2025.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "classic-2025.icon"; sourceTree = "<group>"; };
 		11BD8F912EDDEC33000673A7 /* GitHubDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubDark.swift; sourceTree = "<group>"; };
@@ -1831,6 +1834,7 @@
 		D7E6D9D2208085BB003ECAFC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */,
 				117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */,
 				1102DDB02EE4C277005029A6 /* EditTextView+Complete.swift */,
 				110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */,
@@ -2891,6 +2895,7 @@
 				D73BCCE028EB5EC4008B3BBC /* Index.swift in Sources */,
 				D74112281FABA21B00AB619A /* MainWindow.swift in Sources */,
 				D7CDE9DC2161767A00DC5978 /* AppearanceType.swift in Sources */,
+				11ABE5E22EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
 				D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */,
 				113685602EC7A6A50033767F /* Platform.swift in Sources */,
@@ -3118,6 +3123,7 @@
 				D7E81C361F925B5F00416A91 /* AppDelegate.swift in Sources */,
 				D73BCCE128EB5EC4008B3BBC /* Index.swift in Sources */,
 				D7CDE9DD2161767B00DC5978 /* AppearanceType.swift in Sources */,
+				11ABE5E32EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */,
 				D7D372F8207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */,
 				D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */,
 				1136855C2EC7A6A50033767F /* Platform.swift in Sources */,
@@ -3616,7 +3622,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 667;
+				CURRENT_PROJECT_VERSION = 668;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -3656,7 +3662,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 667;
+				CURRENT_PROJECT_VERSION = 668;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;

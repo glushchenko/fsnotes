@@ -1706,13 +1706,13 @@ CA
                                                         </searchFieldCell>
                                                     </searchField>
                                                     <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="116" horizontalPageScroll="10" verticalLineScroll="116" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzf-Jh-YEb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="237" height="562"/>
+                                                        <rect key="frame" x="0.0" y="45" width="237" height="517"/>
                                                         <clipView key="contentView" focusRingType="none" drawsBackground="NO" id="MtJ-BC-rZB">
-                                                            <rect key="frame" x="0.0" y="0.0" width="237" height="562"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="237" height="517"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnResizing="NO" autosaveColumns="NO" rowHeight="115" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="237" height="562"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="237" height="517"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="1" height="1"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1844,7 +1844,6 @@ CA
                                                                     </connections>
                                                                 </tableView>
                                                             </subviews>
-                                                            <nil key="backgroundColor"/>
                                                         </clipView>
                                                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="ePX-Un-u4d">
@@ -1878,17 +1877,46 @@ CA
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="nVd-Zp-Vjx" customClass="NotesCounterView" customModule="FSNotes" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="237" height="45"/>
+                                                        <subviews>
+                                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xOb-jd-sez">
+                                                                <rect key="frame" x="13" y="10" width="39" height="16"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="sNc-PP-deS"/>
+                                                                </constraints>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" id="EIT-bC-qcp">
+                                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="xOb-jd-sez" secondAttribute="bottom" constant="10" id="8k2-JI-JNA"/>
+                                                            <constraint firstItem="xOb-jd-sez" firstAttribute="leading" secondItem="nVd-Zp-Vjx" secondAttribute="leading" constant="15" id="XA4-0D-JfT"/>
+                                                            <constraint firstAttribute="height" constant="45" id="eLj-20-oK1"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                                <color key="value" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="TiA-aF-Uev" firstAttribute="leading" secondItem="bd7-O3-GQF" secondAttribute="trailing" constant="7" id="0kI-rM-bW0"/>
+                                                    <constraint firstAttribute="trailing" secondItem="nVd-Zp-Vjx" secondAttribute="trailing" id="2P8-hb-ts2"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="xRe-j4-nd1" secondAttribute="bottom" id="539-aY-crm"/>
                                                     <constraint firstAttribute="trailing" secondItem="TiA-aF-Uev" secondAttribute="trailing" constant="7" id="Bwk-QM-Hza"/>
                                                     <constraint firstItem="xRe-j4-nd1" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" id="SSi-2X-GuI"/>
+                                                    <constraint firstItem="nVd-Zp-Vjx" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="TvC-md-0Sn"/>
+                                                    <constraint firstAttribute="bottom" secondItem="nVd-Zp-Vjx" secondAttribute="bottom" id="VzX-kD-0C2"/>
                                                     <constraint firstAttribute="trailing" secondItem="xRe-j4-nd1" secondAttribute="trailing" id="aji-rg-UYK"/>
+                                                    <constraint firstItem="nVd-Zp-Vjx" firstAttribute="top" secondItem="Kzf-Jh-YEb" secondAttribute="bottom" id="d92-f0-7dC"/>
                                                     <constraint firstItem="bd7-O3-GQF" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" priority="2" constant="8" id="fJK-am-Cfu"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="lGx-ze-4gU"/>
                                                     <constraint firstItem="bd7-O3-GQF" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="8" id="nXO-Fh-8nv"/>
-                                                    <constraint firstAttribute="bottom" secondItem="Kzf-Jh-YEb" secondAttribute="bottom" id="oxv-Hv-dH1"/>
                                                     <constraint firstItem="TiA-aF-Uev" firstAttribute="centerY" secondItem="bd7-O3-GQF" secondAttribute="centerY" id="pTm-L3-mZO"/>
                                                     <constraint firstAttribute="trailing" secondItem="Kzf-Jh-YEb" secondAttribute="trailing" id="vRz-kK-vLv"/>
                                                     <constraint firstItem="xRe-j4-nd1" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="xIy-MR-UUn"/>
@@ -2029,7 +2057,7 @@ CA
                                                         </constraints>
                                                     </customView>
                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvZ-Tf-26e">
-                                                        <rect key="frame" x="110" y="292" width="93" height="16"/>
+                                                        <rect key="frame" x="110" y="297" width="93" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="None Selected" id="Gg5-NO-KIQ">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -2037,7 +2065,7 @@ CA
                                                         </textFieldCell>
                                                     </textField>
                                                     <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CPU-ij-IKt">
-                                                        <rect key="frame" x="0.0" y="0.0" width="568" height="35"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="568" height="45"/>
                                                         <subviews>
                                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2wI-jF-KzC">
                                                                 <rect key="frame" x="13" y="10" width="73" height="16"/>
@@ -2052,9 +2080,9 @@ CA
                                                             </textField>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="35" id="9A6-2x-DoV"/>
+                                                            <constraint firstAttribute="height" constant="45" id="9A6-2x-DoV"/>
+                                                            <constraint firstAttribute="bottom" secondItem="2wI-jF-KzC" secondAttribute="bottom" constant="10" id="AGL-2k-iwm"/>
                                                             <constraint firstItem="2wI-jF-KzC" firstAttribute="leading" secondItem="CPU-ij-IKt" secondAttribute="leading" constant="15" id="P8C-5i-ddw"/>
-                                                            <constraint firstItem="2wI-jF-KzC" firstAttribute="centerY" secondItem="CPU-ij-IKt" secondAttribute="centerY" id="gi2-2p-eZL"/>
                                                         </constraints>
                                                     </customView>
                                                 </subviews>
@@ -2107,6 +2135,7 @@ CA
                         <outlet property="newNoteButton" destination="TiA-aF-Uev" id="RLL-yl-PiF"/>
                         <outlet property="nonSelectedLabel" destination="FvZ-Tf-26e" id="fa6-EA-riA"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
+                        <outlet property="notesCounter" destination="xOb-jd-sez" id="57q-6u-ogh"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesScrollView" destination="Kzf-Jh-YEb" id="u8R-Hy-KjV"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>

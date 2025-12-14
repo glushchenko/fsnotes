@@ -138,7 +138,9 @@ class ViewController: EditorViewController,
     @IBOutlet weak var notesScrollView: NSScrollView!
 
     @IBOutlet weak var menuChangeCreationDate: NSMenuItem!
+    
     @IBOutlet weak var counter: NSTextField!
+    @IBOutlet weak var notesCounter: NSTextField!
     
     // MARK: - Overrides
     
@@ -1306,6 +1308,19 @@ class ViewController: EditorViewController,
         self.counter.stringValue = "W: \(note.content.string.countWords()) | C: \(note.content.string.countChars())"
     }
     
+    
+    public func updateNotesCounter() {
+        var i = 0
+        
+        if notesTableView.selectedRowIndexes.count > 0 {
+            i = notesTableView.selectedRowIndexes.count
+        } else {
+            i = notesTableView.noteList.count
+        }
+        
+        notesCounter.stringValue = "N: \(i)"
+    }
+    
     func getSidebarType() -> SidebarItemType? {
         let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem
         
@@ -1373,6 +1388,7 @@ class ViewController: EditorViewController,
                 DispatchQueue.main.async {
                     self.editor.clear()
                     self.notesTableView.reloadData()
+                    self.updateNotesCounter()
                     completion()
                 }
                 return
@@ -1380,6 +1396,7 @@ class ViewController: EditorViewController,
 
             DispatchQueue.main.async {
                 self.notesTableView.reloadData()
+                self.updateNotesCounter()
                 completion()
             }
         }

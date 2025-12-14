@@ -166,6 +166,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         selectedHistory = selectedRowIndexes
 
         let vc = self.window?.contentViewController as! ViewController
+        
+        defer {
+            vc.updateNotesCounter()
+        }
+        
         if vc.editAreaScroll.isFindBarVisible {
             let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
             menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
