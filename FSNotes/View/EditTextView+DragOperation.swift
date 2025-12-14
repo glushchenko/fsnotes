@@ -53,30 +53,65 @@ extension EditTextView
     }
 
     public func handleURLs(_ pasteboard: NSPasteboard, note: Note, replacementRange: NSRange) -> Bool {
-        guard let urls = pasteboard.readObjects(forClasses: [NSURL.self]) as? [URL], !urls.isEmpty else { return false }
+        guard let urls = pasteboard.readObjects(forClasses: [NSURL.self]) as? [URL],
+              !urls.isEmpty else { return false }
+
         note.save(attributed: attributedString())
 
+        let group = DispatchGroup()
+        let total = urls.count
+        var results = Array<NSAttributedString?>(repeating: nil, count: total)
+
         for (index, url) in urls.enumerated() {
+            group.enter()
+
             fetchDataFromURL(url: url) { data, error in
+                defer { group.leave() }
+
                 guard let data = data, error == nil else { return }
 
-                DispatchQueue.main.async {
-                    if url.isWebURL {
-                        let title = self.getHTMLTitle(from: data) ?? url.lastPathComponent
-                        self.insertText("[\(title)](\(url.absoluteString))", replacementRange: replacementRange)
-                    } else if let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note),
-                              let fileURL = note.getAttachmentFileUrl(name: filePath.removingPercentEncoding ?? filePath) {
+                if url.isWebURL {
+                    let title = self.getHTMLTitle(from: data) ?? url.lastPathComponent
+                    let text = "[\(title)](\(url.absoluteString))"
+                    results[index] = NSAttributedString(string: text)
+                } else if let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note),
+                          let fileURL = note.getAttachmentFileUrl(
+                            name: filePath.removingPercentEncoding ?? filePath
+                          ) {
 
-                        let attributed = NSMutableAttributedString(url: fileURL, title: "", path: filePath)
-                        if index < urls.count - 1 { attributed.append(NSAttributedString(string: "\n\n")) }
+                    let attributed = NSMutableAttributedString(
+                        url: fileURL,
+                        title: "",
+                        path: filePath
+                    )
 
-                        self.insertText(attributed, replacementRange: replacementRange)
-                        self.setSelectedRange(NSRange(location: replacementRange.location + attributed.length, length: 0))
-                        self.viewDelegate?.notesTableView.reloadRow(note: note)
-                    }
+                    results[index] = attributed
                 }
             }
         }
+
+        group.notify(queue: .main) {
+            let final = NSMutableAttributedString()
+
+            for i in 0..<total {
+                guard let part = results[i] else { continue }
+
+                final.append(part)
+
+                if i < total - 1 {
+                    final.append(NSAttributedString(string: "\n\n"))
+                }
+            }
+
+            self.insertText(final, replacementRange: replacementRange)
+            self.setSelectedRange(
+                NSRange(location: replacementRange.location + final.length, length: 0)
+            )
+
+            self.viewDelegate?.notesTableView.reloadRow(note: note)
+        }
+
         return true
     }
+
 }
