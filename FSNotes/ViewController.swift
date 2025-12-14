@@ -1290,7 +1290,19 @@ class ViewController: EditorViewController,
         notesTableView.endUpdates()
     }
         
-    public func updateCounters(note: Note) {
+    public func updateCounters(note: Note? = nil, charRange: NSRange? = nil) {
+        guard let note = note else {
+            self.counter.stringValue = String()
+            return
+        }
+        
+        if let charRange = charRange, charRange.length > 0 {
+            if let string = note.content.string.substring(nsRange: charRange) {
+                self.counter.stringValue = "W: \(string.countWords()) | C: \(string.countChars())"
+                return
+            }
+        }
+                
         self.counter.stringValue = "W: \(note.content.string.countWords()) | C: \(note.content.string.countChars())"
     }
     
@@ -1483,6 +1495,7 @@ class ViewController: EditorViewController,
 
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editor.clear()
+        updateCounters(note: nil)
 
         self.buildSearchQuery()
         self.updateTable() {
@@ -1972,6 +1985,15 @@ class ViewController: EditorViewController,
      Needs update UserActivity if selection did change
      */
     func textViewDidChangeSelection(_ notification: Notification) {
+        guard let textView = notification.object as? NSTextView else { return }
+
+        if textView.window?.firstResponder == textView {
+            let range = editor.selectedRange()
+            if let editor = self.editor, let note = editor.note {
+                self.updateCounters(note: note, charRange: range)
+            }
+        }
+    
         editor.userActivity?.needsSave = true
     }
 

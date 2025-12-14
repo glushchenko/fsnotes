@@ -275,6 +275,13 @@ public extension String {
         return URL(string: normalizedPath)
     }
     
+    func substring(nsRange: NSRange) -> String? {
+        guard let range = Range(nsRange, in: self) else {
+            return nil
+        }
+        return String(self[range])
+    }
+    
     func countWords() -> Int {
         var count = 0
         var inWord = false

@@ -1939,18 +1939,6 @@
         }
       }
     },
-    "3Cm-1Y-e1D.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Words: 100\"; ObjectID = \"3Cm-1Y-e1D\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Words: 100"
-          }
-        }
-      }
-    },
     "3IN-sU-3Bg.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"Spelling and Grammar\"; ObjectID = \"3IN-sU-3Bg\";",
       "extractionState" : "extracted_with_value",

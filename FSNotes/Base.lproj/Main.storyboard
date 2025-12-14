@@ -2041,7 +2041,10 @@ CA
                                                         <subviews>
                                                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2wI-jF-KzC">
                                                                 <rect key="frame" x="13" y="10" width="73" height="16"/>
-                                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Words: 100" id="3Cm-1Y-e1D">
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="69" id="jii-h2-sj7"/>
+                                                                </constraints>
+                                                                <textFieldCell key="cell" lineBreakMode="clipping" id="3Cm-1Y-e1D">
                                                                     <font key="font" usesAppearanceFont="YES"/>
                                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
