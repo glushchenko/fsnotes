@@ -763,6 +763,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if !note.isLoaded {
             note.load()
         }
+        
+        viewDelegate?.updateCounters(note: note)
 
         textStorage?.setAttributedString(NSAttributedString(string: ""))
         

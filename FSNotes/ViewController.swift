@@ -138,7 +138,8 @@ class ViewController: EditorViewController,
     @IBOutlet weak var notesScrollView: NSScrollView!
 
     @IBOutlet weak var menuChangeCreationDate: NSMenuItem!
-
+    @IBOutlet weak var counter: NSTextField!
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -1273,14 +1274,24 @@ class ViewController: EditorViewController,
             // Reloading nstextview in multiple windows
             
             for editor in editors {
-                if editor.note == note, !editor.isLastEdited, let window = editor.window, !window.isKeyWindow {
-                    editor.editorViewController?.refillEditArea(force: true)
+                if let window = editor.window, let editorNote = editor.note, editorNote == note {
+                    if editor.viewDelegate != nil { // Main window
+                        self.updateCounters(note: editorNote)
+                    }
+                    
+                    if !editor.isLastEdited, !window.isKeyWindow {
+                        editor.editorViewController?.refillEditArea(force: true)
+                    }
                 }
             }
         }
 
         updateViews.removeAll()
         notesTableView.endUpdates()
+    }
+        
+    public func updateCounters(note: Note) {
+        self.counter.stringValue = "W: \(note.content.string.countWords()) | C: \(note.content.string.countChars())"
     }
     
     func getSidebarType() -> SidebarItemType? {

@@ -274,6 +274,31 @@ public extension String {
         // Handle regular URLs
         return URL(string: normalizedPath)
     }
+    
+    func countWords() -> Int {
+        var count = 0
+        var inWord = false
+
+        for b in self.utf8 {
+            if b == 32 || b == 10 || b == 9 || b == 13 {
+                inWord = false
+            } else {
+                if !inWord {
+                    count += 1
+                    inWord = true
+                }
+            }
+        }
+
+        return count
+    }
+    
+    func countChars() -> Int {
+        if self.utf8.allSatisfy({ $0 < 0x80 }) {
+            return self.utf8.count
+        }
+        return self.count
+    }
 }
 
 extension StringProtocol where Index == String.Index {
