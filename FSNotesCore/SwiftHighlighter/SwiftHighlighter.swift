@@ -420,27 +420,27 @@ public class SwiftHighlighter {
     }
     
     private func getLanguage(from attributedString: NSMutableAttributedString, startingAt start: Int) -> String? {
-        let s = attributedString.string
-        guard start >= 0, start < s.count else { return nil }
-
-        let startIndex = s.index(s.startIndex, offsetBy: start)
-        let remaining = s[startIndex...]
-
-        // Starts with ```
-        guard remaining.hasPrefix("```") else { return nil }
-
-        // Move index by 3
-        guard let afterBackticks = s.index(startIndex, offsetBy: 3, limitedBy: s.endIndex) else { return nil }
+        let nsString = attributedString.string as NSString
+        guard start + 3 <= nsString.length else { return nil }
         
-        var index = afterBackticks
-        let endIndex = s.endIndex
+        // Check for ```
+        guard nsString.character(at: start) == 0x60,
+              nsString.character(at: start + 1) == 0x60,
+              nsString.character(at: start + 2) == 0x60 else { return nil }
         
-        // Search for language before space or line break
-        while index < endIndex, s[index] != "\n", s[index] != " " {
-            index = s.index(after: index)
+        var end = start + 3
+        let len = nsString.length
+        
+        // Find whitespace
+        while end < len {
+            let char = nsString.character(at: end)
+            if char == 0x0A || char == 0x20 { break }
+            end += 1
         }
         
-        return index == afterBackticks ? nil : String(s[afterBackticks..<index]).trim()
+        guard end > start + 3 else { return nil }
+        return nsString.substring(with: NSRange(location: start + 3, length: end - start - 3))
+            .trimmingCharacters(in: .whitespaces)
     }
     
     private func expandRangeForMultilineConstructs(

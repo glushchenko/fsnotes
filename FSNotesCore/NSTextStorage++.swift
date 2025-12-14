@@ -180,31 +180,30 @@ extension NSTextStorage {
     }
 
     public func highlightKeyword(search: String) {
-        guard search.count > 0, UserDefaultsManagement.searchHighlight else { return }
-
+        guard search.count > 1, UserDefaultsManagement.searchHighlight else { return }
+        
         let searchTerm = NSRegularExpression.escapedPattern(for: search)
         let pattern = "(\(searchTerm))"
         let range = NSRange(location: 0, length: length)
-
+        
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [.caseInsensitive])
-
-            regex.enumerateMatches(
-                in: self.string,
-                options: [],
-                range: range
-            ) { textCheckingResult, _, _ in
-                guard let subRange = textCheckingResult?.range else { return }
-                guard subRange.location < self.length else { return }
-
+            let matches = regex.matches(in: self.string, options: [], range: range)
+            
+            self.beginEditing()
+            for match in matches {
+                let subRange = match.range
+                guard subRange.location < self.length else { continue }
+                
                 if let currentBackgroundColor = self.attribute(.backgroundColor, at: subRange.location, effectiveRange: nil) {
                     self.addAttribute(.highlight, value: currentBackgroundColor, range: subRange)
                 } else {
                     self.addAttribute(.highlight, value: NSNull(), range: subRange)
                 }
-
                 self.addAttribute(.backgroundColor, value: self.highlightColor, range: subRange)
             }
+            self.endEditing()
+            
         } catch {
             print(error)
         }
@@ -213,6 +212,7 @@ extension NSTextStorage {
     public func removeHighlight() {
         let range = NSRange(location: 0, length: length)
 
+        self.beginEditing()
         self.enumerateAttribute(
             .highlight,
             in: range,
@@ -236,5 +236,6 @@ extension NSTextStorage {
 
             self.removeAttribute(.highlight, range: subRange)
         }
+        self.endEditing()
     }
 }
