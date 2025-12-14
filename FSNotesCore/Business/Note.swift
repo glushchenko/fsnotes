@@ -49,7 +49,6 @@ public class Note: NSObject  {
     public var isParsed = false
 
     private var decryptedTemporarySrc: URL?
-    private var firstLineAsTitle = false
 
     public var isLoaded = false
     public var isLoadedFromCache = false
@@ -164,10 +163,6 @@ public class Note: NSObject  {
             tags: tags, 
             selectedRange: selectedRange
         )
-    }
-
-    public func hasTitle() -> Bool {
-        return !firstLineAsTitle
     }
 
     /// Important for decrypted temporary containers
@@ -736,14 +731,6 @@ public class Note: NSObject  {
         }
 
         return preview
-    }
-
-    @objc public func getPreviewForLabel() -> String {
-        if project.settings.isFirstLineAsTitle() {
-            return preview
-        }
-
-        return getPreviewLabel()
     }
     
     @objc func getDateForLabel() -> String {
@@ -1396,68 +1383,30 @@ public class Note: NSObject  {
     #endif
 
     public func loadPreviewInfo() {
-        if (title.count > 0 || (imageUrl != nil && imageUrl!.count > 0)) && self.isParsed {
-            return
+        guard !isParsed || title.isEmpty && (imageUrl?.isEmpty ?? true) else { return }
+        
+        defer {
+            imageUrl = getImagesFromContent()
+            isParsed = true
         }
         
-        var cleanText = self.content.string.trimMDSyntax()
-
-        if cleanText.startsWith(string: "---") {
-            FSParser.yamlBlockRegex.matches(cleanText, range: NSRange(location: 0, length: cleanText.count)) { (result) -> Void in
-                guard let range = result?.range(at: 1), range.location == 0 else { return }
-
-                if let swiftRange = cleanText.swiftRange(from: range) {
-                    let yamlText = cleanText[swiftRange]
+        if content.string.hasPrefix("---") {
+            if parseYAMLBlock() {
+                return
+            }
+        }
+        
+        let nsText = content.string as NSString
+        let range = nsText.range(of: "\n")
+        let firstLine = range.location != NSNotFound
+            ? nsText.substring(to: range.location)
+            : content.string
                 
-                    _ = self.loadYaml(components: yamlText.components(separatedBy: NSCharacterSet.newlines))
-                    
-                    cleanText = cleanText.replacingOccurrences(of: yamlText, with: "")
-                }
-            }
-        }
-
-        let components = cleanText
-            .trim()
-            .components(separatedBy: NSCharacterSet.newlines)
-            .map { line in
-                return line.replacingOccurrences(of: "^#+", with: "", options: .regularExpression)
-            }
-            .filter({ $0 != "" })
-
-        if let first = components.first {
-            if project.settings.isFirstLineAsTitle() {
-                let yamlResult = loadYaml(components: components)
-
-                if let result = yamlResult {
-                    title = result.0
-                    preview = result.1
-                } else {
-                    let rows = components.dropFirst()
-                    var previewResult = String()
-
-                    if rows.count > 0 {
-                        previewResult = getPreviewLabel(with: rows.joined(separator: " "))
-                        firstLineAsTitle = true
-                    }
-
-                    title = first.trim()
-                    preview = previewResult
-                }
-            } else {
-                loadTitleFromFileName()
-                self.preview = getPreviewLabel(with: components.joined(separator: " "))
-            }
+        if !firstLine.isEmpty, project.settings.isFirstLineAsTitle() {
+            processWithFirstLineAsTitle(firstLine)
         } else {
-            if !project.settings.isFirstLineAsTitle() {
-                loadTitleFromFileName()
-            } else {
-                firstLineAsTitle = false
-            }
+            loadTitleFromFileName()
         }
-
-        imageUrl = getImagesFromContent()
-
-        self.isParsed = true
     }
 
     public func getImagesFromContent() -> [URL] {
@@ -1473,57 +1422,6 @@ public class Note: NSObject  {
         }
 
         return urls
-    }
-
-    private func loadYaml(components: [String]) -> (String, String)? {
-        var tripleMinus = 0
-        var previewFragments = [String]()
-
-        var titleRow = String()
-        var previewRow = String()
-
-        if components.first == "---", components.count > 1 {
-            for string in components {
-                if string == "---" {
-                    tripleMinus += 1
-                }
-
-                let res = string.matchingStrings(regex: "^title: ([\"\'”“]?)([^\n]+)\\1$")
-
-                if res.count > 0 {
-                    titleRow = res[0][2].trim()
-                    firstLineAsTitle = true
-                }
-
-                if tripleMinus > 1 {
-                    previewFragments.append(string)
-                }
-            }
-        }
-
-        if previewFragments.count > 0 {
-            let previewString = previewFragments
-                .joined(separator: " ")
-                .replacingOccurrences(of: "---", with: "")
-
-            previewRow = getPreviewLabel(with: previewString)
-        }
-
-        if titleRow.count > 0 {
-            return (titleRow, previewRow)
-        }
-
-        return nil
-    }
-
-    private func loadTitleFromFileName() {
-        let fileName = url.deletingPathExtension().pathComponents.last!
-            .replacingOccurrences(of: ":", with: "")
-            .replacingOccurrences(of: "/", with: "")
-
-        self.title = fileName
-
-        firstLineAsTitle = false
     }
 
     public func invalidateCache() {

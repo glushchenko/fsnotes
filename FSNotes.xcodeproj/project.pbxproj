@@ -52,6 +52,10 @@
 		113685652EC869950033767F /* URL+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685612EC869860033767F /* URL+Image.swift */; };
 		113685682EC889E20033767F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685672EC889DC0033767F /* SceneDelegate.swift */; };
 		1136856A2EC8AE2F0033767F /* UIBarButtonItem+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113685692EC8AE260033767F /* UIBarButtonItem+.swift */; };
+		113A31A02EEE2D47009B50B0 /* Note+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113A319F2EEE2D3A009B50B0 /* Note+Preview.swift */; };
+		113A31A12EEE2D47009B50B0 /* Note+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113A319F2EEE2D3A009B50B0 /* Note+Preview.swift */; };
+		113A31A22EEE2D47009B50B0 /* Note+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113A319F2EEE2D3A009B50B0 /* Note+Preview.swift */; };
+		113A31A32EEE2D47009B50B0 /* Note+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113A319F2EEE2D3A009B50B0 /* Note+Preview.swift */; };
 		113EEBD72EDBA63D00A94F29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Assets.xcassets */; };
 		11598DA32EDCB8D40036E387 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11598DA22EDCB8D40036E387 /* UIFont+.swift */; };
 		11598DA42EDCB9B40036E387 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11598DA22EDCB8D40036E387 /* UIFont+.swift */; };
@@ -901,6 +905,7 @@
 		113685612EC869860033767F /* URL+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Image.swift"; sourceTree = "<group>"; };
 		113685672EC889DC0033767F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		113685692EC8AE260033767F /* UIBarButtonItem+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+.swift"; sourceTree = "<group>"; };
+		113A319F2EEE2D3A009B50B0 /* Note+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+Preview.swift"; sourceTree = "<group>"; };
 		11598DA22EDCB8D40036E387 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		116182862E62B046005B5EE0 /* SwiftHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftHighlighter.swift; sourceTree = "<group>"; };
 		1166D1F62E91BA7F00B061CA /* CodeBlockDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlockDetector.swift; sourceTree = "<group>"; };
@@ -1486,6 +1491,7 @@
 			children = (
 				D7B6E599207912E300FE0E20 /* Project.swift */,
 				D79FE8A01F77D04A00113CFD /* Note.swift */,
+				113A319F2EEE2D3A009B50B0 /* Note+Preview.swift */,
 				D714749C279D7DBC001A8B29 /* SearchQuery.swift */,
 				D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */,
 				D7038E2520FB24E000A54E69 /* NoteAttachment.swift */,
@@ -2533,6 +2539,7 @@
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,
 				D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D7CD5CCE21820C9D0009D63B /* DateFormatter+.swift in Sources */,
+				113A31A02EEE2D47009B50B0 /* Note+Preview.swift in Sources */,
 				D7B4AC622471253100F3888A /* NoteMeta.swift in Sources */,
 				D75627D226D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D7E9FEBA2C4AA59D0025D8E3 /* SidebarItemType.swift in Sources */,
@@ -2603,6 +2610,7 @@
 				D736DDAB27BABFFB0012ED70 /* RevisionsViewController.swift in Sources */,
 				D730BD37222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7503460285F827800086424 /* DateFormatter+.swift in Sources */,
+				113A31A12EEE2D47009B50B0 /* Note+Preview.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				1136856A2EC8AE2F0033767F /* UIBarButtonItem+.swift in Sources */,
 				11BF066B2EE331B5006C7336 /* Scala.swift in Sources */,
@@ -2837,6 +2845,7 @@
 				D73BCCC228EB5EC3008B3BBC /* DiffEntry.swift in Sources */,
 				D7BB2DFE29A0157700D5055A /* Storage+Git.swift in Sources */,
 				D77E0537246312B300AD7772 /* StorageType.swift in Sources */,
+				113A31A22EEE2D47009B50B0 /* Note+Preview.swift in Sources */,
 				D7EDEDFB219203C9000B8C1A /* NoteCellView+.swift in Sources */,
 				D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D73BCCEF28EB5EC4008B3BBC /* Head+Merge.swift in Sources */,
@@ -3063,6 +3072,7 @@
 				D77E0536246312B200AD7772 /* StorageType.swift in Sources */,
 				D7BB2DFF29A0157700D5055A /* Storage+Git.swift in Sources */,
 				D7EDEDFC219203C9000B8C1A /* NoteCellView+.swift in Sources */,
+				113A31A32EEE2D47009B50B0 /* Note+Preview.swift in Sources */,
 				D75EE8012078E0C60055F159 /* SidebarItemType.swift in Sources */,
 				D73BCCF028EB5EC4008B3BBC /* Head+Merge.swift in Sources */,
 				D7E81C2E1F925B5F00416A91 /* PrefsWindowController.swift in Sources */,
