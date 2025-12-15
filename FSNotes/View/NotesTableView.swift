@@ -39,6 +39,25 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         super.draw(dirtyRect)
     }
 
+    override func keyDown(with event: NSEvent) {
+        guard let vc = self.window?.contentViewController as? ViewController else {
+            super.keyDown(with: event)
+            return
+        }
+        
+        if event.keyCode == kVK_ANSI_N && event.modifierFlags.contains(.control) {
+            vc.noteDown(NSMenuItem())
+            return
+        }
+        
+        if event.keyCode == kVK_ANSI_P && event.modifierFlags.contains(.control) {
+            vc.noteUp(NSMenuItem())
+            return
+        }
+        
+        super.keyDown(with: event)
+    }
+    
     override func keyUp(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else {
             super.keyUp(with: event)
