@@ -959,6 +959,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBAction func moveSelectedLinesUp(_ sender: NSMenuItem) {
         self.moveSelectedLinesUp()
     }
+    
+    @IBAction func clearCompletedTodos(_ sender: NSMenuItem) {
+        self.clearCompletedTodos()
+    }
 
     func getParagraphRange() -> NSRange? {
         guard let storage = textStorage else { return nil }

@@ -462,6 +462,12 @@ CA
                                                 <action selector="moveSelectedLinesUp:" target="Ady-hI-5gd" id="BR0-Oc-4LZ"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Clear Completed Todos" id="BoD-Jy-zeE">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="clearCompletedTodos:" target="Ady-hI-5gd" id="9Vo-lw-EsW"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>

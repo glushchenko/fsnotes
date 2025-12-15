@@ -9373,6 +9373,18 @@
         }
       }
     },
+    "BoD-Jy-zeE.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Clear Completed Todos\"; ObjectID = \"BoD-Jy-zeE\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear Completed Todos"
+          }
+        }
+      }
+    },
     "BOF-NM-1cW.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Preferences…\"; ObjectID = \"BOF-NM-1cW\";",
       "extractionState" : "extracted_with_value",

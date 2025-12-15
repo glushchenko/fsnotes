@@ -62,8 +62,9 @@ extension EditTextView {
             length: previousLineRange.length + lineRange.length
         )
         
+        newContent.saveData()
         if shouldChangeText(in: combinedRange, replacementString: newContent.string) {
-            textStorage.replaceCharacters(in: combinedRange, with: newContent)
+            insertText(newContent, replacementRange: combinedRange)
             didChangeText()
         }
         
@@ -128,6 +129,7 @@ extension EditTextView {
             length: lineRange.length + nextLineRange.length
         )
         
+        newContent.saveData()
         if shouldChangeText(in: combinedRange, replacementString: newContent.string) {
             textStorage.replaceCharacters(in: combinedRange, with: newContent)
             didChangeText()

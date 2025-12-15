@@ -70,6 +70,8 @@
 		117C0E4E2EEDB9C40086419C /* EditTextView+Clicked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */; };
 		11A6A8FA2EF06B9D005D000A /* EditTextView+MoveLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A6A8F92EF06B90005D000A /* EditTextView+MoveLines.swift */; };
 		11A6A8FB2EF06B9D005D000A /* EditTextView+MoveLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A6A8F92EF06B90005D000A /* EditTextView+MoveLines.swift */; };
+		11A6A8FD2EF074D8005D000A /* EditTextView+Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A6A8FC2EF074D2005D000A /* EditTextView+Todo.swift */; };
+		11A6A8FE2EF074D8005D000A /* EditTextView+Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A6A8FC2EF074D2005D000A /* EditTextView+Todo.swift */; };
 		11A95B622EDC56DC0081ED29 /* modern.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11A95B612EDC56DC0081ED29 /* modern.icon */; };
 		11ABE5E22EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */; };
 		11ABE5E32EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */; };
@@ -921,6 +923,7 @@
 		1175E09D2EDCA60200B92794 /* Meet FSNotes 6.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "Meet FSNotes 6.textbundle"; sourceTree = "<group>"; };
 		117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+Clicked.swift"; sourceTree = "<group>"; };
 		11A6A8F92EF06B90005D000A /* EditTextView+MoveLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+MoveLines.swift"; sourceTree = "<group>"; };
+		11A6A8FC2EF074D2005D000A /* EditTextView+Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+Todo.swift"; sourceTree = "<group>"; };
 		11A95B612EDC56DC0081ED29 /* modern.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = modern.icon; sourceTree = "<group>"; };
 		11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCounterView.swift; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
@@ -1839,6 +1842,7 @@
 			children = (
 				11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */,
 				D797004B1F3DD10700BAD94D /* EditTextView.swift */,
+				11A6A8FC2EF074D2005D000A /* EditTextView+Todo.swift */,
 				117C0E4C2EEDB9B70086419C /* EditTextView+Clicked.swift */,
 				1102DDB02EE4C277005029A6 /* EditTextView+Complete.swift */,
 				110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */,
@@ -2884,6 +2888,7 @@
 				D730829223084340003185D1 /* MPreviewView.swift in Sources */,
 				D75EE7FA2078B3C00055F159 /* Sidebar.swift in Sources */,
 				11D6C0ED2EE22C6B006017F0 /* Ruby.swift in Sources */,
+				11A6A8FD2EF074D8005D000A /* EditTextView+Todo.swift in Sources */,
 				D70B1FAB29213EDF003923DC /* HyperlinkTextField.swift in Sources */,
 				1166D1F72E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
 				11D6C0D72EE229E9006017F0 /* Go.swift in Sources */,
@@ -3113,6 +3118,7 @@
 				D7E81C321F925B5F00416A91 /* PrefsViewController.swift in Sources */,
 				D70B1FAC29213EE0003923DC /* HyperlinkTextField.swift in Sources */,
 				11D6C0EB2EE22C6B006017F0 /* Ruby.swift in Sources */,
+				11A6A8FE2EF074D8005D000A /* EditTextView+Todo.swift in Sources */,
 				D76025B3204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				1166D1F82E91BA8800B061CA /* CodeBlockDetector.swift in Sources */,
 				11D6C0D82EE229E9006017F0 /* Go.swift in Sources */,
