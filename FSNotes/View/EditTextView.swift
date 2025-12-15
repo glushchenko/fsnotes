@@ -951,6 +951,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         let formatter = TextFormatter(textView: self, note: note)
         formatter.header(string)
     }
+    
+    @IBAction func moveSelectedLinesDown(_ sender: NSMenuItem) {
+        self.moveSelectedLinesDown()
+    }
+    
+    @IBAction func moveSelectedLinesUp(_ sender: NSMenuItem) {
+        self.moveSelectedLinesUp()
+    }
 
     func getParagraphRange() -> NSRange? {
         guard let storage = textStorage else { return nil }

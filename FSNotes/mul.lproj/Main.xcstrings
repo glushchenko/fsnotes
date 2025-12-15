@@ -35845,6 +35845,18 @@
         }
       }
     },
+    "STm-3f-GNu.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Move Selected Lines Down\"; ObjectID = \"STm-3f-GNu\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Selected Lines Down"
+          }
+        }
+      }
+    },
     "sWS-bo-99f.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Dylan Seeger — https://www.lovably.com\\nOlena Hlushcneko\"; ObjectID = \"sWS-bo-99f\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
@@ -43629,6 +43641,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "查找和替换…"
+          }
+        }
+      }
+    },
+    "yMK-aK-OV2.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Move Selected Lines Up\"; ObjectID = \"yMK-aK-OV2\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Selected Lines Up"
           }
         }
       }
