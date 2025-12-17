@@ -233,9 +233,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     public func attachMenu() {
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: NSLocalizedString("New", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("New Note", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
 
-        let newWindow = NSMenuItem(title: NSLocalizedString("New Window", comment: ""), action: #selector(AppDelegate.createInNewWindow(_:)), keyEquivalent: "n")
+        let newWindow = NSMenuItem(title: NSLocalizedString("New Note in New Window", comment: ""), action: #selector(AppDelegate.createInNewWindow(_:)), keyEquivalent: "n")
         var modifier = NSEvent.modifierFlags
         modifier.insert(.command)
         modifier.insert(.shift)

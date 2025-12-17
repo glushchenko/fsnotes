@@ -9,7 +9,8 @@
 import Carbon
 import Cocoa
 
-class NotesTableView: NSTableView, NSTableViewDataSource,
+class NotesTableView: NSTableView,
+    NSTableViewDataSource,
     NSTableViewDelegate {
     
     var noteList = [Note]()
@@ -19,16 +20,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     public var history = [URL]()
     public var historyPosition = 0
-
-    public var limitedActionsList = [
-        "note.print",
-        "note.copyTitle",
-        "note.copyURL",
-        "note.rename",
-        "note.saveRevision",
-        "note.history"
-    ]
-
+    
     private var selectedHistory: IndexSet?
 
     override func draw(_ dirtyRect: NSRect) {
@@ -98,7 +90,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if let selectedProject = vc.sidebarOutlineView.getSelectedProject(),
             selectedProject.isLocked()
         {
-            vc.toggleFolderLock(NSMenuItem())
+            vc.sidebarOutlineView.toggleFolderLock(NSMenuItem())
             return
         }
         
@@ -117,25 +109,31 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func rightMouseDown(with event: NSEvent) {
         UserDataService.instance.searchTrigger = false
 
-        let point = convert(event.locationInWindow, from: nil)
-        let rowIndex = row(at: point)
-        if (rowIndex < 0 || self.numberOfRows < rowIndex) {
-            return
+        NSApp.activate(ignoringOtherApps: true)
+
+        if let window = self.window {
+            window.makeKeyAndOrderFront(nil)
         }
 
+        let point = convert(event.locationInWindow, from: nil)
+        let rowIndex = row(at: point)
+        guard rowIndex >= 0, rowIndex < numberOfRows else { return }
+
         saveNavigationHistory(note: noteList[rowIndex])
+
+        window?.makeFirstResponder(self)
 
         if !selectedRowIndexes.contains(rowIndex) {
             selectRowIndexes(IndexSet(integer: rowIndex), byExtendingSelection: false)
             scrollRowToVisible(rowIndex)
         }
 
-        if rowView(atRow: rowIndex, makeIfNecessary: false) as? NoteRowView != nil {
-            if let menu = menu {
-                NSMenu.popUpContextMenu(menu, with: event, for: self)
-            }
+        if rowView(atRow: rowIndex, makeIfNecessary: false) as? NoteRowView != nil,
+           let menu = menu {
+            NSMenu.popUpContextMenu(menu, with: event, for: self)
         }
     }
+
         
     // Custom note highlight style
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
@@ -367,99 +365,19 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         return cell
     }
-
+    
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        guard let vc = ViewController.shared() else { return }
+        
         if clickedRow > -1 {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
 
-        if selectedRow < 0 {
-            return
-        }
-
-        guard let vc = self.window?.contentViewController as? ViewController else { return }
-
+        if selectedRow < 0 { return }
         menu.autoenablesItems = false
-
-        var note = vc.editor.note
-        
-        if note == nil {
-            note = vc.getSelectedNotes()?.first
-        }
         
         for menuItem in menu.items {
-            if let identifier = menuItem.identifier?.rawValue,
-                limitedActionsList.contains(identifier)
-            {
-                menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
-            }
-
-            if menuItem.identifier?.rawValue == "note.saveRevision" {
-                if let note = note {
-                    let hasCommits = note.project.hasCommitsDiffsCache()
-                    menuItem.isHidden = !hasCommits
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "fileMenu.pinUnpin" {
-                if let note = note {
-                    menuItem.title = note.isPinned
-                        ? NSLocalizedString("Unpin", comment: "")
-                        : NSLocalizedString("Pin", comment: "")
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "note.toggleContainer" {
-                if let note = note, !note.isEncrypted() {
-                    menuItem.title = note.container == .none
-                        ? NSLocalizedString("Convert to TextBundle", comment: "")
-                        : NSLocalizedString("Convert to Plain", comment: "")
-                    
-                    menuItem.isEnabled = true
-                } else {
-                    menuItem.isEnabled = false
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "fileMenu.lockUnlock" {
-                if let note = note {
-                    menuItem.title = note.isEncryptedAndLocked()
-                        ? NSLocalizedString("Unlock", comment: "")
-                        : NSLocalizedString("Lock", comment: "")
-                }
-            }
-
-            if menuItem.identifier?.rawValue == "noteMenu.removeEncryption" {
-                if let note = note, note.isEncrypted(), !note.project.isEncrypted {
-                    menuItem.isEnabled = true
-                    menuItem.isHidden = false
-                } else {
-                    menuItem.isEnabled = false
-                    menuItem.isHidden = true
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "noteMenu.removeOverSSH" {
-                if let note = vc.editor.note, !note.isEncrypted(), note.uploadPath != nil || note.apiId != nil {
-                    menuItem.isHidden = false
-                } else {
-                    menuItem.isHidden = true
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "noteMenu.uploadOverSSH" {
-                if let note = vc.editor.note, !note.isEncrypted() {
-                    if note.uploadPath != nil || note.apiId != nil {
-                        menuItem.title = NSLocalizedString("Update Web Page", comment: "")
-                    } else {
-                        menuItem.title = NSLocalizedString("Create Web Page", comment: "")
-                    }
-                    
-                    menuItem.isHidden = false
-                } else {
-                    menuItem.isHidden = true
-                }
-            }
+            menuItem.isEnabled = vc.processFileMenuItems(menuItem, menuId: "popup")
         }
 
         vc.loadMoveMenu()

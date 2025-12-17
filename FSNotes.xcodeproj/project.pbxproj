@@ -185,6 +185,8 @@
 		11D943272E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
 		11D943282E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
 		11D943292E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
+		11F1771A2EF1E93500CC566F /* ViewController+Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F177192EF1E92C00CC566F /* ViewController+Menu.swift */; };
+		11F1771B2EF1E93500CC566F /* ViewController+Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F177192EF1E92C00CC566F /* ViewController+Menu.swift */; };
 		11F389562EEA10930008EC18 /* Mermaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F389552EEA108C0008EC18 /* Mermaid.swift */; };
 		11F389572EEA10930008EC18 /* Mermaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F389552EEA108C0008EC18 /* Mermaid.swift */; };
 		11F389582EEA10930008EC18 /* Mermaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F389552EEA108C0008EC18 /* Mermaid.swift */; };
@@ -963,6 +965,7 @@
 		11D9431D2E643F1F0010CC2B /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		11D943212E643F3B0010CC2B /* Php.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Php.swift; sourceTree = "<group>"; };
 		11D943262E643F5E0010CC2B /* GitHubLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubLight.swift; sourceTree = "<group>"; };
+		11F177192EF1E92C00CC566F /* ViewController+Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Menu.swift"; sourceTree = "<group>"; };
 		11F389552EEA108C0008EC18 /* Mermaid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mermaid.swift; sourceTree = "<group>"; };
 		15136766333878E10A6B0457 /* Pods_FSNotes__Notarized_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__Notarized_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		275592961F3AE9B5006B8988 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
@@ -1773,6 +1776,7 @@
 				D772C8832217362C007E440B /* ViewController+Print.swift */,
 				D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */,
 				D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */,
+				11F177192EF1E92C00CC566F /* ViewController+Menu.swift */,
 				D792297421A845B4005F468F /* ProjectSettingsViewController.swift */,
 				D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */,
 				D7508FCD1F3438540047AB76 /* PrefsViewController.swift */,
@@ -3000,6 +3004,7 @@
 				D7C9029223547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D730BD2E222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD35222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
+				11F1771A2EF1E93500CC566F /* ViewController+Menu.swift in Sources */,
 				D79FE8A21F77D04A00113CFD /* Note.swift in Sources */,
 				D73BCCA728EB5EC3008B3BBC /* Blob.swift in Sources */,
 				D7153E092285EC6100A2C20F /* TitleTextField.swift in Sources */,
@@ -3230,6 +3235,7 @@
 				D7C9029323547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D730BD2F222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD36222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
+				11F1771B2EF1E93500CC566F /* ViewController+Menu.swift in Sources */,
 				D7E81C461F925B5F00416A91 /* Note.swift in Sources */,
 				D73BCCA828EB5EC3008B3BBC /* Blob.swift in Sources */,
 				D7153E0A2285EC6100A2C20F /* TitleTextField.swift in Sources */,

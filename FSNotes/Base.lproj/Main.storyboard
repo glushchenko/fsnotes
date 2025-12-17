@@ -80,62 +80,57 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" identifier="fileMenu" id="uMZ-sI-7ja">
                                     <items>
-                                        <menuItem title="Close" keyEquivalent="w" id="kIy-TN-XMS">
+                                        <menuItem title="Close" keyEquivalent="w" localization="NO" mirroring="NO" identifier="fileMenu.close" id="kIy-TN-XMS">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="kc5-tb-yP0"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Import" keyEquivalent="O" identifier="fileMenu.import" id="O8Z-cg-XnH">
+                                        <menuItem title="Import" keyEquivalent="O" localization="NO" mirroring="NO" identifier="fileMenu.import" id="O8Z-cg-XnH">
                                             <connections>
                                                 <action selector="importNote:" target="Ady-hI-5gd" id="r4z-z3-fFc"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New" keyEquivalent="n" identifier="fileMenu.new" id="2Ci-Yj-aWK">
+                                        <menuItem title="New" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.new" id="2Ci-Yj-aWK">
                                             <connections>
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Window" keyEquivalent="N" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
+                                        <menuItem title="New Window" keyEquivalent="N" localization="NO" mirroring="NO" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
                                             <connections>
                                                 <action selector="createInNewWindow:" target="Ady-hI-5gd" id="fVv-cz-Kms"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
-                                        <menuItem title="Search and Create" keyEquivalent="l" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
+                                        <menuItem title="Search and Create" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
                                             <connections>
                                                 <action selector="searchAndCreate:" target="L4m-js-agn" id="ChM-Mj-Rdf"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DJZ-Sf-cos"/>
-                                        <menuItem title="Open In New Window" keyEquivalent="o" id="HmK-lp-ASv">
+                                        <menuItem title="Open" keyEquivalent="o" localization="NO" mirroring="NO" identifier="fileMenu.open" id="HmK-lp-ASv">
                                             <connections>
                                                 <action selector="openWindow:" target="Ady-hI-5gd" id="HOV-Ja-fKS"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save Revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
-                                            <connections>
-                                                <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Duplicate" keyEquivalent="d" id="pnm-dP-GKO">
+                                        <menuItem title="Duplicate" keyEquivalent="d" localization="NO" mirroring="NO" identifier="fileMenu.duplicate" id="pnm-dP-GKO">
                                             <connections>
                                                 <action selector="duplicate:" target="Ady-hI-5gd" id="9eI-Pe-IRx"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename" keyEquivalent="r" identifier="fileMenu.rename" id="jLq-8F-n0X">
+                                        <menuItem title="Rename" keyEquivalent="r" mirroring="NO" identifier="fileMenu.rename" id="jLq-8F-n0X">
                                             <connections>
-                                                <action selector="renameMenu:" target="L4m-js-agn" id="FBx-sU-Gor"/>
+                                                <action selector="fsRenameItem:" target="Ady-hI-5gd" id="nob-G6-CIE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete" identifier="fileMenu.delete" id="TjZ-PX-YVo">
+                                        <menuItem title="Delete" localization="NO" mirroring="NO" identifier="fileMenu.delete" id="TjZ-PX-YVo">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                                             <connections>
-                                                <action selector="deleteNote:" target="Ady-hI-5gd" id="tg5-Eq-4q9"/>
+                                                <action selector="fsDeleteItem:" target="Ady-hI-5gd" id="3Ze-YD-rpW"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Force Delete" alternate="YES" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
+                                        <menuItem title="Force Delete" alternate="YES" localization="NO" mirroring="NO" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -144,35 +139,36 @@ CA
                                                 <action selector="deleteNote:" target="Ady-hI-5gd" id="3Cr-W0-jGL"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Pin/Unpin" keyEquivalent="8" identifier="fileMenu.togglePin" id="You-zo-rbl">
+                                        <menuItem title="Pin/Unpin" keyEquivalent="8" localization="NO" mirroring="NO" identifier="fileMenu.togglePin" id="You-zo-rbl">
                                             <connections>
                                                 <action selector="pinMenu:" target="Ady-hI-5gd" id="5kK-KD-hhk"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Remove Encryption" keyEquivalent="7" identifier="fileMenu.removeEncryption" id="fkH-Wf-n87">
+                                        <menuItem title="Decrypt" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.decrypt" id="fkH-Wf-n87">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="removeNoteEncryption:" target="Ady-hI-5gd" id="nZq-wN-Jep"/>
+                                                <action selector="fsDecryptItem:" target="Ady-hI-5gd" id="VnY-0f-Osd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Lock/Unlock" keyEquivalent="l" identifier="fileMenu.toggleLock" id="RSs-wb-GNg">
+                                        <menuItem title="Lock/Unlock" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.toggleLock" id="RSs-wb-GNg">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="toggleNotesLock:" target="Ady-hI-5gd" id="VTr-hR-bSV"/>
+                                                <action selector="fsToggleLockItem:" target="Ady-hI-5gd" id="J64-eG-cRe"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Open External" keyEquivalent="e" id="7MT-fy-lXN">
+                                        <menuItem title="Open External" keyEquivalent="e" localization="NO" mirroring="NO" identifier="fileMenu.external" id="7MT-fy-lXN">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="editorMenu:" target="Ady-hI-5gd" id="bT1-dL-ioY"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Reveal in Finder" keyEquivalent="R" id="rXU-X3-UjC">
+                                        <menuItem title="Reveal in Finder" keyEquivalent="R" localization="NO" mirroring="NO" identifier="fileMenu.reveal" id="rXU-X3-UjC">
                                             <connections>
-                                                <action selector="finderMenu:" target="Ady-hI-5gd" id="Ift-tc-85m"/>
+                                                <action selector="fsRevealItem:" target="Ady-hI-5gd" id="Tlf-Bz-pRQ"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="uk8-Oi-IxM"/>
-                                        <menuItem title="Change Creation Date" keyEquivalent="d" identifier="fileMenu.changeCreationDate" id="49W-tO-6Vu">
+                                        <menuItem title="Change Creation Date" keyEquivalent="d" localization="NO" mirroring="NO" identifier="fileMenu.date" id="49W-tO-6Vu">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <attributedString key="userComments">
                                                 <fragment content="#bc-ignore!"/>
@@ -181,50 +177,50 @@ CA
                                                 <action selector="changeCreationDate:" target="Ady-hI-5gd" id="BfF-b0-iLh"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Toggle Container" identifier="fileMenu.toggleContainer" id="VwE-w2-fAG">
+                                        <menuItem title="Toggle Container" localization="NO" mirroring="NO" identifier="fileMenu.toggleContainer" id="VwE-w2-fAG">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toggleContainer:" target="Ady-hI-5gd" id="Ct4-tU-OUo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="y7K-xq-tI8"/>
-                                        <menuItem title="Copy URL" identifier="fileMenu.copyURL" id="Rg2-j1-Foz">
+                                        <menuItem title="Copy URL" localization="NO" mirroring="NO" identifier="fileMenu.copyURL" id="Rg2-j1-Foz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="copyURL:" target="Ady-hI-5gd" id="aX7-ly-HOE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Copy Title" keyEquivalent="c" identifier="fileMenu.copyTitle" id="5LV-Vi-n79">
+                                        <menuItem title="Copy Title" keyEquivalent="c" localization="NO" mirroring="NO" identifier="fileMenu.copyTitle" id="5LV-Vi-n79">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Create Web Page" keyEquivalent="u" identifier="fileMenu.uploadOverSSH" id="vZO-Tx-X1j">
+                                        <menuItem title="Create Web Page" keyEquivalent="u" localization="NO" mirroring="NO" identifier="fileMenu.uploadOverSSH" id="vZO-Tx-X1j">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="uploadWebNote:" target="Ady-hI-5gd" id="kGh-7X-iq3"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete Web Page" tag="100" keyEquivalent="u" identifier="fileMenu.removeOverSSH" id="PzH-8q-38O">
+                                        <menuItem title="Delete Web Page" tag="100" keyEquivalent="u" localization="NO" mirroring="NO" identifier="fileMenu.removeOverSSH" id="PzH-8q-38O">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="removeWebNote:" target="Ady-hI-5gd" id="nSU-Xz-O4T"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wQ9-qT-qnU"/>
-                                        <menuItem title="Move" keyEquivalent="T" identifier="fileMenu.move" id="CvG-Kp-kdK">
+                                        <menuItem title="Move" keyEquivalent="T" localization="NO" mirroring="NO" identifier="fileMenu.move" id="CvG-Kp-kdK">
                                             <connections>
                                                 <action selector="moveMenu:" target="Ady-hI-5gd" id="gIh-8j-qKG"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="History" keyEquivalent="H" identifier="note.history" id="Snd-dJ-uj5">
+                                        <menuItem title="History" keyEquivalent="H" localization="NO" mirroring="NO" identifier="fileMenu.history" id="Snd-dJ-uj5">
                                             <connections>
                                                 <action selector="historyMenu:" target="Ady-hI-5gd" id="VPf-oO-JCe"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zV0-3n-jVp"/>
-                                        <menuItem title="Print" keyEquivalent="p" identifier="fileMenu.print" id="OV0-om-POJ">
+                                        <menuItem title="Print" keyEquivalent="p" localization="NO" mirroring="NO" identifier="fileMenu.print" id="OV0-om-POJ">
                                             <connections>
                                                 <action selector="printNotes:" target="Ady-hI-5gd" id="aq9-E9-nEe"/>
                                             </connections>
@@ -475,66 +471,58 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Library" identifier="folderMenu" id="BYI-2F-BJo">
                                     <items>
-                                        <menuItem title="Add External Folder..." identifier="folderMenu.attach" id="S8Z-Js-fwB">
+                                        <menuItem title="Add External Folder..." localization="NO" mirroring="NO" identifier="folderMenu.attach" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="createFolder:" target="Ady-hI-5gd" id="fZJ-Cq-oSM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Back Up Now" keyEquivalent="S" identifier="folderMenu.backup" id="iIP-wI-OaZ">
+                                        <menuItem title="Back Up Now" keyEquivalent="s" localization="NO" mirroring="NO" identifier="folderMenu.backup" id="iIP-wI-OaZ">
                                             <connections>
-                                                <action selector="makeSnapshot:" target="yxb-XH-bXh" id="N8G-4B-6U3"/>
+                                                <action selector="saveRevision:" target="Ady-hI-5gd" id="K8t-sd-0yE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Create Folder" keyEquivalent="N" identifier="folderMenubar.new" id="SrH-fe-Hog">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                        <menuItem isSeparatorItem="YES" id="xeO-gg-Nu2"/>
+                                        <menuItem title="Create Folder" keyEquivalent="n" localization="NO" mirroring="NO" identifier="folderMenu.create" id="SrH-fe-Hog">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="createFolder:" target="Ady-hI-5gd" id="zjY-Sq-KJa"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename Folder" keyEquivalent="R" identifier="folderMenu.rename" id="Tap-iY-hyA">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                        <menuItem title="Rename Folder" keyEquivalent="r" localization="NO" mirroring="NO" identifier="folderMenu.rename" id="Tap-iY-hyA">
                                             <connections>
-                                                <action selector="renameFolderMenu:" target="yxb-XH-bXh" id="mum-br-J1i"/>
+                                                <action selector="fsRenameItem:" target="Ady-hI-5gd" id="pWj-kM-uLa"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete Folder" identifier="folderMenu.delete" id="RuM-sf-kcZ">
+                                        <menuItem title="Delete Folder" localization="NO" mirroring="NO" identifier="folderMenu.delete" id="RuM-sf-kcZ">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
                                             <connections>
-                                                <action selector="deleteMenu:" target="yxb-XH-bXh" id="9eH-nN-saE"/>
+                                                <action selector="fsDeleteItem:" target="Ady-hI-5gd" id="Q5a-tG-Dsc"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Encrypt" keyEquivalent="1" identifier="folderMenubar.toggleEncryption" id="epi-YA-nEi">
+                                        <menuItem title="Decrypt Folder" keyEquivalent="l" localization="NO" mirroring="NO" identifier="folderMenu.decrypt" id="epi-YA-nEi">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="toggleFolderEncryption:" target="Ady-hI-5gd" id="kHU-F6-oGg"/>
+                                                <action selector="fsDecryptItem:" target="Ady-hI-5gd" id="90i-O1-ZmP"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Lock" keyEquivalent="2" identifier="folderMenubar.toggleLock" id="6UT-Yu-j7X">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="toggleFolderLock:" target="Ady-hI-5gd" id="iZf-TT-TNN"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="F5A-zs-zwP">
+                                        <menuItem title="Lock Folder" keyEquivalent="l" localization="NO" mirroring="NO" identifier="folderMenu.toggleLock" id="6UT-Yu-j7X">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="revealInFinder:" target="yxb-XH-bXh" id="sAU-Li-Rhr"/>
+                                                <action selector="fsToggleLockItem:" target="Ady-hI-5gd" id="aBP-cN-xpk"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show Options" keyEquivalent="," identifier="folderMenu.options" id="Tcg-83-bZN">
+                                        <menuItem title="Reveal in Finder" keyEquivalent="R" localization="NO" mirroring="NO" identifier="folderMenu.reveal" id="F5A-zs-zwP">
+                                            <connections>
+                                                <action selector="fsRevealItem:" target="Ady-hI-5gd" id="QrL-xt-loY"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Show Options" keyEquivalent="," localization="NO" mirroring="NO" identifier="folderMenu.options" id="Tcg-83-bZN">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
-                                                <action selector="openSettings:" target="yxb-XH-bXh" id="0rs-lb-8mh"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem identifier="folderMenu.emptyBin" id="s7a-BE-t62">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="emptyTrash:" target="Ady-hI-5gd" id="5Rw-Fs-VMk"/>
+                                                <action selector="openProjectViewSettings:" target="Ady-hI-5gd" id="4vF-hE-3Y2"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -2176,73 +2164,63 @@ CA
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="Open In New Window" keyEquivalent="o" id="u88-5C-vTe">
+                        <menuItem title="Open" localization="NO" mirroring="NO" identifier="popup.open" id="u88-5C-vTe">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="openWindow:" target="rPt-NT-nkU" id="OwA-Zj-vgW"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Save Revision" tag="100" keyEquivalent="s" identifier="noteMenu.saveRevision" id="Nhf-c1-VJ6">
-                            <connections>
-                                <action selector="saveRevision:" target="rPt-NT-nkU" id="3q1-my-06E"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Duplicate" keyEquivalent="d" id="E6I-n5-dsi">
+                        <menuItem title="Duplicate" localization="NO" mirroring="NO" identifier="popup.duplicate" id="E6I-n5-dsi">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="duplicate:" target="rPt-NT-nkU" id="hUh-qX-nAT"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename" keyEquivalent="r" identifier="note.rename" id="XBB-Sr-T1D">
+                        <menuItem title="Rename" localization="NO" mirroring="NO" identifier="popup.rename" id="XBB-Sr-T1D">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="renameMenu:" target="XfG-lQ-9wD" id="iYK-OA-0IW"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Delete" id="fHG-zk-g0k">
-                            <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
+                        <menuItem title="Delete" localization="NO" mirroring="NO" identifier="popup.delete" id="fHG-zk-g0k">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="deleteNote:" target="XfG-lQ-9wD" id="WOk-2N-rha"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Force Delete" alternate="YES" identifier="context.fileMenu.forceRemove" id="70b-Zr-aVK">
-                            <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                            <connections>
-                                <action selector="deleteNote:" target="rPt-NT-nkU" id="utQ-Hf-HAy"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Pin/Unpin" keyEquivalent="8" identifier="fileMenu.pinUnpin" id="jFN-Dp-LON">
+                        <menuItem title="Pin/Unpin" localization="NO" mirroring="NO" identifier="popup.togglePin" id="jFN-Dp-LON">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="pinMenu:" target="rPt-NT-nkU" id="EyW-HI-rr9"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Remove Encryption" keyEquivalent="7" identifier="noteMenu.removeEncryption" id="5gL-j7-Zq8">
+                        <menuItem title="Decrypt" localization="NO" mirroring="NO" identifier="popup.decrypt" id="5gL-j7-Zq8">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="removeNoteEncryption:" target="rPt-NT-nkU" id="5ga-uK-aSH"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Lock/Unlock" keyEquivalent="l" identifier="fileMenu.lockUnlock" id="kg2-3u-V99">
-                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                        <menuItem title="Lock/Unlock" localization="NO" mirroring="NO" identifier="popup.toggleLock" id="kg2-3u-V99">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="toggleNotesLock:" target="rPt-NT-nkU" id="tK5-CH-cx8"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Open External" keyEquivalent="e" id="3tV-h0-YEb">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                        <menuItem title="Open External" localization="NO" mirroring="NO" identifier="popup.external" id="3tV-h0-YEb">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="editorMenu:" target="rPt-NT-nkU" id="0ta-2C-c0S"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Reveal in Finder" alternate="YES" keyEquivalent="R" id="xSO-lW-k8f">
+                        <menuItem title="Reveal in Finder" localization="NO" mirroring="NO" identifier="popup.reveal" id="xSO-lW-k8f">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="finderMenu:" target="rPt-NT-nkU" id="HN5-My-jcv"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Fj3-MU-qJ9"/>
-                        <menuItem title="Change Creation Date" keyEquivalent="d" id="QdU-og-lQH">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                        <menuItem title="Change Creation Date" localization="NO" mirroring="NO" identifier="popup.date" id="QdU-og-lQH">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <attributedString key="userComments">
                                 <fragment content="#bc-ignore!"/>
                             </attributedString>
@@ -2250,105 +2228,92 @@ CA
                                 <action selector="changeCreationDate:" target="rPt-NT-nkU" id="R4F-Ug-M9Q"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Toggle Container" identifier="note.toggleContainer" id="y4W-TV-iZ3">
+                        <menuItem title="Toggle Container" localization="NO" mirroring="NO" identifier="popup.toggleContainer" id="y4W-TV-iZ3">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="toggleContainer:" target="rPt-NT-nkU" id="10h-VM-5y7"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="06c-Up-wPq"/>
-                        <menuItem title="Copy URL" identifier="note.copyURL" id="uQ1-ej-ufE">
+                        <menuItem title="Copy URL" localization="NO" mirroring="NO" identifier="popup.copyURL" id="uQ1-ej-ufE">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="copyURL:" target="rPt-NT-nkU" id="zCA-0T-c96"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Copy Title" keyEquivalent="c" identifier="note.copyTitle" id="3kn-9C-fsB">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                        <menuItem title="Copy Title" localization="NO" mirroring="NO" identifier="popup.copyTitle" id="3kn-9C-fsB">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="copyTitle:" target="rPt-NT-nkU" id="Fwy-yp-nPd"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Create Web Page" keyEquivalent="u" identifier="noteMenu.uploadOverSSH" id="oL6-fG-vHv">
-                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                        <menuItem title="Create Web Page" localization="NO" mirroring="NO" identifier="popup.uploadOverSSH" id="oL6-fG-vHv">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="uploadWebNote:" target="XfG-lQ-9wD" id="Ea2-MI-Eqh"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Delete Web Page" tag="100" keyEquivalent="u" identifier="noteMenu.removeOverSSH" id="K4N-le-FPU">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                        <menuItem title="Delete Web Page" tag="100" localization="NO" mirroring="NO" identifier="popup.removeOverSSH" id="K4N-le-FPU">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="removeWebNote:" target="XfG-lQ-9wD" id="nC3-xh-zYb"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="fYh-FK-PdD"/>
-                        <menuItem title="Print" keyEquivalent="p" identifier="note.print" id="nCW-CZ-qC7">
+                        <menuItem title="Print" localization="NO" mirroring="NO" identifier="popup.print" id="nCW-CZ-qC7">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="printNotes:" target="rPt-NT-nkU" id="f6C-X6-WZP"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="FCO-gg-UBw"/>
-                        <menuItem title="History" id="xPh-BC-Xxl">
+                        <menuItem title="History" localization="NO" mirroring="NO" identifier="popup.history" id="xPh-BC-Xxl">
                             <menu key="submenu" title="History" identifier="noteMenu.history" id="auW-wa-jbc"/>
                         </menuItem>
                     </items>
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="Back Up Now" keyEquivalent="S" identifier="context.folderMenu.backup" id="PvQ-Pd-zsZ">
+                        <menuItem title="Create Folder" localization="NO" mirroring="NO" identifier="folderPopup.create" id="3zv-SD-lSX">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="makeSnapshot:" target="rPt-NT-nkU" id="cLp-f1-6Ua"/>
+                                <action selector="createFolder:" target="rPt-NT-nkU" id="mR3-Pv-r9c"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Create Folder" keyEquivalent="N" identifier="folderMenu.new" id="3zv-SD-lSX">
-                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
-                            <connections>
-                                <action selector="createFolder:" target="urA-eK-bWB" id="6z1-Hl-rY3"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Rename Folder" keyEquivalent="R" identifier="folderMenu.rename" id="fzU-ZR-Ubv">
-                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                        <menuItem title="Rename Folder" localization="NO" mirroring="NO" identifier="folderPopup.rename" id="fzU-ZR-Ubv">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="renameFolderMenu:" target="rPt-NT-nkU" id="P1a-Na-Ngh"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Delete Folder" identifier="folderMenu.delete" id="RwR-P0-ycK">
-                            <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                            <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
+                        <menuItem title="Delete Folder" localization="NO" mirroring="NO" identifier="folderPopup.delete" id="RwR-P0-ycK">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="deleteMenu:" target="rPt-NT-nkU" id="U7D-ZD-89h"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Encrypt Folder" keyEquivalent="1" identifier="folderMenu.toggleEncryption" id="dqy-22-ETG">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                        <menuItem title="Decrypt Folder" localization="NO" mirroring="NO" identifier="folderPopup.decrypt" id="dqy-22-ETG">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="toggleEncrypt:" target="urA-eK-bWB" id="RRM-Tq-dQa"/>
+                                <action selector="removeFolderEncryption:" target="rPt-NT-nkU" id="Sdf-28-9zt"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Lock Folder" keyEquivalent="2" identifier="folderMenu.toggleLock" id="w7R-OL-Nfh">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                        <menuItem title="Lock Folder" localization="NO" mirroring="NO" identifier="folderPopup.toggleLock" id="w7R-OL-Nfh">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="toggleLock:" target="urA-eK-bWB" id="nJU-ZP-2PN"/>
+                                <action selector="toggleFolderLock:" target="rPt-NT-nkU" id="yCw-y6-dbe"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="goN-LO-L7l">
-                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                        <menuItem title="Reveal in Finder" localization="NO" mirroring="NO" identifier="folderPopup.reveal" id="goN-LO-L7l">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="revealInFinder:" target="rPt-NT-nkU" id="o9s-WD-Vqu"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Show Options" keyEquivalent="," identifier="folderMenu.options" id="qs2-5J-Q3n">
-                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                            <connections>
-                                <action selector="openProjectViewSettings:" target="rPt-NT-nkU" id="kzR-77-haW"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem identifier="context.folderMenu.emptyBin" id="2qG-Cv-rhe">
+                        <menuItem title="Show Options" localization="NO" mirroring="NO" identifier="folderPopup.options" id="qs2-5J-Q3n">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="emptyTrash:" target="rPt-NT-nkU" id="ygS-gl-E8F"/>
+                                <action selector="openProjectViewSettings:" target="rPt-NT-nkU" id="kzR-77-haW"/>
                             </connections>
                         </menuItem>
                     </items>
@@ -2544,7 +2509,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs" customClass="AboutImageView" customModule="FSNotes" customModuleProvider="target">
-                                <rect key="frame" x="236" y="461" width="67" height="70"/>
+                                <rect key="frame" x="238" y="461" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
@@ -2552,7 +2517,7 @@ Gw
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="236" y="400" width="67" height="17"/>
+                                <rect key="frame" x="238" y="400" width="67" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2563,7 +2528,7 @@ Gw
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="118" y="300" width="304" height="32"/>
+                                <rect key="frame" x="120" y="300" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Copyright © 2017-2024 Oleksandr Hlushchenko.
@@ -2576,7 +2541,7 @@ All rights reserved.</string>
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="197" y="425" width="146" height="16"/>
+                                <rect key="frame" x="199" y="425" width="146" height="16"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2589,7 +2554,7 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="503" height="32"/>
+                                <rect key="frame" x="18" y="20" width="507" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2602,7 +2567,7 @@ Olena Hlushcneko</string>
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
-                                <rect key="frame" x="227" y="60" width="85" height="16"/>
+                                <rect key="frame" x="229" y="60" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Icons design:" id="FKf-Ph-LiA">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2610,7 +2575,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="232" y="264" width="76" height="16"/>
+                                <rect key="frame" x="234" y="264" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2618,10 +2583,10 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="499" height="5"/>
+                                <rect key="frame" x="20" y="381" width="503" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="243" y="347" width="54" height="16"/>
+                                <rect key="frame" x="245" y="347" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2629,13 +2594,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="499" height="160"/>
+                                <rect key="frame" x="20" y="96" width="503" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="497" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="501" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="497" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="501" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2677,7 +2642,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="351.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="355.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -2690,11 +2655,11 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Svh-Z4-DD5">
-                                                            <rect key="frame" x="139.5" y="0.0" width="349" height="24"/>
+                                                            <rect key="frame" x="139.5" y="0.0" width="353" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
-                                                                    <rect key="frame" x="0.0" y="4" width="349" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="4" width="353" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zoX-MN-b3x">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>

@@ -142,6 +142,8 @@ class ViewController: EditorViewController,
     @IBOutlet weak var counter: NSTextField!
     @IBOutlet weak var notesCounter: NSTextField!
     
+    @IBOutlet weak var commitAndPushMenuItem: NSMenuItem!
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -672,12 +674,7 @@ class ViewController: EditorViewController,
             && event.modifierFlags.contains(.option)
             && event.keyCode == kVK_ANSI_N {
 
-            sidebarOutlineView.createFolder(NSMenuItem())
-            return false
-        }
-
-        if event.keyCode == kVK_Delete && event.modifierFlags.contains(.command) && editor.hasFocus() {
-            editor.deleteToBeginningOfLine(nil)
+            createFolder(NSMenuItem())
             return false
         }
         
@@ -991,7 +988,7 @@ class ViewController: EditorViewController,
         if let project = vc.sidebarOutlineView.getSelectedProject(), project.isEncrypted, project.isLocked() {
             let menuItem = NSMenuItem()
             menuItem.identifier = NSUserInterfaceItemIdentifier("menu.newNote")
-            vc.toggleFolderLock(menuItem)
+            vc.sidebarOutlineView.toggleFolderLock(menuItem)
             return
         }
         
@@ -1680,86 +1677,6 @@ class ViewController: EditorViewController,
                 } catch {
                     print("Error restoring sftp bookmark: \(error)")
                 }
-            }
-        }
-    }
-    
-    func loadMoveMenu() {
-        guard let vc = ViewController.shared(), let note = vc.notesTableView.getSelectedNote() else { return }
-        
-        let moveTitle = NSLocalizedString("Move", comment: "Menu")
-        if let prevMenu = noteMenu.item(withTitle: moveTitle) {
-            noteMenu.removeItem(prevMenu)
-        }
-        
-        let moveMenuItem = NSMenuItem()
-        moveMenuItem.title = NSLocalizedString("Move", comment: "Menu")
-        
-        noteMenu.addItem(moveMenuItem)
-        let moveMenu = NSMenu()
-
-        if UserDefaultsManagement.inlineTags, let tagsMenu = noteMenu.item(withTitle: NSLocalizedString("Tags", comment: "")) {
-            noteMenu.removeItem(tagsMenu)
-        }
-        
-        if !note.isTrash() {
-            let trashMenu = NSMenuItem()
-            trashMenu.title = NSLocalizedString("Trash", comment: "Sidebar label")
-            trashMenu.action = #selector(vc.deleteNote(_:))
-            trashMenu.tag = 555
-            moveMenu.addItem(trashMenu)
-            moveMenu.addItem(NSMenuItem.separator())
-        }
-                
-        let projects = storage.getSortedProjects()
-        for item in projects {
-            if note.project == item || item.isTrash {
-                continue
-            }
-            
-            let menuItem = NSMenuItem()
-            menuItem.title = item.getNestedLabel()
-            menuItem.representedObject = item
-            menuItem.action = #selector(vc.moveNote(_:))
-            moveMenu.addItem(menuItem)
-        }
-
-        noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
-        loadHistory()
-    }
-    
-    public func loadHistory() {
-        guard let vc = ViewController.shared(),
-            let notes = vc.notesTableView.getSelectedNotes(),
-            let note = notes.first
-        else { return }
-
-        let title = NSLocalizedString("History", comment: "")
-        let historyMenu = noteMenu.item(withTitle: title)
-        historyMenu?.submenu?.removeAllItems()
-        historyMenu?.isEnabled = false
-        historyMenu?.isHidden = !note.project.hasCommitsDiffsCache()
-
-        guard notes.count == 0x01 else { return }
-
-        DispatchQueue.global().async {
-            let commits = note.getCommits()
-
-            DispatchQueue.main.async {
-                guard commits.count > 0 else {
-                    historyMenu?.isEnabled = false
-                    return
-                }
-                
-                for commit in commits {
-                    let menuItem = NSMenuItem()
-                    menuItem.title = commit.getDate()
-                    menuItem.representedObject = commit
-                    menuItem.action = #selector(vc.checkoutRevision(_:))
-                    historyMenu?.submenu?.addItem(menuItem)
-                }
-                
-                historyMenu?.isEnabled = true
             }
         }
     }

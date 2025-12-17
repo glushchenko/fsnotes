@@ -477,6 +477,10 @@ extension Project {
 
     public func saveRevision(commitMessage: String? = nil) throws {
         try commit(message: commitMessage)
+        
+        // No hands – no mults
+        guard getGitOrigin() != nil else { return }
+        
         try pull()
         try push()
     }

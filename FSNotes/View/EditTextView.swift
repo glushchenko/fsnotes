@@ -1158,11 +1158,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
 
-        if event.keyCode == kVK_Delete && event.modifierFlags.contains(.option) {
-            deleteWordBackward(nil)
-            return
-        }
-
         if event.characters?.unicodeScalars.first == "o" && event.modifierFlags.contains(.command) {
             guard let storage = textStorage else { return }
 
