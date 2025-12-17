@@ -142,8 +142,6 @@ class ViewController: EditorViewController,
     @IBOutlet weak var counter: NSTextField!
     @IBOutlet weak var notesCounter: NSTextField!
     
-    @IBOutlet weak var commitAndPushMenuItem: NSMenuItem!
-    
     // MARK: - Overrides
     
     override func viewDidLoad() {

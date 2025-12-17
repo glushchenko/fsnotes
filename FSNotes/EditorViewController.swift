@@ -674,6 +674,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
               let note = getSelectedNotes()?.first else { return }
 
         let moveMenu = NSMenu()
+        moveMenu.identifier = NSUserInterfaceItemIdentifier("fileMenu.history")
         let commits = note.getCommits()
 
         // Port

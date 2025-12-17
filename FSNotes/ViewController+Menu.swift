@@ -11,6 +11,13 @@ import AppKit
 extension ViewController {
     
     func processFileMenuItems(_ menuItem: NSMenuItem, menuId: String) -> Bool {
+        
+        // Submenu
+        if menuItem.menu?.identifier?.rawValue == "fileMenu.move" ||
+            menuItem.menu?.identifier?.rawValue == "fileMenu.history" {
+            return true
+        }
+        
         guard let vc = ViewController.shared(),
               let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
               let id = menuItem.identifier?.rawValue else { return false }
@@ -250,6 +257,7 @@ extension ViewController {
         
         noteMenu.addItem(moveMenuItem)
         let moveMenu = NSMenu()
+        moveMenu.identifier = NSUserInterfaceItemIdentifier("fileMenu.move")
 
         if UserDefaultsManagement.inlineTags, let tagsMenu = noteMenu.item(withTitle: NSLocalizedString("Tags", comment: "")) {
             noteMenu.removeItem(tagsMenu)
