@@ -189,6 +189,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     }
     
     public func getSelectedNotes() -> [Note]? {
+        // Opened window
+        if NSApplication.shared.keyWindow?.contentViewController?.isKind(of: NoteViewController.self) == true,
+           let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
+           let note = evc.vcEditor?.note {
+            return [note]
+        }
         
         // Active main window
         if let cvc = NSApplication.shared.keyWindow?.contentViewController,
@@ -198,15 +204,16 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             return selected
         }
         
-        // Active note window
-        if let note = vcEditor?.note {
-            return [note]
-        }
-        
         return nil
     }
     
     public func getSelectedNote() -> Note? {
+        // Opened window
+        if NSApplication.shared.keyWindow?.contentViewController?.isKind(of: NoteViewController.self) == true,
+           let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
+           let note = evc.vcEditor?.note {
+            return note
+        }
         
         // Active main window
         if let cvc = NSApplication.shared.keyWindow?.contentViewController,
@@ -215,11 +222,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
            let selected = vc.notesTableView.getSelectedNotes()?.first {
             
             return selected
-        }
-        
-        // Active note window
-        if let note = vcEditor?.note {
-            return note
         }
         
         return nil

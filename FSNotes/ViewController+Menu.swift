@@ -25,11 +25,7 @@ extension ViewController {
         let isFirstResponder = evc.view.window?.firstResponder?.isKind(of: NotesTableView.self) == true
         let isOpenedWindow = NSApplication.shared.keyWindow?.contentViewController?.isKind(of: NoteViewController.self) == true
         
-        var notes = vc.getSelectedNotes()
-        if isOpenedWindow, let note = evc.vcEditor?.note {
-            notes = [note]
-        }
-        
+        let notes = vc.getSelectedNotes()
         let greaterThanZero = notes?.isEmpty == false
         let isOne = notes?.count == 1
         
@@ -65,7 +61,7 @@ extension ViewController {
             
         case "\(menuId).duplicate":
             menuItem.title = NSLocalizedString("Duplicate", comment: "File Menu")
-            return greaterThanZero
+            return greaterThanZero && isFirstResponder
             
         case "\(menuId).rename":
             menuItem.title = NSLocalizedString("Rename", comment: "File Menu")
@@ -105,11 +101,11 @@ extension ViewController {
             
         case "\(menuId).reveal":
             menuItem.title = NSLocalizedString("Reveal in Finder", comment: "File Menu")
-            return greaterThanZero && isFirstResponder
+            return greaterThanZero && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).date":
             menuItem.title = NSLocalizedString("Change Creation Date", comment: "File Menu")
-            return greaterThanZero && isFirstResponder
+            return greaterThanZero && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).toggleContainer":
             if let note = notes?.first, note.container == .none {
@@ -117,15 +113,15 @@ extension ViewController {
             } else {
                 menuItem.title =  NSLocalizedString("Convert to Plain", comment: "")
             }
-            return greaterThanZero && !hasEncrypted(notes: notes) && isFirstResponder
+            return greaterThanZero && !hasEncrypted(notes: notes) && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).copyURL":
             menuItem.title = NSLocalizedString("Copy URL", comment: "File Menu")
-            return isOne && isFirstResponder
+            return isOne && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).copyTitle":
             menuItem.title = NSLocalizedString("Copy Title", comment: "File Menu")
-            return isOne && isFirstResponder
+            return isOne && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).uploadOverSSH":
             if let note = notes?.first, note.uploadPath != nil || note.apiId != nil {
@@ -133,27 +129,27 @@ extension ViewController {
             } else {
                 menuItem.title = NSLocalizedString("Create Web Page", comment: "File Menu")
             }
-            return isOne && isFirstResponder
+            return isOne && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).removeOverSSH":
             menuItem.title = NSLocalizedString("Delete Web Page", comment: "File Menu")
             if let note = notes?.first {
-                return isFirstResponder && isOne && !note.isEncrypted() && note.uploadPath != nil || note.apiId != nil
+                return (isFirstResponder || isOpenedWindow) && isOne && !note.isEncrypted() && (note.uploadPath != nil || note.apiId != nil)
             }
             
         case "\(menuId).move":
             menuItem.title = NSLocalizedString("Move", comment: "File Menu")
-            return greaterThanZero
+            return greaterThanZero && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).history":
             menuItem.title = NSLocalizedString("History", comment: "File Menu")
             if let note = notes?.first {
-                return isOne && note.project.hasCommitsDiffsCache()
+                return isOne && (isFirstResponder || isOpenedWindow) && note.project.hasCommitsDiffsCache()
             }
             
         case "\(menuId).print":
             menuItem.title = NSLocalizedString("Print", comment: "File Menu")
-            return isOne
+            return isOne && (isFirstResponder || isOpenedWindow)
         default:
             break
         }
