@@ -166,9 +166,10 @@ extension ViewController {
         
         let projectSelected = projects?.isEmpty == false
         let tagSelected = tags?.isEmpty == false
-        
         let isFirstResponder = view.window?.firstResponder?.isKind(of: SidebarOutlineView.self) == true
+        
         let isTrash = vc.sidebarOutlineView.getSidebarItems()?.first?.type == .Trash
+        let isSystem = vc.sidebarOutlineView.getSidebarItems()?.first?.isSystem() == true
         
         switch id {
         case "\(menuId).attach":
@@ -232,7 +233,7 @@ extension ViewController {
             
         case "\(menuId).options":
             menuItem.title = NSLocalizedString("Show Options", comment: "Menu Library")
-            return isFirstResponder && projectSelected
+            return isFirstResponder && (projectSelected || isSystem)
         default:
             break
         }

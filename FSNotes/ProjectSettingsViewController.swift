@@ -20,7 +20,14 @@ class ProjectSettingsViewController: SettingsViewController {
     @IBOutlet weak var showInAll: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
     @IBOutlet weak var nestedFoldersContent: NSButton!
-
+    @IBOutlet weak var gitView: NSView!
+    @IBOutlet weak var gitViewHeight: NSLayoutConstraint!
+    
+    override func viewDidLoad() {
+        gitView.isHidden = true
+        gitViewHeight.constant = 0
+    }
+    
     @IBAction func sortBy(_ sender: NSButton) {
         guard let project = project else { return }
         
@@ -82,8 +89,6 @@ class ProjectSettingsViewController: SettingsViewController {
     }
 
     public func load(project: Project) {
-        self.project = project
-        
         if project.isVirtual {
             showInAll.isEnabled = false
             nestedFoldersContent.isEnabled = false
@@ -102,6 +107,11 @@ class ProjectSettingsViewController: SettingsViewController {
         directionASC.state = project.settings.sortDirection == .asc ? .on : .off
         directionDESC.state = project.settings.sortDirection == .desc ? .on : .off
 
+        if project.parent == nil && !project.isTrash && !project.isEncrypted {
+            gitView.isHidden = false
+            gitViewHeight.constant = 150
+        }
+        
         loadGit(project: project)
     }
 
