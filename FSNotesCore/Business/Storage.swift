@@ -382,10 +382,6 @@ class Storage {
             note.cacheHash = nil
         }
     }
-
-    public func getMainProject() -> Project {
-        return projects.first!
-    }
     
     public func getProjects() -> [Project] {
         return projects

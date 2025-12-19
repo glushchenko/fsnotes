@@ -1526,15 +1526,29 @@ class ViewController: EditorViewController,
     
     func makeNoteShortcut() {
         let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string)
-        if (clipboard != nil) {
-            let project = Storage.shared().getMainProject()
-            _ = createNote(content: clipboard!, project: project)
+        
+        if let clipboard = clipboard {
+            _ = createNote(content: clipboard)
             
-            let notification = NSUserNotification()
-            notification.title = "FSNotes"
-            notification.informativeText = "Clipboard successfully saved"
-            notification.soundName = NSUserNotificationDefaultSoundName
-            NSUserNotificationCenter.default.deliver(notification)
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                guard settings.authorizationStatus == .notDetermined else { return }
+
+                UNUserNotificationCenter.current().requestAuthorization(
+                    options: [.alert, .sound]
+                ) { _, _ in }
+            }
+
+            let content = UNMutableNotificationContent()
+            content.title = NSLocalizedString("Clipboard successfully saved", comment: "")
+            content.body = clipboard
+            content.sound = .default
+
+            UNUserNotificationCenter.current().add(
+                UNNotificationRequest(
+                identifier: UUID().uuidString,
+                content: content,
+                trigger: nil
+            ))
         }
     }
     
@@ -2014,10 +2028,8 @@ class ViewController: EditorViewController,
             let content = appDelegate.newContent
 
             if nil != name || nil != content {
-                if appDelegate.newWindow, let note = self.createNote(name: name ?? "", content: content ?? "", openInNewWindow: true) {
+                if let note = self.createNote(name: name ?? "", content: content ?? "", openInNewWindow: appDelegate.newWindow), appDelegate.newWindow {
                     openInNewWindow(note: note)
-                } else {
-                    _ = self.createNote(name: name ?? "", content: content ?? "", openInNewWindow: appDelegate.newWindow)
                 }
             }
         }

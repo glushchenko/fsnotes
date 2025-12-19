@@ -76,8 +76,7 @@ extension AppDelegate {
                     sidebarIndex = vc.sidebarOutlineView.row(forItem: sidebarItem)
                     importedNote = note
                 }
-            } else {
-                let project = Storage.shared().getMainProject()
+            } else if let project = Storage.shared().getDefault() {
                 let newUrl = vc.copy(project: project, url: url)
 
                 UserDataService.instance.focusOnImport = newUrl
@@ -180,7 +179,8 @@ extension AppDelegate {
     ///
     func RouteFSNotesNew(_ url: URL) {
         let newWindow = url["open"] != nil
-        
+        let folderName = url["folder"]
+                
         var title = ""
         var body = ""
         
@@ -190,8 +190,7 @@ extension AppDelegate {
         
         if let txtParam = url["txt"] {
             body = txtParam
-        }
-        else if let htmlParam = url["html"] {
+        } else if let htmlParam = url["html"] {
             body = htmlParam
         }
         
@@ -199,10 +198,11 @@ extension AppDelegate {
             self.newName = title
             self.newContent = body
             self.newWindow = newWindow
+            self.folderName = folderName
             return
         }
         
-        guard let note = vc.createNote(name: title, content: body, openInNewWindow: newWindow),
+        guard let note = vc.createNote(name: title, content: body, folderName: folderName, openInNewWindow: newWindow),
               newWindow else { return }
         
         vc.openInNewWindow(note: note)

@@ -742,6 +742,10 @@ class SidebarOutlineView: NSOutlineView,
         for project in projects {
             delete(project: project)
         }
+        
+        UserDefaultsManagement.lastSidebarItem = nil
+        UserDefaultsManagement.lastProjectURL = nil
+        UserDefaultsManagement.lastSelectedURL = nil
     }
 
     private func delete(project: Project) {
@@ -762,6 +766,13 @@ class SidebarOutlineView: NSOutlineView,
             alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     do {
+                        if let note = vc.editor.note {
+                            vc.closeAllOpenedWindows(where: note)
+                            if note.project == project {
+                                vc.editor.clear()
+                            }
+                        }
+                        
                         try FileManager.default.removeItem(at: project.url)
 
                         self.storage.cleanCachedTree(url: project.url)
@@ -1934,5 +1945,69 @@ class SidebarOutlineView: NSOutlineView,
         }) as? SidebarItem
 
         return item?.project
+    }
+    
+    public func getOrCreateProject(name: String) -> Project? {
+        guard let project = Storage.shared().getDefault() else { return nil }
+        
+        let url = project.url.appendingPathComponent(name, isDirectory: true)
+        if let exist = Storage.shared().getProjectBy(url: url) {
+            DispatchQueue.main.async {
+                self.focus(on: exist)
+            }
+            return exist
+        }
+        
+        return createProject(with: name)
+    }
+    
+    public func createProject(in project: Project? = nil, with name: String) -> Project? {
+        guard let vc = ViewController.shared(),
+              let project = project ?? Storage.shared().getDefault() else { return nil }
+        
+        var insertedProject: Project?
+        
+        do {
+            let projectURL = project.url.appendingPathComponent(name, isDirectory: true)
+            try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
+            
+            guard let inserted = project.storage.insert(url: projectURL) else { return nil }
+            insertedProject = inserted.first
+            
+            // Important before main queue (Disables the fake move event handler for notes)
+            vc.fsManager?.reloadObservedFolders()
+            
+            DispatchQueue.main.async {
+                vc.sidebarOutlineView.insertRows(projects: inserted)
+                
+                guard let newProject = inserted.first else { return }
+                self.focus(on: newProject)
+                
+                print("sidebar table")
+            }
+        } catch {
+            DispatchQueue.main.async {
+                let alert = NSAlert()
+                alert.messageText = error.localizedDescription
+                alert.runModal()
+            }
+        }
+        
+        return insertedProject
+    }
+    
+    public func focus(on project: Project) {
+        guard let vc = ViewController.shared() else { return }
+        let expand = project.parent
+        
+        vc.sidebarOutlineView.expandItem(expand)
+        let row = vc.sidebarOutlineView.row(forItem: project)
+        
+        guard row != -1 else { return }
+        vc.sidebarOutlineView.selectRowIndexes(
+            IndexSet(integer: row),
+            byExtendingSelection: false
+        )
+        vc.sidebarOutlineView.scrollRowToVisible(row)
     }
 }

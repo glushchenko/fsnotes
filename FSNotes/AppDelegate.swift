@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import UserNotifications
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -18,6 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     public var url: URL? = nil
     public var newName: String? = nil
     public var newContent: String? = nil
+    public var folderName: String? = nil
     public var newWindow: Bool = false
 
     public static var mainWindowController: MainWindowController?
@@ -481,16 +483,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     public static func getEditTextViews() -> [EditTextView] {
+        var views = getOpenedEditTextViews()
+                
+        if let controller = mainWindowController?.contentViewController as? ViewController {
+            views.append(controller.editor)
+        }
+        
+        return views
+    }
+    
+    public static func getOpenedEditTextViews() -> [EditTextView] {
         var views = [EditTextView]()
         
         for window in noteWindows {
             if let controller = window.contentViewController as? NoteViewController {
                 views.append(controller.editor)
             }
-        }
-        
-        if let controller = mainWindowController?.contentViewController as? ViewController {
-            views.append(controller.editor)
         }
         
         return views

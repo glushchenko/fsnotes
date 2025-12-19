@@ -1279,6 +1279,9 @@
         }
       }
     },
+    "Clipboard successfully saved" : {
+
+    },
     "Close" : {
       "comment" : "File Menu",
       "localizations" : {

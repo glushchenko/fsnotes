@@ -10,6 +10,7 @@ import Foundation
 import AppKit
 import LocalAuthentication
 import WebKit
+import UserNotifications
 
 class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemValidation {
     
@@ -416,28 +417,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                 guard name.count > 0 else { return }
                 
                 OperationQueue.main.addOperation {
-                    do {
-                        let projectURL = project.url.appendingPathComponent(name, isDirectory: true)
-                        try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
-                        
-                        guard let inserted = project.storage.insert(url: projectURL) else { return }
-                        vc.sidebarOutlineView.insertRows(projects: inserted)
-                        
-                        guard let newProject = inserted.first else { return }
-                        vc.sidebarOutlineView.expandItem(project)
-                        let row = vc.sidebarOutlineView.row(forItem: newProject)
-                        
-                        guard row != -1 else { return }
-                        vc.sidebarOutlineView.selectRowIndexes(
-                            IndexSet(integer: row),
-                            byExtendingSelection: false
-                        )
-                        vc.sidebarOutlineView.scrollRowToVisible(row)
-                    } catch {
-                        let alert = NSAlert()
-                        alert.messageText = error.localizedDescription
-                        alert.runModal()
-                    }
+                    vc.sidebarOutlineView.createProject(in: project, with: name)
                 }
             }
 
@@ -571,11 +551,25 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
             pasteboard.setString(name, forType: NSPasteboard.PasteboardType.string)
             
-            let notification = NSUserNotification()
-            notification.title = "FSNotes"
-            notification.informativeText = NSLocalizedString("URL has been copied to clipboard", comment: "")
-            notification.soundName = NSUserNotificationDefaultSoundName
-            NSUserNotificationCenter.default.deliver(notification)
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                guard settings.authorizationStatus == .notDetermined else { return }
+
+                UNUserNotificationCenter.current().requestAuthorization(
+                    options: [.alert, .sound]
+                ) { _, _ in }
+            }
+
+            let content = UNMutableNotificationContent()
+            content.title = NSLocalizedString("URL has been copied to clipboard", comment: "")
+            content.body = name
+            content.sound = .default
+
+            UNUserNotificationCenter.current().add(
+                UNNotificationRequest(
+                identifier: UUID().uuidString,
+                content: content,
+                trigger: nil
+            ))
         }
     }
     
@@ -754,10 +748,11 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         panel.begin { (result) -> Void in
             if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
-                let project = vc.sidebarOutlineView.getSelectedProject() ?? Storage.shared().getMainProject()
-
-                for url in urls {
-                    _ = vc.copy(project: project, url: url)
+                
+                if let project = vc.sidebarOutlineView.getSelectedProject() ?? Storage.shared().getDefault() {
+                    for url in urls {
+                        _ = vc.copy(project: project, url: url)
+                    }
                 }
             }
         }
@@ -1094,6 +1089,14 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             }
         }
     }
+    
+    public func closeAllOpenedWindows(where note: Note) {
+        for editor in AppDelegate.getOpenedEditTextViews() {
+            if editor.note == note {
+                editor.window?.close()
+            }
+        }
+    }
 
     public func getMasterPassword(forEncrypt: Bool = false, completion: @escaping (String) -> ()) {
         if #available(OSX 10.12.2, *), UserDefaultsManagement.allowTouchID {
@@ -1392,10 +1395,18 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         }
     }
     
-    public func createNote(name: String = "", content: String = "", project: Project? = nil, load: Bool = false, openInNewWindow: Bool = false) -> Note? {
-        
+    public func createNote(name: String = "", content: String = "", folderName: String? = nil, openInNewWindow: Bool = false) -> Note? {
         guard let vc = ViewController.shared() else { return nil }
-
+        var project: Project?
+        
+        if let folderName = folderName {
+            project = vc.sidebarOutlineView.getOrCreateProject(name: folderName)
+            
+            if project?.isEncrypted == true {
+                project = nil
+            }
+        }
+        
         let selectedProjects = vc.sidebarOutlineView.getSidebarProjects()
         var sidebarProject = project ?? selectedProjects?.first
         var text = content
@@ -1418,7 +1429,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
         _ = note.scanContentTags()
 
-        if let selectedProjects = selectedProjects, !selectedProjects.contains(project) {
+        if folderName == nil, let selectedProjects = selectedProjects, !selectedProjects.contains(project) {
             return note
         }
 

@@ -89,7 +89,8 @@ public class Note: NSObject  {
     // Make new
     
     init(name: String? = nil, project: Project? = nil, type: NoteType? = nil, cont: NoteContainer? = nil) {
-        let project = project ?? Storage.shared().getMainProject()
+        let project = project ?? Storage.shared().getDefault()!
+        
         let name = name ?? String()
 
         self.project = project
