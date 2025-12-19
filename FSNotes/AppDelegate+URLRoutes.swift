@@ -105,8 +105,8 @@ extension AppDelegate {
     }
     
     /// Handles URLs with the tag fsnotes://open/?tag=test
-    /// Handles URLs with the tag fsnotes://open/?title=Open+Or+Create+If+Not+Existё
-    /// 
+    /// Handles URLs with the tag fsnotes://open/?title=Open+Or+Create+If+Not+Exist
+    ///
     func RouteFSNotesOpen(_ url: URL) {
         guard let vc = ViewController.shared() else { return }
         
@@ -117,11 +117,25 @@ extension AppDelegate {
         
         if let title = url["title"]?.removingPercentEncoding {
             if let note = Storage.shared().getBy(titleOrName: title) {
+                if let txt = url["txt"] {
+                    
+                    // Append txt
+                    note.append(string: NSMutableAttributedString(string: txt + "\n\n"))
+                    _ = note.save()
+                    
+                    // Set last range
+                    note.setSelectedRange(range: NSRange(location: note.content.length, length: 0))
+                }
+                
+                // Reset UI and focus
                 vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
+                    
                     NSApp.mainWindow?.makeFirstResponder(vc.editor)
                     vc.notesTableView.saveNavigationHistory(note: note)
                 })
+                
+            // Create NEW
             } else {
                 RouteFSNotesNew(url)
             }
