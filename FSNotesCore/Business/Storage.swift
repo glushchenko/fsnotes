@@ -625,6 +625,10 @@ class Storage {
             })
     }
     
+    func getBy(titleOrName: String) -> Note? {
+        return getBy(fileName: titleOrName) ?? getBy(title: titleOrName)
+    }
+    
     func getBy(startWith: String) -> [Note]? {
         return
             noteList.filter{

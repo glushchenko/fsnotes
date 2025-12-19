@@ -22,6 +22,7 @@ extension AppDelegate {
     enum FSNotesRoutes: String {
         case find = "find"
         case new = "new"
+        case open = "open"
     }
     
     enum NvALTRoutes: String {
@@ -34,13 +35,6 @@ extension AppDelegate {
         guard var url = urls.first,
             let scheme = url.scheme
             else { return }
-
-        if url.host == "open" {
-            if let tag = url["tag"]?.removingPercentEncoding {
-                ViewController.shared()?.sidebarOutlineView.select(tag: tag)
-                return
-            }
-        }
 
         let path = url.absoluteString.escapePlus()
         if let escaped = URL(string: path) {
@@ -103,8 +97,34 @@ extension AppDelegate {
             RouteFSNotesFind(url)
         case FSNotesRoutes.new.rawValue:
             RouteFSNotesNew(url)
+        case FSNotesRoutes.open.rawValue:
+            RouteFSNotesOpen(url)
         default:
             break
+        }
+    }
+    
+    /// Handles URLs with the tag fsnotes://open/?tag=test
+    /// Handles URLs with the tag fsnotes://open/?title=Open+Or+Create+If+Not+Existё
+    /// 
+    func RouteFSNotesOpen(_ url: URL) {
+        guard let vc = ViewController.shared() else { return }
+        
+        if let tag = url["tag"]?.removingPercentEncoding {
+            vc.sidebarOutlineView.select(tag: tag)
+            return
+        }
+        
+        if let title = url["title"]?.removingPercentEncoding {
+            if let note = Storage.shared().getBy(titleOrName: title) {
+                vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
+                    vc.notesTableView.selectRowAndSidebarItem(note: note)
+                    NSApp.mainWindow?.makeFirstResponder(vc.editor)
+                    vc.notesTableView.saveNavigationHistory(note: note)
+                })
+            } else {
+                RouteFSNotesNew(url)
+            }
         }
     }
     
@@ -124,12 +144,7 @@ extension AppDelegate {
         var lastPath = url.lastPathComponent
 
         if let wikiURL = url["id"] {
-            var note = Storage.shared().getBy(fileName: wikiURL)
-            if note == nil {
-                note = Storage.shared().getBy(title: wikiURL)
-            }
-            
-            if let note = note {
+            if let note = Storage.shared().getBy(titleOrName: wikiURL) {
                 vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
                     NSApp.mainWindow?.makeFirstResponder(vc.editor)

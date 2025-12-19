@@ -1397,29 +1397,39 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     
     public func createNote(name: String = "", content: String = "", folderName: String? = nil, openInNewWindow: Bool = false) -> Note? {
         guard let vc = ViewController.shared() else { return nil }
+        
+        var text = String()
         var project: Project?
         
         if let folderName = folderName {
             project = vc.sidebarOutlineView.getOrCreateProject(name: folderName)
             
-            if project?.isEncrypted == true {
+            if let existProject = project, existProject.isEncrypted {
                 project = nil
             }
         }
         
         let selectedProjects = vc.sidebarOutlineView.getSidebarProjects()
         var sidebarProject = project ?? selectedProjects?.first
-        var text = content
-        
-        if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {
-            text = "- [ ] "
-        }
+
         
         if sidebarProject == nil {
             sidebarProject = Storage.shared().getDefault()
         }
         
         guard let project = sidebarProject else { return nil }
+                
+        if !name.isEmpty, [.autoRename, .autoRenameNew].contains(UserDefaultsManagement.naming) {
+            text.append("# " + name + "\n\n")
+        }
+        
+        if !content.isEmpty {
+            text.append(content)
+        }
+        
+        if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {
+            text = "- [ ] "
+        }
 
         let note = Note(name: name, project: project)
         note.content = NSMutableAttributedString(string: text)
