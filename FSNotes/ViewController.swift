@@ -1938,6 +1938,9 @@ class ViewController: EditorViewController,
             if let editor = self.editor, let note = editor.note {
                 self.updateCounters(note: note, charRange: range)
             }
+            
+            // Save position
+            editor.note?.setSelectedRange(range: textView.selectedRange())
         }
     
         editor.userActivity?.needsSave = true

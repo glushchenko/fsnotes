@@ -625,7 +625,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override func paste(_ sender: Any?) {
         guard let note = self.note else { return }
-        let start = selectedRange().location
 
         // RTFD
         if let rtfdData = NSPasteboard.general.data(forType: NSPasteboard.attributed),
@@ -638,7 +637,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             insertText(mutable, replacementRange: selectedRange())
             breakUndoCoalescing()
             
-            selectInserted(start: start, length: attributed.length)
             return
         }
 
@@ -653,7 +651,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             insertText(attributed, replacementRange: selectedRange())
             breakUndoCoalescing()
 
-            selectInserted(start: start, length: attributed.length)
             return
         }
 
@@ -672,7 +669,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 insertText(attributed, replacementRange: selectedRange())
                 breakUndoCoalescing()
                 
-                selectInserted(start: start, length: attributed.length)
                 return
             }
         }
@@ -680,11 +676,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         super.paste(sender)
     }
     
-    private func selectInserted(start: Int, length: Int) {
-        let range = NSRange(location: start, length: length)
-        self.setSelectedRange(range)
-    }
-
     override func pasteAsPlainText(_ sender: Any?) {
         let currentRange = selectedRange()
         var plainText: String?

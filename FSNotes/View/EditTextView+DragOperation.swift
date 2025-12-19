@@ -40,13 +40,27 @@ extension EditTextView
             let archivedData = pasteboard.data(forType: NSPasteboard.note),
             let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: archivedData) as? [URL],
             let url = urls.first,
-            let draggableNote = Storage.shared().getBy(url: url)
+            let draggableNote = Storage.shared().getBy(url: url),
+            let textStorage = self.textStorage
         else { return false }
-
+        
         let title = "[[\(draggableNote.title)]]"
+        
         DispatchQueue.main.async {
-            self.insertText(title, replacementRange: replacementRange)
-            self.setSelectedRange(NSRange(location: replacementRange.location + title.count, length: 0))
+            self.window?.makeFirstResponder(self)
+            
+            guard let undoManager = self.undoManager else { return }
+            undoManager.beginUndoGrouping()
+            
+            if self.shouldChangeText(in: replacementRange, replacementString: title) {
+                textStorage.replaceCharacters(in: replacementRange, with: title)
+                self.didChangeText()
+                
+                self.setSelectedRange(NSRange(location: replacementRange.location + title.count, length: 0))
+            }
+            
+            undoManager.endUndoGrouping()
+            undoManager.setActionName("Insert Note Reference")
         }
         
         return true
@@ -64,12 +78,10 @@ extension EditTextView
 
         for (index, url) in urls.enumerated() {
             group.enter()
-
             fetchDataFromURL(url: url) { data, error in
                 defer { group.leave() }
-
                 guard let data = data, error == nil else { return }
-
+                
                 if url.isWebURL {
                     let title = self.getHTMLTitle(from: data) ?? url.lastPathComponent
                     let text = "[\(title)](\(url.absoluteString))"
@@ -78,39 +90,56 @@ extension EditTextView
                           let fileURL = note.getAttachmentFileUrl(
                             name: filePath.removingPercentEncoding ?? filePath
                           ) {
-
                     let attributed = NSMutableAttributedString(
                         url: fileURL,
                         title: "",
                         path: filePath
                     )
-
                     results[index] = attributed
                 }
             }
         }
-
+        
         group.notify(queue: .main) {
             let final = NSMutableAttributedString()
-
             for i in 0..<total {
                 guard let part = results[i] else { continue }
-
                 final.append(part)
-
                 if i < total - 1 {
                     final.append(NSAttributedString(string: "\n\n"))
                 }
             }
-
-            self.insertText(final, replacementRange: replacementRange)
-            self.setSelectedRange(
-                NSRange(location: replacementRange.location + final.length, length: 0)
-            )
-
+            
+            self.window?.makeFirstResponder(self)
+            
+            guard let undoManager = self.undoManager,
+                  let textStorage = self.textStorage else {
+                
+                self.insertText(final, replacementRange: replacementRange)
+                self.setSelectedRange(
+                    NSRange(location: replacementRange.location + final.length, length: 0)
+                )
+                self.viewDelegate?.notesTableView.reloadRow(note: note)
+                return
+            }
+            
+            undoManager.beginUndoGrouping()
+            
+            if self.shouldChangeText(in: replacementRange, replacementString: final.string) {
+                textStorage.replaceCharacters(in: replacementRange, with: final)
+                self.didChangeText()
+                
+                self.setSelectedRange(
+                    NSRange(location: replacementRange.location + final.length, length: 0)
+                )
+            }
+            
+            undoManager.endUndoGrouping()
+            undoManager.setActionName("Insert URLs")
+            
             self.viewDelegate?.notesTableView.reloadRow(note: note)
         }
-
+        
         return true
     }
 
