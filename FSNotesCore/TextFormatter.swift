@@ -805,26 +805,31 @@ public class TextFormatter {
 
     public func toggleTodo(_ location: Int? = nil) {
         if let location = location, let todoAttr = storage.attribute(.todo, at: location, effectiveRange: nil) as? Int {
-            let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
-
-            self.textView.undoManager?.beginUndoGrouping()
-            self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
-
-            self.textView.undoManager?.endUndoGrouping()
-
+            #if os(OSX)
+                if textView.window?.firstResponder != textView {
+                    textView.window?.makeFirstResponder(textView)
+                }
+            #endif
+            
             guard let paragraph = getParagraphRange(for: location) else { return }
+            let paragraphText = storage.attributedSubstring(from: paragraph).mutableCopy() as! NSMutableAttributedString
+
+            let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
+            let checkboxLocation = location - paragraph.location
+            paragraphText.replaceCharacters(in: NSRange(location: checkboxLocation, length: 1),
+                                      with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
             
             if todoAttr == 0 {
-                self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
+                paragraphText.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: paragraphText.length))
             } else {
-                self.storage.removeAttribute(.strikethroughStyle, range: paragraph)
+                paragraphText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: paragraphText.length))
             }
-            
+
+            insertText(paragraphText, replacementRange: paragraph)
+
             if paragraph.contains(location) {
                 textView.typingAttributes[.strikethroughStyle] = (todoAttr == 0) ? 1 : 0
             }
-
-            storage.updateParagraphStyle(range: paragraph)
             
             return
         }

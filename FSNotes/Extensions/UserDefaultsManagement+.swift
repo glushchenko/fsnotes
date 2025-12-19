@@ -13,12 +13,10 @@ import AppKit
 extension UserDefaultsManagement {
     private struct Constants {
         static let AppearanceTypeKey = "appearanceType2025"
-        static let boldKey = "boldKeyed"
         static let codeTheme = "codeTheme"
         static let codeThemeDark = "codeThemeDark"
         static let darkMode = "darkMode"
         static let dockIcon = "dockIcon"
-        static let italicKey = "italicKeyed"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
@@ -183,32 +181,6 @@ extension UserDefaultsManagement {
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
                 shared?.set(data, forKey: Constants.BgColorKey)
             }
-        }
-    }
-    
-    static var italic: String {
-        get {
-            if let returnFontName = shared?.object(forKey: Constants.italicKey) as? String {
-                return returnFontName
-            }
-            
-            return "*"
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.italicKey)
-        }
-    }
-    
-    static var bold: String {
-        get {
-            if let returnFontName = shared?.object(forKey: Constants.boldKey) as? String {
-                return returnFontName
-            }
-            
-            return "__"
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.boldKey)
         }
     }
 }

@@ -59,6 +59,7 @@ public class UserDefaultsManagement {
         static let AutomaticConflictsResolution = "automaticConflictsResolution"
         static let BackupManually = "backupManually"
         static let BgColorKey = "bgColorKeyed"
+        static let boldKey = "boldKeyed"
         static let CacheDiff = "cacheDiff"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
@@ -98,6 +99,7 @@ public class UserDefaultsManagement {
         static let IndentUsing = "indentUsing"
         static let InlineTags = "inlineTags"
         static let IsFirstLaunch = "isFirstLaunch"
+        static let italicKey = "italicKeyed"
         static let LastCommitMessage = "lastCommitMessage"
         static let LastNews = "lastNews"
         static let LastSelectedPath = "lastSelectedPath"
@@ -1757,6 +1759,32 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.IsFirstLaunch)
+        }
+    }
+    
+    static var italic: String {
+        get {
+            if let returnFontName = shared?.object(forKey: Constants.italicKey) as? String {
+                return returnFontName
+            }
+            
+            return "*"
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.italicKey)
+        }
+    }
+    
+    static var bold: String {
+        get {
+            if let returnFontName = shared?.object(forKey: Constants.boldKey) as? String {
+                return returnFontName
+            }
+            
+            return "__"
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.boldKey)
         }
     }
 }
