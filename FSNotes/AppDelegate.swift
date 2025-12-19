@@ -18,6 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     public var url: URL? = nil
     public var newName: String? = nil
     public var newContent: String? = nil
+    public var newWindow: Bool = false
 
     public static var mainWindowController: MainWindowController?
     public static var noteWindows = [NSWindowController]()

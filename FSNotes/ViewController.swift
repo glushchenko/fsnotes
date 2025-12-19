@@ -2014,7 +2014,11 @@ class ViewController: EditorViewController,
             let content = appDelegate.newContent
 
             if nil != name || nil != content {
-                appDelegate.create(name: name ?? "", content: content ?? "")
+                if appDelegate.newWindow, let note = self.createNote(name: name ?? "", content: content ?? "", openInNewWindow: true) {
+                    openInNewWindow(note: note)
+                } else {
+                    _ = self.createNote(name: name ?? "", content: content ?? "", openInNewWindow: appDelegate.newWindow)
+                }
             }
         }
     }

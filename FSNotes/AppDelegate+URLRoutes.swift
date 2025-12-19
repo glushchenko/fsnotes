@@ -179,6 +179,8 @@ extension AppDelegate {
     /// The three possible parameters (title, txt, html) are all optional.
     ///
     func RouteFSNotesNew(_ url: URL) {
+        let newWindow = url["open"] != nil
+        
         var title = ""
         var body = ""
         
@@ -193,22 +195,19 @@ extension AppDelegate {
             body = htmlParam
         }
         
-        guard nil != ViewController.shared() else {
+        guard let vc = ViewController.shared() else {
             self.newName = title
             self.newContent = body
+            self.newWindow = newWindow
             return
         }
-
-        create(name: title, content: body)
+        
+        guard let note = vc.createNote(name: title, content: body, openInNewWindow: newWindow),
+              newWindow else { return }
+        
+        vc.openInNewWindow(note: note)
     }
 
-    func create(name: String, content: String) {
-        guard let controller = ViewController.shared() else { return }
-
-        _ = controller.createNote(name: name, content: content)
-    }
-    
-    
     // MARK: - nvALT routes, for compatibility
     
     func NvALTRouter(_ url: URL) {
@@ -253,6 +252,8 @@ extension AppDelegate {
     /// The four possible parameters (title, txt, html and tags) are all optional.
     ///
     func RouteNvAltMake(_ url: URL) {
+        let newWindow = url["open"] != nil
+        
         var title = ""
         var body = ""
         
@@ -271,8 +272,16 @@ extension AppDelegate {
             body = body.appending("\n\nnvALT tags: \(tagsParam)")
         }
         
-        guard let controller = ViewController.shared() else { return }
+        guard let vc = ViewController.shared() else {
+            self.newName = title
+            self.newContent = body
+            self.newWindow = newWindow
+            return
+        }
         
-        _ = controller.createNote(name: title, content: body)
+        guard let note = vc.createNote(name: title, content: body, openInNewWindow: newWindow),
+              newWindow else { return }
+        
+        vc.openInNewWindow(note: note)
     }
 }
