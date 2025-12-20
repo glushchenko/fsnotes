@@ -13,12 +13,13 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet weak var cellSpacing: NSSlider!
-    @IBOutlet weak var textMatchAutoSelection: NSButton!
     @IBOutlet weak var previewFontSize: NSPopUpButton!
     @IBOutlet weak var hideImagesPreview: NSButton!
     @IBOutlet weak var hidePreview: NSButton!
     @IBOutlet weak var hideDate: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
+    @IBOutlet weak var showDockIcon: NSButton!
+    @IBOutlet weak var showInMenuBar: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -39,8 +40,10 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
 
-        textMatchAutoSelection.state = UserDefaultsManagement.textMatchAutoSelection ? .on : .off
-
+        showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
+        
+        showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
+        
         previewFontSize.selectItem(withTag: UserDefaultsManagement.previewFontSize)
 
         hideImagesPreview.state = UserDefaultsManagement.hidePreviewImages ? .on : .off
@@ -48,18 +51,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
-    }
-
-    @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
-        // We don't need to set the user defaults value here as the checkbox is
-        // bound to it. We do need to update each window's hideOnDeactivate.
-        for window in NSApplication.shared.windows {
-            if window.className == "NSStatusBarWindow" {
-                continue
-            }
-
-            window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
-        }
     }
 
     @IBAction func verticalOrientation(_ sender: Any) {
@@ -105,10 +96,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         vc.notesTableView.reloadData()
     }
 
-    @IBAction func textMatchAutoSelection(_ sender: NSButton) {
-        UserDefaultsManagement.textMatchAutoSelection = (sender.state == .on)
-    }
-
     @IBAction func hideImagesPreview(_ sender: NSButton) {
         UserDefaultsManagement.hidePreviewImages = sender.state == .on
 
@@ -142,5 +129,30 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
+    }
+    
+    @IBAction func showDockIcon(_ sender: NSButton) {
+        let isEnabled = sender.state == .on
+        UserDefaultsManagement.showDockIcon = isEnabled
+
+        NSApp.setActivationPolicy(isEnabled ? .regular : .accessory)
+
+        DispatchQueue.main.async {
+            NSMenu.setMenuBarVisible(true)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+    
+    @IBAction func showInMenuBar(_ sender: NSButton) {
+        UserDefaultsManagement.showInMenuBar = sender.state == .on
+
+        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
+
+        if sender.state == .off {
+            appDelegate.removeMenuBar(nil)
+            return
+        }
+
+        appDelegate.addMenuBar(nil)
     }
 }
