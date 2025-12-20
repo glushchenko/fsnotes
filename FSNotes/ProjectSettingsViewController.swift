@@ -89,6 +89,8 @@ class ProjectSettingsViewController: SettingsViewController {
     }
 
     public func load(project: Project) {
+        self.project = project
+        
         if project.isVirtual {
             showInAll.isEnabled = false
             nestedFoldersContent.isEnabled = false

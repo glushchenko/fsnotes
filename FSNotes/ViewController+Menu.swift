@@ -23,6 +23,7 @@ extension ViewController {
               let id = menuItem.identifier?.rawValue else { return false }
                         
         let isFirstResponder = evc.view.window?.firstResponder?.isKind(of: NotesTableView.self) == true
+        let isFirstEditor = evc.view.window?.firstResponder?.isKind(of: EditTextView.self) == true
         let isOpenedWindow = NSApplication.shared.keyWindow?.contentViewController?.isKind(of: NoteViewController.self) == true
         
         let notes = vc.getSelectedNotes()
@@ -65,7 +66,7 @@ extension ViewController {
             
         case "\(menuId).rename":
             menuItem.title = NSLocalizedString("Rename", comment: "File Menu")
-            return isOne && isFirstResponder
+            return isOne && isFirstResponder || (isFirstEditor && !isOpenedWindow)
             
         case "\(menuId).delete":
             menuItem.title = NSLocalizedString("Delete", comment: "File Menu")

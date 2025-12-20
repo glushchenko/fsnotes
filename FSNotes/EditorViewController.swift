@@ -1417,14 +1417,19 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             sidebarProject = Storage.shared().getDefault()
         }
         
-        guard let project = sidebarProject else { return nil }
+        guard let project = sidebarProject, !project.isLocked() else { return nil }
                 
-        if !name.isEmpty, [.autoRename, .autoRenameNew].contains(UserDefaultsManagement.naming) {
+        if !name.isEmpty, [.autoRename, .autoRenameNew].contains(UserDefaultsManagement.naming) && UserDefaultsManagement.autoInsertHeader {
             text.append("# " + name + "\n\n")
         }
         
         if !content.isEmpty {
             text.append(content)
+        }
+        
+        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
+        if !inlineTags.isEmpty {
+            text.append(inlineTags)
         }
         
         if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {

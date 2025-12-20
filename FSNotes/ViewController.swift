@@ -949,32 +949,8 @@ class ViewController: EditorViewController,
             vc.sidebarOutlineView.deselectAllRows()
         }
 
-        let value = sender.stringValue
-        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
-
-        if (value.count > 0) {
-            search.stringValue = String()
-            editor.clear()
-            var content = String()
-
-            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.shared().getDefault()
-
-            if UserDefaultsManagement.fileFormat == .Markdown, (
-                UserDefaultsManagement.naming == .autoRename || UserDefaultsManagement.naming == .autoRenameNew
-                ),
-                UserDefaultsManagement.autoInsertHeader,
-                UserDefaultsManagement.firstLineAsTitle || selectedProject?.settings.firstLineAsTitle == true {
-                content.append("# \(value)\n\n")
-            }
-
-            if (inlineTags.count > 0) {
-                content.append(inlineTags)
-            }
-
-            _ = createNote(name: value, content: content)
-        } else {
-            _ = createNote(content: inlineTags)
-        }
+        _ = createNote(name: sender.stringValue)
+        sender.stringValue = String()
     }
     
     @IBAction func fileMenuNewNote(_ sender: Any) {
