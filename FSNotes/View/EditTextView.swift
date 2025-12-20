@@ -1063,7 +1063,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             saveSelectedRange()
         }
         
-        // fixes backtick marked text 
+        // fixes backtick marked text
         if event.keyCode == kVK_ANSI_Grave {
             super.insertText("`", replacementRange: selectedRange())
             return
@@ -1084,26 +1084,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         guard let note = self.note else { return }
         
-        let brackets = [
-            "(" : ")",
-            "[" : "]",
-            "{" : "}",
-            "\"" : "\"",
-        ]
-        
+        // Handle autoclose brackets
         if UserDefaultsManagement.autocloseBrackets,
-            let openingBracket = event.characters,
-            let closingBracket = brackets[openingBracket] {
-            if selectedRange().length > 0 {
-                let before = NSMakeRange(selectedRange().lowerBound, 0)
-                self.insertText(openingBracket, replacementRange: before)
-                let after = NSMakeRange(selectedRange().upperBound, 0)
-                self.insertText(closingBracket, replacementRange: after)
-            } else {
-                super.keyDown(with: event)
-                self.insertText(closingBracket, replacementRange: selectedRange())
-                self.moveBackward(self)
-            }
+           handleAutocloseBrackets(for: event) {
             return
         }
 
@@ -1136,7 +1119,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 breakUndoCoalescing()
                 return
             }
-
             super.keyDown(with: event)
             return
         }
@@ -1158,18 +1140,70 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
 
             if storage.length > location, let link = textStorage?.attribute(.link, at: location, effectiveRange: nil) as? String {
-
                 if link.isValidEmail(), let mail = URL(string: "mailto:\(link)") {
                     NSWorkspace.shared.open(mail)
                 } else if let url = URL(string: link) {
                     _ = try? NSWorkspace.shared.open(url, options: .default, configuration: [:])
                 }
             }
-
             return
         }
         
         super.keyDown(with: event)
+    }
+
+    // MARK: - Autoclose Brackets
+
+    private func handleAutocloseBrackets(for event: NSEvent) -> Bool {
+        let brackets: [String: String] = [
+            "(" : ")",
+            "[" : "]",
+            "{" : "}",
+            "\"" : "\""
+        ]
+        
+        guard let character = event.characters else {
+            return false
+        }
+        
+        // Check if user is typing a closing bracket
+        let closingBrackets = Array(brackets.values)
+        if closingBrackets.contains(character) {
+            // Check if the next character is the same closing bracket
+            let currentRange = selectedRange()
+            if currentRange.length == 0,
+               let storage = textStorage,
+               currentRange.location < storage.length {
+                let nextCharRange = NSRange(location: currentRange.location, length: 1)
+                let nextCharString = storage.attributedSubstring(from: nextCharRange).string
+                
+                if nextCharString == character {
+                    // Skip the closing bracket and move cursor forward
+                    setSelectedRange(NSMakeRange(currentRange.location + 1, 0))
+                    return true
+                }
+            }
+        }
+        
+        // Handle opening brackets
+        guard let closingBracket = brackets[character] else {
+            return false
+        }
+        
+        if selectedRange().length > 0 {
+            // Wrap selection with brackets
+            let before = NSMakeRange(selectedRange().lowerBound, 0)
+            self.insertText(character, replacementRange: before)
+            let after = NSMakeRange(selectedRange().upperBound, 0)
+            self.insertText(closingBracket, replacementRange: after)
+        } else {
+            // Insert bracket pair
+            super.keyDown(with: event)
+            self.insertText(closingBracket, replacementRange: selectedRange())
+            self.moveBackward(self)
+        }
+        
+        return true
     }
     
     override func shouldChangeText(in range: NSRange, replacementString: String?) -> Bool {
