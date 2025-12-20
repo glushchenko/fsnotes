@@ -805,6 +805,8 @@ public class TextFormatter {
 
     public func toggleTodo(_ location: Int? = nil) {
         if let location = location, let todoAttr = storage.attribute(.todo, at: location, effectiveRange: nil) as? Int {
+            let selectedRange = textView.selectedRange
+            
             #if os(OSX)
                 if textView.window?.firstResponder != textView {
                     textView.window?.makeFirstResponder(textView)
@@ -825,7 +827,7 @@ public class TextFormatter {
                 paragraphText.removeAttribute(.strikethroughStyle, range: NSRange(location: 0, length: paragraphText.length))
             }
 
-            insertText(paragraphText, replacementRange: paragraph)
+            insertText(paragraphText, replacementRange: paragraph, selectRange: selectedRange)
 
             if paragraph.contains(location) {
                 textView.typingAttributes[.strikethroughStyle] = (todoAttr == 0) ? 1 : 0
@@ -834,62 +836,21 @@ public class TextFormatter {
             return
         }
 
-        guard var paragraphRange = getParagraphRange() else { return }
-
-        if let location = location {
-            let string = self.storage.string as NSString
-            paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
-        } else {
-            guard let attributedText = AttributedBox.getUnChecked() else { return }
-
-            // Toggle render if exist in current paragraph
-            var rangeFound = false
-            let attributedParagraph = self.storage.attributedSubstring(from: paragraphRange)
-            attributedParagraph.enumerateAttribute(.todo, in: NSRange(0..<attributedParagraph.length), options: []) { value, range, stop in
-
-                if let value = value as? Int {
-                    let attributedText = (value == 0) ? AttributedBox.getCleanChecked() : AttributedBox.getCleanUnchecked()
-                    let existsRange = NSRange(location: paragraphRange.lowerBound + range.location, length: 1)
-
-                    self.textView.undoManager?.beginUndoGrouping()
-                    self.storage.replaceCharacters(in: existsRange, with: attributedText)
-                    self.textView.undoManager?.endUndoGrouping()
-
-                    stop.pointee = true
-                    rangeFound = true
-                }
-            }
-
-            guard !rangeFound else { return }
-
-#if os(iOS)
-            if let selTextRange = self.textView.selectedTextRange {
-                let newRange = NSRange(location: self.textView.selectedRange.location, length: attributedText.length)
-                self.textView.undoManager?.beginUndoGrouping()
-                self.textView.replace(selTextRange, withText: attributedText.string)
-                self.storage.replaceCharacters(in: newRange, with: attributedText)
-                self.textView.undoManager?.endUndoGrouping()
-            }
-#else
-            self.insertText(attributedText)
-#endif
-            return
-        }
-        
+        guard let paragraphRange = getParagraphRange() else { return }
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
         
-        if let index = paragraph.string.range(of: "- [ ]") {
+        if let index = paragraph.string.range(of: "- [ ] ") {
             let local = paragraph.string.nsRange(from: index).location
-            let range = NSMakeRange(paragraphRange.location + local, 5)
+            let range = NSMakeRange(paragraphRange.location + local, 6)
             if let attributedText = AttributedBox.getChecked() {
                 self.insertText(attributedText, replacementRange: range)
             }
             
             return
 
-        } else if let index = paragraph.string.range(of: "- [x]") {
+        } else if let index = paragraph.string.range(of: "- [x] ") {
             let local = paragraph.string.nsRange(from: index).location
-            let range = NSMakeRange(paragraphRange.location + local, 5)
+            let range = NSMakeRange(paragraphRange.location + local, 6)
             if let attributedText = AttributedBox.getUnChecked() {
                 self.insertText(attributedText, replacementRange: range)
             }

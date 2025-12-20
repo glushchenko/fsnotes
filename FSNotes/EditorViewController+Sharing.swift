@@ -45,15 +45,17 @@ extension EditorViewController: NSSharingServicePickerDelegate {
         
     public func saveTextAtClipboard() {
         if let note = vcEditor?.note {
+            let unloadedText = note.content.unloadTasks()
             let pasteboard = NSPasteboard.general
             pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-            pasteboard.setString(note.content.string, forType: NSPasteboard.PasteboardType.string)
+            pasteboard.setString(unloadedText.string, forType: NSPasteboard.PasteboardType.string)
         }
     }
     
     public func saveHtmlAtClipboard() {
         if let note = vcEditor?.note {
-            if let render = renderMarkdownHTML(markdown: note.content.string) {
+            let unloadedText = note.content.unloadTasks()
+            if let render = renderMarkdownHTML(markdown: unloadedText.string) {
                 let pasteboard = NSPasteboard.general
                 pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
                 pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)
