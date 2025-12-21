@@ -11,9 +11,14 @@ class SearchQuery {
     var projects = [Project]()
     var tags = [String]()
     var terms: [Substring]? = nil
+    var tagsAnd: Bool = false
     public var filter = String()
 
     init() {}
+    
+    public func tagsModifierAnd(_ value: Bool = false) {
+        tagsAnd = value
+    }
 
     public func setType(_ type: SidebarItemType) {
         self.type = type
@@ -45,7 +50,13 @@ class SearchQuery {
                 self.tags.count == 0
                 || UserDefaultsManagement.inlineTags
                     && self.tags.count > 0
-                    && note.tags.filter({ self.tags.count > 0 && self.contains(tag: $0, in: self.tags) }).count > 0
+                    && (
+                        !tagsAnd && note.tags.filter(
+                            { self.contains(tag: $0, in: self.tags) }
+                        ).count > 0
+                        || tagsAnd && Set(self.tags).isSubset(of: Set(note.tags))
+                        
+                    )
             ) && !(
                 note.project.isEncrypted &&
                 note.project.isLocked()

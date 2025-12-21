@@ -1416,6 +1416,14 @@ class ViewController: EditorViewController,
 
         if let sidebarTags = sidebarOutlineView.getSidebarTags() {
             tags = sidebarTags
+            
+            let currentModifiers = NSEvent.modifierFlags
+            let isCommandPressed = currentModifiers.contains(.command)
+            let isShiftPressed = currentModifiers.contains(.shift)
+            
+            if isCommandPressed && isShiftPressed {
+                searchQuery.tagsModifierAnd(true)
+            }
         }
 
         if let sidebarTableView = self.sidebarOutlineView {
