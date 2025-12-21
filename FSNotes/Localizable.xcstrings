@@ -4266,6 +4266,9 @@
         }
       }
     },
+    "Done" : {
+
+    },
     "Duplicate" : {
       "comment" : "File Menu",
       "localizations" : {
@@ -12037,6 +12040,9 @@
           }
         }
       }
+    },
+    "Search" : {
+
     },
     "Search and create" : {
       "localizations" : {

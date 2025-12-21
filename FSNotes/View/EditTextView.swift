@@ -22,7 +22,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     public var timer: Timer?
     public var tagsTimer: Timer?
-    public var markdownView: MPreviewView?
+    public var markdownView: MPreviewContainerView?
     public var isLastEdited: Bool = false
     
     @IBOutlet weak var previewMathJax: NSMenuItem!
@@ -838,18 +838,21 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         if markdownView == nil {
             let frame = scrollView.bounds
-            markdownView = MPreviewView(frame: frame, note: note, closure: {})
-            markdownView?.setEditorVC(evc: editorViewController)
-            if let view = self.markdownView, self.note == note {
-                scrollView.addSubview(view)
+            
+            let containerView = MPreviewContainerView(frame: frame, note: note, closure: {})
+            markdownView = containerView
+            
+            containerView.webView.setEditorVC(evc: editorViewController)
+            if self.note == note {
+                scrollView.addSubview(containerView)
             }
         } else {
             /// Resize markdownView
             let frame = scrollView.bounds
-            markdownView?.frame = frame
+            markdownView?.webView.frame = frame
 
             /// Load note if needed
-            markdownView?.load(note: note, force: force)
+            markdownView?.webView.load(note: note, force: force)
         }
     }
 

@@ -73,15 +73,29 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             case "folderMenu":
                 return vc.processLibraryMenuItems(menuItem, menuId: title)
             case "findMenu":
-                if ["findMenu.find",
-                    "findMenu.findAndReplace",
-                    "findMenu.next",
-                    "findMenu.prev"
-                ].contains(menuItem.identifier?.rawValue), vc.notesTableView.selectedRow > -1 {
-                    return true
+                guard let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
+                      evc.vcEditor?.note != nil else { return false }
+                        
+                if evc.vcEditor?.markdownView == nil {
+                    if ["findMenu.find",
+                        "findMenu.findAndReplace",
+                        "findMenu.next",
+                        "findMenu.prev",
+                        "findMenu.selectionToFind"
+                    ].contains(menuItem.identifier?.rawValue) {
+                        return true
+                    }
+                } else {
+                    if ["findMenu.find",
+                        "findMenu.next",
+                        "findMenu.prev",
+                        "findMenu.selectionToFind"
+                    ].contains(menuItem.identifier?.rawValue) {
+                        return true
+                    }
                 }
-                
-                return vc.editAreaScroll.isFindBarVisible || vc.editor.hasFocus()
+
+                return false
             case "viewSortBy":
                 let iconName = UserDefaultsManagement.sortDirection ? "arrow.down" : "arrow.up"
                 

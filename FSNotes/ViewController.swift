@@ -765,6 +765,12 @@ class ViewController: EditorViewController,
                 return false
             }
 
+            if let mView = self.editor.markdownView, mView.isFindPanelVisible {
+                mView.hideFindPanel()
+                NSApp.mainWindow?.makeFirstResponder(mView.webView)
+                return false
+            }
+            
             if self.editAreaScroll.isFindBarVisible {
                 cancelTextSearch()
                 NSApp.mainWindow?.makeFirstResponder(editor)
@@ -805,13 +811,21 @@ class ViewController: EditorViewController,
         if (event.characters?.unicodeScalars.first == "f" && event.modifierFlags.contains(.command) && !event.modifierFlags.contains(.control)) {
             if self.notesTableView.getSelectedNote() != nil {
                 if search.stringValue.count > 0 {
-                    let pb = NSPasteboard(name: NSPasteboard.Name.find)
-                    pb.declareTypes([.textFinderOptions, .string], owner: nil)
-                    pb.setString(search.stringValue, forType: NSPasteboard.PasteboardType.string)
+                    let fullText = search.stringValue
+                    let startIndex = fullText.startIndex
+                    
+                    let range = search.selectedRange
+                    let selectionStart = fullText.index(startIndex, offsetBy: range.location)
+                    
+                    let textBefore = String(fullText[startIndex..<selectionStart])
+                    
+                    if !textBefore.isEmpty {
+                        let pb = NSPasteboard(name: .find)
+                        pb.declareTypes([.textFinderOptions, .string], owner: nil)
+                        pb.setString(textBefore, forType: .string)
+                    }
                 }
 
-                //Turn off preview mode as text search works only in text editor
-                disablePreview()
                 return true
             }
         }
@@ -1787,19 +1801,17 @@ class ViewController: EditorViewController,
     }
 
     @IBAction func textFinder(_ sender: NSMenuItem) {
-        guard let vc = ViewController.shared() else { return }
-
-        if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
-
-            if vcEditor?.isPreviewEnabled() == true && vc.notesTableView.selectedRow > -1 {
-                vc.disablePreview()
-            }
-
-            let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-            menu.tag = NSTextFinder.Action.showFindInterface.rawValue
-            vc.editor.performTextFinderAction(menu)
+        
+        guard let vc = ViewController.shared(),
+              let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
+              evc.vcEditor?.note != nil
+        else { return }
+        
+        if let mView = evc.vcEditor?.markdownView {
+            mView.performTextFinderAction(sender)
+            return
         }
-
+        
         vc.editor.performTextFinderAction(sender)
     }
 

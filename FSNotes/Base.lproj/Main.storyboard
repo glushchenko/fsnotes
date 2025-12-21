@@ -282,28 +282,28 @@ CA
                                                 <items>
                                                     <menuItem title="Find…" tag="1" keyEquivalent="f" identifier="findMenu.find" id="Xz5-n4-O0W">
                                                         <connections>
-                                                            <action selector="textFinder:" target="L4m-js-agn" id="mFD-Ug-i7L"/>
+                                                            <action selector="textFinder:" target="Ady-hI-5gd" id="2Cg-JO-owM"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Find and Replace…" tag="12" keyEquivalent="f" identifier="findMenu.findAndReplace" id="YEy-JH-Tfz">
                                                         <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                                         <connections>
-                                                            <action selector="textFinder:" target="L4m-js-agn" id="Poh-Ps-jaI"/>
+                                                            <action selector="textFinder:" target="Ady-hI-5gd" id="0qw-zr-Yhp"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Find Next" tag="2" keyEquivalent="g" identifier="findMenu.next" id="q09-fT-Sye">
                                                         <connections>
-                                                            <action selector="textFinder:" target="L4m-js-agn" id="nrJ-XJ-kW7"/>
+                                                            <action selector="textFinder:" target="Ady-hI-5gd" id="fIz-Br-Zj3"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Find Previous" tag="3" keyEquivalent="G" identifier="findMenu.prev" id="OwM-mh-QMV">
                                                         <connections>
-                                                            <action selector="textFinder:" target="L4m-js-agn" id="8pM-AX-2ZQ"/>
+                                                            <action selector="textFinder:" target="Ady-hI-5gd" id="gEq-hu-Qc3"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="buJ-ug-pKt">
+                                                    <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" identifier="findMenu.selectionToFind" id="buJ-ug-pKt">
                                                         <connections>
-                                                            <action selector="textFinder:" target="L4m-js-agn" id="GBc-WR-Uoi"/>
+                                                            <action selector="textFinder:" target="Ady-hI-5gd" id="pyk-IL-ame"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem title="Jump to Selection" keyEquivalent="j" id="S0p-oC-mLd">
@@ -2511,7 +2511,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs" customClass="AboutImageView" customModule="FSNotes" customModuleProvider="target">
-                                <rect key="frame" x="243" y="461" width="67" height="70"/>
+                                <rect key="frame" x="244" y="461" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
@@ -2519,7 +2519,7 @@ Gw
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="243" y="400" width="67" height="17"/>
+                                <rect key="frame" x="244" y="400" width="67" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2530,7 +2530,7 @@ Gw
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="125" y="300" width="304" height="32"/>
+                                <rect key="frame" x="126" y="300" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Copyright © 2017-2024 Oleksandr Hlushchenko.
@@ -2543,7 +2543,7 @@ All rights reserved.</string>
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="204" y="425" width="146" height="16"/>
+                                <rect key="frame" x="205" y="425" width="146" height="16"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2556,7 +2556,7 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="517" height="32"/>
+                                <rect key="frame" x="18" y="20" width="519" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2569,7 +2569,7 @@ Olena Hlushcneko</string>
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
-                                <rect key="frame" x="234" y="60" width="85" height="16"/>
+                                <rect key="frame" x="235" y="60" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Icons design:" id="FKf-Ph-LiA">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2577,7 +2577,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="239" y="264" width="76" height="16"/>
+                                <rect key="frame" x="240" y="264" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2585,10 +2585,10 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="513" height="5"/>
+                                <rect key="frame" x="20" y="381" width="515" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="250" y="347" width="54" height="16"/>
+                                <rect key="frame" x="251" y="347" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2596,13 +2596,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="513" height="160"/>
+                                <rect key="frame" x="20" y="96" width="515" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="511" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="513" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="511" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="513" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2644,7 +2644,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="365.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="367.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -2657,11 +2657,11 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Svh-Z4-DD5">
-                                                            <rect key="frame" x="139.5" y="0.0" width="363" height="24"/>
+                                                            <rect key="frame" x="140" y="0.0" width="364" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
-                                                                    <rect key="frame" x="0.0" y="4" width="363" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="4" width="364" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zoX-MN-b3x">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
