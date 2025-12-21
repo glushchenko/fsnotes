@@ -1800,21 +1800,6 @@ class ViewController: EditorViewController,
         ViewController.shared()?.sidebarOutlineView.reloadSidebar()
     }
 
-    @IBAction func textFinder(_ sender: NSMenuItem) {
-        
-        guard let vc = ViewController.shared(),
-              let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
-              evc.vcEditor?.note != nil
-        else { return }
-        
-        if let mView = evc.vcEditor?.markdownView {
-            mView.performTextFinderAction(sender)
-            return
-        }
-        
-        vc.editor.performTextFinderAction(sender)
-    }
-
     @IBAction func prevHistory(_ sender: NSMenuItem) {
         guard let vc = ViewController.shared() else { return }
 

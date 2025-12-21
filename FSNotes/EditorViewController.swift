@@ -252,6 +252,21 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     
     // MARK: Window bar actions
     
+    @IBAction func textFinder(_ sender: NSMenuItem) {
+        guard let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
+              evc.vcEditor?.note != nil
+        else { return }
+        
+        if let mView = evc.vcEditor?.markdownView {
+            mView.performTextFinderAction(sender)
+            return
+        }
+        
+        if let editView = evc.vcEditor {
+            editView.performFindPanelAction(sender)
+        }
+    }
+    
     @IBAction func fsToggleLockItem(_ sender: NSMenuItem) {
         guard let vc = ViewController.shared() else { return }
         

@@ -4125,7 +4125,7 @@ Olena Hlushcneko</string>
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="16L-Vf-Qjb" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
+                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="16L-Vf-Qjb" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>

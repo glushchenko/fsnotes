@@ -849,7 +849,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         } else {
             /// Resize markdownView
             let frame = scrollView.bounds
-            markdownView?.webView.frame = frame
+            markdownView?.frame = frame
 
             /// Load note if needed
             markdownView?.webView.load(note: note, force: force)
