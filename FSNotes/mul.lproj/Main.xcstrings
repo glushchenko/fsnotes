@@ -115,6 +115,18 @@
         }
       }
     },
+    "0o7-iB-dtg.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Activate:\"; ObjectID = \"0o7-iB-dtg\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activate:"
+          }
+        }
+      }
+    },
     "0Qp-Is-dNs.placeholderString" : {
       "comment" : "Class = \"NSTextFieldCell\"; placeholderString = \"example.com\"; ObjectID = \"0Qp-Is-dNs\";",
       "extractionState" : "extracted_with_value",

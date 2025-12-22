@@ -471,6 +471,10 @@ class ViewController: EditorViewController,
             self.quickNote(self)
         })
         
+        MASShortcutMonitor.shared().register(UserDefaultsManagement.activateShortcut, withAction: {
+            self.searchShortcut(activate: true)
+        })
+        
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.flagsChanged) {
             return $0
         }
@@ -1566,7 +1570,7 @@ class ViewController: EditorViewController,
         }
     }
     
-    func searchShortcut() {
+    func searchShortcut(activate: Bool = false) {
         guard let mainWindow = MainWindowController.shared() else { return }
 
         if (
@@ -1587,7 +1591,9 @@ class ViewController: EditorViewController,
         guard let controller = mainWindow.contentViewController as? ViewController
             else { return }
         
-        mainWindow.makeFirstResponder(controller.search)
+        if !activate {
+            mainWindow.makeFirstResponder(controller.search)
+        }
     }
     
     func moveNoteToTop(note index: Int) {

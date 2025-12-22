@@ -19,6 +19,7 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet var newNoteshortcutView: MASShortcutView!
     @IBOutlet var searchNotesShortcut: MASShortcutView!
+    @IBOutlet var activateShortcut: MASShortcutView!
     @IBOutlet weak var quickNote: MASShortcutView!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
     @IBOutlet weak var searchFocusOnESC: NSButton!
@@ -174,10 +175,12 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
         searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
         quickNote.shortcutValue = UserDefaultsManagement.quickNoteShortcut
+        activateShortcut.shortcutValue = UserDefaultsManagement.activateShortcut
 
         newNoteshortcutView.shortcutValidator.allowAnyShortcutWithOptionModifier = true
         searchNotesShortcut.shortcutValidator.allowAnyShortcutWithOptionModifier = true
         quickNote.shortcutValidator.allowAnyShortcutWithOptionModifier = true
+        activateShortcut.shortcutValidator.allowAnyShortcutWithOptionModifier = true
 
         newNoteshortcutView.shortcutValueChange = { (sender) in
             if ((self.newNoteshortcutView.shortcutValue) != nil) {
@@ -231,6 +234,23 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
                 })
             } else {
                 UserDefaultsManagement.quickNoteShortcut = nil
+            }
+        }
+        
+        activateShortcut.shortcutValueChange = { (sender) in
+            mas?.unregisterShortcut(UserDefaultsManagement.activateShortcut)
+            
+            if ((self.activateShortcut.shortcutValue) != nil) {
+                let keyCode = self.activateShortcut.shortcutValue.keyCode
+                let modifierFlags = self.activateShortcut.shortcutValue.modifierFlags
+
+                UserDefaultsManagement.activateShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+
+                MASShortcutMonitor.shared().register(self.activateShortcut.shortcutValue, withAction: {
+                    vc.searchShortcut(activate: true)
+                })
+            } else {
+                UserDefaultsManagement.activateShortcut = nil
             }
         }
     }

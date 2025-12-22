@@ -12,6 +12,8 @@ import AppKit
 
 extension UserDefaultsManagement {
     private struct Constants {
+        static let ActivateKeyCode = "activateKeyCode"
+        static let ActivateKeyModifier = "activateKeyModifier"
         static let AppearanceTypeKey = "appearanceType2025"
         static let codeTheme = "codeTheme"
         static let codeThemeDark = "codeThemeDark"
@@ -111,6 +113,31 @@ extension UserDefaultsManagement {
 
             UserDefaults.standard.set(code, forKey: Constants.SearchNoteKeyCode)
             UserDefaults.standard.set(modifier, forKey: Constants.SearchNoteKeyModifier)
+        }
+    }
+    
+    static var activateShortcut: MASShortcut? {
+        get {
+            let code = UserDefaults.standard.object(forKey: Constants.ActivateKeyCode)
+            let modifier = UserDefaults.standard.object(forKey: Constants.ActivateKeyModifier)
+
+            if code != nil && modifier != nil, let keyCode = code as? UInt, let modifierFlags = modifier as? UInt {
+
+                if (code as? Int) == 0 && (modifier as? Int) == 0 {
+                    return nil
+                }
+
+                return MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+            }
+
+            return MASShortcut(keyCode: 40, modifierFlags: 917504)
+        }
+        set {
+            let code = newValue?.keyCode ?? 0
+            let modifier = newValue?.modifierFlags ?? 0
+
+            UserDefaults.standard.set(code, forKey: Constants.ActivateKeyCode)
+            UserDefaults.standard.set(modifier, forKey: Constants.ActivateKeyModifier)
         }
     }
 
