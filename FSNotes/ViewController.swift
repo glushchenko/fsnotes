@@ -32,6 +32,7 @@ class ViewController: EditorViewController,
     private var selectRowTimer = Timer()
 
     private let searchQueue = OperationQueue()
+    private let counterQueue = OperationQueue()
 
     public static var gitQueue = OperationQueue()
     public static var gitQueueBusy: Bool = false
@@ -1283,14 +1284,29 @@ class ViewController: EditorViewController,
             return
         }
         
-        if let charRange = charRange, charRange.length > 0 {
-            if let string = note.content.string.substring(nsRange: charRange) {
-                self.counter.stringValue = "W: \(string.countWords()) | C: \(string.countChars())"
-                return
+        counterQueue.cancelAllOperations()
+        
+        let operation = BlockOperation()
+        operation.addExecutionBlock { [weak self] in
+            var title = String()
+            
+            if let charRange = charRange, charRange.length > 0 {
+                if let string = note.content.string.substring(nsRange: charRange) {
+                    title = "W: \(string.countWords()) | C: \(string.countChars())"
+                    
+                }
+            } else {
+                title = "W: \(note.content.string.countWords()) | C: \(note.content.string.countChars())"
+            }
+            
+            if operation.isCancelled { return }
+            
+            DispatchQueue.main.async {
+                self?.counter.stringValue = title
             }
         }
-                
-        self.counter.stringValue = "W: \(note.content.string.countWords()) | C: \(note.content.string.countChars())"
+            
+        counterQueue.addOperation(operation)
     }
     
     
