@@ -331,14 +331,50 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             self.isEditable = true
         }
 
+        let range = selectedRange
+        if handleTodo(event) {
+            self.window?.makeFirstResponder(nil)
+            setSelectedRange(range)
+            self.window?.makeFirstResponder(self)
+            return
+        }
+        
         dragDetected = false
-        saveSelectedRange()
         super.mouseDown(with: event)
+        saveSelectedRange()
 
         if !self.dragDetected {
             self.handleClick(event)
             self.dragDetected = false
         }
+    }
+    
+    private func handleTodo(_ event: NSEvent) -> Bool {
+        guard let container = self.textContainer,
+              let manager = self.layoutManager
+        else { return false }
+
+        let point = self.convert(event.locationInWindow, from: nil)
+        let properPoint = NSPoint(x: point.x - textContainerInset.width, y: point.y)
+
+        let index = manager.characterIndex(for: properPoint, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
+
+        guard glyphRect.contains(properPoint) else { return false }
+        
+        if isTodo(index) {
+            guard let f = self.getTextFormatter() else { return false }
+            f.toggleTodo(index)
+
+            DispatchQueue.main.async {
+                NSCursor.pointingHand.set()
+            }
+
+            return true
+        }
+        
+        return false
     }
 
     private func handleClick(_ event: NSEvent) {
@@ -354,22 +390,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
 
         guard glyphRect.contains(properPoint) else { return }
-
-        if isTodo(index) {
-            guard let f = self.getTextFormatter() else {
-                return
-            }
-
-            f.toggleTodo(index)
-
-            NSApp.mainWindow?.makeFirstResponder(nil)
-
-            DispatchQueue.main.async {
-                NSCursor.pointingHand.set()
-            }
-
-            return
-        }
 
         if hasAttachment(at: index) {
             if event.modifierFlags.contains(.command) {
@@ -1336,11 +1356,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     func saveSelectedRange() {
-        guard let note = self.note, let range = selectedRanges[0] as? NSRange else {
-            return
-        }
-
-        note.setSelectedRange(range: range) 
+        guard let note = self.note else { return }
+        note.setSelectedRange(range: selectedRange)
     }
     
     func loadSelectedRange() {
