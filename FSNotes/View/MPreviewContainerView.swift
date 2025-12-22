@@ -392,4 +392,23 @@ class MPreviewContainerView: NSView {
             break
         }
     }
+    
+    func getScrollPosition(_ completion: @escaping (CGPoint) -> Void) {
+        let js = "({ x: window.scrollX, y: window.scrollY })"
+
+        webView.evaluateJavaScript(js) { result, _ in
+            if let dict = result as? [String: CGFloat],
+               let x = dict["x"],
+               let y = dict["y"] {
+                completion(CGPoint(x: x, y: y))
+            } else {
+                completion(.zero)
+            }
+        }
+    }
+    
+    func restoreScrollPosition(_ point: CGPoint) {
+        let js = "window.scrollTo(\(point.x), \(point.y));"
+        webView.evaluateJavaScript(js, completionHandler: nil)
+    }
 }

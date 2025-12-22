@@ -17,7 +17,7 @@ struct GitHubLightTheme {
         var style = HighlightStyle()
         style.font = UserDefaultsManagement.codeFont
         
-        style.foregroundColor = UserDefaultsManagement.fontColor
+        style.foregroundColor = PlatformColor(hex: "#000000")
         style.backgroundColor = PlatformColor(hex: "#F1F1F1")
 
         style.styles["keyword"]   = HighlightStyle.TextStyle(color: PlatformColor(hex: "#333333"), traits: [.bold])

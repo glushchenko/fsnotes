@@ -40,6 +40,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         userContentController.add(handlerOpener, name: "open")
         
         userContentController.add(HandlerQuickLook(), name: "quicklook")
+        
+        let handlerScroll = PreviewScrollHandler(note: note)
+        userContentController.add(handlerScroll, name: "scrollPosition")
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
@@ -947,5 +950,27 @@ class HandlerQuickLook: NSObject, WKScriptMessageHandler {
                 NSWorkspace.shared.activateFileViewerSelecting([url])
             #endif
         }
+    }
+}
+
+final class PreviewScrollHandler: NSObject, WKScriptMessageHandler {
+    private var note: Note?
+    
+    init(note: Note) {
+        self.note = note
+    }
+
+    func userContentController(
+            _ userContentController: WKUserContentController,
+            didReceive message: WKScriptMessage
+    ) {
+        guard
+            message.name == "scrollPosition",
+            let dict = message.body as? [String: Double],
+            let x = dict["x"],
+            let y = dict["y"]
+        else { return }
+
+        note?.contentOffsetWeb = CGPoint(x: x, y: y)
     }
 }

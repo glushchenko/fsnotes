@@ -34,6 +34,28 @@
     <script async src="{WEB_PATH}js/mermaid.min.js"></script>
     
     <script>
+        (function () {
+            if (window.__scrollObserverInstalled) return;
+            window.__scrollObserverInstalled = true;
+
+            let ticking = false;
+
+            function reportScroll() {
+                if (ticking) return;
+                ticking = true;
+
+                requestAnimationFrame(() => {
+                    const x = window.scrollX || document.documentElement.scrollLeft;
+                    const y = window.scrollY || document.documentElement.scrollTop;
+
+                    window.webkit.messageHandlers.scrollPosition.postMessage({ x, y });
+                    ticking = false;
+                });
+            }
+
+            window.addEventListener('scroll', reportScroll, { passive: true });
+        })();
+        
         function getElementsByText(str, tag = 'h1') {
             return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
         }

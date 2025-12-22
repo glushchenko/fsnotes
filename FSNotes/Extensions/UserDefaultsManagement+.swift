@@ -22,8 +22,6 @@ extension UserDefaultsManagement {
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
         static let ProjectsKey = "projects"
-        static let FontColorKey = "fontColorKeyed"
-        static let BgColorKey = "bgColorKeyed"
         static let QuickNoteKey = "quickNoteKey"
         static let QuickNoteKeyModifier = "quickNoteKeyModifier"
     }
@@ -159,28 +157,6 @@ extension UserDefaultsManagement {
         set {
             self.codeFontName = newValue.familyName ?? "Source Code Pro"
             self.codeFontSize = Int(newValue.pointSize)
-        }
-    }
-
-    static var fontColor: Color {
-        get {
-            return self.DefaultFontColor
-        }
-        set {
-            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
-                shared?.set(data, forKey: Constants.FontColorKey)
-            }
-        }
-    }
-
-    static var bgColor: Color {
-        get {
-            return self.DefaultBgColor
-        }
-        set {
-            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: true) {
-                shared?.set(data, forKey: Constants.BgColorKey)
-            }
         }
     }
 }

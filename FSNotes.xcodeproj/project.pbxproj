@@ -73,6 +73,8 @@
 		11A6A8FD2EF074D8005D000A /* EditTextView+Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A6A8FC2EF074D2005D000A /* EditTextView+Todo.swift */; };
 		11A6A8FE2EF074D8005D000A /* EditTextView+Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A6A8FC2EF074D2005D000A /* EditTextView+Todo.swift */; };
 		11A95B622EDC56DC0081ED29 /* modern.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11A95B612EDC56DC0081ED29 /* modern.icon */; };
+		11AA4B1F2EF9A47A0075A9E4 /* EditorViewController+ScrollPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA4B1E2EF9A4680075A9E4 /* EditorViewController+ScrollPosition.swift */; };
+		11AA4B202EF9A47A0075A9E4 /* EditorViewController+ScrollPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AA4B1E2EF9A4680075A9E4 /* EditorViewController+ScrollPosition.swift */; };
 		11ABE5E22EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */; };
 		11ABE5E32EEEFD0E00E7C9EB /* NotesCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */; };
 		11AF633E2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
@@ -927,6 +929,7 @@
 		11A6A8F92EF06B90005D000A /* EditTextView+MoveLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+MoveLines.swift"; sourceTree = "<group>"; };
 		11A6A8FC2EF074D2005D000A /* EditTextView+Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditTextView+Todo.swift"; sourceTree = "<group>"; };
 		11A95B612EDC56DC0081ED29 /* modern.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = modern.icon; sourceTree = "<group>"; };
+		11AA4B1E2EF9A4680075A9E4 /* EditorViewController+ScrollPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+ScrollPosition.swift"; sourceTree = "<group>"; };
 		11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCounterView.swift; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
 		11BD71652EDC87B700541BF9 /* classic-2025.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "classic-2025.icon"; sourceTree = "<group>"; };
@@ -1784,6 +1787,7 @@
 				D7153E042285C09C00A2C20F /* AboutViewController.swift */,
 				D71B9D792867027000D2F323 /* NoteViewController.swift */,
 				D71B9D812868658100D2F323 /* EditorViewController.swift */,
+				11AA4B1E2EF9A4680075A9E4 /* EditorViewController+ScrollPosition.swift */,
 				D79C26242872384C00CB70E6 /* EditorViewController+Sharing.swift */,
 				D7D97F3B290437A200C651D4 /* NSWindowController+.swift */,
 				42E001C52ADAC2930099E7AD /* Localizable.xcstrings */,
@@ -2930,6 +2934,7 @@
 				D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */,
 				D73BCD0A28EB5EC4008B3BBC /* Reference+Target.swift in Sources */,
 				D7CC44C62A1E5F7600743857 /* ApiResponse.swift in Sources */,
+				11AA4B1F2EF9A47A0075A9E4 /* EditorViewController+ScrollPosition.swift in Sources */,
 				D73BCC8F28EB5EC3008B3BBC /* Branch.swift in Sources */,
 				110BE01E2EE8C3BE00C5E456 /* Shell.swift in Sources */,
 				D73BCCBC28EB5EC3008B3BBC /* RevisionIterator.swift in Sources */,
@@ -3162,6 +3167,7 @@
 				D7E81C381F925B5F00416A91 /* Storage.swift in Sources */,
 				D73BCD0B28EB5EC4008B3BBC /* Reference+Target.swift in Sources */,
 				D7CC44C72A1E5F7600743857 /* ApiResponse.swift in Sources */,
+				11AA4B202EF9A47A0075A9E4 /* EditorViewController+ScrollPosition.swift in Sources */,
 				D73BCC9028EB5EC3008B3BBC /* Branch.swift in Sources */,
 				110BE01D2EE8C3BE00C5E456 /* Shell.swift in Sources */,
 				D73BCCBD28EB5EC3008B3BBC /* RevisionIterator.swift in Sources */,

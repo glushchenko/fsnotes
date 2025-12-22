@@ -32,6 +32,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     private var preview = false
     
+    public var isScrollPositionSaverLocked = false
+    
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         validateSubmenu(menu)
     }
@@ -158,11 +160,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         textContainerInset.height = 10
         isEditable = false
 
-        layoutManager?.allowsNonContiguousLayout = UserDefaultsManagement.nonContiguousLayout
-
-        if #available(OSX 10.13, *) {} else {
-            backgroundColor = UserDefaultsManagement.bgColor
-        }
+        let isOpenedWindow = window?.contentViewController as? NoteViewController != nil
+        
+        layoutManager?.allowsNonContiguousLayout =
+            isOpenedWindow
+                ? false
+                : UserDefaultsManagement.nonContiguousLayout
 
         layoutManager?.defaultAttachmentScaling = .scaleProportionallyDown
         
@@ -751,6 +754,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     func fill(note: Note, highlight: Bool = false, force: Bool = false) {
+        if !isPreviewEnabled() {
+            isScrollPositionSaverLocked = true
+        }
+        
+        defer {
+            if !isPreviewEnabled() {
+                isScrollPositionSaverLocked = false
+            }
+        }
+        
         if !note.isLoaded {
             note.load()
         }
@@ -839,7 +852,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if markdownView == nil {
             let frame = scrollView.bounds
             
-            let containerView = MPreviewContainerView(frame: frame, note: note, closure: {})
+            let containerView = MPreviewContainerView(frame: frame, note: note, closure: {
+                if let point = self.note?.contentOffsetWeb {
+                    self.markdownView?.restoreScrollPosition(point)
+                }
+            })
             markdownView = containerView
             
             containerView.webView.setEditorVC(evc: editorViewController)

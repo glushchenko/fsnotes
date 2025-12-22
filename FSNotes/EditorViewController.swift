@@ -43,6 +43,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     
     public func initView() {
         vcEditor?.delegate = self
+        
+        initScrollObserver()
+    }
+        
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -1006,13 +1012,18 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     }
 
     func disablePreview() {
-        vcEditor?.disablePreviewEditorAndNote()
+        guard let textView = self.vcEditor else { return }
         
-        vcEditor?.markdownView?.removeFromSuperview()
-        vcEditor?.markdownView = nil
+        textView.disablePreviewEditorAndNote()
         
-        guard let editor = self.vcEditor else { return }
-        editor.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
+        textView.markdownView?.getScrollPosition { point in
+            self.vcEditor?.note?.contentOffsetWeb = point
+        }
+        
+        textView.markdownView?.removeFromSuperview()
+        textView.markdownView = nil
+        
+        textView.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 
         refillEditArea()
     }

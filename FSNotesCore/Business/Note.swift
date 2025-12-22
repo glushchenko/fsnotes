@@ -64,7 +64,9 @@ public class Note: NSObject  {
     public var previewState: Bool = false
 
     private var selectedRange: NSRange?
-    private var contentOffset = CGPoint()
+    
+    public var contentOffset = CGPoint()
+    public var contentOffsetWeb = CGPoint()
 
     public var codeBlockRangesCache: [NSRange]?
 

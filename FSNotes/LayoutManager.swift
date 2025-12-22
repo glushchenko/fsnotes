@@ -251,4 +251,12 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             usedRect: usedRect,
             textContainer: container)
     }
+    
+    func layoutManager(_ layoutManager: NSLayoutManager, didCompleteLayoutFor textContainer: NSTextContainer?, atEnd layoutFinishedFlag: Bool) {
+        guard layoutFinishedFlag else { return }
+        
+        guard let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController else { return }
+        
+        evc.restoreScrollPosition()
+    }
 }
