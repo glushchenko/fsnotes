@@ -151,8 +151,13 @@ class NotesTableView: NSTableView,
         guard row < noteList.count else { return height }
 
         let note = noteList[row]
+        
         if !note.isLoaded && !note.isLoadedFromCache {
             note.load()
+        }
+        
+        if !note.isParsed {
+            note.loadPreviewInfo()
         }
 
         if !UserDefaultsManagement.horizontalOrientation

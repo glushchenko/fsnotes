@@ -79,7 +79,7 @@ class NoteCellView: NSTableCellView {
 
         applyPreviewStyle()
 
-        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages{
+        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
             self.note?.loadPreviewInfo()
         }
     }

@@ -69,7 +69,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     override func keyUp(with event: NSEvent) {
         if (event.keyCode == kVK_DownArrow) {
             vcDelegate.focusTable()
-            vcDelegate.notesTableView.selectNext()
+            vcDelegate.notesTableView.selectCurrent()
             return
         }
         

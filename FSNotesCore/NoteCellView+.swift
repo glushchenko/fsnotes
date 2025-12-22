@@ -27,8 +27,13 @@ extension NoteCellView {
         }
 
         let imageURLs = urls ?? note.imageUrl
+        
+        let isNotAssigned = imageURLs?.isEmpty == false
+            && imagePreview.image == nil
+            && imagePreviewSecond.image == nil
+            && imagePreviewThird.image == nil
 
-        guard isImagesChanged(imageURLs: imageURLs) else {
+        guard isImagesChanged(imageURLs: imageURLs) || isNotAssigned else {
             attachHeaders(note: note)
             fixTopConstraint(position: position, note: note)
             return
@@ -112,6 +117,21 @@ extension NoteCellView {
                 break
             }
         }
+        
+        self.needsDisplay = true
+        self.needsLayout = true
+                
+        // Принудительная перерисовка изображений
+        self.imagePreview.needsDisplay = true
+        self.imagePreviewSecond.needsDisplay = true
+        self.imagePreviewThird.needsDisplay = true
+        
+        // Немедленное применение layout
+        self.layoutSubtreeIfNeeded()
+        
+        // Обновление superview
+        self.superview?.needsLayout = true
+        self.superview?.layoutSubtreeIfNeeded()
     }
 
     public func getResizedPreviewImages(note: Note, images: [URL], timestamp: Int64 = 00) -> [Image] {
