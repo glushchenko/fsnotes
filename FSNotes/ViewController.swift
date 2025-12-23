@@ -1799,7 +1799,7 @@ class ViewController: EditorViewController,
         
         searchTopConstraint.constant = 8
     }
-        
+            
     @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {
         sender.state = sender.state == .on ? .off : .on
         let isChecked = sender.state == .on

@@ -941,6 +941,15 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
         ViewController.shared()?.reloadFonts()
     }
+    
+    @IBAction func showBackLinks(_ sender: NSMenuItem) {
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate,
+            let cvc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
+            let note = cvc.vcEditor?.note {
+            ViewController.shared()?.editor.clear()
+            appDelegate.search(query: "[[" + note.title + "]]")
+        }
+    }
 
     // MARK: Dep methods
     

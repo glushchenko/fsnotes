@@ -355,6 +355,18 @@
         }
       }
     },
+    "1cO-zi-naR.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"BackLinks\"; ObjectID = \"1cO-zi-naR\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BackLinks"
+          }
+        }
+      }
+    },
     "1HB-X5-pmA.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"2 Spaces\"; ObjectID = \"1HB-X5-pmA\";",
       "extractionState" : "extracted_with_value",

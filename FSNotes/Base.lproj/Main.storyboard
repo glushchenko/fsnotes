@@ -670,6 +670,12 @@ CA
                                                 <action selector="toggleMathJax:" target="Ady-hI-5gd" id="KrN-I7-17C"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="BackLinks" keyEquivalent="b" id="1cO-zi-naR">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="showBackLinks:" target="Ady-hI-5gd" id="aGr-tc-O21"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="sLG-sQ-Yi1"/>
                                         <menuItem title="Hide/Show Note List" keyEquivalent="B" identifier="view.toggleNoteList" id="WHt-T4-l9c">
                                             <connections>
