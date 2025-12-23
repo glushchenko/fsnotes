@@ -22,22 +22,26 @@ class SandboxBookmark {
     }
     
     public func resetBookmarksDb() {
-        let url = URL(fileURLWithPath: bookmarkPath())
-        try? FileManager.default.removeItem(at: url)
+        if let url = bookmark() {
+            try? FileManager.default.removeItem(at: url)
+        }
     }
     
-    func bookmarkPath() -> String {
-        var url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        url = url.appendingPathComponent("Bookmarks.dict")
+    func bookmark() -> URL? {
+        if var url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+            url = url.appendingPathComponent("Bookmarks.dict")
+            
+            return url
+        }
         
-        return url.path
+        return nil
     }
     
     func load() {
-        let path = bookmarkPath()
+        guard let url = bookmark() else { return }
 
-        if FileManager.default.fileExists(atPath: path),
-            let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+        if FileManager.default.fileExists(atPath: url.path),
+            let data = try? Data(contentsOf: url) {
             do {
                 if let bookmarks = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSData.self], from: data) as? [URL: Data] {
                     self.bookmarks = bookmarks
@@ -53,8 +57,7 @@ class SandboxBookmark {
     }
     
     func save() {
-        let path = bookmarkPath()
-        let fileURL = URL(fileURLWithPath: path)
+        guard let fileURL = bookmark() else { return }
         
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: bookmarks, requiringSecureCoding: false)
@@ -127,11 +130,10 @@ class SandboxBookmark {
     }
     
     public func save(url: URL) {
-        let path = bookmarkPath()
-        let fileURL = URL(fileURLWithPath: path)
+        guard let fileURL = bookmark() else { return }
 
         if self.bookmarks.isEmpty,
-            FileManager.default.fileExists(atPath: path),
+           FileManager.default.fileExists(atPath: fileURL.path),
             let data = try? Data(contentsOf: fileURL) {
             do {
                 if let bookmarks = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSDictionary.self, NSURL.self, NSData.self], from: data) as? [URL: Data] {
