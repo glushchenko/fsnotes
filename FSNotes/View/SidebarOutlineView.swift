@@ -728,7 +728,7 @@ class SidebarOutlineView: NSOutlineView,
         field.becomeFirstResponder()
     }
 
-    @IBAction func deleteMenu(_ sender: Any) {
+    @IBAction func delete(_ sender: Any) {
         guard let vc = ViewController.shared(),
               let sidebarOutlineView = vc.sidebarOutlineView else { return }
 

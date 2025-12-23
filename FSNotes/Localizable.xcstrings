@@ -962,6 +962,7 @@
       }
     },
     "Check Grammar With Spelling" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -1068,6 +1069,7 @@
       }
     },
     "Check Spelling While Typing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2453,6 +2455,7 @@
       }
     },
     "Correct Spelling Automatically" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2987,6 +2990,7 @@
       }
     },
     "Data Detectors" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -12897,6 +12901,7 @@
       }
     },
     "Smart Copy/Paste" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13003,6 +13008,7 @@
       }
     },
     "Smart Dashes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13109,6 +13115,7 @@
       }
     },
     "Smart Links" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13215,6 +13222,7 @@
       }
     },
     "Smart Quotes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13428,6 +13436,7 @@
       }
     },
     "Spelling and Grammar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13640,6 +13649,7 @@
       }
     },
     "Substitutions" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13853,6 +13863,7 @@
       }
     },
     "Text Replacement" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -14386,6 +14397,7 @@
       }
     },
     "Underline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

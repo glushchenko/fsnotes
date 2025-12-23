@@ -328,21 +328,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             return
         }
     }
-    
-    @IBAction func fsDeleteItem(_ sender: NSMenuItem) {
-        guard let vc = ViewController.shared() else { return }
         
-        if isFirstResponder(responder: SidebarOutlineView.self) {
-            vc.sidebarOutlineView.deleteMenu(sender)
-            return
-        }
-        
-        if isFirstResponder(responder: NotesTableView.self) {
-            vc.deleteNote(sender)
-            return
-        }
-    }
-    
     @IBAction func toggleNotesLock(_ sender: Any) {
         guard let vc = ViewController.shared(),
               let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController else { return }
@@ -864,22 +850,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         }
     }
     
-    @IBAction func deleteNote(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        
-        var forceRemove = false
-        if let menuItem = sender as? NSMenuItem,
-            menuItem.identifier?.rawValue == "fileMenu.forceRemove" ||
-            menuItem.identifier?.rawValue == "context.fileMenu.forceRemove" {
-            forceRemove = true
-        }
-        
-        guard let notes = getSelectedNotes() else { return }
-        let rows = vc.notesTableView.selectedRowIndexes
-        
-        removeNotes(notes: notes, forceRemove: forceRemove, rows: rows)
-    }
-
     public func removeNotes(notes: [Note], forceRemove: Bool = false, rows: IndexSet? = nil) {
         guard let vc = ViewController.shared() else { return }
         
@@ -900,7 +870,6 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         
         let currentNote = vc.editor.note
         let shouldClearEditor = currentNote != nil && notes.contains(where: { $0 === currentNote })
-
         UserDataService.instance.searchTrigger = true
         vc.notesTableView.removeRows(notes: notes)
         
@@ -911,11 +880,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             vc.sidebarOutlineView.removeTags(tags)
         }
         
-        vc.storage.removeNotes(notes: notes) { urls in
+        vc.storage.removeNotes(notes: notes) { urlMapping in
             if let md = AppDelegate.mainWindowController {
                 let undoManager = md.notesListUndoManager
                 if let ntv = vc.notesTableView {
-                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
+                    // Register undo (restore)
+                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urlMapping)
                     undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
                 }
                 
@@ -950,7 +920,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
         }
     }
-
+    
     @IBAction func actualSize(_ sender: Any) {
         UserDefaultsManagement.codeFont = NSFont(descriptor: UserDefaultsManagement.codeFont.fontDescriptor, size: CGFloat(UserDefaultsManagement.DefaultFontSize))!
         UserDefaultsManagement.noteFont = NSFont(descriptor: UserDefaultsManagement.noteFont.fontDescriptor, size: CGFloat(UserDefaultsManagement.DefaultFontSize))!

@@ -34,10 +34,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     public var isScrollPositionSaverLocked = false
     
-    override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
-        validateSubmenu(menu)
-    }
-    
     override func becomeFirstResponder() -> Bool {        
         if let note = self.note {
             if note.container == .encryptedTextPack {
@@ -186,6 +182,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, sharingServicesForItems items: [Any], proposedSharingServices proposedServices: [NSSharingService]) -> [NSSharingService] {
         return []
     }
+    
+    // MARK: Overrides
 
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
         var newRect = rect
@@ -230,29 +228,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         newInvalidRect.size.width += self.caretWidth - 1
         super.setNeedsDisplay(newInvalidRect)
     }
-
-    // MARK: Menu
-    
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        menuItem.isHidden = false
-
-        if menuItem.menu?.identifier?.rawValue == "editMenu" {
-            validateSubmenu(menuItem.menu!)
-        }
-        
-        if menuItem.menu?.identifier?.rawValue == "formatMenu", !hasFocus() {
-            return false
-        }
-
-        let disable = [NSLocalizedString("Underline", comment: "")]
-        if disable.contains(menuItem.title) {
-            menuItem.isHidden = true
-        }
-
-        return !disable.contains(menuItem.title)
-    }
-    
-    // MARK: Overrides
     
     override func toggleContinuousSpellChecking(_ sender: Any?) {
         if let menu = sender as? NSMenuItem {
@@ -1602,23 +1577,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         return TextFormatter(textView: self, note: note)
     }
     
-    private func validateSubmenu(_ menu: NSMenu) {
-        let sg = menu.item(withTitle: NSLocalizedString("Spelling and Grammar", comment: ""))?.submenu
-        let s = menu.item(withTitle: NSLocalizedString("Substitutions", comment: ""))?.submenu
-        
-        sg?.item(withTitle: NSLocalizedString("Check Spelling While Typing", comment: ""))?.state = self.isContinuousSpellCheckingEnabled ? .on : .off
-        sg?.item(withTitle: NSLocalizedString("Check Grammar With Spelling", comment: ""))?.state = self.isGrammarCheckingEnabled ? .on : .off
-        sg?.item(withTitle: NSLocalizedString("Correct Spelling Automatically", comment: ""))?.state = self.isAutomaticSpellingCorrectionEnabled ? .on : .off
-        
-        s?.item(withTitle: NSLocalizedString("Smart Copy/Paste", comment: ""))?.state = self.smartInsertDeleteEnabled ? .on : .off
-        s?.item(withTitle: NSLocalizedString("Smart Quotes", comment: ""))?.state = self.isAutomaticQuoteSubstitutionEnabled ? .on : .off
-        
-        s?.item(withTitle: NSLocalizedString("Smart Dashes", comment: ""))?.state = self.isAutomaticDashSubstitutionEnabled ? .on : .off
-        s?.item(withTitle: NSLocalizedString("Smart Links", comment: ""))?.state = self.isAutomaticLinkDetectionEnabled  ? .on : .off
-        s?.item(withTitle: NSLocalizedString("Text Replacement", comment: ""))?.state = self.isAutomaticTextReplacementEnabled   ? .on : .off
-        s?.item(withTitle: NSLocalizedString("Data Detectors", comment: ""))?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
-    }
-
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
         return true
     }

@@ -30,6 +30,19 @@ class NotesTableView: NSTableView,
         self.delegate = self
         super.draw(dirtyRect)
     }
+    
+    override func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        if item.action == #selector(selectAll(_:)) {
+            return numberOfRows > 0 && allowsMultipleSelection
+        }
+        
+        if item.action == #selector(copy(_:)) ||
+            item.action == #selector(delete(_:)) {
+            return selectedRowIndexes.count > 0
+        }
+
+        return super.validateUserInterfaceItem(item)
+    }
 
     override func keyDown(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else {
@@ -69,10 +82,6 @@ class NotesTableView: NSTableView,
         super.keyUp(with: event)
     }
     
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        return true
-    }
-
     override func mouseDown(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         
@@ -134,6 +143,19 @@ class NotesTableView: NSTableView,
         }
     }
 
+    @IBAction func delete(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+              let notes = getSelectedNotes() else { return }
+
+        vc.removeNotes(notes: notes, forceRemove: false, rows: selectedRowIndexes)
+    }
+    
+    @IBAction func forceDeleteNote(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+              let notes = getSelectedNotes() else { return }
+
+        vc.removeNotes(notes: notes, forceRemove: true, rows: selectedRowIndexes)
+    }
         
     // Custom note highlight style
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
@@ -521,20 +543,37 @@ class NotesTableView: NSTableView,
     }
     
     @objc public func unDelete(_ urls: [URL: URL]) {
+        guard let vc = ViewController.shared() else { return }
+        var invertedMapping: [URL: URL] = [:]
+        
         for (src, dst) in urls {
             do {
                 if let note = storage.getBy(url: src) {
                     storage.removeBy(note: note)
-
                     if let destination = Storage.shared().getProjectByNote(url: dst) {
                         note.moveImages(to: destination)
                     }
                 }
-
                 try FileManager.default.moveItem(at: src, to: dst)
+                invertedMapping[dst] = src
             } catch {
                 print(error)
             }
+        }
+        
+        // Register redo (delete again)
+        if let md = AppDelegate.mainWindowController, !invertedMapping.isEmpty {
+            let undoManager = md.notesListUndoManager
+            undoManager.registerUndo(withTarget: self) { notesTableView in
+                let restoredNotes = invertedMapping.keys.compactMap { url in
+                    vc.storage.getBy(url: url)
+                }
+                
+                if !restoredNotes.isEmpty {
+                    vc.removeNotes(notes: restoredNotes, forceRemove: false, rows: nil)
+                }
+            }
+            undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
         }
     }
     

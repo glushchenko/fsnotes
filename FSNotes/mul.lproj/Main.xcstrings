@@ -1837,6 +1837,18 @@
         }
       }
     },
+    "3fK-Ap-A5p.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Move Item\"; ObjectID = \"3fK-Ap-A5p\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Item"
+          }
+        }
+      }
+    },
     "3IN-sU-3Bg.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"Spelling and Grammar\"; ObjectID = \"3IN-sU-3Bg\";",
       "extractionState" : "extracted_with_value",
@@ -29372,6 +29384,18 @@
         }
       }
     },
+    "Pzb-TG-43d.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Headers\"; ObjectID = \"Pzb-TG-43d\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Headers"
+          }
+        }
+      }
+    },
     "PzH-8q-38O.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Delete Web Page\"; ObjectID = \"PzH-8q-38O\";",
       "extractionState" : "extracted_with_value",
@@ -34973,7 +34997,7 @@
     },
     "TjZ-PX-YVo.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Delete\"; ObjectID = \"TjZ-PX-YVo\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -36335,6 +36359,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "代码缩进"
+          }
+        }
+      }
+    },
+    "UMi-Hx-Z1c.title" : {
+      "comment" : "Class = \"NSMenu\"; title = \"Headers\"; ObjectID = \"UMi-Hx-Z1c\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Headers"
           }
         }
       }
@@ -43122,6 +43158,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正文文本匹配时自动选择笔记"
+          }
+        }
+      }
+    },
+    "zRJ-Z2-Lsa.title" : {
+      "comment" : "Class = \"NSMenu\"; title = \"Move Item\"; ObjectID = \"zRJ-Z2-Lsa\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Item"
           }
         }
       }

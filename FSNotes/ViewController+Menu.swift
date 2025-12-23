@@ -264,7 +264,7 @@ extension ViewController {
         if !note.isTrash() {
             let trashMenu = NSMenuItem()
             trashMenu.title = NSLocalizedString("Trash", comment: "Sidebar label")
-            trashMenu.action = #selector(vc.deleteNote(_:))
+            trashMenu.action = #selector(vc.notesTableView.delete(_:))
             trashMenu.tag = 555
             moveMenu.addItem(trashMenu)
             moveMenu.addItem(NSMenuItem.separator())

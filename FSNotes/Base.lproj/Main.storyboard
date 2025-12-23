@@ -122,21 +122,13 @@ CA
                                                 <action selector="fsRenameItem:" target="Ady-hI-5gd" id="nob-G6-CIE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete" localization="NO" mirroring="NO" identifier="fileMenu.delete" id="TjZ-PX-YVo">
-                                            <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                                            <connections>
-                                                <action selector="fsDeleteItem:" target="Ady-hI-5gd" id="3Ze-YD-rpW"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Force Delete" alternate="YES" localization="NO" mirroring="NO" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="deleteNote:" target="Ady-hI-5gd" id="3Cr-W0-jGL"/>
+                                                <action selector="forceDeleteNote:" target="Ady-hI-5gd" id="RHd-Iz-8iM"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Pin/Unpin" keyEquivalent="8" localization="NO" mirroring="NO" identifier="fileMenu.togglePin" id="You-zo-rbl">
@@ -265,7 +257,9 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Delete" id="pa3-QI-u2k">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
                                             <connections>
                                                 <action selector="delete:" target="Ady-hI-5gd" id="0Mk-Ml-PaM"/>
                                             </connections>
@@ -445,25 +439,6 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="GSb-Vz-bCi"/>
-                                        <menuItem title="Move Selected Lines Down" keyEquivalent="" id="STm-3f-GNu">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="moveSelectedLinesDown:" target="Ady-hI-5gd" id="7r8-RI-N3B"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Move Selected Lines Up" keyEquivalent="" id="yMK-aK-OV2">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="moveSelectedLinesUp:" target="Ady-hI-5gd" id="BR0-Oc-4LZ"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Clear Completed Todos" id="BoD-Jy-zeE">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="clearCompletedTodos:" target="Ady-hI-5gd" id="9Vo-lw-EsW"/>
-                                            </connections>
-                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -553,35 +528,42 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pUR-Y1-6Rc"/>
-                                        <menuItem title="Header 1" keyEquivalent="1" identifier="format.h1" id="jRm-BN-BNK">
-                                            <connections>
-                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="ZMG-7U-hDJ"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Header 2" keyEquivalent="2" identifier="format.h2" id="cYB-6U-8ac">
-                                            <connections>
-                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="uk8-PE-ezN"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Header 3" keyEquivalent="3" identifier="format.h3" id="Lmy-lE-9MZ">
-                                            <connections>
-                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="7T9-eU-evK"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Header 4" keyEquivalent="4" identifier="format.h4" id="GhL-6I-558">
-                                            <connections>
-                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="xL5-Mc-FpK"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Header 5" keyEquivalent="5" identifier="format.h5" id="DWe-bx-jfM">
-                                            <connections>
-                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="VQ0-l4-gu2"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Header 6" keyEquivalent="6" identifier="format.h6" id="cq7-SM-dez">
-                                            <connections>
-                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="Ma4-If-e1Y"/>
-                                            </connections>
+                                        <menuItem title="Headers" id="Pzb-TG-43d">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Headers" id="UMi-Hx-Z1c">
+                                                <items>
+                                                    <menuItem title="Header 1" keyEquivalent="1" identifier="format.h1" id="jRm-BN-BNK">
+                                                        <connections>
+                                                            <action selector="headerMenu:" target="Ady-hI-5gd" id="ZMG-7U-hDJ"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Header 2" keyEquivalent="2" identifier="format.h2" id="cYB-6U-8ac">
+                                                        <connections>
+                                                            <action selector="headerMenu:" target="Ady-hI-5gd" id="uk8-PE-ezN"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Header 3" keyEquivalent="3" identifier="format.h3" id="Lmy-lE-9MZ">
+                                                        <connections>
+                                                            <action selector="headerMenu:" target="Ady-hI-5gd" id="7T9-eU-evK"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Header 4" keyEquivalent="4" identifier="format.h4" id="GhL-6I-558">
+                                                        <connections>
+                                                            <action selector="headerMenu:" target="Ady-hI-5gd" id="xL5-Mc-FpK"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Header 5" keyEquivalent="5" identifier="format.h5" id="DWe-bx-jfM">
+                                                        <connections>
+                                                            <action selector="headerMenu:" target="Ady-hI-5gd" id="VQ0-l4-gu2"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Header 6" keyEquivalent="6" identifier="format.h6" id="cq7-SM-dez">
+                                                        <connections>
+                                                            <action selector="headerMenu:" target="Ady-hI-5gd" id="Ma4-If-e1Y"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="axj-Yd-h2p"/>
                                         <menuItem title="List" keyEquivalent="l" id="1sM-9Q-KeG">
@@ -594,6 +576,17 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                             <connections>
                                                 <action selector="insertOrderedList:" target="Ady-hI-5gd" id="mSc-hh-Emb"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Toggle Todo" keyEquivalent="t" identifier="format.todo" id="n0M-SN-fzg">
+                                            <connections>
+                                                <action selector="todo:" target="Ady-hI-5gd" id="tNn-G1-JVu"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Clear Completed Todos" keyEquivalent="t" id="BoD-Jy-zeE">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="clearCompletedTodos:" target="Ady-hI-5gd" id="9Vo-lw-EsW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="p1N-Ks-tWf"/>
@@ -624,27 +617,40 @@ CA
                                                 <action selector="insertQuote:" target="Ady-hI-5gd" id="CsH-RU-eV9"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="iDC-du-8d9"/>
-                                        <menuItem title="Shift Left" keyEquivalent="[" id="DeU-hy-pvi">
-                                            <connections>
-                                                <action selector="shiftLeft:" target="Ady-hI-5gd" id="fP7-F6-api"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Shift Right" keyEquivalent="]" id="IPu-Ll-IBE">
-                                            <connections>
-                                                <action selector="shiftRight:" target="Ady-hI-5gd" id="kJe-pA-OMN"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="mrY-K0-JGH"/>
                                         <menuItem title="WikiLinks" keyEquivalent="9" id="hqQ-4C-VJL">
                                             <connections>
                                                 <action selector="wikiLinks:" target="Ady-hI-5gd" id="gT7-1q-B11"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Toggle Todo" keyEquivalent="t" identifier="format.todo" id="n0M-SN-fzg">
-                                            <connections>
-                                                <action selector="todo:" target="Ady-hI-5gd" id="tNn-G1-JVu"/>
-                                            </connections>
+                                        <menuItem isSeparatorItem="YES" id="mrY-K0-JGH"/>
+                                        <menuItem title="Move Item" id="3fK-Ap-A5p">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Move Item" id="zRJ-Z2-Lsa">
+                                                <items>
+                                                    <menuItem title="Shift Left" keyEquivalent="[" id="DeU-hy-pvi">
+                                                        <connections>
+                                                            <action selector="shiftLeft:" target="Ady-hI-5gd" id="fP7-F6-api"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Shift Right" keyEquivalent="]" id="IPu-Ll-IBE">
+                                                        <connections>
+                                                            <action selector="shiftRight:" target="Ady-hI-5gd" id="kJe-pA-OMN"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Move Selected Lines Down" keyEquivalent="" id="STm-3f-GNu">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="moveSelectedLinesDown:" target="Ady-hI-5gd" id="7r8-RI-N3B"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Move Selected Lines Up" keyEquivalent="" id="yMK-aK-OV2">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="moveSelectedLinesUp:" target="Ady-hI-5gd" id="BR0-Oc-4LZ"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
                                         </menuItem>
                                     </items>
                                 </menu>
@@ -2208,7 +2214,7 @@ CA
                         <menuItem title="Delete" localization="NO" mirroring="NO" identifier="popup.delete" id="fHG-zk-g0k">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="deleteNote:" target="XfG-lQ-9wD" id="WOk-2N-rha"/>
+                                <action selector="delete:" target="rPt-NT-nkU" id="fyr-do-SuJ"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Pin/Unpin" localization="NO" mirroring="NO" identifier="popup.togglePin" id="jFN-Dp-LON">
@@ -2532,7 +2538,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs" customClass="AboutImageView" customModule="FSNotes" customModuleProvider="target">
-                                <rect key="frame" x="245" y="461" width="67" height="70"/>
+                                <rect key="frame" x="246" y="461" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
@@ -2540,7 +2546,7 @@ Gw
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="245" y="400" width="67" height="17"/>
+                                <rect key="frame" x="246" y="400" width="67" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2577,7 +2583,7 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="521" height="32"/>
+                                <rect key="frame" x="18" y="20" width="522" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2590,7 +2596,7 @@ Olena Hlushcneko</string>
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
-                                <rect key="frame" x="236" y="60" width="85" height="16"/>
+                                <rect key="frame" x="237" y="60" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Icons design:" id="FKf-Ph-LiA">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2606,7 +2612,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="517" height="5"/>
+                                <rect key="frame" x="20" y="381" width="518" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
                                 <rect key="frame" x="252" y="347" width="54" height="16"/>
@@ -2617,13 +2623,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="517" height="160"/>
+                                <rect key="frame" x="20" y="96" width="518" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="515" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="516" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="515" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="516" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2642,7 +2648,7 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="oLK-nL-PkJ">
-                                                            <rect key="frame" x="8" y="0.0" width="114" height="24"/>
+                                                            <rect key="frame" x="8" y="0.0" width="115" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rTR-WK-LFY">
@@ -2665,7 +2671,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="369.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="370.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
