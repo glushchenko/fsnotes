@@ -4257,7 +4257,7 @@
     },
     "6UT-Yu-j7X.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Lock Folder\"; ObjectID = \"6UT-Yu-j7X\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9537,7 +9537,7 @@
     },
     "BYI-2F-BJo.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"Library\"; ObjectID = \"BYI-2F-BJo\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -13653,7 +13653,7 @@
     },
     "epi-YA-nEi.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Decrypt Folder\"; ObjectID = \"epi-YA-nEi\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -14109,7 +14109,7 @@
     },
     "F5A-zs-zwP.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Reveal in Finder\"; ObjectID = \"F5A-zs-zwP\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -15705,7 +15705,7 @@
     },
     "Fuh-qO-nt2.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Library\"; ObjectID = \"Fuh-qO-nt2\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -34439,7 +34439,7 @@
     },
     "Tap-iY-hyA.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Rename Folder\"; ObjectID = \"Tap-iY-hyA\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -34553,7 +34553,7 @@
     },
     "Tcg-83-bZN.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Show Options\"; ObjectID = \"Tcg-83-bZN\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

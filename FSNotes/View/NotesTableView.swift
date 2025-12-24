@@ -37,7 +37,8 @@ class NotesTableView: NSTableView,
         }
         
         if item.action == #selector(copy(_:)) ||
-            item.action == #selector(delete(_:)) {
+            item.action == #selector(delete(_:)) ||
+            item.action == #selector(forceDeleteNote(_:)) {
             return selectedRowIndexes.count > 0
         }
 

@@ -22,6 +22,16 @@ extension ViewController {
               let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
               let id = menuItem.identifier?.rawValue else { return false }
                         
+        // Sidebar
+        let tags = vc.sidebarOutlineView.getSidebarTags()
+        let projects = vc.sidebarOutlineView.getSelectedProjects()
+        let projectSelected = projects?.isEmpty == false
+        let tagSelected = tags?.isEmpty == false
+        
+        let isFirstSidebar = evc.view.window?.firstResponder?.isKind(of: SidebarOutlineView.self) == true
+        let isTrash = vc.sidebarOutlineView.getSidebarItems()?.first?.type == .Trash
+        
+        // Notes
         let isFirstResponder = evc.view.window?.firstResponder?.isKind(of: NotesTableView.self) == true
         let isFirstEditor = evc.view.window?.firstResponder?.isKind(of: EditTextView.self) == true
         let isOpenedWindow = NSApplication.shared.keyWindow?.contentViewController?.isKind(of: NoteViewController.self) == true
@@ -52,6 +62,10 @@ extension ViewController {
             menuItem.title = NSLocalizedString("New Note in New Window", comment: "File Menu")
             return true
             
+        case "\(menuId).createFolder":
+            menuItem.title = NSLocalizedString("New Folder", comment: "Menu Library")
+            return !isTrash
+            
         case "\(menuId).searchAndCreate":
             menuItem.title = NSLocalizedString("Search and Create", comment: "File Menu")
             return true
@@ -65,6 +79,18 @@ extension ViewController {
             return greaterThanZero && isFirstResponder
             
         case "\(menuId).rename":
+            
+            // sidebar
+            if isFirstSidebar {
+                if tagSelected {
+                    menuItem.title = NSLocalizedString("Rename Tag", comment: "Menu Library")
+                } else {
+                    menuItem.title = NSLocalizedString("Rename Folder", comment: "Menu Library")
+                }
+                
+                return projectSelected || tagSelected
+            }
+            
             menuItem.title = NSLocalizedString("Rename", comment: "File Menu")
             return isOne && isFirstResponder || (isFirstEditor && !isOpenedWindow)
             
@@ -85,15 +111,39 @@ extension ViewController {
             return greaterThanZero
             
         case "\(menuId).decrypt":
+            
+            // sidebar
+            if isFirstSidebar {
+                menuItem.title = NSLocalizedString("Decrypt Folder", comment: "Menu Library")
+                
+                if let project = projects?.first, !project.isTrash, !project.isDefault, !project.isVirtual, project.isEncrypted {
+                    return true
+                }
+                
+                return false
+            }
+            
             menuItem.title = NSLocalizedString("Decrypt", comment: "File Menu")
             return greaterThanZero && hasEncrypted(notes: notes)
             
         case "\(menuId).toggleLock":
+            
+            // sidebar
+            if isFirstSidebar {
+                if let project = projects?.first, !project.isTrash, project.isLocked() {
+                    menuItem.title = NSLocalizedString("Unlock Folder", comment: "")
+                } else {
+                    menuItem.title = NSLocalizedString("Lock Folder", comment: "Menu Library")
+                }
+                return projectSelected
+            }
+            
             if let note = notes?.first, note.isEncryptedAndLocked() {
                 menuItem.title = NSLocalizedString("Unlock", comment: "File Menu")
             } else {
                 menuItem.title = NSLocalizedString("Lock", comment: "File Menu")
             }
+            
             return greaterThanZero && (isFirstResponder || isOpenedWindow)
             
         case "\(menuId).external":
@@ -101,6 +151,11 @@ extension ViewController {
             return greaterThanZero
             
         case "\(menuId).reveal":
+            if isFirstSidebar {
+                menuItem.title = NSLocalizedString("Reveal in Finder", comment: "Menu Library")
+                return projectSelected
+            }
+            
             menuItem.title = NSLocalizedString("Reveal in Finder", comment: "File Menu")
             return greaterThanZero && (isFirstResponder || isOpenedWindow)
             
@@ -173,25 +228,6 @@ extension ViewController {
         let isSystem = vc.sidebarOutlineView.getSidebarItems()?.first?.isSystem() == true
         
         switch id {
-        case "\(menuId).attach":
-            menuItem.title = NSLocalizedString("Add External Folder...", comment: "Menu Library")
-            return true
-        case "\(menuId).backup":
-            var title = NSLocalizedString("Inbox", comment: "")
-            
-            if let gitProject = vc.getGitProject() {
-                title = gitProject.label
-                
-                if gitProject.isDefault {
-                    title = NSLocalizedString("Inbox", comment: "")
-                }
-                
-                menuItem.title =  String(format: NSLocalizedString("Commit & Push “%@”", comment: "Menu Library"), title)
-                return true
-            }
-            
-            return false
-            
         case "\(menuId).create":
             menuItem.title = NSLocalizedString("Create Folder", comment: "Menu Library")
             return !isTrash
