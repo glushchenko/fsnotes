@@ -31918,7 +31918,7 @@
     },
     "RuM-sf-kcZ.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Delete Folder\"; ObjectID = \"RuM-sf-kcZ\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
