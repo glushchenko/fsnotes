@@ -580,12 +580,15 @@ class ViewController: EditorViewController,
             getMasterPassword() { password in
                 self.sidebarOutlineView.unlock(projects: [project], password: password)
                 if project.password != nil {
-                    self.move(notes: notes, project: project)
-                    
-                    for note in notes {
-                        note.encryptAndUnlock(password: password)
+                    DispatchQueue.main.async {
+                        self.move(notes: notes, project: project)
+                        
+                        for note in notes {
+                            note.encryptAndUnlock(password: password)
+                        }
+                        
+                        completion(true)
                     }
-                    completion(true)
                     return
                 }
                 

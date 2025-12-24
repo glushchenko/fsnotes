@@ -14451,7 +14451,7 @@
     },
     "fCZ-JX-nxF.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Underline\"; ObjectID = \"fCZ-JX-nxF\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

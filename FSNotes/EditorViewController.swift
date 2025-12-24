@@ -303,7 +303,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             return
         }
         
-        if isFirstResponder(responder: NotesTableView.self) || isOpenedInNewWindow() {
+        if isFirstResponder(responder: NotesTableView.self) ||
+            isFirstResponder(responder: EditTextView.self) ||
+            isOpenedInNewWindow() {
             vc.toggleNotesLock(sender)
             return
         }
@@ -331,7 +333,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             return
         }
         
-        if isFirstResponder(responder: NotesTableView.self) || isOpenedInNewWindow() {
+        if isFirstResponder(responder: NotesTableView.self) ||
+            isFirstResponder(responder: EditTextView.self) ||
+            isOpenedInNewWindow() {
             vc.finderMenu(sender)
             return
         }
@@ -345,7 +349,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             return
         }
         
-        if isFirstResponder(responder: NotesTableView.self) {
+        if isFirstResponder(responder: NotesTableView.self) ||
+            isFirstResponder(responder: EditTextView.self) {
             vc.renameMenu(sender)
             return
         }
