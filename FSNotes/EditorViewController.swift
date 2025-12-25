@@ -415,7 +415,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
               let sidebarOutlineView = vc.sidebarOutlineView else { return }
         
         // Call from menu bar
-        if let sender = sender as? NSMenuItem, sender.identifier?.rawValue == "folderMenu.attach" {
+        if let sender = sender as? NSMenuItem, sender.identifier?.rawValue == "fileMenu.attach" {
             sidebarOutlineView.addRoot()
             return
         }

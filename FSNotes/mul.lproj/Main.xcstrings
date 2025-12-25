@@ -6309,7 +6309,7 @@
     },
     "54i-GK-spQ.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Note List Location:\"; ObjectID = \"54i-GK-spQ\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -21885,7 +21885,7 @@
     },
     "K2F-dD-Jhr.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Top\"; ObjectID = \"K2F-dD-Jhr\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -23139,7 +23139,7 @@
     },
     "l5q-h8-hfU.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Custom worktree\"; ObjectID = \"l5q-h8-hfU\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -29548,7 +29548,7 @@
     },
     "q7c-Fz-aaj.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Side\"; ObjectID = \"q7c-Fz-aaj\";",
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -41351,114 +41351,114 @@
       }
     },
     "y5T-sb-gw4.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Autoname By Title\"; ObjectID = \"y5T-sb-gw4\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Autoname by Title (30s)\"; ObjectID = \"y5T-sb-gw4\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "التسمية التلقائية حسب العنوان"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Automatické pojmenování podle názvu"
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Automatische Benennung nach Titel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Autoname By Title"
+            "value" : "Autoname by Title (30s)"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Asignación automática de nombres por título"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Dénomination automatique par titre"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "מתן שמות אוטומטית לפי כותרת"
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "शीर्षक के अनुसार स्वचालित नामकरण"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Denominazione automatica per titolo"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "タイトルによる自動命名"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "제목별 자동 이름 지정"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Automatische naamgeving op titel"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nomeação automática por título"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nomeação automática por título"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Автоименование по заголовку"
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Başlığa Göre Otomatik Adlandırma"
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Автоіменування за заголовком"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "按标题自动命名"
           }
         }

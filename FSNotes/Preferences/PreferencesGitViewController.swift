@@ -16,13 +16,12 @@ class PreferencesGitViewController: SettingsViewController {
     @IBOutlet weak var backupManually: NSButton!
     @IBOutlet weak var backupBySchedule: NSButton!
     @IBOutlet weak var pullInterval: NSTextField!
-    @IBOutlet weak var customWorktree: NSButton!
     @IBOutlet weak var separateDotGit: NSButton!
     @IBOutlet weak var askCommitMessage: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        //preferredContentSize = NSSize(width: 550, height: 612)
+        preferredContentSize = NSSize(width: 550, height: 579)
 
         loadGit(project: Storage.shared().getDefault()!)
 
@@ -32,7 +31,6 @@ class PreferencesGitViewController: SettingsViewController {
         backupManually.state = UserDefaultsManagement.backupManually ? .on : .off
         backupBySchedule.state = UserDefaultsManagement.backupManually ? .off : .on
         pullInterval.stringValue = String(UserDefaultsManagement.pullInterval)
-        customWorktree.state = UserDefaultsManagement.separateRepo ? .off : .on
         separateDotGit.state = UserDefaultsManagement.separateRepo ? .on : .off
         askCommitMessage.state = UserDefaultsManagement.askCommitMessage ? .on : .off
     }
@@ -137,7 +135,7 @@ class PreferencesGitViewController: SettingsViewController {
     }
     
     @IBAction func separateRepo(_ sender: NSButton) {
-        UserDefaultsManagement.separateRepo = (sender.tag == 1)
+        UserDefaultsManagement.separateRepo = sender.state == .on
     }
     
     @IBAction func askCommitMessage(_ sender: NSButton) {

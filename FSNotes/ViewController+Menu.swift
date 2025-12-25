@@ -281,7 +281,7 @@ extension ViewController {
             
         case "\(menuId).delete":
             if let project = projects?.first, project.isBookmark {
-                menuItem.title = NSLocalizedString("Detach Storage", comment: "Menu Library")
+                menuItem.title = NSLocalizedString("Unlink External Folder", comment: "Menu Library")
             } else if tagSelected {
                 menuItem.title = NSLocalizedString("Delete Tag", comment: "Menu Library")
             } else {

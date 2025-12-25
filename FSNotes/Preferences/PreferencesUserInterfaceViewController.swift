@@ -10,8 +10,6 @@ import Cocoa
 
 class PreferencesUserInterfaceViewController: NSViewController {
 
-    @IBOutlet weak var horizontalRadio: NSButton!
-    @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet weak var cellSpacing: NSSlider!
     @IBOutlet weak var previewFontSize: NSPopUpButton!
     @IBOutlet weak var hideImagesPreview: NSButton!
@@ -30,12 +28,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         guard let window = self.view.window else { return }
         window.title = NSLocalizedString("Settings", comment: "")
 
-        if (UserDefaultsManagement.horizontalOrientation) {
-            horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
-        } else {
-            verticalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
-        }
-
         hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
@@ -51,36 +43,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
-    }
-
-    @IBAction func verticalOrientation(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-
-        UserDefaultsManagement.horizontalOrientation = false
-
-        horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
-        vc.splitView.isVertical = true
-        vc.splitView.setPosition(215, ofDividerAt: 0)
-
-        UserDefaultsManagement.cellSpacing = 38
-        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
-        vc.setTableRowHeight()
-    }
-
-    @IBAction func horizontalOrientation(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-
-        UserDefaultsManagement.horizontalOrientation = true
-
-        verticalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
-        vc.splitView.isVertical = false
-        vc.splitView.setPosition(145, ofDividerAt: 0)
-
-        UserDefaultsManagement.cellSpacing = 12
-        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
-
-        vc.setTableRowHeight()
-        vc.notesTableView.reloadData()
     }
 
     @IBAction func changeCellSpacing(_ sender: NSSlider) {

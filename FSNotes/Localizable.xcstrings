@@ -3742,6 +3742,7 @@
     },
     "Detach Storage" : {
       "comment" : "Menu Library",
+      "extractionState" : "stale",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -14505,6 +14506,9 @@
           }
         }
       }
+    },
+    "Unlink External Folder" : {
+      "comment" : "Menu Library"
     },
     "Unlock" : {
       "comment" : "File Menu",
