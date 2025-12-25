@@ -572,40 +572,27 @@ body.ios > ul, body.ios > ol { margin-left: 25px; }
 
 .macos input[type='checkbox'] {
     -webkit-appearance:none;
-    width:20px;
-    height:20px;
+    width:16px;
+    height:16px;
     line-height: 14px;
-    border-radius:5px;
+    border-radius: 3px;
     background: white;
     border:1px solid #555;
     vertical-align: middle;
-    margin: 0 5px 0 -28px;
+    margin: -2px 5px 0 -28px;
     transform: scale(1.1);
 }
+    .macos input[type='checkbox']:checked::after,
     .macos input[type='checkbox'][disabled][checked]:after {
-        content:'✓';
-        color: black;
+        content: '';
         position: absolute;
-        margin-left: 4px;
-        margin-top: 3px;
-        opacity: 1 !important;*/
-        font-family: 'Arial';
-        font-style: normal;
-        font-weight: normal;
-        transform: scale(1.1);
-    }
-
-    .macos input[type='checkbox'][checked]:after {
-        content:'✓';
-        color: black;
-        position: absolute;
-        margin-left: 4px;
-        margin-top: 3px;
-        opacity: 1 !important;*/
-        font-family: 'Arial';
-        font-style: normal;
-        font-weight: normal;
-        transform: scale(1.1);
+        left: 2.5px;
+        top: 2.5px;
+        width: 8px;
+        height: 5px;
+        border-left: 1px solid black;
+        border-bottom: 1px solid black;
+        transform: rotate(-45deg);
     }
 
 li {
