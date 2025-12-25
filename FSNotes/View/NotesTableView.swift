@@ -405,7 +405,11 @@ class NotesTableView: NSTableView,
         menu.autoenablesItems = false
         
         for menuItem in menu.items {
-            menuItem.isEnabled = vc.processFileMenuItems(menuItem, menuId: "popup")
+            if vc.processFileMenuItems(menuItem, menuId: "popup") {
+                menuItem.isEnabled = true
+            } else {
+                menuItem.isEnabled = vc.processShareMenuItems(menuItem, menuId: "popup")
+            }
         }
 
         vc.loadMoveMenu()

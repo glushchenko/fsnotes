@@ -74,30 +74,10 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                     menuItem.title = NSLocalizedString("Empty Bin", comment: "")
                     return true
                 }
-                
-                if menuItem.identifier?.rawValue == "fsnotes.attach" {
-                    menuItem.title = NSLocalizedString("Add External Folder...", comment: "Menu Library")
-                    return true
-                }
-                
-                if menuItem.identifier?.rawValue == "fsnotes.backup" {
-                    var title = NSLocalizedString("Inbox", comment: "")
-                    
-                    if let gitProject = vc.getGitProject() {
-                        title = gitProject.label
-                        
-                        if gitProject.isDefault {
-                            title = NSLocalizedString("Inbox", comment: "")
-                        }
-                        
-                        menuItem.title =  String(format: NSLocalizedString("Commit & Push “%@”", comment: "Menu Library"), title)
-                        return true
-                    }
-                    
-                    return false
-                }
             case "fileMenu":
                 return vc.processFileMenuItems(menuItem, menuId: title)
+            case "shareMenu":
+                return vc.processShareMenuItems(menuItem, menuId: title)
             case "folderMenu":
                 return vc.processLibraryMenuItems(menuItem, menuId: title)
             case "findMenu":

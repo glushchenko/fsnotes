@@ -34,17 +34,6 @@
                                                 <action selector="lockAll:" target="Ady-hI-5gd" id="13I-PF-JJb"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Add External Folder..." localization="NO" mirroring="NO" identifier="fsnotes.attach" id="S8Z-Js-fwB">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="createFolder:" target="Ady-hI-5gd" id="fZJ-Cq-oSM"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Back Up Now" keyEquivalent="s" localization="NO" mirroring="NO" identifier="fsnotes.backup" id="iIP-wI-OaZ">
-                                            <connections>
-                                                <action selector="saveRevision:" target="Ady-hI-5gd" id="K8t-sd-0yE"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="KF2-I2-ZON"/>
                                         <menuItem identifier="fsnotes.emptyBin" id="G9H-Lg-TXE">
                                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -96,22 +85,35 @@ CA
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="kc5-tb-yP0"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="k4G-pB-1AO"/>
                                         <menuItem title="Import" keyEquivalent="O" localization="NO" mirroring="NO" identifier="fileMenu.import" id="O8Z-cg-XnH">
                                             <connections>
                                                 <action selector="importNote:" target="Ady-hI-5gd" id="r4z-z3-fFc"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Add External Folder..." localization="NO" mirroring="NO" identifier="fileMenu.attach" id="S8Z-Js-fwB">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="createFolder:" target="Ady-hI-5gd" id="fZJ-Cq-oSM"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Commit &amp; Push" keyEquivalent="s" localization="NO" mirroring="NO" identifier="fileMenu.backup" id="iIP-wI-OaZ">
+                                            <connections>
+                                                <action selector="saveRevision:" target="Ady-hI-5gd" id="K8t-sd-0yE"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="gcI-QI-pM4"/>
                                         <menuItem title="New" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.new" id="2Ci-Yj-aWK">
                                             <connections>
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Window" keyEquivalent="N" localization="NO" mirroring="NO" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
+                                        <menuItem title="New Note in New Window  " keyEquivalent="N" localization="NO" mirroring="NO" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
                                             <connections>
                                                 <action selector="createInNewWindow:" target="Ady-hI-5gd" id="fVv-cz-Kms"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Create Folder" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.createFolder" id="SrH-fe-Hog">
+                                        <menuItem title="New Folder" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.createFolder" id="SrH-fe-Hog">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="createFolder:" target="Ady-hI-5gd" id="zjY-Sq-KJa"/>
@@ -124,7 +126,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DJZ-Sf-cos"/>
-                                        <menuItem title="Open" keyEquivalent="o" localization="NO" mirroring="NO" identifier="fileMenu.open" id="HmK-lp-ASv">
+                                        <menuItem title="Open Note in New Window" keyEquivalent="o" localization="NO" mirroring="NO" identifier="fileMenu.open" id="HmK-lp-ASv">
                                             <connections>
                                                 <action selector="openWindow:" target="Ady-hI-5gd" id="HOV-Ja-fKS"/>
                                             </connections>
@@ -177,45 +179,36 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="uk8-Oi-IxM"/>
-                                        <menuItem title="Change Creation Date" keyEquivalent="d" localization="NO" mirroring="NO" identifier="fileMenu.date" id="49W-tO-6Vu">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
-                                            <attributedString key="userComments">
-                                                <fragment content="#bc-ignore!"/>
-                                            </attributedString>
-                                            <connections>
-                                                <action selector="changeCreationDate:" target="Ady-hI-5gd" id="BfF-b0-iLh"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Toggle Container" localization="NO" mirroring="NO" identifier="fileMenu.toggleContainer" id="VwE-w2-fAG">
+                                        <menuItem title="Share" id="eCt-xc-KgN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="toggleContainer:" target="Ady-hI-5gd" id="Ct4-tU-OUo"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="y7K-xq-tI8"/>
-                                        <menuItem title="Copy URL" localization="NO" mirroring="NO" identifier="fileMenu.copyURL" id="Rg2-j1-Foz">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="copyURL:" target="Ady-hI-5gd" id="aX7-ly-HOE"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Copy Title" keyEquivalent="c" localization="NO" mirroring="NO" identifier="fileMenu.copyTitle" id="5LV-Vi-n79">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Create Web Page" keyEquivalent="u" localization="NO" mirroring="NO" identifier="fileMenu.uploadOverSSH" id="vZO-Tx-X1j">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="uploadWebNote:" target="Ady-hI-5gd" id="kGh-7X-iq3"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Delete Web Page" tag="100" keyEquivalent="u" localization="NO" mirroring="NO" identifier="fileMenu.removeOverSSH" id="PzH-8q-38O">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="removeWebNote:" target="Ady-hI-5gd" id="nSU-Xz-O4T"/>
-                                            </connections>
+                                            <menu key="submenu" title="Share" identifier="shareMenu" id="LKs-o1-uhL">
+                                                <items>
+                                                    <menuItem title="Copy URL" localization="NO" mirroring="NO" identifier="shareMenu.copyURL" id="Rg2-j1-Foz">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="copyURL:" target="Ady-hI-5gd" id="aX7-ly-HOE"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Copy Title" keyEquivalent="c" localization="NO" mirroring="NO" identifier="shareMenu.copyTitle" id="5LV-Vi-n79">
+                                                        <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Create Web Page" keyEquivalent="u" localization="NO" mirroring="NO" identifier="shareMenu.uploadOverSSH" id="vZO-Tx-X1j">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="uploadWebNote:" target="Ady-hI-5gd" id="kGh-7X-iq3"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Delete Web Page" tag="100" keyEquivalent="u" localization="NO" mirroring="NO" identifier="shareMenu.removeOverSSH" id="PzH-8q-38O">
+                                                        <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="removeWebNote:" target="Ady-hI-5gd" id="nSU-Xz-O4T"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wQ9-qT-qnU"/>
                                         <menuItem title="Move" keyEquivalent="T" localization="NO" mirroring="NO" identifier="fileMenu.move" id="CvG-Kp-kdK">

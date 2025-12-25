@@ -21,7 +21,7 @@ extension ViewController {
         guard let vc = ViewController.shared(),
               let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
               let id = menuItem.identifier?.rawValue else { return false }
-                        
+
         // Sidebar
         let tags = vc.sidebarOutlineView.getSidebarTags()
         let projects = vc.sidebarOutlineView.getSelectedProjects()
@@ -54,6 +54,26 @@ extension ViewController {
             menuItem.title = NSLocalizedString("Import", comment: "File Menu")
             return true
             
+        case "\(menuId).attach":
+            menuItem.title = NSLocalizedString("Add External Folder...", comment: "Menu Library")
+            return true
+            
+        case "\(menuId).backup":
+            var title = NSLocalizedString("Inbox", comment: "")
+            
+            if let gitProject = vc.getGitProject() {
+                title = gitProject.label
+                
+                if gitProject.isDefault {
+                    title = NSLocalizedString("Inbox", comment: "")
+                }
+                
+                menuItem.title =  String(format: NSLocalizedString("Commit & Push “%@”", comment: "Menu Library"), title)
+                return true
+            }
+            
+            return false
+
         case "\(menuId).new":
             menuItem.title = NSLocalizedString("New Note", comment: "File Menu")
             return true
@@ -161,7 +181,7 @@ extension ViewController {
             
         case "\(menuId).date":
             menuItem.title = NSLocalizedString("Change Creation Date", comment: "File Menu")
-            return greaterThanZero && (isFirstResponder || isOpenedWindow)
+            return greaterThanZero && (isFirstResponder || isOpenedWindow || isFirstEditor)
             
         case "\(menuId).toggleContainer":
             if let note = notes?.first, note.container == .none {
@@ -170,29 +190,7 @@ extension ViewController {
                 menuItem.title =  NSLocalizedString("Convert to Plain", comment: "")
             }
             return greaterThanZero && !hasEncrypted(notes: notes) && (isFirstResponder || isOpenedWindow)
-            
-        case "\(menuId).copyURL":
-            menuItem.title = NSLocalizedString("Copy URL", comment: "File Menu")
-            return isOne && (isFirstResponder || isOpenedWindow)
-            
-        case "\(menuId).copyTitle":
-            menuItem.title = NSLocalizedString("Copy Title", comment: "File Menu")
-            return isOne && (isFirstResponder || isOpenedWindow)
-            
-        case "\(menuId).uploadOverSSH":
-            if let note = notes?.first, note.uploadPath != nil || note.apiId != nil {
-                menuItem.title = NSLocalizedString("Update Web Page", comment: "File Menu")
-            } else {
-                menuItem.title = NSLocalizedString("Create Web Page", comment: "File Menu")
-            }
-            return isOne && (isFirstResponder || isOpenedWindow || isFirstEditor)
-            
-        case "\(menuId).removeOverSSH":
-            menuItem.title = NSLocalizedString("Delete Web Page", comment: "File Menu")
-            if let note = notes?.first {
-                return (isFirstResponder || isOpenedWindow || isFirstEditor) && isOne && !note.isEncrypted() && (note.uploadPath != nil || note.apiId != nil)
-            }
-            
+
         case "\(menuId).move":
             menuItem.title = NSLocalizedString("Move", comment: "File Menu")
             return greaterThanZero && (isFirstResponder || isOpenedWindow || isFirstEditor)
@@ -208,6 +206,47 @@ extension ViewController {
             return isOne && (isFirstResponder || isOpenedWindow || isFirstEditor)
         default:
             break
+        }
+        
+        return false
+    }
+    
+    func processShareMenuItems(_ menuItem: NSMenuItem, menuId: String) -> Bool {
+        guard let vc = ViewController.shared(),
+              let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController,
+              let id = menuItem.identifier?.rawValue else { return false }
+        
+        let isFirstResponder = evc.view.window?.firstResponder?.isKind(of: NotesTableView.self) == true
+        let isFirstEditor = evc.view.window?.firstResponder?.isKind(of: EditTextView.self) == true
+        let isOpenedWindow = NSApplication.shared.keyWindow?.contentViewController?.isKind(of: NoteViewController.self) == true
+        
+        let notes = vc.getSelectedNotes()
+        let isOne = notes?.count == 1
+        
+        switch id {
+        case "\(menuId).copyURL":
+            menuItem.title = NSLocalizedString("Copy URL", comment: "File Menu")
+            return isOne && (isFirstResponder || isOpenedWindow || isFirstEditor)
+            
+        case "\(menuId).copyTitle":
+            menuItem.title = NSLocalizedString("Copy Title", comment: "File Menu")
+            return isOne && (isFirstResponder || isOpenedWindow || isFirstEditor)
+            
+        case "\(menuId).uploadOverSSH":
+            if let note = notes?.first, note.uploadPath != nil || note.apiId != nil {
+                menuItem.title = NSLocalizedString("Update Web Page", comment: "File Menu")
+            } else {
+                menuItem.title = NSLocalizedString("Create Web Page", comment: "File Menu")
+            }
+            return isOne && (isFirstResponder || isOpenedWindow || isFirstEditor)
+            
+        case "\(menuId).removeOverSSH":
+            menuItem.title = NSLocalizedString("Delete Web Page", comment: "File Menu")
+            if let note = notes?.first {
+                return (isFirstResponder || isOpenedWindow || isFirstEditor) && isOne && !note.isEncrypted() && (note.uploadPath != nil || note.apiId != nil)
+            }
+        default:
+            return false
         }
         
         return false
