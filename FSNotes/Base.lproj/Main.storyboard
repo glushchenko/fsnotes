@@ -13,29 +13,29 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="FSNotes" identifier="fsnotesMenu" id="1Xt-HY-uBw">
+                            <menuItem title="FSNotes" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="FSNotes" systemMenu="apple" identifier="fsnotesMenu" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About FSNotes" id="5kV-Vb-QxS">
+                                        <menuItem title="About FSNotes" image="info.circle" catalog="system" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="showAboutWindow:" target="Ady-hI-5gd" id="N5Z-Au-8xg"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                        <menuItem title="Preferences…" image="gearshape" catalog="system" keyEquivalent="," id="BOF-NM-1cW">
                                             <connections>
                                                 <action selector="openPreferences:" target="Voe-Tx-rLC" id="inL-8g-wqE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Lock All Encrypted" keyEquivalent="L" identifier="fsnotes.lock" id="GrP-W1-7ZQ">
+                                        <menuItem title="Lock All Encrypted" image="lock" catalog="system" keyEquivalent="L" identifier="fsnotes.lock" id="GrP-W1-7ZQ">
                                             <connections>
                                                 <action selector="lockAll:" target="Ady-hI-5gd" id="13I-PF-JJb"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="KF2-I2-ZON"/>
-                                        <menuItem identifier="fsnotes.emptyBin" id="G9H-Lg-TXE">
+                                        <menuItem image="trash" catalog="system" identifier="fsnotes.emptyBin" id="G9H-Lg-TXE">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -80,68 +80,68 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" identifier="fileMenu" id="uMZ-sI-7ja">
                                     <items>
-                                        <menuItem title="Close" keyEquivalent="w" localization="NO" mirroring="NO" identifier="fileMenu.close" id="kIy-TN-XMS">
+                                        <menuItem title="Close" image="xmark" catalog="system" keyEquivalent="w" localization="NO" mirroring="NO" identifier="fileMenu.close" id="kIy-TN-XMS">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="kc5-tb-yP0"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="k4G-pB-1AO"/>
-                                        <menuItem title="Import" keyEquivalent="O" localization="NO" mirroring="NO" identifier="fileMenu.import" id="O8Z-cg-XnH">
+                                        <menuItem title="Import" image="square.and.arrow.down" catalog="system" keyEquivalent="O" localization="NO" mirroring="NO" identifier="fileMenu.import" id="O8Z-cg-XnH">
                                             <connections>
                                                 <action selector="importNote:" target="Ady-hI-5gd" id="r4z-z3-fFc"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Add External Folder..." localization="NO" mirroring="NO" identifier="fileMenu.attach" id="S8Z-Js-fwB">
+                                        <menuItem title="Add External Folder..." image="folder" catalog="system" localization="NO" mirroring="NO" identifier="fileMenu.attach" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="createFolder:" target="Ady-hI-5gd" id="fZJ-Cq-oSM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Commit &amp; Push" keyEquivalent="s" localization="NO" mirroring="NO" identifier="fileMenu.backup" id="iIP-wI-OaZ">
+                                        <menuItem title="Commit &amp; Push" image="arrow.clockwise.circle" catalog="system" keyEquivalent="s" localization="NO" mirroring="NO" identifier="fileMenu.backup" id="iIP-wI-OaZ">
                                             <connections>
                                                 <action selector="saveRevision:" target="Ady-hI-5gd" id="K8t-sd-0yE"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="gcI-QI-pM4"/>
-                                        <menuItem title="New" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.new" id="2Ci-Yj-aWK">
+                                        <menuItem title="New" image="note.text" catalog="system" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.new" id="2Ci-Yj-aWK">
                                             <connections>
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Note in New Window  " keyEquivalent="N" localization="NO" mirroring="NO" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
+                                        <menuItem title="New Note in New Window  " image="macwindow.badge.plus" catalog="system" keyEquivalent="N" localization="NO" mirroring="NO" identifier="fileMenu.newInNewWindow" id="2Vh-rt-1kc">
                                             <connections>
                                                 <action selector="createInNewWindow:" target="Ady-hI-5gd" id="fVv-cz-Kms"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Folder" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.createFolder" id="SrH-fe-Hog">
+                                        <menuItem title="New Folder" image="folder" catalog="system" keyEquivalent="n" localization="NO" mirroring="NO" identifier="fileMenu.createFolder" id="SrH-fe-Hog">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="createFolder:" target="Ady-hI-5gd" id="zjY-Sq-KJa"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
-                                        <menuItem title="Search and Create" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
+                                        <menuItem title="Search and Create" image="magnifyingglass" catalog="system" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
                                             <connections>
                                                 <action selector="searchAndCreate:" target="L4m-js-agn" id="ChM-Mj-Rdf"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DJZ-Sf-cos"/>
-                                        <menuItem title="Open Note in New Window" keyEquivalent="o" localization="NO" mirroring="NO" identifier="fileMenu.open" id="HmK-lp-ASv">
+                                        <menuItem title="Open Note in New Window" image="macwindow.on.rectangle" catalog="system" keyEquivalent="o" localization="NO" mirroring="NO" identifier="fileMenu.open" id="HmK-lp-ASv">
                                             <connections>
                                                 <action selector="openWindow:" target="Ady-hI-5gd" id="HOV-Ja-fKS"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Duplicate" keyEquivalent="d" localization="NO" mirroring="NO" identifier="fileMenu.duplicate" id="pnm-dP-GKO">
+                                        <menuItem title="Duplicate" image="document.on.document" catalog="system" keyEquivalent="d" localization="NO" mirroring="NO" identifier="fileMenu.duplicate" id="pnm-dP-GKO">
                                             <connections>
                                                 <action selector="duplicate:" target="Ady-hI-5gd" id="9eI-Pe-IRx"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename" keyEquivalent="r" mirroring="NO" identifier="fileMenu.rename" id="jLq-8F-n0X">
+                                        <menuItem title="Rename" image="pencil" catalog="system" keyEquivalent="r" mirroring="NO" identifier="fileMenu.rename" id="jLq-8F-n0X">
                                             <connections>
                                                 <action selector="fsRenameItem:" target="Ady-hI-5gd" id="nob-G6-CIE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Force Delete" alternate="YES" localization="NO" mirroring="NO" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
+                                        <menuItem title="Force Delete" image="delete.right" catalog="system" alternate="YES" localization="NO" mirroring="NO" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -150,36 +150,36 @@ CA
                                                 <action selector="forceDeleteNote:" target="Ady-hI-5gd" id="RHd-Iz-8iM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Pin/Unpin" keyEquivalent="8" localization="NO" mirroring="NO" identifier="fileMenu.togglePin" id="You-zo-rbl">
+                                        <menuItem title="Pin/Unpin" image="pin" catalog="system" keyEquivalent="8" localization="NO" mirroring="NO" identifier="fileMenu.togglePin" id="You-zo-rbl">
                                             <connections>
                                                 <action selector="pinMenu:" target="Ady-hI-5gd" id="5kK-KD-hhk"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Decrypt" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.decrypt" id="fkH-Wf-n87">
+                                        <menuItem title="Decrypt" image="lock.slash" catalog="system" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.decrypt" id="fkH-Wf-n87">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="fsDecryptItem:" target="Ady-hI-5gd" id="VnY-0f-Osd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Lock/Unlock" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.toggleLock" id="RSs-wb-GNg">
+                                        <menuItem title="Lock/Unlock" image="lock" catalog="system" keyEquivalent="l" localization="NO" mirroring="NO" identifier="fileMenu.toggleLock" id="RSs-wb-GNg">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="fsToggleLockItem:" target="Ady-hI-5gd" id="J64-eG-cRe"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Open External" keyEquivalent="e" localization="NO" mirroring="NO" identifier="fileMenu.external" id="7MT-fy-lXN">
+                                        <menuItem title="Open External" image="iphone.and.arrow.right.outward" catalog="system" keyEquivalent="e" localization="NO" mirroring="NO" identifier="fileMenu.external" id="7MT-fy-lXN">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="editorMenu:" target="Ady-hI-5gd" id="bT1-dL-ioY"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Reveal in Finder" keyEquivalent="R" localization="NO" mirroring="NO" identifier="fileMenu.reveal" id="rXU-X3-UjC">
+                                        <menuItem title="Reveal in Finder" image="questionmark.folder" catalog="system" keyEquivalent="R" localization="NO" mirroring="NO" identifier="fileMenu.reveal" id="rXU-X3-UjC">
                                             <connections>
                                                 <action selector="fsRevealItem:" target="Ady-hI-5gd" id="Tlf-Bz-pRQ"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="uk8-Oi-IxM"/>
-                                        <menuItem title="Share" id="eCt-xc-KgN">
+                                        <menuItem title="Share" image="square.and.arrow.up" catalog="system" id="eCt-xc-KgN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Share" identifier="shareMenu" id="LKs-o1-uhL">
                                                 <items>
@@ -211,18 +211,18 @@ CA
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wQ9-qT-qnU"/>
-                                        <menuItem title="Move" keyEquivalent="T" localization="NO" mirroring="NO" identifier="fileMenu.move" id="CvG-Kp-kdK">
+                                        <menuItem title="Move" image="move.3d" catalog="system" keyEquivalent="T" localization="NO" mirroring="NO" identifier="fileMenu.move" id="CvG-Kp-kdK">
                                             <connections>
                                                 <action selector="moveMenu:" target="Ady-hI-5gd" id="gIh-8j-qKG"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="History" keyEquivalent="H" localization="NO" mirroring="NO" identifier="fileMenu.history" id="Snd-dJ-uj5">
+                                        <menuItem title="History" image="clock" catalog="system" keyEquivalent="H" localization="NO" mirroring="NO" identifier="fileMenu.history" id="Snd-dJ-uj5">
                                             <connections>
                                                 <action selector="historyMenu:" target="Ady-hI-5gd" id="VPf-oO-JCe"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zV0-3n-jVp"/>
-                                        <menuItem title="Print" keyEquivalent="p" localization="NO" mirroring="NO" identifier="fileMenu.print" id="OV0-om-POJ">
+                                        <menuItem title="Print" image="printer" catalog="system" keyEquivalent="p" localization="NO" mirroring="NO" identifier="fileMenu.print" id="OV0-om-POJ">
                                             <connections>
                                                 <action selector="printNotes:" target="Ady-hI-5gd" id="aq9-E9-nEe"/>
                                             </connections>
@@ -234,39 +234,39 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Edit" identifier="editMenu" id="W48-6f-4Dl">
                                     <items>
-                                        <menuItem title="Undo" keyEquivalent="z" id="dRJ-4n-Yzg">
+                                        <menuItem title="Undo" image="arrow.uturn.backward" catalog="system" keyEquivalent="z" id="dRJ-4n-Yzg">
                                             <connections>
                                                 <action selector="undo:" target="Ady-hI-5gd" id="M6e-cu-g7V"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Redo" keyEquivalent="Z" id="6dh-zS-Vam">
+                                        <menuItem title="Redo" image="arrow.uturn.forward" catalog="system" keyEquivalent="Z" id="6dh-zS-Vam">
                                             <connections>
                                                 <action selector="redo:" target="Ady-hI-5gd" id="oIA-Rs-6OD"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="WRV-NI-Exz"/>
-                                        <menuItem title="Cut" keyEquivalent="x" id="uRl-iY-unG">
+                                        <menuItem title="Cut" image="scissors" catalog="system" keyEquivalent="x" id="uRl-iY-unG">
                                             <connections>
                                                 <action selector="cut:" target="Ady-hI-5gd" id="YJe-68-I9s"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Copy" keyEquivalent="c" id="x3v-GG-iWU">
+                                        <menuItem title="Copy" image="document.on.document" catalog="system" keyEquivalent="c" id="x3v-GG-iWU">
                                             <connections>
                                                 <action selector="copy:" target="Ady-hI-5gd" id="lq4-pB-TEE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Paste" keyEquivalent="v" id="gVA-U4-sdL">
+                                        <menuItem title="Paste" image="document.on.clipboard" catalog="system" keyEquivalent="v" id="gVA-U4-sdL">
                                             <connections>
                                                 <action selector="paste:" target="Ady-hI-5gd" id="UvS-8e-Qdg"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Paste and Match Style" keyEquivalent="V" id="WeT-3V-zwk">
+                                        <menuItem title="Paste and Match Style" image="document.on.clipboard.fill" catalog="system" keyEquivalent="V" id="WeT-3V-zwk">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="pasteAsPlainText:" target="Ady-hI-5gd" id="cEh-KX-wJQ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete" id="pa3-QI-u2k">
+                                        <menuItem title="Delete" image="trash" catalog="system" id="pa3-QI-u2k">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -274,13 +274,13 @@ CA
                                                 <action selector="delete:" target="Ady-hI-5gd" id="0Mk-Ml-PaM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
+                                        <menuItem title="Select All" image="filemenu.and.selection" catalog="system" keyEquivalent="a" id="Ruw-6m-B2m">
                                             <connections>
                                                 <action selector="selectAll:" target="Ady-hI-5gd" id="VNm-Mi-diN"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="uyl-h8-XO2"/>
-                                        <menuItem title="Find" id="4EN-yA-p0u">
+                                        <menuItem title="Find" image="magnifyingglass" catalog="system" id="4EN-yA-p0u">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Find" identifier="findMenu" id="1b7-l0-nxx">
                                                 <items>
@@ -319,7 +319,7 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Spelling and Grammar" id="Dv1-io-Yv7">
+                                        <menuItem title="Spelling and Grammar" image="graduationcap" catalog="system" id="Dv1-io-Yv7">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Spelling and Grammar" identifier="spelling" id="3IN-sU-3Bg">
                                                 <items>
@@ -355,7 +355,7 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Substitutions" id="9ic-FL-obx">
+                                        <menuItem title="Substitutions" image="textformat.subscript" catalog="system" id="9ic-FL-obx">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Substitutions" identifier="substitutions" id="FeM-D8-WVr">
                                                 <items>
@@ -405,7 +405,7 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Transformations" id="2oI-Rn-ZJC">
+                                        <menuItem title="Transformations" image="textformat.abc" catalog="system" id="2oI-Rn-ZJC">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Transformations" id="c8a-y6-VQd">
                                                 <items>
@@ -430,7 +430,7 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Speech" id="xrE-MZ-jX0">
+                                        <menuItem title="Speech" image="waveform" catalog="system" id="xrE-MZ-jX0">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Speech" id="3rS-ZA-NoH">
                                                 <items>
@@ -456,23 +456,23 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Format" identifier="formatMenu" id="GEO-Iw-cKr">
                                     <items>
-                                        <menuItem title="Bold" keyEquivalent="b" id="LTw-w4-tEo">
+                                        <menuItem title="Bold" image="bold" catalog="system" keyEquivalent="b" id="LTw-w4-tEo">
                                             <connections>
                                                 <action selector="boldMenu:" target="Ady-hI-5gd" id="iEg-Ph-IUa"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Italic" keyEquivalent="i" id="k32-YP-yyI">
+                                        <menuItem title="Italic" image="italic" catalog="system" keyEquivalent="i" id="k32-YP-yyI">
                                             <connections>
                                                 <action selector="italicMenu:" target="Ady-hI-5gd" id="NfW-nJ-p7S"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Strikethrough" keyEquivalent="y" id="EK1-kN-kK3">
+                                        <menuItem title="Strikethrough" image="strikethrough" catalog="system" keyEquivalent="y" id="EK1-kN-kK3">
                                             <connections>
                                                 <action selector="strikeMenu:" target="Ady-hI-5gd" id="ez5-KB-i65"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pUR-Y1-6Rc"/>
-                                        <menuItem title="Headers" id="Pzb-TG-43d">
+                                        <menuItem title="Headers" image="textformat.size.smaller" catalog="system" id="Pzb-TG-43d">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Headers" id="UMi-Hx-Z1c">
                                                 <items>
@@ -510,64 +510,64 @@ CA
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="axj-Yd-h2p"/>
-                                        <menuItem title="List" keyEquivalent="l" id="1sM-9Q-KeG">
+                                        <menuItem title="List" image="list.bullet" catalog="system" keyEquivalent="l" id="1sM-9Q-KeG">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                             <connections>
                                                 <action selector="insertList:" target="Ady-hI-5gd" id="6EM-1j-yZn"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Ordered List" keyEquivalent="L" id="8cf-5K-KZh">
+                                        <menuItem title="Ordered List" image="list.number" catalog="system" keyEquivalent="L" id="8cf-5K-KZh">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                             <connections>
                                                 <action selector="insertOrderedList:" target="Ady-hI-5gd" id="mSc-hh-Emb"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Toggle Todo" keyEquivalent="t" identifier="format.todo" id="n0M-SN-fzg">
+                                        <menuItem title="Toggle Todo" image="checklist" catalog="system" keyEquivalent="t" identifier="format.todo" id="n0M-SN-fzg">
                                             <connections>
                                                 <action selector="todo:" target="Ady-hI-5gd" id="tNn-G1-JVu"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Clear Completed Todos" keyEquivalent="t" id="BoD-Jy-zeE">
+                                        <menuItem title="Clear Completed Todos" image="checklist.unchecked" catalog="system" keyEquivalent="t" id="BoD-Jy-zeE">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="clearCompletedTodos:" target="Ady-hI-5gd" id="9Vo-lw-EsW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="p1N-Ks-tWf"/>
-                                        <menuItem title="Link" keyEquivalent="i" identifier="format.link" id="xfW-7n-cIw">
+                                        <menuItem title="Link" image="link" catalog="system" keyEquivalent="i" identifier="format.link" id="xfW-7n-cIw">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="linkMenu:" target="Ady-hI-5gd" id="V6q-no-eC3"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Image or File" keyEquivalent="I" identifier="format.image" id="yx6-SW-3vn">
+                                        <menuItem title="Image or File" image="paperclip" catalog="system" keyEquivalent="I" identifier="format.image" id="yx6-SW-3vn">
                                             <connections>
                                                 <action selector="insertFileOrImage:" target="Ady-hI-5gd" id="2EE-rd-dsJ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Code Block" keyEquivalent="c" identifier="format.codeBlock" id="OOL-dM-zIE">
+                                        <menuItem title="Code Block" image="swift" catalog="system" keyEquivalent="c" identifier="format.codeBlock" id="OOL-dM-zIE">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="insertCodeBlock:" target="Ady-hI-5gd" id="dB1-yF-DnW"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Code Span" keyEquivalent="C" identifier="format.codeSpan" id="Ukg-MO-eaB">
+                                        <menuItem title="Code Span" image="fossil.shell" catalog="system" keyEquivalent="C" identifier="format.codeSpan" id="Ukg-MO-eaB">
                                             <connections>
                                                 <action selector="insertCodeSpan:" target="Ady-hI-5gd" id="zP1-Kg-gh9"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Quote" keyEquivalent="U" id="X3S-sG-ykW">
+                                        <menuItem title="Quote" image="quote.bubble" catalog="system" keyEquivalent="U" id="X3S-sG-ykW">
                                             <connections>
                                                 <action selector="insertQuote:" target="Ady-hI-5gd" id="CsH-RU-eV9"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="WikiLinks" keyEquivalent="9" id="hqQ-4C-VJL">
+                                        <menuItem title="WikiLinks" image="link.badge.plus" catalog="system" keyEquivalent="9" id="hqQ-4C-VJL">
                                             <connections>
                                                 <action selector="wikiLinks:" target="Ady-hI-5gd" id="gT7-1q-B11"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="mrY-K0-JGH"/>
-                                        <menuItem title="Move Item" id="3fK-Ap-A5p">
+                                        <menuItem title="Move Item" image="move.3d" catalog="system" id="3fK-Ap-A5p">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Move Item" id="zRJ-Z2-Lsa">
                                                 <items>
@@ -603,72 +603,72 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" identifier="viewMenu" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Toggle Preview" keyEquivalent="/" id="PdU-Em-Ugm">
+                                        <menuItem title="Toggle Preview" image="eye" catalog="system" keyEquivalent="/" id="PdU-Em-Ugm">
                                             <connections>
                                                 <action selector="togglePreview:" target="Ady-hI-5gd" id="62m-Nl-zcS"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Preview MathJax" keyEquivalent="/" identifier="previewMathJax" id="KIz-OO-IQT">
+                                        <menuItem title="Preview MathJax" image="x.squareroot" catalog="system" keyEquivalent="/" identifier="previewMathJax" id="KIz-OO-IQT">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleMathJax:" target="Ady-hI-5gd" id="KrN-I7-17C"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="BackLinks" keyEquivalent="b" id="1cO-zi-naR">
+                                        <menuItem title="BackLinks" image="link.circle" catalog="system" keyEquivalent="b" id="1cO-zi-naR">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="showBackLinks:" target="Ady-hI-5gd" id="aGr-tc-O21"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="sLG-sQ-Yi1"/>
-                                        <menuItem title="Hide/Show Note List" keyEquivalent="B" identifier="view.toggleNoteList" id="WHt-T4-l9c">
+                                        <menuItem title="Hide/Show Note List" image="sidebar.squares.leading" catalog="system" keyEquivalent="B" identifier="view.toggleNoteList" id="WHt-T4-l9c">
                                             <connections>
                                                 <action selector="toggleNoteList:" target="L4m-js-agn" id="G22-P2-hks"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Hide/Show Sidebar" keyEquivalent="s" identifier="view.toggleSidebar" id="DCh-5P-PZe">
+                                        <menuItem title="Hide/Show Sidebar" image="sidebar.left" catalog="system" keyEquivalent="s" identifier="view.toggleSidebar" id="DCh-5P-PZe">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleSidebar:" target="L4m-js-agn" id="MRM-fh-zTo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
-                                        <menuItem title="Back" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
+                                        <menuItem title="Back" image="backward" catalog="system" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="prevHistory:" target="L4m-js-agn" id="o7w-Hu-ldI"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Forward" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
+                                        <menuItem title="Forward" image="forward" catalog="system" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="nextHistory:" target="L4m-js-agn" id="D4W-nU-AEU"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="iip-ri-cBa"/>
-                                        <menuItem title="Move Down in the Notes List" keyEquivalent="j" id="BtV-Z4-7Vq">
+                                        <menuItem title="Move Down in the Notes List" image="arrowshape.down" catalog="system" keyEquivalent="j" id="BtV-Z4-7Vq">
                                             <connections>
                                                 <action selector="noteDown:" target="Ady-hI-5gd" id="WHy-qc-OvH"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Move Up in the Notes List" keyEquivalent="k" id="Hqu-Sx-xgo">
+                                        <menuItem title="Move Up in the Notes List" image="arrowshape.up" catalog="system" keyEquivalent="k" id="Hqu-Sx-xgo">
                                             <connections>
                                                 <action selector="noteUp:" target="Ady-hI-5gd" id="gfc-6f-Jom"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
-                                        <menuItem title="Move Down in the Sidebar" keyEquivalent="J" identifier="folderMenu.down" id="vrs-XL-lyE">
+                                        <menuItem title="Move Down in the Sidebar" image="arrow.down.circle" catalog="system" keyEquivalent="J" identifier="folderMenu.down" id="vrs-XL-lyE">
                                             <connections>
                                                 <action selector="sidebarDown:" target="Ady-hI-5gd" id="87t-Yf-dii"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Move Up in the Sidebar" keyEquivalent="K" identifier="folderMenu.up" id="sdE-ZM-6cq">
+                                        <menuItem title="Move Up in the Sidebar" image="arrow.up.circle" catalog="system" keyEquivalent="K" identifier="folderMenu.up" id="sdE-ZM-6cq">
                                             <connections>
                                                 <action selector="sidebarUp:" target="Ady-hI-5gd" id="8dT-Az-Nv2"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="Ljl-jP-3qX"/>
-                                        <menuItem title="Sort By" id="rHB-xF-GgG">
+                                        <menuItem title="Sort By" image="arrow.up.arrow.down" catalog="system" id="rHB-xF-GgG">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Sort By" identifier="viewSortBy" id="05n-RU-nOV">
                                                 <items>
@@ -693,7 +693,7 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Show in Sidebar" id="O9f-Lf-HF6">
+                                        <menuItem title="Show in Sidebar" image="rectangle.expand.vertical" catalog="system" id="O9f-Lf-HF6">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Show in Sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
                                                 <items>
@@ -731,23 +731,23 @@ CA
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="J7t-Zu-WdP"/>
-                                        <menuItem title="Actual Size" keyEquivalent="0" identifier="viewMenu.actualSize" id="LFw-De-3DP">
+                                        <menuItem title="Actual Size" image="arrow.counterclockwise" catalog="system" keyEquivalent="0" identifier="viewMenu.actualSize" id="LFw-De-3DP">
                                             <connections>
                                                 <action selector="actualSize:" target="Ady-hI-5gd" id="YdB-qs-3rs"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Zoom In" keyEquivalent="+" id="NZK-ki-p6Z">
+                                        <menuItem title="Zoom In" image="plus.magnifyingglass" catalog="system" keyEquivalent="+" id="NZK-ki-p6Z">
                                             <connections>
                                                 <action selector="zoomIn:" target="Ady-hI-5gd" id="wMo-ve-Eil"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Zoom Out" keyEquivalent="-" id="gYQ-MC-Xwt">
+                                        <menuItem title="Zoom Out" image="minus.magnifyingglass" catalog="system" keyEquivalent="-" id="gYQ-MC-Xwt">
                                             <connections>
                                                 <action selector="zoomOut:" target="Ady-hI-5gd" id="r5g-eg-lj6"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="XWg-CY-0hh"/>
-                                        <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
+                                        <menuItem title="Enter Full Screen" image="arrow.up.left.and.arrow.down.right" catalog="system" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="dU3-MA-1Rq"/>
@@ -791,18 +791,18 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="FSNotes Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="FSNotes Help" image="questionmark.circle" catalog="system" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="openHelp:" target="Voe-Tx-rLC" id="CHO-se-CJA"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Report Bugs or Feature Requests" id="Q9n-yE-Ul0">
+                                        <menuItem title="Report Bugs or Feature Requests" image="ladybug" catalog="system" id="Q9n-yE-Ul0">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openReportsAndRequests:" target="Ady-hI-5gd" id="V1D-1X-awT"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Official Site" id="cfe-sv-2gm">
+                                        <menuItem title="Official Site" image="link" catalog="system" id="cfe-sv-2gm">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openSite:" target="Voe-Tx-rLC" id="A75-hX-lIa"/>
@@ -2466,7 +2466,7 @@ Gw
                                 </attributedString>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="129" y="300" width="304" height="32"/>
+                                <rect key="frame" x="130" y="300" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Copyright © 2017-2024 Oleksandr Hlushchenko.
@@ -2479,7 +2479,7 @@ All rights reserved.</string>
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="208" y="425" width="146" height="16"/>
+                                <rect key="frame" x="209" y="425" width="146" height="16"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2492,7 +2492,7 @@ All rights reserved.</string>
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="526" height="32"/>
+                                <rect key="frame" x="18" y="20" width="527" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2513,7 +2513,7 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="243" y="264" width="76" height="16"/>
+                                <rect key="frame" x="244" y="264" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2521,10 +2521,10 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="522" height="5"/>
+                                <rect key="frame" x="20" y="381" width="523" height="5"/>
                             </box>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="254" y="347" width="54" height="16"/>
+                                <rect key="frame" x="255" y="347" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2532,13 +2532,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="522" height="160"/>
+                                <rect key="frame" x="20" y="96" width="523" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="520" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="521" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="520" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="521" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2580,7 +2580,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="374.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="375.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -2593,11 +2593,11 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Svh-Z4-DD5">
-                                                            <rect key="frame" x="139.5" y="0.0" width="371" height="24"/>
+                                                            <rect key="frame" x="139.5" y="0.0" width="372" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
-                                                                    <rect key="frame" x="0.0" y="4" width="371" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="4" width="372" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zoX-MN-b3x">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -4869,16 +4869,82 @@ Olena Hlushcneko</string>
         <image name="NSLockUnlockedTemplate" width="21" height="19"/>
         <image name="NSQuickLookTemplate" width="26" height="17"/>
         <image name="NSShareTemplate" width="19" height="23"/>
+        <image name="arrow.clockwise.circle" catalog="system" width="15" height="15"/>
+        <image name="arrow.counterclockwise" catalog="system" width="14" height="16"/>
+        <image name="arrow.down.circle" catalog="system" width="15" height="15"/>
+        <image name="arrow.up.arrow.down" catalog="system" width="18" height="15"/>
+        <image name="arrow.up.circle" catalog="system" width="15" height="15"/>
+        <image name="arrow.up.left.and.arrow.down.right" catalog="system" width="16" height="15"/>
+        <image name="arrow.uturn.backward" catalog="system" width="15" height="14"/>
+        <image name="arrow.uturn.forward" catalog="system" width="15" height="14"/>
+        <image name="arrowshape.down" catalog="system" width="15" height="16"/>
+        <image name="arrowshape.up" catalog="system" width="15" height="16"/>
+        <image name="backward" catalog="system" width="20" height="12"/>
+        <image name="bold" catalog="system" width="11" height="12"/>
+        <image name="checklist" catalog="system" width="18" height="15"/>
+        <image name="checklist.unchecked" catalog="system" width="18" height="15"/>
+        <image name="clock" catalog="system" width="15" height="15"/>
+        <image name="delete.right" catalog="system" width="17" height="14"/>
+        <image name="document.on.clipboard" catalog="system" width="16" height="18"/>
+        <image name="document.on.clipboard.fill" catalog="system" width="17" height="19"/>
+        <image name="document.on.document" catalog="system" width="16" height="18"/>
+        <image name="eye" catalog="system" width="21" height="13"/>
+        <image name="filemenu.and.selection" catalog="system" width="18" height="14"/>
+        <image name="folder" catalog="system" width="18" height="14"/>
+        <image name="forward" catalog="system" width="20" height="12"/>
+        <image name="fossil.shell" catalog="system" width="18" height="15"/>
+        <image name="gearshape" catalog="system" width="16" height="16"/>
+        <image name="graduationcap" catalog="system" width="21" height="18"/>
         <image name="icon" width="1024" height="1024"/>
+        <image name="info.circle" catalog="system" width="15" height="15"/>
+        <image name="iphone.and.arrow.right.outward" catalog="system" width="15" height="16"/>
+        <image name="italic" catalog="system" width="10" height="12"/>
+        <image name="ladybug" catalog="system" width="18" height="18"/>
+        <image name="link" catalog="system" width="17" height="17"/>
+        <image name="link.badge.plus" catalog="system" width="18" height="17"/>
+        <image name="link.circle" catalog="system" width="15" height="15"/>
+        <image name="list.bullet" catalog="system" width="16" height="12"/>
+        <image name="list.number" catalog="system" width="16" height="13"/>
+        <image name="lock" catalog="system" width="13" height="15"/>
+        <image name="lock.slash" catalog="system" width="14" height="16"/>
+        <image name="macwindow.badge.plus" catalog="system" width="21" height="16"/>
+        <image name="macwindow.on.rectangle" catalog="system" width="19" height="15"/>
+        <image name="magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="minus.magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="move.3d" catalog="system" width="16" height="14"/>
         <image name="new_note_button" width="76" height="76"/>
+        <image name="note.text" catalog="system" width="16" height="14"/>
+        <image name="paperclip" catalog="system" width="15" height="17"/>
+        <image name="pencil" catalog="system" width="14" height="13"/>
         <image name="pin" width="64" height="64"/>
+        <image name="pin" catalog="system" width="15" height="17"/>
+        <image name="plus.magnifyingglass" catalog="system" width="16" height="15"/>
         <image name="prefsAdvanced" width="171" height="171"/>
         <image name="prefsEditor" width="128" height="128"/>
         <image name="prefsGeneral" width="120" height="120"/>
         <image name="prefsGit" width="128" height="128"/>
         <image name="prefsLayout" width="128" height="128"/>
         <image name="prefsWeb" width="64" height="64"/>
+        <image name="printer" catalog="system" width="18" height="16"/>
         <image name="privacy" width="128" height="128"/>
+        <image name="questionmark.circle" catalog="system" width="15" height="15"/>
+        <image name="questionmark.folder" catalog="system" width="18" height="14"/>
+        <image name="quote.bubble" catalog="system" width="17" height="16"/>
+        <image name="rectangle.expand.vertical" catalog="system" width="18" height="18"/>
+        <image name="scissors" catalog="system" width="20" height="15"/>
+        <image name="sidebar.left" catalog="system" width="18" height="14"/>
+        <image name="sidebar.squares.leading" catalog="system" width="18" height="14"/>
+        <image name="square.and.arrow.down" catalog="system" width="15" height="17"/>
+        <image name="square.and.arrow.up" catalog="system" width="15" height="18"/>
+        <image name="strikethrough" catalog="system" width="14" height="12"/>
+        <image name="swift" catalog="system" width="18" height="15"/>
+        <image name="textformat.abc" catalog="system" width="25" height="12"/>
+        <image name="textformat.size.smaller" catalog="system" width="9" height="9"/>
+        <image name="textformat.subscript" catalog="system" width="15" height="13"/>
+        <image name="trash" catalog="system" width="15" height="17"/>
+        <image name="waveform" catalog="system" width="15" height="16"/>
+        <image name="x.squareroot" catalog="system" width="17" height="14"/>
+        <image name="xmark" catalog="system" width="14" height="13"/>
         <namedColor name="mainBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
