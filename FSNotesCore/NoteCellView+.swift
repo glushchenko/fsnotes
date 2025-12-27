@@ -16,24 +16,41 @@ typealias ImageView = NSImageView
 
 extension NoteCellView {
     public func loadImagesPreview(position: Int? = nil, urls: [URL]? = nil) {
-        guard let note = self.note else { return }
+        guard let note = self.note else {
+            hideUnusedImagesPreview()
+            imageKeys = []
+            return
+        }
 
         note.loadPreviewInfo()
 
         guard
             !UserDefaultsManagement.hidePreviewImages &&
             !UserDefaultsManagement.horizontalOrientation else {
+            hideUnusedImagesPreview()
+            imageKeys = []
             return
         }
 
         let imageURLs = urls ?? note.imageUrl
         
-        let isNotAssigned = imageURLs?.isEmpty == false
-            && imagePreview.image == nil
+        guard let imageURLs = imageURLs, !imageURLs.isEmpty else {
+            hideUnusedImagesPreview()
+            imageKeys = []
+            attachHeaders(note: note)
+            fixTopConstraint(position: position, note: note)
+            return
+        }
+        
+        let isNotAssigned = imagePreview.image == nil
             && imagePreviewSecond.image == nil
             && imagePreviewThird.image == nil
-
-        guard isImagesChanged(imageURLs: imageURLs) || isNotAssigned else {
+        
+        let isAssigned = imagePreview.image != nil ||
+            imagePreviewSecond.image != nil ||
+            imagePreviewThird.image != nil
+            
+        guard isImagesChanged(imageURLs: imageURLs) || isNotAssigned || isAssigned else {
             attachHeaders(note: note)
             fixTopConstraint(position: position, note: note)
             return
@@ -42,27 +59,33 @@ extension NoteCellView {
         hideUnusedImagesPreview()
         imageKeys = []
 
-        DispatchQueue.global(qos: .userInteractive).async {
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            guard let self = self else { return }
+            
             let current = Date().toMillis()
             self.timestamp = current
             var paths = [String]()
 
-            if let images = imageURLs, images.count > 0 {
-                let resizedImages = self.getResizedPreviewImages(note: note, images: images, timestamp: current!)
+            let resizedImages = self.getResizedPreviewImages(note: note, images: imageURLs, timestamp: current!)
 
-                DispatchQueue.main.async {
-                    if current != self.timestamp {
-                        return
-                    }
-
-                    for imageUrl in images {
-                        paths.append(imageUrl.path)
-                    }
-
-                    self.imageKeys = paths
-                    self.attachImagesPreview(resizedImages: resizedImages)
-                    self.fixTopConstraint(position: position, note: note)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                
+                if current != self.timestamp {
+                    return
                 }
+                
+                guard self.note === note else {
+                    return
+                }
+
+                for imageUrl in imageURLs {
+                    paths.append(imageUrl.path)
+                }
+
+                self.imageKeys = paths
+                self.attachImagesPreview(resizedImages: resizedImages)
+                self.fixTopConstraint(position: position, note: note)
             }
         }
     }
@@ -74,12 +97,16 @@ extension NoteCellView {
             for imageUrl in imageURLs {
                 if !self.imageKeys.contains(imageUrl.path) {
                     needsImagesReloading = true
+                    break
                 }
             }
 
-            for imageKey in self.imageKeys {
-                if imageURLs.first(where: {$0.path == imageKey}) == nil {
-                    needsImagesReloading = true
+            if !needsImagesReloading {
+                for imageKey in self.imageKeys {
+                    if imageURLs.first(where: {$0.path == imageKey}) == nil {
+                        needsImagesReloading = true
+                        break
+                    }
                 }
             }
         }
@@ -99,6 +126,8 @@ extension NoteCellView {
     }
 
     private func attachImagesPreview(resizedImages: [Image]) {
+        hideUnusedImagesPreview()
+
         var index = 0
         for resized in resizedImages {
             index += 1

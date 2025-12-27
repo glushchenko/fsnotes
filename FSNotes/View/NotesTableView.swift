@@ -387,6 +387,16 @@ class NotesTableView: NSTableView,
     func makeCell(note: Note) -> NoteCellView {
         let cell = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
 
+        cell.imageKeys = []
+        cell.timestamp = nil
+        
+        cell.imagePreview.image = nil
+        cell.imagePreview.isHidden = true
+        cell.imagePreviewSecond.image = nil
+        cell.imagePreviewSecond.isHidden = true
+        cell.imagePreviewThird.image = nil
+        cell.imagePreviewThird.isHidden = true
+        
         cell.configure(note: note)
         cell.loadImagesPreview()
         cell.attachHeaders(note: note)

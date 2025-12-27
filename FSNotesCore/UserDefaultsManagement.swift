@@ -153,7 +153,7 @@ public class UserDefaultsManagement {
         static let UploadKey = "uploadKey"
         static let UseTextBundleToStoreDates = "useTextBundleToStoreDates"
         static let AutocloseBrackets = "autocloseBrackets"
-        static let Welcome = "welcome"
+        static let Welcome = "welcome2026b1"
     }
 
     static var codeFontName: String {

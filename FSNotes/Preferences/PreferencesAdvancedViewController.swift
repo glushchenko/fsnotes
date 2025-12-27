@@ -169,6 +169,17 @@ class PreferencesAdvancedViewController: NSViewController {
     }
     
     @IBAction func resetSettings(_ sender: Any) {
+        let store = NSUbiquitousKeyValueStore.default
+        for (key, _) in store.dictionaryRepresentation {
+            store.removeObject(forKey: key)
+        }
+        store.synchronize()
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+            UserDefaults.standard.synchronize()
+        }
+        
         if let userDefaultsURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("Preferences").appendingPathComponent("co.fluder.FSNotes.plist") {
             try? FileManager.default.removeItem(at: userDefaultsURL)
         }

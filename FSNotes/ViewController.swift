@@ -273,6 +273,8 @@ class ViewController: EditorViewController,
                 self.restoreSidebar()
             }
 
+            self.restoreWelcome()
+            
             // Safe – only tags loading
             self.sidebarOutlineView.loadAllTags()
         }
@@ -377,6 +379,26 @@ class ViewController: EditorViewController,
             }
         }
     }
+    
+    public func restoreWelcome() {
+        if UserDefaultsManagement.copyWelcome {
+            let welcomeProject = self.storage.getProjects().first(where: { $0.label == "Welcome" })
+            welcomeProject?.settings.sortBy = .title
+            welcomeProject?.settings.sortDirection = .asc
+            
+            let index = self.sidebarOutlineView.row(forItem: welcomeProject)
+            
+            let introNote = Storage.shared().getBy(titleOrName: "1 Introduction")
+            introNote?.previewState = true
+            
+            self.sidebarOutlineView.selectNote = introNote
+            self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+            self.notesTableView.selectRow(0)
+            
+        }
+
+        UserDefaultsManagement.copyWelcome = false
+    }
 
 
     public func configureSidebar() {
@@ -401,23 +423,11 @@ class ViewController: EditorViewController,
     }
     
     private func configureNoteList() {
-        updateTable() {            
-            if UserDefaultsManagement.copyWelcome {
-                DispatchQueue.main.async {
-                    let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
-                    let index = self.sidebarOutlineView.row(forItem: welcome)
-                    self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
-                }
-
-                UserDefaultsManagement.copyWelcome = false
-                return
-            }
-
+        updateTable() {
             DispatchQueue.main.async {
-
                 self.restoreOpenedWindows()
                 self.importAndCreate()
-
+                
                 DispatchQueue.global().async {
                     self.preLoadProjectsData()
                 }

@@ -44,9 +44,24 @@ class NoteCellView: NSTableCellView {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        imagePreview?.image = nil
-        imagePreviewSecond?.image = nil
-        imagePreviewThird?.image = nil
+        imagePreview.image = nil
+        imagePreview.isHidden = true
+        
+        imagePreviewSecond.image = nil
+        imagePreviewSecond.isHidden = true
+        
+        imagePreviewThird.image = nil
+        imagePreviewThird.isHidden = true
+        
+        imageKeys = []
+        
+        timestamp = nil
+        
+        note = nil
+        
+        name.stringValue = ""
+        preview.stringValue = ""
+        date.stringValue = ""
     }
     
     override func draw(_ dirtyRect: NSRect) {

@@ -74,13 +74,13 @@ public class Project: NSObject {
             #endif
         }
 
+        if let settings = getSettings() {
+            self.settings = settings
+        }
+        
         if label == "Welcome" {
             settings.sortBy = .title
             settings.sortDirection = .asc
-        }
-        
-        if let settings = getSettings() {
-            self.settings = settings
         }
         
         if isTrash {
