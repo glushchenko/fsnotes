@@ -749,6 +749,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     func fill(note: Note, highlight: Bool = false, force: Bool = false) {
+        note.isLoadedContentOffset = false
+        
         if !isPreviewEnabled() {
             isScrollPositionSaverLocked = true
         }

@@ -257,6 +257,8 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         
         guard let evc = NSApplication.shared.keyWindow?.contentViewController as? EditorViewController else { return }
         
-        evc.restoreScrollPosition()
+        if evc.vcEditor?.note?.isLoadedContentOffset == false {
+            evc.restoreScrollPosition()
+        }
     }
 }

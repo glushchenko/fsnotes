@@ -29,12 +29,12 @@ extension EditorViewController {
         
         textView.isScrollPositionSaverLocked = true
         
-        defer {
-            textView.isScrollPositionSaverLocked = false
-        }
-        
         guard let position = textView.note?.contentOffset,
-              let scrollView = textView.enclosingScrollView else { return }
+              let scrollView = textView.enclosingScrollView else {
+            
+            textView.isScrollPositionSaverLocked = false
+            return
+        }
             
         DispatchQueue.main.async {
             guard let documentView = scrollView.documentView else { return }
@@ -49,6 +49,9 @@ extension EditorViewController {
 
             scrollView.contentView.scroll(to: clampedPoint)
             scrollView.reflectScrolledClipView(scrollView.contentView)
+            
+            textView.note?.isLoadedContentOffset = true
+            textView.isScrollPositionSaverLocked = false
         }
     }
     

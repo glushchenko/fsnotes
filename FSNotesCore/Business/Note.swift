@@ -66,6 +66,8 @@ public class Note: NSObject  {
     private var selectedRange: NSRange?
     
     public var contentOffset = CGPoint()
+    public var isLoadedContentOffset = false
+    
     public var contentOffsetWeb = CGPoint()
 
     public var codeBlockRangesCache: [NSRange]?
