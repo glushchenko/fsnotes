@@ -1,4 +1,6 @@
-# FSNotes 7
+# 1. Introduction 
+
+## FSNotes 7
 
 Hi everyone. Time really flies — it feels like just yesterday it was 2017 and the first FSNotes release, blink — and 9 years have already passed. In 2026, I’ve prepared a new batch of improvements and fixes.
 
@@ -60,5 +62,3 @@ Thank you for your feedback and support.
 Oleksandr Hlushchenko
 25.12.2025
 Ukraine, Kharkiv 🎄
-
-```

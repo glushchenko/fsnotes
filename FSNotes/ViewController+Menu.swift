@@ -327,6 +327,7 @@ extension ViewController {
         
         let moveMenuItem = NSMenuItem()
         moveMenuItem.title = NSLocalizedString("Move", comment: "Menu")
+        moveMenuItem.image = NSImage(systemSymbolName: "move.3d", accessibilityDescription: nil)
         
         noteMenu.addItem(moveMenuItem)
         let moveMenu = NSMenu()
