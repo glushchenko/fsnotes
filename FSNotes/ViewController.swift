@@ -267,13 +267,13 @@ class ViewController: EditorViewController,
         self.storage.loadNotesContent()
 
         DispatchQueue.main.async {
-            if self.storage.isCrashedLastTime {
+            if self.storage.isCrashedLastTime && !UserDefaultsManagement.showWelcome {
 
                 // Unsafe – resets selected note
                 self.restoreSidebar()
             }
-
-            self.restoreWelcome()
+            
+            UserDefaultsManagement.showWelcome = false
             
             // Safe – only tags loading
             self.sidebarOutlineView.loadAllTags()
@@ -379,34 +379,18 @@ class ViewController: EditorViewController,
             }
         }
     }
-    
-    public func restoreWelcome() {
-        if UserDefaultsManagement.copyWelcome {
-            let welcomeProject = self.storage.getProjects().first(where: { $0.label == "Welcome" })
-            welcomeProject?.settings.sortBy = .title
-            welcomeProject?.settings.sortDirection = .asc
-            
-            let index = self.sidebarOutlineView.row(forItem: welcomeProject)
-            
-            let introNote = Storage.shared().getBy(titleOrName: "1 Introduction")
-            introNote?.previewState = true
-            
-            self.sidebarOutlineView.selectNote = introNote
-            self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
-            self.notesTableView.selectRow(0)
-            
-        }
-
-        UserDefaultsManagement.copyWelcome = false
-    }
-
 
     public func configureSidebar() {
         if isVisibleSidebar() {
             self.restoreSidebar()
-
-            if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
-                if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
+            
+            if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil || Storage.shared().welcomeProject != nil {
+                if let welcome = Storage.shared().welcomeProject  {
+                    let item = self.sidebarOutlineView.row(forItem: welcome)
+                    if item > -1 {
+                        self.sidebarOutlineView.selectRowIndexes([item], byExtendingSelection: false)
+                    }
+                } else if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
                     let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
                     let item = self.sidebarOutlineView.row(forItem: sidebarItem)
                     if item > -1 {
@@ -425,6 +409,15 @@ class ViewController: EditorViewController,
     private func configureNoteList() {
         updateTable() {
             DispatchQueue.main.async {
+                
+                // Init first selected note for welcome
+                if let note = Storage.shared().welcomeNote {
+                    note.previewState = true
+                    self.notesTableView.select(note: note)
+                    
+                    Storage.shared().welcomeNote = nil
+                }
+                
                 self.restoreOpenedWindows()
                 self.importAndCreate()
                 
@@ -1459,6 +1452,11 @@ class ViewController: EditorViewController,
 
         if let sidebarProjects = sidebarOutlineView.getSidebarProjects() {
             projects = sidebarProjects
+        }
+        
+        // Iniot welcome project
+        if let project = Storage.shared().welcomeProject {
+            projects = [project]
         }
 
         if let sidebarTags = sidebarOutlineView.getSidebarTags() {

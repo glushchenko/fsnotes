@@ -556,6 +556,11 @@ class SidebarOutlineView: NSOutlineView,
             isFirstLaunch = false
         }
         
+        if Storage.shared().welcomeProject != nil {
+            Storage.shared().welcomeProject = nil
+            return
+        }
+        
         guard let vd = viewDelegate else { return }
         guard let view = notification.object as? NSOutlineView else { return }
 

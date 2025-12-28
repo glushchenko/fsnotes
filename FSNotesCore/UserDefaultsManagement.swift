@@ -153,7 +153,7 @@ public class UserDefaultsManagement {
         static let UploadKey = "uploadKey"
         static let UseTextBundleToStoreDates = "useTextBundleToStoreDates"
         static let AutocloseBrackets = "autocloseBrackets"
-        static let Welcome = "welcome2026b1"
+        static let Welcome = "welcome2026b1x"
     }
 
     static var codeFontName: String {
@@ -1181,7 +1181,7 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var copyWelcome: Bool {
+    static var showWelcome: Bool {
         get {
             if let result = shared?.object(forKey: Constants.Welcome) as? Bool {
                 return result
@@ -1731,13 +1731,14 @@ public class UserDefaultsManagement {
 
 #if !SHARE_EXT
     static var codeTheme: EditorTheme {
-            get {
+        get {
             guard
                 let raw = UserDefaults.standard.string(forKey: Constants.codeTheme),
                 let theme = EditorTheme(rawValue: raw)
             else {
                 return .atomOne
             }
+                
             return theme
         }
         set {

@@ -49,15 +49,19 @@ extension NoteCellView {
         let isAssigned = imagePreview.image != nil ||
             imagePreviewSecond.image != nil ||
             imagePreviewThird.image != nil
-            
-        guard isImagesChanged(imageURLs: imageURLs) || isNotAssigned || isAssigned else {
+
+        let needsReload = isImagesChanged(imageURLs: imageURLs)
+        
+        if !needsReload && !isNotAssigned {
             attachHeaders(note: note)
             fixTopConstraint(position: position, note: note)
             return
         }
 
-        hideUnusedImagesPreview()
-        imageKeys = []
+        if needsReload || (isNotAssigned && isAssigned) {
+            hideUnusedImagesPreview()
+            imageKeys = []
+        }
 
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             guard let self = self else { return }
@@ -91,27 +95,18 @@ extension NoteCellView {
     }
 
     private func isImagesChanged(imageURLs: [URL]? = nil) -> Bool {
-        var needsImagesReloading = false
-
-        if let imageURLs = imageURLs {
-            for imageUrl in imageURLs {
-                if !self.imageKeys.contains(imageUrl.path) {
-                    needsImagesReloading = true
-                    break
-                }
-            }
-
-            if !needsImagesReloading {
-                for imageKey in self.imageKeys {
-                    if imageURLs.first(where: {$0.path == imageKey}) == nil {
-                        needsImagesReloading = true
-                        break
-                    }
-                }
-            }
+        guard let imageURLs = imageURLs else {
+            return !imageKeys.isEmpty
         }
 
-        return needsImagesReloading
+        if imageURLs.count != imageKeys.count {
+            return true
+        }
+        
+        let newPaths = Set(imageURLs.map { $0.path })
+        let currentPaths = Set(imageKeys)
+        
+        return newPaths != currentPaths
     }
 
     private func hideUnusedImagesPreview() {
@@ -126,8 +121,6 @@ extension NoteCellView {
     }
 
     private func attachImagesPreview(resizedImages: [Image]) {
-        hideUnusedImagesPreview()
-
         var index = 0
         for resized in resizedImages {
             index += 1
@@ -147,18 +140,27 @@ extension NoteCellView {
             }
         }
         
+        if resizedImages.count < 3 {
+            self.imagePreviewThird.image = nil
+            self.imagePreviewThird.isHidden = true
+        }
+        if resizedImages.count < 2 {
+            self.imagePreviewSecond.image = nil
+            self.imagePreviewSecond.isHidden = true
+        }
+        if resizedImages.count < 1 {
+            self.imagePreview.image = nil
+            self.imagePreview.isHidden = true
+        }
+        
         self.needsDisplay = true
         self.needsLayout = true
                 
-        // Принудительная перерисовка изображений
         self.imagePreview.needsDisplay = true
         self.imagePreviewSecond.needsDisplay = true
         self.imagePreviewThird.needsDisplay = true
         
-        // Немедленное применение layout
         self.layoutSubtreeIfNeeded()
-        
-        // Обновление superview
         self.superview?.needsLayout = true
         self.superview?.layoutSubtreeIfNeeded()
     }

@@ -494,6 +494,17 @@ class NotesTableView: NSTableView,
         }
     }
     
+    public func select(note: Note) {
+        if let i = getIndex(note) {
+            if noteList.indices.contains(i) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.selectRowIndexes([i], byExtendingSelection: false)
+                    self.scrollRowToVisible(i)
+                }
+            }
+        }
+    }
+    
     public func removeRows(notes: [Note]) {
         guard let vc = ViewController.shared() else { return }
 

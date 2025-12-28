@@ -55,6 +55,9 @@ class Storage {
     public var allNotesProject: Project?
     public var todoProject: Project?
     public var untaggedProject: Project?
+    
+    public var welcomeProject: Project?
+    public var welcomeNote: Note?
 
     init() {
 
@@ -989,7 +992,7 @@ class Storage {
     public func checkWelcome() {
         #if os(OSX)
             guard let storageUrl = getDefault()?.url else { return }
-            guard UserDefaultsManagement.copyWelcome else { return }
+            guard UserDefaultsManagement.showWelcome else { return }
             guard let bundlePath = Bundle.main.path(forResource: "Welcome", ofType: ".bundle") else { return }
 
             let bundle = URL(fileURLWithPath: bundlePath)
@@ -1022,10 +1025,17 @@ class Storage {
             }
         
             let project = Project(storage: self, url: url, label: "Welcome")
-            insertProject(project: project)
+            project.settings.sortBy = .title
+            project.settings.sortDirection = .asc
+            project.saveSettings()
         
+            insertProject(project: project)
+            
             let notes = project.loadNotes()
             _ = notes.compactMap({ $0.load() })
+        
+            welcomeProject = project
+            welcomeNote = notes.first(where: { $0.fileName == "1 Introduction"})
         
         #else
             guard UserDefaultsManagement.copyWelcome else { return }

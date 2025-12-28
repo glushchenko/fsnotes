@@ -77,12 +77,7 @@ public class Project: NSObject {
         if let settings = getSettings() {
             self.settings = settings
         }
-        
-        if label == "Welcome" {
-            settings.sortBy = .title
-            settings.sortDirection = .asc
-        }
-        
+                
         if isTrash {
             settings.showInCommon = false
         }
