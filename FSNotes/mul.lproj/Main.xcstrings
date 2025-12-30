@@ -32,13 +32,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "he" : {
@@ -113,16 +113,47 @@
             "value" : ""
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "0o7-iB-dtg.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Activate:\"; ObjectID = \"0o7-iB-dtg\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivieren:"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Activate:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activar:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer :"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सक्रिय करें:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva:"
           }
         },
         "ru" : {
@@ -131,10 +162,22 @@
             "value" : "Активировать:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkinleştir:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Активувати:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激活："
           }
         }
       }
@@ -371,9 +414,39 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"BackLinks\"; ObjectID = \"1cO-zi-naR\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backlinks"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "BackLinks"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enlaces externos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liens retour"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बैकलिंक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "BackLinks"
           }
         },
@@ -383,10 +456,22 @@
             "value" : "Обратные ссылки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackLinks"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Зворотні посилання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反向链接"
           }
         }
       }
@@ -1777,7 +1862,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Neu In neuem Fenster"
           }
         },
@@ -1789,19 +1874,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nueva nota en ventana nueva"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nouveau dans une nouvelle fenêtre"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "הערה חדשה בחלון חדש"
           }
         },
@@ -1813,7 +1898,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nuova nota in una nuova finestra"
           }
         },
@@ -1855,7 +1940,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Yeni Pencere"
           }
         },
@@ -1867,7 +1952,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "新窗口中的新笔记"
           }
         }
@@ -1877,10 +1962,40 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Move Item\"; ObjectID = \"3fK-Ap-A5p\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Element verschieben"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Move Item"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover elemento"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer l'élément"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आइटम हटाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta elemento"
           }
         },
         "ru" : {
@@ -1889,10 +2004,22 @@
             "value" : "Переместить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öğeyi Taşı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перемістити елемент"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动项目"
           }
         }
       }
@@ -3397,8 +3524,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Verschlüsselung entfernen"
+            "state" : "translated",
+            "value" : "Entschlüsseln"
           }
         },
         "en" : {
@@ -3409,19 +3536,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Eliminar encriptación"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Supprimer le chiffrement"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "הסר הצפנה"
           }
         },
@@ -3433,8 +3560,8 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Rimuovi la cifratura"
+            "state" : "translated",
+            "value" : "Decrittografa"
           }
         },
         "ja" : {
@@ -3475,7 +3602,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Şifrelemeyi Kaldır"
           }
         },
@@ -3487,7 +3614,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "移除加密"
           }
         }
@@ -6918,10 +7045,40 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Italic:\"; ObjectID = \"aLg-MQ-amx\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kursiv:"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Italic:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cursiva:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Italique :"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इतालिक:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corsivo:"
           }
         },
         "ru" : {
@@ -6930,10 +7087,22 @@
             "value" : "Курсив:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İtalik:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Курсив:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斜体："
           }
         }
       }
@@ -8424,10 +8593,40 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Clear Completed Todos\"; ObjectID = \"BoD-Jy-zeE\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abgeschlossene Aufgaben löschen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Clear Completed Todos"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar tareas completadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer les tâches terminées"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूरे हुए कार्य हटाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancella attività completate"
           }
         },
         "ru" : {
@@ -8436,10 +8635,22 @@
             "value" : "Очистить выполненные задачи"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamamlanan Görevleri Temizle"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Очистити виконані завдання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除已完成事项"
           }
         }
       }
@@ -11426,8 +11637,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ordner verschlüsseln"
+            "state" : "translated",
+            "value" : "Ordner entschlüsseln"
           }
         },
         "en" : {
@@ -11438,19 +11649,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Cifrar carpeta"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Crypter le dossier"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "הצפנת תיקיה"
           }
         },
@@ -11462,8 +11673,8 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Crittografa cartella"
+            "state" : "translated",
+            "value" : "Decrittografa cartella"
           }
         },
         "ja" : {
@@ -11504,7 +11715,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Klasörü Şifrele"
           }
         },
@@ -11516,7 +11727,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "加密文件夹"
           }
         }
@@ -12686,10 +12897,40 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Share\"; ObjectID = \"eCt-xc-KgN\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Share"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साझा करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi"
           }
         },
         "ru" : {
@@ -12698,10 +12939,22 @@
             "value" : "Поделиться"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paylaş"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Поділитися"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
           }
         }
       }
@@ -14320,8 +14573,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Verschlüsselung entfernen"
+            "state" : "translated",
+            "value" : "Entschlüsseln"
           }
         },
         "en" : {
@@ -14332,19 +14585,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Quitar encriptación"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Supprimer le chiffrement"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "הסר הצפנה"
           }
         },
@@ -14356,8 +14609,8 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Rimuovi cifratura"
+            "state" : "translated",
+            "value" : "Decrittografa"
           }
         },
         "ja" : {
@@ -14398,7 +14651,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Şifrelemeyi Kaldır"
           }
         },
@@ -14410,7 +14663,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "移除加密"
           }
         }
@@ -16372,7 +16625,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ordner anzeigen"
           }
         },
@@ -16384,19 +16637,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Mostrar carpeta"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Localiser dans le Finder"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "הצג ב-Finder"
           }
         },
@@ -16408,7 +16661,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Mostra nel Finder"
           }
         },
@@ -16450,7 +16703,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Finder'da göster"
           }
         },
@@ -16462,7 +16715,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "在访达中显示"
           }
         }
@@ -17854,7 +18107,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "In neuem Fenster öffnen"
           }
         },
@@ -17866,19 +18119,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Abrir en Nueva ventana"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ouvrir dans une nouvelle fenêtre"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "פתח בחלון חדש"
           }
         },
@@ -17890,7 +18143,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Apri in una nuova finestra"
           }
         },
@@ -17932,7 +18185,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Yeni Pencerede Aç"
           }
         },
@@ -17944,7 +18197,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "在新窗口中打开"
           }
         }
@@ -19108,8 +19361,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Speicher sichern"
+            "state" : "translated",
+            "value" : "Commit & Push"
           }
         },
         "en" : {
@@ -19120,19 +19373,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Almacenamiento de respaldo"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Sauvegarder le stockage"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "גבה עכשיו"
           }
         },
@@ -19144,7 +19397,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Salva archivio"
           }
         },
@@ -19186,8 +19439,8 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Şimdi Yedekle"
+            "state" : "translated",
+            "value" : "Commit & Push"
           }
         },
         "uk" : {
@@ -19198,8 +19451,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "备份存储"
+            "state" : "translated",
+            "value" : "Commit & Push"
           }
         }
       }
@@ -22647,10 +22900,40 @@
       "comment" : "Class = \"NSMenu\"; title = \"Share\"; ObjectID = \"LKs-o1-uhL\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Share"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साझा करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi"
           }
         },
         "ru" : {
@@ -22659,10 +22942,22 @@
             "value" : "Поделиться"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paylaş"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Поділитися"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
           }
         }
       }
@@ -23469,58 +23764,10 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"atom-one\"; ObjectID = \"ME1-My-h4q\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "atom-one"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
           }
         },
         "ja" : {
@@ -23529,52 +23776,10 @@
             "value" : "Atom One Light"
           }
         },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
-          }
-        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "atom-one"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "atom-one-light"
           }
         }
       },
@@ -28372,10 +28577,40 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Headers\"; ObjectID = \"Pzb-TG-43d\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopfzeilen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Headers"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encabezados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En-têtes"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intestazioni"
           }
         },
         "ru" : {
@@ -28384,10 +28619,22 @@
             "value" : "Заголовки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlıklar"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заголовки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标题"
           }
         }
       }
@@ -29737,7 +29984,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отступ абзаца"
+            "value" : "Отступ абзаца:"
           }
         },
         "tr" : {
@@ -32500,58 +32747,10 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"solarized\"; ObjectID = \"SpX-N8-9td\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "solarized"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
           }
         },
         "ja" : {
@@ -32560,52 +32759,16 @@
             "value" : "Solarized Light"
           }
         },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Salaried-light"
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
-          }
-        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "solarized"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "solarized-light"
           }
         }
       },
@@ -32629,7 +32792,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Neuer Ordner"
           }
         },
@@ -32641,19 +32804,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nueva carpeta"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nouveau dossier"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "תיקיה חדשה"
           }
         },
@@ -32665,7 +32828,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nuova cartella"
           }
         },
@@ -32707,7 +32870,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Klasör Oluştur"
           }
         },
@@ -32719,7 +32882,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "新建文件夹"
           }
         }
@@ -32957,10 +33120,40 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Move Selected Lines Down\"; ObjectID = \"STm-3f-GNu\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Zeilen nach unten verschieben"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Move Selected Lines Down"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover líneas seleccionadas hacia abajo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer les lignes sélectionnées vers le bas"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चुनी हुई पंक्तियों को नीचे ले जाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta righe selezionate verso il basso"
           }
         },
         "ru" : {
@@ -32969,10 +33162,22 @@
             "value" : "Переместить выбранные строки вниз"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili Satırları Aşağı Taşı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перемістити вибрані рядки вниз"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选中行向下移动"
           }
         }
       }
@@ -34135,7 +34340,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "In neuem Fenster öffnen"
           }
         },
@@ -34147,19 +34352,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Abrir en Nueva ventana"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ouvrir dans une nouvelle fenêtre"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "פתח בחלון חדש"
           }
         },
@@ -34171,7 +34376,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Apri in una nuova finestra"
           }
         },
@@ -34213,7 +34418,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Yeni Pencerede Aç"
           }
         },
@@ -34225,7 +34430,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "在新窗口中打开"
           }
         }
@@ -34805,10 +35010,40 @@
       "comment" : "Class = \"NSMenu\"; title = \"Headers\"; ObjectID = \"UMi-Hx-Z1c\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopfzeilen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Headers"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encabezados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En-têtes"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intestazioni"
           }
         },
         "ru" : {
@@ -34817,10 +35052,22 @@
             "value" : "Заголовки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlıklar"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заголовки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标题"
           }
         }
       }
@@ -35285,111 +35532,9 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"github\"; ObjectID = \"v1K-9W-2aB\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "github"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
             "value" : "github"
           }
         }
@@ -38041,10 +38186,40 @@
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Bold:\"; ObjectID = \"xeP-Zg-vmO\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fett:"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Bold:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Negrita:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gras :"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बोल्ड:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grassetto:"
           }
         },
         "ru" : {
@@ -38053,10 +38228,22 @@
             "value" : "Жирный:"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalın:"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Жирний:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "粗体："
           }
         }
       }
@@ -39675,7 +39862,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Automatische Benennung nach Titel"
           }
         },
@@ -39687,19 +39874,19 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Asignación automática de nombres por título"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Dénomination automatique par titre"
           }
         },
         "he" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "מתן שמות אוטומטית לפי כותרת"
           }
         },
@@ -39711,7 +39898,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Denominazione automatica per titolo"
           }
         },
@@ -39753,7 +39940,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Başlığa Göre Otomatik Adlandırma"
           }
         },
@@ -39765,7 +39952,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "按标题自动命名"
           }
         }
@@ -40118,10 +40305,40 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"Move Selected Lines Up\"; ObjectID = \"yMK-aK-OV2\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Zeilen nach oben verschieben"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Move Selected Lines Up"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover líneas seleccionadas hacia arriba"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer les lignes sélectionnées vers le haut"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चुनी हुई पंक्तियों को ऊपर ले जाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta righe selezionate verso l'alto"
           }
         },
         "ru" : {
@@ -40130,10 +40347,22 @@
             "value" : "Переместить выбранные строки вверх"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili Satırları Yukarı Taşı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перемістити вибрані рядки вгору"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选中行向上移动"
           }
         }
       }
@@ -41529,10 +41758,40 @@
       "comment" : "Class = \"NSMenu\"; title = \"Move Item\"; ObjectID = \"zRJ-Z2-Lsa\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Element verschieben"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Move Item"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover elemento"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer l'élément"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आइटम हटाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta elemento"
           }
         },
         "ru" : {
@@ -41541,10 +41800,22 @@
             "value" : "Переместить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öğeyi Taşı"
+          }
+        },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перемістити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动项目"
           }
         }
       }
