@@ -192,7 +192,7 @@ class PreferencesAdvancedViewController: NSViewController {
             try? FileManager.default.removeItem(at: notesURL)
         }
         
-        if let bookmarkUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Bookmarks.dict") {
+        if let bookmarkUrls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("Bookmarks.dict") {
             try? FileManager.default.removeItem(at: bookmarkUrls)
         }
         
