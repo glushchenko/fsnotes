@@ -1035,10 +1035,10 @@ class Storage {
             _ = notes.compactMap({ $0.load() })
         
             welcomeProject = project
-            welcomeNote = notes.first(where: { $0.fileName == "1 Introduction"})
+            welcomeNote = notes.first(where: { $0.fileName == "1. Introduction"})
         
         #else
-            guard UserDefaultsManagement.copyWelcome else { return }
+            guard UserDefaultsManagement.showWelcome else { return }
             guard noteList.isEmpty else { return }
 
             let welcomeFileName = "Meet FSNotes 6.textbundle"
@@ -1060,7 +1060,7 @@ class Storage {
                 print("Initial copy error: \(error)")
             }
 
-            UserDefaultsManagement.copyWelcome = false
+            UserDefaultsManagement.showWelcome = false
         #endif
     }
 
