@@ -1890,6 +1890,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     public func resetTypingAttributes() {
+        typingAttributes.removeValue(forKey: .attachmentUrl)
+        typingAttributes.removeValue(forKey: .attachmentTitle)
+        typingAttributes.removeValue(forKey: .attachmentPath)
+        typingAttributes.removeValue(forKey: .attachmentSave)
         typingAttributes.removeValue(forKey: .todo)
         typingAttributes.removeValue(forKey: .tag)
 
