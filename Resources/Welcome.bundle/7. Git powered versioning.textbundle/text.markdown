@@ -1,24 +1,20 @@
 # 7. Git powered versioning
 
-Save note revisions with `cmd + s` shortcut:
+Save note revisions with File -> Commt & Push or `cmd + s` shortcut.
 
-![](assets/3d1952d0-88bb-472f-9ba2-ca57fafec9c9.jpg)
-
-And restore them:
+And restore them by right click on a note:
 
 ![](assets/eedc77b8-dc1b-4924-856d-37c9247b4093.jpg)
-
-
 
 ## Backup all notes automatically
 
 Configure it in preferences:
 
-![](assets/634eb755-960d-4d9f-be8b-bdaad5aa4f6c.jpg)
+![](assets/A5C1CDAC-E8EC-4EDD-B3EE-AF3F367A9939.png)
 
 For example, make a backup each hour.
 
-## You can also backup backups 🤪
+## You can also backup backups
 
 Well, you cannot be too safe.
 

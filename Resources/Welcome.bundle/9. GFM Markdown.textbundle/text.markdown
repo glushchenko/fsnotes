@@ -4,20 +4,27 @@
 
 Shortcut: `cmd + 1-6`
 
+## Links
+
+[Test](/Users/oleksandr/Downloads/) 
+[Test](</Users/oleksandr/Downloads/test test.jpg>) 
+
 ## Images
 
-![](assets/128.png)
-Shortcut: `cmd + shift + i`
+![](assets/802AA00C-DF96-4EE3-B884-E0929BD066EC.png)
 
 ## Bold, Italic, Strikethrough
 
 **Bold text**
+
 Shortcut: `cmd + b`
 
 _Italic text_
+
 Shortcut: `cmd + i`
 
 ~~Strike text~~
+
 Shortcut: `cmd + y`
 
 ## Quotes 
@@ -92,5 +99,3 @@ Shortcut: `cmd + t`
 ## Wikilinks
 
 And WikiLinks [[WikiLinks with emoji 😎]]
-
-Shortcut: `cmd + 9`
