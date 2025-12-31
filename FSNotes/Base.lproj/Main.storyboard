@@ -4225,7 +4225,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <pathControl horizontalHuggingPriority="249" verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Sd-jT-XTG">
+                            <pathControl horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="200" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Sd-jT-XTG">
                                 <rect key="frame" x="35" y="387" width="351" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="haF-wi-gJG"/>
@@ -4338,7 +4338,7 @@ Olena Hlushcneko</string>
                             <constraint firstItem="Atm-xW-q1V" firstAttribute="leading" secondItem="tJA-7g-MI3" secondAttribute="leading" constant="35" id="yP7-6b-9AL"/>
                             <constraint firstItem="wBg-NB-AcO" firstAttribute="leading" secondItem="0VK-px-m8C" secondAttribute="trailing" constant="12" symbolic="YES" id="yhq-ng-3LF"/>
                             <constraint firstItem="eiE-QT-Gmx" firstAttribute="leading" secondItem="UMU-6c-hjh" secondAttribute="leading" id="yvd-g9-W8U"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fi8-x1-uYd" secondAttribute="trailing" symbolic="YES" id="z0k-Lq-e92"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fi8-x1-uYd" secondAttribute="trailing" constant="20" symbolic="YES" id="z0k-Lq-e92"/>
                         </constraints>
                     </view>
                     <connections>
