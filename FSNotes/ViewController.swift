@@ -1495,16 +1495,7 @@ class ViewController: EditorViewController,
         let filter = search.stringValue
         searchQuery.projects = projects
         searchQuery.tags = tags
-        
-        if filter.hasPrefix("\"") && filter.hasSuffix("\"") {
-            let clean = String(filter.dropFirst().dropLast())
-            if clean.count > 0 {
-                searchQuery.filter = clean
-                searchQuery.terms = [Substring(clean)]
-            }
-        } else {
-            searchQuery.setFilter(filter)
-        }
+        searchQuery.setFilter(filter)
 
         if let type = type {
             searchQuery.setType(type)

@@ -180,7 +180,15 @@ extension NSTextStorage {
     }
 
     public func highlightKeyword(search: String) {
+        var search = search
         guard search.count > 1, UserDefaultsManagement.searchHighlight else { return }
+        
+        if search.hasPrefix("\"") && search.hasSuffix("\"") {
+            let clean = String(search.dropFirst().dropLast())
+            if clean.count > 0 {
+                search = clean
+            }
+        }
         
         let searchTerm = NSRegularExpression.escapedPattern(for: search)
         let pattern = "(\(searchTerm))"

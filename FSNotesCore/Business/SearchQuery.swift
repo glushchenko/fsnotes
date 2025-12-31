@@ -25,6 +25,15 @@ class SearchQuery {
     }
 
     public func setFilter(_ filter: String) {
+        if filter.hasPrefix("\"") && filter.hasSuffix("\"") {
+            let clean = String(filter.dropFirst().dropLast())
+            if clean.count > 0 {
+                self.filter = clean
+                self.terms = [Substring(clean)]
+                return
+            }
+        }
+        
         self.filter = filter
         
         terms = filter.split(separator: " ")

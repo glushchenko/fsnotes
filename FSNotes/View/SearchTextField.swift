@@ -94,11 +94,21 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         switch commandSelector.description {
         case "moveDown:":
             if let editor = currentEditor() {
-                let query = editor.string.prefix(editor.selectedRange.location)
-                if query.count == 0 {
-                    return false
+                let text = editor.string
+                let location = editor.selectedRange.location
+                let length = editor.selectedRange.length
+                
+                if length > 0 && location > 0 && location <= text.count {
+                    let endIndex = text.index(text.startIndex, offsetBy: location, limitedBy: text.endIndex) ?? text.endIndex
+                    let query = String(text[..<endIndex])
+                    if query.count > 0 {
+                        self.stringValue = query
+                    }
+                } else {
+                    if text.count > 0 {
+                        self.stringValue = text
+                    }
                 }
-                self.stringValue = String(query)
             }
 
             addRecent(query: stringValue)
