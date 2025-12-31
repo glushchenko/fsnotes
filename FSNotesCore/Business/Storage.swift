@@ -996,7 +996,7 @@ class Storage {
             guard let bundlePath = Bundle.main.path(forResource: "Welcome", ofType: ".bundle") else { return }
 
             let bundle = URL(fileURLWithPath: bundlePath)
-            let url = storageUrl.appendingPathComponent("Welcome")
+            let url = storageUrl.appendingPathComponent("Welcome", isDirectory: true)
 
             try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
 
