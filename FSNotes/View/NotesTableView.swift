@@ -13,7 +13,8 @@ class NotesTableView: NSTableView,
     NSTableViewDataSource,
     NSTableViewDelegate {
     
-    var noteList = [Note]()
+    private var noteList = [Note]()
+    
     var defaultCell = NoteCellView()
     var pinnedCell = NoteCellView()
     var storage = Storage.shared()
@@ -157,7 +158,27 @@ class NotesTableView: NSTableView,
 
         vc.removeNotes(notes: notes, forceRemove: true, rows: selectedRowIndexes)
     }
-        
+    
+    public func getNoteList() -> [Note] {
+        return noteList
+    }
+    
+    public func setNoteList(notes: [Note]) {
+       noteList = notes
+    }
+    
+    public func countNotes() -> Int {
+        return noteList.count
+    }
+    
+    public func getIndex(for note: Note) -> Int? {
+        return noteList.firstIndex(where: {$0 === note})
+    }
+    
+    public func getNote(at index: Int) -> Note? {
+        return noteList.indices.contains(index) ? noteList[index] : nil
+    }
+    
     // Custom note highlight style
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         return NoteRowView()
@@ -424,13 +445,6 @@ class NotesTableView: NSTableView,
 
         vc.loadMoveMenu()
     }
-    
-    func getIndex(_ note: Note) -> Int? {
-        if let index = noteList.firstIndex(where: {$0 === note}) {
-            return index
-        }
-        return nil
-    }
 
     public func selectCurrent() {
         guard noteList.count > 0 else { return }
@@ -480,7 +494,7 @@ class NotesTableView: NSTableView,
     public func selectRowAndSidebarItem(note: Note) {
         guard let vc = ViewController.shared() else { return }
 
-        if let index = getIndex(note) {
+        if let index = getIndex(for: note) {
             selectRow(index)
         } else {
             vc.sidebarOutlineView.select(note: note)
@@ -488,14 +502,14 @@ class NotesTableView: NSTableView,
     }
 
     func setSelected(note: Note) {
-        if let i = getIndex(note) {
+        if let i = getIndex(for: note) {
             selectRow(i)
             scrollRowToVisible(i)
         }
     }
     
     public func select(note: Note) {
-        if let i = getIndex(note) {
+        if let i = getIndex(for: note) {
             if noteList.indices.contains(i) {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self.selectRowIndexes([i], byExtendingSelection: false)
@@ -564,7 +578,9 @@ class NotesTableView: NSTableView,
     
     private func reloadRows(notes: [Note]) {
         for note in notes {
-            reloadRow(note: note)
+            note.invalidateCache()
+            note.loadPreviewInfo()
+            self.performReload(note: note)
         }
     }
     

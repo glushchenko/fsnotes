@@ -626,12 +626,10 @@ class SidebarOutlineView: NSOutlineView,
         vd.updateTable() {
 
             if let note = self.selectNote {
-                if let i = vd.notesTableView.getIndex(note) {
-                    if vd.notesTableView.noteList.indices.contains(i) {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            vd.notesTableView.selectRowIndexes([i], byExtendingSelection: false)
-                            vd.notesTableView.scrollRowToVisible(i)
-                        }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if let i = vd.notesTableView.getIndex(for: note) {
+                        vd.notesTableView.selectRowIndexes([i], byExtendingSelection: false)
+                        vd.notesTableView.scrollRowToVisible(i)
                     }
                 }
 
@@ -685,7 +683,7 @@ class SidebarOutlineView: NSOutlineView,
         alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
 
-                let notes = vc.notesTableView.noteList
+                let notes = vc.notesTableView.getNoteList()
                 var plainTags = [String]()
                 for index in vc.sidebarOutlineView.selectedRowIndexes {
                     if let tag = vc.sidebarOutlineView.item(atRow: index) as? FSTag {
@@ -1069,7 +1067,7 @@ class SidebarOutlineView: NSOutlineView,
         guard let vc = ViewController.shared() else { return }
 
         var allNoteTags: Set<String> = []
-        for note in vc.notesTableView.noteList {
+        for note in vc.notesTableView.getNoteList() {
             for tag in note.tags {
                 if !allNoteTags.contains(tag) {
                     allNoteTags.insert(tag)
@@ -1851,7 +1849,7 @@ class SidebarOutlineView: NSOutlineView,
 
     public func rename(tags: [FSTag], name: String) {
         guard let notesTableView = viewDelegate?.notesTableView else { return }
-        let notes = notesTableView.noteList
+        let notes = notesTableView.getNoteList()
 
         let originalName = name.starts(with: "#") ? String(name.dropFirst()) : name
         let name = name.starts(with: "#") ? name : "#\(name)"

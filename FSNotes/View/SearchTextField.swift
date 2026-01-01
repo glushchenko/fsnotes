@@ -260,7 +260,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
             self.vcDelegate.updateTable() {
-                if let note = self.vcDelegate.notesTableView.noteList.first {
+                if let note = self.vcDelegate.notesTableView.getNoteList().first {
                     DispatchQueue.main.async() {
                         if let searchQuery = self.getSearchTextExceptCompletion() {
                             if self.lastSearchQuery != searchQuery {

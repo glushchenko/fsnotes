@@ -897,10 +897,11 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                 }
                 
                 if let rows = rows, let minRow = rows.min(), minRow > -1 {
-                    if vc.notesTableView.noteList.count > minRow {
+                    let qty = vc.notesTableView.countNotes()
+                    if qty > minRow {
                         vc.notesTableView.selectRow(minRow)
                     } else {
-                        vc.notesTableView.selectRow(vc.notesTableView.noteList.count - 1)
+                        vc.notesTableView.selectRow(qty - 1)
                     }
                 }
                 
@@ -1491,7 +1492,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
             
             DispatchQueue.main.async {
                 vc.notesTableView.saveNavigationHistory(note: note)
-                if let index = vc.notesTableView.getIndex(note) {
+                if let index = vc.notesTableView.getIndex(for: note) {
                     vc.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
                     vc.notesTableView.scrollRowToVisible(index)
                 }

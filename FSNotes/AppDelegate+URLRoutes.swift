@@ -186,7 +186,7 @@ extension AppDelegate {
             DispatchQueue.main.async {
                 controller.search.stringValue = query
 
-                if let note = controller.notesTableView.noteList.first {
+                if let note = controller.notesTableView.getNoteList().first {
                     if note.title.lowercased() == query.lowercased() {
                         controller.notesTableView.saveNavigationHistory(note: note)
                         controller.notesTableView.setSelected(note: note)

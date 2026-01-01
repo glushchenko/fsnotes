@@ -634,10 +634,10 @@ class ViewController: EditorViewController,
                 notesTableView.removeRows(notes: [note])
 
                 if let i = selectedRow, i > -1 {
-                    if notesTableView.noteList.count > i {
+                    if notesTableView.countNotes() > i {
                         notesTableView.selectRow(i)
                     } else {
-                        notesTableView.selectRow(notesTableView.noteList.count - 1)
+                        notesTableView.selectRow(notesTableView.countNotes() - 1)
                     }
                 }
             }
@@ -1326,7 +1326,7 @@ class ViewController: EditorViewController,
         if notesTableView.selectedRowIndexes.count > 0 {
             i = notesTableView.selectedRowIndexes.count
         } else {
-            i = notesTableView.noteList.count
+            i = notesTableView.countNotes()
         }
         
         notesCounter.stringValue = "N: \(i)"
@@ -1383,7 +1383,7 @@ class ViewController: EditorViewController,
             let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
 
             // Check diff
-            if orderedNotesList == self.notesTableView.noteList {
+            if orderedNotesList == self.notesTableView.getNoteList() {
                 completion()
                 return
             }
@@ -1393,11 +1393,12 @@ class ViewController: EditorViewController,
                 return
             }
             
-            self.notesTableView.noteList = orderedNotesList
             
-            guard self.notesTableView.noteList.count > 0 else {
+
+            guard orderedNotesList.count > 0 else {
                 DispatchQueue.main.async {
                     self.editor.clear()
+                    self.notesTableView.setNoteList(notes: orderedNotesList)
                     self.notesTableView.reloadData()
                     self.updateNotesCounter()
                     completion()
@@ -1406,6 +1407,7 @@ class ViewController: EditorViewController,
             }
 
             DispatchQueue.main.async {
+                self.notesTableView.setNoteList(notes: orderedNotesList)
                 self.notesTableView.reloadData()
                 self.updateNotesCounter()
                 completion()
@@ -1511,7 +1513,7 @@ class ViewController: EditorViewController,
 
     @objc private func selectRowInstant(_ timer: Timer) {
         if let note = timer.userInfo as? Note {
-            if let i = self.notesTableView.noteList.firstIndex(of: note) {
+            if let i = self.notesTableView.getIndex(for: note) {
                 notesTableView.selectRowIndexes([i], byExtendingSelection: false)
                 notesTableView.scrollRowToVisible(i)
             }
@@ -1605,31 +1607,17 @@ class ViewController: EditorViewController,
             mainWindow.makeFirstResponder(controller.search)
         }
     }
-    
-    func moveNoteToTop(note index: Int) {
-        DispatchQueue.main.async {
-            let isPinned = self.notesTableView.noteList[index].isPinned
-            let position = isPinned ? 0 : self.notesTableView.countVisiblePinned()
-            let note = self.notesTableView.noteList.remove(at: index)
-
-            self.notesTableView.noteList.insert(note, at: position)
-
-            self.notesTableView.reloadRow(note: note)
-            self.notesTableView.moveRow(at: index, to: position)
-            self.notesTableView.scrollRowToVisible(0)
-        }
-    }
-    
+        
     public func sortAndMove(note: Note, project: Project? = nil) {
-        guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
-        let notes = notesTableView.noteList
+        guard let srcIndex = notesTableView.getIndex(for: note) else { return }
+        let notes = notesTableView.getNoteList()
 
         let resorted = storage.sortNotes(noteList: notes)
         guard let dstIndex = resorted.firstIndex(of: note) else { return }
 
         if srcIndex != dstIndex {
             notesTableView.moveRow(at: srcIndex, to: dstIndex)
-            notesTableView.noteList = resorted
+            notesTableView.setNoteList(notes: resorted)
         }
     }
     
@@ -1638,11 +1626,11 @@ class ViewController: EditorViewController,
             return
         }
 
-        var state = notesTableView.noteList
+        var state = notesTableView.getNoteList()
         var updatedNotes = [(Int, Note)]()
         
         for selectedNote in selectedNotes {
-            guard let atRow = notesTableView.getIndex(selectedNote),
+            guard let atRow = notesTableView.getIndex(for: selectedNote),
                   let rowView = notesTableView.rowView(atRow: atRow, makeIfNecessary: false) as? NoteRowView,
                   let cell = rowView.view(atColumn: 0) as? NoteCellView else { continue }
             
@@ -1655,7 +1643,7 @@ class ViewController: EditorViewController,
             cell.renderPin()
         }
 
-        let resorted = storage.sortNotes(noteList: notesTableView.noteList)
+        let resorted = storage.sortNotes(noteList: notesTableView.getNoteList())
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }
@@ -1679,7 +1667,7 @@ class ViewController: EditorViewController,
             state.insert(toMove, at: newRow)
         }
 
-        notesTableView.noteList = resorted
+        notesTableView.setNoteList(notes: resorted)
         notesTableView.endUpdates()
         
         //notesTableView.reloadData()
@@ -1966,9 +1954,8 @@ class ViewController: EditorViewController,
             return
         }
 
-        if (notesTableView.noteList.indices.contains(selected)) {
-            let currentNote = notesTableView.noteList[selected]
-            openInNewWindow(note: currentNote)
+        if let note = notesTableView.getNote(at: selected) {
+            openInNewWindow(note: note)
         }
     }
     
@@ -1996,7 +1983,7 @@ class ViewController: EditorViewController,
                 
                 editor.changePreviewState(preview)
                 
-                if let i = self.notesTableView.getIndex(note) {
+                if let i = self.notesTableView.getIndex(for: note) {
                     note.previewState = self.editor.isPreviewEnabled()
                     
                     self.notesTableView.saveNavigationHistory(note: note)
