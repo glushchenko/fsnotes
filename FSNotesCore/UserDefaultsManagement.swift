@@ -643,7 +643,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.ImagesWidthKey) as? Float {
                 return result
             }
-            return 300
+            return 450
         }
         set {
             shared?.set(newValue, forKey: Constants.ImagesWidthKey)

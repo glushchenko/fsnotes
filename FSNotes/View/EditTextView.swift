@@ -61,6 +61,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             let fullRange = NSRange(location: 0, length: textStorage.length)
 
             attributedString().enumerateAttributes(in: fullRange, options: .reverse) { attributes, range, _ in
+                guard range.location >= 0,
+                      range.location + range.length <= textStorage.length else { return }
+                
                 guard attributes.index(forKey: .tag) != nil,
                       let font = attributes[.font] as? NSFont
                 else { return }
@@ -481,6 +484,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     public func hasAttachment(at: Int) -> Bool {
+        guard let storage = textStorage,
+                  at >= 0,
+                  at < storage.length else { return false }
+        
         guard textStorage?.attribute(.attachment, at: at, effectiveRange: nil) as? NSTextAttachment != nil else {
             return false
         }
@@ -849,9 +856,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if markdownView == nil {
             let frame = scrollView.bounds
             
-            let containerView = MPreviewContainerView(frame: frame, note: note, closure: {
-                if let point = self.note?.contentOffsetWeb {
-                    self.markdownView?.restoreScrollPosition(point)
+            let containerView = MPreviewContainerView(frame: frame, note: note, closure: { [weak self] in
+                if let point = self?.note?.contentOffsetWeb {
+                    self?.markdownView?.restoreScrollPosition(point)
                 }
             })
             markdownView = containerView
