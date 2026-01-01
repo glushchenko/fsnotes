@@ -1384,17 +1384,13 @@ class ViewController: EditorViewController,
 
             // Check diff
             if orderedNotesList == self.notesTableView.getNoteList() {
-                completion()
                 return
             }
 
             if operation.isCancelled {
-                completion()
                 return
             }
             
-            
-
             guard orderedNotesList.count > 0 else {
                 DispatchQueue.main.async {
                     self.editor.clear()

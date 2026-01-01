@@ -143,16 +143,6 @@ class NoteAttachment {
             height: textSize.height
         )
     }
-
-    private func getScale() -> CGFloat {
-        #if os(OSX)
-        return NSScreen.main?.backingScaleFactor ?? 1.0
-        #elseif os(iOS)
-        return UIScreen.main.scale
-        #else
-        return 1.0
-        #endif
-    }
 }
 
 // MARK: - Static Utility Methods (Platform-Independent)

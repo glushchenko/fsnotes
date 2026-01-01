@@ -142,11 +142,22 @@ public extension NSImage {
     }
 
     func resized(to newSize: NSSize) -> NSImage? {
+        let scale = NSScreen.main?.backingScaleFactor ?? 1.0
+        let pixelWidth = Int(newSize.width * scale)
+        let pixelHeight = Int(newSize.height * scale)
+        
         if let bitmapRep = NSBitmapImageRep(
-            bitmapDataPlanes: nil, pixelsWide: Int(newSize.width), pixelsHigh: Int(newSize.height),
-            bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
-            colorSpaceName: .calibratedRGB, bytesPerRow: 0, bitsPerPixel: 0
-            ) {
+            bitmapDataPlanes: nil,
+            pixelsWide: pixelWidth,
+            pixelsHigh: pixelHeight,
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .calibratedRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+        ) {
             bitmapRep.size = newSize
             NSGraphicsContext.saveGraphicsState()
             NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmapRep)
