@@ -119,47 +119,53 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         }
 
         let storageFullRange = NSRange(location: 0, length: textStorage.length)
-        guard let codeBlocks = processor?.editor?.note?.codeBlockRangesCache else { return }
+        guard let allCodeBlocks = processor?.editor?.note?.codeBlockRangesCache else { return }
         guard let textContainer = self.textContainers.first else { return }
-
+        
+        let visibleCharRange = self.characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
+        let relevantCodeBlocks = allCodeBlocks.filter { codeBlock in
+            NSIntersectionRange(codeBlock, visibleCharRange).length > 0
+        }
+        
+        guard !relevantCodeBlocks.isEmpty else { return }
+        
         textContainer.lineFragmentPadding = 10
-
         context.saveGState()
-
-        for codeBlockRange in codeBlocks {
+        
+        let backgroundColor = NotesTextProcessor.getHighlighter().options.style.backgroundColor.cgColor
+        let borderColor = NSColor.lightGray.cgColor
+        
+        for codeBlockRange in relevantCodeBlocks {  // ← теперь только релевантные блоки!
             let safeCharRange = codeBlockRange.clamped(to: storageFullRange)
             if safeCharRange.length == 0 { continue }
-
+            
             let glyphRange = self.glyphRange(forCharacterRange: safeCharRange, actualCharacterRange: nil)
             if glyphRange.length == 0 { continue }
-
+            
             let boundingRect = self.boundingRect(forGlyphRange: glyphRange, in: textContainer)
             if boundingRect.isEmpty { continue }
-
+            
             // Padding left/right
             let horizontalPadding: CGFloat = 5.0
             let paddedRect = boundingRect
                 .insetBy(dx: -horizontalPadding, dy: 0)
                 .offsetBy(dx: origin.x, dy: origin.y)
-
+            
             // Round borders
             let radius: CGFloat = 5.0
             let path = CGPath(roundedRect: paddedRect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-
-            // Background
-            context.setFillColor(NotesTextProcessor.getHighlighter().options.style.backgroundColor.cgColor)
+            
+            context.setFillColor(backgroundColor)
             context.addPath(path)
             context.fillPath()
-
+            
             // Border 1px
             context.addPath(path)
-            context.setStrokeColor(NSColor.lightGray.cgColor)
+            context.setStrokeColor(borderColor)
             context.setLineWidth(1.0)
             context.strokePath()
-
-            self.invalidateDisplay(forGlyphRange: glyphRange)
         }
-
+        
         context.restoreGState()
     }
 

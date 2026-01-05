@@ -281,6 +281,7 @@ public class TextFormatter {
             let parFont = NotesTextProcessor.font
             let parRange = NSRange(location: 0, length:   mutableResult.length)
             mutableResult.addAttribute(.font, value: parFont, range: parRange)
+            mutableResult.fixAttributes(in: parRange)
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
@@ -372,6 +373,7 @@ public class TextFormatter {
             let parFont = NotesTextProcessor.font
             let parRange = NSRange(location: 0, length:   mutableResult.length)
             mutableResult.addAttribute(.font, value: parFont, range: parRange)
+            mutableResult.fixAttributes(in: parRange)
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
@@ -707,7 +709,6 @@ public class TextFormatter {
             let insertRange = NSRange(location: pRange.location + offset, length: 0)
             let selectRange = NSRange(location: range.location + 2, length: range.length)
             insertText(AttributedBox.getUnChecked()!, replacementRange: insertRange, selectRange: selectRange)
-            storage.updateParagraphStyle(range: getParagraphRange())
             return
         }
 
@@ -789,6 +790,7 @@ public class TextFormatter {
         
         mutableResult.addAttribute(.foregroundColor, value: textColor, range: NSRange(location: 0, length: mutableResult.length))
         mutableResult.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: 0, length: mutableResult.length))
+        mutableResult.fixAttributes(in: NSRange(location: 0, length: mutableResult.length))
         mutableResult.loadTasks()
 
         let diff = mutableResult.length - attributedString.length
@@ -800,7 +802,6 @@ public class TextFormatter {
         storage.removeAttribute(.todo, range: pRange)
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
-        storage.updateParagraphStyle(range: getParagraphRange())
     }
 
     public func toggleTodo(_ location: Int? = nil) {
@@ -869,6 +870,7 @@ public class TextFormatter {
 
             let mutableString = NSMutableAttributedString(string: string)
             mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
+            mutableString.fixAttributes(in: NSRange(0..<string.count))
 
             insertText(mutableString, replacementRange: selectedRange)
             return
@@ -1031,23 +1033,7 @@ public class TextFormatter {
         
         return paragraphRange
     }
-    
-    func toggleBoldFont(font: Font) -> Font {
-        if (font.isBold) {
-            return font.unBold()
-        } else {
-            return font.bold()
-        }
-    }
-    
-    func toggleItalicFont(font: Font) -> Font {
-        if (font.isItalic) {
-            return font.unItalic()
-        } else {
-            return font.italic()
-        }
-    }
-    
+            
     func getTypingAttributes() -> Font {
         #if os(OSX)
             return textView.typingAttributes[.font] as! Font
@@ -1160,6 +1146,7 @@ public class TextFormatter {
         let range = NSRange(0..<attributedString.length)
 
         attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont as Any, range: range)
+        attributedString.fixAttributes(in: range)
         return attributedString
     }
 
@@ -1217,7 +1204,7 @@ public class TextFormatter {
         insertText(result, replacementRange: pRange, selectRange: selectRange)
         
         // Fixes small font bug
-        storage.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
+        //storage.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
     }
 
     public func orderedList() {
@@ -1288,7 +1275,7 @@ public class TextFormatter {
         insertText(result, replacementRange: pRange, selectRange: selectRange)
         
         // Fixes small font bug
-        storage.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
+        //storage.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: pRange.location, length: result.count))
     }
     
     private func reset(pRange: NSRange) {

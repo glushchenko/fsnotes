@@ -70,10 +70,7 @@ extension NSTextStorage {
             parStyle.headIndent = spaceWidth + attachmentWidth
             parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
             addAttribute(.paragraphStyle, value: parStyle, range: currentParRange)
-            removeAttribute(.font, range: currentParRange)
-            addAttribute(.font, value: UserDefaultsManagement.noteFont, range: currentParRange)
-            fixAttributes(in: currentParRange)
-        }
+        }   
         endEditing()
     }
 

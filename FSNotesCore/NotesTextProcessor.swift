@@ -278,31 +278,85 @@ public class NotesTextProcessor {
                 .highlight(in: attributedString, fullRange: range)
         }
     }
+    
+    public static func removeFontTraits(
+        _ traitsToRemove: FontTraits,
+        range: NSRange,
+        attributedString: NSMutableAttributedString
+    ) {
+        let baseFont = UserDefaultsManagement.noteFont
+        let pointSize = baseFont.pointSize
+
+        attributedString.enumerateAttribute(.font, in: range) { value, subrange, _ in
+            guard let font = value as? PlatformFont else { return }
+
+            let currentTraits = font.fontDescriptor.symbolicTraits
+            guard !currentTraits.isDisjoint(with: traitsToRemove) else { return }
+
+            let newTraits = currentTraits.subtracting(traitsToRemove)
+            let newDesc = font.fontDescriptor.withSymbolicTraits(newTraits)
+            
+        #if os(iOS)
+            guard let newDesc = newDesc else { return }
+            let newFont = PlatformFont(descriptor: newDesc, size: pointSize)
+        #else
+            guard let newFont = PlatformFont(descriptor: newDesc, size: pointSize) else { return }
+        #endif
+            
+            attributedString.addAttribute(.font, value: newFont, range: subrange)
+        }
+    }
+
+    public static func addFontTraits(
+        _ traitsToAdd: FontTraits,
+        range: NSRange,
+        attributedString: NSMutableAttributedString
+    ) {
+        attributedString.enumerateAttribute(.font, in: range) { value, subrange, _ in
+            guard let font = (value as? PlatformFont) else { return }
+
+            let currentTraits = font.fontDescriptor.symbolicTraits
+            let newTraits = currentTraits.union(traitsToAdd)
+            let newDesc = font.fontDescriptor.withSymbolicTraits(newTraits)
+
+        #if os(iOS)
+            guard let newDesc = newDesc else { return }
+            let newFont = PlatformFont(descriptor: newDesc, size: font.pointSize)
+        #else
+            guard let newFont = PlatformFont(descriptor: newDesc, size: font.pointSize) else { return }
+        #endif
+            
+            attributedString.addAttribute(.font, value: newFont, range: subrange)
+        }
+    }
+    
+    public static func resetFont(attributedString: NSMutableAttributedString, paragraphRange: NSRange) {
+        attributedString.addAttribute(.font, value: font, range: paragraphRange)
+        attributedString.fixAttributes(in: paragraphRange)
+    }
 
     public static func highlightMarkdown(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, codeBlockRanges: [NSRange]? = nil) {
         let paragraphRange = paragraphRange ?? NSRange(0..<attributedString.length)
-        let string = attributedString.string
         
+        attributedString.beginEditing()
+        if paragraphRange.length == attributedString.length {
+            // Initial operation
+            resetFont(attributedString: attributedString, paragraphRange: paragraphRange)
+        } else {
+            removeFontTraits([.bold, .italic], range: paragraphRange, attributedString: attributedString)
+        }
+        
+        defer {
+            attributedString.endEditing()
+        }
+        
+        let string = attributedString.string
+        let pointSize = UserDefaultsManagement.noteFont.pointSize
         let codeFont = UserDefaultsManagement.codeFont
-        let quoteFont = UserDefaultsManagement.noteFont
         
     #if os(OSX)
-        let boldFont = NSFont.boldFont()
-        let italicFont = NSFont.italicFont()
         let hiddenFont = NSFont.systemFont(ofSize: 0.1)
     #else
-        var boldFont: UIFont {
-            get {
-                return UserDefaultsManagement.noteFont.bold()
-            }
-        }
-        
-        var italicFont: UIFont {
-            get {
-                return UserDefaultsManagement.noteFont.italic()
-            }
-        }
-        
         let hiddenFont = UIFont.systemFont(ofSize: 0.1)
     #endif
 
@@ -335,9 +389,6 @@ public class NotesTextProcessor {
                 attributedString.removeAttribute(.tag, range: range)
             }
         }
-
-        attributedString.addAttribute(.font, value: font, range: paragraphRange)
-        attributedString.fixAttributes(in: paragraphRange)
 
         #if os(iOS)
             attributedString.addAttribute(.foregroundColor, value: UIColor.blackWhite, range: paragraphRange)
@@ -409,9 +460,13 @@ public class NotesTextProcessor {
         // We detect and process underlined headers
         NotesTextProcessor.headersSetextRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: boldFont, range: range)
-            attributedString.fixAttributes(in: range)
-
+            
+            attributedString.enumerateAttribute(.font, in: range) { value, subrange, _ in
+                guard let font = value as? PlatformFont else { return }
+                let headerFont = NotesTextProcessor.getHeaderFont(level: 1, baseFont: font, baseFontSize: pointSize)
+                attributedString.addAttribute(.font, value: headerFont, range: subrange)
+            }
+            
             NotesTextProcessor.headersSetextUnderlineRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
@@ -425,10 +480,13 @@ public class NotesTextProcessor {
                   let headerMarksRange = result?.range(at: 1) else { return }
                 
             let headerLevel = headerMarksRange.length
-            let headerFont = NotesTextProcessor.getHeaderFont(level: headerLevel, baseFont: boldFont)
-            
-            attributedString.addAttribute(NSAttributedString.Key.font, value: headerFont, range: range)
-            attributedString.fixAttributes(in: range)
+            attributedString.enumerateAttribute(.font, in: range) { value, subrange, _ in
+                guard let font = value as? PlatformFont else { return }
+
+                let headerFont = NotesTextProcessor.getHeaderFont(level: headerLevel, baseFont: font, baseFontSize: pointSize)
+                
+                attributedString.addAttribute(.font, value: headerFont, range: subrange)
+            }
 
             NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
@@ -464,7 +522,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             attributedString.addAttribute(.font, value: codeFont, range: range)
-            attributedString.fixAttributes(in: range)
+            //attributedString.fixAttributes(in: range)
             
             var destinationLink : String?
             NotesTextProcessor.coupleRoundRegex.matches(string, range: range) { (innerResult) -> Void in
@@ -513,7 +571,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.anchorInlineGFMRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             attributedString.addAttribute(.font, value: codeFont, range: range)
-            attributedString.fixAttributes(in: range)
+            //attributedString.fixAttributes(in: range)
             
             var destinationLink : String?
             
@@ -612,8 +670,6 @@ public class NotesTextProcessor {
         // We detect and process quotes
         NotesTextProcessor.blockQuoteRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: quoteFont, range: range)
-            attributedString.fixAttributes(in: range)
             attributedString.addAttribute(.foregroundColor, value: quoteColor, range: range)
             NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
@@ -630,15 +686,12 @@ public class NotesTextProcessor {
                 return
             }
 
-            attributedString.addAttribute(.font, value: italicFont, range: range)
+            addFontTraits([.italic], range: range, attributedString: attributedString)
 
             NotesTextProcessor.strictBoldRegex.matches(string, range: range) { (result) -> Void in
                 guard let range = result?.range else { return }
-                let boldItalic = Font.addBold(font: italicFont)
-                attributedString.addAttribute(.font, value: boldItalic, range: range)
+                addFontTraits([.bold], range: range, attributedString: attributedString)
             }
-
-            attributedString.fixAttributes(in: range)
             
             let preRange = NSMakeRange(range.location - 1, 1)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
@@ -664,16 +717,13 @@ public class NotesTextProcessor {
 
             if let font = boldString.attribute(.font, at: 0, effectiveRange: nil) as? Font, font.isItalic {
             } else {
-                attributedString.addAttribute(.font, value: boldFont, range: range)
-
+                addFontTraits([.bold], range: range, attributedString: attributedString)
+                
                 NotesTextProcessor.italicRegex.matches(string, range: range) { (result) -> Void in
                     guard let range = result?.range else { return }
-                    let boldItalic = Font.addItalic(font: boldFont)
-                    attributedString.addAttribute(.font, value: boldItalic, range: range)
+                    addFontTraits([.italic], range: range, attributedString: attributedString)
                 }
             }
-
-            attributedString.fixAttributes(in: range)
 
             let preRange = NSMakeRange(range.location - 2, 2)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
@@ -686,8 +736,7 @@ public class NotesTextProcessor {
 
         NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: italicFont, range: range)
-            attributedString.fixAttributes(in: range)
+            addFontTraits([.italic], range: range, attributedString: attributedString)
 
             let preRange = NSMakeRange(range.location, 1)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
@@ -698,9 +747,8 @@ public class NotesTextProcessor {
 
         NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: boldFont, range: range)
-            attributedString.fixAttributes(in: range)
-
+            addFontTraits([.bold], range: range, attributedString: attributedString)
+            
             let preRange = NSMakeRange(range.location, 2)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
 
@@ -714,7 +762,7 @@ public class NotesTextProcessor {
 
             attributedString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: range.location + 2, length: range.length - 4))
 
-            attributedString.fixAttributes(in: range)
+            //attributedString.fixAttributes(in: range)
 
             let preRange = NSMakeRange(range.location, 2)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
@@ -1302,8 +1350,7 @@ public class NotesTextProcessor {
         }
     }
 
-    fileprivate static func getHeaderFont(level: Int, baseFont: PlatformFont) -> PlatformFont {
-        let baseFontSize = baseFont.pointSize
+    fileprivate static func getHeaderFont(level: Int, baseFont: PlatformFont, baseFontSize: CGFloat) -> PlatformFont {
         let headerSize: CGFloat
         
         switch level {
@@ -1316,11 +1363,19 @@ public class NotesTextProcessor {
         default: headerSize = baseFontSize
         }
         
-        let fontDescriptor = baseFont.fontDescriptor.withSize(headerSize)
-
+        let boldTraits: FontTraits = [.bold]
+        var fontDescriptor = baseFont.fontDescriptor
+            .withSymbolicTraits(boldTraits)
+        
         #if os(OSX)
+            fontDescriptor = fontDescriptor.withSize(headerSize)
+        
             return PlatformFont(descriptor: fontDescriptor, size: headerSize) ?? baseFont
         #else
+            fontDescriptor = fontDescriptor?.withSize(headerSize)
+        
+            guard let fontDescriptor = fontDescriptor else { return baseFont }
+        
             return PlatformFont(descriptor: fontDescriptor, size: headerSize)
         #endif
     }

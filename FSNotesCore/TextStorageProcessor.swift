@@ -95,6 +95,7 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         if let ranges = result.md {
             for range in ranges {
                 let safeRange = safeRange(range, in: textStorage)
+                NotesTextProcessor.resetFont(attributedString: textStorage, paragraphRange: safeRange)
                 NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: safeRange)
             }
         }

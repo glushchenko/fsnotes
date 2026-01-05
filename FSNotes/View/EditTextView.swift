@@ -172,8 +172,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         defaultParagraphStyle = paragraphStyle
         typingAttributes[.paragraphStyle] = paragraphStyle
-        
-        font = UserDefaultsManagement.noteFont
+        typingAttributes[.font] = UserDefaultsManagement.noteFont
     }
 
     public func invalidateLayout() {
@@ -986,53 +985,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         return storage.mutableString.paragraphRange(for: range)
     }
     
-    func toggleBoldFont(font: NSFont) -> NSFont {
-        guard let family = UserDefaultsManagement.noteFont.familyName else {
-            return UserDefaultsManagement.noteFont
-        }
-        
-        var mask = 0
-        if (font.isBold) {
-            if (font.isItalic) {
-                mask = NSFontItalicTrait
-            }
-        } else {
-            if (font.isItalic) {
-                mask = NSFontBoldTrait|NSFontItalicTrait
-            } else {
-                mask = NSFontBoldTrait
-            }
-        }
-        
-        return NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize))!
-    }
-    
-    func toggleItalicFont(font: NSFont) -> NSFont? {
-        guard let family = UserDefaultsManagement.noteFont.familyName else {
-            return UserDefaultsManagement.noteFont
-        }
-        
-        var mask = 0
-        if (font.isItalic) {
-            if (font.isBold) {
-                mask = NSFontBoldTrait
-            }
-        } else {
-            if (font.isBold) {
-                mask = NSFontBoldTrait|NSFontItalicTrait
-            } else {
-                mask = NSFontItalicTrait
-            }
-        }
-        
-        let size = CGFloat(UserDefaultsManagement.fontSize)
-        guard let newFont = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: size) else {
-            return nil
-        }
-        
-        return newFont
-    }
-
     // Clickable links flag changed with cmd / shift
     override func flagsChanged(with event: NSEvent) {
         super.flagsChanged(with: event)
@@ -1907,5 +1859,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if let style = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
             style.alignment = .left
         }
+        
+        typingAttributes[.font] = UserDefaultsManagement.noteFont
     }
 }
