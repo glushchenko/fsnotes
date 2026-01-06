@@ -719,7 +719,7 @@ public class NotesTextProcessor {
             } else {
                 addFontTraits([.bold], range: range, attributedString: attributedString)
                 
-                NotesTextProcessor.italicRegex.matches(string, range: range) { (result) -> Void in
+                NotesTextProcessor.strictItalicRegex.matches(string, range: range) { (result) -> Void in
                     guard let range = result?.range else { return }
                     addFontTraits([.italic], range: range, attributedString: attributedString)
                 }
@@ -734,27 +734,27 @@ public class NotesTextProcessor {
             hideSyntaxIfNecessary(range: postRange)
         }
 
-        NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            addFontTraits([.italic], range: range, attributedString: attributedString)
-
-            let preRange = NSMakeRange(range.location, 1)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-
-            let postRange = NSMakeRange(range.location + range.length - 1, 1)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-        }
-
-        NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            addFontTraits([.bold], range: range, attributedString: attributedString)
-            
-            let preRange = NSMakeRange(range.location, 2)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-
-            let postRange = NSMakeRange(range.location + range.length - 2, 2)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-        }
+//        NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
+//            guard let range = result?.range else { return }
+//            addFontTraits([.italic], range: range, attributedString: attributedString)
+//
+//            let preRange = NSMakeRange(range.location, 1)
+//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
+//
+//            let postRange = NSMakeRange(range.location + range.length - 1, 1)
+//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
+//        }
+//
+//        NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
+//            guard let range = result?.range else { return }
+//            addFontTraits([.bold], range: range, attributedString: attributedString)
+//            
+//            let preRange = NSMakeRange(range.location, 2)
+//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
+//
+//            let postRange = NSMakeRange(range.location + range.length - 2, 2)
+//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
+//        }
 
         // We detect and process bolds
         NotesTextProcessor.strikeRegex.matches(string, range: paragraphRange) { (result) -> Void in

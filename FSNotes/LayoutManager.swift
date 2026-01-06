@@ -23,6 +23,18 @@ fileprivate extension NSRange {
 class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     weak var processor: TextStorageProcessor?
     
+    override init() {
+        super.init()
+        
+        self.allowsNonContiguousLayout = true
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        self.allowsNonContiguousLayout = true
+    }
+    
     public var lineHeightMultiple: CGFloat = CGFloat(UserDefaultsManagement.lineHeightMultiple)
 
     private var defaultFont: NSFont {

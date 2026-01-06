@@ -24674,7 +24674,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подсвечивать ссылки"
+            "value" : "Кликабельные ссылки"
           }
         },
         "tr" : {
@@ -24686,7 +24686,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Інтерактивні посилання"
+            "value" : "Клікабельні посилання"
           }
         },
         "zh-Hans" : {
