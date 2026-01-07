@@ -1174,7 +1174,9 @@ class ViewController: EditorViewController,
             }
         }
         
-        NSApp.mainWindow?.makeFirstResponder(notesTableView)
+        if let window = notesTableView.window, window == view.window {
+            window.makeFirstResponder(notesTableView)
+        }
     }
         
     @available(macOS 10.14, *)

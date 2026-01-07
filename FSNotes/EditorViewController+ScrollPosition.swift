@@ -25,44 +25,39 @@ extension EditorViewController {
     }
     
     func restoreScrollPosition() {
-        guard let textView = vcEditor else { return }
-        
-        textView.isScrollPositionSaverLocked = true
-        
-        guard let position = textView.note?.contentOffset,
-              let scrollView = textView.enclosingScrollView else {
-            
-            textView.isScrollPositionSaverLocked = false
+        guard let textView = vcEditor,
+              let charIndex = textView.note?.scrollPosition,
+              let layoutManager = textView.layoutManager,
+              let textContainer = textView.textContainer
+        else {
+            vcEditor?.isScrollPositionSaverLocked = false
             return
         }
-            
-        DispatchQueue.main.async {
-            guard let documentView = scrollView.documentView else { return }
+                    
+        layoutManager.ensureLayout(for: textContainer)
 
-            let contentHeight = scrollView.contentView.bounds.height
-            let documentHeight = documentView.bounds.height
+        let glyphIndex = layoutManager.glyphIndexForCharacter(at: charIndex)
+        let rect = layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1),
+                                              in: textContainer)
 
-            let maxY = max(0, documentHeight - contentHeight)
-
-            let clampedY = min(max(position.y, 0), maxY)
-            let clampedPoint = CGPoint(x: 0, y: clampedY)
-
-            scrollView.contentView.scroll(to: clampedPoint)
-            scrollView.reflectScrolledClipView(scrollView.contentView)
-            
-            textView.note?.isLoadedContentOffset = true
-            textView.isScrollPositionSaverLocked = false
-        }
+        textView.scroll(rect.origin)
+        textView.isScrollPositionSaverLocked = false
     }
     
     @objc func scrollViewDidScroll(_ notification: Notification) {
-        guard let clipView = notification.object as? NSClipView else { return }
+        guard notification.object as? NSClipView != nil else { return }
                 
         if let textView = vcEditor, !textView.isPreviewEnabled(), !textView.isScrollPositionSaverLocked {
-            DispatchQueue.main.async {
-                let scrollPosition = clipView.bounds.origin
-                textView.note?.contentOffset = scrollPosition
-            }
+            guard
+                let layoutManager = textView.layoutManager,
+                let textContainer = textView.textContainer
+            else { return }
+
+            let visibleRect = textView.enclosingScrollView!.contentView.bounds
+            let glyphRange = layoutManager.glyphRange(forBoundingRect: visibleRect,
+                                                       in: textContainer)
+
+            textView.note?.scrollPosition = layoutManager.characterIndexForGlyph(at: glyphRange.location)
         }
     }
 }

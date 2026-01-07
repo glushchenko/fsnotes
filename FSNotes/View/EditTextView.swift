@@ -43,6 +43,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             textStorage?.removeHighlight()
         }
         
+        loadSelectedRange()
+        
         return super.becomeFirstResponder()
     }
 
@@ -755,17 +757,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     func fill(note: Note, highlight: Bool = false, force: Bool = false) {
-        note.isLoadedContentOffset = false
-        
-        if !isPreviewEnabled() {
-            isScrollPositionSaverLocked = true
-        }
-        
-        defer {
-            if !isPreviewEnabled() {
-                isScrollPositionSaverLocked = false
-            }
-        }
+        isScrollPositionSaverLocked = true
         
         if !note.isLoaded {
             note.load()
@@ -842,7 +834,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             textStorage?.highlightKeyword(search: getSearchText())
         }
 
-        loadSelectedRange()
+        viewDelegate?.restoreScrollPosition()
     }
 
     private func loadMarkdownWebView(note: Note, force: Bool) {
