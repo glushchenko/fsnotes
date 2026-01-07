@@ -640,10 +640,20 @@ class SidebarOutlineView: NSOutlineView,
 
     // MARK: Actions
     @IBAction func revealInFinder(_ sender: Any) {
-        guard let projects = getSelectedProjects() else { return }
+        if getSidebarItems()?.first?.type == .Inbox {
+            if let url = Storage.shared().getDefault()?.url {
+                NSWorkspace.shared.activateFileViewerSelecting([url])
+            }
+            return
+        }
         
+        guard let projects = getSelectedProjects() else { return }
+
         let urls = projects.map { $0.url }
-        NSWorkspace.shared.activateFileViewerSelecting(urls)
+        
+        if urls.count > 0 {
+            NSWorkspace.shared.activateFileViewerSelecting(urls)
+        }
     }
     
     @IBAction func renameFolderMenu(_ sender: Any) {
@@ -776,8 +786,9 @@ class SidebarOutlineView: NSOutlineView,
                             }
                         }
                         
+                        self.removeRows(projects: [project])
                         try FileManager.default.removeItem(at: project.url)
-
+                        
                         self.storage.cleanCachedTree(url: project.url)
                     } catch {
                         print(error)

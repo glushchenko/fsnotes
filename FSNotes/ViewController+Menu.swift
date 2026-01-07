@@ -29,6 +29,7 @@ extension ViewController {
         let tagSelected = tags?.isEmpty == false
         
         let isFirstSidebar = evc.view.window?.firstResponder?.isKind(of: SidebarOutlineView.self) == true
+        let isInbox = vc.sidebarOutlineView.getSidebarItems()?.first?.type == .Inbox
         let isTrash = vc.sidebarOutlineView.getSidebarItems()?.first?.type == .Trash
         
         // Notes
@@ -173,7 +174,7 @@ extension ViewController {
         case "\(menuId).reveal":
             if isFirstSidebar {
                 menuItem.title = NSLocalizedString("Reveal in Finder", comment: "Menu Library")
-                return projectSelected
+                return projectSelected || isInbox
             }
             
             menuItem.title = NSLocalizedString("Reveal in Finder", comment: "File Menu")
@@ -264,6 +265,7 @@ extension ViewController {
         let isFirstResponder = view.window?.firstResponder?.isKind(of: SidebarOutlineView.self) == true
         
         let isTrash = vc.sidebarOutlineView.getSidebarItems()?.first?.type == .Trash
+        let isInbox = vc.sidebarOutlineView.getSidebarItems()?.first?.type == .Inbox
         let isSystem = vc.sidebarOutlineView.getSidebarItems()?.first?.isSystem() == true
         
         switch id {
@@ -305,7 +307,7 @@ extension ViewController {
             
         case "\(menuId).reveal":
             menuItem.title = NSLocalizedString("Reveal in Finder", comment: "Menu Library")
-            return isFirstResponder && projectSelected
+            return isFirstResponder && (projectSelected || isInbox)
             
         case "\(menuId).options":
             menuItem.title = NSLocalizedString("Show Options", comment: "Menu Library")
