@@ -13,15 +13,23 @@
 #endif
 
 class AttributedBox {
-    public static func getChecked() -> NSMutableAttributedString? {
+    public static func getChecked(clean: Bool = false) -> NSMutableAttributedString? {
         let checkboxText = getCleanChecked()
+        if clean {
+            return checkboxText
+        }
+        
         checkboxText.append(NSAttributedString(string: " "))
 
         return checkboxText
     }
 
-    public static func getUnChecked() -> NSMutableAttributedString? {
+    public static func getUnChecked(clean: Bool = false) -> NSMutableAttributedString? {
         let checkboxText = getCleanUnchecked()
+        if clean {
+            return checkboxText
+        }
+        
         checkboxText.append(NSAttributedString(string: " "))
 
         return checkboxText

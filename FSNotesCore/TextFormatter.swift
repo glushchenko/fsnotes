@@ -816,9 +816,12 @@ public class TextFormatter {
             let paragraphTextNonMutable = storage.attributedSubstring(from: paragraph)
             let paragraphText = NSMutableAttributedString(attributedString: paragraphTextNonMutable)
             
-            let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
+            let attributedText = (todoAttr == 0) ?
+                AttributedBox.getChecked(clean: true) :
+                AttributedBox.getUnChecked(clean: true)
+            
             let checkboxLocation = location - paragraph.location
-            paragraphText.replaceCharacters(in: NSRange(location: checkboxLocation, length: 2), with: attributedText!)
+            paragraphText.replaceCharacters(in: NSRange(location: checkboxLocation, length: 1), with: attributedText!)
             
             if todoAttr == 0 {
                 paragraphText.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: paragraphText.length))
