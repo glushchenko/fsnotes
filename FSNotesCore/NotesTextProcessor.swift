@@ -1235,11 +1235,11 @@ public class NotesTextProcessor {
 
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    fileprivate static let autolinkPattern = "([\\(]*(https?|sftp|ftp):[^`\'\">\\s\\*]+)"
+    fileprivate static let autolinkPattern = "([\\(]*(https?|sftp|file|ftp):[^`\'\">\\s\\*]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
-    fileprivate static let autolinkPrefixPattern = "((https?|sftp|ftp)://)"
+    fileprivate static let autolinkPrefixPattern = "((https?|sftp|file|ftp)://)"
 
     public static let autolinkPrefixRegex = MarklightRegex(pattern: autolinkPrefixPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
@@ -1302,52 +1302,6 @@ public class NotesTextProcessor {
     /// this is to emulate what's available in PHP
     fileprivate static func repeatString(_ text: String, _ count: Int) -> String {
         return Array(repeating: text, count: count).reduce("", +)
-    }
-        
-    public func higlightLinks() {
-        guard let storage = self.storage, let range = self.range else {
-            return
-        }
-        
-        storage.removeAttribute(.link, range: range)
-        
-        let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
-        let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
-        
-        regex.enumerateMatches(
-            in: (storage.string),
-            options: NSRegularExpression.MatchingOptions(),
-            range: range,
-            using: { (result, matchingFlags, stop) -> Void in
-                if let range = result?.range {
-                    guard storage.length >= range.location + range.length else {
-                        return
-                    }
-                    
-                    var str = storage.mutableString.substring(with: range)
-                    
-                    if str.starts(with: "www.") {
-                        str = "http://" + str
-                    }
-                    
-                    guard let url = URL(string: str) else { return }
-                    
-                    storage.addAttribute(.link, value: url, range: range)
-                }
-            }
-        )
-        
-        // We detect and process app urls [[link]]
-        NotesTextProcessor.appUrlRegex.matches(storage.string, range: range) { (result) -> Void in
-            guard let innerRange = result?.range else { return }
-            let from = String.Index.init(utf16Offset: innerRange.lowerBound + 2, in: storage.string)
-            let to = String.Index.init(utf16Offset: innerRange.upperBound - 2, in: storage.string)
-            
-            let appLink = storage.string[from..<to]
-            if let link = appLink.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                storage.addAttribute(.link, value: "fsnotes://find?id=" + link, range: innerRange)
-            }
-        }
     }
 
     fileprivate static func getHeaderFont(level: Int, baseFont: PlatformFont, baseFontSize: CGFloat) -> PlatformFont {
