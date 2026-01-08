@@ -996,7 +996,7 @@ class Storage {
             guard let bundlePath = Bundle.main.path(forResource: "Welcome", ofType: ".bundle") else { return }
 
             let bundle = URL(fileURLWithPath: bundlePath)
-            let url = storageUrl.appendingPathComponent("Welcome", isDirectory: true)
+            let url = storageUrl.appendingPathComponent("Welcome '26", isDirectory: true)
 
             try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
 
@@ -1024,11 +1024,7 @@ class Storage {
                 print("Initial copy error: \(error)")
             }
         
-            let project = Project(storage: self, url: url, label: "Welcome")
-            project.settings.sortBy = .title
-            project.settings.sortDirection = .asc
-            project.saveSettings()
-        
+            let project = Project(storage: self, url: url, label: "Welcome '26")
             insertProject(project: project)
             
             let notes = project.loadNotes()
@@ -1219,8 +1215,6 @@ class Storage {
         }
         
         note.load()
-        note.loadPreviewInfo()
-        
         note.loadModifiedLocalAt()
         note.loadCreationDate()
         

@@ -1422,6 +1422,10 @@ class ViewController: EditorViewController,
         if (UserDefaultsManagement.sort == .title || project.settings.sortBy == .title) && project.settings.isFirstLineAsTitle() {
             let notes = storage.noteList.filter({ $0.project == project })
             for note in notes {
+                if !note.isLoaded {
+                    note.load()
+                }
+                
                 note.loadPreviewInfo()
             }
         }

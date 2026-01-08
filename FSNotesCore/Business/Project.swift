@@ -189,6 +189,12 @@ public class Project: NSObject {
         }
         
         isEncrypted = getEncryptionStatus()
+        
+        if settings.sortBy == .none, self.label == "Welcome '26" {
+            settings.sortBy = .title
+            settings.sortDirection = .asc
+            settings.showInCommon = false
+        }
     }
 
     public func getCacheURL() -> URL? {
