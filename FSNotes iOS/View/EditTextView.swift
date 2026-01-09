@@ -48,6 +48,20 @@ class EditTextView: UITextView, UITextViewDelegate {
         
         return super.becomeFirstResponder()
     }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        if !isFirstResponder && window != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                guard let self = self else { return }
+                
+                if !self.isFirstResponder && self.window != nil {
+                    _ = self.becomeFirstResponder()
+                }
+            }
+        }
+    }
 
     public func initTextStorage() {
         let processor = TextStorageProcessor()

@@ -143,7 +143,6 @@ class ShareViewController: SLComposeServiceViewController {
         }
 
         let note = createNote()
-        appendTextContent(to: note)
         processAttachments(from: inputItems, note: note)
     }
 
