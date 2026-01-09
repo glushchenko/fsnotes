@@ -312,9 +312,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let range = selectedRange
         if handleTodo(event) {
-            self.window?.makeFirstResponder(nil)
-            setSelectedRange(range)
             self.window?.makeFirstResponder(self)
+            setSelectedRange(range)
+            self.window?.makeFirstResponder(nil)
             return
         }
         
@@ -515,9 +515,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return true
         }
 
-        var length = string.range(of: "- [ ]").length
+        var length = string.range(of: "- [ ] ").length
         if length == 0 {
-            length = string.range(of: "- [x]").length
+            length = string.range(of: "- [x] ").length
         }
         
         if length > 0 {
