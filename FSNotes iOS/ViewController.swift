@@ -240,6 +240,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.layer.zPosition = 100
         notesTable.rowHeight = UITableView.automaticDimension
         notesTable.estimatedRowHeight = 160
+        notesTable.contentInset.bottom = 85
     }
 
     public var lastSidebarItem: SidebarItem? = nil
@@ -789,11 +790,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             if let sc = navigationItem.searchController {
                 sc.isActive = false
                 sc.searchBar.resignFirstResponder()
-
-                searchBar.text = ""
-
-                buildSearchQuery()
-                reloadNotesTable()
             }
         } else {
             configureSearchController()

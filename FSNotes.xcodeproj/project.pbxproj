@@ -193,6 +193,10 @@
 		11F018B32EF8415600F07580 /* MPreviewContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F018B12EF8415200F07580 /* MPreviewContainerView.swift */; };
 		11F1771A2EF1E93500CC566F /* ViewController+Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F177192EF1E92C00CC566F /* ViewController+Menu.swift */; };
 		11F1771B2EF1E93500CC566F /* ViewController+Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F177192EF1E92C00CC566F /* ViewController+Menu.swift */; };
+		11F2D4F42F104322002E4E47 /* Project+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2D4F32F1042F4002E4E47 /* Project+Date.swift */; };
+		11F2D4F52F104322002E4E47 /* Project+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2D4F32F1042F4002E4E47 /* Project+Date.swift */; };
+		11F2D4F62F104322002E4E47 /* Project+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2D4F32F1042F4002E4E47 /* Project+Date.swift */; };
+		11F2D4F72F104322002E4E47 /* Project+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F2D4F32F1042F4002E4E47 /* Project+Date.swift */; };
 		11F389562EEA10930008EC18 /* Mermaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F389552EEA108C0008EC18 /* Mermaid.swift */; };
 		11F389572EEA10930008EC18 /* Mermaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F389552EEA108C0008EC18 /* Mermaid.swift */; };
 		11F389582EEA10930008EC18 /* Mermaid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F389552EEA108C0008EC18 /* Mermaid.swift */; };
@@ -972,6 +976,7 @@
 		11F018AB2EF7E77B00F07580 /* MPreviewFindPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPreviewFindPanel.swift; sourceTree = "<group>"; };
 		11F018B12EF8415200F07580 /* MPreviewContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPreviewContainerView.swift; sourceTree = "<group>"; };
 		11F177192EF1E92C00CC566F /* ViewController+Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Menu.swift"; sourceTree = "<group>"; };
+		11F2D4F32F1042F4002E4E47 /* Project+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Date.swift"; sourceTree = "<group>"; };
 		11F389552EEA108C0008EC18 /* Mermaid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mermaid.swift; sourceTree = "<group>"; };
 		11F5D53A2EFDA17000A66466 /* modern.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = modern.icon; sourceTree = "<group>"; };
 		15136766333878E10A6B0457 /* Pods_FSNotes__Notarized_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__Notarized_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1507,6 +1512,7 @@
 			isa = PBXGroup;
 			children = (
 				D7B6E599207912E300FE0E20 /* Project.swift */,
+				11F2D4F32F1042F4002E4E47 /* Project+Date.swift */,
 				D79FE8A01F77D04A00113CFD /* Note.swift */,
 				113A319F2EEE2D3A009B50B0 /* Note+Preview.swift */,
 				D714749C279D7DBC001A8B29 /* SearchQuery.swift */,
@@ -2536,6 +2542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11F2D4F72F104322002E4E47 /* Project+Date.swift in Sources */,
 				11598DA42EDCB9B40036E387 /* UIFont+.swift in Sources */,
 				D730BD38222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D792DD9427A6D6F5006ADC01 /* String+.swift in Sources */,
@@ -2623,6 +2630,7 @@
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				11D9431E2E643F250010CC2B /* Swift.swift in Sources */,
 				D70E9DF52901AEAF00A3C634 /* Blob.swift in Sources */,
+				11F2D4F42F104322002E4E47 /* Project+Date.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D70E9DFA2901AEAF00A3C634 /* Signature.swift in Sources */,
@@ -2957,6 +2965,7 @@
 				D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */,
 				D7A9C1D62910784400905619 /* Project+Git.swift in Sources */,
 				D7153DFD2285A93300A2C20F /* AboutWindowController.swift in Sources */,
+				11F2D4F62F104322002E4E47 /* Project+Date.swift in Sources */,
 				D74D479F256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				11BD8F9C2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
@@ -3190,6 +3199,7 @@
 				D7E81C3A1F925B5F00416A91 /* NotesTableView.swift in Sources */,
 				D7A9C1D72910784400905619 /* Project+Git.swift in Sources */,
 				D7153DFE2285A93300A2C20F /* AboutWindowController.swift in Sources */,
+				11F2D4F52F104322002E4E47 /* Project+Date.swift in Sources */,
 				D74D47A0256DF2EB00D97647 /* FSNTextAttachmentCell.swift in Sources */,
 				11BD8F9A2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,

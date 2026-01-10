@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="154" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sUC-hL-bgg" customClass="NotesTableView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="188" y="118" width="242" height="746"/>
+                                <rect key="frame" x="0.0" y="118" width="430" height="814"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="noteCell" rowHeight="154" id="uv7-Im-hed" customClass="NoteCellView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="242" height="154"/>
+                                        <rect key="frame" x="0.0" y="50" width="430" height="154"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uv7-Im-hed" id="De0-QG-drV">
-                                            <rect key="frame" x="0.0" y="0.0" width="242" height="154"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="430" height="154"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
@@ -45,7 +45,7 @@
                                                     </attributedString>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAf-Rz-QFy">
-                                                    <rect key="frame" x="30" y="40" width="187" height="18"/>
+                                                    <rect key="frame" x="30" y="40" width="375" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <nil key="highlightedColor"/>
@@ -75,7 +75,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbV-ot-mEE">
-                                                    <rect key="frame" x="188.33333333333334" y="15" width="28.666666666666657" height="15.666666666666664"/>
+                                                    <rect key="frame" x="376.33333333333331" y="15" width="28.666666666666686" height="15.666666666666664"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -176,7 +176,7 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="lock.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-ez-Ynx">
-                                <rect key="frame" x="277" y="460" width="64" height="62"/>
+                                <rect key="frame" x="183" y="494" width="64" height="62"/>
                                 <color key="tintColor" name="fsColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="64" id="JvC-sr-vAR"/>
@@ -190,14 +190,14 @@
                             <constraint firstAttribute="bottom" secondItem="IQe-XD-PyC" secondAttribute="bottom" id="1Dl-Z9-VfR"/>
                             <constraint firstItem="sUC-hL-bgg" firstAttribute="top" secondItem="hRO-uY-yS2" secondAttribute="top" id="A5w-f3-Rgo"/>
                             <constraint firstAttribute="bottom" secondItem="Mge-lh-GR9" secondAttribute="bottom" id="GIi-Ek-8ST"/>
-                            <constraint firstItem="sUC-hL-bgg" firstAttribute="leading" secondItem="hRO-uY-yS2" secondAttribute="leading" constant="188" id="JPP-fj-2Qz"/>
+                            <constraint firstItem="sUC-hL-bgg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JPP-fj-2Qz"/>
                             <constraint firstItem="IQe-XD-PyC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="KGz-xF-ebl"/>
                             <constraint firstAttribute="trailing" secondItem="vdo-f5-klY" secondAttribute="trailing" id="KfK-kU-4g2"/>
                             <constraint firstItem="NZ1-ez-Ynx" firstAttribute="centerX" secondItem="sUC-hL-bgg" secondAttribute="centerX" id="V0g-Nk-aes"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="leading" secondItem="IQe-XD-PyC" secondAttribute="trailing" id="VoW-NF-0ro"/>
                             <constraint firstAttribute="bottom" secondItem="vdo-f5-klY" secondAttribute="bottom" id="WO7-Mx-Epc"/>
                             <constraint firstItem="hRO-uY-yS2" firstAttribute="leading" secondItem="IQe-XD-PyC" secondAttribute="trailing" id="e90-Je-x7F"/>
-                            <constraint firstItem="hRO-uY-yS2" firstAttribute="bottom" secondItem="sUC-hL-bgg" secondAttribute="bottom" id="gA3-do-ZSA"/>
+                            <constraint firstAttribute="bottom" secondItem="sUC-hL-bgg" secondAttribute="bottom" id="gA3-do-ZSA"/>
                             <constraint firstItem="vdo-f5-klY" firstAttribute="top" secondItem="Mge-lh-GR9" secondAttribute="top" id="j5s-Ct-lWS"/>
                             <constraint firstItem="vdo-f5-klY" firstAttribute="leading" secondItem="sUC-hL-bgg" secondAttribute="trailing" id="kKi-Xc-Gjo"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="top" secondItem="hRO-uY-yS2" secondAttribute="top" id="qOe-Ck-iuT"/>
