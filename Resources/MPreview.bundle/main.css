@@ -534,22 +534,24 @@ body.ios > ul, body.ios > ol { margin-left: 25px; }
 .ios.darkmode input[type=checkbox]:checked:after { border-bottom: 1px solid black; border-right: 1px solid black; }
 
 .ios input[type=checkbox] {
-    width: 23px;
+    width: 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
-    height: 23px;
+    height: 20px;
     border: 1px solid black;
     border-radius: 3px;
+    vertical-align: -4px;
+    position: relative;
 }
     .ios input[type=checkbox]:after {
-        margin-left: 7px;
-        margin-top: 1px;
-
+        position: absolute;
+        left: 6px;
+        top: 2px;
         transform: rotate(45deg);
-        height: 12px;
-        width: 6px;
-        border-bottom: 3px solid transparent;
-        border-right: 3px solid transparent;
+        height: 9px;
+        width: 5px;
+        border-bottom: 2px solid transparent;
+        border-right: 2px solid transparent;
         content: "";
         display: inline-block;
     }
@@ -558,12 +560,12 @@ body.ios > ul, body.ios > ol { margin-left: 25px; }
     background-color: white;
 }
     .ios input[type=checkbox]:checked:after {
-        margin-left: 7px;
-        margin-top: 3px;
-
+        position: absolute;
+        left: 6px;
+        top: 2px;
         transform: rotate(45deg);
-        height: 12px;
-        width: 6px;
+        height: 9px;
+        width: 5px;
         border-bottom: 1px solid black;
         border-right: 1px solid black;
         content: "";

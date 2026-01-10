@@ -38,7 +38,7 @@ class Storage {
 
     private var trashURL = URL(string: String())
 
-    private let lastNewsDate = "2023-05-25"
+    private let lastNewsDate = "2026-01-10"
     public var isCrashedLastTime = false
 
     private var relativeInlineImagePaths = [String]()
@@ -1037,10 +1037,9 @@ class Storage {
             guard UserDefaultsManagement.showWelcome else { return }
             guard noteList.isEmpty else { return }
 
-            let welcomeFileName = "Meet FSNotes 6.textbundle"
+            let welcomeFileName = "Meet FSNotes 7.textbundle"
 
-            guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(welcomeFileName)") else { return }
-
+            guard let src = Bundle.main.resourceURL?.appendingPathComponent(welcomeFileName) else { return }
             guard let dst = getDefault()?.url.appendingPathComponent(welcomeFileName) else { return }
 
             do {
@@ -1058,14 +1057,6 @@ class Storage {
 
             UserDefaultsManagement.showWelcome = false
         #endif
-    }
-
-    public func getWelcome() -> URL? {
-        let welcomeFileName = "FSNotes 4.0 for iOS.textbundle"
-
-        guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(welcomeFileName)") else { return nil }
-
-        return src
     }
 
     public func getNewsDate() -> Date? {
@@ -1090,11 +1081,7 @@ class Storage {
     }
 
     public func getNews() -> URL? {
-        let file = "Meet FSNotes 6.textbundle"
-
-        guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(file)") else { return nil }
-
-        return src
+        return Bundle.main.resourceURL?.appendingPathComponent("Meet FSNotes 7.textbundle")
     }
 
     public func loadNonSystemProject() {
