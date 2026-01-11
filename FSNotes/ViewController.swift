@@ -1384,8 +1384,10 @@ class ViewController: EditorViewController,
             
             let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
 
-            // Check diff
             if orderedNotesList == self.notesTableView.getNoteList() {
+                
+                // important for cleanSearchAndEditArea func call
+                completion()
                 return
             }
 
