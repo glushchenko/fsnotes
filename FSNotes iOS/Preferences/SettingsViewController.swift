@@ -86,6 +86,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var rowsInSection = [6, 4, 4]
 
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     override func viewDidLoad() {
         title = NSLocalizedString("Settings", comment: "Sidebar settings")
         navigationItem.rightBarButtonItem = Buttons.getRateUs(target: self, selector: #selector(rateUs))
@@ -108,6 +112,8 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         version.textAlignment = .center
 
         tableView.tableFooterView = version
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

@@ -76,12 +76,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     // Project for import picker
     public var selectedProject: Project?
     public var initialLoadingState = false
-
+    
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
 
         super.viewWillAppear(animated)
-
         navigationItem.searchController = nil
     }
 

@@ -14,7 +14,7 @@ class EditTextView: UITextView, UITextViewDelegate {
 
     public var textStorageProcessor: TextStorageProcessor?
     
-    public var isFillAction = false
+    public var isNoteLoading = false
     public var isAllowedScrollRect: Bool?
     public var typingFont: UIFont?
     public var note: Note?

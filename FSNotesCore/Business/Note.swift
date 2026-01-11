@@ -2116,7 +2116,7 @@ public class Note: NSObject  {
         return title
     }
 
-    public func setSelectedRange(range: NSRange) {
+    public func setSelectedRange(range: NSRange? = nil) {
         selectedRange = range
     }
 

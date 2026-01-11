@@ -72,6 +72,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refill), name: NSNotification.Name(rawValue: "es.fsnot.external.file.changed"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
         editArea.keyboardDismissMode = .interactive
     }
@@ -202,24 +203,20 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     private func fillEditor(note: Note, selectedRange: NSRange? = nil) {
         guard editArea != nil else { return }
 
+        editArea.isNoteLoading = true
         editArea.initUndoRedoButons()
 
         view.backgroundColor = UIColor.dropDownColor
         editArea.backgroundColor = UIColor.dropDownColor
 
-        if selectedRange == nil {
-            saveSelectedRange()
-        }
-
         if let content = note.content.mutableCopy() as? NSMutableAttributedString {
             editArea.attributedText = content
         }
-
+        
         if let scroll = editArea.inputAccessoryView as? UIScrollView {
             scroll.contentOffset = .zero
         }
         
-        loadSelectedRange()
         editArea.delegate = self
 
         let storage = editArea.textStorage
@@ -227,6 +224,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         storage.highlightKeyword(search: getSearchText())
 
         editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
+        editArea.layoutIfNeeded()
+        editArea.setContentOffset(.zero, animated: false)
+        
+        loadSelectedRange()
+        editArea.isNoteLoading = false
     }
 
     @objc public func clickOnButton() {
@@ -254,6 +256,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 _ = editArea.becomeFirstResponder()
             }
         }
+    }
+    
+    private var keyboardFrameChangeCount = 0
+    
+    @objc func keyboardWillChangeFrame(_ notification: Notification) {
+        keyboardFrameChangeCount += 1
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -558,14 +566,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if textView.isFirstResponder {
             // Handoff needs update in cursor position cahnged
             userActivity?.needsSave = true
+            
+            saveSelectedRange()
         }
-
-        if let textView = textView as? EditTextView {
-            if textView.isFillAction == true {
-                textView.isFillAction = false
-                loadContentOffset()
-            }
-        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        saveSelectedRange()
     }
 
     func textViewDidChange(_ textView: UITextView) {
@@ -636,6 +643,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
+        keyboardFrameChangeCount = 0
+        
         guard let userInfo = notification.userInfo else { return }
         guard var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
 
@@ -659,6 +668,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
+        
+        if isKeyboardClosedManually() {
+            
+            // NO selection more
+            saveSelectedRangeZero()
+        }
+    }
+    
+    func isKeyboardClosedManually() -> Bool {
+        return keyboardFrameChangeCount > 2
     }
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
@@ -1211,8 +1230,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if editArea.note?.previewState == true {
             togglePreview()
 
-            editArea.becomeFirstResponder()
-            loadSelectedRange()
+            _ = editArea.becomeFirstResponder()
         }
     }
 
@@ -1458,13 +1476,20 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             self.view.addGestureRecognizer(tapGR)
         }
     }
+    
+    func saveSelectedRangeZero() {
+        guard let note = note, !editArea.isNoteLoading else { return }
+        note.setSelectedRange(range: nil)
+        
+        let contentOffset = note.getContentOffset()
+        editArea.setContentOffset(contentOffset, animated: false)
+    }
 
     func saveSelectedRange() {
-        editArea.isFillAction = true
-
-        guard let note = self.note else { return }
-        note.setSelectedRange(range: editArea.selectedRange)
-
+        guard let note = self.note, !editArea.isNoteLoading else { return }
+        
+        let selectedRange = editArea.isFirstResponder ? editArea.selectedRange : nil
+        note.setSelectedRange(range: selectedRange)
         note.setContentOffset(contentOffset: editArea.contentOffset)
     }
 
@@ -1473,12 +1498,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         if let range = note.getSelectedRange(), range.upperBound <= editArea.textStorage.length {
             editArea.selectedRange = range
+            _ = editArea.becomeFirstResponder()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let contentOffset = note.getContentOffset()
+            self.editArea.setContentOffset(contentOffset, animated: false)
         }
     }
-
-    func loadContentOffset() {
-        guard let note = note else { return }
-        let contentOffset = note.getContentOffset()
-        editArea.setContentOffset(contentOffset, animated: false)
+        
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
