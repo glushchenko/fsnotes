@@ -64,10 +64,12 @@ public class Note: NSObject  {
     public var previewState: Bool = false
 
     private var selectedRange: NSRange?
+    
     public var contentOffset = CGPoint()
+    public var contentOffsetWeb = CGPoint()
     
     public var scrollPosition: Int?
-    public var contentOffsetWeb = CGPoint()
+    public var scrollOffset: CGFloat?
 
     public var codeBlockRangesCache: [NSRange]?
 

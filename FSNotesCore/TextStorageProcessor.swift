@@ -59,6 +59,12 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         if note.content.length == textStorage.length && (
             note.content.string.fnv1a == note.cacheHash
         ) { return }
+        
+        // Full load
+        if editedRange.length == textStorage.length {
+            NotesTextProcessor.highlight(attributedString: textStorage)
+            return
+        }
 
         let codeBlockRanges = detector.findCodeBlocks(in: textStorage)
         let paragraphRange = (textStorage.string as NSString).paragraphRange(for: editedRange)

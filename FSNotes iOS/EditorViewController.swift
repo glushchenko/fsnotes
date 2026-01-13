@@ -224,11 +224,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         storage.highlightKeyword(search: getSearchText())
 
         editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
-        editArea.layoutIfNeeded()
-        editArea.setContentOffset(.zero, animated: false)
         
-        loadSelectedRange()
-        editArea.isNoteLoading = false
+        editArea.layoutManager.ensureLayout(for: editArea.textContainer)
+        editArea.layoutIfNeeded()
+        
+        self.loadSelectedRange()
     }
 
     @objc public func clickOnButton() {
@@ -1478,32 +1478,69 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
     
     func saveSelectedRangeZero() {
-        guard let note = note, !editArea.isNoteLoading else { return }
+        guard let note = editArea.note, !editArea.isNoteLoading else { return }
         note.setSelectedRange(range: nil)
+        saveScrollPosition()
+    }
+
+    func saveScrollPosition() {
+        guard let note = editArea.note, !editArea.isNoteLoading else { return }
         
-        let contentOffset = note.getContentOffset()
-        editArea.setContentOffset(contentOffset, animated: false)
+        let layoutManager = editArea.layoutManager
+        let visibleY = editArea.contentOffset.y
+        
+        let glyphRange = layoutManager.glyphRange(
+            forBoundingRect: CGRect(x: 0, y: visibleY, width: editArea.bounds.width, height: 1),
+            in: editArea.textContainer
+        )
+        
+        guard glyphRange.location != NSNotFound else { return }
+        
+        let charIndex = layoutManager.characterIndexForGlyph(at: glyphRange.location)
+        let glyphRect = layoutManager.boundingRect(
+            forGlyphRange: NSRange(location: glyphRange.location, length: 1),
+            in: editArea.textContainer
+        )
+        
+        note.scrollPosition = charIndex
+        note.scrollOffset = visibleY - glyphRect.minY
     }
 
     func saveSelectedRange() {
-        guard let note = self.note, !editArea.isNoteLoading else { return }
-        
-        let selectedRange = editArea.isFirstResponder ? editArea.selectedRange : nil
-        note.setSelectedRange(range: selectedRange)
-        note.setContentOffset(contentOffset: editArea.contentOffset)
+        guard let note = editArea.note, !editArea.isNoteLoading else { return }
+        note.setSelectedRange(range: editArea.isFirstResponder ? editArea.selectedRange : nil)
+        saveScrollPosition()
     }
 
     func loadSelectedRange() {
-        guard let note = note else { return }
-
+        guard let note = editArea.note else { return }
+        
         if let range = note.getSelectedRange(), range.upperBound <= editArea.textStorage.length {
             editArea.selectedRange = range
             _ = editArea.becomeFirstResponder()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            let contentOffset = note.getContentOffset()
-            self.editArea.setContentOffset(contentOffset, animated: false)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if let index = note.scrollPosition, index < self.editArea.textStorage.length {
+                let layoutManager = self.editArea.layoutManager
+                let glyphIndex = layoutManager.glyphIndexForCharacter(at: index)
+                let glyphRect = layoutManager.boundingRect(
+                    forGlyphRange: NSRange(location: glyphIndex, length: 1),
+                    in: self.editArea.textContainer
+                )
+                
+                let targetY = glyphRect.minY + (note.scrollOffset ?? 0)
+                let maxY = max(0, self.editArea.contentSize.height - self.editArea.bounds.height)
+                let finalY = min(max(0, targetY), maxY)
+                
+                self.editArea.contentOffset = CGPoint(x: 0, y: finalY)
+            } else {
+                self.editArea.contentOffset = .zero
+            }
+            
+            self.editArea.isNoteLoading = false
         }
     }
         
