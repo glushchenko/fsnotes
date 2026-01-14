@@ -1077,6 +1077,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             let textFormatter = TextFormatter(textView: self.editArea!, note: note)
             textFormatter.toggleTodo(characterIndex)
 
+            self.editArea.selectedTextRange = sender.selectedRange
+            
             Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
                 self.editArea.isAllowedScrollRect = true
             }
@@ -1087,19 +1089,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         // Image preview/selection on click
         if self.editArea.isImage(at: characterIndex) {
-
-            // Select and show menu
-//            guard !self.editArea.isFirstResponder else {
-//                self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
-//
-//                guard let lasTouchPoint = self.editArea.lasTouchPoint else { return }
-//                let rect = CGRect(x: self.editArea.frame.width / 2, y: lasTouchPoint.y, width: 0, height: 0)
-//
-//                UIMenuController.shared.setTargetRect(rect, in: self.view)
-//                UIMenuController.shared.setMenuVisible(true, animated: true)
-//                return
-//            }
-
             guard let meta = myTextView.textStorage.getMeta(at: characterIndex) else { return }
 
             if let data = try? Data(contentsOf: meta.url), let someImage = UIImage(data: data) {
