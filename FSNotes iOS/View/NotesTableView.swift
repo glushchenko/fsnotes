@@ -617,17 +617,18 @@ class NotesTableView: UITableView,
         var indexPaths = [IndexPath]()
         var tags = [String]()
         for note in notes {
-            if let i = self.notes.firstIndex(where: {$0 === note}) {
+            if let i = self.notes.firstIndex(where: { $0 === note }) {
                 indexPaths.append(IndexPath(row: i, section: 0))
                 tags.append(contentsOf: note.tags)
             }
         }
-
+        
+        beginUpdates()
         self.notes.removeAll(where: { notes.contains($0) })
-
         deleteRows(at: indexPaths, with: .automatic)
+        endUpdates()
+        
         vc.updateNotesCounter()
-
         vc.sidebarTableView.delete(tags: tags)
     }
 
@@ -639,7 +640,7 @@ class NotesTableView: UITableView,
         var toInsert = [Note]()
         for note in notes {
             guard vc.storage.searchQuery.isFit(note: note),
-                  !self.notes.contains(where: {$0 === note})
+                  !self.notes.contains(where: { $0 === note })
             else { continue }
             toInsert.append(note)
         }
@@ -653,7 +654,7 @@ class NotesTableView: UITableView,
 
         var indexPaths = [IndexPath]()
         for note in toInsert {
-            guard let index = sorted.firstIndex(of: note) else { continue }
+            guard let index = sorted.firstIndex(where: { $0 === note }) else { continue }
             indexPaths.append(IndexPath(row: index, section: 0))
         }
 
@@ -667,8 +668,9 @@ class NotesTableView: UITableView,
     public func reloadRows(notes: [Note], resetKeys: Bool = false) {
         beginUpdates()
         for note in notes {
-            if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexPath = IndexPath(row: i, section: 0)
+            if let row = self.notes.firstIndex(where: { $0 === note }) {
+                let indexPath = IndexPath(row: row, section: 0)
+
                 if let cell = cellForRow(at: indexPath) as? NoteCellView {
                     if resetKeys {
                         cell.imageKeys = []
@@ -1084,22 +1086,22 @@ class NotesTableView: UITableView,
     public func moveRowUp(note: Note) {
         guard let vc = viewDelegate,
               vc.isNoteInsertionAllowed(),
-              vc.storage.searchQuery.isFit(note: note),
-              let at = notes.firstIndex(where: {$0 === note})
+              vc.storage.searchQuery.isFit(note: note)
         else { return }
 
+        guard let currentIndex = notes.firstIndex(where: { $0 === note }) else { return }
+
         let sorted = vc.storage.sortNotes(noteList: notes)
-        guard let to = sorted.firstIndex(of: note) else { return }
-        guard at != to else { return }
+        guard let targetIndex = sorted.firstIndex(where: { $0 === note }) else { return }
 
-        let atIndexPath = IndexPath(row: at, section: 0)
-        let toIndexPath = IndexPath(row: to, section: 0)
-
-        let movedNote = notes.remove(at: at)
-        notes.insert(movedNote, at: to)
+        guard currentIndex != targetIndex else { return }
+        self.notes = sorted
+        
+        let from = IndexPath(row: currentIndex, section: 0)
+        let to = IndexPath(row: targetIndex, section: 0)
 
         beginUpdates()
-        moveRow(at: atIndexPath, to: toIndexPath)
+        moveRow(at: from, to: to)
         endUpdates()
     }
 
@@ -1143,52 +1145,51 @@ class NotesTableView: UITableView,
 
     public func addPins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
+        
+        beginUpdates()
         for note in notes {
+            guard let currentIndex = self.notes.firstIndex(of: note) else { continue }
+            
             let sorted = vc.storage.sortNotes(noteList: self.notes)
-
-            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
-
-                let note = self.notes.remove(at: index)
-                self.notes.insert(note, at: toIndex)
-
-                let at = IndexPath(row: index, section: 0)
-                let to = IndexPath(row: toIndex, section: 0)
-
-                moveRow(at: at, to: to)
-
-                let reload = [
-                    IndexPath(row: index, section: 0),
-                    IndexPath(row: toIndex, section: 0)
-                ]
-
-                reloadRows(at: reload, with: .automatic)
+            
+            guard let newIndex = sorted.firstIndex(of: note) else { continue }
+            
+            self.notes = sorted
+            
+            if currentIndex != newIndex {
+                let from = IndexPath(row: currentIndex, section: 0)
+                let to = IndexPath(row: newIndex, section: 0)
+                
+                moveRow(at: from, to: to)
             }
+            
+            reloadRows(at: [IndexPath(row: newIndex, section: 0)], with: .none)
         }
+        endUpdates()
     }
 
     public func removePins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
+        
+        beginUpdates()
         for note in notes {
+            guard let currentIndex = self.notes.firstIndex(of: note) else { continue }
+            
             let sorted = vc.storage.sortNotes(noteList: self.notes)
-
-            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
-
-                let note = self.notes.remove(at: index)
-                self.notes.insert(note, at: toIndex)
-
-                let at = IndexPath(row: index, section: 0)
-                let to = IndexPath(row: toIndex, section: 0)
-
-                moveRow(at: at, to: to)
-
-                let reload = [
-                    IndexPath(row: index, section: 0),
-                    IndexPath(row: toIndex, section: 0)
-                ]
-
-                reloadRows(at: reload, with: .automatic)
+            guard let newIndex = sorted.firstIndex(of: note) else { continue }
+            
+            self.notes = sorted
+            
+            if currentIndex != newIndex {
+                let from = IndexPath(row: currentIndex, section: 0)
+                let to = IndexPath(row: newIndex, section: 0)
+                
+                moveRow(at: from, to: to)
             }
+            
+            reloadRows(at: [IndexPath(row: newIndex, section: 0)], with: .none)
         }
+        endUpdates()
     }
 
     public func scrollTo(note: Note) {
