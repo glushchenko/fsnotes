@@ -14,7 +14,15 @@ import DropDown
 import CoreSpotlight
 import PhotosUI
 
-class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class EditorViewController: UIViewController,
+    UITextViewDelegate,
+    UIDocumentPickerDelegate,
+    UIGestureRecognizerDelegate,
+    PHPickerViewControllerDelegate,
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate,
+    UISearchBarDelegate
+{
     public var note: Note?
     public var quickLookURL: URL?
 
@@ -35,6 +43,15 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     private let dropDown = DropDown()
 
     private var isLandscape: Bool?
+    
+    // Search toolbar
+    var keyboardAnchor: UITextField?
+    var counterLabel: UILabel?
+    var searchBar: UISearchBar?
+    var searchToolbar: UIToolbar?
+    var searchRanges: [NSRange] = []
+    var currentSearchIndex: Int = 0
+    var originalSelectedRange: NSRange?
 
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
@@ -61,7 +78,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         super.viewDidLoad()
         
         var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(systemImageName: "magnifyingglass", target: self, selector: #selector(search)))
+        items.append(UIBarButtonItem(systemImageName: "magnifyingglass", target: self, selector: #selector(editorSearch)))
         items.append(UIBarButtonItem.flexibleSpace())
         items.append(UIBarButtonItem(systemImageName: "plus", target: self, selector: #selector(newNote)))
 
@@ -674,6 +691,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             // NO selection more
             saveSelectedRangeZero()
         }
+        
+        if searchBar != nil {
+            hideSearch()
+        }
     }
     
     func isKeyboardClosedManually() -> Bool {
@@ -689,7 +710,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         textField.inputAccessoryView = scroll
     }
 
-    private func getMarkdownToolbar() -> UIToolbar {
+    public func getMarkdownToolbar() -> UIToolbar {
         if #available(iOS 26.0, *) {
             return getModernToolbar()
         } else {

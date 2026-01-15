@@ -80,6 +80,7 @@
 		11AF633E2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF633F2E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
 		11AF63402E898435004E7157 /* Sql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11AF633D2E898430004E7157 /* Sql.swift */; };
+		11B3F5962F182E5900A3531D /* EditorViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B3F5952F182E4E00A3531D /* EditorViewController+Search.swift */; };
 		11BD71662EDC87B700541BF9 /* classic-2025.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11BD71652EDC87B700541BF9 /* classic-2025.icon */; };
 		11BD8F922EDDEC3D000673A7 /* GitHubDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F912EDDEC33000673A7 /* GitHubDark.swift */; };
 		11BD8F932EDDEC3D000673A7 /* GitHubDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BD8F912EDDEC33000673A7 /* GitHubDark.swift */; };
@@ -938,6 +939,7 @@
 		11AA4B1E2EF9A4680075A9E4 /* EditorViewController+ScrollPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+ScrollPosition.swift"; sourceTree = "<group>"; };
 		11ABE5E12EEEFCF700E7C9EB /* NotesCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesCounterView.swift; sourceTree = "<group>"; };
 		11AF633D2E898430004E7157 /* Sql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sql.swift; sourceTree = "<group>"; };
+		11B3F5952F182E4E00A3531D /* EditorViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+Search.swift"; sourceTree = "<group>"; };
 		11BD71652EDC87B700541BF9 /* classic-2025.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = "classic-2025.icon"; sourceTree = "<group>"; };
 		11BD8F912EDDEC33000673A7 /* GitHubDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubDark.swift; sourceTree = "<group>"; };
 		11BD8F952EDDF320000673A7 /* SolarizedLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarizedLight.swift; sourceTree = "<group>"; };
@@ -1737,6 +1739,7 @@
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
+				11B3F5952F182E4E00A3531D /* EditorViewController+Search.swift */,
 				D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */,
 				D7163D2E24E81B5C00B1FC05 /* Main.storyboard */,
 				D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */,
@@ -2764,6 +2767,7 @@
 				D70E9E0E2901AEDA00A3C634 /* Repository+Open.swift in Sources */,
 				D7BAC62F249D11F8008D29AA /* SettingsFilesNaming.swift in Sources */,
 				D75629B727D53EB100F55588 /* ThanksViewController.swift in Sources */,
+				11B3F5962F182E5900A3531D /* EditorViewController+Search.swift in Sources */,
 				D77E0538246312B400AD7772 /* StorageType.swift in Sources */,
 				11BF067E2EE4968C006C7336 /* Erlang.swift in Sources */,
 				D7B34F9A25195D7E0007877E /* PreviewState.swift in Sources */,
