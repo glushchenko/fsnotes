@@ -238,7 +238,9 @@ class EditorViewController: UIViewController,
 
         let storage = editArea.textStorage
         storage.updateCheckboxList()
-        storage.highlightKeyword(search: getSearchText())
+        if let text = getSearchText() {
+            storage.highlightKeyword(search: text)
+        }
 
         editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
         
@@ -651,12 +653,12 @@ class EditorViewController: UIViewController,
         vc.notesTable.reloadRows(notes: [note])
     }
     
-    func getSearchText() -> String {
+    func getSearchText() -> String? {
         if let search = UIApplication.getVC().navigationItem.searchController?.searchBar.text {
             return search
         }
 
-        return ""
+        return nil
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -718,7 +720,7 @@ class EditorViewController: UIViewController,
         }
     }
     
-    private func getModernToolbar() -> UIToolbar {
+    public func getModernToolbar() -> UIToolbar {
         var items = [UIBarButtonItem]()
 
         let todoButton = UIBarButtonItem(systemImageName: "checkmark.square", target: self, selector: #selector(EditorViewController.todoPressed))

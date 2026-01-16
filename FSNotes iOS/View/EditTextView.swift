@@ -209,6 +209,7 @@ class EditTextView: UITextView, UITextViewDelegate {
         else if let plain = pb.string {
             let mutable = NSMutableAttributedString(string: plain)
             mutable.loadTasks()
+            mutable.loadFont()
             toInsert = mutable
         }
 

@@ -142,6 +142,10 @@ extension NSMutableAttributedString {
             }
         }
     }
+    
+    public func loadFont() {
+        addAttribute(.font, value: UserDefaultsManagement.noteFont, range: NSRange(location: 0, length: length))
+    }
 
     public func unloadAttachments() -> NSMutableAttributedString {
         return

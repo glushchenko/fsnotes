@@ -26,8 +26,30 @@ extension EditorViewController {
         guard !searchRanges.isEmpty else { return }
 
         let range = searchRanges[currentSearchIndex]
+
+        let layoutManager = editArea.layoutManager
+        let textContainer = editArea.textContainer
+
+        let targetGlyphRange = layoutManager.glyphRange(
+            forCharacterRange: range,
+            actualCharacterRange: nil
+        )
+
+        let extendedGlyphRange = NSRange(
+            location: 0,
+            length: targetGlyphRange.location + targetGlyphRange.length
+        )
+
+        layoutManager.ensureLayout(forGlyphRange: extendedGlyphRange)
+
+        _ = layoutManager.boundingRect(
+            forGlyphRange: targetGlyphRange,
+            in: textContainer
+        )
+
         editArea.selectedRange = range
         editArea.scrollRangeToVisible(range)
+
         updateCounterLabel()
     }
 
@@ -115,6 +137,12 @@ extension EditorViewController {
     }
     
     func showSearch() {
+        guard let note = editArea.note else { return }
+        
+        if note.previewState {
+            togglePreview()
+        }
+        
         if searchToolbar == nil {
             setupSearchAccessory()
         }
@@ -246,6 +274,5 @@ extension EditorViewController {
         keyboardAnchor = nil
         
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
-        _ = editArea.becomeFirstResponder()
     }
 }
