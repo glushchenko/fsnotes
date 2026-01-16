@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="154" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sUC-hL-bgg" customClass="NotesTableView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="118" width="430" height="814"/>
+                                <rect key="frame" x="0.0" y="118" width="430" height="746"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="noteCell" rowHeight="154" id="uv7-Im-hed" customClass="NoteCellView" customModule="FSNotes_iOS" customModuleProvider="target">
@@ -176,7 +176,7 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="lock.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-ez-Ynx">
-                                <rect key="frame" x="183" y="494" width="64" height="62"/>
+                                <rect key="frame" x="183" y="460" width="64" height="62"/>
                                 <color key="tintColor" name="fsColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="64" id="JvC-sr-vAR"/>
@@ -197,7 +197,7 @@
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="leading" secondItem="IQe-XD-PyC" secondAttribute="trailing" id="VoW-NF-0ro"/>
                             <constraint firstAttribute="bottom" secondItem="vdo-f5-klY" secondAttribute="bottom" id="WO7-Mx-Epc"/>
                             <constraint firstItem="hRO-uY-yS2" firstAttribute="leading" secondItem="IQe-XD-PyC" secondAttribute="trailing" id="e90-Je-x7F"/>
-                            <constraint firstAttribute="bottom" secondItem="sUC-hL-bgg" secondAttribute="bottom" id="gA3-do-ZSA"/>
+                            <constraint firstItem="hRO-uY-yS2" firstAttribute="bottom" secondItem="sUC-hL-bgg" secondAttribute="bottom" id="gA3-do-ZSA"/>
                             <constraint firstItem="vdo-f5-klY" firstAttribute="top" secondItem="Mge-lh-GR9" secondAttribute="top" id="j5s-Ct-lWS"/>
                             <constraint firstItem="vdo-f5-klY" firstAttribute="leading" secondItem="sUC-hL-bgg" secondAttribute="trailing" id="kKi-Xc-Gjo"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="top" secondItem="hRO-uY-yS2" secondAttribute="top" id="qOe-Ck-iuT"/>

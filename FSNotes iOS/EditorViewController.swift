@@ -238,16 +238,20 @@ class EditorViewController: UIViewController,
 
         let storage = editArea.textStorage
         storage.updateCheckboxList()
-        if let text = getSearchText() {
-            storage.highlightKeyword(search: text)
-        }
-
         editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
         
         editArea.layoutManager.ensureLayout(for: editArea.textContainer)
         editArea.layoutIfNeeded()
         
         self.loadSelectedRange()
+        
+        if let query = self.getSearchText(), query.count > 0 {
+            UIApplication.getVC().enableSearchFocus(string: query)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.openSearchWithText(query)
+            }
+        }
     }
 
     @objc public func clickOnButton() {

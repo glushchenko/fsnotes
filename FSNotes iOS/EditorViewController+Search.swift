@@ -275,4 +275,11 @@ extension EditorViewController {
         
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
     }
+    
+    func openSearchWithText(_ searchText: String) {
+        showSearch()
+        
+        self.searchBar?.text = searchText
+        self.findRanges(text: searchText)
+    }
 }

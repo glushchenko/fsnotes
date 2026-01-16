@@ -72,6 +72,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var gitPullTimer: Timer?
 
     private var searchFocus: Bool = false
+    private var searchString: String? = nil
 
     // Project for import picker
     public var selectedProject: Project?
@@ -109,6 +110,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             disableSearchFocus()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                if let text = self.searchString {
+                    self.navigationItem.searchController?.searchBar.text = text
+                }
                 self.navigationItem.searchController?.searchBar.becomeFirstResponder()
             })
         } else if !isLoadedSidebar {
@@ -231,7 +235,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.viewDelegate = self
         notesTable.dragInteractionEnabled = true
         notesTable.dragDelegate = notesTable
-        notesTable.keyboardDismissMode = .onDrag
+        notesTable.keyboardDismissMode = .interactive
         notesTable.contentInsetAdjustmentBehavior = .never
         notesTable.alwaysBounceVertical = true
         notesTable.dataSource = notesTable
@@ -239,7 +243,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.layer.zPosition = 100
         notesTable.rowHeight = UITableView.automaticDimension
         notesTable.estimatedRowHeight = 160
-        notesTable.contentInset.bottom = 85
     }
 
     public var lastSidebarItem: SidebarItem? = nil
@@ -374,8 +377,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
 
-    public func enableSearchFocus() {
+    public func enableSearchFocus(string: String? = nil) {
         searchFocus = true
+        searchString = string
     }
 
     public func disableSearchFocus() {
@@ -1126,6 +1130,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             self.notesTableLeadingConstraint.constant = 0
             self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
+            self.sidebarTableWidth.constant = 0
 
             // blue/blck pre safe area
             leftPreSafeArea.backgroundColor = UIColor.sidebar
@@ -1169,13 +1174,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            notesTableBottomContraint.constant = keyboardSize.height
+            //notesTableBottomContraint.constant = keyboardSize.height
             sidebarTableBottomConstraint.constant = keyboardSize.height
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        notesTableBottomContraint.constant = 0
+        //notesTableBottomContraint.constant = 0
         sidebarTableBottomConstraint.constant = 0
     }
 
