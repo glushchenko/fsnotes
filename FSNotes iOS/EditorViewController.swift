@@ -52,6 +52,7 @@ class EditorViewController: UIViewController,
     var searchRanges: [NSRange] = []
     var currentSearchIndex: Int = 0
     var originalSelectedRange: NSRange?
+    var originalBackgrounds: [NSRange: UIColor?] = [:]
 
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1

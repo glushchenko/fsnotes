@@ -89,7 +89,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                         x: todoRect.origin.x - 50,
                         y: todoRect.origin.y - 15,
                         width: todoRect.width + 65,
-                        height: todoRect.height + 65
+                        height: todoRect.height + 35
                     )
                     
                     if expandedRect.contains(point) {

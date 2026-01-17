@@ -69,30 +69,43 @@ extension EditorViewController {
     
     func highlightAll() {
         guard !searchRanges.isEmpty else { return }
-
         let textStorage = editArea.textStorage
         textStorage.beginEditing()
-
+        
         clearHighlights()
-
+        originalBackgrounds.removeAll()
+        
         for (index, range) in searchRanges.enumerated() {
             let color = index == currentSearchIndex
                 ? UIColor.systemOrange.withAlphaComponent(0.6)
                 : UIColor.systemYellow.withAlphaComponent(0.4)
             
-            textStorage.addAttribute(
-                .backgroundColor,
-                value: color,
-                range: range
-            )
+            let currentBg = textStorage.attribute(.backgroundColor, at: range.location, effectiveRange: nil) as? UIColor
+            originalBackgrounds[range] = currentBg
+            
+            textStorage.addAttribute(.backgroundColor, value: color, range: range)
         }
-
+        
         textStorage.endEditing()
     }
 
     func clearHighlights() {
-        let fullRange = NSRange(location: 0, length: editArea.textStorage.length)
-        editArea.textStorage.removeAttribute(.backgroundColor, range: fullRange)
+        guard !originalBackgrounds.isEmpty else { return }
+        
+        let textStorage = editArea.textStorage
+        textStorage.beginEditing()
+        
+        for (range, originalColor) in originalBackgrounds {
+            if let color = originalColor {
+                textStorage.addAttribute(.backgroundColor, value: color, range: range)
+            } else {
+                textStorage.removeAttribute(.backgroundColor, range: range)
+            }
+        }
+        
+        textStorage.endEditing()
+        
+        originalBackgrounds.removeAll()
     }
 
     func findRanges(text: String) {

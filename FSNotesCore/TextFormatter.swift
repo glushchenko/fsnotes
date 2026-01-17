@@ -837,6 +837,8 @@ public class TextFormatter {
                 storage.removeAttribute(.strikethroughStyle, range: paragraph)
             }
             
+            updateCurrentParagraph()
+            
             return
         }
 
@@ -1120,19 +1122,14 @@ public class TextFormatter {
         if let string = string as? NSAttributedString {
             let editedRange = NSRange(location: range.location, length: replaceString.count)
             storage.replaceCharacters(in: editedRange, with: string)
-
-            #if os(OSX)
-                storage.textStorage(storage, didProcessEditing: .editedCharacters, range: editedRange, changeInLength: 1)
-            #else
-                storage.delegate?.textStorage!(storage, didProcessEditing: NSTextStorage.EditActions.editedCharacters, range: editedRange, changeInLength: 1)
-            #endif
+            storage.delegate?.textStorage!(storage, didProcessEditing: NSTextStorage.EditActions.editedCharacters, range: editedRange, changeInLength: 1)
+        } else {
+            let parRange = NSRange(location: range.location, length: replaceString.count)
+            let parStyle = NSMutableParagraphStyle()
+            parStyle.alignment = .left
+            parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+            self.textView.textStorage.addAttribute(.paragraphStyle, value: parStyle, range: parRange)
         }
-
-        let parRange = NSRange(location: range.location, length: replaceString.count)
-        let parStyle = NSMutableParagraphStyle()
-        parStyle.alignment = .left
-        parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        self.textView.textStorage.addAttribute(.paragraphStyle, value: parStyle, range: parRange)
 
         self.textView.undoManager?.endUndoGrouping()
     #else
