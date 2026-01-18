@@ -190,7 +190,7 @@ public class Project: NSObject {
         
         isEncrypted = getEncryptionStatus()
         
-        if settings.sortBy == .none, self.label == "Welcome '26" {
+        if settings.sortBy == .none, self.label == "Welcome" {
             settings.sortBy = .title
             settings.sortDirection = .asc
             settings.showInCommon = false

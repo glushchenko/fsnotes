@@ -2,5 +2,6 @@
     "transient" : true,
     "type" : "net.daringfireball.markdown",
     "creatorIdentifier" : "co.fluder.fsnotes",
-    "version" : 2
+    "version" : 2,
+    "flatExtension" : "markdown"
 }
