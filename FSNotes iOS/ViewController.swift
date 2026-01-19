@@ -79,7 +79,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var initialLoadingState = false
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.prefersLargeTitles = true
 
         super.viewWillAppear(animated)
         navigationItem.searchController = nil
