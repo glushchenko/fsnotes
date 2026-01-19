@@ -64,7 +64,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var currentFolder: String?
 
     lazy var searchBar = UISearchBar(frame: CGRect.zero)
-    private var searchController: UISearchController?
     
     // Pass for access from CloudDriveManager
     public var editorViewController: EditorViewController?
@@ -73,27 +72,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var gitPullTimer: Timer?
 
     private var searchFocus: Bool = false
+    private var searchString: String? = nil
 
     // Project for import picker
     public var selectedProject: Project?
     public var initialLoadingState = false
-
+    
     override func viewWillAppear(_ animated: Bool) {
-        configureSearchController()
-
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.setToolbarHidden(true, animated: false)
-        view.backgroundColor = .whiteBlack
-
-        // configure proper title margin
-        let style = NSMutableParagraphStyle()
-        style.firstLineHeadIndent = 10
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.largeTitleTextAttributes = [NSAttributedString.Key.paragraphStyle : style]
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
         super.viewWillAppear(animated)
+        navigationItem.searchController = nil
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -112,7 +101,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UIApplication.getEVC().userActivity?.invalidate()
 
         loadPreSafeArea()
-        loadPlusButton()
 
         if let sidebarItem = UIApplication.getVC().lastSidebarItem {
             configureNavMenu(for: sidebarItem)
@@ -122,6 +110,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             disableSearchFocus()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                if let text = self.searchString {
+                    self.navigationItem.searchController?.searchBar.text = text
+                }
                 self.navigationItem.searchController?.searchBar.becomeFirstResponder()
             })
         } else if !isLoadedSidebar {
@@ -129,6 +120,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         super.viewDidAppear(animated)
+
+        configureSearchController()
     }
 
     override func viewDidLoad() {
@@ -137,8 +130,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         configureUI()
         configureNotifications()
         configureGestures()
-        configureSearchController()
-        
+
         gitQueue.qualityOfService = .userInteractive
         gitQueue.maxConcurrentOperationCount = 1
         gitQueue.isSuspended = true
@@ -155,24 +147,28 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadPreSafeArea()
 
         if !initialLoadingState {
+            configureSearchController()
+
             initialLoadingState = true
             
             loadNews()
             
-            let appDelegate = UIApplication.getDelegate()
-            if let shortcut = appDelegate.launchedShortcutItem {
+            if let sceneDelegate = UIApplication.getSceneDelegate(),
+               let shortcut = sceneDelegate.launchedShortcutItem {
                 handleShortCutItem(shortcut)
-                appDelegate.launchedShortcutItem = nil
+                sceneDelegate.launchedShortcutItem = nil
             } else {
                 self.restoreLastController()
             }
-            
+
             DispatchQueue.global(qos: .userInteractive).async {
                 self.loadDB()
             }
         }
 
         super.viewDidLoad()
+        
+        configureToolbar()
     }
 
     @objc public func didBecomeActive() {
@@ -218,21 +214,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func configureUI() {
-        UINavigationBar.appearance().isTranslucent = false
+        //UINavigationBar.appearance().isTranslucent = true
 
         self.metadataQueue.qualityOfService = .userInteractive
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
-        let appSettingsImage = UIImage(systemName: "sidebar.left", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
-        let appSettings = UIBarButtonItem(image: appSettingsImage, style: .plain, target: self, action: #selector(toggleSidebar))
-        appSettings.tintColor = UIColor.mainTheme
-
-        let generalSettingsImage = UIImage(systemName: "gear", withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
-        let generalSettings = UIBarButtonItem(image: generalSettingsImage, style: .plain, target: self, action: #selector(openSettings))
-        generalSettings.tintColor = UIColor.mainTheme
-
-        navigationItem.leftBarButtonItems = [appSettings, generalSettings]
+        navigationItem.leftBarButtonItems = [
+            UIBarButtonItem(systemImageName: "sidebar.left", target: self, selector: #selector(openSidebar)),
+            UIBarButtonItem(systemImageName: "gear", target: self, selector: #selector(openSettings))
+        ]
 
         setNavTitle(folder: NSLocalizedString("Inbox", comment: ""))
         
@@ -242,12 +232,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             sidebarTableView.sectionHeaderTopPadding = 0
         }
 
-        loadPlusButton()
-
         notesTable.viewDelegate = self
         notesTable.dragInteractionEnabled = true
         notesTable.dragDelegate = notesTable
-        notesTable.keyboardDismissMode = .onDrag
+        notesTable.keyboardDismissMode = .interactive
         notesTable.contentInsetAdjustmentBehavior = .never
         notesTable.alwaysBounceVertical = true
         notesTable.dataSource = notesTable
@@ -262,20 +250,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func configureNavMenu(for sidebarItem: SidebarItem) {
         lastSidebarItem = sidebarItem
 
-        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
-        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
-
-        if #available(iOS 14.0, *) {
-            let menu = makeSidebarSettingsMenu(for: sidebarItem)
-            let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
-            navSettings.tintColor = UIColor.mainTheme
-            navigationItem.rightBarButtonItem = navSettings
-            return
+        if let menu = makeSidebarSettingsMenu(for: sidebarItem) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(systemImageName: "ellipsis.circle", menu: menu)
         }
-
-        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(openSidebarSettings))
-        navSettings.tintColor = UIColor.mainTheme
-        navigationItem.rightBarButtonItem = navSettings
     }
 
     public func setNavTitle(folder: String? = nil, qty: String? = nil) {
@@ -347,7 +324,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         searchController.searchBar.searchBarStyle = .minimal
         searchController.searchBar.placeholder = NSLocalizedString("Search or create", comment: "")
         searchController.searchBar.returnKeyType = .done
-        searchController.searchBar.showsCancelButton = false
+
+        if #available(iOS 26.0, *) {
+            searchController.searchBar.showsCancelButton = true
+        } else {
+            searchController.searchBar.showsCancelButton = false
+        }
+
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.keyboardAppearance = traitCollection.userInterfaceStyle == .dark ? .dark : .default
 
@@ -356,10 +339,47 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         navigationItem.searchController = searchController
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
-    public func enableSearchFocus() {
+    public func configureToolbar() {
+        var items = [UIBarButtonItem]()
+
+        if #available(iOS 26.0, *) {
+            items.append(navigationItem.searchBarPlacementBarButtonItem)
+        }
+
+        items.append(.flexibleSpace())
+
+        items.append(
+            Buttons.getNewNote(
+                target: self,
+                selector: #selector(newButtonAction)
+            )
+        )
+        
+        if needsRightPadding() {
+            let rightPadding = UIBarButtonItem(
+                barButtonSystemItem: .fixedSpace,
+                target: nil,
+                action: nil
+            )
+            rightPadding.width = 30
+            items.append(rightPadding)
+        }
+
+        toolbarItems = items
+    }
+
+    private func needsRightPadding() -> Bool {
+        if #available(iOS 26.0, *) { return false }
+        return true
+    }
+
+
+    public func enableSearchFocus(string: String? = nil) {
         searchFocus = true
+        searchString = string
     }
 
     public func disableSearchFocus() {
@@ -388,7 +408,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    @IBAction public func toggleSidebar() {
+    @IBAction public func openSidebar() {
         if UserDefaultsManagement.sidebarIsOpened {
             hideSidebar()
         } else {
@@ -459,7 +479,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let projects = storage.getProjects()
         
         for project in projects {
-            print("Reading project \(project.label) (\(project.url))")
+            // print("Reading project: \(project.label) (\(project.url))")
             _ = project.loadNotes()
         }
         
@@ -603,13 +623,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         news.layer.borderWidth = 1
         news.layer.borderColor = UIColor.gray.cgColor
 
-        let closeButton = UIButton(frame: CGRect(origin: CGPoint(x: width - 10 - 50, y: 10), size: CGSize(width: 50, height: 50)))
-        let image = UIImage(named: "close-window.png")
-        closeButton.setImage(image, for: UIControl.State.normal)
-        closeButton.tintColor = UIColor.mainTheme
-        closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
-        closeButton.layer.zPosition = 110
-        news.addSubview(closeButton)
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: "xmark.circle.fill")
+            config.preferredSymbolConfigurationForImage = .init(pointSize: 25)
+            config.baseForegroundColor = UIColor.mainTheme
+
+            let closeButton = UIButton(frame: CGRect(x: width - 5 - 60, y: 5, width: 60, height: 60))
+            closeButton.configuration = config
+
+            closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
+            news.addSubview(closeButton)
+        }
 
         UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.addSubview(news)
 
@@ -749,10 +774,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.navigationItem.searchController?.searchBar.becomeFirstResponder()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.loadPlusButton()
-            }
         }
     }
 
@@ -768,9 +789,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-
-        // hack for reinstantinate large title
-        configureSearchController()
+        if #available(iOS 26.0, *) {
+            if let sc = navigationItem.searchController {
+                sc.isActive = false
+                sc.searchBar.resignFirstResponder()
+            }
+        } else {
+            configureSearchController()
+        }
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -782,6 +808,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let content = searchBar.text
         searchBar.text = ""
+
+        buildSearchQuery()
+        reloadNotesTable()
+
         self.createNote(content: content)
     }
 
@@ -881,47 +911,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return navigationItem.searchController?.searchBar 
     }
 
-    func loadPlusButton() {
-        if let button = getButton(tag: 1) {
-            let width = self.view.frame.width
-            let height = self.view.frame.height
-
-            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 85), y: CGFloat(height - 85)), size: CGSize(width: 60, height: 60))
-            return
-        }
-
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 85, y: self.view.frame.height - 85), size: CGSize(width: 60, height: 60)))
-
-        var image = UIImage()
-        if #available(iOS 15.0, *) {
-            let colorsConfig = UIImage.SymbolConfiguration(paletteColors: [.white, UIColor.mainTheme])
-            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill", withConfiguration: colorsConfig)?.resize(maxWidthHeight: 60) {
-                image = imageUnwrapped
-            }
-        } else {
-            if let imageUnwrapped = UIImage(systemName: "plus.circle.fill")?.withTintColor(UIColor.mainTheme).resize(maxWidthHeight: 60) {
-                image = imageUnwrapped
-            }
-        }
-
-        button.setImage(image, for: UIControl.State.normal)
-        button.tag = 1
-        button.addTarget(self, action: #selector(self.newButtonAction), for: .touchUpInside)
-        button.layer.zPosition = 101
-        self.view.addSubview(button)
-    }
-
-    public func getButton(tag: Int) -> UIButton? {
-        for sub in self.view.subviews {
-
-            if sub.tag == tag {
-                return sub as? UIButton
-            }
-        }
-
-        return nil
-    }
-
     @objc func newButtonAction() {
         if let project = sidebarTableView.getSidebarProjects()?.first, project.isEncrypted, project.password == nil {
             unlockProject(selectedProject: project, createNote: true)
@@ -932,6 +921,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc public func closeNews() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+
         newsPopup?.removeFromSuperview()
         newsOverlay?.removeFromSuperview()
 
@@ -974,10 +965,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
         }
         
-        note.save()
-
-        let storage = Storage.shared()
-        storage.add(note)
+        if note.save() {
+            Storage.shared().add(note)
+        }
 
         let evc = UIApplication.getEVC()
         evc.note = note
@@ -1046,7 +1036,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
         }
 
-        note.save()
+        if note.save() {
+            Storage.shared().add(note)
+        }
     }
 
     public func importSavedInSharedExtension() {
@@ -1079,7 +1071,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             isLandscape = isLand
 
             DispatchQueue.main.async {
-                self.loadPlusButton()
                 self.loadNews()
             }
         }
@@ -1139,6 +1130,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             self.notesTableLeadingConstraint.constant = 0
             self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
+            self.sidebarTableWidth.constant = 0
 
             // blue/blck pre safe area
             leftPreSafeArea.backgroundColor = UIColor.sidebar
@@ -1182,16 +1174,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            notesTableBottomContraint.constant = keyboardSize.height
+            //notesTableBottomContraint.constant = keyboardSize.height
             sidebarTableBottomConstraint.constant = keyboardSize.height
-            loadPlusButton()
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        notesTableBottomContraint.constant = 0
+        //notesTableBottomContraint.constant = 0
         sidebarTableBottomConstraint.constant = 0
-        loadPlusButton()
     }
 
     public func refreshTextStorage(note: Note) {

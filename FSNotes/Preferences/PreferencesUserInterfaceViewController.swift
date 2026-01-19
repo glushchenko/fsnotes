@@ -10,53 +10,32 @@ import Cocoa
 
 class PreferencesUserInterfaceViewController: NSViewController {
 
-    @IBOutlet weak var horizontalRadio: NSButton!
-    @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet weak var cellSpacing: NSSlider!
-    @IBOutlet weak var noteFontLabel: NSTextField!
-    @IBOutlet weak var noteFontColor: NSColorWell!
-    @IBOutlet weak var backgroundColor: NSColorWell!
-    @IBOutlet weak var backgroundLabel: NSTextField!
-    @IBOutlet weak var textMatchAutoSelection: NSButton!
     @IBOutlet weak var previewFontSize: NSPopUpButton!
     @IBOutlet weak var hideImagesPreview: NSButton!
     @IBOutlet weak var hidePreview: NSButton!
     @IBOutlet weak var hideDate: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
+    @IBOutlet weak var showDockIcon: NSButton!
+    @IBOutlet weak var showInMenuBar: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 460)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let hideBackgroundOption = UserDefaultsManagement.appearanceType != .Custom
-
-        backgroundColor.isHidden = hideBackgroundOption
-        backgroundLabel.isHidden = hideBackgroundOption
-    }
-
     override func viewDidAppear() {
         guard let window = self.view.window else { return }
         window.title = NSLocalizedString("Settings", comment: "")
-
-        if (UserDefaultsManagement.horizontalOrientation) {
-            horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
-        } else {
-            verticalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
-        }
 
         hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
 
-        noteFontColor.color = UserDefaultsManagement.fontColor
-        backgroundColor.color = UserDefaultsManagement.bgColor
-
-        textMatchAutoSelection.state = UserDefaultsManagement.textMatchAutoSelection ? .on : .off
-
+        showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
+        
+        showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
+        
         previewFontSize.selectItem(withTag: UserDefaultsManagement.previewFontSize)
 
         hideImagesPreview.state = UserDefaultsManagement.hidePreviewImages ? .on : .off
@@ -64,83 +43,10 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
-
-        backgroundColor.isHidden = false
-        backgroundLabel.isHidden = false
-
-        noteFontColor.isHidden = false
-        noteFontLabel.isHidden = false
-    }
-
-    @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
-        // We don't need to set the user defaults value here as the checkbox is
-        // bound to it. We do need to update each window's hideOnDeactivate.
-        for window in NSApplication.shared.windows {
-            if window.className == "NSStatusBarWindow" {
-                continue
-            }
-
-            window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
-        }
-    }
-
-    @IBAction func verticalOrientation(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-
-        UserDefaultsManagement.horizontalOrientation = false
-
-        horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
-        vc.splitView.isVertical = true
-        vc.splitView.setPosition(215, ofDividerAt: 0)
-
-        UserDefaultsManagement.cellSpacing = 38
-        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
-        vc.setTableRowHeight()
-    }
-
-    @IBAction func horizontalOrientation(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-
-        UserDefaultsManagement.horizontalOrientation = true
-
-        verticalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
-        vc.splitView.isVertical = false
-        vc.splitView.setPosition(145, ofDividerAt: 0)
-
-        UserDefaultsManagement.cellSpacing = 12
-        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
-
-        vc.setTableRowHeight()
-        vc.notesTableView.reloadData()
-    }
-
-    @IBAction func setFontColor(_ sender: NSColorWell) {
-        Storage.shared().resetCacheAttributes()
-        
-        UserDefaultsManagement.appearanceType = .Custom
-        UserDefaultsManagement.fontColor = sender.color
-        
-        let editors = AppDelegate.getEditTextViews()
-        for editor in editors {
-            editor.setEditorTextColor(sender.color)
-            editor.editorViewController?.refillEditArea()
-        }
-    }
-
-    @IBAction func setBgColor(_ sender: NSColorWell) {
-        guard let vc = ViewController.shared() else { return }
-
-        UserDefaultsManagement.appearanceType = .Custom
-        UserDefaultsManagement.bgColor = sender.color
-
-        vc.editor.backgroundColor = sender.color
-        vc.titleBarView?.layer?.backgroundColor = sender.color.cgColor
-        vc.titleLabel.backgroundColor = sender.color
     }
 
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
         guard let vc = ViewController.shared() else { return }
-
 
         vc.setTableRowHeight()
     }
@@ -150,10 +56,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         UserDefaultsManagement.hidePreview = ((sender as AnyObject).state == NSControl.StateValue.on)
         vc.notesTableView.reloadData()
-    }
-
-    @IBAction func textMatchAutoSelection(_ sender: NSButton) {
-        UserDefaultsManagement.textMatchAutoSelection = (sender.state == .on)
     }
 
     @IBAction func hideImagesPreview(_ sender: NSButton) {
@@ -189,5 +91,30 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
+    }
+    
+    @IBAction func showDockIcon(_ sender: NSButton) {
+        let isEnabled = sender.state == .on
+        UserDefaultsManagement.showDockIcon = isEnabled
+
+        NSApp.setActivationPolicy(isEnabled ? .regular : .accessory)
+
+        DispatchQueue.main.async {
+            NSMenu.setMenuBarVisible(true)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+    
+    @IBAction func showInMenuBar(_ sender: NSButton) {
+        UserDefaultsManagement.showInMenuBar = sender.state == .on
+
+        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
+
+        if sender.state == .off {
+            appDelegate.removeMenuBar(nil)
+            return
+        }
+
+        appDelegate.addMenuBar(nil)
     }
 }

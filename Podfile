@@ -15,22 +15,14 @@ def ios_pods
 end
 
 def common_pods
-    pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'libcmark_gfm', :git => 'https://github.com/glushchenko/libcmark_gfm', :branch => 'master' 
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'Punycode'
-    pod 'SwiftSoup', :git => 'https://github.com/scinfu/SwiftSoup', :commit => 'e2d11208519549c2e5798d70190472045633f22f'
 end
 
 def framework_pods
     pod 'SwiftLint', '~> 0.30.0'
-end
-
-target 'FSNotesCore macOS' do
-    platform :osx, MAC_TARGET_VERSION
-    pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
-    framework_pods
 end
 
 target 'FSNotes' do
@@ -57,7 +49,6 @@ end
 target 'FSNotes iOS Share Extension' do
     platform :ios, IOS_TARGET_VERSION
 
-    pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
 end
@@ -90,7 +81,6 @@ post_install do |installer|
 
     if target.name == 'SSZipArchive-iOS' ||
       target.name == 'RNCryptor-iOS' ||
-      target.name == 'Highlightr-iOS' ||
       target.name == 'DropDown' ||
       target.name == 'DKCamera' ||
       target.name == 'CropViewController'

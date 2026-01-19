@@ -41,6 +41,29 @@ class NoteCellView: NSTableCellView {
     public static var pinEncryptedImages = [String: NSImage]()
     public static var pinSharedImages = [String: NSImage]()
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imagePreview.image = nil
+        imagePreview.isHidden = true
+        
+        imagePreviewSecond.image = nil
+        imagePreviewSecond.isHidden = true
+        
+        imagePreviewThird.image = nil
+        imagePreviewThird.isHidden = true
+        
+        imageKeys = []
+        
+        timestamp = nil
+        
+        note = nil
+        
+        name.stringValue = ""
+        preview.stringValue = ""
+        date.stringValue = ""
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
@@ -71,7 +94,7 @@ class NoteCellView: NSTableCellView {
 
         applyPreviewStyle()
 
-        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages{
+        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
             self.note?.loadPreviewInfo()
         }
     }
@@ -201,16 +224,10 @@ class NoteCellView: NSTableCellView {
                 pin.isHidden = false
             } else if note.isEncrypted() {
                 let systemName = note.isUnlocked() ? "lock.open" : "lock"
-                if #available(macOS 12.0, *), let image = NSImage(systemSymbolName: systemName, accessibilityDescription: nil) {
+                if let image = NSImage(systemSymbolName: systemName, accessibilityDescription: nil) {
                     pin.image = image
                     pin.image?.isTemplate = true
                     pin.contentTintColor = .controlAccentColor
-                } else {
-                    let name = note.isUnlocked() ? "lock-open" : "lock-closed"
-                    pin.image = NSImage(named: name)
-                    pin.contentTintColor = .controlAccentColor
-                    pin.image?.isTemplate = true
-                    pin.image?.size = NSSize(width: 14, height: 14)
                 }
                 pin.isHidden = false
             } else {

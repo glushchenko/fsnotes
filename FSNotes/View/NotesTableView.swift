@@ -8,28 +8,20 @@
 
 import Carbon
 import Cocoa
-import FSNotesCore_macOS
 
-class NotesTableView: NSTableView, NSTableViewDataSource,
+class NotesTableView: NSTableView,
+    NSTableViewDataSource,
     NSTableViewDelegate {
     
-    var noteList = [Note]()
+    private var noteList = [Note]()
+    
     var defaultCell = NoteCellView()
     var pinnedCell = NoteCellView()
     var storage = Storage.shared()
 
     public var history = [URL]()
     public var historyPosition = 0
-
-    public var limitedActionsList = [
-        "note.print",
-        "note.copyTitle",
-        "note.copyURL",
-        "note.rename",
-        "note.saveRevision",
-        "note.history"
-    ]
-
+    
     private var selectedHistory: IndexSet?
 
     override func draw(_ dirtyRect: NSRect) {
@@ -39,7 +31,40 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         self.delegate = self
         super.draw(dirtyRect)
     }
+    
+    override func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        if item.action == #selector(selectAll(_:)) {
+            return numberOfRows > 0 && allowsMultipleSelection
+        }
+        
+        if item.action == #selector(copy(_:)) ||
+            item.action == #selector(delete(_:)) ||
+            item.action == #selector(forceDeleteNote(_:)) {
+            return selectedRowIndexes.count > 0
+        }
 
+        return super.validateUserInterfaceItem(item)
+    }
+
+    override func keyDown(with event: NSEvent) {
+        guard let vc = self.window?.contentViewController as? ViewController else {
+            super.keyDown(with: event)
+            return
+        }
+        
+        if event.keyCode == kVK_ANSI_N && event.modifierFlags.contains(.control) {
+            vc.noteDown(NSMenuItem())
+            return
+        }
+        
+        if event.keyCode == kVK_ANSI_P && event.modifierFlags.contains(.control) {
+            vc.noteUp(NSMenuItem())
+            return
+        }
+        
+        super.keyDown(with: event)
+    }
+    
     override func keyUp(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else {
             super.keyUp(with: event)
@@ -59,17 +84,24 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         super.keyUp(with: event)
     }
     
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        return true
-    }
-
     override func mouseDown(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
+        
+        let point = convert(event.locationInWindow, from: nil)
+        let row = self.row(at: point)
+        
+        if row >= 0, noteList.indices.contains(row) {
+            let note = noteList[row]
+            if event.modifierFlags.contains(.option) {
+                NSWorkspace.shared.activateFileViewerSelecting([note.url])
+                return
+            }
+        }
         
         if let selectedProject = vc.sidebarOutlineView.getSelectedProject(),
             selectedProject.isLocked()
         {
-            vc.toggleFolderLock(NSMenuItem())
+            vc.sidebarOutlineView.toggleFolderLock(NSMenuItem())
             return
         }
         
@@ -88,26 +120,65 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func rightMouseDown(with event: NSEvent) {
         UserDataService.instance.searchTrigger = false
 
-        let point = convert(event.locationInWindow, from: nil)
-        let rowIndex = row(at: point)
-        if (rowIndex < 0 || self.numberOfRows < rowIndex) {
-            return
+        NSApp.activate(ignoringOtherApps: true)
+
+        if let window = self.window {
+            window.makeKeyAndOrderFront(nil)
         }
 
+        let point = convert(event.locationInWindow, from: nil)
+        let rowIndex = row(at: point)
+        guard rowIndex >= 0, rowIndex < numberOfRows else { return }
+
         saveNavigationHistory(note: noteList[rowIndex])
+
+        window?.makeFirstResponder(self)
 
         if !selectedRowIndexes.contains(rowIndex) {
             selectRowIndexes(IndexSet(integer: rowIndex), byExtendingSelection: false)
             scrollRowToVisible(rowIndex)
         }
 
-        if rowView(atRow: rowIndex, makeIfNecessary: false) as? NoteRowView != nil {
-            if let menu = menu {
-                NSMenu.popUpContextMenu(menu, with: event, for: self)
-            }
+        if rowView(atRow: rowIndex, makeIfNecessary: false) as? NoteRowView != nil,
+           let menu = menu {
+            NSMenu.popUpContextMenu(menu, with: event, for: self)
         }
     }
-        
+
+    @IBAction func delete(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+              let notes = getSelectedNotes() else { return }
+
+        vc.removeNotes(notes: notes, forceRemove: false, rows: selectedRowIndexes)
+    }
+    
+    @IBAction func forceDeleteNote(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+              let notes = getSelectedNotes() else { return }
+
+        vc.removeNotes(notes: notes, forceRemove: true, rows: selectedRowIndexes)
+    }
+    
+    public func getNoteList() -> [Note] {
+        return noteList
+    }
+    
+    public func setNoteList(notes: [Note]) {
+       noteList = notes
+    }
+    
+    public func countNotes() -> Int {
+        return noteList.count
+    }
+    
+    public func getIndex(for note: Note) -> Int? {
+        return noteList.firstIndex(where: {$0 === note})
+    }
+    
+    public func getNote(at index: Int) -> Note? {
+        return noteList.indices.contains(index) ? noteList[index] : nil
+    }
+    
     // Custom note highlight style
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         return NoteRowView()
@@ -124,8 +195,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         guard row < noteList.count else { return height }
 
         let note = noteList[row]
+        
         if !note.isLoaded && !note.isLoadedFromCache {
             note.load()
+        }
+        
+        if !note.isParsed {
+            note.loadPreviewInfo()
         }
 
         if !UserDefaultsManagement.horizontalOrientation
@@ -156,6 +232,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         selectedHistory = selectedRowIndexes
 
         let vc = self.window?.contentViewController as! ViewController
+        
+        defer {
+            vc.updateNotesCounter()
+        }
+        
         if vc.editAreaScroll.isFindBarVisible {
             let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
             menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
@@ -208,23 +289,25 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-        var title = String()
         var urls = [URL]()
+        var contentUrls = [URL]()
+        
         for row in rowIndexes {
             let note = noteList[row]
             urls.append(note.url)
-
-            if let unwarpped = note.title.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                title = "fsnotes://find/" +  unwarpped
+            
+            if let url = note.getContentFileURL() {
+                contentUrls.append(url)
             }
         }
-
-        pboard.setString(title, forType: NSPasteboard.PasteboardType.string)
-
+        
+        pboard.clearContents()
+        pboard.writeObjects(contentUrls as [NSPasteboardWriting])
+        
         if let data = try? NSKeyedArchiver.archivedData(withRootObject: urls, requiringSecureCoding: true) {
-            pboard.setData(data, forType: NSPasteboard.noteType)
+            pboard.setData(data, forType: NSPasteboard.note)
         }
-
+        
         return true
     }
 
@@ -303,118 +386,64 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return defaultCell
     }
     
+    func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableView.RowActionEdge) -> [NSTableViewRowAction] {
+        guard edge == .trailing else { return [] }
+        guard noteList.indices.contains(row) else { return [] }
+        
+        let deleteAction = NSTableViewRowAction(style: .destructive, title: NSLocalizedString("Delete", comment: "")) { [weak self] (action, row) in
+            guard let self = self else { return }
+            guard self.noteList.indices.contains(row) else { return }
+            let noteToDelete = self.noteList[row]
+            
+            if let vc = self.window?.contentViewController as? ViewController {
+                vc.removeNotes(notes: [noteToDelete])
+            }
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        
+        return [deleteAction]
+    }
+    
     func makeCell(note: Note) -> NoteCellView {
         let cell = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
 
+        cell.imageKeys = []
+        cell.timestamp = nil
+        
+        cell.imagePreview.image = nil
+        cell.imagePreview.isHidden = true
+        cell.imagePreviewSecond.image = nil
+        cell.imagePreviewSecond.isHidden = true
+        cell.imagePreviewThird.image = nil
+        cell.imagePreviewThird.isHidden = true
+        
         cell.configure(note: note)
         cell.loadImagesPreview()
         cell.attachHeaders(note: note)
 
         return cell
     }
-
+    
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        guard let vc = ViewController.shared() else { return }
+        
         if clickedRow > -1 {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
 
-        if selectedRow < 0 {
-            return
-        }
-
-        guard let vc = self.window?.contentViewController as? ViewController else { return }
-
+        if selectedRow < 0 { return }
         menu.autoenablesItems = false
-
-        var note = vc.editor.note
-        
-        if note == nil {
-            note = vc.getSelectedNotes()?.first
-        }
         
         for menuItem in menu.items {
-            if let identifier = menuItem.identifier?.rawValue,
-                limitedActionsList.contains(identifier)
-            {
-                menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
-            }
-
-            if menuItem.identifier?.rawValue == "note.saveRevision" {
-                if let note = note {
-                    let hasCommits = note.project.hasCommitsDiffsCache()
-                    menuItem.isHidden = !hasCommits
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "fileMenu.pinUnpin" {
-                if let note = note {
-                    menuItem.title = note.isPinned
-                        ? NSLocalizedString("Unpin", comment: "")
-                        : NSLocalizedString("Pin", comment: "")
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "note.toggleContainer" {
-                if let note = note, !note.isEncrypted() {
-                    menuItem.title = note.container == .none
-                        ? NSLocalizedString("Convert to TextBundle", comment: "")
-                        : NSLocalizedString("Convert to Plain", comment: "")
-                    
-                    menuItem.isEnabled = true
-                } else {
-                    menuItem.isEnabled = false
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "fileMenu.lockUnlock" {
-                if let note = note {
-                    menuItem.title = note.isEncryptedAndLocked()
-                        ? NSLocalizedString("Unlock", comment: "")
-                        : NSLocalizedString("Lock", comment: "")
-                }
-            }
-
-            if menuItem.identifier?.rawValue == "noteMenu.removeEncryption" {
-                if let note = note, note.isEncrypted(), !note.project.isEncrypted {
-                    menuItem.isEnabled = true
-                    menuItem.isHidden = false
-                } else {
-                    menuItem.isEnabled = false
-                    menuItem.isHidden = true
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "noteMenu.removeOverSSH" {
-                if let note = vc.editor.note, !note.isEncrypted(), note.uploadPath != nil || note.apiId != nil {
-                    menuItem.isHidden = false
-                } else {
-                    menuItem.isHidden = true
-                }
-            }
-            
-            if menuItem.identifier?.rawValue == "noteMenu.uploadOverSSH" {
-                if let note = vc.editor.note, !note.isEncrypted() {
-                    if note.uploadPath != nil || note.apiId != nil {
-                        menuItem.title = NSLocalizedString("Update Web Page", comment: "")
-                    } else {
-                        menuItem.title = NSLocalizedString("Create Web Page", comment: "")
-                    }
-                    
-                    menuItem.isHidden = false
-                } else {
-                    menuItem.isHidden = true
-                }
+            if vc.processFileMenuItems(menuItem, menuId: "popup") {
+                menuItem.isEnabled = true
+            } else {
+                menuItem.isEnabled = vc.processShareMenuItems(menuItem, menuId: "popup")
             }
         }
 
         vc.loadMoveMenu()
-    }
-    
-    func getIndex(_ note: Note) -> Int? {
-        if let index = noteList.firstIndex(where: {$0 === note}) {
-            return index
-        }
-        return nil
     }
 
     public func selectCurrent() {
@@ -433,30 +462,24 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     public func selectNext() {
         UserDataService.instance.searchTrigger = false
-
+        
         let i = selectedRow + 1
-        if (noteList.indices.contains(i)) {
-            saveNavigationHistory(note: noteList[i])
-        }
-
-        if (noteList.indices.contains(i)) {
-            self.selectRowIndexes([i], byExtendingSelection: false)
-            self.scrollRowToVisible(i)
-        }
+        guard noteList.indices.contains(i) else { return }
+        
+        saveNavigationHistory(note: noteList[i])
+        selectRowIndexes([i], byExtendingSelection: false)
+        scrollRowToVisible(i)
     }
-    
+
     public func selectPrev() {
         UserDataService.instance.searchTrigger = false
-
+        
         let i = selectedRow - 1
-        if (noteList.indices.contains(i)) {
-            saveNavigationHistory(note: noteList[i])
-        }
-
-        if (noteList.indices.contains(i)) {
-            self.selectRowIndexes([i], byExtendingSelection: false)
-            self.scrollRowToVisible(i)
-        }
+        guard noteList.indices.contains(i) else { return }
+        
+        saveNavigationHistory(note: noteList[i])
+        selectRowIndexes([i], byExtendingSelection: false)
+        scrollRowToVisible(i)
     }
     
     public func selectRow(_ i: Int) {
@@ -471,7 +494,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     public func selectRowAndSidebarItem(note: Note) {
         guard let vc = ViewController.shared() else { return }
 
-        if let index = getIndex(note) {
+        if let index = getIndex(for: note) {
             selectRow(index)
         } else {
             vc.sidebarOutlineView.select(note: note)
@@ -479,23 +502,42 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     func setSelected(note: Note) {
-        if let i = getIndex(note) {
+        if let i = getIndex(for: note) {
             selectRow(i)
             scrollRowToVisible(i)
+        }
+    }
+    
+    public func select(note: Note) {
+        if let i = getIndex(for: note) {
+            if noteList.indices.contains(i) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.selectRowIndexes([i], byExtendingSelection: false)
+                    self.scrollRowToVisible(i)
+                }
+            }
         }
     }
     
     public func removeRows(notes: [Note]) {
         guard let vc = ViewController.shared() else { return }
 
-        beginUpdates()
+        var indexSet = IndexSet()
         for note in notes {
             if let i = noteList.firstIndex(where: {$0 === note}) {
-                let indexSet = IndexSet(integer: i)
-                noteList.remove(at: i)
-                removeRows(at: indexSet, withAnimation: .slideDown)
+                indexSet.insert(i)
             }
         }
+        
+        guard !indexSet.isEmpty else { return }
+        
+        beginUpdates()
+        
+        for i in indexSet.sorted().reversed() {
+            noteList.remove(at: i)
+        }
+        
+        removeRows(at: indexSet, withAnimation: .slideDown)
         endUpdates()
 
         if UserDefaultsManagement.inlineTags {
@@ -512,9 +554,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 insert.append(note)
             }
         }
-
+        
+        guard !insert.isEmpty else { return }
+        beginUpdates()
+        
         noteList.append(contentsOf: insert)
-
         self.noteList = vc.storage.sortNotes(noteList: self.noteList)
         
         var indexSet = IndexSet()
@@ -525,6 +569,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         
         self.insertRows(at: indexSet, withAnimation: .effectFade)
+        endUpdates()
         
         for note in insert {
             vc.sidebarOutlineView.insertTags(note: note)
@@ -533,25 +578,44 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     private func reloadRows(notes: [Note]) {
         for note in notes {
-            reloadRow(note: note)
+            note.invalidateCache()
+            note.loadPreviewInfo()
+            self.performReload(note: note)
         }
     }
     
     @objc public func unDelete(_ urls: [URL: URL]) {
+        guard let vc = ViewController.shared() else { return }
+        var invertedMapping: [URL: URL] = [:]
+        
         for (src, dst) in urls {
             do {
                 if let note = storage.getBy(url: src) {
                     storage.removeBy(note: note)
-
                     if let destination = Storage.shared().getProjectByNote(url: dst) {
                         note.moveImages(to: destination)
                     }
                 }
-
                 try FileManager.default.moveItem(at: src, to: dst)
+                invertedMapping[dst] = src
             } catch {
                 print(error)
             }
+        }
+        
+        // Register redo (delete again)
+        if let md = AppDelegate.mainWindowController, !invertedMapping.isEmpty {
+            let undoManager = md.notesListUndoManager
+            undoManager.registerUndo(withTarget: self) { notesTableView in
+                let restoredNotes = invertedMapping.keys.compactMap { url in
+                    vc.storage.getBy(url: url)
+                }
+                
+                if !restoredNotes.isEmpty {
+                    vc.removeNotes(notes: restoredNotes, forceRemove: false, rows: nil)
+                }
+            }
+            undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
         }
     }
     
@@ -566,36 +630,35 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func reloadRow(note: Note) {
-        note.invalidateCache()
-        note.loadPreviewInfo()
-        let urls = note.imageUrl
+        DispatchQueue.global(qos: .userInitiated).async {
+            note.invalidateCache()
+            note.loadPreviewInfo()
 
-        DispatchQueue.main.async {
-            if let i = self.noteList.firstIndex(of: note) {
-                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView {
-
-                    if let cell = row.subviews.first as? NoteCellView {
-
-                        cell.date.stringValue = note.getDateForLabel()
-                        cell.loadImagesPreview(position: i, urls: urls)
-                        cell.attachHeaders(note: note)
-                        cell.renderPin()
-                        cell.applyPreviewStyle()
-
-                        self.noteHeightOfRows(withIndexesChanged: [i])
-                    }
-                }
+            DispatchQueue.main.async {
+                self.performReload(note: note)
             }
+        }
+    }
+    
+    private func performReload(note: Note) {
+        guard let i = self.noteList.firstIndex(of: note) else { return }
+        let urls = note.imageUrl
+        
+        if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
+            cell.date.stringValue = note.getDateForLabel()
+            cell.loadImagesPreview(position: i, urls: urls)
+            cell.attachHeaders(note: note)
+            cell.renderPin()
+            cell.applyPreviewStyle()
+            self.noteHeightOfRows(withIndexesChanged: [i])
         }
     }
     
     public func reloadDate(note: Note) {
         DispatchQueue.main.async {
             if self.numberOfRows > 0, let i = self.noteList.firstIndex(of: note) {
-                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView {
-                    if let cell = row.subviews.first as? NoteCellView {
-                        cell.date.stringValue = note.getDateForLabel()
-                    }
+                if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
+                    cell.date.stringValue = note.getDateForLabel()
                 }
             }
         }
@@ -608,18 +671,21 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
 
         history.append(note.url)
-        historyPosition = history.count - 1
+        
+        if history.count > 100 {
+            history.removeFirst()
+        } else {
+            historyPosition = history.count - 1
+        }
     }
     
     public func enableLockedProject() {
         ViewController.shared()?.lockedFolder.isHidden = false
-        usesAlternatingRowBackgroundColors = false
         clean()
     }
     
     public func disableLockedProject() {
         ViewController.shared()?.lockedFolder.isHidden = true
-        usesAlternatingRowBackgroundColors = true
     }
     
     public func clean() {

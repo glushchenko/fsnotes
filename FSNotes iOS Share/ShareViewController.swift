@@ -9,181 +9,267 @@
 import UIKit
 import MobileCoreServices
 import Social
+import UniformTypeIdentifiers
 
 @objc(ShareViewController)
-
 class ShareViewController: SLComposeServiceViewController {
 
-    private var imagesFound = false
+    // MARK: - Properties
+
+    private var hasImages = false
     private var urlPreview: String?
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationController!.navigationBar.topItem!.rightBarButtonItem!.title = NSLocalizedString("New note", comment: "")
-        navigationController!.navigationBar.tintColor = UIColor.mainTheme
-
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
-        let font = UserDefaultsManagement.noteFont.bold().withSize(18)
-        label.text = "FSNotes"
-        label.font = font
-        navigationController?.navigationBar.topItem?.titleView = label
+        configureNavigationBar()
     }
 
-    override func loadPreviewView() -> UIView! {
-        urlPreview = self.textView.text
+    // MARK: - Configuration
 
-        if let context = self.extensionContext,
-            let input = context.inputItems as? [NSExtensionItem] {
-            for row in input {
-                if let attach = row.attachments {
-                    for attachRow in attach {
-                        if attachRow.hasItemConformingToTypeIdentifier(kUTTypeImage as String) || attachRow.hasItemConformingToTypeIdentifier(kUTTypeJPEG as String){
-                            imagesFound = true
-
-                            textView.text = ""
-                            return super.loadPreviewView()
-                        }
-
-                        if attachRow.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                            attachRow.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (url, error) in
-                                guard let url = url as? URL else { return }
-
-                                guard !url.absoluteString.startsWith(string: "file:///") else {
-                                    if let fileContent = try? Data(contentsOf: url), let text = String(data: fileContent, encoding: String.Encoding.utf8) {
-                                        DispatchQueue.main.async {
-                                            self.textView.text = text
-                                        }
-                                    }
-                                    return
-                                }
-
-                                DispatchQueue.main.async {
-                                    let preview = self.urlPreview ?? String()
-                                    self.textView.text = "\(preview)\n\n\(url.absoluteString)".trimmingCharacters(in: .whitespacesAndNewlines)
-
-                                }
-                            })
-                        }
-                    }
-                }
-            }
+    private func configureNavigationBar() {
+        guard let navigationBar = navigationController?.navigationBar,
+              let rightButton = navigationBar.topItem?.rightBarButtonItem else {
+            return
         }
 
-        return UIView()
+        rightButton.title = NSLocalizedString("New note", comment: "")
+        navigationBar.tintColor = .mainTheme
+
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
+        titleLabel.text = "FSNotes"
+        titleLabel.font = UserDefaultsManagement.noteFont.bold().withSize(18)
+        navigationBar.topItem?.titleView = titleLabel
     }
+
+    // MARK: - Preview
+
+    override func loadPreviewView() -> UIView! {
+        urlPreview = textView.text
+
+        guard let inputItems = extensionContext?.inputItems as? [NSExtensionItem] else {
+            return UIView()
+        }
+
+        processInputItems(inputItems)
+        return hasImages ? super.loadPreviewView() : UIView()
+    }
+
+    private func processInputItems(_ items: [NSExtensionItem]) {
+        for item in items {
+            guard let attachments = item.attachments else { continue }
+
+            for attachment in attachments {
+                if checkForImages(in: attachment) {
+                    hasImages = true
+                    textView.text = ""
+                    return
+                }
+
+                loadURLIfNeeded(from: attachment)
+            }
+        }
+    }
+
+    private func checkForImages(in attachment: NSItemProvider) -> Bool {
+        return attachment.hasItemConformingToTypeIdentifier(kUTTypeImage as String) ||
+               attachment.hasItemConformingToTypeIdentifier(kUTTypeJPEG as String)
+    }
+
+    private func loadURLIfNeeded(from attachment: NSItemProvider) {
+        guard attachment.hasItemConformingToTypeIdentifier(kUTTypeURL as String) else {
+            return
+        }
+
+        attachment.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { [weak self] url, error in
+            guard let self = self,
+                  let url = url as? URL,
+                  error == nil else {
+                return
+            }
+
+            self.handleLoadedURL(url)
+        }
+    }
+
+    private func handleLoadedURL(_ url: URL) {
+        if url.absoluteString.starts(with: "file:///") {
+            loadFileContent(from: url)
+        } else {
+            updateTextViewWithURL(url)
+        }
+    }
+
+    private func loadFileContent(from url: URL) {
+        guard let fileData = try? Data(contentsOf: url),
+              let text = String(data: fileData, encoding: .utf8) else {
+            return
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            self?.textView.text = text
+        }
+    }
+
+    private func updateTextViewWithURL(_ url: URL) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let preview = self.urlPreview ?? ""
+            self.textView.text = "\(preview)\n\n\(url.absoluteString)".trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+
+    // MARK: - Validation & Post
 
     override func isContentValid() -> Bool {
         return true
     }
 
     override func didSelectPost() {
-        save()
+        saveNote()
     }
 
     override func configurationItems() -> [Any]! {
         return []
     }
 
-    public func save() {
-        guard let context = self.extensionContext,
-            let input = context.inputItems as? [NSExtensionItem] else { return }
+    // MARK: - Save Note
 
+    private func saveNote() {
+        guard let inputItems = extensionContext?.inputItems as? [NSExtensionItem] else {
+            closeExtension()
+            return
+        }
+
+        let note = createNote()
+        processAttachments(from: inputItems, note: note)
+    }
+
+    private func createNote() -> Note {
         let note = Note()
         Storage.shared().add(note)
-
-        var started = 0
-        var finished = 0
 
         var urls = UserDefaultsManagement.importURLs
         urls.insert(note.url, at: 0)
         UserDefaultsManagement.importURLs = urls
 
-        if self.textView.text.count > 0 {
-            note.append(string: NSMutableAttributedString(string: self.textView.text))
-        }
+        return note
+    }
 
-        for item in input {
-            if let a = item.attachments {
-                for provider in a {
-                    if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
-                        provider.loadItem(forTypeIdentifier: kUTTypeImage as String, options: [:], completionHandler: { (data, error) in
+    private func appendTextContent(to note: Note) {
+        guard !textView.text.isEmpty else { return }
+        note.append(string: NSMutableAttributedString(string: textView.text))
+    }
 
-                            started = started + 1
-                            var imageData = data as? Data
+    private func processAttachments(from items: [NSExtensionItem], note: Note) {
+        var imageProviders: [NSItemProvider] = []
 
-                            if let image = data as? UIImage {
-                                imageData = image.jpegData(compressionQuality: 1)
-                            } else if let url = data as? URL {
-                                imageData = try? Data.init(contentsOf: url)
-                            }
+        for item in items {
+            guard let attachments = item.attachments else { continue }
 
-                            let url = data as? URL
-                            if let data = imageData {
-                                note.append(image: data, url: url)
-                            }
-
-                            finished = finished + 1
-                            if started == finished {
-                                note.save()
-                                self.close()
-                                return
-                            }
-                        })
-                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                        if !imagesFound, let contentText = self.contentText {
-
-                            guard let url = URL(string: contentText) else {
-                                // File URL provided, but text is loaded in textView
-                                note.append(string: NSMutableAttributedString(string: contentText))
-                                note.save()
-                                self.close()
-                                return
-                            }
-
-                            let data = try? Data(contentsOf: url)
-
-                            if let data = data, let image = UIImage(data: data), image.size.width > 0 {
-                                note.append(image: data)
-                            } else {
-                                let prefix = self.getPrefix(for: note)
-                                let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
-                                note.append(string: string)
-                            }
-
-                            note.save()
-                            self.close()
-                            return
-                        }
-
-                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
-                        if !imagesFound, let contentText = self.contentText {
-                            let prefix = self.getPrefix(for: note)
-                            let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
-                            note.append(string: string)
-                            note.save()
-                            self.close()
-                            return
-                        }
-                    }
+            for provider in attachments {
+                if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
+                    imageProviders.append(provider)
+                } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+                    processURLAttachment(note: note)
+                    return
+                } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
+                    processTextAttachment(note: note)
+                    return
                 }
             }
         }
 
-        self.close()
-    }
-
-    public func close() {
-        if let context = self.extensionContext {
-            context.completeRequest(returningItems: context.inputItems, completionHandler: nil)
+        if imageProviders.isEmpty {
+            closeExtension()
+        } else {
+            processImageAttachments(imageProviders, note: note)
         }
     }
 
-    private func getPrefix(for note: Note) -> String {
-        if note.content.length == 0 {
-            return String()
+    private func processImageAttachments(_ providers: [NSItemProvider], note: Note) {
+        let totalCount = providers.count
+        var processedCount = 0
+
+        for provider in providers {
+            provider.loadItem(forTypeIdentifier: kUTTypeImage as String, options: [:]) { [weak self] data, error in
+                guard let self = self, error == nil else {
+                    processedCount += 1
+                    if processedCount == totalCount {
+                        self?.finalizeNoteSave(note)
+                    }
+                    return
+                }
+
+                let imageData = self.extractImageData(from: data)
+                let url = data as? URL
+
+                if let imageData = imageData {
+                    note.append(image: imageData, url: url)
+                }
+
+                processedCount += 1
+                if processedCount == totalCount {
+                    self.finalizeNoteSave(note)
+                }
+            }
+        }
+    }
+
+    private func extractImageData(from data: Any?) -> Data? {
+        if let data = data as? Data {
+            return data
+        } else if let image = data as? UIImage {
+            return image.jpegData(compressionQuality: 1)
+        } else if let url = data as? URL {
+            return try? Data(contentsOf: url)
+        }
+        return nil
+    }
+
+    private func processURLAttachment(note: Note) {
+        guard !hasImages, let contentText = contentText else {
+            closeExtension()
+            return
         }
 
-        return "\n\n"
+        if let url = URL(string: contentText),
+           let data = try? Data(contentsOf: url),
+           let image = UIImage(data: data),
+           image.size.width > 0 {
+            note.append(image: data)
+        } else {
+            appendContentWithPrefix(contentText, to: note)
+        }
+
+        finalizeNoteSave(note)
+    }
+
+    private func processTextAttachment(note: Note) {
+        guard !hasImages, let contentText = contentText else {
+            closeExtension()
+            return
+        }
+
+        appendContentWithPrefix(contentText, to: note)
+        finalizeNoteSave(note)
+    }
+
+    private func appendContentWithPrefix(_ content: String, to note: Note) {
+        let prefix = note.content.length == 0 ? "" : "\n\n"
+        let string = NSMutableAttributedString(string: "\(prefix)\(content)")
+        note.append(string: string)
+    }
+
+    private func finalizeNoteSave(_ note: Note) {
+        if note.saveSimple() {
+            Storage.shared().add(note)
+        }
+        closeExtension()
+    }
+
+    private func closeExtension() {
+        extensionContext?.completeRequest(returningItems: extensionContext?.inputItems, completionHandler: nil)
     }
 }

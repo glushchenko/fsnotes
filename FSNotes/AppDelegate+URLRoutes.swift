@@ -22,6 +22,7 @@ extension AppDelegate {
     enum FSNotesRoutes: String {
         case find = "find"
         case new = "new"
+        case open = "open"
     }
     
     enum NvALTRoutes: String {
@@ -34,13 +35,6 @@ extension AppDelegate {
         guard var url = urls.first,
             let scheme = url.scheme
             else { return }
-
-        if url.host == "open" {
-            if let tag = url["tag"]?.removingPercentEncoding {
-                ViewController.shared()?.sidebarOutlineView.select(tag: tag)
-                return
-            }
-        }
 
         let path = url.absoluteString.escapePlus()
         if let escaped = URL(string: path) {
@@ -76,8 +70,7 @@ extension AppDelegate {
                     sidebarIndex = vc.sidebarOutlineView.row(forItem: sidebarItem)
                     importedNote = note
                 }
-            } else {
-                let project = Storage.shared().getMainProject()
+            } else if let project = Storage.shared().getDefault() {
                 let newUrl = vc.copy(project: project, url: url)
 
                 UserDataService.instance.focusOnImport = newUrl
@@ -104,8 +97,48 @@ extension AppDelegate {
             RouteFSNotesFind(url)
         case FSNotesRoutes.new.rawValue:
             RouteFSNotesNew(url)
+        case FSNotesRoutes.open.rawValue:
+            RouteFSNotesOpen(url)
         default:
             break
+        }
+    }
+    
+    /// Handles URLs with the tag fsnotes://open/?tag=test
+    /// Handles URLs with the tag fsnotes://open/?title=Open+Or+Create+If+Not+Exist
+    ///
+    func RouteFSNotesOpen(_ url: URL) {
+        guard let vc = ViewController.shared() else { return }
+        
+        if let tag = url["tag"]?.removingPercentEncoding {
+            vc.sidebarOutlineView.select(tag: tag)
+            return
+        }
+        
+        if let title = url["title"]?.removingPercentEncoding {
+            if let note = Storage.shared().getBy(titleOrName: title) {
+                if let txt = url["txt"] {
+                    
+                    // Append txt
+                    note.append(string: NSMutableAttributedString(string: txt + "\n\n"))
+                    _ = note.save()
+                    
+                    // Set last range
+                    note.setSelectedRange(range: NSRange(location: note.content.length, length: 0))
+                }
+                
+                // Reset UI and focus
+                vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
+                    vc.notesTableView.selectRowAndSidebarItem(note: note)
+                    
+                    NSApp.mainWindow?.makeFirstResponder(vc.editor)
+                    vc.notesTableView.saveNavigationHistory(note: note)
+                })
+                
+            // Create NEW
+            } else {
+                RouteFSNotesNew(url)
+            }
         }
     }
     
@@ -125,12 +158,7 @@ extension AppDelegate {
         var lastPath = url.lastPathComponent
 
         if let wikiURL = url["id"] {
-            var note = Storage.shared().getBy(fileName: wikiURL)
-            if note == nil {
-                note = Storage.shared().getBy(title: wikiURL)
-            }
-            
-            if let note = note {
+            if let note = Storage.shared().getBy(titleOrName: wikiURL) {
                 vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
                     NSApp.mainWindow?.makeFirstResponder(vc.editor)
@@ -158,7 +186,7 @@ extension AppDelegate {
             DispatchQueue.main.async {
                 controller.search.stringValue = query
 
-                if let note = controller.notesTableView.noteList.first {
+                if let note = controller.notesTableView.getNoteList().first {
                     if note.title.lowercased() == query.lowercased() {
                         controller.notesTableView.saveNavigationHistory(note: note)
                         controller.notesTableView.setSelected(note: note)
@@ -179,6 +207,9 @@ extension AppDelegate {
     /// The three possible parameters (title, txt, html) are all optional.
     ///
     func RouteFSNotesNew(_ url: URL) {
+        let newWindow = url["open"] != nil
+        let folderName = url["folder"]
+                
         var title = ""
         var body = ""
         
@@ -188,27 +219,24 @@ extension AppDelegate {
         
         if let txtParam = url["txt"] {
             body = txtParam
-        }
-        else if let htmlParam = url["html"] {
+        } else if let htmlParam = url["html"] {
             body = htmlParam
         }
         
-        guard nil != ViewController.shared() else {
+        guard let vc = ViewController.shared() else {
             self.newName = title
             self.newContent = body
+            self.newWindow = newWindow
+            self.folderName = folderName
             return
         }
-
-        create(name: title, content: body)
+        
+        guard let note = vc.createNote(name: title, content: body, folderName: folderName, openInNewWindow: newWindow),
+              newWindow else { return }
+        
+        vc.openInNewWindow(note: note)
     }
 
-    func create(name: String, content: String) {
-        guard let controller = ViewController.shared() else { return }
-
-        _ = controller.createNote(name: name, content: content)
-    }
-    
-    
     // MARK: - nvALT routes, for compatibility
     
     func NvALTRouter(_ url: URL) {
@@ -253,6 +281,8 @@ extension AppDelegate {
     /// The four possible parameters (title, txt, html and tags) are all optional.
     ///
     func RouteNvAltMake(_ url: URL) {
+        let newWindow = url["open"] != nil
+        
         var title = ""
         var body = ""
         
@@ -271,8 +301,16 @@ extension AppDelegate {
             body = body.appending("\n\nnvALT tags: \(tagsParam)")
         }
         
-        guard let controller = ViewController.shared() else { return }
+        guard let vc = ViewController.shared() else {
+            self.newName = title
+            self.newContent = body
+            self.newWindow = newWindow
+            return
+        }
         
-        _ = controller.createNote(name: title, content: body)
+        guard let note = vc.createNote(name: title, content: body, openInNewWindow: newWindow),
+              newWindow else { return }
+        
+        vc.openInNewWindow(note: note)
     }
 }

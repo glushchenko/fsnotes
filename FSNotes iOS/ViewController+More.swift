@@ -510,22 +510,12 @@ extension ViewController: UIDocumentPickerDelegate {
                 items.append(UIBarButtonItem.flexibleSpace())
                 items.append(UIBarButtonItem(image: moveImage, style: .plain, target: self, action: #selector(moveNotes)))
                 toolbarItems = items
-
-                hideNewButton()
             }
 
             navigationController?.toolbar.tintColor = UIColor.mainTheme
             navigationController?.setToolbarHidden(false, animated: true)
             navigationController?.navigationBar.tintColor = UIColor.mainTheme
         }
-    }
-
-    public func hideNewButton() {
-        getButton(tag: 1)?.isHidden = true
-    }
-
-    public func showNewButton() {
-        getButton(tag: 1)?.isHidden = false
     }
 
     public func configureSidebarNavMenu() {
@@ -540,9 +530,10 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-        showNewButton()
 
         navigationController?.setToolbarHidden(true, animated: true)
+
+        configureToolbar()
     }
 
     @objc func calendarNotes() {
@@ -551,9 +542,9 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-        showNewButton()
-
-        navigationController?.setToolbarHidden(true, animated: true)
+        configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     @objc func duplicateNotes() {
@@ -562,9 +553,9 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-        showNewButton()
-
-        navigationController?.setToolbarHidden(true, animated: true)
+        configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     @objc func moveNotes() {
@@ -573,19 +564,18 @@ extension ViewController: UIDocumentPickerDelegate {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-        showNewButton()
-
-        navigationController?.setToolbarHidden(true, animated: true)
+        configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     @objc func cancel() {
         notesTable.turnOffEditing()
 
         configureSidebarNavMenu()
-
-        navigationController?.setToolbarHidden(true, animated: true)
-
-        showNewButton()
+        configureToolbar()
+        
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     private func createFolder(selectedProject: Project?) {

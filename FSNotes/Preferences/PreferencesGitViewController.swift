@@ -16,13 +16,12 @@ class PreferencesGitViewController: SettingsViewController {
     @IBOutlet weak var backupManually: NSButton!
     @IBOutlet weak var backupBySchedule: NSButton!
     @IBOutlet weak var pullInterval: NSTextField!
-    @IBOutlet weak var customWorktree: NSButton!
     @IBOutlet weak var separateDotGit: NSButton!
     @IBOutlet weak var askCommitMessage: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        //preferredContentSize = NSSize(width: 550, height: 612)
+        //preferredContentSize = NSSize(width: 460, height: 579)
 
         loadGit(project: Storage.shared().getDefault()!)
 
@@ -32,7 +31,6 @@ class PreferencesGitViewController: SettingsViewController {
         backupManually.state = UserDefaultsManagement.backupManually ? .on : .off
         backupBySchedule.state = UserDefaultsManagement.backupManually ? .off : .on
         pullInterval.stringValue = String(UserDefaultsManagement.pullInterval)
-        customWorktree.state = UserDefaultsManagement.separateRepo ? .off : .on
         separateDotGit.state = UserDefaultsManagement.separateRepo ? .on : .off
         askCommitMessage.state = UserDefaultsManagement.askCommitMessage ? .on : .off
     }
@@ -56,10 +54,12 @@ class PreferencesGitViewController: SettingsViewController {
                         return
                 }
 
-                let currentURL = UserDefaultsManagement.gitStorage
-
                 let bookmarksManager = SandboxBookmark.sharedInstance()
-                bookmarksManager.remove(url: currentURL)
+                
+                if let currentURL = UserDefaultsManagement.gitStorage {
+                    bookmarksManager.remove(url: currentURL)
+                }
+                
                 bookmarksManager.store(url: url)
                 bookmarksManager.save()
 
@@ -70,11 +70,15 @@ class PreferencesGitViewController: SettingsViewController {
     }
 
     @IBAction func showFinder(_ sender: Any) {
-        NSWorkspace.shared.activateFileViewerSelecting([UserDefaultsManagement.gitStorage])
+        guard let storage = UserDefaultsManagement.gitStorage else { return }
+        
+        NSWorkspace.shared.activateFileViewerSelecting([storage])
     }
 
     @IBAction func showTerminal(_ sender: Any) {
-        NSWorkspace.shared.openFile(UserDefaultsManagement.gitStorage.path, withApplication: "Terminal.app")
+        guard let storage = UserDefaultsManagement.gitStorage else { return }
+        
+        NSWorkspace.shared.openFile(storage.path, withApplication: "Terminal.app")
     }
 
     @IBAction func backupMethod(_ sender: NSButton) {
@@ -131,7 +135,7 @@ class PreferencesGitViewController: SettingsViewController {
     }
     
     @IBAction func separateRepo(_ sender: NSButton) {
-        UserDefaultsManagement.separateRepo = (sender.tag == 1)
+        UserDefaultsManagement.separateRepo = sender.state == .on
     }
     
     @IBAction func askCommitMessage(_ sender: NSButton) {

@@ -26,8 +26,6 @@ class MoveViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        initZeroNavigationBackground()
-
         self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(createFolder))
 
         self.projects = Storage.shared().getProjects()

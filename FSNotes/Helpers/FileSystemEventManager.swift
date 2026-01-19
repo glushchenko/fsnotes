@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import FSNotesCore_macOS
 
 class FileSystemEventManager {
     private var storage: Storage
     private var delegate: ViewController
     private var watcher: FileWatcher?
     private var observedFolders: [String]
-    private var textBundleItems = ["text.markdown", "text.md", "text.txt", "text.rtf", "info.json"]
+    private var textBundleItems = ["text.markdown", "text.md", "text.txt", "info.json"]
 
     init(storage: Storage, delegate: ViewController) {
         self.storage = storage
@@ -254,13 +253,14 @@ class FileSystemEventManager {
             note.cacheHash = nil
 
             guard var fsContent = note.getContent() else { return }
+            _ = fsContent.loadAttachments(note)
 
             // Trying load content from encrypted note with current password
             if note.url.pathExtension == "etp", let password = note.password, note.unLock(password: password) {
                 fsContent = note.content
             }
 
-            note.content = NSMutableAttributedString(attributedString: fsContent)
+            note.content = fsContent
 
             // tags changes
 

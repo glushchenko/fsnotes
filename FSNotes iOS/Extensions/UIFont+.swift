@@ -9,20 +9,8 @@
 import UIKit
 
 extension UIFont {
-    var isBold: Bool {
-        return fontDescriptor.symbolicTraits.contains(.traitBold)
-    }
-    
     var isItalic: Bool {
         return fontDescriptor.symbolicTraits.contains(.traitItalic)
-    }
-    
-    func italic() -> UIFont {
-        if let descriptor = fontDescriptor.withSymbolicTraits(.traitItalic) {
-            return UIFont(descriptor: descriptor, size: 0)
-        }
-        
-        return UserDefaultsManagement.noteFont
     }
     
     func bold() -> UIFont {
@@ -32,26 +20,23 @@ extension UIFont {
         
         return UserDefaultsManagement.noteFont
     }
-    
-    func unBold() -> UIFont {
-        var symTraits = fontDescriptor.symbolicTraits
-        symTraits.remove(.traitBold)
-        
-        if let descriptor = fontDescriptor.withSymbolicTraits(symTraits) {
-            return UIFont(descriptor: descriptor, size: 0)
+
+    private func buildFont(symTraits: UIFontDescriptor.SymbolicTraits?) -> UIFont {
+        var font: UIFont
+
+        if let traits = symTraits, let descriptor = fontDescriptor.withSymbolicTraits(traits) {
+            font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
+        } else {
+            font = UserDefaultsManagement.noteFont
+            font.withSize(fontDescriptor.pointSize)
+
+            return font
         }
-        
-        return UserDefaultsManagement.noteFont
+
+        return font
     }
-    
-    func unItalic() -> UIFont {
-        var symTraits = fontDescriptor.symbolicTraits
-        symTraits.remove(.traitItalic)
-        
-        if let descriptor = fontDescriptor.withSymbolicTraits(symTraits) {
-            return UIFont(descriptor: descriptor, size: 0)
-        }
-        
-        return UserDefaultsManagement.noteFont
+
+    public func getAttachmentHeight() -> Double {
+        return Double(pointSize) + 6
     }
 }

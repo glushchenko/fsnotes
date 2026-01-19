@@ -14,17 +14,26 @@ import DropDown
 import CoreSpotlight
 import PhotosUI
 
-class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class EditorViewController: UIViewController,
+    UITextViewDelegate,
+    UIDocumentPickerDelegate,
+    UIGestureRecognizerDelegate,
+    PHPickerViewControllerDelegate,
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate,
+    UISearchBarDelegate
+{
     public var note: Note?
     public var quickLookURL: URL?
 
-    private var isHighlighted: Bool = false
     private var isUndo = false
     private let storageQueue = OperationQueue()
-    private var toolbar: Toolbar = .markdown
 
     var inProgress = false
     var change = 0
+
+    public var undoBarButton: UIBarButtonItem?
+    public var redoBarButton: UIBarButtonItem?
 
     @IBOutlet weak var editArea: EditTextView!
 
@@ -32,9 +41,18 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     public var tagsTimer: Timer?
     private let dropDown = DropDown()
-    public var isUndoAction: Bool = false
 
     private var isLandscape: Bool?
+    
+    // Search toolbar
+    var keyboardAnchor: UITextField?
+    var counterLabel: UILabel?
+    var searchBar: UISearchBar?
+    var searchToolbar: UIToolbar?
+    var searchRanges: [NSRange] = []
+    var currentSearchIndex: Int = 0
+    var originalSelectedRange: NSRange?
+    var originalBackgrounds: [NSRange: UIColor?] = [:]
 
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
@@ -59,12 +77,20 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         editArea.imagesLoaderQueue.qualityOfService = .userInteractive
 
         super.viewDidLoad()
+        
+        var items = [UIBarButtonItem]()
+        items.append(UIBarButtonItem(systemImageName: "magnifyingglass", target: self, selector: #selector(editorSearch)))
+        items.append(UIBarButtonItem.flexibleSpace())
+        items.append(UIBarButtonItem(systemImageName: "plus", target: self, selector: #selector(newNote)))
+
+        toolbarItems = items
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refill), name: NSNotification.Name(rawValue: "es.fsnot.external.file.changed"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
         editArea.keyboardDismissMode = .interactive
     }
@@ -105,20 +131,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         
         navigationItem.largeTitleDisplayMode = .never
 
-        let imageSearch = UIImage(systemName: "magnifyingglass")
-        let imagePlus = UIImage(systemName: "plus")
-
-        var items = [UIBarButtonItem]()
-        items.append(UIBarButtonItem(image: imageSearch, style: .plain, target: self, action: #selector(search)))
-        if #available(iOS 14.0, *) {
-            items.append(UIBarButtonItem.flexibleSpace())
-        }
-        items.append(UIBarButtonItem(image: imagePlus, style: .plain, target: self, action: #selector(newNote)))
-
-        navigationController?.toolbar.tintColor = UIColor.mainTheme
-        toolbarItems = items
-
         navigationController?.setToolbarHidden(false, animated: true)
+        navigationController?.toolbar.tintColor = UIColor.mainTheme
         navigationController?.navigationBar.tintColor = UIColor.mainTheme
     }
 
@@ -136,6 +150,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewWillDisappear(_ animated: Bool) {
         editArea.endEditing(true)
+
+        UIApplication.getNC()?.navigationItem.searchController = nil
     }
 
     override var disablesAutomaticKeyboardDismissal: Bool {
@@ -160,38 +176,22 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    public func getToolbar(for note: Note) -> UIToolbar {
-        if note.type == .RichText {
-            return self.getRTFToolbar()
-        }
-
-        return self.getMarkdownToolbar()
-    }
-
-    public func refillToolbar() {
-        guard let note = self.note else { return }
-
-        self.addToolBar(textField: self.editArea, toolbar: self.getToolbar(for: note))
-    }
-
     public func configureNavMenu() {
-        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .light, scale: .default)
-        let navSettingsImage = UIImage(systemName: "ellipsis.circle", withConfiguration: config)
+        guard let note = self.note else { return }
+        guard let menu = UIApplication.getVC().notesTable.makeBulkMenu(editor: true, note: note) else { return }
 
-        if #available(iOS 14.0, *) {
-            if let note = self.note {
-                let menu =  UIApplication.getVC().notesTable.makeBulkMenu(editor: true, note: note)
-                let navSettings = UIBarButtonItem(image: navSettingsImage, menu: menu)
-                navSettings.tintColor = UIColor.mainTheme
-                navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
-            }
-            return
-        }
+        let buttonName =
+            editArea.note?.previewState == true
+                ? "eye.slash"
+                : "eye"
 
-        let navSettings = UIBarButtonItem(image: navSettingsImage, style: .plain, target: self, action: #selector(clickOnButton))
-        navSettings.tintColor = UIColor.mainTheme
+        let previewBarItem = UIBarButtonItem(systemImageName: buttonName, target: self, selector: #selector(togglePreview))
+        previewBarItem.tag = 5
 
-        navigationItem.rightBarButtonItems = [navSettings, self.getTogglePreviewButton()]
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(systemImageName: "ellipsis.circle", menu: menu),
+            previewBarItem
+        ]
     }
 
     public func fill(note: Note, selectedRange: NSRange? = nil, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
@@ -221,59 +221,37 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     private func fillEditor(note: Note, selectedRange: NSRange? = nil) {
         guard editArea != nil else { return }
 
+        editArea.isNoteLoading = true
         editArea.initUndoRedoButons()
 
-        if note.isRTF() {
-            view.backgroundColor = UIColor.white
-            editArea.backgroundColor = UIColor.white
-        } else {
-            view.backgroundColor = UIColor.dropDownColor
-            editArea.backgroundColor = UIColor.dropDownColor
+        view.backgroundColor = UIColor.dropDownColor
+        editArea.backgroundColor = UIColor.dropDownColor
+
+        if let content = note.content.mutableCopy() as? NSMutableAttributedString {
+            editArea.attributedText = content
         }
-
-        if selectedRange == nil {
-            saveSelectedRange()
+        
+        if let scroll = editArea.inputAccessoryView as? UIScrollView {
+            scroll.contentOffset = .zero
         }
-
-        if note.isMarkdown() {
-            editArea.textStorageProcessor?.shouldForceRescan = true
-
-            if let content = note.content.mutableCopy() as? NSMutableAttributedString {
-                content.replaceCheckboxes()
-
-                if UserDefaultsManagement.liveImagesPreview {
-                    content.loadImages(editor: editArea, note: note)
-                }
-
-                editArea.attributedText = content
-            }
-        } else {
-            editArea.attributedText = note.content
-        }
-
-        configureToolbar()
-        loadSelectedRange()
-
-        if note.type == .RichText {
-            editArea.textStorage.updateFont()
-        }
-
+        
         editArea.delegate = self
 
         let storage = editArea.textStorage
-
-        let search = getSearchText()
-        if search.count > 0 {
-            let processor = NotesTextProcessor(storage: storage)
-            processor.highlightKeyword(search: search)
-            isHighlighted = true
-        }
-
-        if note.type != .RichText {
-            editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
-        } else {
-            editArea.typingAttributes[.foregroundColor] =
-                UIColor.black
+        storage.updateCheckboxList()
+        editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
+        
+        editArea.layoutManager.ensureLayout(for: editArea.textContainer)
+        editArea.layoutIfNeeded()
+        
+        self.loadSelectedRange()
+        
+        if let query = self.getSearchText(), query.count > 0 {
+            UIApplication.getVC().enableSearchFocus(string: query)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.openSearchWithText(query)
+            }
         }
     }
 
@@ -282,27 +260,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         guard let note = self.note else { return }
 
         vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
-    }
-
-    private func configureToolbar() {
-        guard let note = self.note else { return }
-
-        if note.type == .RichText {
-            if self.toolbar != .rich {
-                self.toolbar = .rich
-                self.addToolBar(textField: editArea, toolbar: self.getRTFToolbar())
-            }
-            return
-        }
-
-        if self.toolbar != .markdown {
-            self.toolbar = .markdown
-            self.addToolBar(textField: editArea, toolbar: getMarkdownToolbar())
-        }
-
-        if let scroll = editArea.inputAccessoryView as? UIScrollView {
-            scroll.contentOffset = .zero
-        }
     }
     
     @objc func refill() {
@@ -320,38 +277,23 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             fill(note: note)
 
             if keyboardIsOpen {
-                editArea.becomeFirstResponder()
+                _ = editArea.becomeFirstResponder()
             }
         }
     }
+    
+    private var keyboardFrameChangeCount = 0
+    
+    @objc func keyboardWillChangeFrame(_ notification: Notification) {
+        keyboardFrameChangeCount += 1
+    }
 
-    // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-
-        if isUndoAction {
-            isUndoAction = false
-            return true
-        }
-
         guard let note = self.note else { return true }
 
         tagsHandler(affectedCharRange: range, text: text)
         wikilinkHandler(textView: textView, text: text)
-
-        if text == "" {
-            let lastChar = textView.textStorage.attributedSubstring(from: range).string
-            if lastChar.count == 1 {
-                editArea.textStorageProcessor?.lastRemoved = lastChar
-            }
-        }
-
-        self.restoreRTFTypingAttributes(note: note)
-
-        if note.isMarkdown() {
-            deleteUnusedImages(checkRange: range)
-
-            self.applyStrikeTypingAttribute(range: range)
-        }
+        deleteUnusedImages(checkRange: range)
 
         // New line
         if text == "\n" {
@@ -382,76 +324,83 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let textStorage = editArea.textStorage
 
-        if text.count == 1, !["", " ", "\t", "\n"].contains(text) {
-            let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0))
-
-            var nextChar = " "
-            let nextCharLocation = affectedCharRange.location + 1
-            if editArea.selectedRange.length == 0, nextCharLocation <= textStorage.length {
-                let nextCharRange = NSRange(location: affectedCharRange.location, length: 1)
-                nextChar = textStorage.mutableString.substring(with: nextCharRange)
+        // close dropdown
+        if ["", " ", "\t", "\n"].contains(text) {
+            if !dropDown.isHidden {
+                dropDown.hide()
             }
+            return
+        }
 
-            if affectedCharRange.location - 1 >= 0 {
-                let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
+        // one char
+        guard text.count == 1 else { return }
 
-                if (textStorage.string as NSString).substring(with: hashRange) == "#" && text != "#" && nextChar.isWhitespace {
+        let nextCharLocation = affectedCharRange.location + 1
+        let nextChar: String
 
-                    let vc = UIApplication.getVC()
+        if editArea.selectedRange.length == 0, nextCharLocation <= textStorage.length {
+            let nextCharRange = NSRange(location: affectedCharRange.location, length: 1)
+            nextChar = textStorage.mutableString.substring(with: nextCharRange)
+        } else {
+            nextChar = " "
+        }
 
-                    var projects = [Project]()
-                    if let project = Storage.shared().searchQuery.projects.first {
-                        projects.append(project)
-                    } else {
-                        projects = Storage.shared().getProjects()
-                    }
-                    
-                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
-                    self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
+        if affectedCharRange.location > 0 {
+            let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
+            let prevChar = (textStorage.string as NSString).substring(with: hashRange)
 
-                    self.complete(offset: hashRange.location, text: text)
+            if prevChar == "#" && nextChar.isWhitespace {
+                let filteredTags = self.getAllTags().filter { $0.lowercased().starts(with: text.lowercased()) }
+
+                if filteredTags.isEmpty {
+                    dropDown.hide()
+                } else {
+                    dropDown.dataSource = filteredTags
+                    complete(offset: hashRange.location, text: text)
                 }
-            }
-
-            textStorage.mutableString.enumerateSubstrings(in: parRange, options: .byWords, using: { word, range, _, stop in
-                if word == nil || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
-                    return
-                }
-
-                let hashRange = NSRange(location: range.location - 1, length: 1)
-
-                if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
-
-                    let vc = UIApplication.getVC()
-                    if let project = Storage.shared().searchQuery.projects.first {
-                        let tags = vc.sidebarTableView.getAllTags(projects: [project])
-
-                        if let word = word {
-                            self.dropDown.dataSource = tags.filter({ $0.starts(with: word + text) })
-                        }
-
-                        self.complete(offset: hashRange.location, range: range, text: text)
-                        stop.pointee = true
-                    }
-
-                    return
-                }
-            })
-
-            if text == "#" {
-                let vc = UIApplication.getVC()
-
-                if let project = Storage.shared().searchQuery.projects.first {
-                    let tags = vc.sidebarTableView.getAllTags(projects: [project])
-                    self.dropDown.dataSource = tags
-                    self.complete(offset: self.editArea.selectedRange.location)
-                }
+                return
             }
         }
 
-        if ["", " ", "\t", "\n"].contains(text), !dropDown.isHidden {
-            dropDown.hide()
+        let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0))
+        textStorage.mutableString.enumerateSubstrings(in: parRange, options: .byWords) { word, range, _, stop in
+            guard let word = word,
+                  affectedCharRange.location <= range.upperBound,
+                  affectedCharRange.location >= range.lowerBound,
+                  range.location > 0 else {
+                return
+            }
+
+            let hashRange = NSRange(location: range.location - 1, length: 1)
+            let prevChar = (textStorage.string as NSString).substring(with: hashRange)
+
+            if prevChar == "#" && nextChar.isWhitespace {
+                let searchText = word + text
+                let filteredTags = self.getAllTags().filter { $0.lowercased().starts(with: searchText.lowercased()) }
+
+                if filteredTags.isEmpty {
+                    self.dropDown.hide()
+                } else {
+                    self.dropDown.dataSource = filteredTags
+                    self.complete(offset: hashRange.location, range: range, text: text)
+                }
+
+                stop.pointee = true
+            }
         }
+    }
+
+    private func getAllTags() -> [String] {
+        let vc = UIApplication.getVC()
+        var projects = [Project]()
+        if let project = Storage.shared().searchQuery.projects.first {
+            projects.append(project)
+        } else {
+            projects = Storage.shared().getProjects()
+        }
+        let allTags = vc.sidebarTableView.getAllTags(projects: projects)
+
+        return allTags
     }
 
     private func wikilinkHandler(textView: UITextView, text: String) {
@@ -575,16 +524,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             customView.removeFromSuperview()
 
             // WikiLinks
-            if let range = replacementRange {
-                guard
-                    let textView = self.editArea,
-                    let start = textView.position(from: textView.beginningOfDocument, offset: range.location),
-                    let end = textView.position(from: start, offset: range.length),
-                    let selectedRange = textView.textRange(from: start, to: end)
-                else { return }
-
-                self.editArea.replace(selectedRange, withText: item)
-                self.editArea.selectedRange = NSRange(location: range.location + item.count + 2, length: 0)
+            if let replacementRange = replacementRange {
+                editArea.undoManager?.beginUndoGrouping()
+                self.editArea.selectedRange = replacementRange
+                self.editArea.insertText(item)
+                editArea.undoManager?.endUndoGrouping()
                 return
             }
 
@@ -617,72 +561,19 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     private func deleteUnusedImages(checkRange: NSRange) {
-        let storage = editArea.textStorage
-        var removedImages = [URL: URL]()
+        editArea.textStorage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
+            guard let meta = editArea.textStorage.getMeta(at: range.location) else { return }
 
-        storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
-            if let _ = value as? NSTextAttachment, storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
-
-                let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-
-                if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
-
-                    if let note = editArea.note {
-                        guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
-
-                        let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageURL.lastPathComponent)
-
-                        do {
-                            try FileManager.default.moveItem(at: imageURL, to: trashURL)
-
-                            removedImages[trashURL] = imageURL
-                        } catch {
-                            print(error)
-                        }
-                    }
-                }
-            }
-        }
-
-        if removedImages.count > 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.editArea.undoManager?.registerUndo(withTarget: self, handler: { (targetSelf) in
-                    targetSelf.unDeleteImages(removedImages)
-                })
-
-                self.editArea.undoManager?.setActionName("Delete image")
-            }
-        }
-    }
-
-    @objc public func unDeleteImages(_ urls: [URL: URL]) {
-        for (src, dst) in urls {
             do {
-                try FileManager.default.moveItem(at: src, to: dst)
+                if let data = try? Data(contentsOf: meta.url) {
+                    editArea.textStorage.addAttribute(.attachmentSave, value: data, range: range)
+
+                    try FileManager.default.removeItem(at: meta.url)
+                }
             } catch {
                 print(error)
             }
         }
-    }
-
-    private func applyStrikeTypingAttribute(range: NSRange) {
-        let string = editArea.textStorage.string as NSString
-        let paragraphRange = string.paragraphRange(for: range)
-        let paragraph = editArea.textStorage.attributedSubstring(from: paragraphRange)
-
-        if paragraph.length > 0, let attachment = paragraph.attribute(NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.todo"), at: 0, effectiveRange: nil) as? Int, attachment == 1 {
-            editArea.typingAttributes[.strikethroughStyle] = 1
-        } else {
-            editArea.typingAttributes.removeValue(forKey: .strikethroughStyle)
-        }
-    }
-
-    private func restoreRTFTypingAttributes(note: Note) {
-        guard note.isRTF() else { return }
-
-        let formatter = TextFormatter(textView: editArea, note: note)
-
-        self.editArea.typingAttributes[.font] = formatter.getTypingAttributes()
     }
 
     private func deleteBackwardPressed(text: String) -> Bool {
@@ -699,14 +590,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if textView.isFirstResponder {
             // Handoff needs update in cursor position cahnged
             userActivity?.needsSave = true
+            
+            saveSelectedRange()
         }
-
-        if let textView = textView as? EditTextView {
-            if textView.isFillAction == true {
-                textView.isFillAction = false
-                loadContentOffset()
-            }
-        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        saveSelectedRange()
     }
 
     func textViewDidChange(_ textView: UITextView) {
@@ -715,33 +605,18 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         //vc.cloudDriveManager?.metadataQuery.disableUpdates()
         
         guard let note = self.note else { return }
-        
-        if isHighlighted {
-            let search = getSearchText()
-            let processor = NotesTextProcessor(storage: textView.textStorage)
-            processor.highlightKeyword(search: search, remove: true)
-            isHighlighted = false
-        }
-        
-        let range = editArea.selectedRange
-        let storage = editArea.textStorage
-        let processor = NotesTextProcessor(note: note, storage: storage, range: range)
-        
-        if note.type == .RichText {
-            processor.higlightLinks()
-        }
 
         // Prevent textStorage refresh in CloudDriveManager
         note.modifiedLocalAt = Date()
         self.storageQueue.cancelAllOperations()
 
-        let text = self.editArea.attributedText.copy() as? NSAttributedString
+        let text = self.editArea.attributedText.mutableCopy() as? NSMutableAttributedString
 
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self, let text = text else {return}
 
-            note.saveSync(copy: text)
+            note.save(content: text)
 
             if note.isEncrypted() && !note.isUnlocked() {
                 DispatchQueue.main.async {
@@ -752,7 +627,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             }
 
             note.invalidateCache()
-            note.loadPreviewInfo(text: note.content.string)
+            note.loadPreviewInfo()
 
             vc.updateSpotlightIndex(notes: [note])
 
@@ -783,15 +658,17 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         vc.notesTable.reloadRows(notes: [note])
     }
     
-    func getSearchText() -> String {
+    func getSearchText() -> String? {
         if let search = UIApplication.getVC().navigationItem.searchController?.searchBar.text {
             return search
         }
 
-        return ""
+        return nil
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
+        keyboardFrameChangeCount = 0
+        
         guard let userInfo = notification.userInfo else { return }
         guard var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
 
@@ -815,42 +692,116 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
+        
+        if isKeyboardClosedManually() {
+            
+            // NO selection more
+            saveSelectedRangeZero()
+        }
+        
+        if searchBar != nil {
+            hideSearch()
+        }
     }
-
-    public func resetToolbar() {
-        toolbar = .none
+    
+    func isKeyboardClosedManually() -> Bool {
+        return keyboardFrameChangeCount > 2
     }
-
-    var topBorder = CALayer()
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
-        let scrollFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height)
-        let scroll = UIScrollView(frame: scrollFrame)
+        let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         scroll.showsHorizontalScrollIndicator = false
-        scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
+        scroll.contentSize = CGSize(width: toolbar.frame.width, height: 50)
         scroll.addSubview(toolbar)
-
-        topBorder.frame = CGRect(x: -1000, y: 0, width: 9999, height: 1)
-        topBorder.backgroundColor = UIColor.toolbarBorder.cgColor
-        scroll.layer.addSublayer(topBorder)
-
-        let isFirst = textField.isFirstResponder
-        if isFirst {
-            textField.endEditing(true)
-        }
-
+        toolbar.frame.origin = .zero
         textField.inputAccessoryView = scroll
-
-        if isFirst {
-            textField.becomeFirstResponder()
-        }
-
-        if let etv = textField as? EditTextView {
-            etv.initUndoRedoButons()
-        }
     }
 
-    private func getMarkdownToolbar() -> UIToolbar {
+    public func getMarkdownToolbar() -> UIToolbar {
+        if #available(iOS 26.0, *) {
+            return getModernToolbar()
+        } else {
+            return getLegacyToolbar()
+        }
+    }
+    
+    public func getModernToolbar() -> UIToolbar {
+        var items = [UIBarButtonItem]()
+
+        let todoButton = UIBarButtonItem(systemImageName: "checkmark.square", target: self, selector: #selector(EditorViewController.todoPressed))
+        items.append(todoButton)
+
+        if UserDefaultsManagement.inlineTags {
+            let tagButton = UIBarButtonItem(systemImageName: "tag", target: self, selector: #selector(EditorViewController.tagPressed))
+            items.append(tagButton)
+        }
+
+        let boldButton = UIBarButtonItem(systemImageName: "bold", target: self, selector: #selector(EditorViewController.boldPressed))
+        items.append(boldButton)
+
+        let italicButton = UIBarButtonItem(systemImageName: "italic", target: self, selector: #selector(EditorViewController.italicPressed))
+        italicButton.tag = 0x03
+        items.append(italicButton)
+
+        let headerButton = UIBarButtonItem(systemImageName: "textformat", target: self, selector: #selector(EditorViewController.headerPressed))
+        items.append(headerButton)
+
+        let wikiButton = UIBarButtonItem(systemImageName: "link", target: self, selector: #selector(EditorViewController.wikilink))
+        items.append(wikiButton)
+
+        let imageButton = UIBarButtonItem(systemImageName: "paperclip", target: self, selector: #selector(EditorViewController.insertFile))
+        items.append(imageButton)
+
+        let codeblockButton = UIBarButtonItem(systemImageName: "swift", target: self, selector: #selector(EditorViewController.codeBlockButton))
+        items.append(codeblockButton)
+
+        let quoteButton = UIBarButtonItem(systemImageName: "quote.bubble", target: self, selector: #selector(EditorViewController.quotePressed))
+        items.append(quoteButton)
+
+        let orderedListButton = UIBarButtonItem(systemImageName: "list.bullet", target: self, selector: #selector(EditorViewController.orderedListPressed))
+        items.append(orderedListButton)
+
+        let numberedListButton = UIBarButtonItem(systemImageName: "list.number", target: self, selector: #selector(EditorViewController.numberedListPressed))
+        items.append(numberedListButton)
+
+        let indentButton = UIBarButtonItem(systemImageName: "increase.indent", target: self, selector: #selector(EditorViewController.indentPressed))
+        items.append(indentButton)
+
+        let unindentButton = UIBarButtonItem(systemImageName: "decrease.indent", target: self, selector: #selector(EditorViewController.unIndentPressed))
+        items.append(unindentButton)
+
+        self.undoBarButton = UIBarButtonItem(systemImageName: "arrow.uturn.backward", target: self, selector: #selector(EditorViewController.undoPressed))
+        items.append(self.undoBarButton!)
+
+        self.redoBarButton = UIBarButtonItem(systemImageName: "arrow.uturn.forward", target: self, selector: #selector(EditorViewController.redoPressed))
+        items.append(self.redoBarButton!)
+
+        var totalWidth: CGFloat = 0
+        for item in items {
+            if item.tag == 0x03 {
+                item.width = 30
+                totalWidth += 30
+            } else {
+                item.width = 54
+                totalWidth += 54
+            }
+        }
+
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: totalWidth, height: 50))
+        toolBar.setItems(items, animated: false)
+        toolBar.isUserInteractionEnabled = true
+
+        let appearance = UIToolbarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .darkGray
+        appearance.shadowColor = .clear
+        toolBar.standardAppearance = appearance
+        toolBar.scrollEdgeAppearance = appearance
+
+        return toolBar
+    }
+    
+    private func getLegacyToolbar() -> UIToolbar {
         var items = [UIBarButtonItem]()
 
         let todoImage = UIImage(named: "toolbarTodo")?.resize(maxWidthHeight: 27)
@@ -881,7 +832,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         items.append(wikiButton)
 
         let toolbarImage = UIImage(named: "toolbarImage")?.resize(maxWidthHeight: 26)
-        let imageButton = UIBarButtonItem(image: toolbarImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.insertImage))
+        let imageButton = UIBarButtonItem(image: toolbarImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.insertFile))
         items.append(imageButton)
 
         let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 24)
@@ -908,10 +859,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let unindentButton = UIBarButtonItem(image: indentLeftImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
         items.append(unindentButton)
 
-        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
+        let undoImage = UIImage(named: "undo")?.resize(maxWidthHeight: 25)
+        let undoButton = UIBarButtonItem(image: undoImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         items.append(undoButton)
 
-        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+        let redoImage = UIImage(named: "redo")?.resize(maxWidthHeight: 25)
+        let redoButton = UIBarButtonItem(image: redoImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
         items.append(redoButton)
 
         var width = CGFloat(0)
@@ -935,30 +888,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         return toolBar
     }
 
-    private func getRTFToolbar() -> UIToolbar {
-        let width = self.editArea.superview!.frame.width
-        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
-        toolBar.backgroundColor = .darkGray
-        toolBar.isTranslucent = false
-        toolBar.tintColor = UIColor.mainTheme
-
-        let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
-        let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
-        let strikeButton = UIBarButtonItem(image: UIImage(named: "strike.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.strikePressed))
-        let underlineButton = UIBarButtonItem(image: UIImage(named: "underline.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.underlinePressed))
-
-        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
-        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
-
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-
-        toolBar.setItems([boldButton, italicButton, strikeButton, underlineButton, spaceButton, undoButton, redoButton], animated: false)
-
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-
-        return toolBar
-    }
 
     @objc func boldPressed(){
         if let note = note {
@@ -1030,15 +959,15 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc func wikilink() {
-        editArea.insertText("[[]]")
-        let location = editArea.selectedRange.location - 2
-        let range = NSRange(location: location, length: 0)
-        editArea.selectedRange = range
+        guard let note = note else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.wikiLink()
 
         guard let titles = Storage.shared().getTitles() else { return }
 
         self.dropDown.dataSource = titles
-        self.complete(offset: location, replacementRange: range)
+        self.complete(offset: editArea.selectedRange.location, replacementRange: editArea.selectedRange)
     }
 
     @objc func codeBlockButton() {
@@ -1084,17 +1013,23 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
     }
 
-    @objc func insertImage() {
+    @objc func insertFile() {
         let actionSheet = UIAlertController(title: NSLocalizedString("Images source:", comment: ""), message: nil, preferredStyle: .actionSheet)
 
         let photos = UIAlertAction(title: NSLocalizedString("Photos", comment: ""), style: .default, handler: { _ in
-            self.imagePressed()
+            var conf = PHPickerConfiguration(photoLibrary: .shared())
+            conf.selectionLimit = 10
+
+            let picker = PHPickerViewController(configuration: conf)
+            picker.delegate = self
+
+            self.present(picker, animated: true, completion: nil)
         })
         actionSheet.addAction(photos)
 
         let iCloudDrive = UIAlertAction(title: NSLocalizedString("Documents", comment: ""), style: .default, handler: { _ in
 
-            let documentPickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.image], asCopy: true)
+            let documentPickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.data], asCopy: true)
             documentPickerController.delegate = self
             documentPickerController.allowsMultipleSelection = true
             documentPickerController.modalPresentationStyle = .formSheet
@@ -1117,76 +1052,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         present(actionSheet, animated: true, completion: nil)
     }
 
-    @objc func imagePressed() {
-        var conf = PHPickerConfiguration(photoLibrary: .shared())
-        conf.selectionLimit = 10
-
-        let picker = PHPickerViewController(configuration: conf)
-        picker.delegate = self
-
-        present(picker, animated: true, completion: nil)
-    }
-
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let note = self.note else { return }
-
-        var processed = 0
-        var markup = String()
-
         for url in urls {
-            guard var data = try? Data(contentsOf: url) else { continue }
+            guard let data = try? Data(contentsOf: url),
+                  let mutable = NSMutableAttributedString.build(data: data, preferredName: url.lastPathComponent) else { continue }
 
-            processed += 1
-
-            let format = ImageFormat.get(from: data)
-            var imageExt = "jpg"
-
-            switch format {
-            case .heic:
-                if let jpegData = UIImage(data: data)?.jpegData(compressionQuality: 1) {
-                    data = jpegData
-                }
-            default:
-                imageExt = format.rawValue
+            DispatchQueue.main.async {
+                self.editArea.insertAttributedText(mutable)
             }
-
-            let url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + "." + imageExt)
-
-            if UserDefaultsManagement.liveImagesPreview {
-                self.editArea.saveImageClipboard(data: data, note: note, ext: imageExt)
-
-                if processed == urls.count {
-                    note.saveSync(copy: self.editArea.attributedText)
-                    note.invalidateCache()
-
-                    UIApplication.getVC().notesTable.reloadRows(notes: [note])
-                    continue
-                }
-
-                if urls.count != 1 {
-                    self.editArea.insertText("\n\n")
-                }
-
-                continue
-            }
-
-            guard let path = ImagesProcessor.writeFile(data: data, url: url, note: note, ext: imageExt) else { return }
-
-             markup += "![](\(path))\n\n"
-
-             guard processed == urls.count else { continue }
-
-             DispatchQueue.main.async {
-                 self.editArea.insertText(markup)
-
-                 note.save(attributed: self.editArea.attributedText)
-                 UIApplication.getVC().notesTable.reloadRowForce(note: note)
-
-                 note.isParsed = false
-
-                 self.editArea.undoManager?.removeAllActions()
-                 self.refill()
-             }
         }
     }
 
@@ -1197,50 +1070,24 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
     
     @objc func undoPressed() {
-        isUndoAction = true
-
-        let evc = UIApplication.getEVC()
-
-        guard let ea = evc.editArea,
-            let um = ea.undoManager else {
-            return
-        }
-        
-        self.isUndo = true
-
-        if um.undoActionName == "Delete image" {
-            um.undo()
-        }
-
+        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
         um.undo()
-
         ea.initUndoRedoButons()
     }
     
     @objc func redoPressed() {
-        isUndoAction = true
-
-        let evc = UIApplication.getEVC()
-        guard let ea = evc.editArea,
-            let um = ea.undoManager else {
-            return
-        }
-        
+        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
         um.redo()
         ea.initUndoRedoButons()
     }
 
     func initLinksColor() {
-        guard let note = self.note else { return }
-
         var linkAttributes: [NSAttributedString.Key : Any] = [
             .foregroundColor: UIColor.linksColor
         ]
 
-        if !note.isRTF() {
-            linkAttributes[.underlineColor] = UIColor.lightGray
-            linkAttributes[.underlineStyle] = 0
-        }
+        linkAttributes[.underlineColor] = UIColor.lightGray
+        linkAttributes[.underlineStyle] = 0
         
         if editArea != nil {
             editArea.linkTextAttributes = linkAttributes
@@ -1258,6 +1105,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             let textFormatter = TextFormatter(textView: self.editArea!, note: note)
             textFormatter.toggleTodo(characterIndex)
 
+            self.editArea.selectedTextRange = sender.selectedRange
+            
             Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
                 self.editArea.isAllowedScrollRect = true
             }
@@ -1267,35 +1116,20 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         // Image preview/selection on click
-        if self.editArea.isImage(at: characterIndex) && myTextView.textStorage.attribute(.todo, at: characterIndex, effectiveRange: nil) == nil {
+        if self.editArea.isImage(at: characterIndex) {
+            guard let meta = myTextView.textStorage.getMeta(at: characterIndex) else { return }
 
-            // Select and show menu
-//            guard !self.editArea.isFirstResponder else {
-//                self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
-//
-//                guard let lasTouchPoint = self.editArea.lasTouchPoint else { return }
-//                let rect = CGRect(x: self.editArea.frame.width / 2, y: lasTouchPoint.y, width: 0, height: 0)
-//
-//                UIMenuController.shared.setTargetRect(rect, in: self.view)
-//                UIMenuController.shared.setMenuVisible(true, animated: true)
-//                return
-//            }
-
-            let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-
-            guard let path = myTextView.textStorage.attribute(pathKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
-
-            if let data = try? Data(contentsOf: url), let someImage = UIImage(data: data) {
+            if let data = try? Data(contentsOf: meta.url), let someImage = UIImage(data: data) {
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
                 let imagePreviewViewController = storyBoard.instantiateViewController(withIdentifier: "imagePreviewViewController") as! ImagePreviewViewController
 
                 imagePreviewViewController.image = someImage
-                imagePreviewViewController.url = url
+                imagePreviewViewController.url = meta.url
                 imagePreviewViewController.note = note
                 
                 navigationController?.pushViewController(imagePreviewViewController, animated: true)
-            } else if (FileManager.default.fileExists(atPath: url.path)) {
-                quickLook(url: url)
+            } else if (FileManager.default.fileExists(atPath: meta.url.path)) {
+                quickLook(url: meta.url)
             }
 
             return
@@ -1413,18 +1247,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if editArea.note?.previewState == true {
             togglePreview()
 
-            editArea.becomeFirstResponder()
-            loadSelectedRange()
+            _ = editArea.becomeFirstResponder()
         }
-    }
-
-    public func getTogglePreviewButton() -> UIBarButtonItem {
-        let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .light, scale: .default)
-        let buttonName = editArea.note?.previewState == true ? "eye.slash" : "eye"
-        let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
-        let menuBarItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(togglePreview))
-        menuBarItem.tag = 5
-        return menuBarItem
     }
 
     public func getPreviewView() -> MPreviewView? {
@@ -1461,13 +1285,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         let buttonName = note.previewState ? "eye.slash" : "eye"
 
-        if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }) {
+        if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }),
+           let button = buttonBar.customView as? UIButton {
 
-            let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .light, scale: .default)
-            if let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme) {
-
-                buttonBar.image = image
-            }
+            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .light, scale: .default)
+            let image = UIImage(systemName: buttonName, withConfiguration: config)?.imageWithColor(color1: UIColor.mainTheme)
+            button.setImage(image, for: .normal)
         }
 
         // Handoff needs update in cursor position changed
@@ -1632,68 +1455,24 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
 
-        guard let note = self.note else { return }
-
-        var processed = 0
-        var markup = String()
-
         for result in results {
-           result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
-               guard let photo = object as? UIImage, let imageData = photo.jpgData else { return }
+            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
+                guard let photo = object as? UIImage, let imageData = photo.jpgData else { return }
 
-               processed += 1
-               let imageExt = "jpg"
+                let attachment = NSTextAttachment()
+                let mutable = NSMutableAttributedString(attachment: attachment)
+                mutable.addAttributes([
+                    .attachmentSave: imageData,
+                    .attachmentUrl: URL(fileURLWithPath: "/tmp/" + UUID().uuidString + ".jpg"),
+                    .attachmentPath: String()
+                ], range: NSRange(location: 0, length: 1))
 
-               if UserDefaultsManagement.liveImagesPreview {
-                   DispatchQueue.main.async {
-                       self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
-                   }
+                mutable.append(NSAttributedString(string: "\n\n"))
 
-                   if processed == results.count {
-                       DispatchQueue.main.async {
-                           note.saveSync(copy: self.editArea.attributedText)
-                           note.invalidateCache()
-
-                           UIApplication.getVC().notesTable.reloadRows(notes: [note])
-                       }
-                       return
-                   }
-
-                   DispatchQueue.main.async {
-                       if results.count != 1 {
-                           self.editArea.insertText("\n\n")
-                       }
-
-                       self.dismiss(animated: true)
-                       self.editArea.becomeFirstResponder()
-                   }
-
-                   return
-               }
-
-               let path = "file:///tmp/" + UUID().uuidString + ".jpg"
-               let url = URL(fileURLWithPath: path)
-
-               guard let path = ImagesProcessor.writeFile(data: imageData, url: url, note: note, ext: imageExt) else { return }
-
-               markup += "![](\(path))\n\n"
-
-               guard processed == results.count else { return }
-
-               DispatchQueue.main.async {
-                   self.editArea.insertText(markup)
-
-                   note.saveSync(copy: self.editArea.attributedText)
-                   note.invalidateCache()
-
-                   UIApplication.getVC().notesTable.reloadRows(notes: [note])
-
-                   note.isParsed = false
-
-                   self.editArea.undoManager?.removeAllActions()
-                   self.refill()
-               }
-           })
+                DispatchQueue.main.async {
+                    self.editArea.insertAttributedText(mutable)
+                }
+            })
         }
     }
 
@@ -1714,27 +1493,75 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             self.view.addGestureRecognizer(tapGR)
         }
     }
+    
+    func saveSelectedRangeZero() {
+        guard let note = editArea.note, !editArea.isNoteLoading else { return }
+        note.setSelectedRange(range: nil)
+        saveScrollPosition()
+    }
+
+    func saveScrollPosition() {
+        guard let note = editArea.note, !editArea.isNoteLoading else { return }
+        
+        let layoutManager = editArea.layoutManager
+        let visibleY = editArea.contentOffset.y
+        
+        let glyphRange = layoutManager.glyphRange(
+            forBoundingRect: CGRect(x: 0, y: visibleY, width: editArea.bounds.width, height: 1),
+            in: editArea.textContainer
+        )
+        
+        guard glyphRange.location != NSNotFound else { return }
+        
+        let charIndex = layoutManager.characterIndexForGlyph(at: glyphRange.location)
+        let glyphRect = layoutManager.boundingRect(
+            forGlyphRange: NSRange(location: glyphRange.location, length: 1),
+            in: editArea.textContainer
+        )
+        
+        note.scrollPosition = charIndex
+        note.scrollOffset = visibleY - glyphRect.minY
+    }
 
     func saveSelectedRange() {
-        editArea.isFillAction = true
-
-        guard let note = self.note else { return }
-        note.setSelectedRange(range: editArea.selectedRange)
-
-        note.setContentOffset(contentOffset: editArea.contentOffset)
+        guard let note = editArea.note, !editArea.isNoteLoading else { return }
+        note.setSelectedRange(range: editArea.isFirstResponder ? editArea.selectedRange : nil)
+        saveScrollPosition()
     }
 
     func loadSelectedRange() {
-        guard let note = note else { return }
-
+        guard let note = editArea.note else { return }
+        
         if let range = note.getSelectedRange(), range.upperBound <= editArea.textStorage.length {
             editArea.selectedRange = range
+            _ = editArea.becomeFirstResponder()
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if let index = note.scrollPosition, index < self.editArea.textStorage.length {
+                let layoutManager = self.editArea.layoutManager
+                let glyphIndex = layoutManager.glyphIndexForCharacter(at: index)
+                let glyphRect = layoutManager.boundingRect(
+                    forGlyphRange: NSRange(location: glyphIndex, length: 1),
+                    in: self.editArea.textContainer
+                )
+                
+                let targetY = glyphRect.minY + (note.scrollOffset ?? 0)
+                let maxY = max(0, self.editArea.contentSize.height - self.editArea.bounds.height)
+                let finalY = min(max(0, targetY), maxY)
+                
+                self.editArea.contentOffset = CGPoint(x: 0, y: finalY)
+            } else {
+                self.editArea.contentOffset = .zero
+            }
+            
+            self.editArea.isNoteLoading = false
         }
     }
-
-    func loadContentOffset() {
-        guard let note = note else { return }
-        let contentOffset = note.getContentOffset()
-        editArea.setContentOffset(contentOffset, animated: false)
+        
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }

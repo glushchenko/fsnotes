@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import FSNotesCore_macOS
+import UserNotifications
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
@@ -19,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     public var url: URL? = nil
     public var newName: String? = nil
     public var newContent: String? = nil
+    public var folderName: String? = nil
+    public var newWindow: Bool = false
 
     public static var mainWindowController: MainWindowController?
     public static var noteWindows = [NSWindowController]()
@@ -158,22 +160,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     private func applyAppearance() {
-        if UserDefaultsManagement.appearanceType != .Custom {
-            if UserDefaultsManagement.appearanceType == .Dark {
-                NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.darkAqua)
-                UserDataService.instance.isDark = true
-            }
+        if UserDefaultsManagement.appearanceType == .Dark {
+            NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.darkAqua)
+            UserDataService.instance.isDark = true
+        }
 
-            if UserDefaultsManagement.appearanceType == .Light {
-                NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.aqua)
-                UserDataService.instance.isDark = false
-            }
-
-            if UserDefaultsManagement.appearanceType == .System, NSAppearance.current.isDark {
-                UserDataService.instance.isDark = true
-            }
-        } else {
+        if UserDefaultsManagement.appearanceType == .Light {
             NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.aqua)
+            UserDataService.instance.isDark = false
+        }
+
+        if UserDefaultsManagement.appearanceType == .System, NSAppearance.current.isDark {
+            UserDataService.instance.isDark = true
         }
     }
     
@@ -238,9 +236,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     public func attachMenu() {
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: NSLocalizedString("New", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("New Note", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
 
-        let newWindow = NSMenuItem(title: NSLocalizedString("New Window", comment: ""), action: #selector(AppDelegate.createInNewWindow(_:)), keyEquivalent: "n")
+        let newWindow = NSMenuItem(title: NSLocalizedString("New Note in New Window", comment: ""), action: #selector(AppDelegate.createInNewWindow(_:)), keyEquivalent: "n")
         var modifier = NSEvent.modifierFlags
         modifier.insert(.command)
         modifier.insert(.shift)
@@ -382,10 +380,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         switch UserDefaultsManagement.dockIcon {
         case 0:
-            image = NSImage(named: "icon.png")
+            image = NSImage(named: "modern")
             break
         case 1:
-            image = NSImage(named: "icon_alt.png")
+            image = NSImage(named: "AppIconClassic")
             break
         default:
             break
@@ -485,16 +483,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     public static func getEditTextViews() -> [EditTextView] {
+        var views = getOpenedEditTextViews()
+                
+        if let controller = mainWindowController?.contentViewController as? ViewController {
+            views.append(controller.editor)
+        }
+        
+        return views
+    }
+    
+    public static func getOpenedEditTextViews() -> [EditTextView] {
         var views = [EditTextView]()
         
         for window in noteWindows {
             if let controller = window.contentViewController as? NoteViewController {
                 views.append(controller.editor)
             }
-        }
-        
-        if let controller = mainWindowController?.contentViewController as? ViewController {
-            views.append(controller.editor)
         }
         
         return views

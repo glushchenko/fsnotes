@@ -129,7 +129,7 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
 
-    func imageWithColor(color1: UIColor) -> UIImage {
+    public func imageWithColor(color1: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         color1.setFill()
 
@@ -146,5 +146,13 @@ extension UIImage {
         UIGraphicsEndImageContext()
 
         return newImage!
+    }
+
+    func resized(to newSize: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
+
+        draw(in: CGRect(origin: .zero, size: newSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }

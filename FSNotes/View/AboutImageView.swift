@@ -14,7 +14,7 @@ class AboutImageView: NSImageView {
     }
     
     override func mouseExited(with event: NSEvent) {
-        image = NSImage(named: "AppIcon")
+        image = NSImage(named: "modern")
     }
     
     override func updateTrackingAreas() {

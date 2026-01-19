@@ -18,11 +18,44 @@
     {INLINE_CSS}
     {MATH_JAX_JS}
     
+    <style>
+        code {
+          white-space: pre-wrap !important;
+          overflow-x: hidden;
+        }
+
+        pre {
+          overflow-x: hidden;
+        }
+    </style>
+    
     <script charset="utf-8" src="{WEB_PATH}js/highlight.min.js" type="text/javascript"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script async src="{WEB_PATH}js/mermaid.min.js"></script>
     
     <script>
+        (function () {
+            if (window.__scrollObserverInstalled) return;
+            window.__scrollObserverInstalled = true;
+
+            let ticking = false;
+
+            function reportScroll() {
+                if (ticking) return;
+                ticking = true;
+
+                requestAnimationFrame(() => {
+                    const x = window.scrollX || document.documentElement.scrollLeft;
+                    const y = window.scrollY || document.documentElement.scrollTop;
+
+                    window.webkit.messageHandlers.scrollPosition.postMessage({ x, y });
+                    ticking = false;
+                });
+            }
+
+            window.addEventListener('scroll', reportScroll, { passive: true });
+        })();
+        
         function getElementsByText(str, tag = 'h1') {
             return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
         }
@@ -222,14 +255,10 @@
                 i = 0;
 
             for (i; i < length; i++) {
-                var pattern = /^((file):\/\/)/;
-                var url = aList[i].href
-                
-                if (pattern.test(url)) {
-                    aList[i].addEventListener("click", function(event) {
-                        window.webkit.messageHandlers.open.postMessage(event.target.href);
-                    });
-                }
+                aList[i].addEventListener("click", function(event) {
+                    var url = event.target.getAttribute("href");
+                    window.webkit.messageHandlers.open.postMessage(url);
+                });
             }
         };
         
@@ -292,9 +321,14 @@
         }
         
         let loadMemaid = () => {
+            let mermaidTheme = 'default';
+            if ('{FSNOTES_APPEARANCE}' == 'darkmode') {
+                mermaidTheme = 'dark';
+            }
+
             var config = {
                 startOnLoad: true,
-                theme: 'forest',
+                theme: mermaidTheme,
                 flowchart: {
                     useMaxWidth: false,
                     htmlLabels: true

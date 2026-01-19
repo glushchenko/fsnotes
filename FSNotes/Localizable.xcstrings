@@ -107,6 +107,113 @@
         }
       }
     },
+    "Add External Folder..." : {
+      "comment" : "Menu Library",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ارفاق تخزين..."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidat externí složku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speicher anschließen..."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjuntar almacenamiento..."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attacher un stockage..."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הוסף תיקיה חיצונית..."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाह्य फ़ोल्डर जोड़ें..."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collega archivio..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外部フォルダを追加…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장소 추가..."
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koppelen opslag..."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar pasta externa..."
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar armazenamento..."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключить хранилище..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harici Klasör Ekle..."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Підключити сховище..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "附件存储..."
+          }
+        }
+      }
+    },
     "Are you really want to remove %d tag(s)? This action can not be undone." : {
       "localizations" : {
         "ar-IQ" : {
@@ -748,7 +855,7 @@
       }
     },
     "Change Creation Date" : {
-      "comment" : "Menu",
+      "comment" : "File Menu\nMenu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -854,218 +961,6 @@
         }
       }
     },
-    "Check Grammar With Spelling" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تحقق من القواعد مع التدقيق الإملائي"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrolovat gramatiku a pravopis"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grammatik und Rechtschreibung prüfen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comprobar gramática con la ortografía"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérifier la grammaire avec l'orthographe"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בדוק דקדוק ביחד עם איות"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "वर्तनी के साथ व्याकरण की जाँच करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controlla la grammatica e l'ortografia"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文法チェック"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "맞춤법 및 문법 검사"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controleer grammatica tegelijk met spelling"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificar a gramática com ortografia"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificar gramática com ortografia"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверить грамматику с орфографией"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yazım Denetimiyle Dilbilgisini Denetle"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перевіряти граматику та правопис"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查拼写和语法"
-          }
-        }
-      }
-    },
-    "Check Spelling While Typing" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تحقق من التدقيق الإملائي أثناء الكتابة"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrolovat pravopis při psaní"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Während der Texteingabe prüfen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comprobar ortografía mientras se escribe"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérifier l'orthographe lors de la frappe"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בדוק איות תוך כדי הקלדה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "टाइप करते समय वर्तनी जाँचें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controlla l'ortografia durante la digitazione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "入力中にスペルをチェックする"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "입력하는 동안 맞춤법 검사"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controleer Spelling Tijdens Typen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificar a ortografia enquanto digita"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificar gramática durante a escrita"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверять во время набора"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yazarken Yazım Denetimi Yap"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перевіряти правопис під час набору"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "键入时检查拼写"
-          }
-        }
-      }
-    },
     "Clear" : {
       "localizations" : {
         "ar-IQ" : {
@@ -1167,7 +1062,249 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clear"
+            "value" : "清除"
+          }
+        }
+      }
+    },
+    "Clipboard successfully saved" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portapapeles guardado correctamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Буфер обмена успешно сохранен"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pano başarıyla kaydedildi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Буфер обміну успішно збережено"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اغلاق"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zavřít"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "סגור"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बंद करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "閉じる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "닫기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluit"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapat"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭"
+          }
+        }
+      }
+    },
+    "Commit & Push “%@”" : {
+      "comment" : "Menu Library",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закоммитить “%@”"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закомітити “%@”"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commit & Push “%@”"
           }
         }
       }
@@ -1207,7 +1344,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Commit message:"
+            "value" : "אשר הודעה"
           }
         },
         "hi" : {
@@ -1267,7 +1404,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Commit message:"
+            "value" : "Коментар до коміту:"
           }
         },
         "zh-Hans" : {
@@ -1914,113 +2051,251 @@
         }
       }
     },
-    "Correct Spelling Automatically" : {
+    "Copy Title" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تصحيح الإملاء تلقائيًا"
+            "value" : "نسخ العنوان"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automaticky opravovat pravopis"
+            "value" : "Kopírovat nadpis"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rechtschreibung automatisch korrigieren"
+            "value" : "Title kopieren"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corregir ortografía automáticamente"
+            "value" : "Copiar título"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corriger l'orthographe automatiquement"
+            "value" : "Copier le titre"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "תקן איות באופן אוטומטי"
+            "value" : "העתק כותרת"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "वर्तनी स्वतः सही करें"
+            "value" : "शीर्षक कॉपी करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Correggi ortografia automaticamente"
+            "value" : "Copia titolo"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "スペルを自動的に修正"
+            "value" : "タイトルをコピー"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "맞춤법 자동 수정"
+            "value" : "제목 복사"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corrigeer Spelling Automatisch"
+            "value" : "Kopieer titel"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Correção ortográfica automática"
+            "value" : "Copiar título"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corrigir Ortografia Automáticamente"
+            "value" : "Copiar título"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Корректировать правописание"
+            "value" : "Скопировать заголовок"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yazımı Otomatik Olarak Düzelt"
+            "value" : "Başlığı Kopyala"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Автоматично коригувати правописання"
+            "value" : "Скопіювати заголовок"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "拼写正确"
+            "value" : "拷贝标题"
+          }
+        }
+      }
+    },
+    "Copy URL" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخ  URL"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopírovat URL"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL kopieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar enlace"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier l'URL"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "העתק כתובת"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "यूआरएल कॉपी करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia URL"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URLをコピー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL 복사"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieer URL"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar URL"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar endereço URL"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопировать ссылку"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URLyi Kopyala"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопіювати посилання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷贝URL"
+          }
+        }
+      }
+    },
+    "Create Folder" : {
+      "comment" : "Menu Library",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear carpeta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasör Oluştur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створити директорію"
           }
         }
       }
     },
     "Create Web Page" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2223,7 +2498,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Creation date:"
+            "value" : "Дата створення:"
           }
         },
         "zh-Hans" : {
@@ -2340,113 +2615,8 @@
         }
       }
     },
-    "Data Detectors" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كاشفات البيانات"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detektory dat"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Datendetektoren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detectores de datos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Détecteurs de données"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "גלאי נתונים"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "डेटा डिटेक्टर"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rilevatori di dati"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "データ検出"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "데이터 탐색기"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Data Detectoren"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detectores de dados"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detectores de dados"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Детекторы данных"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veri Algılayıcıları"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Детектори даних"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数据检测器"
-          }
-        }
-      }
-    },
     "Decrypt" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2481,7 +2651,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Decrypt"
+            "value" : "פענח"
           }
         },
         "hi" : {
@@ -2548,6 +2718,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "解密"
+          }
+        }
+      }
+    },
+    "Decrypt Folder" : {
+      "comment" : "Menu Library",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فك تشفير المجلد"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dešifrovat složku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordner verschlüsseln"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descifrar carpeta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crypter le dossier"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצפנת תיקיה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोल्डर एन्क्रिप्ट करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crittografa cartella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダ復号"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "폴더 암호화"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Map ontsleutelen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criptografar pasta"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descriptografar pasta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Снять шифрование"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörü Şifresini Çöz"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зняти шифрування"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解密文件夹"
           }
         }
       }
@@ -2659,6 +2936,7 @@
       }
     },
     "Delete" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2765,6 +3043,7 @@
       }
     },
     "Delete Folder" : {
+      "comment" : "Menu Library",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2871,6 +3150,7 @@
       }
     },
     "Delete Tag" : {
+      "comment" : "Menu Library",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -2976,108 +3256,109 @@
         }
       }
     },
-    "Detach Storage" : {
+    "Delete Web Page" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "فصل التخزين"
+            "value" : "حذف صفحة الويب"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odpojit úložiště"
+            "value" : "Smazat webovou stránku"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Speicher abnehmen"
+            "value" : "Geteilte löschen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Separar el almacenamiento"
+            "value" : "Eliminar página web"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Détacher le stockage"
+            "value" : "Supprimer la page Web"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "נתק אחסון"
+            "value" : "מחק דף אינטרנט"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "संग्रहण अलग करें"
+            "value" : "वेब पेज हटाएं"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scollega archivio"
+            "value" : "Elimina pagina web"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ストレージを切り離す"
+            "value" : "ウェブページを削除"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "저장소 분리"
+            "value" : "웹 페이지 삭제"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ontkoppelen opslag"
+            "value" : "Webpagina verwijderen"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desmontar o armazenamento"
+            "value" : "Deletar página Web"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Separar armazenamento"
+            "value" : "Excluir página da Web"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отключить хранилище"
+            "value" : "Удалить веб-страницу"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Depolamayı Ayır"
+            "value" : "Web Sayfasını Sil"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відключити сховище"
+            "value" : "Видалити веб-сторінку"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分离存储"
+            "value" : "删除网页"
           }
         }
       }
@@ -3118,7 +3399,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Do you want force checkout?"
+            "value" : "האם ברצונך לבצע צ'ק-אאוט בכוח?"
           }
         },
         "hi" : {
@@ -3178,7 +3459,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Do you want force checkout?"
+            "value" : "Зробити примусовий чекаут?"
           }
         },
         "zh-Hans" : {
@@ -3401,6 +3682,141 @@
         }
       }
     },
+    "Done" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hecho"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamam"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "Duplicate" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخة مكررة"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplikovat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplizieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dupliquer"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שכפל"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नकल"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복제"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dupliceer"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать копию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дублювати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成副本"
+          }
+        }
+      }
+    },
     "Edit Link…" : {
       "localizations" : {
         "ar-IQ" : {
@@ -3507,6 +3923,112 @@
         }
       }
     },
+    "Empty Bin" : {
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إفراغ سلة المهملات"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyprázdnit koš"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Papierkorb leeren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaciar papelera"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vider la corbeille"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "רוקן סל"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खाली बिन"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svuota cestino"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空のゴミ箱"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통 비우기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prullenbak leegmaken"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esvaziar lixeira"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esvaziar caixa de lixo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить корзину"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp Kutusunu Boşalt"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити кошик"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清空回收站"
+          }
+        }
+      }
+    },
     "Empty password" : {
       "localizations" : {
         "ar-IQ" : {
@@ -3609,218 +4131,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "空密码"
-          }
-        }
-      }
-    },
-    "Empty Trash" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "افراغ سلة المهملات"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vyprázdnit koš"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Papierkorb entleeren "
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vaciar la Papelera"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vider la corbeille"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "רוקן פח אשפה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कूडा खाली करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Svuota Cestino"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ゴミ箱を空にする"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "휴지통 비우기"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leeg Prullenmand"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lixeira vazia"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esvaziar o lixo"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Очистить корзину"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Çöp Kutusunu Boşalt"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Очистити кошик"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清空回收站"
-          }
-        }
-      }
-    },
-    "Encrypt" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تشفير"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zašifrovat"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verschlüsseln"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cifrar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chiffrer"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הצפין"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "एन्क्रिप्ट"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crittografa"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暗号化する"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "암호화"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Encrypt"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Criptografar"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Criptografar"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зашифровать"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şifrele"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зашифрувати"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加密"
           }
         }
       }
@@ -4132,7 +4442,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Папка з назвою '%@' вже існує"
+            "value" : "Директорія з назвою '%@' вже існує"
           }
         },
         "zh-Hans" : {
@@ -4178,7 +4488,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Font"
+            "value" : "גופן"
           }
         },
         "hi" : {
@@ -4238,13 +4548,120 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Font"
+            "value" : "Шрифт"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "字体"
+          }
+        }
+      }
+    },
+    "Force Delete" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف اجباري"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vynutit smazání"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen erzwingen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forzar la Eliminación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forcer la suppression"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מחק מיידית"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बलपूर्वक हटाएं"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forza Cancellazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "強制的に削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "강제 삭제"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forceer verwijderen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forçar deletar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forçar Apagar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Принудительное удаление"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zorla Sil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Примусово видалити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "强制删除"
           }
         }
       }
@@ -5102,6 +5519,7 @@
       }
     },
     "History" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5309,6 +5727,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud 云盘"
+          }
+        }
+      }
+    },
+    "Import" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استيراد"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importovat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ייבא"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आयात"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取り込む..."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가져오기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importeren"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Импорт"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçe aktar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Імпортувати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入"
           }
         }
       }
@@ -5741,6 +6266,7 @@
       }
     },
     "Lock" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -5948,6 +6474,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "锁定所有加密的笔记"
+          }
+        }
+      }
+    },
+    "Lock Folder" : {
+      "comment" : "Menu Library",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل المجلد"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamknout složku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordner sperren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear carpeta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verrouiller le dossier"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "נעל תיקייה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोल्डर लॉक करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocca cartella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダロック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자물쇠"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Map vergrendelen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear pasta"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear pasta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заблокировать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörü Kilitle"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заблокувати директорію"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁定文件夹"
           }
         }
       }
@@ -6271,7 +6904,7 @@
       }
     },
     "Move" : {
-      "comment" : "Menu",
+      "comment" : "File Menu\nMenu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6484,6 +7117,7 @@
       }
     },
     "New" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -6578,7 +7212,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Новий"
+            "value" : "Нова нотатка"
           }
         },
         "zh-Hans" : {
@@ -6696,6 +7330,327 @@
         }
       }
     },
+    "New Folder" : {
+      "comment" : "Menu Library",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إنشاء مجلد"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vytvořit složku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuer Ordner"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear carpeta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau dossier"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "תיקיה חדשה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फोल्डर बनाएं"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuova cartella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダ作成"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 폴더"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Map aanmaken"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar pasta"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar pasta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasör Oluştur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нова директорія"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建文件夹"
+          }
+        }
+      }
+    },
+    "New Note" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملاحظة جديدة"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová poznámka"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Notiz"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva nota"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle note"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הערה חדשה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नया नोट"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuova nota"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規ノート"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 메모"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieuwe notitie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova nota"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova nota"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая заметка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Not"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нова нотатка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建笔记"
+          }
+        }
+      }
+    },
+    "New Note in New Window" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملاحظة جديدة في نافذة جديدة"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nová poznámka v novém okně"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Notiz in neuem Fenster"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva nota en una ventana nueva"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle note dans une nouvelle fenêtre"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הערה חדשה בחלון חדש"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई विंडो में नया नोट"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuova nota in una nuova finestra"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規ノートを新規ウィンドウで開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 창에서 새 메모 열기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieuwe notitie in nieuw venster"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova nota em nova janela"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova nota numa nova janela"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая заметка в новом окне"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Pencerede Yeni Not"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нова нотатка у новому вікні"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新窗口中新建笔记"
+          }
+        }
+      }
+    },
     "New project" : {
       "localizations" : {
         "ar-IQ" : {
@@ -6798,219 +7753,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新建项目"
-          }
-        }
-      }
-    },
-    "New RTF" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "RTF جديد"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nový RTF"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neu RTF"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nuevo RTF"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nouveau RTF"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "RTF חדש"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "नया RTF"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nuovo File RTF"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新規リッチテキスト書類"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "새로운 RTF파일"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nieuw RTF"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Novo RTF"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Novo RTF"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Создать RTF"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yeni RTF"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Новий RTF"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新建RTF文件"
-          }
-        }
-      }
-    },
-    "New Window" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nové okno"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nouveau Window"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "नई विंडो"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nova janela"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Новое окно"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yeni Pencere"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新窗口"
           }
         }
       }
@@ -7546,6 +8288,113 @@
         }
       }
     },
+    "Open External" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فتح خارجي"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít externí"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In externem Editor öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir externo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir en externe"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "פתח חיצוני"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बाहरी खोलें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri esternamente"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開く…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "외부에서 열기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open extern"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir External"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir externamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внешний редактор"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açık Harici"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити зовні"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开外部"
+          }
+        }
+      }
+    },
     "Open note" : {
       "comment" : "Document opened",
       "localizations" : {
@@ -7649,6 +8498,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打开笔记"
+          }
+        }
+      }
+    },
+    "Open Note in New Window" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فتح الملاحظة في نافذة جديدة"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít poznámku v novém okně"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notiz in neuem Fenster öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir nota en una ventana nueva"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la note dans une nouvelle fenêtre"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "פתח הערה בחלון חדש"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नई विंडो में नोट खोलें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri nota in una nuova finestra"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ノートを新規ウィンドウで開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모 새 창에서 열기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notitie openen in nieuw venster"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir nota em nova janela"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir nota numa nova janela"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть заметку в новом окне"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notu Yeni Pencerede Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити нотатку у новому вікні"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在新窗口中打开笔记"
           }
         }
       }
@@ -7972,6 +8928,7 @@
       }
     },
     "Pin" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9041,7 +9998,7 @@
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "التفضيلات"
           }
         },
         "cs" : {
@@ -9053,13 +10010,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Einstellungen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Preferencias"
           }
         },
         "fr" : {
@@ -9071,7 +10028,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "העדפות"
           }
         },
         "hi" : {
@@ -9083,25 +10040,25 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Preferenze"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "設定"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "환경설정"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Voorkeuren"
           }
         },
         "pt-BR" : {
@@ -9113,7 +10070,7 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Preferências"
           }
         },
         "ru" : {
@@ -9131,13 +10088,120 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Налаштування"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "偏好设置"
+          }
+        }
+      }
+    },
+    "Print" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "طباعة"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tisknout"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drucken"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimer"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הדפס"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रिंट"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stampa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "印刷"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프린트"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Druk af"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimir"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimir"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Печать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazdır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Роздрукувати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打印"
           }
         }
       }
@@ -9885,7 +10949,115 @@
         }
       }
     },
+    "Rename" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اعادة تسمية"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přejmenovat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umbenennen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renombrar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renommer"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שנה שם"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नाम बदलें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rinomina"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前を変更"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름 변경"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hernoem"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renomear"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renomear"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden isimlendir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейменувати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重命名"
+          }
+        }
+      }
+    },
     "Rename Folder" : {
+      "comment" : "Menu Library",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -9992,6 +11164,7 @@
       }
     },
     "Rename Tag" : {
+      "comment" : "Menu Library",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -10298,13 +11471,148 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Repository not found"
+            "value" : "Репозиторій не знайдено"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repository not found"
+          }
+        }
+      }
+    },
+    "Reveal in Finder" : {
+      "comment" : "File Menu\nMenu Library",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فتح المجلد"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit ve Finderu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Finder anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar en el Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localiser dans le Finder"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצג ב-Finder"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder में दिखाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra nel Finder"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderに表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 보기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon in Finder"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar no Finder"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Realçar no Finder"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать в Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder'da göster"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показати в Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中显示"
+          }
+        }
+      }
+    },
+    "Search" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ara"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пошук"
           }
         }
       }
@@ -10381,6 +11689,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Busque e crie"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pesquisar e criar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найти и создать"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ara ve oluştur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знайти або створити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索或创建（按下回车即可创建）"
+          }
+        }
+      }
+    },
+    "Search and Create" : {
+      "comment" : "File Menu",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بحث وانشاء"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hledat a vytvořit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suchen und ersetzen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar y crear"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher et créer"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "חיפוש יצירה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोजें और बनाएं"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca e crea"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索または新規作成"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "검색 및 추가"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek en creëer"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pesquisar e criar"
           }
         },
         "pt-PT" : {
@@ -10734,6 +12149,113 @@
         }
       }
     },
+    "Show Options" : {
+      "comment" : "Menu Library",
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عرض الاعدادات"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit možnosti"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver configuración"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les options d'affichage"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הצג אפשרויות"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विकल्प दिखाएं"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra opzioni vista"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オプションを表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보기 옵션"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon weergaveopties"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar as opções"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear pasta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать опции"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçenekleri Göster"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показати параметри"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示视图选项"
+          }
+        }
+      }
+    },
     "Show Sidebar" : {
       "localizations" : {
         "ar-IQ" : {
@@ -10947,430 +12469,6 @@
         }
       }
     },
-    "Smart Copy/Paste" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "نسخ/لصق ذكي"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chytré kopírování/vkládání"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligente Kopieren / Einfügen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copiado/pegado Inteligente"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copier/Coller intelligent"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "העתקה והדבקה חכמות"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "स्मार्ट कॉपी/पेस्ट"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copia/Incolla Smart"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スマートコピ/ペースト"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스마트 복사하기/붙여넣기"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slim Kopiëren/Plakken"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copiar/Colar inteligente"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copiar/Colar inteligente"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Смарт-копирование/вставка"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Akıllı Kopyala/Yapıştır"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Розумне копіювання/вставка"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "智能拷贝/粘贴"
-          }
-        }
-      }
-    },
-    "Smart Dashes" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "شرطات ذكية"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inteligentní pomlčky"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligente Bindestriche"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guiones inteligentes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tirets intelligents"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מיקוף חכם"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "स्मार्ट डैश"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trattini Smart"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スマートダッシュ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스마트 대시"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slimme Streepjes"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Traços inteligentes"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Traços Inteligentes"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Смарт-тире"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Akıllı Tireler"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Розумні тире"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "智能破折号"
-          }
-        }
-      }
-    },
-    "Smart Links" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "روابط ذكية"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chytré odkazy"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligente Links"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enlaces inteligentes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liens intelligents"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "קישורים חכמים"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "स्मार्ट लिंक"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Link Smart"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スマートリンク"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스마트 링크"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slimme Links"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Links inteligentes"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligações Inteligentes"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Смарт-ссылки"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Akıllı Bağlantılar"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Розумні посилання"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "智能链接"
-          }
-        }
-      }
-    },
-    "Smart Quotes" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اقتباسات ذكية"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chytré uvozovky"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligente Anführungszeichen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comillas tipográficas"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Citations intelligentes"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מרכאות חכמות"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "स्मार्ट उद्धरण"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Virgolette Smart"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スマート引用符"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스마트 인용"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slimme Aanhalingstekens"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aspas inteligentes"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aspas Inteligentes"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Смарт-кавычки"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Akıllı Alıntılar"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Розумні лапки"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "智能引号"
-          }
-        }
-      }
-    },
     "Sort by" : {
       "comment" : "View menu",
       "localizations" : {
@@ -11474,112 +12572,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "排序方式"
-          }
-        }
-      }
-    },
-    "Spelling and Grammar" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التهجئة والقواعد اللغوية"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zobrazit pravopis a gramatiku"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rechtschreibung und Grammatik"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ortografía y gramática"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orthographe et Grammaire"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "איות ודקדוק"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "वर्तनी और व्याकरण"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ortografia e Grammatica"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スペルと文法"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "맞춤법 및 문법"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spelling en Grammatica"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ortografia e gramática"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ortografia e Gramática"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Орфография и грамматика"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yazım ve Dilbilgisi"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Орфографія і граматика"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拼写和语法"
           }
         }
       }
@@ -11690,112 +12682,6 @@
         }
       }
     },
-    "Substitutions" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تبديلات"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Záměny"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ersetzungen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sustituciones"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Substitutions"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "החלפות"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "प्रतिस्थापन"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sostituzioni"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自動置換"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "대체"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vervangingen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Substituições"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Substituições"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Замены"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Değiştirmeler"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Заміни"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "替换"
-          }
-        }
-      }
-    },
     "Tags" : {
       "comment" : "Sidebar label",
       "localizations" : {
@@ -11899,112 +12785,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "标签"
-          }
-        }
-      }
-    },
-    "Text Replacement" : {
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "استبدال النص"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Náhrada textu"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Text ersetzen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reemplazar texto"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remplacement de texte"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מלל חלופי"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "पाठ प्रतिस्थापन"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sostituzione del testo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "テキストの置換"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "텍스트 대치"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tekstvervanging"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Substituição de texto"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Substituição de Texto"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Замена текста"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Metin Değiştirme"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Заміна тексту"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文本替换"
           }
         }
       }
@@ -12436,113 +13216,37 @@
         }
       }
     },
-    "Underline" : {
+    "Unlink External Folder" : {
+      "comment" : "Menu Library",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "خط تحت"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Podtržené"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unterstrichen"
-          }
-        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Subrayar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Souligner"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "קו תחתון"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "रेखांकन"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sottolinea"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アンダーライン"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "밑줄체"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onderstrepen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sublinhar"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sublinhar"
+            "value" : "Desvincular carpeta externa"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подчёркнутый"
+            "value" : "Отвязать внешнюю папку"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Altını Çiz"
+            "value" : "Harici Klasörü Bağlantısını Kaldır"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Підкреслений"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下划线"
+            "value" : "Від'єднати зовнішню папку"
           }
         }
       }
     },
     "Unlock" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -12648,7 +13352,114 @@
         }
       }
     },
+    "Unlock Folder" : {
+      "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فتح المجلد"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odemknout složku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ordner entsperren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear carpeta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déverrouiller le dossier"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בטל נעילת תיקייה"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फ़ोल्डर अनलॉक करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sblocca cartella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダロック解除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "폴더 잠금 해제"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Map ontgrendelen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear pasta"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear pasta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разблокировать директорию"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörü Kilidini Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розблокувати директорію"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解锁文件夹"
+          }
+        }
+      }
+    },
     "Unpin" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
@@ -12969,6 +13780,7 @@
       }
     },
     "Update Web Page" : {
+      "comment" : "File Menu",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {

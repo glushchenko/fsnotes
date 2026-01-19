@@ -10,22 +10,48 @@ import UIKit
 
 extension UIApplication {
 
+    // MARK: - Scene Delegate Access
+
+    static func getSceneDelegate() -> SceneDelegate? {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let sceneDelegate = windowScene.delegate as? SceneDelegate else {
+            return nil
+        }
+        return sceneDelegate
+    }
+
+    // MARK: - View Controllers Access
+
     static func getVC() -> ViewController {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.listController
+        guard let sceneDelegate = getSceneDelegate() else {
+            fatalError("SceneDelegate not found")
+        }
+        return sceneDelegate.listController
     }
 
     static func getEVC() -> EditorViewController {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.editorController
+        guard let sceneDelegate = getSceneDelegate() else {
+            fatalError("SceneDelegate not found")
+        }
+        return sceneDelegate.editorController
     }
 
     static func getNC() -> MainNavigationController? {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.mainController
+        guard let sceneDelegate = getSceneDelegate() else {
+            return nil
+        }
+        return sceneDelegate.mainController
     }
-    
+
+    // MARK: - App Delegate Access
+
     static func getDelegate() -> AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
+    }
+
+    // MARK: - Window Access (Optional Helper)
+
+    static func getWindow() -> UIWindow? {
+        return getSceneDelegate()?.window
     }
 }

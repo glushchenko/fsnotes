@@ -161,12 +161,25 @@ class PreferencesAdvancedViewController: NSViewController {
             if let cacheUrl = project.getCacheURL() {
                 try? FileManager.default.removeItem(at: cacheUrl)
             }
+
+            project.isReadyForCacheSaving = false
         }
-        
+
         restart()
     }
     
     @IBAction func resetSettings(_ sender: Any) {
+        let store = NSUbiquitousKeyValueStore.default
+        for (key, _) in store.dictionaryRepresentation {
+            store.removeObject(forKey: key)
+        }
+        store.synchronize()
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+            UserDefaults.standard.synchronize()
+        }
+        
         if let userDefaultsURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("Preferences").appendingPathComponent("co.fluder.FSNotes.plist") {
             try? FileManager.default.removeItem(at: userDefaultsURL)
         }
@@ -179,7 +192,7 @@ class PreferencesAdvancedViewController: NSViewController {
             try? FileManager.default.removeItem(at: notesURL)
         }
         
-        if let bookmarkUrls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Bookmarks.dict") {
+        if let bookmarkUrls = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("Bookmarks.dict") {
             try? FileManager.default.removeItem(at: bookmarkUrls)
         }
         

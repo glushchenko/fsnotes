@@ -32,13 +32,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "he" : {
@@ -104,13 +104,80 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "0o7-iB-dtg.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Activate:\"; ObjectID = \"0o7-iB-dtg\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivieren:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activate:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activar:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer :"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सक्रिय करें:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активировать:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkinleştir:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активувати:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激活："
           }
         }
       }
@@ -339,6 +406,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "查找"
+          }
+        }
+      }
+    },
+    "1cO-zi-naR.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"BackLinks\"; ObjectID = \"1cO-zi-naR\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backlinks"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BackLinks"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enlaces externos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liens retour"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बैकलिंक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackLinks"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обратные ссылки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BackLinks"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зворотні посилання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反向链接"
           }
         }
       }
@@ -795,120 +928,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "列表"
-          }
-        }
-      }
-    },
-    "1Tz-tN-qVO.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"xcode\"; ObjectID = \"1Tz-tN-qVO\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "xcode"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "xcode"
           }
         }
       }
@@ -1826,18 +1845,18 @@
       }
     },
     "2Vh-rt-1kc.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"New Window\"; ObjectID = \"2Vh-rt-1kc\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"New Note in New Window  \"; ObjectID = \"2Vh-rt-1kc\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "ملاحظة جديدة في نافذة جديدة"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nové okno"
           }
         },
@@ -1850,7 +1869,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "New Window"
+            "value" : "New Note in New Window  "
           }
         },
         "es" : {
@@ -1873,7 +1892,7 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "नई विंडो"
           }
         },
@@ -1885,38 +1904,38 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "新しいウィンドウで新しいメモ"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "새 창에서 새 메모"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nieuwe notitie in nieuw venster"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nova janela"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nova nota em nova janela"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Новое окно"
+            "value" : "Новое заметка в новом окно"
           }
         },
         "tr" : {
@@ -1928,13 +1947,79 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нова нотатка в новому вікні"
+            "value" : "Нова нотатка у новому вікні"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "新窗口中的新笔记"
+          }
+        }
+      }
+    },
+    "3fK-Ap-A5p.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Move Item\"; ObjectID = \"3fK-Ap-A5p\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Element verschieben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Item"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover elemento"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer l'élément"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आइटम हटाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta elemento"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öğeyi Taşı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістити елемент"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动项目"
           }
         }
       }
@@ -3422,31 +3507,31 @@
       }
     },
     "5gL-j7-Zq8.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Remove Encryption\"; ObjectID = \"5gL-j7-Zq8\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Decrypt\"; ObjectID = \"5gL-j7-Zq8\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "ازالة التشفير"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Odebrat šifrování"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verschlüsselung entfernen"
+            "value" : "Entschlüsseln"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Remove Encryption"
+            "value" : "Decrypt"
           }
         },
         "es" : {
@@ -3469,43 +3554,43 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "एन्क्रिप्शन हटाएँ"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rimuovi la cifratura"
+            "value" : "Decrittografa"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "ロックを解除"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "암호화 해제"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Verwijder versleuteling"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Remover criptografia"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Remover criptografia"
           }
         },
@@ -4329,234 +4414,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "代码主题:"
-          }
-        }
-      }
-    },
-    "6UT-Yu-j7X.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Lock\"; ObjectID = \"6UT-Yu-j7X\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قفل"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zamknout"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schloss"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Lock"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerrar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquer"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "לנעול"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "लॉक करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Serratura"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lock"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "자물쇠"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Op slot doen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloquear"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trancar"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Заблокировать"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kilit"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Блокувати"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "锁"
-          }
-        }
-      }
-    },
-    "7D9-lM-GXX.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Highlight indented code blocks\"; ObjectID = \"7D9-lM-GXX\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كتل رمز مسافة بادئة"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zvýraznit odsazené bloky kódu"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eingerückte Codeblöcke"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Highlight indented code blocks"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloques de código sangrado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blocs de code en retrait"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הדגש בלוקי קוד מוזחים"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "इंडेंटेड कोड ब्लॉक को हाइलाइट करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evidenzia i blocchi di codice indentati"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "インデントされたコードブロックを色付けする"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "들여 쓰기 된 코드 블록"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ingesprongen codeblokken"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Destacar blocos de código indentado"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Realçar blocos de código identados"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Подсветка блоков кода с отступом"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Girintili kod bloklarını vurgula"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Підсвітка блоків коду з відступом"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "高亮显示缩进的代码块"
           }
         }
       }
@@ -5701,120 +5558,6 @@
         }
       }
     },
-    "8oP-79-BAN.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Note Color:\"; ObjectID = \"8oP-79-BAN\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لون الملاحظة:"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Barva poznámky:"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notiz Farbe:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Note Color:"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Color:"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Couleur :"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "צבע פתק:"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "नोट का रंग:"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colori Note:"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文字色:"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "노트 색상:"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notitiekleur:"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cor da nota:"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cor da Nota:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цвет:"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not Rengi:"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Колір нотатки:"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "笔记颜色:"
-          }
-        }
-      }
-    },
     "9ic-FL-obx.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Substitutions\"; ObjectID = \"9ic-FL-obx\";",
       "extractionState" : "extracted_with_value",
@@ -5925,120 +5668,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "替换"
-          }
-        }
-      }
-    },
-    "9Nw-oE-QJe.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"solarized-dark\"; ObjectID = \"9Nw-oE-QJe\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "solarized-dark"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solarized Dark"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solarized-dark"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-dark"
           }
         }
       }
@@ -6260,7 +5889,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "2/23/11"
           }
         },
         "zh-Hans" : {
@@ -6269,7 +5898,8 @@
             "value" : ""
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "9yt-4B-nSM.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Smart Copy/Paste\"; ObjectID = \"9yt-4B-nSM\";",
@@ -6613,234 +6243,6 @@
         }
       }
     },
-    "49W-tO-6Vu.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Change Creation Date\"; ObjectID = \"49W-tO-6Vu\"; Note = \"#bc-ignore!\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تغيير تاريخ الإنشاء"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Změnit datum vytvoření"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erstellungsdatum ändern"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Change Creation Date"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cambiar fecha de creación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modifier la date de création"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שנה את תאריך היצירה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "निर्माण तारीख बदलें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modifica data di creazione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作成日の変更"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "생성 날짜 변경"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wijzig de aanmaakdatum"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alterar data de criação"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alterar data de criação"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Изменить дату создания"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oluşturma Tarihini Değiştir"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Змінити дату створення"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更改创建日期"
-          }
-        }
-      }
-    },
-    "54i-GK-spQ.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Note List Location:\"; ObjectID = \"54i-GK-spQ\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "موقع قائمة الملاحظة"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Umístění seznamu poznámek:"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notizenliste:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Note List Location:"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ubicación de la lista:"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liste de notes :"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מיקום רשימת פתקים:"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "नोट सूची स्थान:"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Posizione elenco note:"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ノートリストの位置:"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "노트 목록 위치:"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notitie lijst locatie:"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Posição da lista de notas:"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Posição da lista de notas:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Расположение списка заметок:"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not Listesi Konumu:"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Розташування списку:"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "笔记列表位置:"
-          }
-        }
-      }
-    },
     "63m-us-3j9.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Code Font:\"; ObjectID = \"63m-us-3j9\";",
       "extractionState" : "extracted_with_value",
@@ -6951,120 +6353,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "代码字体:"
-          }
-        }
-      }
-    },
-    "70b-Zr-aVK.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Force Delete\"; ObjectID = \"70b-Zr-aVK\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حذف اجباري"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vynutit smazání"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Force Delete"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Force Delete"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forzar la Eliminación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forcer la suppression"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מחק מיידית"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "बलपूर्वक हटाएं"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forza Cancellazione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "完全に削除"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "강제 삭제"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forceer verwijderen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forçar deletar"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forçar Eliminar"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Принудительное удаление"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zorla Sil"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Примусово видалити"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "强制删除"
           }
         }
       }
@@ -7639,120 +6927,6 @@
         }
       }
     },
-    "AaQ-hp-VpR.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"monokai-sublime\"; ObjectID = \"AaQ-hp-VpR\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "monokai-sublime"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Monokai Sublime"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "monokai-sublime"
-          }
-        }
-      }
-    },
     "aGv-BR-Oc8.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Upload and test initial data\"; ObjectID = \"aGv-BR-Oc8\";",
       "extractionState" : "extracted_with_value",
@@ -7863,6 +7037,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上传和测试初始数据"
+          }
+        }
+      }
+    },
+    "aLg-MQ-amx.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Italic:\"; ObjectID = \"aLg-MQ-amx\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kursiv:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Italic:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cursiva:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Italique :"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "इतालिक:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corsivo:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Курсив:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İtalik:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Курсив:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斜体："
           }
         }
       }
@@ -8426,7 +7666,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "zh-Hans" : {
@@ -9349,6 +8589,72 @@
         }
       }
     },
+    "BoD-Jy-zeE.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Clear Completed Todos\"; ObjectID = \"BoD-Jy-zeE\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abgeschlossene Aufgaben löschen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear Completed Todos"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar tareas completadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer les tâches terminées"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पूरे हुए कार्य हटाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancella attività completate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить выполненные задачи"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamamlanan Görevleri Temizle"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити виконані завдання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除已完成事项"
+          }
+        }
+      }
+    },
     "BOF-NM-1cW.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Preferences…\"; ObjectID = \"BOF-NM-1cW\";",
       "extractionState" : "extracted_with_value",
@@ -10143,120 +9449,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "笔记列表间距:"
-          }
-        }
-      }
-    },
-    "BYI-2F-BJo.title" : {
-      "comment" : "Class = \"NSMenu\"; title = \"Library\"; ObjectID = \"BYI-2F-BJo\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مجلد"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Knihovna"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordner"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Library"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carpeta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dossier"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "סרגל צד"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "पुस्तकालय"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cartella"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "サイドバー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "폴더"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Map"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Biblioteca"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Barra lateral"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Библиотека"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kütüphane"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Бібліотека"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件夹"
           }
         }
       }
@@ -11173,120 +10365,6 @@
         }
       }
     },
-    "cwc-a7-vkr.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"vs\"; ObjectID = \"cwc-a7-vkr\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "vs"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "बनाम"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visual Studio"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Karşı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "vs"
-          }
-        }
-      }
-    },
     "cwL-P1-jid.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Smart Links\"; ObjectID = \"cwL-P1-jid\";",
       "extractionState" : "extracted_with_value",
@@ -12188,7 +11266,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "v2.9.0"
           }
         },
         "zh-Hans" : {
@@ -12542,31 +11620,31 @@
       }
     },
     "dqy-22-ETG.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Encrypt Folder\"; ObjectID = \"dqy-22-ETG\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Decrypt Folder\"; ObjectID = \"dqy-22-ETG\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "تشفير المجلد"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Zašifrovat složku"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ordner verschlüsseln"
+            "value" : "Ordner entschlüsseln"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Encrypt Folder"
+            "value" : "Decrypt Folder"
           }
         },
         "es" : {
@@ -12589,43 +11667,43 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "फ़ोल्डर एन्क्रिप्ट करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crittografa cartella"
+            "value" : "Decrittografa cartella"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "フォルダの暗号化"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "폴더 암호화"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Map versleutelen"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Criptografar pasta"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Criptografar pasta"
           }
         },
@@ -12644,7 +11722,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Зашифрувати папку"
+            "value" : "Розшифрувати директорію"
           }
         },
         "zh-Hans" : {
@@ -13567,6 +12645,25 @@
         }
       }
     },
+    "e7y-7Z-36y.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"_\"; ObjectID = \"e7y-7Z-36y\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "_"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "_"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
     "e15-ps-th1.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Hide date\"; ObjectID = \"e15-ps-th1\";",
       "extractionState" : "extracted_with_value",
@@ -13784,13 +12881,80 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Попередній перегляд"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "eCt-xc-KgN.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Share\"; ObjectID = \"eCt-xc-KgN\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साझा करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paylaş"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поділитися"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
           }
         }
       }
@@ -14365,120 +13529,6 @@
         }
       }
     },
-    "epi-YA-nEi.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Encrypt\"; ObjectID = \"epi-YA-nEi\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تشفير"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zašifrovat"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verschlüsseln Sie"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Encrypt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cifrar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crypter"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הצפין"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "एन्क्रिप्ट"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crittografa"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暗号化する"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Encrypt"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versleutelen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Criptografar"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Criptografar"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зашифровать"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şifrele"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зашифрувати"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加密"
-          }
-        }
-      }
-    },
     "eTL-dh-GvM.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Creation Date\"; ObjectID = \"eTL-dh-GvM\";",
       "extractionState" : "extracted_with_value",
@@ -14821,120 +13871,6 @@
         }
       }
     },
-    "F5A-zs-zwP.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Show in Finder\"; ObjectID = \"F5A-zs-zwP\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "فتح المجلد"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zobrazit ve Finderu"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordner anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Show in Finder"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar carpeta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Localiser dans le Finder"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הצג ב-Finder"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finder में दिखाएँ"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra nel Finder"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finderに表示"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finder에서 보기"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toon in Finder"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar no Finder"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar no Finder"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показать в Finder"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finder'da göster"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показати в Finder"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在Finder中显示"
-          }
-        }
-      }
-    },
     "F6G-ua-MNX.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Hide preview\"; ObjectID = \"F6G-ua-MNX\";",
       "extractionState" : "extracted_with_value",
@@ -15159,234 +14095,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示嵌套文件夹内容"
-          }
-        }
-      }
-    },
-    "fCZ-JX-nxF.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Underline\"; ObjectID = \"fCZ-JX-nxF\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ضع خطًا تحت"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Podtržené"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unterstrichen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Underline"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subrallado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Souligner"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "קו תחתון"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "रेखांकन"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sottolinea"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アンダーライン"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "밑줄체"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onderstrepen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sublinhar"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sublinhar"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Подчёркнутый"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Altı çizili"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Підкреслений"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下划线"
-          }
-        }
-      }
-    },
-    "FCZ-jz-Xb0.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"zenburn\"; ObjectID = \"FCZ-jz-Xb0\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "zenburn"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zenburn"
           }
         }
       }
@@ -15848,31 +14556,31 @@
       }
     },
     "fkH-Wf-n87.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Remove Encryption\"; ObjectID = \"fkH-Wf-n87\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Decrypt\"; ObjectID = \"fkH-Wf-n87\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "ازالة التشفير"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Odebrat šifrování"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verschlüsselung entfernen"
+            "value" : "Entschlüsseln"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Remove Encryption"
+            "value" : "Decrypt"
           }
         },
         "es" : {
@@ -15895,43 +14603,43 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "एन्क्रिप्शन हटाएँ"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rimuovi cifratura"
+            "value" : "Decrittografa"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "ロックを削除"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "암호화 해제"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Verwijder versleuteling"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Remover criptografia"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Remover criptografia"
           }
         },
@@ -15950,7 +14658,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Розшифрувати файл"
+            "value" : "Розшифрувати нотатку"
           }
         },
         "zh-Hans" : {
@@ -16531,120 +15239,6 @@
         }
       }
     },
-    "Fuh-qO-nt2.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Library\"; ObjectID = \"Fuh-qO-nt2\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مجلد"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Knihovna"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordner"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Library"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carpeta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dossier"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "סרגל צד"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "पुस्तकालय"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cartella"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "サイドバー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "폴더"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Map"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Biblioteca"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Barra lateral"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Библиотека"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kütüphane"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Бібліотека"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件夹"
-          }
-        }
-      }
-    },
     "fzU-ZR-Ubv.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Rename Folder\"; ObjectID = \"fzU-ZR-Ubv\";",
       "extractionState" : "extracted_with_value",
@@ -16983,120 +15577,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "扫描内联标签"
-          }
-        }
-      }
-    },
-    "g18-hs-VcA.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"tomorrow\"; ObjectID = \"g18-hs-VcA\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zítra"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "tomorrow"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कल"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "amanhã"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yarın"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "завтра"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tomorrow"
           }
         }
       }
@@ -18128,18 +16608,18 @@
       }
     },
     "goN-LO-L7l.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Show in Finder\"; ObjectID = \"goN-LO-L7l\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Reveal in Finder\"; ObjectID = \"goN-LO-L7l\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "فتح المجلد"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Zobrazit ve Finderu"
           }
         },
@@ -18152,7 +16632,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Show in Finder"
+            "value" : "Reveal in Finder"
           }
         },
         "es" : {
@@ -18175,7 +16655,7 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Finder में दिखाएँ"
           }
         },
@@ -18187,31 +16667,31 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Finderに表示"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Finder에서 보기"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Toon in Finder"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Mostrar no Finder"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Mostrar no Finder"
           }
         },
@@ -18230,7 +16710,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показати в Finder"
+            "value" : "Показати у Finder"
           }
         },
         "zh-Hans" : {
@@ -18686,7 +17166,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "zh-Hans" : {
@@ -19610,18 +18090,18 @@
       }
     },
     "HmK-lp-ASv.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Open In New Window\"; ObjectID = \"HmK-lp-ASv\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Open Note in New Window\"; ObjectID = \"HmK-lp-ASv\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "افتح في نافذة جديدة"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Otevřít v novém okně"
           }
         },
@@ -19634,7 +18114,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Open In New Window"
+            "value" : "Open Note in New Window"
           }
         },
         "es" : {
@@ -19657,7 +18137,7 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "नई विंडो में खोलें"
           }
         },
@@ -19669,31 +18149,31 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "新しいウィンドウで開きます"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "새 창에서 열기"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Notitie openen in nieuw venster"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abrir em nova janela"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abrir em nova janela"
           }
         },
@@ -19712,7 +18192,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкрити в новому вікні"
+            "value" : "Відкрити у новому вікні"
           }
         },
         "zh-Hans" : {
@@ -20864,31 +19344,31 @@
       }
     },
     "iIP-wI-OaZ.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Back Up Now\"; ObjectID = \"iIP-wI-OaZ\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Commit & Push\"; ObjectID = \"iIP-wI-OaZ\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "تخزين النسخ الاحتياطي"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Zálohovat nyní"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Speicher sichern"
+            "value" : "Commit & Push"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Back Up Now"
+            "value" : "Commit & Push"
           }
         },
         "es" : {
@@ -20911,7 +19391,7 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "अभी बैकअप लें"
           }
         },
@@ -20923,31 +19403,31 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "今すぐバックアップ"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "저장소 백업"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Back-up opslag"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Fazer backup agora"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Cópia de segurança de armazenamento"
           }
         },
@@ -20960,19 +19440,19 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şimdi Yedekle"
+            "value" : "Commit & Push"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Зробити резервну копію"
+            "value" : "Commit & Push"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "备份存储"
+            "value" : "Commit & Push"
           }
         }
       }
@@ -22003,120 +20483,6 @@
         }
       }
     },
-    "j8S-CW-gCM.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Custom\"; ObjectID = \"j8S-CW-gCM\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مخصص"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vlastní"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Custom"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personalizado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personnalisé"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מותאם"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कस्टम"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personalizzato"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "カスタム"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자 지정"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Op maat"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personalizado"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personalizado"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кастомная"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gelenek"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кастомна"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自定义"
-          }
-        }
-      }
-    },
     "jFN-Dp-LON.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Pin/Unpin\"; ObjectID = \"jFN-Dp-LON\";",
       "extractionState" : "extracted_with_value",
@@ -22448,7 +20814,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "zh-Hans" : {
@@ -22687,6 +21053,25 @@
         }
       }
     },
+    "jRr-Ih-RYc.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"**\"; ObjectID = \"jRr-Ih-RYc\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "**"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
     "juB-By-EsE.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Set\"; ObjectID = \"juB-By-EsE\";",
       "extractionState" : "extracted_with_value",
@@ -22911,120 +21296,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "格式"
-          }
-        }
-      }
-    },
-    "K2F-dD-Jhr.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Top\"; ObjectID = \"K2F-dD-Jhr\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اعلى"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nahoře"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Top"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Superior"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haut"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "למעלה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "शीर्ष"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In cima"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "トップ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "상단"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Topo"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Topo"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сверху"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yukarı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вгорі"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "顶部"
           }
         }
       }
@@ -24044,7 +22315,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "1"
           }
         },
         "zh-Hans" : {
@@ -24165,120 +22436,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "允许使用 Touch ID 解锁笔记"
-          }
-        }
-      }
-    },
-    "l5q-h8-hfU.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Custom worktree\"; ObjectID = \"l5q-h8-hfU\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vlastní worktree"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Custom worktree"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "कस्टम वर्कट्री"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personalizar worktree"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Рабочее дерево"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Özel çalışma ağacı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom worktree"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自定义工作目录"
           }
         }
       }
@@ -24735,6 +22892,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置"
+          }
+        }
+      }
+    },
+    "LKs-o1-uhL.title" : {
+      "comment" : "Class = \"NSMenu\"; title = \"Share\"; ObjectID = \"LKs-o1-uhL\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साझा करें"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paylaş"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поділитися"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享"
           }
         }
       }
@@ -25538,118 +23761,29 @@
       }
     },
     "ME1-My-h4q.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"atom-one-light\"; ObjectID = \"ME1-My-h4q\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"atom-one\"; ObjectID = \"ME1-My-h4q\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "atom-one-light"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
+            "value" : "atom-one"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Atom One Light"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "atom-one-light"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-light"
+            "value" : "atom-one"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "mK0-16-Mxo.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"4 Spaces\"; ObjectID = \"mK0-16-Mxo\";",
@@ -26324,7 +24458,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Контейнер"
+            "value" : "Контейнер:"
           }
         },
         "zh-Hans" : {
@@ -26540,7 +24674,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подсвечивать ссылки"
+            "value" : "Кликабельные ссылки"
           }
         },
         "tr" : {
@@ -26552,7 +24686,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Інтерактивні посилання"
+            "value" : "Клікабельні посилання"
           }
         },
         "zh-Hans" : {
@@ -26894,7 +25028,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вкладка"
+            "value" : "Таб"
           }
         },
         "zh-Hans" : {
@@ -27129,120 +25263,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "生成网页"
-          }
-        }
-      }
-    },
-    "Nhf-c1-VJ6.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Save Revision\"; ObjectID = \"Nhf-c1-VJ6\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حفظ المراجعة"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uložit úpravy"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Revision speichern"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Save Revision"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar revisión"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sauvegarder la révision"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שמור מהדורה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "संशोधन सहेजें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva revisione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バージョンを保存"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "리비전 저장"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewaar revisie"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salvar revisão"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar revisão"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохранить версию"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Revizyonu Kaydet"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зберегти версію"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存修订"
           }
         }
       }
@@ -28045,120 +26065,6 @@
         }
       }
     },
-    "o8V-Wi-IWO.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Save Revision\"; ObjectID = \"o8V-Wi-IWO\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حفظ المراجعة"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uložit úpravy"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Revision speichern"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Save Revision"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar revisión"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sauvegarder la révision"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שמור מהדורה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "संशोधन सहेजें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva revisione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "現在のバージョンを保存"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "리비전 저장"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewaar revisie"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salvar revisão"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar revisão"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохранить версию"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Revizyonu Kaydet"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зберегти версію"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存修订"
-          }
-        }
-      }
-    },
     "O8Z-cg-XnH.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Import\"; ObjectID = \"O8Z-cg-XnH\";",
       "extractionState" : "extracted_with_value",
@@ -28604,7 +26510,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "5"
           }
         },
         "zh-Hans" : {
@@ -30439,234 +28345,6 @@
         }
       }
     },
-    "Psk-r4-JT5.title" : {
-      "comment" : "Class = \"NSTextFieldCell\"; title = \"Background:\"; ObjectID = \"Psk-r4-JT5\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الخلفية:"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pozadí:"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hintergrund:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Background:"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fondo:"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fond :"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "רקע:"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "पृष्ठभूमि:"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sfondo:"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "背景色:"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "배경:"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Achtergrond:"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Papel de parede:"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Painel de fundo:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Фон:"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arka plan:"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Бекґраунд:"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "背景:"
-          }
-        }
-      }
-    },
-    "PvQ-Pd-zsZ.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Back Up Now\"; ObjectID = \"PvQ-Pd-zsZ\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تخزين النسخ الاحتياطي"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zálohovat nyní"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speicher sichern"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Back Up Now"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Almacenamiento de respaldo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sauvegarder le stockage"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "גבה עכשיו"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "अभी बैकअप लें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva archivio"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今すぐバックアップ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장소 백업"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back-up opslag"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fazer backup agora"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cópia de segurança de armazenamento"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Создать резервную копию"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şimdi Yedekle"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Зробити резервну копію"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "备份存储"
-          }
-        }
-      }
-    },
     "PXw-YJ-q6A.title" : {
       "comment" : "Class = \"NSViewController\"; title = \"Security\"; ObjectID = \"PXw-YJ-q6A\";",
       "extractionState" : "extracted_with_value",
@@ -30895,6 +28573,72 @@
         }
       }
     },
+    "Pzb-TG-43d.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Headers\"; ObjectID = \"Pzb-TG-43d\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopfzeilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Headers"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encabezados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En-têtes"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intestazioni"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заголовки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlıklar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заголовки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标题"
+          }
+        }
+      }
+    },
     "PzH-8q-38O.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Delete Web Page\"; ObjectID = \"PzH-8q-38O\";",
       "extractionState" : "extracted_with_value",
@@ -31005,120 +28749,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除网页"
-          }
-        }
-      }
-    },
-    "q7c-Fz-aaj.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Side\"; ObjectID = \"q7c-Fz-aaj\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "جانب"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Strana"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Links"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Side"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lateral"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Latéral"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בצד"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ओर"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lato"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "サイド"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "측면"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kant"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lateral"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lateral"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сбоку"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Taraf"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Збоку"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "边栏"
           }
         }
       }
@@ -32354,7 +29984,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отступ абзаца"
+            "value" : "Отступ абзаца:"
           }
         },
         "tr" : {
@@ -33175,120 +30805,6 @@
         }
       }
     },
-    "Rog-4H-qth.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"atom-one-dark\"; ObjectID = \"Rog-4H-qth\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "atom-one-dark"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "atom-one-dark"
-          }
-        }
-      }
-    },
     "RSs-wb-GNg.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Lock/Unlock\"; ObjectID = \"RSs-wb-GNg\";",
       "extractionState" : "extracted_with_value",
@@ -33513,120 +31029,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "系统"
-          }
-        }
-      }
-    },
-    "RuM-sf-kcZ.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Delete Folder\"; ObjectID = \"RuM-sf-kcZ\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حذف المجلد"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Smazat složku"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordner löschen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Delete Folder"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar carpeta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer le dossier"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מחק תיקיה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "फोल्डर हटाएँ"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina cartella"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "フォルダを削除"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "폴더 삭제"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijder map"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deletar pasta"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar pasta"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить директорию"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosyayı Sil"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Видалити директорію"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除文件夹"
           }
         }
       }
@@ -35342,132 +32744,49 @@
       }
     },
     "SpX-N8-9td.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"solarized-light\"; ObjectID = \"SpX-N8-9td\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"solarized\"; ObjectID = \"SpX-N8-9td\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "solarized-light"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
+            "value" : "solarized"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Solarized Light"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Salaried-light"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "solarized-light"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "solarized-light"
+            "value" : "solarized"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "SrH-fe-Hog.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Create Folder\"; ObjectID = \"SrH-fe-Hog\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"New Folder\"; ObjectID = \"SrH-fe-Hog\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "مجلد جديد"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Vytvořit složku"
           }
         },
@@ -35480,7 +32799,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Create Folder"
+            "value" : "New Folder"
           }
         },
         "es" : {
@@ -35503,7 +32822,7 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "फोल्डर बनाएं"
           }
         },
@@ -35515,31 +32834,31 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "フォルダを作成"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "새로운 폴더"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nieuwe map"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Criar pasta"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nova pasta"
           }
         },
@@ -35797,6 +33116,72 @@
         }
       }
     },
+    "STm-3f-GNu.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Move Selected Lines Down\"; ObjectID = \"STm-3f-GNu\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Zeilen nach unten verschieben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Selected Lines Down"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover líneas seleccionadas hacia abajo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer les lignes sélectionnées vers le bas"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चुनी हुई पंक्तियों को नीचे ले जाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta righe selezionate verso il basso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить выбранные строки вниз"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili Satırları Aşağı Taşı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістити вибрані рядки вниз"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选中行向下移动"
+          }
+        }
+      }
+    },
     "sWS-bo-99f.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Dylan Seeger — https://www.lovably.com\\nOlena Hlushcneko\"; ObjectID = \"sWS-bo-99f\"; Note = \"#bc-ignore!\";",
       "extractionState" : "extracted_with_value",
@@ -35900,7 +33285,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "zh-Hans" : {
@@ -36021,234 +33406,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自动解决 iCloud Drive 冲突"
-          }
-        }
-      }
-    },
-    "Tap-iY-hyA.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Rename Folder\"; ObjectID = \"Tap-iY-hyA\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تسمية المجلد"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Přejmenovat složku"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordner umbenennen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Rename Folder"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Renombar carpeta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Renommer le dossier"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שנה שם תיקיה"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "फ़ोल्डर का नाम बदलें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rinomina cartella"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "フォルダを名称変更"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "폴더 이름 변경"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hernoem map"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Renomear pasta"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Renomear pasta"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Переименовать директорию"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasörü Yeniden Adlandır"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перейменувати директорію"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重命名文件夹"
-          }
-        }
-      }
-    },
-    "Tcg-83-bZN.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Show Options\"; ObjectID = \"Tcg-83-bZN\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عرض الاعدادات"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zobrazit možnosti"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einstellungen anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Show Options"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ver configuración"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afficher les options d'affichage"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הצג אפשרויות"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "विकल्प दिखाएं"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra opzioni vista"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "オプションを表示"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보기 옵션"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toon weergaveopties"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar as opções"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar opções de visualização"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настроить вид"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seçenekleri Göster"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Налаштування вигляду"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示视图选项"
           }
         }
       }
@@ -36591,120 +33748,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外观:"
-          }
-        }
-      }
-    },
-    "TjZ-PX-YVo.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Delete\"; ObjectID = \"TjZ-PX-YVo\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حذف"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Smazat"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Löschen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Delete"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מחק"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "मिटाएं"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "削除"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "삭제"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijder"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deletar"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sil"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Видалити"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除"
           }
         }
       }
@@ -37280,18 +34323,18 @@
       }
     },
     "u88-5C-vTe.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Open In New Window\"; ObjectID = \"u88-5C-vTe\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Open\"; ObjectID = \"u88-5C-vTe\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "افتح في نافذة جديدة"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Otevřít v novém okně"
           }
         },
@@ -37304,7 +34347,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Open In New Window"
+            "value" : "Open"
           }
         },
         "es" : {
@@ -37327,7 +34370,7 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "नई विंडो में खोलें"
           }
         },
@@ -37339,31 +34382,31 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "新しいウィンドウで開きます"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "새 창에서 열기"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Openen in een nieuw venster"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abrir em nova janela"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abrir em nova janela"
           }
         },
@@ -37382,7 +34425,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкрити в новому вікні"
+            "value" : "Відкрити у новому вікні"
           }
         },
         "zh-Hans" : {
@@ -37963,6 +35006,72 @@
         }
       }
     },
+    "UMi-Hx-Z1c.title" : {
+      "comment" : "Class = \"NSMenu\"; title = \"Headers\"; ObjectID = \"UMi-Hx-Z1c\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopfzeilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Headers"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encabezados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En-têtes"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शीर्षक"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intestazioni"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заголовки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlıklar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заголовки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标题"
+          }
+        }
+      }
+    },
     "uMZ-sI-7ja.title" : {
       "comment" : "Class = \"NSMenu\"; title = \"File\"; ObjectID = \"uMZ-sI-7ja\";",
       "extractionState" : "extracted_with_value",
@@ -38423,115 +35532,14 @@
       "comment" : "Class = \"NSMenuItem\"; title = \"github\"; ObjectID = \"v1K-9W-2aB\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "github"
           }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "github"
-          }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "v9k-wu-2xL.placeholderString" : {
       "comment" : "Class = \"NSTextFieldCell\"; placeholderString = \"empty log\"; ObjectID = \"v9k-wu-2xL\";",
@@ -39331,119 +36339,24 @@
         }
       }
     },
-    "VwE-w2-fAG.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Toggle Container\"; ObjectID = \"VwE-w2-fAG\";",
+    "VV2-X2-moA.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"*\"; ObjectID = \"VV2-X2-moA\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zapnout/vypnout kontejner"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Toggle Container"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "टॉगल कंटेनर"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alterar Container"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Изменить контейнер"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konteyneri Aç/Kapat"
+            "value" : "*"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toggle Container"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "切换容器"
+            "value" : "*"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Vwq-Ek-K2v.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Focus on search bar when ESC is pressed\"; ObjectID = \"Vwq-Ek-K2v\";",
@@ -40239,120 +37152,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "粘贴并匹配样式"
-          }
-        }
-      }
-    },
-    "wG8-3A-BMJ.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Live images preview\"; ObjectID = \"wG8-3A-BMJ\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "معاينة حية للصور"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Živý náhled obrázků"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bilder Vorschau"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Live images preview"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Previsualizar imágenes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aperçu des images en temps réel"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "תצוגת תמונות בזמן אמת"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "लाइव छवियों का पूर्वावलोकन"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anteprima immagini in tempo reale"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ライブ画像プレビュー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "실시간 이미지 미리보기"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toon afbeeldingen in de editor"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pré-visualização de imagens ao vivo"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pré-visualização de imagens"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Превью изображений"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Canlı görüntü önizlemesi"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Миттєвий перегляд зображень"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "实时图像预览"
           }
         }
       }
@@ -41383,6 +38182,72 @@
         }
       }
     },
+    "xeP-Zg-vmO.title" : {
+      "comment" : "Class = \"NSTextFieldCell\"; title = \"Bold:\"; ObjectID = \"xeP-Zg-vmO\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fett:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bold:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Negrita:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gras :"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बोल्ड:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grassetto:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жирный:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalın:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жирний:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "粗体："
+          }
+        }
+      }
+    },
     "XEU-Ia-4j2.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Reset\"; ObjectID = \"XEU-Ia-4j2\";",
       "extractionState" : "extracted_with_value",
@@ -41949,120 +38814,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "笔记历史版本"
-          }
-        }
-      }
-    },
-    "xpl-3U-eFW.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"agate\"; ObjectID = \"xpl-3U-eFW\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "ar-IQ" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "agate"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "एगेट"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "nl-NL" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "pt-PT" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kapı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "agate"
           }
         }
       }
@@ -43094,18 +39845,18 @@
       }
     },
     "y5T-sb-gw4.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Autoname By Title\"; ObjectID = \"y5T-sb-gw4\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Autoname by Title (30s)\"; ObjectID = \"y5T-sb-gw4\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "التسمية التلقائية حسب العنوان"
           }
         },
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Automatické pojmenování podle názvu"
           }
         },
@@ -43118,7 +39869,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Autoname By Title"
+            "value" : "Autoname by Title (30s)"
           }
         },
         "es" : {
@@ -43141,7 +39892,7 @@
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "शीर्षक के अनुसार स्वचालित नामकरण"
           }
         },
@@ -43153,38 +39904,38 @@
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "タイトルによる自動命名"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "제목별 자동 이름 지정"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Automatische naamgeving op titel"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nomeação automática por título"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Nomeação automática por título"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Автоименование по заголовку"
+            "value" : "Автоименование по заголовку (30с)"
           }
         },
         "tr" : {
@@ -43196,7 +39947,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Автоіменування за заголовком"
+            "value" : "Автоіменування за заголовком (30c)"
           }
         },
         "zh-Hans" : {
@@ -43310,7 +40061,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Name"
           }
         },
         "zh-Hans" : {
@@ -43319,7 +40070,8 @@
             "value" : ""
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "ybG-au-Sf4.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Git repository\"; ObjectID = \"ybG-au-Sf4\";",
@@ -43548,6 +40300,91 @@
           }
         }
       }
+    },
+    "yMK-aK-OV2.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Move Selected Lines Up\"; ObjectID = \"yMK-aK-OV2\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Zeilen nach oben verschieben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Selected Lines Up"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover líneas seleccionadas hacia arriba"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer les lignes sélectionnées vers le haut"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "चुनी हुई पंक्तियों को ऊपर ले जाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta righe selezionate verso l'alto"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить выбранные строки вверх"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili Satırları Yukarı Taşı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістити вибрані рядки вгору"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选中行向上移动"
+          }
+        }
+      }
+    },
+    "yMX-hz-B8Y.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"__\"; ObjectID = \"yMX-hz-B8Y\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "__"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__"
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "yNE-Yn-AWj.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Quick note:\"; ObjectID = \"yNE-Yn-AWj\";",
@@ -44913,6 +41750,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正文文本匹配时自动选择笔记"
+          }
+        }
+      }
+    },
+    "zRJ-Z2-Lsa.title" : {
+      "comment" : "Class = \"NSMenu\"; title = \"Move Item\"; ObjectID = \"zRJ-Z2-Lsa\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Element verschieben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Move Item"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover elemento"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer l'élément"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आइटम हटाएँ"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta elemento"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öğeyi Taşı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动项目"
           }
         }
       }

@@ -36,4 +36,46 @@ extension UITextView {
 
         return nil
     }
+
+    public func insertAttributedText(_ attr: NSAttributedString) {
+        let range = self.selectedRange
+
+        textStorage.beginEditing()
+        undoManager?.beginUndoGrouping()
+
+        let old = textStorage.attributedSubstring(from: range)
+        let oldMutable = NSMutableAttributedString(attributedString: old)
+        oldMutable.saveData()
+
+        undoManager?.registerUndo(withTarget: self) { target in
+            target.replace(range: NSRange(location: range.location, length: attr.length), with: oldMutable)
+        }
+        undoManager?.setActionName("Insert")
+
+        textStorage.replaceCharacters(in: range, with: attr)
+        selectedRange = NSRange(location: range.location + attr.length, length: 0)
+
+        undoManager?.endUndoGrouping()
+        textStorage.endEditing()
+
+        delegate?.textViewDidChange?(self)
+    }
+
+    private func replace(range: NSRange, with attr: NSAttributedString) {
+        let old = textStorage.attributedSubstring(from: range)
+        let oldMutable = NSMutableAttributedString(attributedString: old)
+        oldMutable.saveData()
+
+        undoManager?.registerUndo(withTarget: self) { target in
+            target.replace(range: NSRange(location: range.location, length: attr.length), with: oldMutable)
+        }
+
+        textStorage.beginEditing()
+        textStorage.replaceCharacters(in: range, with: attr)
+        
+        selectedRange = NSRange(location: range.location + attr.length, length: 0)
+
+        textStorage.endEditing()
+        delegate?.textViewDidChange?(self)
+    }
 }

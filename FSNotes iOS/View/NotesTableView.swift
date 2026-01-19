@@ -120,8 +120,6 @@ class NotesTableView: UITableView,
                     }
 
                     self.reloadRows(notes: [note])
-                    NotesTextProcessor.highlight(note: note)
-
                     self.fill(note: note, indexPath: indexPath)
                 }
             })
@@ -145,8 +143,6 @@ class NotesTableView: UITableView,
             self.viewDelegate?.unLock(notes: [note], completion: { success in
                 if let success = success, success.count > 0 {
                     self.reloadRows(notes: [note])
-                    NotesTextProcessor.highlight(note: note)
-
                     self.fill(note: note, indexPath: indexPath)
                 }
             }, password: password)
@@ -621,35 +617,36 @@ class NotesTableView: UITableView,
         var indexPaths = [IndexPath]()
         var tags = [String]()
         for note in notes {
-            if let i = self.notes.firstIndex(where: {$0 === note}) {
+            if let i = self.notes.firstIndex(where: { $0 === note }) {
                 indexPaths.append(IndexPath(row: i, section: 0))
                 tags.append(contentsOf: note.tags)
             }
         }
-
+        
+        beginUpdates()
         self.notes.removeAll(where: { notes.contains($0) })
-
         deleteRows(at: indexPaths, with: .automatic)
+        endUpdates()
+        
         vc.updateNotesCounter()
-
         vc.sidebarTableView.delete(tags: tags)
     }
 
     public func insertRows(notes: [Note]) {
         guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
+
         vc.storage.loadPins(notes: notes)
 
         var toInsert = [Note]()
-
         for note in notes {
             guard vc.storage.searchQuery.isFit(note: note),
-                !self.notes.contains(where: {$0 === note})
+                  !self.notes.contains(where: { $0 === note })
             else { continue }
-
             toInsert.append(note)
         }
 
         guard toInsert.count > 0 else { return }
+
         vc.updateSpotlightIndex(notes: toInsert)
 
         let nonSorted = self.notes + toInsert
@@ -657,21 +654,23 @@ class NotesTableView: UITableView,
 
         var indexPaths = [IndexPath]()
         for note in toInsert {
-            guard let index = sorted.firstIndex(of: note) else { continue }
+            guard let index = sorted.firstIndex(where: { $0 === note }) else { continue }
             indexPaths.append(IndexPath(row: index, section: 0))
         }
 
         self.notes = sorted
 
+        beginUpdates()
         insertRows(at: indexPaths, with: .fade)
-        reloadRows(notes: notes, resetKeys: true)
+        endUpdates()
     }
 
     public func reloadRows(notes: [Note], resetKeys: Bool = false) {
         beginUpdates()
         for note in notes {
-            if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexPath = IndexPath(row: i, section: 0)
+            if let row = self.notes.firstIndex(where: { $0 === note }) {
+                let indexPath = IndexPath(row: row, section: 0)
+
                 if let cell = cellForRow(at: indexPath) as? NoteCellView {
                     if resetKeys {
                         cell.imageKeys = []
@@ -811,15 +810,34 @@ class NotesTableView: UITableView,
     }
 
     public func showLoader() {
-        let title = NSLocalizedString("Loading...", comment: "")
-        let alert = UIAlertController(title: nil, message: title, preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: " ", preferredStyle: .alert)
 
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.medium
-        loadingIndicator.startAnimating();
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.startAnimating()
 
-        alert.view.addSubview(loadingIndicator)
+        let label = UILabel()
+        label.text = NSLocalizedString("Loading...", comment: "")
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        let stack = UIStackView(arrangedSubviews: [loadingIndicator, label])
+        stack.axis = .horizontal
+        stack.spacing = 14
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
+        alert.view.addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: alert.view.centerYAnchor, constant: 6),
+
+            stack.leadingAnchor.constraint(greaterThanOrEqualTo: alert.view.leadingAnchor, constant: 20),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: alert.view.trailingAnchor, constant: -20),
+        ])
 
         UIApplication.getNC()?.present(alert, animated: true)
     }
@@ -973,15 +991,16 @@ class NotesTableView: UITableView,
 
             // Clone images
             if note.type == .Markdown && note.container == .none {
-                let images = note.getAllImages()
+                let images = note.content.getImagesAndFiles()
                 for image in images {
                     noteDupe.move(from: image.url, imagePath: image.path, to: note.project, copy: true)
                 }
             }
 
-            noteDupe.save()
+            if noteDupe.save() {
+                Storage.shared().add(noteDupe)
+            }
 
-            viewDelegate?.storage.add(noteDupe)
             dupes.append(noteDupe)
         }
 
@@ -1066,38 +1085,24 @@ class NotesTableView: UITableView,
 
     public func moveRowUp(note: Note) {
         guard let vc = viewDelegate,
-            vc.isNoteInsertionAllowed(),
-            vc.storage.searchQuery.isFit(note: note),
-            let at = notes.firstIndex(where: {$0 === note})
+              vc.isNoteInsertionAllowed(),
+              vc.storage.searchQuery.isFit(note: note)
         else { return }
 
-        var to = 0
+        guard let currentIndex = notes.firstIndex(where: { $0 === note }) else { return }
 
         let sorted = vc.storage.sortNotes(noteList: notes)
-        to = sorted.firstIndex(of: note) ?? at
+        guard let targetIndex = sorted.firstIndex(where: { $0 === note }) else { return }
 
-        let atIndexPath = IndexPath(row: at, section: 0)
-        let toIndexPath = IndexPath(row: to, section: 0)
+        guard currentIndex != targetIndex else { return }
+        self.notes = sorted
+        
+        let from = IndexPath(row: currentIndex, section: 0)
+        let to = IndexPath(row: targetIndex, section: 0)
 
-        if at != to {
-            let note = notes.remove(at: at)
-            notes.insert(note, at: to)
-            moveRow(at: atIndexPath, to: toIndexPath)
-        }
-
-        if atIndexPath != toIndexPath {
-            reloadRows(at: [atIndexPath, toIndexPath], with: .automatic)
-        }
-
-        // scroll to hack
-        // https://stackoverflow.com/questions/26244293/scrolltorowatindexpath-with-uitableview-does-not-work
-        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-        //            if note.project.sortBy == .modificationDate, let first = self.notes.first {
-        //                self.scrollTo(note: first)
-        //            } else {
-        //                self.scrollTo(note: note)
-        //            }
-        //        }
+        beginUpdates()
+        moveRow(at: from, to: to)
+        endUpdates()
     }
 
     @objc public func toggleSelectAll() {
@@ -1140,52 +1145,51 @@ class NotesTableView: UITableView,
 
     public func addPins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
+        
+        beginUpdates()
         for note in notes {
+            guard let currentIndex = self.notes.firstIndex(of: note) else { continue }
+            
             let sorted = vc.storage.sortNotes(noteList: self.notes)
-
-            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
-
-                let note = self.notes.remove(at: index)
-                self.notes.insert(note, at: toIndex)
-
-                let at = IndexPath(row: index, section: 0)
-                let to = IndexPath(row: toIndex, section: 0)
-
-                moveRow(at: at, to: to)
-
-                let reload = [
-                    IndexPath(row: index, section: 0),
-                    IndexPath(row: toIndex, section: 0)
-                ]
-
-                reloadRows(at: reload, with: .automatic)
+            
+            guard let newIndex = sorted.firstIndex(of: note) else { continue }
+            
+            self.notes = sorted
+            
+            if currentIndex != newIndex {
+                let from = IndexPath(row: currentIndex, section: 0)
+                let to = IndexPath(row: newIndex, section: 0)
+                
+                moveRow(at: from, to: to)
             }
+            
+            reloadRows(at: [IndexPath(row: newIndex, section: 0)], with: .none)
         }
+        endUpdates()
     }
 
     public func removePins(notes: [Note]) {
         guard let vc = viewDelegate else { return }
+        
+        beginUpdates()
         for note in notes {
+            guard let currentIndex = self.notes.firstIndex(of: note) else { continue }
+            
             let sorted = vc.storage.sortNotes(noteList: self.notes)
-
-            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
-
-                let note = self.notes.remove(at: index)
-                self.notes.insert(note, at: toIndex)
-
-                let at = IndexPath(row: index, section: 0)
-                let to = IndexPath(row: toIndex, section: 0)
-
-                moveRow(at: at, to: to)
-
-                let reload = [
-                    IndexPath(row: index, section: 0),
-                    IndexPath(row: toIndex, section: 0)
-                ]
-
-                reloadRows(at: reload, with: .automatic)
+            guard let newIndex = sorted.firstIndex(of: note) else { continue }
+            
+            self.notes = sorted
+            
+            if currentIndex != newIndex {
+                let from = IndexPath(row: currentIndex, section: 0)
+                let to = IndexPath(row: newIndex, section: 0)
+                
+                moveRow(at: from, to: to)
             }
+            
+            reloadRows(at: [IndexPath(row: newIndex, section: 0)], with: .none)
         }
+        endUpdates()
     }
 
     public func scrollTo(note: Note) {

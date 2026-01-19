@@ -9,7 +9,6 @@
 import Cocoa
 import MASShortcut
 import CoreData
-import FSNotesCore_macOS
 
 class PrefsViewController: NSTabViewController  {
 

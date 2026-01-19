@@ -8,12 +8,13 @@
 
 import UIKit
 import MobileCoreServices
+import UniformTypeIdentifiers
 
 class EditTextView: UITextView, UITextViewDelegate {
 
     public var textStorageProcessor: TextStorageProcessor?
     
-    public var isFillAction = false
+    public var isNoteLoading = false
     public var isAllowedScrollRect: Bool?
     public var typingFont: UIFont?
     public var note: Note?
@@ -22,9 +23,6 @@ class EditTextView: UITextView, UITextViewDelegate {
     public var keyboardIsOpened = true
     public var callCounter = 0
     
-    private var undoIcon = UIImage(named: "undo.png")
-    private var redoIcon = UIImage(named: "redo.png")
-
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
             super.init(coder: coder)
@@ -44,7 +42,27 @@ class EditTextView: UITextView, UITextViewDelegate {
         autocorrectionType = UserDefaultsManagement.editorAutocorrection ? .yes : .no
         spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
     }
+
+    override func becomeFirstResponder() -> Bool {
+        textStorage.removeHighlight()
+        
+        return super.becomeFirstResponder()
+    }
     
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        if !isFirstResponder && window != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                guard let self = self else { return }
+                
+                if !self.isFirstResponder && self.window != nil {
+                    _ = self.becomeFirstResponder()
+                }
+            }
+        }
+    }
+
     public func initTextStorage() {
         let processor = TextStorageProcessor()
         processor.editor = self
@@ -132,150 +150,104 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func cut(_ sender: Any?) {
-        guard let note = self.note else {
-            super.cut(sender)
-            return
+        let selectedRange = self.selectedRange
+        guard selectedRange.length > 0 else { return }
+
+        let selectedString = textStorage.attributedSubstring(from: selectedRange)
+        let attributedString = NSMutableAttributedString(attributedString: selectedString).unloadTasks()
+        attributedString.saveData()
+
+        do {
+            let data = try NSKeyedArchiver.archivedData(
+                withRootObject: attributedString,
+                requiringSecureCoding: false
+            )
+
+            UIPasteboard.general.setItems([
+                [UIPasteboard.attributed: data],
+                [UTType.plainText.identifier: attributedString.string]
+            ])
+        } catch {
+            print("Serialization error: \(error)")
         }
 
-        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unLoadCheckboxes()
-
-        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
-            let imageUrl = note.getImageUrl(imageName: path),
-            let data = try? Data(contentsOf: imageUrl),
-            let image = UIImage(data: data),
-            let jpgData = image.jpegData(compressionQuality: 1) {
-
-            let location = selectedRange.location
-
-            if let textRange = getTextRange() {
-                self.replace(textRange, withText: "")
-            }
-
-            self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
-            self.selectedRange = NSRange(location: location, length: 0)
-
-            UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
-            return
+        if let should = delegate?.textView?(self, shouldChangeTextIn: selectedRange, replacementText: "") {
+            guard should else { return }
         }
 
-        if self.textStorage.length >= self.selectedRange.upperBound {
-            if let rtfd = try? attributedString.data(
-                from: NSMakeRange(0, attributedString.length),
-                documentAttributes: [
-                    NSAttributedString.DocumentAttributeKey.documentType:
-                        NSAttributedString.DocumentType.rtfd
-                ]
-            ) {
-                UIPasteboard.general.setData(rtfd, forPasteboardType: "es.fsnot.attributed.text"
-                )
-
-                if let textRange = getTextRange() {
-                    self.replace(textRange, withText: "")
-                }
-
-                return
-            }
-
-            let item = [kUTTypeUTF8PlainText as String : attributedString.string as Any]
-            UIPasteboard.general.items = [item]
-        }
-
-        super.cut(sender)
+        let empty = NSAttributedString(string: "")
+        self.insertAttributedText(empty)
     }
 
+
     override func paste(_ sender: Any?) {
-        guard let note = self.note else {
+        let pb = UIPasteboard.general
+        var toInsert: NSAttributedString?
+
+        if let imageData = pb.data(forPasteboardType: UTType.png.identifier) ??
+                           pb.data(forPasteboardType: UTType.jpeg.identifier) ??
+                           pb.data(forPasteboardType: UTType.image.identifier) {
+
+            toInsert = NSMutableAttributedString.build(data: imageData)
+        }
+
+        else if let data = pb.data(forPasteboardType: UIPasteboard.attributed) {
+            do {
+                if let attributed = try NSKeyedUnarchiver.unarchivedObject(
+                    ofClass: NSAttributedString.self,
+                    from: data
+                ) {
+                    let mutable = NSMutableAttributedString(attributedString: attributed)
+                    mutable.loadTasks()
+                    toInsert = mutable
+                }
+            } catch {
+                print("Paste error: \(error)")
+            }
+        }
+
+        else if let plain = pb.string {
+            let mutable = NSMutableAttributedString(string: plain)
+            mutable.loadTasks()
+            mutable.loadFont()
+            toInsert = mutable
+        }
+
+        guard let attrToInsert = toInsert else {
             super.paste(sender)
             return
         }
 
-        note.invalidateCache()
-        textStorageProcessor?.shouldForceRescan = true
-
-        for item in UIPasteboard.general.items {
-            if let rtfd = item["es.fsnot.attributed.text"] as? Data {
-                if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
-
-                    let attributedString = NSMutableAttributedString(attributedString: attributedString)
-                    attributedString.loadCheckboxes()
-                    
-                    let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
-                    attributedString.removeAttribute(.backgroundColor, range: NSRange(0..<attributedString.length))
-
-                    if let selTextRange = selectedTextRange, let undoManager = undoManager {
-                        undoManager.beginUndoGrouping()
-                        self.replace(selTextRange, withText: attributedString.string)
-                        self.textStorage.replaceCharacters(in: newRange, with: attributedString)
-                        undoManager.endUndoGrouping()
-                    }
-
-                    self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: 0, length: self.textStorage.length))
-
-                    note.save(attributed: attributedText)
-
-                    UIApplication.getVC().notesTable.reloadData()
-                    return
-                }
-            }
-
-            if let image = item["public.jpeg"] as? UIImage, let data = image.jpegData(compressionQuality: 1) {
-                saveImageClipboard(data: data, note: note)
-
-                note.save(attributed: attributedText)
-
-                UIApplication.getVC().notesTable.reloadData()
-                return
-            }
-
-            if let image = item["public.png"] as? UIImage, let data = image.pngData() {
-                saveImageClipboard(data: data, note: note)
-
-                note.save(attributed: attributedText)
-
-                UIApplication.getVC().notesTable.reloadData()
-                return
-            }
+        let range = self.selectedRange
+        if let should = delegate?.textView?(self, shouldChangeTextIn: range, replacementText: attrToInsert.string), !should {
+            return
         }
 
-        super.paste(sender)
+        self.insertAttributedText(attrToInsert)
     }
 
     override func copy(_ sender: Any?) {
-        guard let note = self.note else {
-            super.copy(sender)
-            return
-        }
+        guard selectedRange.length > 0 else { return }
 
-        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unLoadCheckboxes()
+        let selectedString = textStorage.attributedSubstring(from: self.selectedRange)
+        
+        let attributedString = NSMutableAttributedString(attributedString: selectedString).unloadTasks()
+        attributedString.saveData()
 
-        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String {
+        do {
+            let data = try NSKeyedArchiver.archivedData(
+                withRootObject: attributedString,
+                requiringSecureCoding: false
+            )
 
-            DispatchQueue.global().async {
-                if let imageUrl = note.getImageUrl(imageName: path),
-                    let data = try? Data(contentsOf: imageUrl),
-                    let image = UIImage(data: data),
-                    let jpgData = image.jpegData(compressionQuality: 1) {
-
-                    UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
-                }
-            }
+            UIPasteboard.general.setItems([
+                [UIPasteboard.attributed: data],
+                [UTType.plainText.identifier: attributedString.string]
+            ])
 
             return
-        }
-
-        if self.textStorage.length >= self.selectedRange.upperBound {
-            if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
-
-                UIPasteboard.general.setItems([
-                    [kUTTypePlainText as String: attributedString.string],
-                    ["es.fsnot.attributed.text": rtfd],
-                    [kUTTypeFlatRTFD as String: rtfd]
-                ])
-
-                return
-            }
+        } catch {
+            print("Serialization error: \(error)")
         }
 
         super.copy(sender)
@@ -290,78 +262,8 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
     
     public func initUndoRedoButons() {
-        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
-        
-        let img = um.canUndo ? undoIcon : undoIcon?.alpha(0.5)
-        let redoImg = um.canRedo ? redoIcon : redoIcon?.alpha(0.5)
-
-        if let scroll = self.inputAccessoryView as? UIScrollView, let toolBar = scroll.subviews.first as? UIToolbar, let items = toolBar.items {
-            for item in items {
-                
-                if item.action == #selector(EditorViewController.undoPressed) {
-                    item.image = img
-                }
-                
-                if item.action == #selector(EditorViewController.redoPressed) {
-                    item.image = redoImg
-                }
-            }
-        }
-    }
-
-    public func saveImageClipboard(data: Data, note: Note, ext: String? = nil) {
-        if let path = ImagesProcessor.writeFile(data: data, note: note, ext: ext) {
-            if let imageUrl = note.getImageUrl(imageName: path) {
-
-                let range = NSRange(location: selectedRange.location, length: 1)
-                let attachment = NoteAttachment(editor: self, title: "", path: path, url: imageUrl, note: note)
-
-                if let attributedString = attachment.getAttributedString() {
-
-                    undoManager?.beginUndoGrouping()
-                    textStorage.replaceCharacters(in: selectedRange, with: attributedString)
-                    selectedRange = NSRange(location: selectedRange.location + attributedString.length, length: 0)
-                    undoManager?.endUndoGrouping()
-
-                    let undo = Undo(range: range, string: attributedString)
-                    undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
-
-                    initUndoRedoButons()
-                    return
-                }
-            }
-        }
-    }
-
-    @IBAction func undoImage(_ object: Any) {
-        guard let undo = object as? Undo else { return }
-
-        undoManager?.beginUndoGrouping()
-        textStorage.replaceCharacters(in: undo.range, with: "")
-        undoManager?.endUndoGrouping()
-
-        let range = NSRange(location: undo.range.location, length: 0)
-        let redo = Undo(range: range, string: undo.string)
-
-        undoManager?.registerUndo(withTarget: self, selector: #selector(redoImage), object: redo)
-
-        initUndoRedoButons()
-    }
-
-    @IBAction func redoImage(_ object: Any) {
-        guard let redo = object as? Undo else { return }
-
-        undoManager?.beginUndoGrouping()
-        textStorage.replaceCharacters(in: redo.range, with: redo.string)
-        selectedRange = NSRange(location: selectedRange.location + redo.string.length, length: 0)
-        undoManager?.endUndoGrouping()
-
-        let range = NSRange(location: redo.range.location, length: redo.string.length)
-        let undo = Undo(range: range, string: redo.string)
-
-        undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
-
-        initUndoRedoButons()
+        UIApplication.getEVC().undoBarButton?.isEnabled = undoManager?.canUndo == true
+        UIApplication.getEVC().redoBarButton?.isEnabled = undoManager?.canRedo == true
     }
     
     public func isTodo(at location: Int) -> Bool {
@@ -390,15 +292,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     public func isImage(at location: Int) -> Bool {
-        let storage = self.textStorage
-
-        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-
-        if storage.length > location, storage.attribute(pathKey, at: location, effectiveRange: nil) != nil {
-            return true
-        }
-
-        return false
+        return textStorage.getMeta(at: location) != nil
     }
 
     public func isLink(at location: Int) -> Bool {
@@ -419,6 +313,18 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
 
         return false
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        guard traitCollection.hasDifferentColorAppearance(
+            comparedTo: previousTraitCollection
+        ) else { return }
+
+        NotesTextProcessor.hl = nil
+        
+        UIApplication.getEVC().refill()
     }
 }
 

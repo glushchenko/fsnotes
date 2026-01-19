@@ -9,7 +9,6 @@
 import Cocoa
 import MASShortcut
 import CoreData
-import FSNotesCore_macOS
 
 class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     override func viewWillAppear() {
@@ -20,17 +19,18 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet var newNoteshortcutView: MASShortcutView!
     @IBOutlet var searchNotesShortcut: MASShortcutView!
+    @IBOutlet var activateShortcut: MASShortcutView!
     @IBOutlet weak var quickNote: MASShortcutView!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
-    @IBOutlet weak var showDockIcon: NSButton!
     @IBOutlet weak var searchFocusOnESC: NSButton!
-    @IBOutlet weak var showInMenuBar: NSButton!
     @IBOutlet weak var defaultExtension: NSPopUpButton!
     @IBOutlet weak var fileContainer: NSPopUpButton!
     @IBOutlet weak var filesNaming: NSPopUpButton!
     @IBOutlet weak var automaticConflictsResolution: NSButton!
     @IBOutlet weak var saveTextBundleMetaData: NSButton!
-
+    @IBOutlet weak var textMatchAutoSelection: NSButton!
+    @IBOutlet weak var hideOnDeactivate: NSButton!
+    
     //MARK: global variables
 
     let storage = Storage.shared()
@@ -49,12 +49,8 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
             defaultStoragePath.url = url
         }
 
-        showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
-
         searchFocusOnESC.state = UserDefaultsManagement.shouldFocusSearchOnESCKeyDown ? .on : .off
         
-        showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
-
         fileContainer.selectItem(withTag: UserDefaultsManagement.fileContainer.tag)
 
         filesNaming.selectItem(withTag: UserDefaultsManagement.naming.tag)
@@ -67,6 +63,14 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         saveTextBundleMetaData.state = UserDefaultsManagement.useTextBundleMetaToStoreDates ? .on : .off
 
         externalEditorApp.delegate = self
+        
+        textMatchAutoSelection.state = UserDefaultsManagement.textMatchAutoSelection ? .on : .off
+        
+        hideOnDeactivate.state = UserDefaultsManagement.hideOnDeactivate ? .on : .off
+    }
+    
+    @IBAction func textMatchAutoSelection(_ sender: NSButton) {
+        UserDefaultsManagement.textMatchAutoSelection = (sender.state == .on)
     }
 
     @IBAction func changeDefaultStorage(_ sender: Any) {
@@ -104,35 +108,10 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         UserDefaultsManagement.externalEditor = externalEditorApp.stringValue
     }
 
-    @IBAction func showDockIcon(_ sender: NSButton) {
-        let isEnabled = sender.state == .on
-        UserDefaultsManagement.showDockIcon = isEnabled
-
-        NSApp.setActivationPolicy(isEnabled ? .regular : .accessory)
-
-        DispatchQueue.main.async {
-            NSMenu.setMenuBarVisible(true)
-            NSApp.activate(ignoringOtherApps: true)
-        }
-    }
-
     @IBAction func searchFocusOnESC(_ sender: NSButton) {
         UserDefaultsManagement.shouldFocusSearchOnESCKeyDown = sender.state == .on
     }
      
-    @IBAction func showInMenuBar(_ sender: NSButton) {
-        UserDefaultsManagement.showInMenuBar = sender.state == .on
-
-        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
-
-        if sender.state == .off {
-            appDelegate.removeMenuBar(nil)
-            return
-        }
-
-        appDelegate.addMenuBar(nil)
-    }
-
     @IBAction func fileContainer(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
 
@@ -163,6 +142,20 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     @IBAction func saveTextBundleMetaData(_ sender: NSButton) {
         UserDefaultsManagement.useTextBundleMetaToStoreDates = sender.state == .on
     }
+    
+    @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
+        UserDefaultsManagement.hideOnDeactivate = sender.state == .on
+        
+        // We don't need to set the user defaults value here as the checkbox is
+        // bound to it. We do need to update each window's hideOnDeactivate.
+        for window in NSApplication.shared.windows {
+            if window.className == "NSStatusBarWindow" {
+                continue
+            }
+
+            window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
+        }
+    }
 
     func restart() {
         let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
@@ -182,10 +175,12 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
         searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
         quickNote.shortcutValue = UserDefaultsManagement.quickNoteShortcut
+        activateShortcut.shortcutValue = UserDefaultsManagement.activateShortcut
 
         newNoteshortcutView.shortcutValidator.allowAnyShortcutWithOptionModifier = true
         searchNotesShortcut.shortcutValidator.allowAnyShortcutWithOptionModifier = true
         quickNote.shortcutValidator.allowAnyShortcutWithOptionModifier = true
+        activateShortcut.shortcutValidator.allowAnyShortcutWithOptionModifier = true
 
         newNoteshortcutView.shortcutValueChange = { (sender) in
             if ((self.newNoteshortcutView.shortcutValue) != nil) {
@@ -239,6 +234,23 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
                 })
             } else {
                 UserDefaultsManagement.quickNoteShortcut = nil
+            }
+        }
+        
+        activateShortcut.shortcutValueChange = { (sender) in
+            mas?.unregisterShortcut(UserDefaultsManagement.activateShortcut)
+            
+            if ((self.activateShortcut.shortcutValue) != nil) {
+                let keyCode = self.activateShortcut.shortcutValue.keyCode
+                let modifierFlags = self.activateShortcut.shortcutValue.modifierFlags
+
+                UserDefaultsManagement.activateShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+
+                MASShortcutMonitor.shared().register(self.activateShortcut.shortcutValue, withAction: {
+                    vc.searchShortcut(activate: true)
+                })
+            } else {
+                UserDefaultsManagement.activateShortcut = nil
             }
         }
     }

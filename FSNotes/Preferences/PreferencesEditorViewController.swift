@@ -13,9 +13,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var codeFontPreview: NSTextField!
     @IBOutlet weak var noteFontPreview: NSTextField!
     @IBOutlet weak var codeBlockHighlight: NSButton!
-    @IBOutlet weak var highlightIndentedCodeBlocks: NSButton!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
-    @IBOutlet weak var liveImagesPreview: NSButton!
     @IBOutlet weak var indentUsing: NSPopUpButton!
     @IBOutlet weak var inEditorFocus: NSButton!
     @IBOutlet weak var autocloseBrackets: NSButton!
@@ -26,27 +24,32 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var inlineTags: NSButton!
     @IBOutlet weak var clickableLinks: NSButton!
     
+    @IBOutlet weak var italicAsterisk: NSButton!
+    @IBOutlet weak var italicUnderscore: NSButton!
+    
+    @IBOutlet weak var boldAsterisk: NSButton!
+    @IBOutlet weak var boldUnderscore: NSButton!
+    
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 495)
     }
 
     override func viewDidAppear() {
-        self.view.window!.title = NSLocalizedString("Settings", comment: "")
+        if let window = self.view.window {
+            window.title = NSLocalizedString("Settings", comment: "")
+        }
 
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
-
-        highlightIndentedCodeBlocks.state = UserDefaultsManagement.indentedCodeBlockHighlighting ? NSControl.StateValue.on : NSControl.StateValue.off
-
-        liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
         indentUsing.selectItem(at: UserDefaultsManagement.indentUsing)
         autocloseBrackets.state = UserDefaultsManagement.autocloseBrackets ? .on : .off
 
-        markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
+        markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme.getName())
 
-        lineSpacing.floatValue = UserDefaultsManagement.editorLineSpacing
+        lineSpacing.floatValue = Float((UserDefaultsManagement.lineHeightMultiple - 1) * 10)
         imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
         lineWidth.floatValue = UserDefaultsManagement.lineWidth
 
@@ -58,30 +61,17 @@ class PreferencesEditorViewController: NSViewController {
         
         setCodeFontPreview()
         setNoteFontPreview()
+        
+        italicAsterisk.state = UserDefaultsManagement.italic == "*" ? .on : .off
+        italicUnderscore.state = UserDefaultsManagement.italic == "_" ? .on : .off
+        
+        boldAsterisk.state = UserDefaultsManagement.bold == "**" ? .on : .off
+        boldUnderscore.state = UserDefaultsManagement.bold == "__" ? .on : .off
     }
 
     //MARK: global variables
 
     let storage = Storage.shared()
-
-    @IBAction func liveImagesPreview(_ sender: NSButton) {
-        let editors = AppDelegate.getEditTextViews()
-        
-        for editor in editors {
-            if UserDefaultsManagement.liveImagesPreview {
-                if let note = editor.note, let storage = editor.textStorage, storage.length > 0 {
-                    storage.setAttributedString(note.content)
-                }
-            }
-
-            UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
-
-            if let note = editor.note, let evc = editor.editorViewController, !editor.isPreviewEnabled() {
-                NotesTextProcessor.highlight(note: note)
-                evc.refillEditArea()
-            }
-        }
-    }
 
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
@@ -102,7 +92,10 @@ class PreferencesEditorViewController: NSViewController {
         }
 
         Storage.shared().resetCacheAttributes()
-        UserDefaultsManagement.codeTheme = item.title
+        
+        if let theme = EditorTheme(themeName: item.title) {
+            UserDefaultsManagement.codeTheme = theme
+        }
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
@@ -126,17 +119,19 @@ class PreferencesEditorViewController: NSViewController {
     }
 
     @IBAction func lineSpacing(_ sender: NSSlider) {
-        UserDefaultsManagement.editorLineSpacing = sender.floatValue
+        UserDefaultsManagement.editorLineSpacing = 1
+        UserDefaultsManagement.lineHeightMultiple = CGFloat(1 + sender.floatValue / 10)
 
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
             if let evc = editor.editorViewController {
-                editor.textStorage?.updateParagraphStyle()
-
                 MPreviewView.template = nil
                 NotesTextProcessor.resetCaches()
 
-                evc.refillEditArea(force: true)
+                if let lm = evc.vcEditor?.layoutManager as? LayoutManager {
+                    lm.lineHeightMultiple = CGFloat(UserDefaultsManagement.lineHeightMultiple)
+                    lm.refreshLayoutSoftly()
+                }
             }
         }
     }
@@ -151,7 +146,7 @@ class PreferencesEditorViewController: NSViewController {
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
             if let note = editor.note, let evc = editor.editorViewController {
-                NotesTextProcessor.highlight(note: note)
+                NotesTextProcessor.highlight(attributedString: note.content)
                 evc.disablePreview()
                 evc.refillEditArea()
             }
@@ -225,19 +220,6 @@ class PreferencesEditorViewController: NSViewController {
 
         vc.sidebarOutlineView.reloadSidebar()
     }
-
-    @IBAction func highlightIndentedCodeBlocks(_ sender: NSButton) {
-        UserDefaultsManagement.indentedCodeBlockHighlighting = (sender.state == NSControl.StateValue.on)
-
-        Storage.shared().resetCacheAttributes()
-        
-        let editors = AppDelegate.getEditTextViews()
-        for editor in editors {
-            if let evc = editor.editorViewController {
-                evc.refillEditArea()
-            }
-        }
-    }
     
     @IBAction func highlightLinks(_ sender: NSButton) {
         UserDefaultsManagement.clickableLinks = (sender.state == NSControl.StateValue.on)
@@ -298,7 +280,21 @@ class PreferencesEditorViewController: NSViewController {
         setCodeFontPreview()
         setNoteFontPreview()
     }
-
+    
+    @IBAction func changeItalic(_ sender: NSButton) {
+        UserDefaultsManagement.italic = sender.identifier?.rawValue == "italicAsterisk" ? "*" : "_"
+        
+        italicAsterisk.state = sender.identifier?.rawValue == "italicAsterisk" ? .on : .off
+        italicUnderscore.state = sender.identifier?.rawValue == "italicUnderscore" ? .on : .off
+    }
+    
+    @IBAction func changeBold(_ sender: NSButton) {
+        UserDefaultsManagement.bold = sender.identifier?.rawValue == "boldAsterisk" ? "**" : "__"
+        
+        boldAsterisk.state = sender.identifier?.rawValue == "boldAsterisk" ? .on : .off
+        boldUnderscore.state = sender.identifier?.rawValue == "boldUnderscore" ? .on : .off
+    }
+    
     private func setCodeFontPreview() {
         let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
 

@@ -13,8 +13,7 @@ import Cgit2
 extension EditorViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
-        guard let note = getSelectedNotes()?.first else { return }
-        if !note.hasGitRepository() {
+        guard let gitProject = getGitProject() else {
             let alert = NSAlert()
             alert.alertStyle = .critical
             alert.informativeText = NSLocalizedString("Please init git repository before (Preferences -> Git -> Init/commit)", comment: "")
@@ -44,7 +43,7 @@ extension EditorViewController {
                         UserDefaultsManagement.lastCommitMessage = commitMessage
                     }
                     
-                    self.saveRevision(commitMessage: commitMessage)
+                    self.saveRevision(project: gitProject, commitMessage: commitMessage)
                 }
             }
             
@@ -52,11 +51,11 @@ extension EditorViewController {
             return
         }
         
-        saveRevision(commitMessage: nil)
+        saveRevision(project: gitProject, commitMessage: nil)
     }
     
-    private func saveRevision(commitMessage: String? = nil) {
-        guard let note = getSelectedNotes()?.first, let window = self.view.window else { return }
+    private func saveRevision(project: Project, commitMessage: String? = nil) {
+        guard let window = self.view.window else { return }
 
         ViewController.gitQueue.addOperation({
             ViewController.gitQueueOperationDate = Date()
@@ -66,7 +65,7 @@ extension EditorViewController {
             }
 
             do {
-                try note.getGitProject()?.saveRevision(commitMessage: commitMessage)
+                try project.saveRevision(commitMessage: commitMessage)
             } catch GitError.noAddedFiles {
                 // pass
             } catch {
@@ -94,7 +93,7 @@ extension EditorViewController {
         guard let note = vcEditor?.note else { return }
 
         if vc.prevCommit == nil {
-            saveRevision(commitMessage: "Auto save on history checkout")
+            saveRevision(project: note.project, commitMessage: "Auto save on history checkout")
         }
 
         vc.prevCommit = commit
@@ -102,7 +101,8 @@ extension EditorViewController {
         note.checkout(commit: commit)
 
         _ = note.reload()
-        NotesTextProcessor.highlight(note: note)
+        NotesTextProcessor.highlight(attributedString: note.content)
+
         reloadAllOpenedWindows(note: note)
         
         ViewController.shared()?.notesTableView.reloadRow(note: note)
@@ -208,4 +208,19 @@ extension EditorViewController {
     public func stopPull() {
         pullTimer.invalidate()
     }
+    
+    public func getGitProject() -> Project? {
+        guard let vc = ViewController.shared() else { return nil }
+        
+        if let project = vc.getSelectedNote()?.project.getGitProject() {
+            return project
+        }
+
+        if let project = vc.sidebarOutlineView.getSelectedProject()?.getGitProject() {
+            return project
+        }
+
+        return Storage.shared().getDefault()?.getGitProject()
+    }
+
 }
