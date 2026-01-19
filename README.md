@@ -20,11 +20,11 @@ FSNotes is modern notes manager for macOS and iOS.
 - **Access anywhere**. Sync with iCloud Drive or Dropbox.
 - **Multi-folder** storage.
 - **Keyboard-centric**. [nvalt](https://brettterpstra.com/projects/nvalt/)-inspired controls and shortcuts.
-- **Syntax highlighting** within code blocks. Supports over 170 programming languages.
+- **Syntax highlighting** within code blocks. Supports over 30 programming languages.
 - **In-line image** support.
 - Organize with **tags**.
 - **Cross-note links** using `[[double brackets]]`.
-- **Elastic two-pane view**. Choose a vertical or horizontal layout.
+- **Elastic two-pane view**.
 - **External editor** support (changes seamless live sync with UI).
 - **Pin** important notes.
 - **Quickly copy notes** to the clipboard.
