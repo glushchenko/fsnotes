@@ -919,7 +919,7 @@ CA
                                     <constraint firstAttribute="height" constant="25" id="uHR-VQ-LaB"/>
                                 </constraints>
                             </customView>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="81L-hB-Mc1">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="81L-hB-Mc1">
                                 <rect key="frame" x="33" y="525" width="426" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Default Storage:" id="fmS-eE-nne">
                                     <font key="font" metaFont="system"/>
@@ -951,7 +951,7 @@ CA
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4Kr-dW-0Jm">
                                 <rect key="frame" x="20" y="472" width="452" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TXq-y1-xzw">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TXq-y1-xzw">
                                 <rect key="frame" x="253" y="137" width="152" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Save clipboard shortcut:" id="gbE-yH-ECm">
                                     <font key="font" metaFont="system"/>
@@ -959,7 +959,7 @@ CA
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bMo-2z-4jT">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bMo-2z-4jT">
                                 <rect key="frame" x="33" y="137" width="105" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Search shortcut:" id="a6n-hz-V8D">
                                     <font key="font" metaFont="system"/>
@@ -999,7 +999,7 @@ CA
                                     <action selector="fileContainer:" target="NHv-lG-vxt" id="7gU-Lr-OUP"/>
                                 </connections>
                             </popUpButton>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cyw-aB-0wY">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cyw-aB-0wY">
                                 <rect key="frame" x="156" y="438" width="67" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Container:" id="mXw-d9-js5">
                                     <font key="font" metaFont="system"/>
@@ -1007,7 +1007,7 @@ CA
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField identifier="openInExternalEditor" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Hz-R4-h7D">
+                            <textField identifier="openInExternalEditor" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Hz-R4-h7D">
                                 <rect key="frame" x="246" y="371" width="187" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="TextEdit" drawsBackground="YES" id="1XY-bI-DX7">
                                     <font key="font" metaFont="system"/>
@@ -1019,7 +1019,7 @@ CA
                                     <binding destination="gPl-hR-49I" name="value" keyPath="values.externalEditorApp" id="0j3-ee-7f3"/>
                                 </connections>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1vW-Wi-nGt">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1vW-Wi-nGt">
                                 <rect key="frame" x="76" y="374" width="147" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Open in External Editor:" id="zcY-e5-gKs">
                                     <font key="font" metaFont="system"/>
@@ -1072,7 +1072,7 @@ CA
                                     <action selector="filesNaming:" target="NHv-lG-vxt" id="dK7-H3-kSu"/>
                                 </connections>
                             </popUpButton>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JjB-78-ifK">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JjB-78-ifK">
                                 <rect key="frame" x="137" y="342" width="86" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Files Naming:" id="FS0-ZJ-WvJ">
                                     <font key="font" metaFont="system"/>
@@ -1080,7 +1080,7 @@ CA
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0MX-CO-c4Y">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0MX-CO-c4Y">
                                 <rect key="frame" x="172" y="406" width="51" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Format:" id="ctD-Qn-kDS">
                                     <font key="font" metaFont="system"/>
@@ -1088,7 +1088,7 @@ CA
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1T1-iH-jib">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1T1-iH-jib">
                                 <rect key="frame" x="33" y="68" width="74" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Quick note:" id="yNE-Yn-AWj">
                                     <font key="font" metaFont="system"/>
@@ -1142,7 +1142,7 @@ CA
                                     <action selector="changeHideOnDeactivate:" target="NHv-lG-vxt" id="vhB-yD-KJt"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oAW-vX-xph">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oAW-vX-xph">
                                 <rect key="frame" x="253" y="68" width="182" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Activate:" id="0o7-iB-dtg">
                                     <font key="font" metaFont="system"/>
@@ -1291,7 +1291,7 @@ CA
                                     <action selector="hideImagesPreview:" target="P2a-yk-5Rx" id="yb9-xh-UFF"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-TG-JXR">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-TG-JXR">
                                 <rect key="frame" x="162" y="272" width="115" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note List Spacing:" id="bXK-wP-sZc">
                                     <font key="font" metaFont="system"/>
@@ -1309,7 +1309,7 @@ CA
                                     <action selector="hideDate:" target="P2a-yk-5Rx" id="ppm-oh-GQv"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GN8-Yw-N26">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GN8-Yw-N26">
                                 <rect key="frame" x="161" y="240" width="116" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Preview Font Size:" id="xJQ-ch-Xlp">
                                     <font key="font" metaFont="system"/>
@@ -1511,7 +1511,7 @@ CA
                                                                                     </constraints>
                                                                                     <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" id="WHo-8O-PFO"/>
                                                                                 </imageView>
-                                                                                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kTp-qw-RCd">
+                                                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kTp-qw-RCd">
                                                                                     <rect key="frame" x="23" y="17" width="97" height="16"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" id="2ZQ-YX-F9M">
                                                                                         <font key="font" metaFont="system"/>
@@ -1543,7 +1543,7 @@ CA
                                                                             <rect key="frame" x="11" y="53" width="121" height="40"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
-                                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="a5J-Ua-Hnz">
+                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="a5J-Ua-Hnz">
                                                                                     <rect key="frame" x="1" y="12" width="81" height="16"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="iCloud Drive" id="aX0-yU-aew">
                                                                                         <font key="font" metaFont="systemSemibold" size="13"/>
@@ -1640,7 +1640,7 @@ CA
                                                         </view>
                                                         <color key="fillColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </box>
-                                                    <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bd7-O3-GQF" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
+                                                    <searchField wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bd7-O3-GQF" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="8" y="570" width="187" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="Ptr-z2-0T0"/>
@@ -1681,7 +1681,7 @@ CA
                                                                                     <rect key="frame" x="10" y="0.0" width="216" height="115"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
-                                                                                        <textField identifier="cellDate" autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d" propertyAccessControl="nonLocalizable">
+                                                                                        <textField identifier="cellDate" autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d" propertyAccessControl="nonLocalizable">
                                                                                             <rect key="frame" x="165" y="99" width="48" height="16"/>
                                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="2/23/11" id="9w3-fa-di3">
                                                                                                 <font key="font" metaFont="system"/>
@@ -1703,7 +1703,7 @@ CA
                                                                                             </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pin" id="MIi-Yg-aUg"/>
                                                                                         </imageView>
-                                                                                        <textField autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EXQ-Ld-D5r" customClass="PreviewTextField" customModule="FSNotes" customModuleProvider="target" propertyAccessControl="nonLocalizable">
+                                                                                        <textField autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EXQ-Ld-D5r" customClass="PreviewTextField" customModule="FSNotes" customModuleProvider="target" propertyAccessControl="nonLocalizable">
                                                                                             <rect key="frame" x="24" y="80" width="52" height="16"/>
                                                                                             <textFieldCell key="cell" continuous="YES" sendsActionOnEndEditing="YES" title="Preview" id="EC3-YF-sGZ">
                                                                                                 <font key="font" metaFont="system"/>
@@ -1738,7 +1738,7 @@ CA
                                                                                             </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="oaj-cY-2Rf"/>
                                                                                         </imageView>
-                                                                                        <textField identifier="cellName" autoresizesSubviews="NO" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes" customModuleProvider="target" propertyAccessControl="nonLocalizable">
+                                                                                        <textField identifier="cellName" autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes" customModuleProvider="target" propertyAccessControl="nonLocalizable">
                                                                                             <rect key="frame" x="24" y="99" width="40" height="16"/>
                                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                                 <font key="font" metaFont="system"/>
@@ -1815,7 +1815,7 @@ CA
                                                             <action selector="fileMenuNewNote:" target="XfG-lQ-9wD" id="4o2-hM-kTQ"/>
                                                         </connections>
                                                     </button>
-                                                    <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="tVX-CX-9O1" customClass="ClickableTextField" customModule="FSNotes" customModuleProvider="target">
+                                                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="tVX-CX-9O1" customClass="ClickableTextField" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="292" width="236" height="16"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Locked" id="1Kl-ap-nkv">
@@ -1827,7 +1827,7 @@ CA
                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="nVd-Zp-Vjx" customClass="NotesCounterView" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="237" height="45"/>
                                                         <subviews>
-                                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xOb-jd-sez">
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xOb-jd-sez">
                                                                 <rect key="frame" x="13" y="10" width="39" height="16"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="sNc-PP-deS"/>
@@ -1908,7 +1908,7 @@ CA
                                                     <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xSU-Mk-2F1" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="562" width="568" height="38"/>
                                                         <subviews>
-                                                            <textField focusRingType="none" horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
+                                                            <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
                                                                 <rect key="frame" x="139" y="11" width="35" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                                     <font key="font" metaFont="system"/>
@@ -2003,7 +2003,7 @@ CA
                                                             <constraint firstAttribute="height" constant="38" id="uht-o4-cfz"/>
                                                         </constraints>
                                                     </customView>
-                                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvZ-Tf-26e">
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvZ-Tf-26e">
                                                         <rect key="frame" x="110" y="297" width="93" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="None Selected" id="Gg5-NO-KIQ">
                                                             <font key="font" metaFont="system"/>
@@ -2014,7 +2014,7 @@ CA
                                                     <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CPU-ij-IKt">
                                                         <rect key="frame" x="0.0" y="0.0" width="568" height="45"/>
                                                         <subviews>
-                                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2wI-jF-KzC">
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2wI-jF-KzC">
                                                                 <rect key="frame" x="13" y="10" width="73" height="16"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="69" id="jii-h2-sj7"/>
@@ -2268,7 +2268,7 @@ CA
                         <rect key="frame" x="0.0" y="0.0" width="343" height="266"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <secureTextField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zy5-Pt-uvR">
+                            <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zy5-Pt-uvR">
                                 <rect key="frame" x="140" y="226" width="183" height="21"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="WmH-4O-3xn">
                                     <font key="font" metaFont="system"/>
@@ -2279,7 +2279,7 @@ CA
                                     </allowedInputSourceLocales>
                                 </secureTextFieldCell>
                             </secureTextField>
-                            <textField focusRingType="none" horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ICS-c1-sh7">
+                            <textField horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ICS-c1-sh7">
                                 <rect key="frame" x="18" y="228" width="116" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Current Password:" id="7me-g8-vOq">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2287,7 +2287,7 @@ CA
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UtO-2w-mhe">
+                            <textField horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UtO-2w-mhe">
                                 <rect key="frame" x="22" y="146" width="112" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repeat Password:" id="PLH-LL-geH">
                                     <font key="font" metaFont="system"/>
@@ -2295,7 +2295,7 @@ CA
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Is4-Lj-vJz">
+                            <textField horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Is4-Lj-vJz">
                                 <rect key="frame" x="101" y="105" width="33" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Hint:" id="ioc-u5-XRA">
                                     <font key="font" metaFont="system"/>
@@ -2313,7 +2313,7 @@ CA
                                     <action selector="change:" target="6ub-n9-nIJ" id="iJr-SQ-Wpf"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69b-H3-sPW">
+                            <textField horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69b-H3-sPW">
                                 <rect key="frame" x="37" y="188" width="97" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="New Password:" id="iNK-dg-n5E">
                                     <font key="font" metaFont="system"/>
@@ -2334,7 +2334,7 @@ Gw
                                     <action selector="close:" target="6ub-n9-nIJ" id="GgP-Mw-yz4"/>
                                 </connections>
                             </button>
-                            <secureTextField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n4l-45-dCD">
+                            <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n4l-45-dCD">
                                 <rect key="frame" x="140" y="186" width="183" height="21"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="rog-05-msC">
                                     <font key="font" metaFont="system"/>
@@ -2345,7 +2345,7 @@ Gw
                                     </allowedInputSourceLocales>
                                 </secureTextFieldCell>
                             </secureTextField>
-                            <secureTextField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VFu-ZY-RoK">
+                            <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VFu-ZY-RoK">
                                 <rect key="frame" x="140" y="144" width="183" height="21"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="L9i-Do-dNi">
                                     <font key="font" metaFont="system"/>
@@ -2356,7 +2356,7 @@ Gw
                                     </allowedInputSourceLocales>
                                 </secureTextFieldCell>
                             </secureTextField>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="AoT-tS-iQH">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="AoT-tS-iQH">
                                 <rect key="frame" x="140" y="61" width="183" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="3fK-HR-39O"/>
@@ -2448,15 +2448,15 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView toolTip="In memory of Mars. ? - 25.08.2022" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs" customClass="AboutImageView" customModule="FSNotes" customModuleProvider="target">
-                                <rect key="frame" x="251" y="461" width="67" height="70"/>
+                                <rect key="frame" x="252" y="461" width="67" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TuC-Fg-xJn"/>
                                     <constraint firstAttribute="width" constant="67" id="VIF-nP-g4S"/>
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIconModern" id="FCd-Ar-efh"/>
                             </imageView>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="251" y="400" width="67" height="17"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
+                                <rect key="frame" x="252" y="400" width="67" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2466,7 +2466,7 @@ Gw
                                     <fragment content="#bc-ignore!"/>
                                 </attributedString>
                             </textField>
-                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
                                 <rect key="frame" x="133" y="300" width="304" height="32"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
@@ -2492,8 +2492,8 @@ All rights reserved.</string>
                                     <action selector="openContributorsPage:" target="6OZ-zZ-7EL" id="lH1-Ed-dtl"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
-                                <rect key="frame" x="18" y="20" width="533" height="32"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
+                                <rect key="frame" x="18" y="20" width="534" height="32"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="sWS-bo-99f">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Dylan Seeger — https://www.lovably.com
@@ -2505,15 +2505,15 @@ Olena Hlushcneko</string>
                                     <fragment content="#bc-ignore!"/>
                                 </attributedString>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
-                                <rect key="frame" x="242" y="60" width="85" height="16"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
+                                <rect key="frame" x="243" y="60" width="85" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Icons design:" id="FKf-Ph-LiA">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
                                 <rect key="frame" x="247" y="264" width="76" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
@@ -2522,9 +2522,9 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <box horizontalHuggingPriority="249" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="381" width="529" height="5"/>
+                                <rect key="frame" x="20" y="381" width="530" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
                                 <rect key="frame" x="258" y="347" width="54" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
@@ -2533,13 +2533,13 @@ Olena Hlushcneko</string>
                                 </textFieldCell>
                             </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-Tc-usi">
-                                <rect key="frame" x="20" y="96" width="529" height="160"/>
+                                <rect key="frame" x="20" y="96" width="530" height="160"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ncf-mP-Txi">
-                                    <rect key="frame" x="1" y="1" width="527" height="158"/>
+                                    <rect key="frame" x="1" y="1" width="528" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="dxm-ar-pH7">
-                                            <rect key="frame" x="0.0" y="0.0" width="527" height="158"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="528" height="158"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2561,7 +2561,7 @@ Olena Hlushcneko</string>
                                                             <rect key="frame" x="8" y="0.0" width="115" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rTR-WK-LFY">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rTR-WK-LFY">
                                                                     <rect key="frame" x="0.0" y="4" width="115" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="9Gu-fA-XLk">
                                                                         <font key="font" usesAppearanceFont="YES"/>
@@ -2581,7 +2581,7 @@ Olena Hlushcneko</string>
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="table.about.1" width="381.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
+                                                <tableColumn identifier="table.about.1" width="382.5" minWidth="40" maxWidth="1000" id="Kap-cy-IbZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -2594,11 +2594,11 @@ Olena Hlushcneko</string>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Svh-Z4-DD5">
-                                                            <rect key="frame" x="139.5" y="0.0" width="378" height="24"/>
+                                                            <rect key="frame" x="139.5" y="0.0" width="379" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
-                                                                    <rect key="frame" x="0.0" y="4" width="378" height="16"/>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JRs-Lb-Adc">
+                                                                    <rect key="frame" x="0.0" y="4" width="379" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zoX-MN-b3x">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -2700,7 +2700,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="opy-8T-bfQ">
                                 <rect key="frame" x="20" y="453" width="490" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yJO-Hj-7Bf">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yJO-Hj-7Bf">
                                 <rect key="frame" x="39" y="419" width="63" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Direction:" id="QxK-39-9yF">
                                     <font key="font" metaFont="system"/>
@@ -2714,7 +2714,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9Ag-KN-R7v">
                                 <rect key="frame" x="20" y="295" width="490" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i67-zB-31s">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i67-zB-31s">
                                 <rect key="frame" x="43" y="340" width="59" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Visibility:" id="jrj-ea-xmm">
                                     <font key="font" metaFont="system"/>
@@ -2722,7 +2722,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cFW-mP-L5G">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cFW-mP-L5G">
                                 <rect key="frame" x="49" y="542" width="53" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Sort By:" id="4cz-zj-dkH">
                                     <font key="font" metaFont="system"/>
@@ -2813,7 +2813,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="KzG-ff-Fkn">
                                 <rect key="frame" x="20" y="238" width="490" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eOj-jC-ndy">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eOj-jC-ndy">
                                 <rect key="frame" x="33" y="261" width="69" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Notes List:" id="Scc-aD-CFQ">
                                     <font key="font" metaFont="system"/>
@@ -2824,7 +2824,7 @@ Olena Hlushcneko</string>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="0l4-ai-Rvk" userLabel="GitView">
                                 <rect key="frame" x="20" y="80" width="490" height="150"/>
                                 <subviews>
-                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DBd-jE-0Oa">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DBd-jE-0Oa">
                                         <rect key="frame" x="33" y="39" width="78" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Origin:" id="Atd-Fs-Chq">
                                             <font key="font" metaFont="system"/>
@@ -2832,7 +2832,7 @@ Olena Hlushcneko</string>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YZl-XE-oZw">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YZl-XE-oZw">
                                         <rect key="frame" x="33" y="70" width="78" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Passphrase:" id="WsG-JA-VQd">
                                             <font key="font" metaFont="system"/>
@@ -2840,7 +2840,7 @@ Olena Hlushcneko</string>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OCO-lO-Kf7">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OCO-lO-Kf7">
                                         <rect key="frame" x="33" y="129" width="91" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Git repository" id="ybG-au-Sf4">
                                             <font key="font" metaFont="system"/>
@@ -2848,7 +2848,7 @@ Olena Hlushcneko</string>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qrS-Vp-k0u">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qrS-Vp-k0u">
                                         <rect key="frame" x="33" y="98" width="78" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" placeholderString="no key" id="iQ9-lm-lFb">
                                             <font key="font" metaFont="system"/>
@@ -2866,7 +2866,7 @@ Olena Hlushcneko</string>
                                             <action selector="privateKey:" target="JOV-dV-hyG" id="pMp-Dz-Bbc"/>
                                         </connections>
                                     </button>
-                                    <textField focusRingType="none" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="Az0-Zg-c5o">
+                                    <textField verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="Az0-Zg-c5o">
                                         <rect key="frame" x="144" y="10" width="69" height="16"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" placeholderString="empty log" drawsBackground="YES" id="v9k-wu-2xL">
                                             <font key="font" metaFont="system"/>
@@ -2874,7 +2874,7 @@ Olena Hlushcneko</string>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField identifier="gitOrigin" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPm-BY-8GE">
+                                    <textField identifier="gitOrigin" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qPm-BY-8GE">
                                         <rect key="frame" x="144" y="36" width="311" height="21"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="git@github.com:glushchenko/example.git" drawsBackground="YES" id="PJ2-3m-IGm">
                                             <font key="font" metaFont="system"/>
@@ -2896,7 +2896,7 @@ Olena Hlushcneko</string>
                                             <action selector="removeRepository:" target="JOV-dV-hyG" id="MTO-eK-a56"/>
                                         </connections>
                                     </button>
-                                    <secureTextField identifier="gitPassphrase" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HFW-4A-pjo">
+                                    <secureTextField identifier="gitPassphrase" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HFW-4A-pjo">
                                         <rect key="frame" x="144" y="67" width="186" height="21"/>
                                         <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="passphrase" drawsBackground="YES" usesSingleLineMode="YES" id="xyK-fE-4CD">
                                             <font key="font" metaFont="system"/>
@@ -3060,7 +3060,7 @@ Olena Hlushcneko</string>
                         <rect key="frame" x="0.0" y="0.0" width="468" height="596"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="6jj-hR-ROP">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="6jj-hR-ROP">
                                 <rect key="frame" x="33" y="167" width="91" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Git repository:" id="Qkz-nR-Fh5">
                                     <font key="font" metaFont="system"/>
@@ -3078,7 +3078,7 @@ Olena Hlushcneko</string>
                                     <action selector="privateKey:" target="2un-du-hJz" id="tbQ-NJ-Hvb"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w1K-65-6eZ">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w1K-65-6eZ">
                                 <rect key="frame" x="33" y="83" width="144" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Origin for main project:" id="L20-FT-VZz">
                                     <font key="font" metaFont="system"/>
@@ -3086,7 +3086,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <secureTextField identifier="gitPassphraseMain" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y9p-ND-X8k">
+                            <secureTextField identifier="gitPassphraseMain" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y9p-ND-X8k">
                                 <rect key="frame" x="183" y="104" width="250" height="21"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="passphrase" drawsBackground="YES" usesSingleLineMode="YES" id="rzB-ln-uyl">
                                     <font key="font" metaFont="system"/>
@@ -3100,7 +3100,7 @@ Olena Hlushcneko</string>
                                     <action selector="passphrase:" target="2un-du-hJz" id="mZD-r9-mGb"/>
                                 </connections>
                             </secureTextField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yPi-3d-3aE">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yPi-3d-3aE">
                                 <rect key="frame" x="99" y="107" width="78" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Passphrase:" id="NcS-0N-6uU">
                                     <font key="font" metaFont="system"/>
@@ -3152,7 +3152,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="ey5-Rw-Svp">
                                 <rect key="frame" x="20" y="363" width="428" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jg2-oT-Bcf">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jg2-oT-Bcf">
                                 <rect key="frame" x="33" y="329" width="137" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Automatic Snapshots:" id="P31-Ka-9HV">
                                     <font key="font" metaFont="system"/>
@@ -3160,7 +3160,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xp9-26-JdA">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xp9-26-JdA">
                                 <rect key="frame" x="192" y="263" width="48" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="nqr-NP-AFB"/>
@@ -3177,7 +3177,7 @@ Olena Hlushcneko</string>
                                     <action selector="changeSnapshotIntervalByHours:" target="2un-du-hJz" id="Z67-L5-UVd"/>
                                 </connections>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H46-qe-euU">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H46-qe-euU">
                                 <rect key="frame" x="253" y="266" width="47" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="hour at" id="2Iq-vN-V2w">
                                     <font key="font" metaFont="system"/>
@@ -3185,7 +3185,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8Z-se-hEF">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8Z-se-hEF">
                                 <rect key="frame" x="33" y="545" width="83" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repositories:" id="ASf-hd-2fT">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -3213,7 +3213,7 @@ Olena Hlushcneko</string>
                                     <action selector="backupMethod:" target="2un-du-hJz" id="IoY-lD-QVk"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e0E-YB-Oq8">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e0E-YB-Oq8">
                                 <rect key="frame" x="313" y="263" width="47" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="47" id="2nb-Ab-ZEA"/>
@@ -3230,7 +3230,7 @@ Olena Hlushcneko</string>
                                     <action selector="changeSnapshotsIntervalByMinutes:" target="2un-du-hJz" id="LnI-G4-xun"/>
                                 </connections>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bqG-mw-WZF">
+                            <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bqG-mw-WZF">
                                 <rect key="frame" x="373" y="266" width="53" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="minutes" id="Bri-cl-z86">
                                     <font key="font" metaFont="system"/>
@@ -3238,7 +3238,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7WC-IR-nhp">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7WC-IR-nhp">
                                 <rect key="frame" x="33" y="225" width="63" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Pull every" id="tZ6-GT-LxK">
                                     <font key="font" metaFont="system"/>
@@ -3246,7 +3246,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mzn-Yp-WXt">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mzn-Yp-WXt">
                                 <rect key="frame" x="109" y="222" width="72" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="72" id="IC2-2A-oJu"/>
@@ -3293,7 +3293,7 @@ Olena Hlushcneko</string>
                                     <action selector="resetKey:" target="2un-du-hJz" id="xfM-lq-AEl"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mdH-mJ-n7l">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mdH-mJ-n7l">
                                 <rect key="frame" x="133" y="131" width="44" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="no key" id="doI-Mu-yZG">
                                     <font key="font" metaFont="system"/>
@@ -3312,7 +3312,7 @@ Olena Hlushcneko</string>
                                     <action selector="removeRepository:" target="2un-du-hJz" id="cec-Nn-5zY"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VOe-4f-fe5">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VOe-4f-fe5">
                                 <rect key="frame" x="35" y="37" width="69" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" placeholderString="empty log" drawsBackground="YES" id="a1w-ll-Djh">
                                     <font key="font" metaFont="system"/>
@@ -3326,7 +3326,7 @@ Olena Hlushcneko</string>
                                     <constraint firstAttribute="width" constant="30" id="awb-KD-AQU"/>
                                 </constraints>
                             </progressIndicator>
-                            <textField identifier="gitOriginMain" focusRingType="none" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Jo4-zQ-htF">
+                            <textField identifier="gitOriginMain" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Jo4-zQ-htF">
                                 <rect key="frame" x="183" y="80" width="250" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="GIN-TI-XsX"/>
@@ -3340,7 +3340,7 @@ Olena Hlushcneko</string>
                                     <action selector="origin:" target="2un-du-hJz" id="QpP-rf-dgh"/>
                                 </connections>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZU7-AI-4gb">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZU7-AI-4gb">
                                 <rect key="frame" x="194" y="225" width="56" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="seconds" id="Gbf-V7-5Ra">
                                     <font key="font" metaFont="system"/>
@@ -3477,7 +3477,7 @@ Olena Hlushcneko</string>
                         <rect key="frame" x="0.0" y="0.0" width="468" height="555"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-4N-l26">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-4N-l26">
                                 <rect key="frame" x="134" y="514" width="4" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="vNg-wB-rdP">
@@ -3489,7 +3489,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2ZF-VY-6Ij">
                                 <rect key="frame" x="20" y="238" width="428" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UiV-vt-WHK">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UiV-vt-WHK">
                                 <rect key="frame" x="33" y="504" width="91" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Code Theme:" id="6F0-Cb-DVX">
                                     <font key="font" metaFont="system"/>
@@ -3520,7 +3520,7 @@ Olena Hlushcneko</string>
                                     <action selector="markdownCodeThemeAction:" target="ssC-ed-19K" id="ZEP-34-8PC"/>
                                 </connections>
                             </popUpButton>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rmv-ik-PYa">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rmv-ik-PYa">
                                 <rect key="frame" x="33" y="476" width="91" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Code Font:" id="63m-us-3j9">
                                     <font key="font" metaFont="system"/>
@@ -3528,7 +3528,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="5" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B07-UG-KXb">
+                            <textField horizontalHuggingPriority="5" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B07-UG-KXb">
                                 <rect key="frame" x="147" y="473" width="237" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Code Font" drawsBackground="YES" usesSingleLineMode="YES" id="Shc-VO-eTc" customClass="VerticallyAlignedTextFieldCell" customModule="FSNotes" customModuleProvider="target">
                                     <font key="font" metaFont="system"/>
@@ -3559,7 +3559,7 @@ Olena Hlushcneko</string>
                                     <action selector="autocloseBrackets:" target="ssC-ed-19K" id="uQX-DB-DoZ"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cMm-a9-mcN">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cMm-a9-mcN">
                                 <rect key="frame" x="33" y="333" width="91" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Line Spacing:" id="iUm-Zm-zeg">
                                     <font key="font" metaFont="system"/>
@@ -3588,7 +3588,7 @@ Olena Hlushcneko</string>
                                     <action selector="lineWidth:" target="ssC-ed-19K" id="sMF-LC-b8U"/>
                                 </connections>
                             </slider>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vrr-sG-fOD">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vrr-sG-fOD">
                                 <rect key="frame" x="33" y="285" width="91" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Images Width:" id="ltm-qj-nke">
                                     <font key="font" metaFont="system"/>
@@ -3596,7 +3596,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3el-ze-TIn">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3el-ze-TIn">
                                 <rect key="frame" x="33" y="261" width="91" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Margin Size:" id="r69-B6-vT3">
                                     <font key="font" metaFont="system"/>
@@ -3604,7 +3604,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bEN-ep-bl6">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bEN-ep-bl6">
                                 <rect key="frame" x="33" y="309" width="91" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Line Width:" id="Izt-6v-pKO">
                                     <font key="font" metaFont="system"/>
@@ -3622,7 +3622,7 @@ Olena Hlushcneko</string>
                                     <action selector="setCodeFont:" target="ssC-ed-19K" id="Ygn-jF-2Oi"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="GnH-BV-JGa">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="GnH-BV-JGa">
                                 <rect key="frame" x="33" y="357" width="91" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Indent Using:" id="P4M-cL-lfo">
                                     <font key="font" metaFont="system"/>
@@ -3673,7 +3673,7 @@ Olena Hlushcneko</string>
                                     <action selector="highlightLinks:" target="ssC-ed-19K" id="jLx-rM-jlz"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-a9-vnf">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-a9-vnf">
                                 <rect key="frame" x="33" y="445" width="91" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Note Font:" id="bJC-he-nDV">
                                     <font key="font" metaFont="system"/>
@@ -3691,7 +3691,7 @@ Olena Hlushcneko</string>
                                     <action selector="setNoteFont:" target="ssC-ed-19K" id="pW9-zD-3Cd"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Az-gx-yGL">
+                            <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Az-gx-yGL">
                                 <rect key="frame" x="147" y="442" width="237" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="vvG-Pm-uN1"/>
@@ -3745,7 +3745,7 @@ Olena Hlushcneko</string>
                                     <action selector="changeItalic:" target="ssC-ed-19K" id="1ss-jd-8eY"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dKW-T5-3Vc">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dKW-T5-3Vc">
                                 <rect key="frame" x="87" y="59" width="37" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Italic:" id="aLg-MQ-amx">
                                     <font key="font" metaFont="system"/>
@@ -3753,7 +3753,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cO6-GH-v1T">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cO6-GH-v1T">
                                 <rect key="frame" x="89" y="35" width="35" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Bold:" id="xeP-Zg-vmO">
                                     <font key="font" metaFont="system"/>
@@ -3957,7 +3957,7 @@ Olena Hlushcneko</string>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Iip-lX-188" userLabel="TitleBarView" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="338" width="480" height="38"/>
                                 <subviews>
-                                    <textField focusRingType="none" horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rYa-4l-z3U" userLabel="Title Label" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
+                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rYa-4l-z3U" userLabel="Title Label" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="222" y="11" width="37" height="16"/>
                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" title="Label" id="UdE-8N-Qit">
                                             <font key="font" usesAppearanceFont="YES"/>
@@ -4038,7 +4038,7 @@ Olena Hlushcneko</string>
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="16L-Vf-Qjb" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
+                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" smartInsertDelete="YES" id="16L-Vf-Qjb" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="480" height="338"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -4058,7 +4058,7 @@ Olena Hlushcneko</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JuI-am-1kF">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JuI-am-1kF">
                                 <rect key="frame" x="191" y="161" width="96" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="None Selected" id="3rt-IC-kru">
@@ -4101,7 +4101,7 @@ Olena Hlushcneko</string>
                         <rect key="frame" x="0.0" y="0.0" width="496" height="466"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F2w-YD-uv3">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F2w-YD-uv3">
                                 <rect key="frame" x="174" y="330" width="68" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Language:" id="dZD-Db-KHs">
                                     <font key="font" metaFont="system"/>
@@ -4146,7 +4146,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="eiE-QT-Gmx">
                                 <rect key="frame" x="20" y="281" width="456" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CPL-jT-YaF">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CPL-jT-YaF">
                                 <rect key="frame" x="161" y="304" width="81" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="Tjy-Pz-wrj">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4154,7 +4154,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZXG-8N-Rny">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZXG-8N-Rny">
                                 <rect key="frame" x="33" y="247" width="69" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Dock Icon:" id="2CI-mu-aiB">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4198,7 +4198,7 @@ Olena Hlushcneko</string>
                                     <action selector="dockIcon:" target="mvt-gI-iG0" id="YWP-6B-yB4"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Atm-xW-q1V">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Atm-xW-q1V">
                                 <rect key="frame" x="33" y="35" width="180" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Made with ❤️ in Ukraine 🇺🇦 " id="fsF-5N-tWg">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4206,7 +4206,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dxk-ZE-26V">
+                            <textField horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dxk-ZE-26V">
                                 <rect key="frame" x="422" y="35" width="41" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="v2.9.0" id="dgD-xe-DVG">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4220,7 +4220,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="f0N-UJ-lzU">
                                 <rect key="frame" x="20" y="154" width="456" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fi8-x1-uYd">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fi8-x1-uYd">
                                 <rect key="frame" x="33" y="415" width="42" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Trash:" id="i2S-pt-KQH">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4249,7 +4249,7 @@ Olena Hlushcneko</string>
                                     <action selector="trash:" target="mvt-gI-iG0" id="nJv-Nq-c4I"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0Kp-8d-0J0">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0Kp-8d-0J0">
                                 <rect key="frame" x="33" y="120" width="43" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Reset:" id="lhy-wX-Q4T">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4396,7 +4396,7 @@ Olena Hlushcneko</string>
                                     <action selector="lockWhenSwitched:" target="PXw-YJ-q6A" id="8dJ-E3-kWk"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3K8-4C-o6B">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3K8-4C-o6B">
                                 <rect key="frame" x="33" y="290" width="484" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Auto-lock for Encrypted Notes:" id="fzY-c6-DaK">
                                     <font key="font" metaFont="system"/>
@@ -4414,7 +4414,7 @@ Olena Hlushcneko</string>
                                     <action selector="allowTouchID:" target="PXw-YJ-q6A" id="Wxl-m2-01u"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vfa-TJ-FAD">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vfa-TJ-FAD">
                                 <rect key="frame" x="33" y="142" width="484" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Touch ID:" id="Nw2-km-iDW">
                                     <font key="font" metaFont="system"/>
@@ -4435,7 +4435,7 @@ Olena Hlushcneko</string>
                                     <action selector="openMasterPasswordWindow:" target="PXw-YJ-q6A" id="wnh-nx-9iE"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6jD-2w-AAk">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6jD-2w-AAk">
                                 <rect key="frame" x="33" y="38" width="66" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Password:" id="KaC-Mz-siK">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4500,7 +4500,7 @@ Olena Hlushcneko</string>
                         <rect key="frame" x="0.0" y="0.0" width="468" height="562"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sQu-2C-39G">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sQu-2C-39G">
                                 <rect key="frame" x="33" y="431" width="118" height="15"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="SSH configuration:" id="E1U-fG-XBw">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -4508,7 +4508,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ef1-zy-Vs0">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ef1-zy-Vs0">
                                 <rect key="frame" x="189" y="407" width="37" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Host:" id="a9t-hD-WYR">
                                     <font key="font" metaFont="system"/>
@@ -4516,7 +4516,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Zgg-g2-JdS">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Zgg-g2-JdS">
                                 <rect key="frame" x="189" y="376" width="37" height="15"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Port:" id="9pM-sd-qhm">
                                     <font key="font" metaFont="system"/>
@@ -4530,7 +4530,7 @@ Olena Hlushcneko</string>
                                     <font key="font" metaFont="system"/>
                                 </pathCell>
                             </pathControl>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uVS-UC-gNC">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uVS-UC-gNC">
                                 <rect key="frame" x="33" y="164" width="146" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Or use .ssh private key:" id="vfT-nF-vst">
                                     <font key="font" metaFont="system"/>
@@ -4558,7 +4558,7 @@ Olena Hlushcneko</string>
                                     <action selector="test:" target="X76-X8-PbG" id="fm6-Br-IqB"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zc9-cU-2GY">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zc9-cU-2GY">
                                 <rect key="frame" x="189" y="313" width="37" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Web:" id="ghI-ln-bql">
                                     <font key="font" metaFont="system"/>
@@ -4566,7 +4566,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField identifier="settingsWebWeb" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XxT-6E-AmS">
+                            <textField identifier="settingsWebWeb" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XxT-6E-AmS">
                                 <rect key="frame" x="234" y="311" width="151" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="https://example.com/" drawsBackground="YES" id="mr6-e8-9hL">
                                     <font key="font" metaFont="system"/>
@@ -4577,7 +4577,7 @@ Olena Hlushcneko</string>
                                     <action selector="web:" target="X76-X8-PbG" id="CER-4O-D2S"/>
                                 </connections>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="38E-P8-sdH">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="38E-P8-sdH">
                                 <rect key="frame" x="189" y="345" width="37" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Path:" id="egX-yM-Suq">
                                     <font key="font" metaFont="system"/>
@@ -4585,7 +4585,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField identifier="settingsWebPath" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-E6-jpV">
+                            <textField identifier="settingsWebPath" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ehk-E6-jpV">
                                 <rect key="frame" x="234" y="342" width="151" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="/var/www/example.com" drawsBackground="YES" id="bdD-JA-K8P">
                                     <font key="font" metaFont="system"/>
@@ -4596,7 +4596,7 @@ Olena Hlushcneko</string>
                                     <action selector="path:" target="X76-X8-PbG" id="R8S-gD-woK"/>
                                 </connections>
                             </textField>
-                            <textField identifier="settingsWebUsername" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M2V-5H-D91">
+                            <textField identifier="settingsWebUsername" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M2V-5H-D91">
                                 <rect key="frame" x="234" y="232" width="151" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="hlushchenko" drawsBackground="YES" id="4gs-Bc-GHG">
                                     <font key="font" metaFont="system"/>
@@ -4607,7 +4607,7 @@ Olena Hlushcneko</string>
                                     <action selector="username:" target="X76-X8-PbG" id="wkP-ud-eXm"/>
                                 </connections>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="pBL-yA-rtI">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="pBL-yA-rtI">
                                 <rect key="frame" x="156" y="235" width="70" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Username:" id="yVt-tz-tMy">
                                     <font key="font" metaFont="system"/>
@@ -4615,7 +4615,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PWy-Mv-FmM">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PWy-Mv-FmM">
                                 <rect key="frame" x="160" y="203" width="66" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Password:" id="DXE-kd-1X3">
                                     <font key="font" metaFont="system"/>
@@ -4623,7 +4623,7 @@ Olena Hlushcneko</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <secureTextField identifier="settingsWebPassword" focusRingType="none" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ycX-Lf-Ogr">
+                            <secureTextField identifier="settingsWebPassword" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ycX-Lf-Ogr">
                                 <rect key="frame" x="234" y="200" width="151" height="22"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="optional" drawsBackground="YES" usesSingleLineMode="YES" id="xWi-IK-gJS">
                                     <font key="font" metaFont="system"/>
@@ -4640,7 +4640,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="751" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="MMZ-ZU-abQ">
                                 <rect key="frame" x="20" y="293" width="428" height="5"/>
                             </box>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pb8-h4-LhO">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pb8-h4-LhO">
                                 <rect key="frame" x="33" y="259" width="77" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Credentials:" id="8om-Y6-O8e">
                                     <font key="font" metaFont="system"/>
@@ -4651,7 +4651,7 @@ Olena Hlushcneko</string>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="oHV-K7-pRq">
                                 <rect key="frame" x="20" y="73" width="428" height="5"/>
                             </box>
-                            <secureTextField identifier="settingsWebPassphrase" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XUd-k8-fNm">
+                            <secureTextField identifier="settingsWebPassphrase" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XUd-k8-fNm">
                                 <rect key="frame" x="234" y="91" width="151" height="22"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="optional" drawsBackground="YES" usesSingleLineMode="YES" id="wa2-sX-NOx">
                                     <font key="font" metaFont="system"/>
@@ -4665,7 +4665,7 @@ Olena Hlushcneko</string>
                                     <action selector="passphrase:" target="X76-X8-PbG" id="a8b-Yp-lIg"/>
                                 </connections>
                             </secureTextField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jwc-Mi-vbr">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jwc-Mi-vbr">
                                 <rect key="frame" x="148" y="94" width="78" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Passphrase:" id="44f-my-fi3">
                                     <font key="font" metaFont="system"/>
@@ -4693,7 +4693,7 @@ Olena Hlushcneko</string>
                                     <action selector="publishTo:" target="X76-X8-PbG" id="Cmw-fx-aFR"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="eNd-rT-JgT">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="eNd-rT-JgT">
                                 <rect key="frame" x="33" y="511" width="106" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Publish notes to:" id="bUL-WS-rIS">
                                     <font key="font" metaFont="system"/>
@@ -4714,7 +4714,7 @@ Olena Hlushcneko</string>
                                     <action selector="resetWebKeys:" target="WwD-v0-S8d" id="lGS-Oz-umV"/>
                                 </connections>
                             </button>
-                            <textField identifier="settingsWebHost" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QTV-x3-Da5" userLabel="HostValue">
+                            <textField identifier="settingsWebHost" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QTV-x3-Da5" userLabel="HostValue">
                                 <rect key="frame" x="234" y="404" width="151" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="151" id="W4z-WO-PTu"/>
@@ -4728,7 +4728,7 @@ Olena Hlushcneko</string>
                                     <action selector="host:" target="X76-X8-PbG" id="zMJ-6q-0Zn"/>
                                 </connections>
                             </textField>
-                            <textField identifier="settingsWebPort" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qqs-mC-mg8">
+                            <textField identifier="settingsWebPort" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qqs-mC-mg8">
                                 <rect key="frame" x="234" y="373" width="77" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="77" id="no0-CF-N56"/>
