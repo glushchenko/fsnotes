@@ -11,7 +11,7 @@ FSNotes is modern notes manager for macOS and iOS.
 	<img src="https://fsnot.es/img/badge-download-on-the-mac-app-store.svg" alt="">
 </a>
 
-<img src="https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png" alt="macOS FSNotes" style="max-width:100%;">
+<img src="https://fsnot.es/img/fsnotes7/FSNotes7_macOS_Dark.webp" alt="macOS FSNotes" style="max-width:100%;">
 
 ### Key features
 
@@ -19,7 +19,7 @@ FSNotes is modern notes manager for macOS and iOS.
 - **Fast and lightweight**. Works smoothly with 10k+ files.
 - **Access anywhere**. Sync with iCloud Drive or Dropbox.
 - **Multi-folder** storage.
-- **Keyboard-centric**. [nvalt](https://brettterpstra.com/projects/nvalt/)-inspired controls and shortcuts.
+- **Keyboard-centric**.  
 - **Syntax highlighting** within code blocks. Supports over 30 programming languages.
 - **In-line image** support.
 - Organize with **tags**.
@@ -41,7 +41,7 @@ FSNotes is modern notes manager for macOS and iOS.
 	<img src="https://fsnot.es/img/badge-download-on-the-app-store.svg" alt="">
 </a>
 
-<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes6-ios/s1x.webp?v=1.0"> <img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes6-ios/s2x.webp?v=1.0">
+<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes7/FSNotes7_iOS.webp"> <img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes7/FSNotes7_iOS_Dark.webp">
 
 ### Key features
 
@@ -60,7 +60,3 @@ FSNotes is modern notes manager for macOS and iOS.
 ## License
 
 FSNotes is written in **Swift 5** and is open source (MIT license).
-
-## Special Thanks
-
-@zcohan (https://soulver.app) for soulver core framework https://github.com/soulverteam/SoulverCore for simple inline calculation 
