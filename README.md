@@ -11,7 +11,7 @@ FSNotes is modern notes manager for macOS and iOS.
 	<img src="https://fsnot.es/img/badge-download-on-the-mac-app-store.svg" alt="">
 </a>
 
-<img src="https://fsnot.es/img/fsnotes7/FSNotes7_macOS_Dark.webp" alt="macOS FSNotes" style="max-width:100%;">
+<img src="https://fsnot.es/img/fsnotes7/FSNotes7_macOS_Dark.webp?v=2" alt="macOS FSNotes" style="max-width:100%;">
 
 ### Key features
 
@@ -41,7 +41,7 @@ FSNotes is modern notes manager for macOS and iOS.
 	<img src="https://fsnot.es/img/badge-download-on-the-app-store.svg" alt="">
 </a>
 
-<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes7/FSNotes7_iOS.webp"> <img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes7/FSNotes7_iOS_Dark.webp">
+<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes7/FSNotes7_iOS.webp?v=2"> <img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/fsnotes7/FSNotes7_iOS_Dark.webp?v=2">
 
 ### Key features
 
