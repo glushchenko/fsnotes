@@ -1143,53 +1143,68 @@ class NotesTableView: UITableView,
         return [UIDragItem(itemProvider: itemProvider)]
     }
 
-    public func addPins(notes: [Note]) {
+    public func addPins(notes pinned: [Note]) {
         guard let vc = viewDelegate else { return }
-        
+
+        let oldNotes = self.notes
+        let newNotes = vc.storage.sortNotes(noteList: oldNotes)
+
+        self.notes = newNotes
+        var rowsToReload: [IndexPath] = []
+
         beginUpdates()
-        for note in notes {
-            guard let currentIndex = self.notes.firstIndex(of: note) else { continue }
+        for note in pinned {
+            guard
+                let from = oldNotes.firstIndex(of: note),
+                let to = newNotes.firstIndex(of: note),
+                from != to
+            else { continue }
+
+            moveRow(
+                at: IndexPath(row: from, section: 0),
+                to: IndexPath(row: to, section: 0)
+            )
             
-            let sorted = vc.storage.sortNotes(noteList: self.notes)
-            
-            guard let newIndex = sorted.firstIndex(of: note) else { continue }
-            
-            self.notes = sorted
-            
-            if currentIndex != newIndex {
-                let from = IndexPath(row: currentIndex, section: 0)
-                let to = IndexPath(row: newIndex, section: 0)
-                
-                moveRow(at: from, to: to)
-            }
-            
-            reloadRows(at: [IndexPath(row: newIndex, section: 0)], with: .none)
+            rowsToReload.append(IndexPath(row: to, section: 0))
         }
         endUpdates()
+        
+        if !rowsToReload.isEmpty {
+            reloadRows(at: rowsToReload, with: .none)
+        }
     }
 
-    public func removePins(notes: [Note]) {
+    public func removePins(notes unpinned: [Note]) {
         guard let vc = viewDelegate else { return }
-        
+
+        let oldNotes = self.notes
+        let newNotes = vc.storage.sortNotes(noteList: oldNotes)
+
+        self.notes = newNotes
+        var rowsToReload: [IndexPath] = []
+
         beginUpdates()
-        for note in notes {
-            guard let currentIndex = self.notes.firstIndex(of: note) else { continue }
+
+        for note in unpinned {
+            guard
+                let from = oldNotes.firstIndex(of: note),
+                let to = newNotes.firstIndex(of: note),
+                from != to
+            else { continue }
+
+            moveRow(
+                at: IndexPath(row: from, section: 0),
+                to: IndexPath(row: to, section: 0)
+            )
             
-            let sorted = vc.storage.sortNotes(noteList: self.notes)
-            guard let newIndex = sorted.firstIndex(of: note) else { continue }
-            
-            self.notes = sorted
-            
-            if currentIndex != newIndex {
-                let from = IndexPath(row: currentIndex, section: 0)
-                let to = IndexPath(row: newIndex, section: 0)
-                
-                moveRow(at: from, to: to)
-            }
-            
-            reloadRows(at: [IndexPath(row: newIndex, section: 0)], with: .none)
+            rowsToReload.append(IndexPath(row: to, section: 0))
         }
+
         endUpdates()
+        
+        if !rowsToReload.isEmpty {
+            reloadRows(at: rowsToReload, with: .none)
+        }
     }
 
     public func scrollTo(note: Note) {
