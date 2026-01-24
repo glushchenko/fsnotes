@@ -347,8 +347,8 @@ class Storage {
     }
     
     public func removeBy(project: Project) {
-        self.noteList.removeAll(where: { $0.project ==
-            project })
+        self.noteList.removeAll(where: { $0.project.url ==
+            project.url })
         
         projects.removeAll(where: { $0.url == project.url })
     }

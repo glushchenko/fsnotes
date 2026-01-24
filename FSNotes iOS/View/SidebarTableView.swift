@@ -609,84 +609,82 @@ class SidebarTableView: UITableView,
     }
 
     public func insertRows(projects: [Project]) {
-        let currentProjects = sidebar.items[1].compactMap({ $0.project })
-        var toInsert = [Project]()
+        guard sidebar.items.indices.contains(1) else { return }
 
-        for project in projects {
-            if currentProjects.contains(project) {
-                continue
+        var localItems = sidebar.items[1]
+        let existingProjects = localItems.compactMap { $0.project }
+
+        let toInsert = projects
+            .filter { !existingProjects.contains($0) && $0.settings.showInSidebar }
+            .sorted {
+                $0.label.localizedCaseInsensitiveCompare($1.label) == .orderedAscending
             }
 
-            if !project.settings.showInSidebar {
-                continue
+        guard !toInsert.isEmpty else { return }
+
+        performBatchUpdates({
+            for project in toInsert {
+                let insertIndex = localItems.firstIndex {
+                    $0.name.localizedCaseInsensitiveCompare(project.label) == .orderedDescending
+                } ?? localItems.count
+
+                let item = SidebarItem(
+                    name: project.label,
+                    project: project,
+                    type: .Project
+                )
+                
+                localItems.insert(item, at: insertIndex)
+                sidebar.items[1].insert(item, at: insertIndex)
+
+                insertRows(at: [IndexPath(row: insertIndex, section: 1)], with: .fade)
             }
-            
-            toInsert.append(project)
-        }
-
-        guard toInsert.count > 0 else { return }
-
-        let nonSorted = currentProjects + toInsert
-        let sorted = nonSorted.sorted { $0.label < $1.label }
-
-        var indexPaths = [IndexPath]()
-        for project in toInsert {
-            guard let index = sorted.firstIndex(of: project) else { continue }
-            indexPaths.append(IndexPath(row: index, section: 1))
-        }
-
-        sidebar.items[1] = sorted.compactMap({ SidebarItem(name: $0.label, project: $0, type: .Project) })
-        insertRows(at: indexPaths, with: .fade)
-
-        UIApplication.getVC().resizeSidebar()
+        }, completion: { _ in
+            UIApplication.getVC().resizeSidebar()
+        })
     }
+
     
     public func removeRows(projects: [Project]) {
-        
-        // Append and remove childs too if exist
-        var projects = projects
-        for item in projects {
-            let child = item.getChildProjectsByURL()
-            for childItem in child {
-                
-                // No project with url
-                if projects.first(where: { $0.url.path == childItem.url.path }) == nil {
-                    projects.append(childItem)
-                }
-            }
-        }
-        
-        guard projects.count > 0, let vc = viewController else { return }
+        guard let vc = viewController else { return }
+
+        let toDelete: [Project] = projects.flatMap { [$0] + $0.getChildProjectsByURL() }
+        guard !toDelete.isEmpty else { return }
         var deselectCurrent = false
 
-        var indexPaths = [IndexPath]()
-        for project in projects {
-            if let index = sidebar.items[1].firstIndex(where: { $0.project == project }) {
-                indexPaths.append(IndexPath(row: index, section: 1))
+        performBatchUpdates({
+            var indexPathsToDelete = [IndexPath]()
 
-                if project == vc.storage.searchQuery.projects.first {
-                    deselectCurrent = true
+            for index in sidebar.items[1].indices.reversed() {
+                let item = sidebar.items[1][index]
+                guard let project = item.project else { continue }
+
+                if toDelete.contains(project) {
+                    sidebar.items[1].remove(at: index)
+                    indexPathsToDelete.append(IndexPath(row: index, section: 1))
+
+                    if project == vc.storage.searchQuery.projects.first {
+                        deselectCurrent = true
+                    }
+
+                    vc.storage.remove(project: project)
                 }
-
-                vc.storage.remove(project: project)
             }
-        }
 
-        for project in projects {
-            sidebar.items[1].removeAll(where: { $0.project?.url.path == project.url.path })
-        }
-        
-        deleteRows(at: indexPaths, with: .automatic)
+            if !indexPathsToDelete.isEmpty {
+                deleteRows(at: indexPathsToDelete, with: .automatic)
+            }
+        }, completion: { _ in
+            if deselectCurrent {
+                vc.notesTable.notes.removeAll()
+                vc.notesTable.reloadData()
 
-        if deselectCurrent {
-            vc.notesTable.notes.removeAll()
-            vc.notesTable.reloadData()
+                let indexPath = IndexPath(row: 0, section: 0)
+                self.tableView(self, didSelectRowAt: indexPath)
+            }
 
-            let indexPath = IndexPath(row: 0, section: 0)
-            tableView(self, didSelectRowAt: indexPath)
-        }
-
-        UIApplication.getVC().resizeSidebar()
+            UIApplication.getVC().resizeSidebar()
+        })
     }
 
     public func select(project: Project) {

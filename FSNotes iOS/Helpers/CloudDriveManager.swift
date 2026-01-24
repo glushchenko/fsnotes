@@ -64,7 +64,7 @@ class CloudDriveManager {
         metadataQuery.disableUpdates()
 
         let changed = change(notification: notification)
-        let added = self.added(notification: notification)
+        let added = added(notification: notification)
         let removed = remove(notification: notification)
 
         doVisualChanges()
@@ -106,6 +106,16 @@ class CloudDriveManager {
             }
         }
     }
+    
+    private func isProject(item: NSMetadataItem) -> Bool {
+        let itemUrl = item.value(forAttribute: NSMetadataItemURLKey) as? URL
+        let isDirectory = (item.value(forAttribute: NSMetadataItemContentTypeKey) as? String) == "public.folder"
+        let isPackage = (try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isPackage ?? false
+        
+        guard let url = itemUrl?.standardized else { return false }
+        
+        return isDirectory && !isPackage && url.pathExtension != "textbundle"
+    }
 
     private func change(notification: NSNotification) -> Int {
         guard let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] else { return 0 }
@@ -118,33 +128,38 @@ class CloudDriveManager {
             let itemUrl = item.value(forAttribute: NSMetadataItemURLKey) as? URL
             let contentChangeDate = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date
             let creationDate = item.value(forAttribute: NSMetadataItemFSCreationDateKey) as? Date
-
+            
+            
             if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
                 completed += 1
             }
+            
+            guard let url = itemUrl?.standardized, status == NSMetadataUbiquitousItemDownloadingStatusCurrent else {
+                continue
+            }
 
-            guard let url = itemUrl?.standardized, status == NSMetadataUbiquitousItemDownloadingStatusCurrent else { continue }
-
-            // check projects
-            let isDirectory = (try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory ?? false
-
-            let isPackage = (try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isPackage ?? false
-
-            // Is folder
-            if isDirectory && !isPackage && url.pathExtension != "textbundle" {
+            if isProject(item: item) {
 
                 // Renamed – remove old
                 if let project = getProjectFromCloudDriveResults(item: item) {
+                    
+                    // Remove old
                     projectsDeletionQueue.append(project)
-                }
-
-                // Add new
-                if storage.getProjectBy(url: url) == nil {
+                    
+                    // Insert new
                     if let projects = storage.insert(url: url) {
                         projectsInsertionQueue.append(contentsOf: projects)
                     }
+                } else {
+                    
+                    // Move from outside iCloud Drive
+                    if storage.getProjectBy(url: url) == nil {
+                        if let projects = storage.insert(url: url) {
+                            projectsInsertionQueue.append(contentsOf: projects)
+                        }
+                    }
                 }
-
+                
                 continue
             }
 
@@ -286,6 +301,8 @@ class CloudDriveManager {
 
         for item in addedMetadataItems {
             guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.standardized else { continue }
+            
+            print("Added: \(url)")
 
             let status = item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
 
@@ -298,6 +315,14 @@ class CloudDriveManager {
                     print("Download error: \(error)")
                 }
 
+                continue
+            }
+            
+            if isProject(item: item) {
+                if let projects = storage.insert(url: url) {
+                    projectsInsertionQueue.append(contentsOf: projects)
+                }
+                
                 continue
             }
 
@@ -321,8 +346,15 @@ class CloudDriveManager {
         else { return 0 }
 
         for item in removedMetadataItems {
-            guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.standardized
-            else { continue }
+            guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.standardized else { continue }
+            
+            if isProject(item: item) {
+                if let project = storage.getProjectBy(url: url) {
+                    projectsDeletionQueue.append(contentsOf: [project])
+                }
+                
+                continue
+            }
 
             if url.lastPathComponent == ".encrypt" {
                 self.loadEncryptionStatus(url: url)
@@ -488,6 +520,9 @@ class CloudDriveManager {
             self.delegate.notesTable.insertRows(notes: insert)
             self.delegate.notesTable.reloadRows(notes: change)
 
+            print("count PD: \(projectsDeletion.count)")
+            print("count PI: \(projectsInsertion.count)")
+            
             self.delegate.sidebarTableView.removeRows(projects: projectsDeletion)
             self.delegate.sidebarTableView.insertRows(projects: projectsInsertion)
 
