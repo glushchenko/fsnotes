@@ -1504,16 +1504,41 @@ class EditorViewController: UIViewController,
         guard let note = editArea.note, !editArea.isNoteLoading else { return }
         
         let layoutManager = editArea.layoutManager
+        let textStorage = editArea.textStorage
         let visibleY = editArea.contentOffset.y
+        
+        guard textStorage.length > 0 else {
+            note.scrollPosition = 0
+            note.scrollOffset = 0
+            return
+        }
         
         let glyphRange = layoutManager.glyphRange(
             forBoundingRect: CGRect(x: 0, y: visibleY, width: editArea.bounds.width, height: 1),
             in: editArea.textContainer
         )
         
-        guard glyphRange.location != NSNotFound else { return }
+        guard glyphRange.location != NSNotFound else {
+            note.scrollPosition = 0
+            note.scrollOffset = 0
+            return
+        }
+        
+        let numberOfGlyphs = layoutManager.numberOfGlyphs
+        guard glyphRange.location < numberOfGlyphs else {
+            note.scrollPosition = 0
+            note.scrollOffset = 0
+            return
+        }
         
         let charIndex = layoutManager.characterIndexForGlyph(at: glyphRange.location)
+        
+        guard charIndex < textStorage.length else {
+            note.scrollPosition = 0
+            note.scrollOffset = 0
+            return
+        }
+        
         let glyphRect = layoutManager.boundingRect(
             forGlyphRange: NSRange(location: glyphRange.location, length: 1),
             in: editArea.textContainer
