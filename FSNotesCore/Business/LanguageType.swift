@@ -37,6 +37,7 @@ enum LanguageType: Int {
     case Czech = 15
     case Hindi = 16
     case Turkish = 17
+    case ChineseTraditional
 
     var description: String {
         switch rawValue {
@@ -58,6 +59,7 @@ enum LanguageType: Int {
         case 15: return "Czech"
         case 16: return "Hindi"
         case 17: return "Turkish"
+        case 18: return "Chinese (Traditional)"
         default: return ""
         }
     }
@@ -82,6 +84,7 @@ enum LanguageType: Int {
         case 15: return "cs"
         case 16: return "hi"
         case 17: return "tr"
+        case 18: return "zh-Hant"
         default: return "en"
         }
     }
@@ -95,6 +98,7 @@ enum LanguageType: Int {
         case "Spanish": return LanguageType.Spanish
         case "Arabic": return LanguageType.Arabic
         case "Chinese (Simplified)": return LanguageType.Chinese
+        case "Chinese (Traditional)": return LanguageType.ChineseTraditional
         case "Korean": return LanguageType.Korean
         case "French": return LanguageType.French
         case "Dutch": return LanguageType.Dutch
@@ -119,6 +123,7 @@ enum LanguageType: Int {
         case "es": return 0x04
         case "ar": return 0x05
         case "zh-Hans": return 0x06
+        case "zh-Hant": return 18
         case "ko": return 0x07
         case "fr": return 0x08
         case "nl-NL": return 0x09
