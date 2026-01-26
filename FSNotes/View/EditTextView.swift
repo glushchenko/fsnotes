@@ -977,6 +977,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         return storage.mutableString.paragraphRange(for: range)
     }
     
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        // Handle Cmd+Option+Up/Down for moving lines - route to menu system
+        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.option) {
+            if event.keyCode == kVK_UpArrow || event.keyCode == kVK_DownArrow {
+                // Let the menu system handle this shortcut
+                if let mainMenu = NSApp.mainMenu {
+                    return mainMenu.performKeyEquivalent(with: event)
+                }
+            }
+        }
+        return super.performKeyEquivalent(with: event)
+    }
+
     // Clickable links flag changed with cmd / shift
     override func flagsChanged(with event: NSEvent) {
         super.flagsChanged(with: event)
