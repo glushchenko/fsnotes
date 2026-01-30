@@ -8,7 +8,7 @@
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "cs" : {
@@ -20,7 +20,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "en" : {
@@ -44,7 +44,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "hi" : {
@@ -56,37 +56,37 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
         "ru" : {
@@ -110,11 +110,16 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
     "0o7-iB-dtg.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Activate:\"; ObjectID = \"0o7-iB-dtg\";",
@@ -7966,7 +7971,7 @@
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "cs" : {
@@ -7978,7 +7983,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "en" : {
@@ -7990,19 +7995,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "hi" : {
@@ -8014,37 +8019,37 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "ru" : {
@@ -8068,7 +8073,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "iCloud Drive"
           }
         },
         "zh-Hant" : {
@@ -17964,7 +17969,7 @@
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "cs" : {
@@ -17976,7 +17981,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "en" : {
@@ -17988,19 +17993,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "hi" : {
@@ -18012,37 +18017,37 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "ru" : {
@@ -18066,7 +18071,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "FSNotes"
           }
         },
         "zh-Hant" : {
@@ -21804,7 +21809,7 @@
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "cs" : {
@@ -21816,7 +21821,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "en" : {
@@ -21828,19 +21833,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "hi" : {
@@ -21852,37 +21857,37 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "ru" : {
@@ -21906,13 +21911,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "🔗fsnotes/contributors"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "fsnotes/contributors"
+            "value" : "🔗fsnotes/contributors"
           }
         }
       }
@@ -34935,7 +34940,7 @@
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "cs" : {
@@ -34947,7 +34952,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "en" : {
@@ -34959,19 +34964,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "hi" : {
@@ -34983,37 +34988,37 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "ru" : {
@@ -35037,7 +35042,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : ""
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
           }
         },
         "zh-Hant" : {
