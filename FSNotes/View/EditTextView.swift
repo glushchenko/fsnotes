@@ -1032,7 +1032,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
         
         // fixes backtick marked text
-        if event.keyCode == kVK_ANSI_Grave {
+        if let characters = event.characters, characters == "`" {
             super.insertText("`", replacementRange: selectedRange())
             return
         }
