@@ -1,0 +1,59 @@
+{
+  "originHash" : "2d1aa1f63d518360e031de3fb441c9f901a838fdc4472b5c997db08bea05709c",
+  "pins" : [
+    {
+      "identity" : "bluesocket",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/IBM-Swift/BlueSocket",
+      "state" : {
+        "revision" : "7b23a867008e0027bfd6f4d398d44720707bc8ca",
+        "version" : "2.0.4"
+      }
+    },
+    {
+      "identity" : "libssh2prebuild",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/glushchenko/Libssh2Prebuild.git",
+      "state" : {
+        "revision" : "024c2cf73e0b47deeea92a1176998f48f98ff4df",
+        "version" : "1.11.0-OpenSSL-1-1-1u"
+      }
+    },
+    {
+      "identity" : "shout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/glushchenko/Shout",
+      "state" : {
+        "branch" : "master",
+        "revision" : "d733c3e6d3c3d7d44e08489e2dc21eff50a61a0e"
+      }
+    },
+    {
+      "identity" : "swift-cgit2",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/glushchenko/swift-cgit2",
+      "state" : {
+        "revision" : "ab1a18d82002b185c1c73b0daaa4174bb6b4f29c",
+        "version" : "1.2.2"
+      }
+    },
+    {
+      "identity" : "swift-git",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/glushchenko/swift-git",
+      "state" : {
+        "revision" : "7b2f3af96c6947308b4f0b4ae02302fd47a5eff2"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system",
+      "state" : {
+        "revision" : "39774ef16a6d91dee6f666b940e00ea202710cf7",
+        "version" : "0.0.3"
+      }
+    }
+  ],
+  "version" : 3
+}
