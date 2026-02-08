@@ -67,11 +67,13 @@ class FileWatcher{
   }
   
   private func selectStreamScheduler() {
+    guard let streamRef = streamRef else { return }
+      
     if let queue = queue {
-      FSEventStreamSetDispatchQueue(streamRef!, queue)
+      FSEventStreamSetDispatchQueue(streamRef, queue)
     } else {
       FSEventStreamScheduleWithRunLoop(
-        streamRef!, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue
+        streamRef, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue
       )
     }
   }
