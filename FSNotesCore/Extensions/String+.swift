@@ -170,7 +170,12 @@ public extension String {
         let result = self
             .replacingOccurrences(of: ":", with: "")
             .replacingOccurrences(of: "/", with: "")
-
+            .replacingOccurrences(
+                of: #"^#{1,6} "#,
+                with: "",
+                options: .regularExpression
+            )
+        
         return (result.count > length) ? String(result.prefix(length)) : result
     }
 
