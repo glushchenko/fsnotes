@@ -307,7 +307,7 @@ public class Project: NSObject {
         } else if !cacheOnly {
             notes = fetchNotes()
             
-            print("From disk: \(notes.count)")
+            print("From disk: \(notes.count), lbl: \(label)")
         }
 
         loadPins(for: notes)
@@ -785,7 +785,7 @@ public class Project: NSObject {
 
         let results = checkFSAndMemoryDiff()
 
-        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count).")
+        print("Cache diff found: removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count), lbl: \(label)")
         
         return results
     }

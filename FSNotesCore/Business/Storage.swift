@@ -109,7 +109,7 @@ class Storage {
         // Bookmarks
         for project in projects {
             if project.isBookmark {
-                _ = project.loadNotes(cacheOnly: true)
+                _ = project.loadNotes()
             }
         }
 
