@@ -1501,6 +1501,7 @@ class EditorViewController: UIViewController,
     }
 
     func saveScrollPosition() {
+        guard !editArea.isUpdating else { return }
         guard let note = editArea.note, !editArea.isNoteLoading else { return }
         
         let layoutManager = editArea.layoutManager

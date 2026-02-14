@@ -22,6 +22,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     public var imagesLoaderQueue = OperationQueue.init()
     public var keyboardIsOpened = true
     public var callCounter = 0
+    public var isUpdating = false
     
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
@@ -176,6 +177,14 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func paste(_ sender: Any?) {
+        isUpdating = true
+        
+        defer {
+            DispatchQueue.main.async {
+                self.isUpdating = false
+            }
+        }
+        
         let pb = UIPasteboard.general
         var toInsert: NSAttributedString?
 

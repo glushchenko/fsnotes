@@ -40,7 +40,6 @@ extension UITextView {
     public func insertAttributedText(_ attr: NSAttributedString) {
         let range = self.selectedRange
 
-        textStorage.beginEditing()
         undoManager?.beginUndoGrouping()
 
         let old = textStorage.attributedSubstring(from: range)
@@ -52,12 +51,13 @@ extension UITextView {
         }
         undoManager?.setActionName("Insert")
 
+        textStorage.beginEditing()
         textStorage.replaceCharacters(in: range, with: attr)
-        selectedRange = NSRange(location: range.location + attr.length, length: 0)
-
-        undoManager?.endUndoGrouping()
         textStorage.endEditing()
-
+        
+        selectedRange = NSRange(location: range.location + attr.length, length: 0)
+        undoManager?.endUndoGrouping()
+        
         delegate?.textViewDidChange?(self)
     }
 
@@ -72,10 +72,10 @@ extension UITextView {
 
         textStorage.beginEditing()
         textStorage.replaceCharacters(in: range, with: attr)
+        textStorage.endEditing()
         
         selectedRange = NSRange(location: range.location + attr.length, length: 0)
 
-        textStorage.endEditing()
         delegate?.textViewDidChange?(self)
     }
 }
