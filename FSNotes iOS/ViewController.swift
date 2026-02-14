@@ -172,6 +172,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc public func didBecomeActive() {
+        DispatchQueue.global(qos: .background).async {
+            self.checkExternal()
+        }
+        
         addPullTask()
     }
 
@@ -765,6 +769,43 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.notesTable.doVisualChanges(results: changes)
             }
         }
+    }
+    
+    public func checkExternal() {
+        let projects = Storage.shared().projects.filter({ $0.isBookmark })
+        
+        guard projects.count > 0 else { return }
+        
+        var remove = [Note]()
+        var insert = [Note]()
+        var reload = [Note]()
+        
+        for project in projects {
+            if let childProjects = project.getAllChild() {
+                for childProject in childProjects {
+                    let changes = childProject.checkFSAndMemoryDiff()
+                    remove += changes.0
+                    insert += changes.1
+                    reload += changes.2
+                }
+            }
+            
+            let changes = project.checkFSAndMemoryDiff()
+            remove += changes.0
+            insert += changes.1
+            reload += changes.2
+        }
+        
+        for note in insert {
+            note.loadPreviewInfo()
+        }
+        
+        for note in reload {
+            note.invalidateCache()
+            note.loadPreviewInfo()
+        }
+        
+        self.notesTable.doVisualChanges(results: (remove, insert, reload))
     }
 
     public func loadSearchController(query: String? = nil) {
