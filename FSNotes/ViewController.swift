@@ -429,16 +429,6 @@ class ViewController: EditorViewController,
     }
 
     private func configureEditor() {
-        self.editor.isGrammarCheckingEnabled = UserDefaultsManagement.grammarChecking
-        self.editor.isContinuousSpellCheckingEnabled = UserDefaultsManagement.continuousSpellChecking
-        self.editor.smartInsertDeleteEnabled = UserDefaultsManagement.smartInsertDelete
-        self.editor.isAutomaticSpellingCorrectionEnabled = UserDefaultsManagement.automaticSpellingCorrection
-        self.editor.isAutomaticQuoteSubstitutionEnabled = UserDefaultsManagement.automaticQuoteSubstitution
-        self.editor.isAutomaticDataDetectionEnabled = UserDefaultsManagement.automaticDataDetection
-        self.editor.isAutomaticLinkDetectionEnabled = UserDefaultsManagement.automaticLinkDetection
-        self.editor.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
-        self.editor.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
-
         self.editor?.linkTextAttributes = [
             .foregroundColor:  NSColor.init(named: "link")!
         ]

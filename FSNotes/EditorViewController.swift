@@ -42,9 +42,20 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     public var encCompletionHandler: ((String) -> Void)?
     
     public func initView() {
-        vcEditor?.delegate = self
+        guard let editor = vcEditor else { return }
+        editor.delegate = self
         
         initScrollObserver()
+        
+        editor.isGrammarCheckingEnabled = UserDefaultsManagement.grammarChecking
+        editor.isContinuousSpellCheckingEnabled = UserDefaultsManagement.continuousSpellChecking
+        editor.smartInsertDeleteEnabled = UserDefaultsManagement.smartInsertDelete
+        editor.isAutomaticSpellingCorrectionEnabled = UserDefaultsManagement.automaticSpellingCorrection
+        editor.isAutomaticQuoteSubstitutionEnabled = UserDefaultsManagement.automaticQuoteSubstitution
+        editor.isAutomaticDataDetectionEnabled = UserDefaultsManagement.automaticDataDetection
+        editor.isAutomaticLinkDetectionEnabled = UserDefaultsManagement.automaticLinkDetection
+        editor.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
+        editor.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
     }
         
     deinit {
