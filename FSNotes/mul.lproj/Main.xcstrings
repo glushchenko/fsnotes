@@ -39357,6 +39357,18 @@
         }
       }
     },
+    "Ws8-ql-C52.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Vertical Layout (applies after quit)\"; ObjectID = \"Ws8-ql-C52\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Vertical Layout (applies after quit)"
+          }
+        }
+      }
+    },
     "WsG-JA-VQd.title" : {
       "comment" : "Class = \"NSTextFieldCell\"; title = \"Passphrase:\"; ObjectID = \"WsG-JA-VQd\";",
       "extractionState" : "extracted_with_value",

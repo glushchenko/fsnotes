@@ -1266,13 +1266,13 @@ CA
             <objects>
                 <viewController title="Layout" id="P2a-yk-5Rx" customClass="PreferencesUserInterfaceViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" horizontalHuggingPriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
-                        <rect key="frame" x="0.0" y="0.0" width="550" height="323"/>
+                        <rect key="frame" x="0.0" y="0.0" width="550" height="345"/>
                         <subviews>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9b2-ti-sGJ">
-                                <rect key="frame" x="20" y="214" width="510" height="5"/>
+                                <rect key="frame" x="20" y="236" width="510" height="5"/>
                             </box>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FFS-iV-L6i">
-                                <rect key="frame" x="33" y="78" width="105" height="18"/>
+                                <rect key="frame" x="33" y="100" width="105" height="18"/>
                                 <buttonCell key="cell" type="check" title="Hide preview" bezelStyle="regularSquare" imagePosition="left" inset="2" id="F6G-ua-MNX">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1282,7 +1282,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kBX-OV-8sO">
-                                <rect key="frame" x="33" y="100" width="152" height="18"/>
+                                <rect key="frame" x="33" y="122" width="152" height="18"/>
                                 <buttonCell key="cell" type="check" title="Hide images preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6AI-tL-TDI">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1292,7 +1292,7 @@ CA
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-TG-JXR">
-                                <rect key="frame" x="162" y="272" width="115" height="16"/>
+                                <rect key="frame" x="162" y="294" width="115" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note List Spacing:" id="bXK-wP-sZc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1300,7 +1300,7 @@ CA
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hy2-6l-V6s">
-                                <rect key="frame" x="33" y="56" width="85" height="18"/>
+                                <rect key="frame" x="33" y="78" width="85" height="18"/>
                                 <buttonCell key="cell" type="check" title="Hide date" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="e15-ps-th1">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1310,7 +1310,7 @@ CA
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GN8-Yw-N26">
-                                <rect key="frame" x="161" y="240" width="116" height="16"/>
+                                <rect key="frame" x="161" y="262" width="116" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Preview Font Size:" id="xJQ-ch-Xlp">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1318,7 +1318,7 @@ CA
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yn6-yP-tkd">
-                                <rect key="frame" x="33" y="34" width="122" height="18"/>
+                                <rect key="frame" x="33" y="56" width="122" height="18"/>
                                 <buttonCell key="cell" type="check" title="First line as title" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tMJ-Dj-OZc">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1328,10 +1328,10 @@ CA
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="thJ-9r-qKd">
-                                <rect key="frame" x="20" y="135" width="510" height="5"/>
+                                <rect key="frame" x="20" y="157" width="510" height="5"/>
                             </box>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X4v-hO-tFb">
-                                <rect key="frame" x="298" y="264" width="154" height="28"/>
+                                <rect key="frame" x="298" y="286" width="154" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="Xyd-Vk-ueZ"/>
                                 </constraints>
@@ -1345,7 +1345,7 @@ CA
                                 </connections>
                             </slider>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h8R-h7-V5R">
-                                <rect key="frame" x="297" y="233" width="88" height="25"/>
+                                <rect key="frame" x="297" y="255" width="88" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Small" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="11" imageScaling="proportionallyDown" inset="2" selectedItem="8AQ-IN-Edm" id="Wo8-7N-6sB">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -1362,7 +1362,7 @@ CA
                                 </connections>
                             </popUpButton>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BWu-lt-Hmt">
-                                <rect key="frame" x="33" y="179" width="136" height="18"/>
+                                <rect key="frame" x="33" y="201" width="136" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show icon in dock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bJv-E9-bwW">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1372,7 +1372,7 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ax0-sQ-dzy">
-                                <rect key="frame" x="33" y="157" width="164" height="18"/>
+                                <rect key="frame" x="33" y="179" width="164" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show icon in menu bar" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="SSY-US-gmJ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1381,17 +1381,30 @@ CA
                                     <action selector="showInMenuBar:" target="P2a-yk-5Rx" id="Ie7-i4-4bm"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4gq-Ny-8kZ">
+                                <rect key="frame" x="33" y="34" width="232" height="18"/>
+                                <buttonCell key="cell" type="check" title="Vertical Layout (applies after quit)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Ws8-ql-C52">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="horizontalOrientation:" target="P2a-yk-5Rx" id="jgb-f7-Qie"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="kBX-OV-8sO" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="1Xz-yx-yJY"/>
+                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="leading" secondItem="Yn6-yP-tkd" secondAttribute="leading" id="2ny-5B-EKG"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4gq-Ny-8kZ" secondAttribute="trailing" constant="20" symbolic="YES" id="3Tx-Gi-Vl9"/>
                             <constraint firstItem="GN8-Yw-N26" firstAttribute="top" secondItem="MAi-TG-JXR" secondAttribute="bottom" constant="16" id="5WH-gS-efP"/>
                             <constraint firstItem="h8R-h7-V5R" firstAttribute="leading" secondItem="GN8-Yw-N26" secondAttribute="trailing" constant="25" id="755-3t-yXM"/>
-                            <constraint firstAttribute="bottom" secondItem="Yn6-yP-tkd" secondAttribute="bottom" constant="35" id="791-s2-Cik"/>
                             <constraint firstAttribute="trailing" secondItem="thJ-9r-qKd" secondAttribute="trailing" constant="20" symbolic="YES" id="9DZ-IE-xnQ"/>
                             <constraint firstItem="FFS-iV-L6i" firstAttribute="leading" secondItem="kBX-OV-8sO" secondAttribute="leading" id="9Vk-O1-Gw0"/>
                             <constraint firstItem="ax0-sQ-dzy" firstAttribute="leading" secondItem="BWu-lt-Hmt" secondAttribute="leading" id="9fh-G3-nKW"/>
                             <constraint firstItem="Yn6-yP-tkd" firstAttribute="leading" secondItem="Hy2-6l-V6s" secondAttribute="leading" id="BOL-TI-Qnj"/>
+                            <constraint firstAttribute="bottom" secondItem="4gq-Ny-8kZ" secondAttribute="bottom" constant="35" id="DAN-1V-Dpo"/>
                             <constraint firstItem="BWu-lt-Hmt" firstAttribute="top" secondItem="9b2-ti-sGJ" secondAttribute="bottom" constant="20" id="H6i-af-SIR"/>
+                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="Yn6-yP-tkd" secondAttribute="bottom" constant="6" symbolic="YES" id="HlI-v1-5rk"/>
                             <constraint firstItem="thJ-9r-qKd" firstAttribute="top" secondItem="ax0-sQ-dzy" secondAttribute="bottom" constant="20" id="ICs-MT-tFX"/>
                             <constraint firstAttribute="trailing" secondItem="9b2-ti-sGJ" secondAttribute="trailing" constant="20" symbolic="YES" id="JeV-Ik-fQo"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="h8R-h7-V5R" secondAttribute="trailing" constant="35" id="KPN-gr-sZx"/>
@@ -1428,6 +1441,7 @@ CA
                         <outlet property="hideDate" destination="Hy2-6l-V6s" id="Tfc-Ur-PnR"/>
                         <outlet property="hideImagesPreview" destination="kBX-OV-8sO" id="tgI-8X-Re0"/>
                         <outlet property="hidePreview" destination="FFS-iV-L6i" id="6e2-Xa-nly"/>
+                        <outlet property="horizontalOrientation" destination="4gq-Ny-8kZ" id="bY1-PL-UlA"/>
                         <outlet property="previewFontSize" destination="h8R-h7-V5R" id="yTV-Pf-FSJ"/>
                         <outlet property="showDockIcon" destination="BWu-lt-Hmt" id="ttK-Oh-uLh"/>
                         <outlet property="showInMenuBar" destination="ax0-sQ-dzy" id="vW6-kA-hRk"/>
@@ -2083,6 +2097,7 @@ CA
                         <outlet property="nonSelectedLabel" destination="FvZ-Tf-26e" id="fa6-EA-riA"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesCounter" destination="xOb-jd-sez" id="57q-6u-ogh"/>
+                        <outlet property="notesCounterViewHeight" destination="eLj-20-oK1" id="XEb-eo-asA"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesScrollView" destination="Kzf-Jh-YEb" id="u8R-Hy-KjV"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>

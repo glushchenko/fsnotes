@@ -224,7 +224,11 @@ public class UserDefaultsManagement {
 
     static var horizontalOrientation: Bool {
         get {
-            return false
+            if let returnHorizontalOrientation = shared?.object(forKey: Constants.TableOrientation) as? Bool {
+                return returnHorizontalOrientation
+            } else {
+                return false
+            }
         }
         set {
             shared?.set(newValue, forKey: Constants.TableOrientation)
