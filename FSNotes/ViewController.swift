@@ -141,6 +141,7 @@ class ViewController: EditorViewController,
     @IBOutlet weak var menuChangeCreationDate: NSMenuItem!
     
     @IBOutlet weak var counter: NSTextField!
+    @IBOutlet weak var notesCounterViewHeight: NSLayoutConstraint!
     @IBOutlet weak var notesCounter: NSTextField!
     
     // MARK: - Overrides
@@ -304,6 +305,8 @@ class ViewController: EditorViewController,
                 
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
+            notesCounterViewHeight.constant = 0
+            notesCounter.isHidden = true
         }
 
         self.menuChangeCreationDate.title = NSLocalizedString("Change Creation Date", comment: "Menu")

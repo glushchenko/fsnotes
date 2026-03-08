@@ -224,10 +224,25 @@ public class UserDefaultsManagement {
 
     static var horizontalOrientation: Bool {
         get {
-            return false
+            if let returnHorizontalOrientation = shared?.object(forKey: Constants.TableOrientation) as? Bool {
+                return returnHorizontalOrientation
+            } else {
+                return false
+            }
         }
         set {
             shared?.set(newValue, forKey: Constants.TableOrientation)
+            
+            // reset the note list height / width
+            shared?.removeObject(forKey: "NSSplitView Subview Frames EditorSplitView")
+            
+            if (newValue){
+                // for top-to-bottom layout, set note list cell height to 0
+                cellSpacing = 0
+            } else {
+                // for side-by-side layout, reset note list cell height to default
+                shared?.removeObject(forKey: Constants.CellSpacing)
+            }
         }
     }
     
