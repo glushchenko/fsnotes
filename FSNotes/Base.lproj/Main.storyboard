@@ -1382,8 +1382,8 @@ CA
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4gq-Ny-8kZ">
-                                <rect key="frame" x="33" y="34" width="232" height="18"/>
-                                <buttonCell key="cell" type="check" title="Vertical Layout (applies after quit)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Ws8-ql-C52">
+                                <rect key="frame" x="33" y="34" width="321" height="18"/>
+                                <buttonCell key="cell" type="check" title="Arrange note list above editor (applies after quit)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Ws8-ql-C52">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

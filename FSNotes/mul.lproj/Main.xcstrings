@@ -39358,13 +39358,13 @@
       }
     },
     "Ws8-ql-C52.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Vertical Layout (applies after quit)\"; ObjectID = \"Ws8-ql-C52\";",
+      "comment" : "Class = \"NSButtonCell\"; title = \"Arrange note list above editor (applies after quit)\"; ObjectID = \"Ws8-ql-C52\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Vertical Layout (applies after quit)"
+            "value" : "Arrange note list above editor (applies after quit)"
           }
         }
       }
