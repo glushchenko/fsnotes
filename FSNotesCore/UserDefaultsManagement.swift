@@ -136,6 +136,7 @@ public class UserDefaultsManagement {
         static let SftpUsername = "sftpUsername"
         static let SftpPassword = "sftpPassword"
         static let SftpKeysAccessData = "sftpKeysAccessData"
+        static let SftpPublicKeyData = "sftpPublicKeyData"
         static let SftpUploadBookmarksData = "sftpUploadBookmarksData"
         static let SharedContainerKey = "sharedContainer"
         static let ShowDockIcon = "showDockIcon"
@@ -1556,6 +1557,15 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var sftpPublicKeyData: Data? {
+        get {
+            return shared?.data(forKey: Constants.SftpPublicKeyData)
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SftpPublicKeyData)
+        }
+    }
+
     static var sftpUploadBookmarksData: Data? {
         get {
             return shared?.data(forKey: Constants.SftpUploadBookmarksData)
