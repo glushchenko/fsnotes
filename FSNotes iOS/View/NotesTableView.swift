@@ -1053,7 +1053,9 @@ class NotesTableView: UITableView,
 
     public func shareWebAction(note: Note) {
         if UserDefaultsManagement.customWebServer {
+            showLoader()
             SFTPUploader.upload(note: note) { result in
+                self.hideLoader()
                 self.reloadRowForce(note: note)
                 UIApplication.getEVC().configureNavMenu()
 
@@ -1082,7 +1084,9 @@ class NotesTableView: UITableView,
 
     public func deleteWebAction(note: Note) {
         if UserDefaultsManagement.customWebServer {
+            showLoader()
             SFTPUploader.remove(note: note) { error in
+                self.hideLoader()
                 self.reloadRowForce(note: note)
                 UIApplication.getEVC().configureNavMenu()
 
