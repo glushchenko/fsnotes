@@ -39358,13 +39358,121 @@
       }
     },
     "Ws8-ql-C52.title" : {
-      "comment" : "Class = \"NSButtonCell\"; title = \"Arrange note list above editor (applies after quit)\"; ObjectID = \"Ws8-ql-C52\";",
+      "comment" : "Class = \"NSButtonCell\"; title = \"Arrange note list above editor\"; ObjectID = \"Ws8-ql-C52\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar-IQ" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وضع قائمة الملاحظات فوق المحرر"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umístit seznam poznámek nad editor"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Notizenliste über dem Editor anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Arrange note list above editor (applies after quit)"
+            "value" : "Arrange note list above editor"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar la lista de notas encima del editor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la liste des notes au-dessus de l'éditeur"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "להציג את רשימת ההערות מעל העורך"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संपादक के ऊपर नोट्स की सूची रखें।"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posizionare l'elenco delle note sopra l'editor"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エディタの上にメモの一覧を表示する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "편집기 위에 메모 목록 배치하기"
+          }
+        },
+        "nl-NL" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De lijst met notities boven de editor plaatsen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir a lista de notas acima do editor"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar a lista de notas acima do editor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расположить список заметок над редактором"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not listesini düzenleyicinin üstüne yerleştir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розмістити список нотаток над редактором"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在编辑器上方显示备忘录列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將備忘錄清單置於編輯器上方"
           }
         }
       }
