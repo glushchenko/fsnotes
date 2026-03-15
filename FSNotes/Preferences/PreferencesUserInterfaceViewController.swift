@@ -16,6 +16,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var hidePreview: NSButton!
     @IBOutlet weak var hideDate: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
+    @IBOutlet weak var horizontalOrientation: NSButton!
     @IBOutlet weak var showDockIcon: NSButton!
     @IBOutlet weak var showInMenuBar: NSButton!
 
@@ -43,6 +44,10 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
+        
+        horizontalOrientation.state =
+            UserDefaultsManagement
+            .horizontalOrientation ? .on : .off
     }
 
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
@@ -91,6 +96,17 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
+    }
+    
+    @IBAction func horizontalOrientation(_ sender: NSButton) {
+        UserDefaultsManagement.horizontalOrientation = (sender.state == .on)
+        
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = [Bundle.main.bundlePath]
+        try? task.run()
+
+        NSApp.terminate(nil)
     }
     
     @IBAction func showDockIcon(_ sender: NSButton) {
