@@ -1,0 +1,44 @@
+/* SFTP Web Publishing */
+"Web Publishing (SFTP)" = "Веб-публікація (SFTP)";
+
+/* SFTP settings section headers */
+"Server" = "Сервер";
+"Authentication" = "Автентифікація";
+"Actions" = "Дії";
+
+/* SFTP settings fields */
+"Host" = "Хост";
+"Port" = "Порт";
+"Remote Path" = "Віддалений шлях";
+"Web URL" = "Веб-адреса";
+"Username" = "Ім'я користувача";
+"(or use private key)" = "(або використати ключ)";
+"Public Key" = "Публічний ключ";
+"loaded" = "завантажено";
+"not set" = "не задано";
+"(optional)" = "(необов'язково)";
+
+/* SFTP settings actions */
+"Use Custom SFTP Server" = "Використовувати SFTP-сервер";
+"Test Connection" = "Перевірити з'єднання";
+
+/* SFTP connection test alerts */
+"Missing Host" = "Хост не вказано";
+"Please enter a host address." = "Введіть адресу хоста.";
+"Testing…" = "Перевірка…";
+"Could not authenticate. Check credentials." = "Не вдалося автентифікуватись. Перевірте дані.";
+"Successfully connected to the server." = "Успішне підключення до сервера.";
+"Connection Successful" = "З'єднання встановлено";
+"Connection Failed" = "Помилка з'єднання";
+
+/* SFTP context menu */
+"Create Web Page" = "Створити веб-сторінку";
+"Update Web Page" = "Оновити веб-сторінку";
+"Delete Web Page" = "Видалити веб-сторінку";
+"SFTP Error" = "Помилка SFTP";
+
+/* SFTP error messages */
+"Please set a password or import a private key in SFTP settings." = "Вкажіть пароль або імпортуйте приватний ключ у налаштуваннях SFTP.";
+"Remote path is not configured in SFTP settings." = "Віддалений шлях не налаштовано в налаштуваннях SFTP.";
+"Web URL is not configured in SFTP settings." = "Веб-адреса не налаштована в налаштуваннях SFTP.";
+"Failed to render the note as HTML." = "Не вдалося перетворити нотатку на HTML.";

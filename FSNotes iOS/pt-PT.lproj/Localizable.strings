@@ -1,0 +1,44 @@
+/* SFTP Web Publishing */
+"Web Publishing (SFTP)" = "Publicação web (SFTP)";
+
+/* SFTP settings section headers */
+"Server" = "Servidor";
+"Authentication" = "Autenticação";
+"Actions" = "Ações";
+
+/* SFTP settings fields */
+"Host" = "Anfitrião";
+"Port" = "Porta";
+"Remote Path" = "Caminho remoto";
+"Web URL" = "URL web";
+"Username" = "Nome de utilizador";
+"(or use private key)" = "(ou usar chave privada)";
+"Public Key" = "Chave pública";
+"loaded" = "carregada";
+"not set" = "não definida";
+"(optional)" = "(opcional)";
+
+/* SFTP settings actions */
+"Use Custom SFTP Server" = "Usar servidor SFTP personalizado";
+"Test Connection" = "Testar ligação";
+
+/* SFTP connection test alerts */
+"Missing Host" = "Anfitrião em falta";
+"Please enter a host address." = "Introduza um endereço de anfitrião.";
+"Testing…" = "A testar…";
+"Could not authenticate. Check credentials." = "Não foi possível autenticar. Verifique as credenciais.";
+"Successfully connected to the server." = "Ligação ao servidor bem-sucedida.";
+"Connection Successful" = "Ligação bem-sucedida";
+"Connection Failed" = "Falha na ligação";
+
+/* SFTP context menu */
+"Create Web Page" = "Criar página web";
+"Update Web Page" = "Atualizar página web";
+"Delete Web Page" = "Eliminar página web";
+"SFTP Error" = "Erro SFTP";
+
+/* SFTP error messages */
+"Please set a password or import a private key in SFTP settings." = "Defina uma palavra-passe ou importe uma chave privada nas definições SFTP.";
+"Remote path is not configured in SFTP settings." = "O caminho remoto não está configurado nas definições SFTP.";
+"Web URL is not configured in SFTP settings." = "O URL web não está configurado nas definições SFTP.";
+"Failed to render the note as HTML." = "Não foi possível converter a nota para HTML.";

@@ -1,0 +1,44 @@
+/* SFTP Web Publishing */
+"Web Publishing (SFTP)" = "Webpublicatie (SFTP)";
+
+/* SFTP settings section headers */
+"Server" = "Server";
+"Authentication" = "Authenticatie";
+"Actions" = "Acties";
+
+/* SFTP settings fields */
+"Host" = "Host";
+"Port" = "Poort";
+"Remote Path" = "Extern pad";
+"Web URL" = "Web-URL";
+"Username" = "Gebruikersnaam";
+"(or use private key)" = "(of gebruik een privésleutel)";
+"Public Key" = "Publieke sleutel";
+"loaded" = "geladen";
+"not set" = "niet ingesteld";
+"(optional)" = "(optioneel)";
+
+/* SFTP settings actions */
+"Use Custom SFTP Server" = "Gebruik aangepaste SFTP-server";
+"Test Connection" = "Verbinding testen";
+
+/* SFTP connection test alerts */
+"Missing Host" = "Host ontbreekt";
+"Please enter a host address." = "Voer een hostadres in.";
+"Testing…" = "Testen…";
+"Could not authenticate. Check credentials." = "Verificatie mislukt. Controleer uw gegevens.";
+"Successfully connected to the server." = "Verbinding met de server geslaagd.";
+"Connection Successful" = "Verbinding geslaagd";
+"Connection Failed" = "Verbinding mislukt";
+
+/* SFTP context menu */
+"Create Web Page" = "Webpagina aanmaken";
+"Update Web Page" = "Webpagina bijwerken";
+"Delete Web Page" = "Webpagina verwijderen";
+"SFTP Error" = "SFTP-fout";
+
+/* SFTP error messages */
+"Please set a password or import a private key in SFTP settings." = "Stel een wachtwoord in of importeer een privésleutel in de SFTP-instellingen.";
+"Remote path is not configured in SFTP settings." = "Het externe pad is niet geconfigureerd in de SFTP-instellingen.";
+"Web URL is not configured in SFTP settings." = "De web-URL is niet geconfigureerd in de SFTP-instellingen.";
+"Failed to render the note as HTML." = "De notitie kon niet als HTML worden weergegeven.";
