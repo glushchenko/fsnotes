@@ -879,7 +879,7 @@ public class Note: NSObject  {
                     result += "<hr>\n\n"
                 }
                 
-                result += list.joined()
+                result += list.joined(separator: "---")
                 
                 return result
             }
@@ -892,13 +892,40 @@ public class Note: NSObject  {
         #if IOS_APP || os(OSX)
             let mutable = NotesTextProcessor.convertAppTags(in: self.content.unloadAttachments(), codeBlockRanges: codeBlockRangesCache)
         let content = NotesTextProcessor.convertAppLinks(in: mutable, codeBlockRanges: codeBlockRangesCache)
-            let result = cleanMetaData(content: content.string)
-                .replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
-        
+            let cleaned = cleanMetaData(content: content.string)
+            let result = Note.replaceHorizontalRulesOutsideCodeBlocks(cleaned)
+
             return result
         #else
             return cleanMetaData(content: self.content.string)
         #endif
+    }
+
+    /// Replace `\n---\n` with `\n<hr>\n` only outside fenced code blocks,
+    /// so that `---` inside e.g. mermaid YAML frontmatter is preserved.
+    private static func replaceHorizontalRulesOutsideCodeBlocks(_ text: String) -> String {
+        let pattern = "(?<=\\n|\\A)```[^\\n]*\\n[\\s\\S]*?\\n```(?=\\n|\\Z)"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+            return text.replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
+        }
+
+        let nsText = text as NSString
+        let codeRanges = regex.matches(in: text, range: NSRange(location: 0, length: nsText.length)).map { $0.range }
+
+        var result = ""
+        var currentIndex = 0
+
+        for codeRange in codeRanges {
+            let beforeRange = NSRange(location: currentIndex, length: codeRange.location - currentIndex)
+            result += nsText.substring(with: beforeRange).replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
+            result += nsText.substring(with: codeRange)
+            currentIndex = codeRange.location + codeRange.length
+        }
+
+        let remainingRange = NSRange(location: currentIndex, length: nsText.length - currentIndex)
+        result += nsText.substring(with: remainingRange).replacingOccurrences(of: "\n---\n", with: "\n<hr>\n")
+
+        return result
     }
 
     public func overwrite(url: URL) {
