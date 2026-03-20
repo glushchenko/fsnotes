@@ -606,6 +606,8 @@
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B13DBD2C64F445008EBCAA /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B13DBC2C64F445008EBCAA /* Printer.swift */; };
 		D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B13DBC2C64F445008EBCAA /* Printer.swift */; };
+		AA1234560001000100010001 /* PDFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1234560001000100010000 /* PDFExporter.swift */; };
+		AA1234560001000100010002 /* PDFExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1234560001000100010000 /* PDFExporter.swift */; };
 		D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7B2B6EC245EEA790084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7B34F9725195D7E0007877E /* PreviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B34F9625195D7E0007877E /* PreviewState.swift */; };
@@ -1188,6 +1190,7 @@
 		D7A9C1D52910784400905619 /* Project+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Project+Git.swift"; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B13DBC2C64F445008EBCAA /* Printer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
+		AA1234560001000100010000 /* PDFExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExporter.swift; sourceTree = "<group>"; };
 		D7B34F9625195D7E0007877E /* PreviewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewState.swift; sourceTree = "<group>"; };
 		D7B4AC5D2471253100F3888A /* NoteMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMeta.swift; sourceTree = "<group>"; };
 		D7B6E599207912E300FE0E20 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
@@ -1905,6 +1908,7 @@
 				D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */,
 				D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */,
 				D7B13DBC2C64F445008EBCAA /* Printer.swift */,
+				AA1234560001000100010000 /* PDFExporter.swift */,
 				D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */,
 				6F13BB3820FEDE230005E120 /* UserDataService.swift */,
 				D75EE7F92078B3C00055F159 /* Sidebar.swift */,
@@ -2848,6 +2852,7 @@
 				110D09832E9C152B001555FA /* NSRange+.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7B13DBD2C64F445008EBCAA /* Printer.swift in Sources */,
+				AA1234560001000100010001 /* PDFExporter.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
 				D77A12382C469AD0001B388B /* SearchQuery.swift in Sources */,
 				11BF06722EE33262006C7336 /* Haskell.swift in Sources */,
@@ -3082,6 +3087,7 @@
 				110D09862E9C152B001555FA /* NSRange+.swift in Sources */,
 				D708AC682000F0E100A1760F /* NoteType.swift in Sources */,
 				D7B13DBE2C64F445008EBCAA /* Printer.swift in Sources */,
+				AA1234560001000100010002 /* PDFExporter.swift in Sources */,
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
 				D77A12372C469ACF001B388B /* SearchQuery.swift in Sources */,
 				11BF06732EE33262006C7336 /* Haskell.swift in Sources */,
