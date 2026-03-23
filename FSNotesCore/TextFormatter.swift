@@ -661,15 +661,32 @@ public class TextFormatter {
             }
         }
 
+        // Headers: Return key exits header mode (no prefix continuation)
+        let paragraphString = currentParagraph.string
+        if paragraphString.starts(with: "#") {
+            let cursorAfterNewline = selectedRange.location + 1
+            #if os(iOS)
+                self.textView.insertText("\n")
+            #else
+                self.textView.insertNewline(nil)
+            #endif
+            // Force cursor to new line position after layout updates from re-highlighting
+            if cursorAfterNewline <= storage.length {
+                textView.setSelectedRange(NSRange(location: cursorAfterNewline, length: 0))
+                textView.scrollRangeToVisible(NSRange(location: cursorAfterNewline, length: 0))
+            }
+            return
+        }
+
         // New Line insertion
 
         var newLine = "\n"
         var prefix: String?
-        
-        if currentParagraph.string.starts(with: "\t") {
-            prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t")
-        } else if currentParagraph.string.starts(with: "  ") {
-            prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
+
+        if paragraphString.starts(with: "\t") {
+            prefix = paragraphString.getPrefixMatchSequentially(char: "\t")
+        } else if paragraphString.starts(with: "  ") {
+            prefix = paragraphString.getPrefixMatchSequentially(char: " ")
         }
 
         if let x = prefix {
@@ -1370,5 +1387,27 @@ public class TextFormatter {
         }
 
         return false
+    }
+
+    // MARK: - WYSIWYG Toolbar Methods
+
+    public func numberedList() {
+        orderedList()
+    }
+
+    public func horizontalRule() {
+        insertText("\n---\n")
+    }
+
+    public func insertTable() {
+        let table = """
+
+        | Header | Header |
+        |--------|--------|
+        | Cell   | Cell   |
+        | Cell   | Cell   |
+
+        """
+        insertText(table)
     }
 }

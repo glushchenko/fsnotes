@@ -491,8 +491,9 @@ public class NotesTextProcessor {
             NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                let syntaxRange = NSMakeRange(innerRange.location, innerRange.length + 1)
-                hideSyntaxIfNecessary(range: syntaxRange)
+                // innerRange already includes the space after # (pattern is ^#{1,6} )
+                // Do NOT add +1 — that eats the first content character
+                hideSyntaxIfNecessary(range: innerRange)
             }
 
             NotesTextProcessor.headersAtxClosingRegex.matches(string, range: range) { (innerResult) -> Void in
@@ -842,6 +843,30 @@ public class NotesTextProcessor {
             }
         }
 
+        // Horizontal rules: hide syntax and mark for LayoutManager drawing
+        if NotesTextProcessor.hideSyntax {
+            let hrPattern = "^[ ]{0,3}([-*_])[ ]{0,2}(\\1[ ]{0,2}){2,}[ \\t]*$"
+            if let hrRegex = try? NSRegularExpression(pattern: hrPattern, options: .anchorsMatchLines) {
+                hrRegex.enumerateMatches(in: string, range: paragraphRange) { result, _, _ in
+                    guard let range = result?.range else { return }
+                    attributedString.addAttributes(hiddenAttributes, range: range)
+                    attributedString.addAttribute(.horizontalRule, value: true, range: range)
+                }
+            }
+        }
+
+        // Blockquote left border marker
+        if NotesTextProcessor.hideSyntax {
+            let bqPattern = "^>\\s?"
+            if let bqRegex = try? NSRegularExpression(pattern: bqPattern, options: .anchorsMatchLines) {
+                bqRegex.enumerateMatches(in: string, range: paragraphRange) { result, _, _ in
+                    guard let range = result?.range else { return }
+                    let paraRange = (string as NSString).paragraphRange(for: range)
+                    attributedString.addAttribute(.blockquote, value: true, range: paraRange)
+                }
+            }
+        }
+
         guard UserDefaultsManagement.codeBlockHighlight else { return }
 
         // Code span removed
@@ -869,10 +894,12 @@ public class NotesTextProcessor {
             NotesTextProcessor.codeSpanOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                hideSyntaxIfNecessary(range: innerRange)
             }
             NotesTextProcessor.codeSpanClosingRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                hideSyntaxIfNecessary(range: innerRange)
             }
         }
     }
@@ -922,7 +949,7 @@ public class NotesTextProcessor {
     fileprivate static let headerAtxPattern = [
         "^(\\#{1,6}\\  )  # $1 = string of #'s",
         "\\p{Z}*",
-        "(.+?)        # $2 = Header text",
+        "(.*?)         # $2 = Header text (can be empty for WYSIWYG)",
         "\\p{Z}*",
         "\\#*         # optional closing #'s (not counted)",
         "(?:\\n|\\Z)"

@@ -117,6 +117,7 @@ public class UserDefaultsManagement {
         static let MarginSizeKey = "marginSize"
         static let MasterPasswordHint = "masterPasswordHint"
         static let MathJaxPreview = "mathJaxPreview"
+        static let WysiwygMode = "wysiwygMode"
         static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
         static let Preview = "preview"
@@ -429,14 +430,24 @@ public class UserDefaultsManagement {
         
     static var sort: SortBy {
         get {
-            if let result = global.object(forKey: "sortBy") as? String, let sortBy = SortBy(rawValue: result) {
-                return sortBy
-            } else {
-                return .modificationDate
+            // Read from UserDefaults first (reliable), then iCloud KV Store
+            if let result = shared?.object(forKey: Constants.SortBy) as? String {
+                if result == "none" {
+                    return SortBy.none
+                }
+                return SortBy(rawValue: result) ?? .modificationDate
             }
+            if let result = global.object(forKey: Constants.SortBy) as? String {
+                if result == "none" {
+                    return SortBy.none
+                }
+                return SortBy(rawValue: result) ?? .modificationDate
+            }
+            return .modificationDate
         }
         set {
-            global.set(newValue.rawValue, forKey: "sortBy")
+            shared?.set(newValue.rawValue, forKey: Constants.SortBy)
+            global.set(newValue.rawValue, forKey: Constants.SortBy)
         }
     }
     
@@ -840,7 +851,7 @@ public class UserDefaultsManagement {
                 return result
             }
             
-            return false
+            return true
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UseTextBundleToStoreDates)
@@ -871,7 +882,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.NoteContainer) as? Int, let container = NoteContainer(rawValue: result) {
                 return container
             }
-            return .none
+            return .textBundleV2
         }
         set {
             #if os(iOS)
@@ -1218,6 +1229,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.MathJaxPreview)
+        }
+    }
+
+    static var wysiwygMode: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.WysiwygMode) as? Bool {
+                return result
+            }
+            return true // WYSIWYG on by default
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.WysiwygMode)
         }
     }
     

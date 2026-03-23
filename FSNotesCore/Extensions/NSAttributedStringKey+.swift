@@ -40,4 +40,12 @@ public extension NSAttributedString.Key {
     static var highlight: NSAttributedString.Key {
         return NSAttributedString.Key(rawValue: "es.fsnot.highlight")
     }
+
+    static var horizontalRule: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.hr")
+    }
+
+    static var blockquote: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.blockquote")
+    }
 }

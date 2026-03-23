@@ -45,16 +45,25 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         guard let textStorage = self.textStorage else {
             return defaultFont
         }
-        
+
         let characterRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
         let storageRange = NSRange(location: 0, length: textStorage.length)
         let safeCharRange = characterRange.clamped(to: storageRange)
         guard safeCharRange.length > 0 else {
             return defaultFont
         }
-        
-        let attributes = textStorage.attributes(at: safeCharRange.location, effectiveRange: nil)
-        return attributes[.font] as? NSFont ?? defaultFont
+
+        // Find the largest font in the range — hidden syntax uses 0.1pt font
+        // which would collapse line height if used. Scan for the real content font.
+        var maxFont = defaultFont
+        var maxSize: CGFloat = 0
+        textStorage.enumerateAttribute(.font, in: safeCharRange) { value, _, _ in
+            if let font = value as? NSFont, font.pointSize > maxSize {
+                maxSize = font.pointSize
+                maxFont = font
+            }
+        }
+        return maxFont
     }
     
     private func hasAttachment(in glyphRange: NSRange) -> (hasAttachment: Bool, maxAttachmentHeight: CGFloat) {
@@ -109,6 +118,8 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     
     override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
         drawCodeBlockBackground(forGlyphRange: glyphsToShow, at: origin)
+        drawHorizontalRules(forGlyphRange: glyphsToShow, at: origin)
+        drawBlockquoteBorders(forGlyphRange: glyphsToShow, at: origin)
 
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
     }
@@ -179,6 +190,55 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         }
         
         context.restoreGState()
+    }
+
+    private func drawHorizontalRules(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        guard let textStorage = self.textStorage,
+              let context = NSGraphicsContext.current?.cgContext,
+              let textContainer = self.textContainers.first else { return }
+
+        let visibleCharRange = self.characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
+        let storageFullRange = NSRange(location: 0, length: textStorage.length)
+
+        textStorage.enumerateAttribute(.horizontalRule, in: visibleCharRange.clamped(to: storageFullRange)) { value, range, _ in
+            guard value != nil else { return }
+            let glyphRange = self.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            if glyphRange.length == 0 { return }
+            let rect = self.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+            if rect.isEmpty { return }
+
+            let lineY = rect.midY + origin.y
+            context.saveGState()
+            context.setStrokeColor(NSColor.separatorColor.cgColor)
+            context.setLineWidth(1.0)
+            context.move(to: CGPoint(x: rect.minX + origin.x + 20, y: lineY))
+            context.addLine(to: CGPoint(x: rect.maxX + origin.x - 20, y: lineY))
+            context.strokePath()
+            context.restoreGState()
+        }
+    }
+
+    private func drawBlockquoteBorders(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        guard let textStorage = self.textStorage,
+              let context = NSGraphicsContext.current?.cgContext,
+              let textContainer = self.textContainers.first else { return }
+
+        let visibleCharRange = self.characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
+        let storageFullRange = NSRange(location: 0, length: textStorage.length)
+
+        textStorage.enumerateAttribute(.blockquote, in: visibleCharRange.clamped(to: storageFullRange)) { value, range, _ in
+            guard value != nil else { return }
+            let glyphRange = self.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            if glyphRange.length == 0 { return }
+            let rect = self.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+            if rect.isEmpty { return }
+
+            let barX = rect.minX + origin.x + 4
+            context.saveGState()
+            context.setFillColor(NSColor.systemBlue.withAlphaComponent(0.5).cgColor)
+            context.fill(CGRect(x: barX, y: rect.minY + origin.y, width: 3, height: rect.height))
+            context.restoreGState()
+        }
     }
 
     public func layoutManager(

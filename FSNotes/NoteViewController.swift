@@ -38,9 +38,10 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
         vcTitleLabel = titleLabel
         vcNonSelectedLabel = nonSelectedLabel
         vcEditorScrollView = editorScrollView
-        
+        vcTitleBarView = titleBarView
+
         editor.updateTextContainerInset()
-        
+
         super.initView()
     }
     

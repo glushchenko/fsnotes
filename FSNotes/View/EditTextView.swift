@@ -8,6 +8,8 @@
 
 import Cocoa
 import Carbon.HIToolbox
+import PDFKit
+import QuickLookThumbnailing
 
 class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelegate {
     
@@ -33,8 +35,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     private var preview = false
     
     public var isScrollPositionSaverLocked = false
-    
-    override func becomeFirstResponder() -> Bool {        
+    public var skipLoadSelectedRange = false
+
+    override func becomeFirstResponder() -> Bool {
         if let note = self.note {
             if note.container == .encryptedTextPack {
                 return false
@@ -42,9 +45,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             textStorage?.removeHighlight()
         }
-        
-        loadSelectedRange()
-        
+
+        if skipLoadSelectedRange {
+            skipLoadSelectedRange = false
+        } else {
+            loadSelectedRange()
+        }
+
         return super.becomeFirstResponder()
     }
 
@@ -642,8 +649,42 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             breakUndoCoalescing()
             insertText(mutable, replacementRange: selectedRange())
             breakUndoCoalescing()
-            
+
             return
+        }
+
+        // File URL (copy from Finder) — check before images, because copying
+        // a file from Finder puts both a file URL and a TIFF icon on the pasteboard.
+        if let url = NSURL(from: NSPasteboard.general) {
+            if url.isFileURL && saveFile(url: url as URL, in: note) {
+                return
+            }
+        }
+
+        // PDF data (e.g., copied from Preview.app or drag-and-drop) — check before
+        // images, because pasting a PDF also puts a TIFF icon on the pasteboard.
+        if let pdfData = NSPasteboard.general.data(forType: NSPasteboard.PasteboardType.pdf) ?? NSPasteboard.general.data(forType: NSPasteboard.PasteboardType(rawValue: "com.adobe.pdf")),
+           pdfData.isPDF {
+            let preferredName = NSPasteboard.general.string(forType: .string)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "document.pdf"
+            let name = preferredName.hasSuffix(".pdf") ? preferredName : "document.pdf"
+            if saveFileWithThumbnail(data: pdfData, preferredName: name, in: note) {
+                return
+            }
+        }
+
+        // Images png or tiff — check before plain text, because copying an image
+        // from a browser puts both image data and a URL string on the pasteboard.
+        // Without this priority, the URL string gets pasted instead of the image.
+        for type in [NSPasteboard.PasteboardType.png, .tiff] {
+            if let data = NSPasteboard.general.data(forType: type) {
+                guard let attributed = NSMutableAttributedString.build(data: data) else { continue }
+
+                breakUndoCoalescing()
+                insertText(attributed, replacementRange: selectedRange())
+                breakUndoCoalescing()
+
+                return
+            }
         }
 
         // Plain text
@@ -658,25 +699,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             breakUndoCoalescing()
 
             return
-        }
-
-        if let url = NSURL(from: NSPasteboard.general) {
-            if url.isFileURL && saveFile(url: url as URL, in: note) {
-                return
-            }
-        }
-
-        // Images png or tiff
-        for type in [NSPasteboard.PasteboardType.png, .tiff] {
-            if let data = NSPasteboard.general.data(forType: type) {
-                guard let attributed = NSMutableAttributedString.build(data: data) else { continue }
-
-                breakUndoCoalescing()
-                insertText(attributed, replacementRange: selectedRange())
-                breakUndoCoalescing()
-                
-                return
-            }
         }
 
         super.paste(sender)
@@ -812,7 +834,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         typingAttributes.removeAll()
         typingAttributes[.font] = UserDefaultsManagement.noteFont
 
-        if isPreviewEnabled() {
+        if isPreviewEnabled() && !NotesTextProcessor.hideSyntax {
             loadMarkdownWebView(note: note, force: force)
             return
         }
@@ -848,8 +870,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             let frame = scrollView.bounds
             
             let containerView = MPreviewContainerView(frame: frame, note: note, closure: { [weak self] in
-                if let point = self?.note?.contentOffsetWeb {
-                    self?.markdownView?.restoreScrollPosition(point)
+                guard let self = self, let note = self.note else { return }
+
+                // If we have a saved web scroll position, use it;
+                // otherwise use the cursor's scroll fraction to approximate
+                if note.contentOffsetWeb != .zero {
+                    self.markdownView?.restoreScrollPosition(note.contentOffsetWeb)
+                    note.contentOffsetWeb = .zero
+                } else if note.cursorScrollFraction > 0 {
+                    self.markdownView?.scrollToFraction(note.cursorScrollFraction)
                 }
             })
             markdownView = containerView
@@ -1287,6 +1316,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let note = self.note else { return }
         note.setSelectedRange(range: selectedRange)
     }
+
+    /// Returns the cursor's vertical position as a fraction (0.0 to 1.0) of the document
+    func getCursorScrollFraction() -> CGFloat {
+        guard let storage = textStorage, storage.length > 0 else { return 0 }
+        return CGFloat(selectedRange().location) / CGFloat(storage.length)
+    }
     
     func loadSelectedRange() {
         guard let storage = textStorage else { return }
@@ -1317,11 +1352,28 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         guard let note = self.note, let storage = textStorage else { return false }
-        
+
         let pasteboard = sender.draggingPasteboard
         let dropPoint = convert(sender.draggingLocation, from: nil)
         let caretLocation = characterIndexForInsertion(at: dropPoint)
         let replacementRange = NSRange(location: caretLocation, length: 0)
+
+        // Handle local file drops first — route through saveFile which handles
+        // PDFs (thumbnail), images (attachment), and other files (markdown link).
+        // This must come before handleAttributedText, which would insert non-image
+        // files (DOCX, PPTX, etc.) as NSTextAttachments with image syntax.
+        if let fileURLs = pasteboard.readObjects(forClasses: [NSURL.self], options: [
+            .urlReadingFileURLsOnly: true
+        ]) as? [URL], !fileURLs.isEmpty {
+            var handled = false
+            setSelectedRange(replacementRange)
+            for url in fileURLs where url.isFileURL {
+                if saveFile(url: url, in: note) {
+                    handled = true
+                }
+            }
+            if handled { return true }
+        }
 
         if handleAttributedText(pasteboard, note: note, storage: storage, replacementRange: replacementRange) { return true }
         if handleNoteReference(pasteboard, note: note, replacementRange: replacementRange) { return true }
@@ -1446,6 +1498,63 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 }
             }
         }
+    }
+
+    // MARK: - WYSIWYG Toolbar Actions
+
+    @IBAction func quoteMenu(_ sender: Any) {
+        guard let note = self.note, isEditable else { return }
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.quote()
+    }
+
+    @IBAction func bulletListMenu(_ sender: Any) {
+        guard let note = self.note, isEditable else { return }
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.list()
+    }
+
+    @IBAction func numberedListMenu(_ sender: Any) {
+        guard let note = self.note, isEditable else { return }
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.orderedList()
+    }
+
+    @IBAction func imageMenu(_ sender: Any) {
+        guard let note = self.note, isEditable else { return }
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.image()
+    }
+
+    @IBAction func insertTableMenu(_ sender: Any) {
+        guard let note = self.note, isEditable else { return }
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.insertTable()
+    }
+
+    @IBAction func horizontalRuleMenu(_ sender: Any) {
+        guard let note = self.note, isEditable else { return }
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.horizontalRule()
+    }
+
+    @IBAction func headerMenu1(_ sender: Any) {
+        applyHeader(level: "#")
+    }
+
+    @IBAction func headerMenu2(_ sender: Any) {
+        applyHeader(level: "##")
+    }
+
+    @IBAction func headerMenu3(_ sender: Any) {
+        applyHeader(level: "###")
+    }
+
+    private func applyHeader(level: String) {
+        guard let note = self.note, isEditable else { return }
+
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.header(level)
     }
 
     @IBAction func insertCodeBlock(_ sender: NSButton) {
@@ -1578,19 +1687,105 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     private func saveFile(url: URL, in note: Note) -> Bool {
-        if let data = try? Data(contentsOf: url) {
-            let preferredName = url.lastPathComponent
+        guard let data = try? Data(contentsOf: url) else { return false }
+        let preferredName = url.lastPathComponent
 
+        // Images (PNG, JPG, GIF, TIFF, WebP, HEIC): existing inline attachment behavior
+        let fileType = data.getFileType()
+        if fileType != .unknown {
             guard let attributed = NSMutableAttributedString.build(data: data, preferredName: preferredName) else { return false }
-
             breakUndoCoalescing()
             insertText(attributed, replacementRange: selectedRange())
             breakUndoCoalescing()
-
             return true
         }
 
-        return false
+        // All other files (PDF, SVG, DOCX, PPTX, XLSX, Pages, Keynote, Numbers, etc.):
+        // save file, generate QuickLook thumbnail, insert markdown table card
+        return saveFileWithThumbnail(data: data, preferredName: preferredName, in: note)
+    }
+
+    /// Save a non-image file to the note's assets, generate a QuickLook thumbnail,
+    /// and insert a markdown table with the thumbnail image + clickable link.
+    /// Uses QLThumbnailGenerator for consistent thumbnail rendering across all
+    /// document types (PDF, SVG, Office, iWork, etc.).
+    private func saveFileWithThumbnail(data: Data, preferredName: String, in note: Note) -> Bool {
+        // 1. Save file to assets/
+        guard let (fileRelPath, fileURL) = note.save(data: data, preferredName: preferredName) else { return false }
+
+        // 2. Generate QuickLook thumbnail asynchronously
+        let request = QLThumbnailGenerator.Request(
+            fileAt: fileURL,
+            size: CGSize(width: 480, height: 480),
+            scale: NSScreen.main?.backingScaleFactor ?? 2.0,
+            representationTypes: .all
+        )
+
+        let insertionRange = selectedRange()
+        QLThumbnailGenerator.shared.generateBestRepresentation(for: request) { [weak self] thumbnail, error in
+            DispatchQueue.main.async {
+                guard let self = self, let note = self.note else { return }
+                self.insertThumbnailCard(
+                    thumbnail: thumbnail,
+                    fileRelPath: fileRelPath,
+                    preferredName: preferredName,
+                    note: note,
+                    insertionRange: insertionRange
+                )
+            }
+        }
+
+        return true
+    }
+
+    /// Insert the markdown table card with thumbnail + link after QuickLook generates the thumbnail.
+    private func insertThumbnailCard(thumbnail: QLThumbnailRepresentation?, fileRelPath: String, preferredName: String, note: Note, insertionRange: NSRange) {
+        let encodedFilePath = fileRelPath.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? fileRelPath
+        let displayName = preferredName
+
+        var markdown: String
+
+        if let cgImage = thumbnail?.cgImage {
+            // Convert thumbnail to PNG and save
+            let nsImage = NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
+            if let tiffData = nsImage.tiffRepresentation,
+               let bitmapRep = NSBitmapImageRep(data: tiffData),
+               let pngData = bitmapRep.representation(using: .png, properties: [:]) {
+
+                let thumbName = (preferredName as NSString).deletingPathExtension + "_thumb.png"
+                if let (thumbRelPath, thumbURL) = note.save(data: pngData, preferredName: thumbName) {
+                    let encodedThumbPath = thumbRelPath.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? thumbRelPath
+                    let thumbDisplayName = (preferredName as NSString).deletingPathExtension + "_thumb.png"
+
+                    // Update note.imageUrl so loadImages() finds the thumbnail in preview mode
+                    if note.imageUrl != nil {
+                        note.imageUrl!.append(thumbURL)
+                    } else {
+                        note.imageUrl = [thumbURL]
+                    }
+
+                    markdown = "\n| Thumbnail |\n|:---:|\n| ![\(thumbDisplayName)](\(encodedThumbPath)) |\n| [\(displayName)](\(encodedFilePath)) |\n"
+                } else {
+                    markdown = "\n[\(displayName)](\(encodedFilePath))\n"
+                }
+            } else {
+                markdown = "\n[\(displayName)](\(encodedFilePath))\n"
+            }
+        } else {
+            // No thumbnail available — just insert a plain link
+            markdown = "\n[\(displayName)](\(encodedFilePath))\n"
+        }
+
+        breakUndoCoalescing()
+        insertText(NSMutableAttributedString(string: markdown), replacementRange: selectedRange())
+        breakUndoCoalescing()
+
+        // Save to disk synchronously, then reload so loadImagesAndFiles()
+        // converts ![](path) to NSTextAttachment for immediate inline rendering
+        note.content = NSMutableAttributedString(attributedString: attributedString())
+        _ = note.save()
+        note.load()
+        viewDelegate?.refillEditArea(force: true)
     }
 
     public func updateTextContainerInset() {
@@ -1786,6 +1981,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override func resignFirstResponder() -> Bool {
         userActivity?.needsSave = true
+
+        if let scrollView = enclosingScrollView as? EditorScrollView {
+            scrollView.hideFocusBorder()
+        }
 
         return super.resignFirstResponder()
     }

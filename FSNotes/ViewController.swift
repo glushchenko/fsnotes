@@ -25,6 +25,7 @@ class ViewController: EditorViewController,
     public var projectSettingsViewController: ProjectSettingsViewController?
 
     private var isPreLoaded = false
+    public var previewHasFocus = false
     
     let storage = Storage.shared()
     
@@ -201,7 +202,7 @@ class ViewController: EditorViewController,
     }
     
     override func viewDidAppear() {
-        
+
         // Init window size
         if UserDefaultsManagement.isFirstLaunch {
             if let window = self.view.window {
@@ -423,7 +424,10 @@ class ViewController: EditorViewController,
                 
                 self.restoreOpenedWindows()
                 self.importAndCreate()
-                
+
+                // Set initial focus to notes list after content is loaded
+                NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
+
                 DispatchQueue.global().async {
                     self.preLoadProjectsData()
                 }
@@ -432,6 +436,9 @@ class ViewController: EditorViewController,
     }
 
     private func configureEditor() {
+        // Set WYSIWYG mode from preferences
+        NotesTextProcessor.hideSyntax = UserDefaultsManagement.wysiwygMode
+
         self.editor?.linkTextAttributes = [
             .foregroundColor:  NSColor.init(named: "link")!
         ]
@@ -450,7 +457,8 @@ class ViewController: EditorViewController,
         vcTitleLabel = titleLabel
         vcEditorScrollView = editAreaScroll
         vcNonSelectedLabel = nonSelectedLabel
-        
+        vcTitleBarView = titleBarView
+
         super.initView()
     }
 
@@ -537,23 +545,47 @@ class ViewController: EditorViewController,
     @IBAction func sortBy(_ sender: NSMenuItem) {
         if let id = sender.identifier {
             let key = String(id.rawValue.dropFirst(3))
-            guard let sortBy = SortBy(rawValue: key) else { return }
+            // Don't use `guard let` with SortBy(rawValue:) — SortBy.none conflates with Optional.none
+            let parsedSort: SortBy
+            if key == SortBy.none.rawValue {
+                parsedSort = SortBy.none
+            } else {
+                guard let parsed = SortBy(rawValue: key) else { return }
+                parsedSort = parsed
+            }
+            let sortBy = parsedSort
 
-            if sortBy.rawValue == UserDefaultsManagement.sort.rawValue {
+            if sortBy != .none && sortBy.rawValue == UserDefaultsManagement.sort.rawValue {
                 UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
             }
 
             UserDefaultsManagement.sort = sortBy
 
-            if let submenu = sortByOutlet.submenu {
-                for item in submenu.items {
-                    item.state = NSControl.StateValue.off
+            if let project = storage.searchQuery.projects.first {
+                if sortBy != .none && sortBy == project.settings.sortBy {
+                    project.settings.sortDirection = project.settings.sortDirection == .asc ? .desc : .asc
+                }
+                project.settings.sortBy = sortBy
+                project.saveSettings()
+            } else {
+                // Virtual folder (All Notes, etc.) — update the virtual project too
+                let virtualProject: Project?
+                switch storage.searchQuery.type {
+                case .All: virtualProject = storage.allNotesProject
+                case .Untagged: virtualProject = storage.untaggedProject
+                case .Todo: virtualProject = storage.todoProject
+                default: virtualProject = storage.allNotesProject
+                }
+                if let vp = virtualProject {
+                    if sortBy != .none && sortBy == vp.settings.sortBy {
+                        vp.settings.sortDirection = vp.settings.sortDirection == .asc ? .desc : .asc
+                    }
+                    vp.settings.sortBy = sortBy
                 }
             }
-            
-            sender.state = NSControl.StateValue.on
-            
+
             ViewController.shared()?.buildSearchQuery()
+            storage.buildSortBy()
             ViewController.shared()?.updateTable()
         }
     }
@@ -722,15 +754,31 @@ class ViewController: EditorViewController,
             return true
         }
         
-        // Tab / Control + Tab
+        // Tab / Control + Tab / Shift + Tab
         if event.keyCode == kVK_Tab {
             if event.modifierFlags.contains(.control) {
                 self.notesTableView.window?.makeFirstResponder(self.notesTableView)
                 return true
             }
 
+            // Shift+Tab from preview: go back to notes list
+            if event.modifierFlags.contains(.shift) && previewHasFocus {
+                previewHasFocus = false
+                editor.markdownView?.hideFocusBorder()
+                NSApp.mainWindow?.makeFirstResponder(notesTableView)
+                return false
+            }
+
             if let fr = NSApp.mainWindow?.firstResponder, fr.isKind(of: NotesTableView.self) {
-                NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
+                if vcEditor?.isPreviewEnabled() == true, let mView = editor.markdownView {
+                    previewHasFocus = true
+                    mView.showFocusBorder()
+                    NSApp.mainWindow?.makeFirstResponder(mView)
+                    return false
+                } else {
+                    editAreaScroll.showFocusBorder()
+                    focusEditArea()
+                }
                 return false
             }
         }
@@ -867,16 +915,65 @@ class ViewController: EditorViewController,
             return false
         }
 
+        // Preview focus: handle scrolling and navigation
+        if previewHasFocus {
+            if let webView = editor.markdownView?.webView {
+                switch Int(event.keyCode) {
+                case kVK_UpArrow:
+                    webView.evaluateJavaScript("window.scrollBy(0, -40)", completionHandler: nil)
+                    return false
+                case kVK_DownArrow:
+                    webView.evaluateJavaScript("window.scrollBy(0, 40)", completionHandler: nil)
+                    return false
+                case kVK_LeftArrow:
+                    previewHasFocus = false
+                    editor.markdownView?.hideFocusBorder()
+                    NSApp.mainWindow?.makeFirstResponder(notesTableView)
+                    return false
+                case kVK_PageUp:
+                    webView.evaluateJavaScript("window.scrollBy(0, -window.innerHeight)", completionHandler: nil)
+                    return false
+                case kVK_PageDown:
+                    webView.evaluateJavaScript("window.scrollBy(0, window.innerHeight)", completionHandler: nil)
+                    return false
+                case kVK_Home:
+                    webView.evaluateJavaScript("window.scrollTo(0, 0)", completionHandler: nil)
+                    return false
+                case kVK_End:
+                    webView.evaluateJavaScript("window.scrollTo(0, document.body.scrollHeight)", completionHandler: nil)
+                    return false
+                case kVK_Space:
+                    if event.modifierFlags.contains(.shift) {
+                        webView.evaluateJavaScript("window.scrollBy(0, -window.innerHeight)", completionHandler: nil)
+                    } else {
+                        webView.evaluateJavaScript("window.scrollBy(0, window.innerHeight)", completionHandler: nil)
+                    }
+                    return false
+                case kVK_Escape:
+                    previewHasFocus = false
+                    editor.markdownView?.hideFocusBorder()
+                    NSApp.mainWindow?.makeFirstResponder(notesTableView)
+                    return false
+                default:
+                    break
+                }
+            }
+        }
+
         if event.keyCode == kVK_RightArrow {
             if let fr = mw.firstResponder, fr.isKind(of: NotesTableView.self) {
                 if let note = vcEditor?.note, note.isEncryptedAndLocked() {
                     unLock(notes: [note])
                     return true
                 }
-                
-                if vcEditor?.isPreviewEnabled() == true {
-                    NSApp.mainWindow?.makeFirstResponder(editor.markdownView)
+
+                if vcEditor?.isPreviewEnabled() == true, let mView = editor.markdownView {
+                    previewHasFocus = true
+                    mView.showFocusBorder()
+                    NSApp.mainWindow?.makeFirstResponder(mView)
+                    return false
                 } else {
+                    editAreaScroll.showFocusBorder()
                     focusEditArea()
                 }
 
@@ -886,7 +983,9 @@ class ViewController: EditorViewController,
 
         if event.keyCode == kVK_LeftArrow {
             if let fr = mw.firstResponder {
-                if fr.isKind(of: MPreviewView.self) {
+                if fr.isKind(of: MPreviewView.self) || fr.isKind(of: MPreviewContainerView.self) {
+                    previewHasFocus = false
+                    editor.markdownView?.hideFocusBorder()
                     sidebarOutlineView.window?.makeFirstResponder(notesTableView)
                     return false
                 }
@@ -1375,7 +1474,19 @@ class ViewController: EditorViewController,
                 }
             }
             
-            let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
+            let orderedNotesList: [Note]
+            if self.storage.getSortByState() == .none {
+                // "None" sort: preserve current table order, append any new notes at end
+                let currentList = self.notesTableView.getNoteList()
+                let noteSet = Set(notes)
+                var preserved = currentList.filter { noteSet.contains($0) }
+                let existingSet = Set(preserved)
+                let newNotes = notes.filter { !existingSet.contains($0) }
+                preserved.append(contentsOf: newNotes)
+                orderedNotesList = preserved
+            } else {
+                orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
+            }
 
             if orderedNotesList == self.notesTableView.getNoteList() {
                 
@@ -1606,6 +1717,10 @@ class ViewController: EditorViewController,
     }
         
     public func sortAndMove(note: Note, project: Project? = nil) {
+        if storage.getSortByState() == .none {
+            return
+        }
+
         guard let srcIndex = notesTableView.getIndex(for: note) else { return }
         let notes = notesTableView.getNoteList()
 
@@ -1615,6 +1730,7 @@ class ViewController: EditorViewController,
         if srcIndex != dstIndex {
             notesTableView.moveRow(at: srcIndex, to: dstIndex)
             notesTableView.setNoteList(notes: resorted)
+            notesTableView.scrollRowToVisible(dstIndex)
         }
     }
     
@@ -1709,25 +1825,7 @@ class ViewController: EditorViewController,
     }
 
     func loadSortBySetting() {
-        let viewLabel = NSLocalizedString("View", comment: "Menu")
-        let sortByLabel = NSLocalizedString("Sort by", comment: "View menu")
-
-        guard
-            let menu = NSApp.menu,
-            let view = menu.item(withTitle: viewLabel),
-            let submenu = view.submenu,
-            let sortMenu = submenu.item(withTitle: sortByLabel),
-            let sortItems = sortMenu.submenu else {
-            return
-        }
-        
-        let sort = UserDefaultsManagement.sort
-        
-        for item in sortItems.items {
-            if let id = item.identifier, id.rawValue ==  "SB.\(sort.rawValue)" {
-                item.state = NSControl.StateValue.on
-            }
-        }
+        // Sort By menu checkmarks are handled in EditorViewController.validateMenuItem
     }
     
     func registerKeyValueObserver() {
@@ -1936,11 +2034,14 @@ class ViewController: EditorViewController,
             if let editor = self.editor, let note = editor.note {
                 self.updateCounters(note: note, charRange: range)
             }
-            
+
             // Save position
             editor.note?.setSelectedRange(range: textView.selectedRange())
         }
-    
+
+        // Update formatting toolbar button states
+        formattingToolbar?.updateButtonStates(for: editor)
+
         editor.userActivity?.needsSave = true
     }
 

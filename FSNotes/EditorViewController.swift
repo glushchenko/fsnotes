@@ -16,6 +16,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     
     public var alert: NSAlert?
     public var noteLoading: ProgressState = .none
+    private var savedCursorRange: NSRange?
     
     public var vcEditor: EditTextView?
     public var vcTitleLabel: TitleTextField?
@@ -25,6 +26,8 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     public var vcShareButton: NSButton?
     public var vcLockUnlockButton: NSButton?
     public var vcEditorScrollView: EditorScrollView?
+    public var vcTitleBarView: TitleBarView?
+    public var formattingToolbar: FormattingToolbar?
     
     public var previewResizeTimer = Timer()
     public var rowUpdaterTimer = Timer()
@@ -44,9 +47,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     public func initView() {
         guard let editor = vcEditor else { return }
         editor.delegate = self
-        
+
         initScrollObserver()
-        
+
         editor.isGrammarCheckingEnabled = UserDefaultsManagement.grammarChecking
         editor.isContinuousSpellCheckingEnabled = UserDefaultsManagement.continuousSpellChecking
         editor.smartInsertDeleteEnabled = UserDefaultsManagement.smartInsertDelete
@@ -56,6 +59,38 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         editor.isAutomaticLinkDetectionEnabled = UserDefaultsManagement.automaticLinkDetection
         editor.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
         editor.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
+
+        setupFormattingToolbar()
+    }
+
+    private func setupFormattingToolbar() {
+        guard let scrollView = vcEditorScrollView,
+              let titleBar = vcTitleBarView,
+              let editorView = scrollView.superview else { return }
+
+        let toolbar = FormattingToolbar()
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        editorView.addSubview(toolbar)
+
+        // Find and remove the existing constraint: scrollView.top = titleBar.bottom
+        for constraint in editorView.constraints {
+            if constraint.firstItem === scrollView && constraint.firstAttribute == .top &&
+               constraint.secondItem === titleBar && constraint.secondAttribute == .bottom {
+                editorView.removeConstraint(constraint)
+                break
+            }
+        }
+
+        // Insert toolbar between title bar and scroll view
+        NSLayoutConstraint.activate([
+            toolbar.topAnchor.constraint(equalTo: titleBar.bottomAnchor),
+            toolbar.leadingAnchor.constraint(equalTo: editorView.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: editorView.trailingAnchor),
+            toolbar.heightAnchor.constraint(equalToConstant: FormattingToolbar.toolbarHeight),
+            scrollView.topAnchor.constraint(equalTo: toolbar.bottomAnchor)
+        ])
+
+        self.formattingToolbar = toolbar
     }
         
     deinit {
@@ -116,11 +151,20 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
                 return false
             case "viewSortBy":
-                let iconName = UserDefaultsManagement.sortDirection ? "arrow.down" : "arrow.up"
-                
+                let storage = Storage.shared()
+                let effectiveSort = storage.getSortByState()
+                let effectiveDirection = storage.getSortDirectionState()
+                let iconName = effectiveDirection == .desc ? "arrow.down" : "arrow.up"
+
                 switch menuItem.tag {
+                case 0:
+                    if effectiveSort == .none {
+                        menuItem.state = .on
+                    } else {
+                        menuItem.state = .off
+                    }
                 case 1:
-                    if UserDefaultsManagement.sort == .modificationDate {
+                    if effectiveSort == .modificationDate {
                         if #available(macOS 11.0, *) {
                             menuItem.image = NSImage.init(systemSymbolName: iconName, accessibilityDescription: nil)
                             menuItem.state = .off
@@ -133,7 +177,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                         menuItem.image = NSImage()
                     }
                 case 2:
-                    if UserDefaultsManagement.sort == .creationDate {
+                    if effectiveSort == .creationDate {
                         if #available(macOS 11.0, *) {
                             menuItem.image = NSImage.init(systemSymbolName: iconName, accessibilityDescription: nil)
                             menuItem.state = .off
@@ -146,7 +190,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
                         menuItem.image = NSImage()
                     }
                 case 3:
-                    if UserDefaultsManagement.sort == .title {
+                    if effectiveSort == .title {
                         if #available(macOS 11.0, *) {
                             menuItem.image = NSImage.init(systemSymbolName: iconName, accessibilityDescription: nil)
                             menuItem.state = .off
@@ -468,46 +512,45 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
     }
     
     @IBAction func togglePreview(_ sender: Any) {
-        guard let editor = vcEditor else { return }
-        
-        let firstResp = view.window?.firstResponder
+        guard let editor = vcEditor,
+              let storage = editor.textStorage else { return }
 
-        editor.togglePreviewState()
-        
-        if (editor.isPreviewEnabled()) {
-            
-            //Preview mode doesn't support text search
-            cancelTextSearch()
-            refillEditArea(force: true)
+        let savedRange = editor.selectedRange()
 
-            if let mdView = vcEditor?.editorViewController?.vcEditor?.markdownView {
-                view.window?.makeFirstResponder(mdView)
-            }
-        } else {
-            disablePreview()
+        // Toggle WYSIWYG mode
+        let isWYSIWYG = NotesTextProcessor.hideSyntax
+        NotesTextProcessor.hideSyntax = !isWYSIWYG
+        UserDefaultsManagement.wysiwygMode = NotesTextProcessor.hideSyntax
+
+        // Re-highlight the entire document
+        let fullRange = NSRange(location: 0, length: storage.length)
+        if fullRange.length > 0 {
+            storage.beginEditing()
+            NotesTextProcessor.highlightMarkdown(
+                attributedString: storage,
+                paragraphRange: fullRange,
+                codeBlockRanges: editor.note?.codeBlockRangesCache
+            )
+            storage.endEditing()
         }
 
-        if let responder = firstResp, (
-            ViewController.shared()?.search.currentEditor() == firstResp
-            || responder.isKind(of: NotesTableView.self)
-            || responder.isKind(of: SidebarOutlineView.self)
-        ) {
-            view.window?.makeFirstResponder(firstResp)
-        } else {
-            var responder: NSResponder? = vcEditor
-            
-            if vcEditor?.isPreviewEnabled() == true, let mView = vcEditor?.markdownView {
-                responder = mView
-            }
-            
-            if let responder = responder {
-                view.window?.makeFirstResponder(responder)
-            }
+        // Show/hide formatting toolbar
+        formattingToolbar?.isHidden = !NotesTextProcessor.hideSyntax
+
+        // Update preview button icon
+        if #available(macOS 11.0, *) {
+            vcPreviewButton?.image = NSImage(systemSymbolName:
+                NotesTextProcessor.hideSyntax ? "doc.richtext" : "doc.plaintext",
+                accessibilityDescription: NotesTextProcessor.hideSyntax ? "WYSIWYG Mode" : "Source Mode")
         }
 
+        // Restore cursor
+        if savedRange.upperBound <= storage.length {
+            editor.setSelectedRange(savedRange)
+        }
+
+        editor.needsDisplay = true
         vcEditor?.userActivity?.needsSave = true
-        
-        editor.note?.project.saveNotesPreview()
     }
     
     @IBAction func toggleMathJax(_ sender: NSMenuItem) {
@@ -1011,21 +1054,65 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
 
     func disablePreview() {
         guard let textView = self.vcEditor else { return }
-        
-        textView.disablePreviewEditorAndNote()
-        
-        textView.markdownView?.getScrollPosition { point in
-            self.vcEditor?.note?.contentOffsetWeb = point
-        }
-        
-        textView.markdownView?.removeFromSuperview()
-        textView.markdownView = nil
-        
-        textView.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 
-        refillEditArea()
+        // Use savedCursorRange captured in togglePreview() before fill() ran —
+        // note.selectedRange gets overwritten to (0,0) by textViewDidChangeSelection
+        let savedRange = savedCursorRange
+
+        textView.disablePreviewEditorAndNote()
+
+        // Save web scroll position before removing the webview,
+        // then clean up and refill — all inside the async callback
+        // to avoid the race condition of removing the webview before
+        // the JavaScript completes
+        if let mdView = textView.markdownView {
+            mdView.getScrollPosition { [weak self] point in
+                guard let self = self else { return }
+                self.vcEditor?.note?.contentOffsetWeb = point
+
+                mdView.removeFromSuperview()
+                textView.markdownView = nil
+                textView.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
+
+                self.refillEditArea()
+
+                // Restore cursor position from our captured copy
+                // (note.selectedRange was overwritten by textViewDidChangeSelection during fill)
+                if let range = savedRange,
+                   let storage = textView.textStorage,
+                   range.upperBound <= storage.length {
+                    textView.setSelectedRange(range)
+                    textView.scrollToCursor()
+                }
+                // Skip loadSelectedRange in becomeFirstResponder since we just restored it
+                textView.skipLoadSelectedRange = true
+                self.applyEditModeFocus()
+            }
+        } else {
+            textView.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
+            refillEditArea()
+            if let range = savedRange,
+               let storage = textView.textStorage,
+               range.upperBound <= storage.length {
+                textView.setSelectedRange(range)
+                textView.scrollToCursor()
+            }
+            textView.skipLoadSelectedRange = true
+            applyEditModeFocus()
+        }
     }
     
+    /// Apply focus to the editor pane after switching from preview to edit mode.
+    /// Called from disablePreview()'s async callback to ensure content is loaded first.
+    private func applyEditModeFocus() {
+        if let vc = ViewController.shared() {
+            vc.previewHasFocus = false
+            vcEditor?.markdownView?.hideFocusBorder()
+            vc.editAreaScroll.showFocusBorder()
+            vc.focusEditArea()
+        }
+    }
+
     public func viewDidResize() {
         guard vcEditor?.isPreviewEnabled() == true else { return }
 
