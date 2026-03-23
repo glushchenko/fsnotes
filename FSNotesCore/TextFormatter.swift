@@ -192,7 +192,24 @@ public class TextFormatter {
     }
     
     public func underline() {
-
+        // Markdown doesn't have native underline — use HTML <u> tags
+        if attributedString.string.hasPrefix("<u>") && attributedString.string.hasSuffix("</u>") {
+            // Remove underline
+            let inner = attributedString.string
+                .replacingOccurrences(of: "<u>", with: "")
+                .replacingOccurrences(of: "</u>", with: "")
+            replaceWith(string: inner, range: range)
+            setSelectedRange(NSRange(location: range.location, length: inner.count))
+        } else {
+            // Add underline
+            let text = "<u>" + attributedString.string + "</u>"
+            replaceWith(string: text, range: range)
+            if attributedString.length == 0 {
+                setSelectedRange(NSRange(location: range.location + 3, length: 0))
+            } else {
+                setSelectedRange(NSRange(location: range.location, length: text.count))
+            }
+        }
     }
     
     public func strike() {
@@ -533,13 +550,14 @@ public class TextFormatter {
         guard string.length >= match.range.upperBound else { return }
 
         let found = string.attributedSubstring(from: match.range).string
-        var newLine = 1
 
-        if textView.selectedRange.upperBound == storage.length {
-            newLine = 0
-        }
+        // Check if the line is empty (only the prefix, no content)
+        // Strip prefix and whitespace/newlines — if nothing left, exit the mode
+        let content = string.string
+            .replacingOccurrences(of: found, with: "", options: [], range: string.string.startIndex..<string.string.endIndex)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
 
-        if found.count + newLine == string.length {
+        if content.isEmpty {
             let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
             let selectRange = NSRange(location: range.location, length: 0)
             insertText("\n", replacementRange: range, selectRange: selectRange)
@@ -912,11 +930,12 @@ public class TextFormatter {
             if substring.string.last != "\n" {
                 mutable.append(NSAttributedString(string: "\n"))
             }
-            
+
             mutable.append(NSAttributedString(string: "```\n"))
 
             insertText(mutable.string, replacementRange: currentRange)
-            setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
+            // Place cursor inside the code block content area
+            setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
             return
         }
 

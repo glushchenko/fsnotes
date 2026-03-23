@@ -390,6 +390,12 @@ public class NotesTextProcessor {
             }
         }
 
+        // Clear WYSIWYG visual attributes so they're only present when the regex matches
+        attributedString.removeAttribute(.blockquote, range: paragraphRange)
+        attributedString.removeAttribute(.horizontalRule, range: paragraphRange)
+        // Also clear underline so it's only applied when <u> tags are present
+        attributedString.removeAttribute(.underlineStyle, range: paragraphRange)
+
         #if os(iOS)
             attributedString.addAttribute(.foregroundColor, value: UIColor.blackWhite, range: paragraphRange)
         #else
@@ -646,7 +652,7 @@ public class NotesTextProcessor {
             var _range = innerRange
             _range.location = _range.location + 2
             _range.length = _range.length - 4
-            
+
             let appLink = attributedString.mutableString.substring(with: _range)
             guard !appLink.startsWith(string: "`") else { return }
 
@@ -658,12 +664,15 @@ public class NotesTextProcessor {
 
                 attributedString.addAttribute(.link, value: "fsnotes://find?id=" + link, range: _range)
 
-                if let range = result?.range(at: 0) {
-                    attributedString.addAttribute(.foregroundColor, value: Color.gray, range: range)
+                // Group 1 = [[ , Group 3 = ]]
+                if let openRange = result?.range(at: 1) {
+                    attributedString.addAttribute(.foregroundColor, value: Color.gray, range: openRange)
+                    hideSyntaxIfNecessary(range: openRange)
                 }
 
-                if let range = result?.range(at: 2) {
-                    attributedString.addAttribute(.foregroundColor, value: Color.gray, range: range)
+                if let closeRange = result?.range(at: 3) {
+                    attributedString.addAttribute(.foregroundColor, value: Color.gray, range: closeRange)
+                    hideSyntaxIfNecessary(range: closeRange)
                 }
             }
         }
@@ -671,11 +680,21 @@ public class NotesTextProcessor {
         // We detect and process quotes
         NotesTextProcessor.blockQuoteRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            attributedString.addAttribute(.foregroundColor, value: quoteColor, range: range)
+            // In WYSIWYG mode, use a subtle gray matching the bar
+            if NotesTextProcessor.hideSyntax {
+                attributedString.addAttribute(.foregroundColor, value: NSColor.systemGray, range: range)
+            } else {
+                attributedString.addAttribute(.foregroundColor, value: quoteColor, range: range)
+            }
             NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                hideSyntaxIfNecessary(range: innerRange)
+                if NotesTextProcessor.hideSyntax {
+                    // Make > invisible by using clear color, but keep normal font size
+                    // so the characters still occupy space and the cursor works correctly
+                    attributedString.addAttribute(.foregroundColor, value: Color.clear, range: innerRange)
+                } else {
+                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
             }
         }
                 
@@ -734,6 +753,23 @@ public class NotesTextProcessor {
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
         }
+
+        // We detect and process underline (<u>...</u>)
+        do {
+            let underlineRegex = try NSRegularExpression(pattern: "<u>(.*?)</u>", options: [])
+            underlineRegex.enumerateMatches(in: string, range: paragraphRange) { result, _, _ in
+                guard let fullRange = result?.range, let contentRange = result?.range(at: 1) else { return }
+                attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: contentRange)
+
+                // Hide the <u> and </u> tags
+                let openTagRange = NSRange(location: fullRange.location, length: 3) // <u>
+                let closeTagRange = NSRange(location: NSMaxRange(contentRange), length: 4) // </u>
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openTagRange)
+                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeTagRange)
+                hideSyntaxIfNecessary(range: openTagRange)
+                hideSyntaxIfNecessary(range: closeTagRange)
+            }
+        } catch {}
 
 //        NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
 //            guard let range = result?.range else { return }
@@ -855,7 +891,7 @@ public class NotesTextProcessor {
             }
         }
 
-        // Blockquote left border marker
+        // Blockquote left border marker (indent is handled by addTabStops)
         if NotesTextProcessor.hideSyntax {
             let bqPattern = "^>\\s?"
             if let bqRegex = try? NSRegularExpression(pattern: bqPattern, options: .anchorsMatchLines) {

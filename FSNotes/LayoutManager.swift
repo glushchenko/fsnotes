@@ -193,6 +193,7 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     }
 
     private func drawHorizontalRules(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        guard NotesTextProcessor.hideSyntax else { return }
         guard let textStorage = self.textStorage,
               let context = NSGraphicsContext.current?.cgContext,
               let textContainer = self.textContainers.first else { return }
@@ -219,6 +220,7 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
     }
 
     private func drawBlockquoteBorders(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+        guard NotesTextProcessor.hideSyntax else { return }
         guard let textStorage = self.textStorage,
               let context = NSGraphicsContext.current?.cgContext,
               let textContainer = self.textContainers.first else { return }
@@ -233,10 +235,11 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             let rect = self.boundingRect(forGlyphRange: glyphRange, in: textContainer)
             if rect.isEmpty { return }
 
-            let barX = rect.minX + origin.x + 4
+            // Draw bar at fixed position (left margin), not relative to text indent
+            let barX = origin.x + textContainer.lineFragmentPadding + 4
             context.saveGState()
-            context.setFillColor(NSColor.systemBlue.withAlphaComponent(0.5).cgColor)
-            context.fill(CGRect(x: barX, y: rect.minY + origin.y, width: 3, height: rect.height))
+            context.setFillColor(NSColor.systemGray.withAlphaComponent(0.4).cgColor)
+            context.fill(CGRect(x: barX, y: rect.minY + origin.y + 2, width: 2.5, height: rect.height - 4))
             context.restoreGState()
         }
     }

@@ -26,7 +26,12 @@ class ViewController: EditorViewController,
 
     private var isPreLoaded = false
     public var previewHasFocus = false
-    
+
+    // Note navigation history (browser-style back/forward)
+    public var noteHistory: [Note] = []
+    public var noteHistoryIndex: Int = -1
+    private var isNavigatingHistory = false
+
     let storage = Storage.shared()
     
     private var sidebarTimer = Timer()
@@ -2043,6 +2048,59 @@ class ViewController: EditorViewController,
         formattingToolbar?.updateButtonStates(for: editor)
 
         editor.userActivity?.needsSave = true
+    }
+
+    // MARK: - Note Navigation History
+
+    public func pushNoteHistory(_ note: Note) {
+        guard !isNavigatingHistory else { return }
+
+        // If we're not at the end, truncate forward history
+        if noteHistoryIndex < noteHistory.count - 1 {
+            noteHistory = Array(noteHistory[0...noteHistoryIndex])
+        }
+
+        // Don't duplicate consecutive entries
+        if noteHistory.last === note { return }
+
+        noteHistory.append(note)
+        noteHistoryIndex = noteHistory.count - 1
+
+        // Limit history size
+        if noteHistory.count > 50 {
+            noteHistory.removeFirst()
+            noteHistoryIndex -= 1
+        }
+
+        formattingToolbar?.updateNavigationButtons(canGoBack: canGoBack(), canGoForward: canGoForward())
+    }
+
+    public func canGoBack() -> Bool {
+        return noteHistoryIndex > 0
+    }
+
+    public func canGoForward() -> Bool {
+        return noteHistoryIndex < noteHistory.count - 1
+    }
+
+    @objc public func navigateBack(_ sender: Any) {
+        guard canGoBack() else { return }
+        noteHistoryIndex -= 1
+        navigateToHistoryNote()
+    }
+
+    @objc public func navigateForward(_ sender: Any) {
+        guard canGoForward() else { return }
+        noteHistoryIndex += 1
+        navigateToHistoryNote()
+    }
+
+    private func navigateToHistoryNote() {
+        let note = noteHistory[noteHistoryIndex]
+        isNavigatingHistory = true
+        notesTableView.select(note: note)
+        isNavigatingHistory = false
+        formattingToolbar?.updateNavigationButtons(canGoBack: canGoBack(), canGoForward: canGoForward())
     }
 
     @objc func doubleClickOnNotesTable() {

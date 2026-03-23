@@ -53,6 +53,15 @@ class FormattingToolbar: NSView {
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
 
+        // Navigation buttons (target ViewController directly)
+        addButton(id: "back", symbol: "chevron.left", tooltip: "Back", action: #selector(ViewController.navigateBack(_:)))
+        addButton(id: "forward", symbol: "chevron.right", tooltip: "Forward", action: #selector(ViewController.navigateForward(_:)))
+        // Start disabled
+        buttons["back"]?.isEnabled = false
+        buttons["forward"]?.isEnabled = false
+
+        addSeparator()
+
         // All buttons use target=nil to route through the first responder chain.
         // EditTextView has @IBAction methods for each of these selectors.
 
@@ -194,5 +203,10 @@ class FormattingToolbar: NSView {
 
     private func resetAllButtons() {
         buttons.values.forEach { $0.state = .off }
+    }
+
+    func updateNavigationButtons(canGoBack: Bool, canGoForward: Bool) {
+        buttons["back"]?.isEnabled = canGoBack
+        buttons["forward"]?.isEnabled = canGoForward
     }
 }

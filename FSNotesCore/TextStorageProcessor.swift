@@ -75,6 +75,29 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         var result = detector.codeBlocks(textStorage: textStorage, editedRange: editedRange, delta: delta, newRanges: codeBlockRanges)
         note.codeBlockRangesCache = codeBlockRanges
 
+        // Hide code fence lines (``` ) in WYSIWYG mode
+        if NotesTextProcessor.hideSyntax {
+            let string = textStorage.string as NSString
+            let hiddenFont = NSFont.systemFont(ofSize: 0.1)
+            let hiddenColor = NSColor.clear
+            let hiddenAttrs: [NSAttributedString.Key: Any] = [.font: hiddenFont, .foregroundColor: hiddenColor]
+
+            for codeRange in codeBlockRanges {
+                guard codeRange.location < string.length, NSMaxRange(codeRange) <= string.length else { continue }
+                // Hide opening fence line
+                let firstLineRange = string.lineRange(for: NSRange(location: codeRange.location, length: 0))
+                if firstLineRange.length > 0 {
+                    textStorage.addAttributes(hiddenAttrs, range: firstLineRange)
+                }
+                // Hide closing fence line
+                let lastCharLoc = max(codeRange.location, NSMaxRange(codeRange) - 1)
+                let lastLineRange = string.lineRange(for: NSRange(location: lastCharLoc, length: 0))
+                if lastLineRange.location > firstLineRange.location && lastLineRange.length > 0 {
+                    textStorage.addAttributes(hiddenAttrs, range: lastLineRange)
+                }
+            }
+        }
+
         // Highlight code block end (```), that wiped previously in highlightMarkdown
         for range in codeBlockRanges {
             if NSIntersectionRange(range, paragraphRange).length > 0 {

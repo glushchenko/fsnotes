@@ -70,10 +70,11 @@ class NotesTableView: NSTableView,
             super.keyUp(with: event)
             return
         }
-        
+
         if event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control) {
             if vc.editor?.isPreviewEnabled() == true {
-                NSApp.mainWindow?.makeFirstResponder(vc.editor.markdownView)
+                // Focus is handled by ViewController.keyDown via previewHasFocus flag
+                return
             } else {
                 vc.focusEditArea()
             }
@@ -265,6 +266,7 @@ class NotesTableView: NSTableView,
             
             vc.editor.changePreviewState(note.previewState)
             vc.editor.fill(note: note, highlight: true)
+            vc.pushNoteHistory(note)
 
             if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
                 vc.focusEditArea()
@@ -630,14 +632,9 @@ class NotesTableView: NSTableView,
     }
 
     public func reloadRow(note: Note) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            note.invalidateCache()
-            note.loadPreviewInfo()
-
-            DispatchQueue.main.async {
-                self.performReload(note: note)
-            }
-        }
+        note.invalidateCache()
+        note.loadPreviewInfo()
+        self.performReload(note: note)
     }
     
     private func performReload(note: Note) {

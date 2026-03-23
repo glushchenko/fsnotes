@@ -52,6 +52,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             loadSelectedRange()
         }
 
+        // Show focus border when editor gains focus
+        if let scrollView = enclosingScrollView as? EditorScrollView {
+            scrollView.showFocusBorder()
+        }
+
         return super.becomeFirstResponder()
     }
 
@@ -1503,9 +1508,20 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     // MARK: - WYSIWYG Toolbar Actions
 
     @IBAction func quoteMenu(_ sender: Any) {
-        guard let note = self.note, isEditable else { return }
+        guard let note = self.note, isEditable, let storage = textStorage else { return }
         let formatter = TextFormatter(textView: self, note: note)
         formatter.quote()
+
+        // Force re-highlight to apply blockquote indent immediately
+        if NotesTextProcessor.hideSyntax {
+            let cursorLoc = min(selectedRange().location, storage.length - 1)
+            if cursorLoc >= 0 {
+                let paraRange = (storage.string as NSString).paragraphRange(
+                    for: NSRange(location: cursorLoc, length: 0))
+                storage.updateParagraphStyle(range: paraRange)
+                layoutManager?.invalidateLayout(forCharacterRange: paraRange, actualCharacterRange: nil)
+            }
+        }
     }
 
     @IBAction func bulletListMenu(_ sender: Any) {
@@ -1527,9 +1543,48 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     @IBAction func insertTableMenu(_ sender: Any) {
-        guard let note = self.note, isEditable else { return }
-        let formatter = TextFormatter(textView: self, note: note)
-        formatter.insertTable()
+        guard let _ = self.note, isEditable else { return }
+        showTableEditor(existingRange: nil, existingData: nil)
+    }
+
+    @IBAction func editTableMenu(_ sender: Any) {
+        guard let storage = textStorage, isEditable else { return }
+        let loc = selectedRange().location
+        guard let tableRange = TableEditorViewController.tableRange(in: storage, at: loc) else { return }
+        let markdown = (storage.string as NSString).substring(with: tableRange)
+        guard let data = TableEditorViewController.parse(markdown: markdown) else { return }
+        showTableEditor(existingRange: tableRange, existingData: data)
+    }
+
+    private func showTableEditor(existingRange: NSRange?, existingData: TableEditorViewController.TableData?) {
+        guard let vc = editorViewController, let window = vc.view.window else { return }
+
+        let tableVC = TableEditorViewController()
+        tableVC.existingData = existingData
+
+        let alert = NSAlert()
+        alert.messageText = existingRange != nil ? "Edit Table" : "Insert Table"
+        alert.addButton(withTitle: existingRange != nil ? "Update" : "Insert")
+        alert.addButton(withTitle: "Cancel")
+        alert.accessoryView = tableVC.view
+
+        // Force layout so the view has correct size
+        tableVC.view.layoutSubtreeIfNeeded()
+
+        alert.beginSheetModal(for: window) { [weak self] response in
+            guard let self = self, response == .alertFirstButtonReturn else { return }
+            let markdown = tableVC.generateMarkdown()
+            guard !markdown.isEmpty else { return }
+
+            if let range = existingRange {
+                // Replace existing table
+                self.insertText(markdown + "\n", replacementRange: range)
+            } else {
+                // Insert at cursor
+                let insertRange = self.selectedRange()
+                self.insertText("\n" + markdown + "\n", replacementRange: insertRange)
+            }
+        }
     }
 
     @IBAction func horizontalRuleMenu(_ sender: Any) {
@@ -1575,13 +1630,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             mutable.append(NSAttributedString(string: "```\n"))
 
             insertText(mutable, replacementRange: currentRange)
-            setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
-            
+            setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
+
             return
         }
-        
+
         insertText("```\n\n```\n", replacementRange: currentRange)
-        setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
+        setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
     }
 
     @IBAction func insertCodeSpan(_ sender: NSMenuItem) {
