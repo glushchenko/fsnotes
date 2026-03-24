@@ -19,6 +19,24 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
     public var detector = CodeBlockDetector()
     public var isRendering = false
 
+    /// Hide syntax characters by making them invisible (clear color) and
+    /// collapsing their width (negative kern). Preserves existing font so
+    /// the cursor inherits correct height. Mirrors the approach in
+    /// NotesTextProcessor.highlightMarkdown's hideSyntaxIfNecessary.
+    func hideSyntaxRange(_ range: NSRange, in textStorage: NSTextStorage) {
+        let nsString = textStorage.string as NSString
+        textStorage.addAttribute(.foregroundColor, value: NSColor.clear, range: range)
+        for i in 0..<range.length {
+            let charPos = range.location + i
+            guard charPos < nsString.length else { break }
+            let charStr = nsString.substring(with: NSRange(location: charPos, length: 1))
+            if let charFont = textStorage.attribute(.font, at: charPos, effectiveRange: nil) as? NSFont {
+                let charWidth = (charStr as NSString).size(withAttributes: [.font: charFont]).width
+                textStorage.addAttribute(.kern, value: -charWidth, range: NSRange(location: charPos, length: 1))
+            }
+        }
+    }
+
 #if os(iOS)
     public func textStorage(
         _ textStorage: NSTextStorage,
@@ -80,9 +98,6 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         // Hide code fence lines (``` ) in WYSIWYG mode
         if NotesTextProcessor.hideSyntax {
             let string = textStorage.string as NSString
-            let hiddenFont = NSFont.systemFont(ofSize: 0.1)
-            let hiddenColor = NSColor.clear
-            let hiddenAttrs: [NSAttributedString.Key: Any] = [.font: hiddenFont, .foregroundColor: hiddenColor]
 
             for codeRange in codeBlockRanges {
                 guard codeRange.location < string.length, NSMaxRange(codeRange) <= string.length else { continue }
@@ -93,12 +108,11 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                 if firstLineRange.length > 0 {
                     let backtickCount = min(3, firstLineRange.length)
                     let backtickRange = NSRange(location: firstLineRange.location, length: backtickCount)
-                    textStorage.addAttributes(hiddenAttrs, range: backtickRange)
+                    self.hideSyntaxRange(backtickRange, in: textStorage)
 
                     // If it's a special block (mermaid/math), hide the language name too
-                    // since the rendered image will replace the block
                     if firstLine.hasPrefix("```mermaid") || firstLine.hasPrefix("```math") || firstLine.hasPrefix("```latex") {
-                        textStorage.addAttributes(hiddenAttrs, range: firstLineRange)
+                        self.hideSyntaxRange(firstLineRange, in: textStorage)
                     }
                 }
 
@@ -106,7 +120,7 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                 let lastCharLoc = max(codeRange.location, NSMaxRange(codeRange) - 1)
                 let lastLineRange = string.lineRange(for: NSRange(location: lastCharLoc, length: 0))
                 if lastLineRange.location > firstLineRange.location && lastLineRange.length > 0 {
-                    textStorage.addAttributes(hiddenAttrs, range: lastLineRange)
+                    self.hideSyntaxRange(lastLineRange, in: textStorage)
                 }
             }
         }

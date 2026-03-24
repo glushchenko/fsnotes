@@ -353,23 +353,30 @@ public class NotesTextProcessor {
         let string = attributedString.string
         let pointSize = UserDefaultsManagement.noteFont.pointSize
         let codeFont = UserDefaultsManagement.codeFont
-        
-    #if os(OSX)
-        let hiddenFont = NSFont.systemFont(ofSize: 0.1)
-    #else
-        let hiddenFont = UIFont.systemFont(ofSize: 0.1)
-    #endif
 
         let hiddenColor = Color.clear
-        let hiddenAttributes: [NSAttributedString.Key : Any] = [
-            .font : hiddenFont,
-            .foregroundColor : hiddenColor
-        ]
-        
+
+        /// Hide syntax characters by making them invisible (clear color) and
+        /// collapsing their width (negative kern). Preserves the existing font
+        /// so the cursor inherits the correct height when positioned nearby.
+        /// Using 0.1pt font instead would break cursor visibility/sizing.
         func hideSyntaxIfNecessary(range: @autoclosure () -> NSRange) {
             guard NotesTextProcessor.hideSyntax else { return }
-            
-            attributedString.addAttributes(hiddenAttributes, range: range())
+
+            let r = range()
+            attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: r)
+
+            // Collapse each hidden character's width via negative kern
+            let nsString = attributedString.string as NSString
+            for i in 0..<r.length {
+                let charPos = r.location + i
+                guard charPos < nsString.length else { break }
+                let charStr = nsString.substring(with: NSRange(location: charPos, length: 1))
+                if let charFont = attributedString.attribute(.font, at: charPos, effectiveRange: nil) as? PlatformFont {
+                    let charWidth = (charStr as NSString).size(withAttributes: [.font: charFont]).width
+                    attributedString.addAttribute(.kern, value: -charWidth, range: NSRange(location: charPos, length: 1))
+                }
+            }
         }
 
         attributedString.enumerateAttribute(.link, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
@@ -437,9 +444,8 @@ public class NotesTextProcessor {
             if NotesTextProcessor.hideSyntax {
                 NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else { return }
-                    attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
+                    hideSyntaxIfNecessary(range: innerRange)
                     attributedString.fixAttributes(in: innerRange)
-                    attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
                 }
             }
         }
@@ -497,8 +503,6 @@ public class NotesTextProcessor {
             NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                // innerRange already includes the space after # (pattern is ^#{1,6} )
-                // Do NOT add +1 — that eats the first content character
                 hideSyntaxIfNecessary(range: innerRange)
             }
 
@@ -822,8 +826,7 @@ public class NotesTextProcessor {
             if NotesTextProcessor.hideSyntax {
                 NotesTextProcessor.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else { return }
-                    attributedString.addAttribute(.font, value: hiddenFont, range: innerRange)
-                    attributedString.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
+                    hideSyntaxIfNecessary(range: innerRange)
                 }
             }
         }
@@ -882,7 +885,7 @@ public class NotesTextProcessor {
             if let hrRegex = try? NSRegularExpression(pattern: hrPattern, options: .anchorsMatchLines) {
                 hrRegex.enumerateMatches(in: string, range: paragraphRange) { result, _, _ in
                     guard let range = result?.range else { return }
-                    attributedString.addAttributes(hiddenAttributes, range: range)
+                    hideSyntaxIfNecessary(range: range)
                     attributedString.addAttribute(.horizontalRule, value: true, range: range)
                 }
             }

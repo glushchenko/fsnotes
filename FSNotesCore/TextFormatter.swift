@@ -684,20 +684,18 @@ public class TextFormatter {
         // Headers: Return key exits header mode (no prefix continuation)
         let paragraphString = currentParagraph.string
         if paragraphString.starts(with: "#") {
-            let cursorAfterNewline = selectedRange.location + 1
-            #if os(iOS)
-                self.textView.insertText("\n")
-            #else
-                self.textView.insertNewline(nil)
+            #if os(OSX)
+            (textView as? EditTextView)?.suppressCompletion = true
+            // Reset typing attributes to body font so the new line doesn't
+            // inherit header styling
+            textView.typingAttributes = [
+                .font: UserDefaultsManagement.noteFont,
+                .foregroundColor: NotesTextProcessor.fontColor
+            ]
             #endif
-            // Force cursor to new line position after layout updates from re-highlighting
-            if cursorAfterNewline <= storage.length {
-                textView.setSelectedRange(NSRange(location: cursorAfterNewline, length: 0))
-                textView.scrollRangeToVisible(NSRange(location: cursorAfterNewline, length: 0))
-            }
+            textView.insertNewline(nil)
             return
         }
-
         // New Line insertion
 
         var newLine = "\n"

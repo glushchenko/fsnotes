@@ -205,20 +205,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
         var newRect = rect
         newRect.size.width = caretWidth
-        
+
         // Fixes last line height
-        
         if let textStorage = self.textStorage,
            let layoutManager = self.layoutManager as? LayoutManager {
             let insertionPoint = self.selectedRange().location
-            
+
             if insertionPoint == textStorage.length, insertionPoint > 0 {
                 let lastIndex = insertionPoint - 1
                 let attributes = textStorage.attributes(at: lastIndex, effectiveRange: nil)
-                
+
                 let isNewline: Bool = {
                     let ns = textStorage.string as NSString
-                    return ns.character(at: lastIndex) == 0x0A // '\n'
+                    return ns.character(at: lastIndex) == 0x0A
                 }()
 
                 let fontToUse: NSFont
@@ -227,11 +226,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 } else {
                     fontToUse = UserDefaultsManagement.noteFont
                 }
-                
+
                 newRect.size.height = layoutManager.lineHeight(for: fontToUse)
             }
         }
-        
+
         let clr = NSColor(red: 0.47, green: 0.53, blue: 0.69, alpha: 1.0)
         super.drawInsertionPoint(in: newRect, color: clr, turnedOn: flag)
     }
@@ -1110,7 +1109,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         defer {
             saveSelectedRange()
         }
-        
+
         // fixes backtick marked text
         if let characters = event.characters, characters == "`" {
             super.insertText("`", replacementRange: selectedRange())
@@ -1659,6 +1658,28 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let formatter = TextFormatter(textView: self, note: note)
         formatter.header(level)
+
+        // After header() inserts "# " (which gets hidden at 0.1pt font),
+        // the cursor sits after hidden characters. NSTextView draws the cursor
+        // using the font at the insertion point, which is the 0.1pt hidden font.
+        //
+        // Fix: set typing attributes to header font AND force cursor redraw.
+        let baseFontSize = CGFloat(UserDefaultsManagement.fontSize)
+        let headerLevel = level.filter({ $0 == "#" }).count
+        let headerSize: CGFloat
+        switch headerLevel {
+        case 1: headerSize = baseFontSize * 2.0
+        case 2: headerSize = baseFontSize * 1.7
+        case 3: headerSize = baseFontSize * 1.4
+        default: headerSize = baseFontSize
+        }
+        let headerFont = NSFont.boldSystemFont(ofSize: headerSize)
+        typingAttributes = [
+            .font: headerFont,
+            .foregroundColor: NotesTextProcessor.fontColor
+        ]
+        // Force cursor to redraw with the new typing attributes
+        updateInsertionPointStateAndRestartTimer(true)
     }
 
     @IBAction func insertCodeBlock(_ sender: NSButton) {

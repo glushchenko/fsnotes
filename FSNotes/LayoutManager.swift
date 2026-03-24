@@ -53,17 +53,27 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             return defaultFont
         }
 
-        // O(1) check: get the first character's font. If it's normal size, use it.
-        // Only fall back to defaultFont if it's a hidden syntax font (< 4pt).
+        // O(1) fast path: if the first character's font is normal size, use it.
+        // This handles the common case (non-WYSIWYG, or lines not starting with hidden syntax).
         if let firstFont = textStorage.attribute(.font, at: safeCharRange.location, effectiveRange: nil) as? NSFont {
             if firstFont.pointSize >= 4 {
                 return firstFont
             }
         }
 
-        // First font was hidden syntax (0.1pt) — use default font to avoid
-        // line height collapse. This handles lines starting with hidden #, >, **, etc.
-        return defaultFont
+        // First font is hidden syntax (0.1pt) — the line starts with hidden markdown
+        // (e.g., "# " for headers). We must find the LARGEST font in this range to
+        // ensure the line fragment height accommodates the actual visible content.
+        // Critical for headers: hidden "# " is 0.1pt but the header text is 28pt+.
+        var maxFont = defaultFont
+        var maxSize = defaultFont.pointSize
+        textStorage.enumerateAttribute(.font, in: safeCharRange, options: []) { value, _, _ in
+            if let font = value as? NSFont, font.pointSize > maxSize {
+                maxSize = font.pointSize
+                maxFont = font
+            }
+        }
+        return maxFont
     }
     
     private func hasAttachment(in glyphRange: NSRange) -> (hasAttachment: Bool, maxAttachmentHeight: CGFloat) {
