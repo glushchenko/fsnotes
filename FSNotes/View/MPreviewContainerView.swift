@@ -9,17 +9,31 @@
 import AppKit
 
 class MPreviewContainerView: NSView {
-    
+
+    override var acceptsFirstResponder: Bool { return true }
+
     // UI Elements
     public var webView: MPreviewView!
     private var findPanel: MPreviewFindPanel!
     private var findPanelHeightConstraint: NSLayoutConstraint!
-    
+
     // Search state
     private var currentMatchIndex = 0
     private var totalMatches = 0
     public var isFindPanelVisible = false
     
+    // MARK: - Focus Border
+
+    public func showFocusBorder() {
+        wantsLayer = true
+        layer?.borderWidth = 1
+        layer?.borderColor = NSColor.keyboardFocusIndicatorColor.cgColor
+    }
+
+    public func hideFocusBorder() {
+        layer?.borderWidth = 0
+    }
+
     // MARK: - Initialization
     init(frame: NSRect, note: Note, closure: MPreviewViewClosure?, force: Bool = false) {
         super.init(frame: frame)
@@ -409,6 +423,12 @@ class MPreviewContainerView: NSView {
     
     func restoreScrollPosition(_ point: CGPoint) {
         let js = "window.scrollTo(\(point.x), \(point.y));"
+        webView.evaluateJavaScript(js, completionHandler: nil)
+    }
+
+    /// Scroll the preview to a fraction (0.0–1.0) of the total document height
+    func scrollToFraction(_ fraction: CGFloat) {
+        let js = "window.scrollTo(0, document.body.scrollHeight * \(fraction));"
         webView.evaluateJavaScript(js, completionHandler: nil)
     }
 }

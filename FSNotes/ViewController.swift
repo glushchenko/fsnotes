@@ -2047,6 +2047,21 @@ class ViewController: EditorViewController,
         // Update formatting toolbar button states
         formattingToolbar?.updateButtonStates(for: editor)
 
+        // Trigger mermaid/math rendering when cursor leaves a code block
+        #if os(OSX)
+        if NotesTextProcessor.hideSyntax,
+           let note = editor.note,
+           let processor = editor.textStorageProcessor,
+           let codeRanges = note.codeBlockRangesCache,
+           let storage = editor.textStorage {
+            let cursorLoc = editor.selectedRange().location
+            let isInCodeBlock = codeRanges.contains { $0.contains(cursorLoc) }
+            if !isInCodeBlock {
+                processor.renderSpecialCodeBlocks(textStorage: storage, codeBlockRanges: codeRanges)
+            }
+        }
+        #endif
+
         editor.userActivity?.needsSave = true
     }
 
@@ -2099,8 +2114,44 @@ class ViewController: EditorViewController,
         let note = noteHistory[noteHistoryIndex]
         isNavigatingHistory = true
         notesTableView.select(note: note)
-        isNavigatingHistory = false
+        // Clear the flag after a brief delay to cover async callbacks from select()
+        DispatchQueue.main.async { [weak self] in
+            self?.isNavigatingHistory = false
+        }
         formattingToolbar?.updateNavigationButtons(canGoBack: canGoBack(), canGoForward: canGoForward())
+    }
+
+    // MARK: - AI Chat Panel
+
+    public var aiChatPanel: AIChatPanelView?
+
+    @objc public func toggleAIChat(_ sender: Any) {
+        if let panel = aiChatPanel, !panel.isHidden {
+            // Hide panel
+            panel.isHidden = true
+            panel.removeFromSuperview()
+            aiChatPanel = nil
+        } else {
+            // Show panel
+            guard let editorView = editAreaScroll.superview else { return }
+
+            let panel = AIChatPanelView()
+            panel.editorViewController = self
+            panel.translatesAutoresizingMaskIntoConstraints = false
+            editorView.addSubview(panel)
+
+            NSLayoutConstraint.activate([
+                panel.topAnchor.constraint(equalTo: editAreaScroll.topAnchor),
+                panel.trailingAnchor.constraint(equalTo: editorView.trailingAnchor),
+                panel.bottomAnchor.constraint(equalTo: editAreaScroll.bottomAnchor),
+                panel.widthAnchor.constraint(equalToConstant: AIChatPanelView.panelWidth),
+            ])
+
+            // Shrink editor to make room
+            editAreaScroll.trailingAnchor.constraint(equalTo: panel.leadingAnchor).isActive = true
+
+            aiChatPanel = panel
+        }
     }
 
     @objc func doubleClickOnNotesTable() {

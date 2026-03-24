@@ -550,6 +550,10 @@
 		D77AD7FF27F9D1C90077BD45 /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AD7FB27F9D1C90077BD45 /* Data+.swift */; };
 		23EAB390742AF720CE975FAE /* FormattingToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36172A2C1AAB13AFAE9D84 /* FormattingToolbar.swift */; };
 		23EAB390742AF720CE975FB0 /* TableEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36172A2C1AAB13AFAE9D86 /* TableEditorViewController.swift */; };
+		23EAB390742AF720CE975FB2 /* BlockRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36172A2C1AAB13AFAE9D88 /* BlockRenderer.swift */; };
+		23EAB390742AF720CE975FB4 /* BlockSourceEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36172A2C1AAB13AFAE9D8A /* BlockSourceEditor.swift */; };
+		23EAB390742AF720CE975FB6 /* AIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36172A2C1AAB13AFAE9D8C /* AIService.swift */; };
+		23EAB390742AF720CE975FB8 /* AIChatPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A36172A2C1AAB13AFAE9D8E /* AIChatPanelView.swift */; };
 		D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CC040216A608500582B97 /* EditorScrollView.swift */; };
 		D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CC040216A608500582B97 /* EditorScrollView.swift */; };
 		D77E0536246312B200AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
@@ -1164,6 +1168,10 @@
 		D77AD7FB27F9D1C90077BD45 /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		9A36172A2C1AAB13AFAE9D84 /* FormattingToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattingToolbar.swift; sourceTree = "<group>"; };
 		9A36172A2C1AAB13AFAE9D86 /* TableEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableEditorViewController.swift; sourceTree = "<group>"; };
+		9A36172A2C1AAB13AFAE9D88 /* BlockRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockRenderer.swift; sourceTree = "<group>"; };
+		9A36172A2C1AAB13AFAE9D8A /* BlockSourceEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockSourceEditor.swift; sourceTree = "<group>"; };
+		9A36172A2C1AAB13AFAE9D8C /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
+		9A36172A2C1AAB13AFAE9D8E /* AIChatPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIChatPanelView.swift; sourceTree = "<group>"; };
 		D77CC040216A608500582B97 /* EditorScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorScrollView.swift; sourceTree = "<group>"; };
 		D77E05282463124300AD7772 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
 		D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -1915,6 +1923,10 @@
 				D7B13DBC2C64F445008EBCAA /* Printer.swift */,
 				AA1234560001000100010000 /* PDFExporter.swift */,
 				9A36172A2C1AAB13AFAE9D86 /* TableEditorViewController.swift */,
+				9A36172A2C1AAB13AFAE9D88 /* BlockRenderer.swift */,
+				9A36172A2C1AAB13AFAE9D8A /* BlockSourceEditor.swift */,
+				9A36172A2C1AAB13AFAE9D8C /* AIService.swift */,
+				9A36172A2C1AAB13AFAE9D8E /* AIChatPanelView.swift */,
 				D7D01AFC2C65203A00F545D0 /* PrinterLegacy.swift */,
 				6F13BB3820FEDE230005E120 /* UserDataService.swift */,
 				D75EE7F92078B3C00055F159 /* Sidebar.swift */,
@@ -2989,6 +3001,10 @@
 				11BD8F9C2EDDF336000673A7 /* SolarizedDark.swift in Sources */,
 				23EAB390742AF720CE975FAE /* FormattingToolbar.swift in Sources */,
 				23EAB390742AF720CE975FB0 /* TableEditorViewController.swift in Sources */,
+				23EAB390742AF720CE975FB2 /* BlockRenderer.swift in Sources */,
+				23EAB390742AF720CE975FB4 /* BlockSourceEditor.swift in Sources */,
+				23EAB390742AF720CE975FB6 /* AIService.swift in Sources */,
+				23EAB390742AF720CE975FB8 /* AIChatPanelView.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
 				110BE0232EE8C53C00C5E456 /* TypeScript.swift in Sources */,
 				110BE0122EE86B4A00C5E456 /* Clojure.swift in Sources */,

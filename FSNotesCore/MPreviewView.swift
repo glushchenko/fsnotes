@@ -24,23 +24,28 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     private weak var note: Note?
     private var closure: MPreviewViewClosure?
     public static var template: String?
-    
+
+    // Retain handlers so we can update their note references when switching notes
+    private var handlerOpen: HandlerOpen!
+    private var handlerCheckbox: HandlerCheckbox!
+    private var handlerScroll: PreviewScrollHandler!
+
     init(frame: CGRect, note: Note, closure: MPreviewViewClosure?, force: Bool = false) {
         self.closure = closure
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
-        
+
         let handlerCheckbox = HandlerCheckbox(note: note)
         userContentController.add(handlerCheckbox, name: "checkbox")
-        
+
         userContentController.add(HandlerMouse(), name: "mouse")
         userContentController.add(HandlerClipboard(), name: "clipboard")
-        
+
         let handlerOpener = HandlerOpen(note: note)
         userContentController.add(handlerOpener, name: "open")
-        
+
         userContentController.add(HandlerQuickLook(), name: "quicklook")
-        
+
         let handlerScroll = PreviewScrollHandler(note: note)
         userContentController.add(handlerScroll, name: "scrollPosition")
 
@@ -49,6 +54,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         configuration.suppressesIncrementalRendering = true
         
         super.init(frame: frame, configuration: configuration)
+
+        self.handlerOpen = handlerOpener
+        self.handlerCheckbox = handlerCheckbox
+        self.handlerScroll = handlerScroll
 
         navigationDelegate = self
         
@@ -153,7 +162,26 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
 #elseif os(OSX)
-            NSWorkspace.shared.open(url)
+            // For local asset links, the WKWebView resolves relative paths against
+            // the temp wkPreview dir or MPreview.bundle, producing a non-existent path.
+            // Resolve against the note's actual directory instead.
+            // self.note is a weak reference and may be nil, so fall back to the
+            // currently selected note from ViewController.
+            let activeNote = self.note ?? ViewController.shared()?.notesTableView.getSelectedNote()
+            if url.isFileURL, !FileManager.default.fileExists(atPath: url.path), let note = activeNote {
+                let filename = url.lastPathComponent
+                let baseURL = note.isTextBundle() ? note.getURL() : note.project.url
+                // Try assets/ subdirectory first, then direct child
+                let assetURL = baseURL.appendingPathComponent("assets").appendingPathComponent(filename)
+                let directURL = baseURL.appendingPathComponent(filename)
+                if FileManager.default.fileExists(atPath: assetURL.path) {
+                    NSWorkspace.shared.open(assetURL)
+                } else if FileManager.default.fileExists(atPath: directURL.path) {
+                    NSWorkspace.shared.open(directURL)
+                }
+            } else {
+                NSWorkspace.shared.open(url)
+            }
 #endif
         default:
             decisionHandler(.allow)
@@ -221,6 +249,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         /// Do not re-load already loaded view
         guard self.note != note || force else { return }
         self.note = note
+
+        // Update all native handlers to reference the current note
+        handlerOpen?.note = note
+        handlerCheckbox?.note = note
+        handlerScroll?.note = note
         
         let markdownString = note.getPrettifiedContent()
 
@@ -364,7 +397,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let state = !(web || print)
         htmlString = MPreviewView.loadAttachments(html: htmlString, note: note, showButton: state)
 
-        if let urls = note.imageUrl, urls.count > 0, !print {
+        if let urls = note.imageUrl, urls.count > 0 {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, web: web)
         }
 
@@ -822,8 +855,8 @@ class HandlerSelection: NSObject, WKScriptMessageHandler {
 }
 
 class HandlerCheckbox: NSObject, WKScriptMessageHandler {
-    private var note: Note?
-    
+    var note: Note?
+
     init(note: Note) {
         self.note = note
     }
@@ -902,8 +935,8 @@ class HandlerClipboard: NSObject, WKScriptMessageHandler {
 }
 
 class HandlerOpen: NSObject, WKScriptMessageHandler {
-    private var note: Note?
-    
+    var note: Note?
+
     init(note: Note) {
         self.note = note
     }
@@ -931,7 +964,7 @@ class HandlerOpen: NSObject, WKScriptMessageHandler {
             )
         
             if let url = result.createURL(for: note) {
-                NSWorkspace.shared.activateFileViewerSelecting([url])
+                NSWorkspace.shared.open(url)
             }
         #endif
     }
@@ -955,8 +988,8 @@ class HandlerQuickLook: NSObject, WKScriptMessageHandler {
 }
 
 final class PreviewScrollHandler: NSObject, WKScriptMessageHandler {
-    private var note: Note?
-    
+    var note: Note?
+
     init(note: Note) {
         self.note = note
     }

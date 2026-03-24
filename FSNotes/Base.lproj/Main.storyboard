@@ -672,6 +672,13 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Sort By" identifier="viewSortBy" id="05n-RU-nOV">
                                                 <items>
+                                                    <menuItem title="None (Global Default)" tag="0" identifier="SB.none" id="nSB-Gd-0nE">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sortBy:" target="L4m-js-agn" id="aSB-nN-0eK"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="sSB-sP-0rT"/>
                                                     <menuItem title="Modification Date" tag="1" identifier="SB.modificationDate" id="dCc-l5-XB2">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>

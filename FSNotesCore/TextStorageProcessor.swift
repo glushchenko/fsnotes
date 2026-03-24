@@ -17,6 +17,7 @@ import AVKit
 class TextStorageProcessor: NSObject, NSTextStorageDelegate {
     public var editor: EditTextView?
     public var detector = CodeBlockDetector()
+    public var isRendering = false
 
 #if os(iOS)
     public func textStorage(
@@ -50,6 +51,7 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
     private func process(textStorage: NSTextStorage, range editedRange: NSRange, changeInLength delta: Int) {
         guard let note = editor?.note, textStorage.length > 0 else { return }
+        guard !isRendering else { return }
 
         defer {
             loadImages(textStorage: textStorage, checkRange: editedRange)
@@ -84,12 +86,23 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
 
             for codeRange in codeBlockRanges {
                 guard codeRange.location < string.length, NSMaxRange(codeRange) <= string.length else { continue }
-                // Hide opening fence line
                 let firstLineRange = string.lineRange(for: NSRange(location: codeRange.location, length: 0))
+                let firstLine = string.substring(with: firstLineRange).trimmingCharacters(in: .whitespacesAndNewlines)
+
+                // Hide opening fence: only the backticks, keep the language name visible
                 if firstLineRange.length > 0 {
-                    textStorage.addAttributes(hiddenAttrs, range: firstLineRange)
+                    let backtickCount = min(3, firstLineRange.length)
+                    let backtickRange = NSRange(location: firstLineRange.location, length: backtickCount)
+                    textStorage.addAttributes(hiddenAttrs, range: backtickRange)
+
+                    // If it's a special block (mermaid/math), hide the language name too
+                    // since the rendered image will replace the block
+                    if firstLine.hasPrefix("```mermaid") || firstLine.hasPrefix("```math") || firstLine.hasPrefix("```latex") {
+                        textStorage.addAttributes(hiddenAttrs, range: firstLineRange)
+                    }
                 }
-                // Hide closing fence line
+
+                // Hide closing fence line entirely
                 let lastCharLoc = max(codeRange.location, NSMaxRange(codeRange) - 1)
                 let lastLineRange = string.lineRange(for: NSRange(location: lastCharLoc, length: 0))
                 if lastLineRange.location > firstLineRange.location && lastLineRange.length > 0 {
@@ -97,6 +110,11 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
                 }
             }
         }
+
+        // Render mermaid/math blocks as inline images in WYSIWYG mode
+        #if os(OSX)
+        renderSpecialCodeBlocks(textStorage: textStorage, codeBlockRanges: codeBlockRanges)
+        #endif
 
         // Highlight code block end (```), that wiped previously in highlightMarkdown
         for range in codeBlockRanges {
@@ -220,10 +238,109 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
         }
     }
 
+    #if os(OSX)
+    /// Render mermaid/math code blocks as inline images in WYSIWYG mode
+    public func renderSpecialCodeBlocks(textStorage: NSTextStorage, codeBlockRanges: [NSRange]) {
+        guard NotesTextProcessor.hideSyntax else { return }
+        let string = textStorage.string as NSString
+        NSLog("[renderSpecialCodeBlocks] Called with \(codeBlockRanges.count) code block ranges")
+        let debugLog = "/tmp/fsnotes_render_debug.log"
+        let msg0 = "[\(Date())] renderSpecialCodeBlocks called with \(codeBlockRanges.count) ranges, hideSyntax=\(NotesTextProcessor.hideSyntax)\n"
+        if let fh = FileHandle(forWritingAtPath: debugLog) { fh.seekToEndOfFile(); fh.write(msg0.data(using: .utf8)!); fh.closeFile() }
+        else { FileManager.default.createFile(atPath: debugLog, contents: msg0.data(using: .utf8)) }
+
+        for codeRange in codeBlockRanges {
+            guard codeRange.location < string.length, NSMaxRange(codeRange) <= string.length else { continue }
+
+            let firstLineRange = string.lineRange(for: NSRange(location: codeRange.location, length: 0))
+            let firstLine = string.substring(with: firstLineRange).trimmingCharacters(in: .whitespacesAndNewlines)
+            NSLog("[renderSpecialCodeBlocks] First line: '\(firstLine)'")
+
+            var blockType: BlockRenderer.BlockType?
+            if firstLine.hasPrefix("```mermaid") {
+                blockType = .mermaid
+            } else if firstLine.hasPrefix("```math") || firstLine.hasPrefix("```latex") {
+                blockType = .math
+            }
+
+            guard let type = blockType else { continue }
+
+            // Extract the source content (between fences)
+            let afterFirstLine = NSMaxRange(firstLineRange)
+            let lastCharLoc = max(codeRange.location, NSMaxRange(codeRange) - 1)
+            let lastLineRange = string.lineRange(for: NSRange(location: lastCharLoc, length: 0))
+            let contentEnd = lastLineRange.location
+
+            guard afterFirstLine < contentEnd else { continue }
+            let contentRange = NSRange(location: afterFirstLine, length: contentEnd - afterFirstLine)
+            let source = string.substring(with: contentRange).trimmingCharacters(in: .whitespacesAndNewlines)
+
+            guard !source.isEmpty else { continue }
+
+            // Check if already rendered (avoid re-rendering on every keystroke)
+            if textStorage.attribute(.renderedBlockSource, at: codeRange.location, effectiveRange: nil) as? String == source {
+                continue
+            }
+
+            let maxWidth = getImageMaxWidth()
+
+            // Capture the full original markdown (fences + content) for restoration on click
+            let originalMarkdown = string.substring(with: codeRange)
+
+            BlockRenderer.render(source: source, type: type, maxWidth: maxWidth) { [weak self] image in
+                guard let image = image, let self = self else { return }
+
+                DispatchQueue.main.async {
+                    guard codeRange.location < textStorage.length,
+                          NSMaxRange(codeRange) <= textStorage.length else { return }
+
+                    // Verify the text hasn't changed under us
+                    let currentText = (textStorage.string as NSString).substring(with: codeRange)
+                    guard currentText.contains(source.prefix(20)) else { return }
+
+                    // Replace the entire code block with a rendered image attachment
+                    let attachment = NSTextAttachment()
+                    let cell = NSTextAttachmentCell(imageCell: image)
+                    let scale = min(maxWidth / image.size.width, 1.0)
+                    let scaledSize = NSSize(width: image.size.width * scale, height: image.size.height * scale)
+                    cell.image?.size = scaledSize
+                    attachment.attachmentCell = cell
+                    attachment.bounds = NSRect(origin: .zero, size: scaledSize)
+
+                    let attachmentString = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
+                    let attRange = NSRange(location: 0, length: attachmentString.length)
+                    attachmentString.addAttributes([
+                        .renderedBlockSource: source,
+                        .renderedBlockType: type == .mermaid ? "mermaid" : "math",
+                        .renderedBlockOriginalMarkdown: originalMarkdown
+                    ], range: attRange)
+                    // Clear code block background so no border appears
+                    attachmentString.removeAttribute(.backgroundColor, range: attRange)
+
+                    // Temporarily disable processing to avoid re-highlight cycle
+                    self.isRendering = true
+                    textStorage.beginEditing()
+                    textStorage.replaceCharacters(in: codeRange, with: attachmentString)
+                    // Also clear background on the replaced range in storage
+                    let replacedRange = NSRange(location: codeRange.location, length: attachmentString.length)
+                    if replacedRange.location + replacedRange.length <= textStorage.length {
+                        textStorage.removeAttribute(.backgroundColor, range: replacedRange)
+                    }
+                    textStorage.endEditing()
+                    self.isRendering = false
+                }
+            }
+        }
+    }
+    #endif
+
     private func getImageMaxWidth() -> CGFloat {
         #if os(iOS)
             return UIApplication.getVC().view.frame.width - 35
         #else
+            if let editorWidth = editor?.enclosingScrollView?.contentView.bounds.width {
+                return editorWidth - 40 // margin for padding
+            }
             return CGFloat(UserDefaultsManagement.imagesWidth)
         #endif
     }

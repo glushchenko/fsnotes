@@ -31,7 +31,8 @@
     
     <script charset="utf-8" src="{WEB_PATH}js/highlight.min.js" type="text/javascript"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script async src="{WEB_PATH}js/mermaid.min.js"></script>
+    <script src="{WEB_PATH}js/mermaid.min.js"></script>
+    <script src="{WEB_PATH}js/elk-layout.min.js"></script>
     
     <script>
         (function () {
@@ -256,8 +257,26 @@
 
             for (i; i < length; i++) {
                 aList[i].addEventListener("click", function(event) {
-                    var url = event.target.getAttribute("href");
-                    window.webkit.messageHandlers.open.postMessage(url);
+                    event.preventDefault();
+                    var url = event.currentTarget.getAttribute("href");
+                    if (url) {
+                        window.webkit.messageHandlers.open.postMessage(url);
+                    }
+                });
+            }
+
+            // Also handle clicks on <img> tags for non-image assets (PDF, DOCX, etc.)
+            var imgList = document.getElementsByTagName("IMG"),
+                imgLength = imgList.length,
+                j = 0;
+
+            for (j; j < imgLength; j++) {
+                imgList[j].style.cursor = "pointer";
+                imgList[j].addEventListener("click", function(event) {
+                    var src = event.target.getAttribute("src");
+                    if (src) {
+                        window.webkit.messageHandlers.open.postMessage(src);
+                    }
                 });
             }
         };
@@ -321,22 +340,65 @@
         }
         
         let loadMemaid = () => {
+            if (typeof mermaid === 'undefined') return;
+
             let mermaidTheme = 'default';
             if ('{FSNOTES_APPEARANCE}' == 'darkmode') {
                 mermaidTheme = 'dark';
             }
 
+            // Register ELK layout engine if available
+            if (typeof window.__elkLayouts !== 'undefined') {
+                try {
+                    mermaid.registerLayoutLoaders(window.__elkLayouts);
+                } catch (e) {}
+            }
+
             var config = {
-                startOnLoad: true,
+                startOnLoad: false,
                 theme: mermaidTheme,
                 flowchart: {
-                    useMaxWidth: false,
+                    useMaxWidth: true,
                     htmlLabels: true
                 }
             };
 
             mermaid.initialize(config);
-            window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+
+            var nodes = document.querySelectorAll('.language-mermaid');
+
+            // Normalize YAML frontmatter indentation in mermaid blocks
+            // (tabs and mixed whitespace are invalid YAML)
+            nodes.forEach(function(el) {
+                var text = el.textContent;
+                if (text.trimStart().startsWith('---')) {
+                    var lines = text.split('\n');
+                    var inFrontmatter = false;
+                    for (var i = 0; i < lines.length; i++) {
+                        var trimmed = lines[i].trim();
+                        if (trimmed === '---') {
+                            inFrontmatter = !inFrontmatter;
+                            continue;
+                        }
+                        if (inFrontmatter && trimmed.length > 0) {
+                            if (lines[i] !== trimmed) {
+                                // Any indented line gets normalized to 2-space indent
+                                lines[i] = '  ' + trimmed;
+                            }
+                        }
+                    }
+                    el.textContent = lines.join('\n');
+                }
+            });
+
+            mermaid.run({ nodes: nodes }).catch(function(e) {
+                nodes.forEach(function(el) {
+                    var errDiv = document.createElement('div');
+                    errDiv.style.cssText = 'color:#ff4444;padding:8px;font-size:12px;';
+                    errDiv.textContent = 'Mermaid error: ' + e.message;
+                    el.parentNode.insertBefore(errDiv, el.nextSibling);
+                });
+            });
         };
 
         let loadAttachments = () => {

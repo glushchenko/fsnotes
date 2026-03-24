@@ -48,4 +48,20 @@ public extension NSAttributedString.Key {
     static var blockquote: NSAttributedString.Key {
         return NSAttributedString.Key(rawValue: "es.fsnot.blockquote")
     }
+
+    static var renderedBlockSource: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.rendered.source")
+    }
+
+    static var renderedBlockType: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.rendered.type")
+    }
+
+    static var renderedBlockRange: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.rendered.range")
+    }
+
+    static var renderedBlockOriginalMarkdown: NSAttributedString.Key {
+        return NSAttributedString.Key(rawValue: "es.fsnot.rendered.original")
+    }
 }

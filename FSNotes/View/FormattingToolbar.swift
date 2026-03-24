@@ -24,6 +24,11 @@ class FormattingToolbar: NSView {
         setupToolbar()
     }
 
+    override func updateLayer() {
+        super.updateLayer()
+        layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
+    }
+
     private func setupToolbar() {
         wantsLayer = true
         layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
@@ -95,6 +100,11 @@ class FormattingToolbar: NSView {
         addButton(id: "table", symbol: "tablecells", tooltip: "Insert Table", action: #selector(EditTextView.insertTableMenu(_:)))
         addButton(id: "codeBlock", symbol: "chevron.left.forwardslash.chevron.right", tooltip: "Code Block", action: #selector(EditTextView.insertCodeBlock(_:)))
         addButton(id: "horizontalRule", symbol: "minus", tooltip: "Horizontal Rule", action: #selector(EditTextView.horizontalRuleMenu(_:)))
+
+        addSeparator()
+
+        // AI Chat
+        addButton(id: "aiChat", symbol: "bubble.left.and.text.bubble.right", tooltip: "AI Assistant", action: #selector(ViewController.toggleAIChat(_:)))
     }
 
     // MARK: - Button Creation

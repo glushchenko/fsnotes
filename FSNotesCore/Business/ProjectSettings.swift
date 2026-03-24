@@ -29,8 +29,13 @@ public class ProjectSettings: NSObject, NSSecureCoding {
     public override init() {/*_*/}
     
     public required init(coder aDecoder: NSCoder) {
-        if let value = aDecoder.decodeObject(of: NSString.self, forKey: "sortBy") as? String, let sort = SortBy(rawValue: value) {
-            sortBy = sort
+        if let value = aDecoder.decodeObject(of: NSString.self, forKey: "sortBy") as? String {
+            // Handle "none" explicitly — SortBy.none conflates with Optional.none in `if let`
+            if value == SortBy.none.rawValue {
+                sortBy = SortBy.none
+            } else if let sort = SortBy(rawValue: value) {
+                sortBy = sort
+            }
         }
 
         if let value =  aDecoder.decodeObject(of: NSString.self, forKey: "sortDirection") as? String, let direction = SortDirection(rawValue: value) {

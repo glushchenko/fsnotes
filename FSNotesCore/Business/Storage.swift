@@ -496,11 +496,14 @@ class Storage {
     private func sortQuery(note: Note, next: Note) -> Bool {
         if note.isPinned == next.isPinned {
             switch self.sortByState {
+            case .none:
+                // "None" sort: preserve current order (stable — don't re-order)
+                return false
             case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
                     return self.sortDirectionState == .asc && prevDate < nextDate || self.sortDirectionState == .desc && prevDate > nextDate
                 }
-            case .modificationDate, .none:
+            case .modificationDate:
                 return self.sortDirectionState == .asc && note.modifiedLocalAt < next.modifiedLocalAt || self.sortDirectionState == .desc && note.modifiedLocalAt > next.modifiedLocalAt
             case .title:
                 var title = note.title
@@ -1471,8 +1474,17 @@ class Storage {
         return self.sortDirectionState
     }
 
+    public func overrideSortBy(sortBy: SortBy, sortDirection: SortDirection) {
+        self.sortByState = sortBy
+        self.sortDirectionState = sortDirection
+    }
+
     public func buildSortBy() {
-        if let project = self.searchQuery.projects.first, project.settings.sortBy != .none {
+        if let project = self.searchQuery.projects.first {
+            if project.settings.sortBy == .none {
+                self.sortByState = .none
+                return
+            }
             self.sortByState = project.settings.sortBy
             self.sortDirectionState = project.settings.sortDirection
             return

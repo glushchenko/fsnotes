@@ -193,16 +193,18 @@ public class TextFormatter {
     
     public func underline() {
         // Markdown doesn't have native underline — use HTML <u> tags
-        if attributedString.string.hasPrefix("<u>") && attributedString.string.hasSuffix("</u>") {
-            // Remove underline
-            let inner = attributedString.string
-                .replacingOccurrences(of: "<u>", with: "")
-                .replacingOccurrences(of: "</u>", with: "")
+        let str = attributedString.string
+        // Only strip if the selection is exactly <u>...</u> with a single pair
+        if str.hasPrefix("<u>") && str.hasSuffix("</u>") && str.count > 7 {
+            // Remove only the outer <u>...</u> wrapper
+            let start = str.index(str.startIndex, offsetBy: 3)
+            let end = str.index(str.endIndex, offsetBy: -4)
+            let inner = String(str[start..<end])
             replaceWith(string: inner, range: range)
             setSelectedRange(NSRange(location: range.location, length: inner.count))
         } else {
             // Add underline
-            let text = "<u>" + attributedString.string + "</u>"
+            let text = "<u>" + str + "</u>"
             replaceWith(string: text, range: range)
             if attributedString.length == 0 {
                 setSelectedRange(NSRange(location: range.location + 3, length: 0))

@@ -15,6 +15,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     public var editorViewController: EditorViewController?
     public var textStorageProcessor: TextStorageProcessor?
+    private var retainedTableEditorVC: TableEditorViewController?
     public var note: Note?
     public var viewDelegate: ViewController?
     
@@ -322,6 +323,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             self.isEditable = true
         }
 
+        // Check for click on rendered block (mermaid/math) — open source editor
+        if NotesTextProcessor.hideSyntax, handleRenderedBlockClick(event) {
+            return
+        }
+
         let range = selectedRange
         if handleTodo(event) {
             self.window?.makeFirstResponder(self)
@@ -340,6 +346,46 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
     }
     
+    private func handleRenderedBlockClick(_ event: NSEvent) -> Bool {
+        guard let storage = textStorage,
+              let container = self.textContainer,
+              let manager = self.layoutManager,
+              let window = self.window else { return false }
+
+        let point = self.convert(event.locationInWindow, from: nil)
+        let properPoint = NSPoint(x: point.x - textContainerInset.width, y: point.y)
+        let index = manager.characterIndex(for: properPoint, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        guard index < storage.length else { return false }
+
+        // Check if clicked on an attachment with rendered block metadata
+        guard storage.attribute(.attachment, at: index, effectiveRange: nil) != nil,
+              let source = storage.attribute(.renderedBlockSource, at: index, effectiveRange: nil) as? String,
+              let typeStr = storage.attribute(.renderedBlockType, at: index, effectiveRange: nil) as? String else {
+            return false
+        }
+
+        let blockType: BlockSourceEditor.BlockType = typeStr == "mermaid" ? .mermaid : .math
+
+        BlockSourceEditor.show(source: source, type: blockType, in: window) { [weak self] updatedSource in
+            guard let updatedSource = updatedSource, let self = self else { return }
+
+            // Rebuild the code block with updated source
+            let fence = typeStr == "mermaid" ? "```mermaid" : "```math"
+            let newBlock = "\(fence)\n\(updatedSource)\n```\n"
+
+            // The attachment is a single character at `index` — replace it with the new code block
+            let attachmentRange = NSRange(location: index, length: 1)
+            guard NSMaxRange(attachmentRange) <= storage.length else { return }
+            self.insertText(newBlock, replacementRange: attachmentRange)
+
+            // The new code block will be detected and re-rendered by renderSpecialCodeBlocks
+            // on the next process() cycle
+        }
+
+        return true
+    }
+
     private func handleTodo(_ event: NSEvent) -> Bool {
         guard let container = self.textContainer,
               let manager = self.layoutManager
@@ -839,7 +885,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         typingAttributes.removeAll()
         typingAttributes[.font] = UserDefaultsManagement.noteFont
 
-        if isPreviewEnabled() && !NotesTextProcessor.hideSyntax {
+        if isPreviewEnabled() {
             loadMarkdownWebView(note: note, force: force)
             return
         }
@@ -1561,6 +1607,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
         let tableVC = TableEditorViewController()
         tableVC.existingData = existingData
+        // Retain the controller so stepper targets don't dangle while the sheet is displayed
+        retainedTableEditorVC = tableVC
 
         let alert = NSAlert()
         alert.messageText = existingRange != nil ? "Edit Table" : "Insert Table"
@@ -1572,6 +1620,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         tableVC.view.layoutSubtreeIfNeeded()
 
         alert.beginSheetModal(for: window) { [weak self] response in
+            defer { self?.retainedTableEditorVC = nil }
             guard let self = self, response == .alertFirstButtonReturn else { return }
             let markdown = tableVC.generateMarkdown()
             guard !markdown.isEmpty else { return }
@@ -1777,14 +1826,16 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         )
 
         let insertionRange = selectedRange()
+        let capturedNote = note
         QLThumbnailGenerator.shared.generateBestRepresentation(for: request) { [weak self] thumbnail, error in
             DispatchQueue.main.async {
-                guard let self = self, let note = self.note else { return }
+                // Verify the note hasn't changed since the async request was made
+                guard let self = self, self.note === capturedNote else { return }
                 self.insertThumbnailCard(
                     thumbnail: thumbnail,
                     fileRelPath: fileRelPath,
                     preferredName: preferredName,
-                    note: note,
+                    note: capturedNote,
                     insertionRange: insertionRange
                 )
             }

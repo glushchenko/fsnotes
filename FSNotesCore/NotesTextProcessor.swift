@@ -755,21 +755,18 @@ public class NotesTextProcessor {
         }
 
         // We detect and process underline (<u>...</u>)
-        do {
-            let underlineRegex = try NSRegularExpression(pattern: "<u>(.*?)</u>", options: [])
-            underlineRegex.enumerateMatches(in: string, range: paragraphRange) { result, _, _ in
-                guard let fullRange = result?.range, let contentRange = result?.range(at: 1) else { return }
-                attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: contentRange)
+        NotesTextProcessor.underlineRegex?.enumerateMatches(in: string, range: paragraphRange) { result, _, _ in
+            guard let fullRange = result?.range, let contentRange = result?.range(at: 1) else { return }
+            attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: contentRange)
 
-                // Hide the <u> and </u> tags
-                let openTagRange = NSRange(location: fullRange.location, length: 3) // <u>
-                let closeTagRange = NSRange(location: NSMaxRange(contentRange), length: 4) // </u>
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openTagRange)
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeTagRange)
-                hideSyntaxIfNecessary(range: openTagRange)
-                hideSyntaxIfNecessary(range: closeTagRange)
-            }
-        } catch {}
+            // Hide the <u> and </u> tags
+            let openTagRange = NSRange(location: fullRange.location, length: 3) // <u>
+            let closeTagRange = NSRange(location: NSMaxRange(contentRange), length: 4) // </u>
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openTagRange)
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeTagRange)
+            hideSyntaxIfNecessary(range: openTagRange)
+            hideSyntaxIfNecessary(range: closeTagRange)
+        }
 
 //        NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
 //            guard let range = result?.range else { return }
@@ -1251,7 +1248,10 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let blockQuoteRegex = MarklightRegex(pattern: blockQuotePattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
-    
+
+    // Static compiled regex for underline tags — avoids recompiling on every highlight call
+    public static let underlineRegex: NSRegularExpression? = try? NSRegularExpression(pattern: "<u>(.*?)</u>", options: [])
+
     fileprivate static let blockQuoteOpeningPattern = [
         "(^\\p{Z}*>\\p{Z})"
         ].joined(separator: "\n")

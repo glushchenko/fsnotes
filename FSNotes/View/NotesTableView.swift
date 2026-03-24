@@ -632,9 +632,13 @@ class NotesTableView: NSTableView,
     }
 
     public func reloadRow(note: Note) {
-        note.invalidateCache()
-        note.loadPreviewInfo()
-        self.performReload(note: note)
+        DispatchQueue.global(qos: .userInitiated).async {
+            note.invalidateCache()
+            note.loadPreviewInfo()
+            DispatchQueue.main.async {
+                self.performReload(note: note)
+            }
+        }
     }
     
     private func performReload(note: Note) {

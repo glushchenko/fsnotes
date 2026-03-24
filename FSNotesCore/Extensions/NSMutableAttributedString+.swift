@@ -149,8 +149,27 @@ extension NSMutableAttributedString {
 
     public func unloadAttachments() -> NSMutableAttributedString {
         return
-            unloadTasks()
+            restoreRenderedBlocks()
+            .unloadTasks()
             .unloadImagesAndFiles()
+    }
+
+    /// Restore rendered block attachments (mermaid/math) back to their original markdown source
+    public func restoreRenderedBlocks() -> NSMutableAttributedString {
+        let fullRange = NSRange(location: 0, length: length)
+        var replacements = [(NSRange, String)]()
+
+        enumerateAttribute(.renderedBlockOriginalMarkdown, in: fullRange, options: [.reverse]) { value, range, _ in
+            if let originalMarkdown = value as? String {
+                replacements.append((range, originalMarkdown))
+            }
+        }
+
+        for (range, markdown) in replacements {
+            replaceCharacters(in: range, with: markdown)
+        }
+
+        return self
     }
 
     public func loadAttachments(_ note: Note) -> NSMutableAttributedString {

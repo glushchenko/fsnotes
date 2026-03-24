@@ -118,6 +118,10 @@ public class UserDefaultsManagement {
         static let MasterPasswordHint = "masterPasswordHint"
         static let MathJaxPreview = "mathJaxPreview"
         static let WysiwygMode = "wysiwygMode"
+        static let AIAPIKey = "aiAPIKey"
+        static let AIProvider = "aiProvider"
+        static let AIModel = "aiModel"
+        static let AIEndpoint = "aiEndpoint"
         static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
         static let Preview = "preview"
@@ -850,8 +854,8 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.UseTextBundleToStoreDates) as? Bool {
                 return result
             }
-            
-            return true
+
+            return false
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.UseTextBundleToStoreDates)
@@ -882,7 +886,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.NoteContainer) as? Int, let container = NoteContainer(rawValue: result) {
                 return container
             }
-            return .textBundleV2
+            return .none
         }
         set {
             #if os(iOS)
@@ -1232,12 +1236,32 @@ public class UserDefaultsManagement {
         }
     }
 
+    static var aiAPIKey: String {
+        get { shared?.string(forKey: Constants.AIAPIKey) ?? "" }
+        set { shared?.set(newValue, forKey: Constants.AIAPIKey) }
+    }
+
+    static var aiProvider: String {
+        get { shared?.string(forKey: Constants.AIProvider) ?? "anthropic" }
+        set { shared?.set(newValue, forKey: Constants.AIProvider) }
+    }
+
+    static var aiModel: String {
+        get { shared?.string(forKey: Constants.AIModel) ?? "" }
+        set { shared?.set(newValue, forKey: Constants.AIModel) }
+    }
+
+    static var aiEndpoint: String {
+        get { shared?.string(forKey: Constants.AIEndpoint) ?? "" }
+        set { shared?.set(newValue, forKey: Constants.AIEndpoint) }
+    }
+
     static var wysiwygMode: Bool {
         get {
             if let result = shared?.object(forKey: Constants.WysiwygMode) as? Bool {
                 return result
             }
-            return true // WYSIWYG on by default
+            return false // Default to source mode; users opt in to WYSIWYG
         }
         set {
             shared?.set(newValue, forKey: Constants.WysiwygMode)

@@ -53,17 +53,17 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             return defaultFont
         }
 
-        // Find the largest font in the range — hidden syntax uses 0.1pt font
-        // which would collapse line height if used. Scan for the real content font.
-        var maxFont = defaultFont
-        var maxSize: CGFloat = 0
-        textStorage.enumerateAttribute(.font, in: safeCharRange) { value, _, _ in
-            if let font = value as? NSFont, font.pointSize > maxSize {
-                maxSize = font.pointSize
-                maxFont = font
+        // O(1) check: get the first character's font. If it's normal size, use it.
+        // Only fall back to defaultFont if it's a hidden syntax font (< 4pt).
+        if let firstFont = textStorage.attribute(.font, at: safeCharRange.location, effectiveRange: nil) as? NSFont {
+            if firstFont.pointSize >= 4 {
+                return firstFont
             }
         }
-        return maxFont
+
+        // First font was hidden syntax (0.1pt) — use default font to avoid
+        // line height collapse. This handles lines starting with hidden #, >, **, etc.
+        return defaultFont
     }
     
     private func hasAttachment(in glyphRange: NSRange) -> (hasAttachment: Bool, maxAttachmentHeight: CGFloat) {
