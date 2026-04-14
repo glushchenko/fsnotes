@@ -220,6 +220,8 @@
 		48BEA1E16CCED6900AD756F7 /* Pods_FSNotes_iOS_Share_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99068B82274CF88F23C4761D /* Pods_FSNotes_iOS_Share_Extension.framework */; };
 		8F7136EE23490CBF004DFA6E /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7136ED23490CBF004DFA6E /* Markdown.swift */; };
 		8F7136F023490CBF004DFA6E /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7136ED23490CBF004DFA6E /* Markdown.swift */; };
+		A0781CA02F6737B100918C07 /* SFTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0781C9F2F6737B100918C07 /* SFTPViewController.swift */; };
+		A0781CA22F6737D100918C07 /* SFTPUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0781CA12F6737D100918C07 /* SFTPUploader.swift */; };
 		BE957A4A1B908EC91BECB3D3 /* Pods_FSNotes__iCloud_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6066605B9BAF43A4BF3B60C1 /* Pods_FSNotes__iCloud_.framework */; };
 		CE3427A778205E1713A014B9 /* Pods_FSNotes_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85B72F46887638CA9CC70D39 /* Pods_FSNotes_iOS.framework */; };
 		D4DB932C9F51CAE71393A28B /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F616385FF783029192B97DF6 /* Pods_FSNotes.framework */; };
@@ -1008,6 +1010,8 @@
 		9381D32FA909CAB6102C4A5C /* Pods-FSNotes (Notarized).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).debug.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).debug.xcconfig"; sourceTree = "<group>"; };
 		99068B82274CF88F23C4761D /* Pods_FSNotes_iOS_Share_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS_Share_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EA62EEDB6BE9BF8727E66E0 /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
+		A0781C9F2F6737B100918C07 /* SFTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTPViewController.swift; sourceTree = "<group>"; };
+		A0781CA12F6737D100918C07 /* SFTPUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTPUploader.swift; sourceTree = "<group>"; };
 		A0C1E679E6D0B408CAC6372D /* Pods-FSNotesCore macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.release.xcconfig"; sourceTree = "<group>"; };
 		B3A8E91DD978BBA557F778F9 /* Pods_FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1E2B9BF60C418804784CC3B /* Pods-FSNotes (Notarized).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).release.xcconfig"; sourceTree = "<group>"; };
@@ -1338,6 +1342,7 @@
 				D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */,
 				D73673A720D10CF2000BA61D /* CloudDriveManager.swift */,
 				D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */,
+				A0781CA12F6737D100918C07 /* SFTPUploader.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1995,6 +2000,7 @@
 				D709C9E129AFD9E0006EF9A8 /* GitTableViewCell.swift */,
 				D7C33F6D29E09A690006C473 /* AppIconViewController.swift */,
 				D7CF7EAA29E2093C00FEC0C5 /* SecurityViewController.swift */,
+				A0781C9F2F6737B100918C07 /* SFTPViewController.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -2793,12 +2799,14 @@
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */,
 				11D6C0E02EE22B77006017F0 /* Csharp.swift in Sources */,
+				A0781CA02F6737B100918C07 /* SFTPViewController.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
 				D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */,
 				D73B3135298FBF4400F46144 /* GitViewController.swift in Sources */,
 				D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */,
 				D70E9E142901AEEB00A3C634 /* StatusIterator.swift in Sources */,
+				A0781CA22F6737D100918C07 /* SFTPUploader.swift in Sources */,
 				111013152EC8F1B600B6CF1B /* ImagePreviewViewController.swift in Sources */,
 				11D702AC2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */,
 				11D6C0D92EE229E9006017F0 /* Go.swift in Sources */,

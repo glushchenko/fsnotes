@@ -426,3 +426,46 @@
 
 /* No comment provided by engineer. */
 "✅ - " = "✅ - ";
+
+/* SFTP Web Publishing */
+"Web Publishing (SFTP)" = "Веб-публикация (SFTP)";
+
+/* SFTP settings section headers */
+"Server" = "Сервер";
+"Authentication" = "Аутентификация";
+"Actions" = "Действия";
+
+/* SFTP settings fields */
+"Host" = "Хост";
+"Port" = "Порт";
+"Remote Path" = "Удалённый путь";
+"Web URL" = "Веб-адрес";
+"Username" = "Имя пользователя";
+"(or use private key)" = "(или использовать ключ)";
+"Public Key" = "Публичный ключ";
+"loaded" = "загружен";
+"not set" = "не задан";
+"(optional)" = "(необязательно)";
+
+/* SFTP settings actions */
+"Use Custom SFTP Server" = "Использовать SFTP-сервер";
+"Test Connection" = "Проверить соединение";
+
+/* SFTP connection test alerts */
+"Missing Host" = "Хост не указан";
+"Please enter a host address." = "Введите адрес хоста.";
+"Testing…" = "Проверка…";
+"Could not authenticate. Check credentials." = "Не удалось аутентифицироваться. Проверьте данные.";
+"Successfully connected to the server." = "Успешное подключение к серверу.";
+"Connection Successful" = "Соединение установлено";
+"Connection Failed" = "Ошибка соединения";
+
+/* SFTP context menu */
+"Update Web Page" = "Обновить веб-страницу";
+"SFTP Error" = "Ошибка SFTP";
+
+/* SFTP error messages */
+"Please set a password or import a private key in SFTP settings." = "Укажите пароль или импортируйте приватный ключ в настройках SFTP.";
+"Remote path is not configured in SFTP settings." = "Удалённый путь не настроен в настройках SFTP.";
+"Web URL is not configured in SFTP settings." = "Веб-адрес не настроен в настройках SFTP.";
+"Failed to render the note as HTML." = "Не удалось преобразовать заметку в HTML.";

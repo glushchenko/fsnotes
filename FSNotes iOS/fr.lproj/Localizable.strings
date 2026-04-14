@@ -1,0 +1,44 @@
+/* SFTP Web Publishing */
+"Web Publishing (SFTP)" = "Publication web (SFTP)";
+
+/* SFTP settings section headers */
+"Server" = "Serveur";
+"Authentication" = "Authentification";
+"Actions" = "Actions";
+
+/* SFTP settings fields */
+"Host" = "Hôte";
+"Port" = "Port";
+"Remote Path" = "Chemin distant";
+"Web URL" = "URL web";
+"Username" = "Nom d'utilisateur";
+"(or use private key)" = "(ou utiliser une clé privée)";
+"Public Key" = "Clé publique";
+"loaded" = "chargée";
+"not set" = "non définie";
+"(optional)" = "(facultatif)";
+
+/* SFTP settings actions */
+"Use Custom SFTP Server" = "Utiliser un serveur SFTP";
+"Test Connection" = "Tester la connexion";
+
+/* SFTP connection test alerts */
+"Missing Host" = "Hôte manquant";
+"Please enter a host address." = "Veuillez saisir une adresse d'hôte.";
+"Testing…" = "Test en cours…";
+"Could not authenticate. Check credentials." = "Authentification impossible. Vérifiez vos identifiants.";
+"Successfully connected to the server." = "Connexion au serveur réussie.";
+"Connection Successful" = "Connexion réussie";
+"Connection Failed" = "Échec de la connexion";
+
+/* SFTP context menu */
+"Create Web Page" = "Créer une page web";
+"Update Web Page" = "Mettre à jour la page web";
+"Delete Web Page" = "Supprimer la page web";
+"SFTP Error" = "Erreur SFTP";
+
+/* SFTP error messages */
+"Please set a password or import a private key in SFTP settings." = "Définissez un mot de passe ou importez une clé privée dans les paramètres SFTP.";
+"Remote path is not configured in SFTP settings." = "Le chemin distant n'est pas configuré dans les paramètres SFTP.";
+"Web URL is not configured in SFTP settings." = "L'URL web n'est pas configurée dans les paramètres SFTP.";
+"Failed to render the note as HTML." = "Impossible de convertir la note en HTML.";

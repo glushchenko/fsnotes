@@ -25,6 +25,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             NSLocalizedString("Editor", comment: "Settings"),
             NSLocalizedString("Security", comment: "Settings"),
             NSLocalizedString("Git", comment: "Settings"),
+            NSLocalizedString("Web", comment: "Settings"),
             NSLocalizedString("Icon", comment: "Settings"),
             NSLocalizedString("Advanced", comment: "Settings"),
         ], [
@@ -46,6 +47,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             "paragraphsign",
             "lock.fill",
             "arrow.triangle.pull",
+            "server.rack",
             "square.grid.3x3.middleleft.filled",
             "atom"
         ], [
@@ -67,6 +69,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             ["#ff453a", "#ff9f0a"],
             ["#bf5af2", "#40c8e0"],
             ["#8e8e93", "#48484a"],
+            ["#0a84ff", "#5ac8fa"],
             ["#5e5ce6", "#8e8e93"],
             ["#dc1c13", "#f07470"]
         ],
@@ -84,7 +87,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [6, 4, 4]
+    var rowsInSection = [7, 4, 4]
 
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -207,8 +210,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 guard let project = Storage.shared().getDefault() else { return }
                 lvc = AppDelegate.getGitVC(for: project)
             case 4:
-                lvc = AppIconViewController()
+                lvc = SFTPViewController()
             case 5:
+                lvc = AppIconViewController()
+            case 6:
                 lvc = ProViewController()
             default:
                 return
