@@ -1012,8 +1012,6 @@
 		9EA62EEDB6BE9BF8727E66E0 /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
 		A0781C9F2F6737B100918C07 /* SFTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTPViewController.swift; sourceTree = "<group>"; };
 		A0781CA12F6737D100918C07 /* SFTPUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTPUploader.swift; sourceTree = "<group>"; };
-		A0781CA32F67416700918C07 /* FSNotes iOSDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOSDebug.entitlements"; sourceTree = "<group>"; };
-		A0781CA42F67418100918C07 /* FSNotes iOS Share ExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOS Share ExtensionDebug.entitlements"; sourceTree = "<group>"; };
 		A0C1E679E6D0B408CAC6372D /* Pods-FSNotesCore macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.release.xcconfig"; sourceTree = "<group>"; };
 		B3A8E91DD978BBA557F778F9 /* Pods_FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1E2B9BF60C418804784CC3B /* Pods-FSNotes (Notarized).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).release.xcconfig"; sourceTree = "<group>"; };
@@ -1730,7 +1728,6 @@
 		D7679387201F21F5000F7BBF /* FSNotes iOS */ = {
 			isa = PBXGroup;
 			children = (
-				A0781CA32F67416700918C07 /* FSNotes iOSDebug.entitlements */,
 				11C23F022EDC486E0064C5B5 /* Icons */,
 				D7F6CFEE2056ABDB008C584A /* Preferences */,
 				D7ED3FFC20CD0ADE001438EE /* Extensions */,
@@ -1762,7 +1759,6 @@
 		D7793C661F211C6000CA39B7 = {
 			isa = PBXGroup;
 			children = (
-				A0781CA42F67418100918C07 /* FSNotes iOS Share ExtensionDebug.entitlements */,
 				D7D61FCC1F32EEA1004357C2 /* Resources */,
 				6F13BB2320FEDE230005E120 /* FSNotesCore */,
 				D7793C711F211C6000CA39B7 /* FSNotes */,
@@ -3326,12 +3322,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 484D580095FCD450AE46554D /* Pods-FSNotes iOS Share Extension.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Share ExtensionDebug.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Share/FSNotes iOS Share.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 332;
-				DEVELOPMENT_TEAM = 49S2J747RZ;
+				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3340,7 +3336,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 7.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iliesa.needs.share";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -3365,7 +3361,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 332;
-				DEVELOPMENT_TEAM = 49S2J747RZ;
+				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -3399,13 +3395,13 @@
 				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
 				ASSETCATALOG_COMPILER_APPICON_NAME = modern;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS/FSNotes iOSDebug.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS/FSNotes iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 332;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 49S2J747RZ;
+				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -3414,7 +3410,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 7.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iliesa.needs;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3445,7 +3441,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 332;
-				DEVELOPMENT_TEAM = 49S2J747RZ;
+				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";

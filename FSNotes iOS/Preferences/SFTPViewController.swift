@@ -66,7 +66,7 @@ class SFTPViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("Web Publishing (SFTP)", comment: "Settings")
-        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.largeTitleDisplayMode = .always
 
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
