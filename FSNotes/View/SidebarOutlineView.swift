@@ -1986,6 +1986,8 @@ class SidebarOutlineView: NSOutlineView,
             try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
             
             guard let inserted = project.storage.insert(url: projectURL) else { return nil }
+            inserted.forEach { $0.isReadyForCacheSaving = true }
+            
             insertedProject = inserted.first
             
             // Important before main queue (Disables the fake move event handler for notes)
