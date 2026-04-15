@@ -988,9 +988,7 @@ class ViewController: EditorViewController,
             vc.sidebarOutlineView.deselectAllRows()
         }
 
-        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
-
-        _ = vc.createNote(content: inlineTags)
+        _ = vc.createNote()
     }
         
     @IBAction func fileName(_ sender: NSTextField) {
