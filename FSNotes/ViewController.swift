@@ -1256,7 +1256,7 @@ class ViewController: EditorViewController,
         
         notesTableView.beginUpdates()
         for note in updateViews {
-            notesTableView.reloadRow(note: note)
+            notesTableView.reloadRowSync(note: note)
 
             if search.stringValue.count == 0 {
                 sortAndMove(note: note)

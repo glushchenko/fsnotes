@@ -631,12 +631,16 @@ class NotesTableView: NSTableView,
 
     public func reloadRow(note: Note) {
         DispatchQueue.global(qos: .userInitiated).async {
-            note.invalidateCache()
-            note.loadPreviewInfo()
+            self.reloadRowSync(note: note)
+        }
+    }
+    
+    public func reloadRowSync(note: Note) {
+        note.invalidateCache()
+        note.loadPreviewInfo()
 
-            DispatchQueue.main.async {
-                self.performReload(note: note)
-            }
+        DispatchQueue.main.async {
+            self.performReload(note: note)
         }
     }
     
