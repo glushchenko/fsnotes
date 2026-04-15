@@ -1615,6 +1615,7 @@ class ViewController: EditorViewController,
         if srcIndex != dstIndex {
             notesTableView.moveRow(at: srcIndex, to: dstIndex)
             notesTableView.setNoteList(notes: resorted)
+            notesTableView.scrollRowToVisible(dstIndex)
         }
     }
     
