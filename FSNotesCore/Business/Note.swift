@@ -388,7 +388,7 @@ public class Note: NSObject  {
 
                 return attr[FileAttributeKey.modificationDate] as? Date
             } catch {
-                NSLog("Note modification date load error: \(error.localizedDescription)")
+                print("Note modification date load error: \(error.localizedDescription)")
             }
         }
 
@@ -425,7 +425,7 @@ public class Note: NSObject  {
 
                 return attr[FileAttributeKey.creationDate] as? Date
             } catch {
-                NSLog("Note creation date load error: \(error.localizedDescription)")
+                print("Note creation date load error: \(error.localizedDescription)")
             }
         }
 
@@ -463,7 +463,7 @@ public class Note: NSObject  {
                 }
             #endif
 
-            NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
+            print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
         } catch {
             Swift.print(error)
             return false
@@ -1076,7 +1076,7 @@ public class Note: NSObject  {
                 }
             }
         } catch {
-            NSLog("Write error \(error)")
+            print("Write error \(String(describing: error))")
             return false
         }
 
@@ -1245,6 +1245,10 @@ public class Note: NSObject  {
     }
     
     public func scanContentTags() -> ([String], [String]) {
+        if !isLoaded {
+            cacheCodeBlocks()
+        }
+        
         var added = [String]()
         var removed = [String]()
 
