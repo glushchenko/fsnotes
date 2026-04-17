@@ -244,7 +244,7 @@ extension EditTextView {
             .sorted()
         
         if searchLength == 0 {
-            return codeLanguages
+            return [""] + codeLanguages
         }
         
         let searchRange = NSRange(location: startPos, length: searchLength)
@@ -365,9 +365,10 @@ extension EditTextView {
 
         if shouldChangeText(in: replaceRange, replacementString: completion) {
             replaceCharacters(in: replaceRange, with: completion)
-            didChangeText()
             setSelectedRange(NSRange(location: startPos + word.count + 1, length: 0))
         }
+        
+        save()
     }
     
     private func insertTagCompletion(_ word: String, startPos: Int) {
