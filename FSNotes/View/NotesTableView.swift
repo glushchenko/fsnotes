@@ -73,7 +73,11 @@ class NotesTableView: NSTableView,
         
         if event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control) {
             if vc.editor?.isPreviewEnabled() == true {
-                NSApp.mainWindow?.makeFirstResponder(vc.editor.markdownView)
+                DispatchQueue.main.async {
+                    if let webView = vc.editor.markdownView?.webView {
+                        NSApp.mainWindow?.makeFirstResponder(webView)
+                    }
+                }
             } else {
                 vc.focusEditArea()
             }
