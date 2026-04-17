@@ -84,7 +84,7 @@ public class FileHistoryIterator: RevisionIterator {
             }
             
         } catch {
-            NSLog("Unable to find next OID \(error)")
+            print("Unable to find next OID \(String(describing: error))")
         }
         
         return nil
@@ -219,7 +219,7 @@ public class FileHistoryIterator: RevisionIterator {
             }
 
         } catch {
-            NSLog("Unable to find next OID \(error)")
+            print("Unable to find next OID \(String(describing: error))")
         }
 
         return nil

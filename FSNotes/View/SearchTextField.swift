@@ -162,7 +162,11 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             markCompleteonAsSuccess()
 
             if vcDelegate.vcEditor?.isPreviewEnabled() == true {
-                NSApp.mainWindow?.makeFirstResponder(vcDelegate.editor.markdownView)
+                DispatchQueue.main.async {
+                    if let webView = self.vcDelegate.editor.markdownView?.webView {
+                        NSApp.mainWindow?.makeFirstResponder(webView)
+                    }
+                }
             } else {
                 vcDelegate.focusEditArea()
             }

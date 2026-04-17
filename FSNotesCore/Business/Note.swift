@@ -1194,14 +1194,25 @@ public class Note: NSObject  {
     }
         
     func getFileAttributes() -> [FileAttributeKey: Any] {
-        let url = getContentFileURL() ?? url
-        var attributes: [FileAttributeKey: Any] = [:]
+        let sourceURL = getContentFileURL() ?? url
         
-        do {
-            attributes = try FileManager.default.attributesOfItem(atPath: url.path)
-        } catch {}
+        var attributes: [FileAttributeKey: Any] = [
+            .modificationDate: modifiedLocalAt,
+            .creationDate: creationDate
+        ]
 
-        attributes[.modificationDate] = modifiedLocalAt
+        guard let sourceAttributes = try? FileManager.default.attributesOfItem(atPath: sourceURL.path) else {
+            return attributes
+        }
+
+        if let creationDate = sourceAttributes[.creationDate] {
+            attributes[.creationDate] = creationDate
+        }
+
+        if let permissions = sourceAttributes[.posixPermissions] {
+            attributes[.posixPermissions] = permissions
+        }
+
         return attributes
     }
     

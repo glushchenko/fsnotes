@@ -68,7 +68,7 @@ public class Diff {
         // Foreach on all diff entries
         let error = git_diff_foreach(self.pointer.pointee, DiffFile.callback, nil, nil, nil, ptr)
         if (error != 0) {
-            NSLog("git diff error \(git_error_message())")
+            print("git diff error \(git_error_message())")
         }
         
         if let sha = oid.sha(), let keys = paths.allKeys as? [String], let project = project {
