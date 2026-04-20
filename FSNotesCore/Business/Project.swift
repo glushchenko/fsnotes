@@ -309,6 +309,8 @@ public class Project: NSObject {
             
             print("From disk: \(notes.count), lbl: \(label)")
         }
+        
+        storage.loadPins(notes: notes)
 
         for note in notes {
             storage.add(note)
