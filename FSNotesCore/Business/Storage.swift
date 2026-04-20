@@ -122,6 +122,8 @@ class Storage {
 
         loadProjectRelations()
         
+        loadPins(notes: noteList)
+        
         plainWriter.maxConcurrentOperationCount = 1
         plainWriter.qualityOfService = .userInteractive
 
@@ -865,6 +867,8 @@ class Storage {
         for note in notes {
             if names.contains(note.getRelatedPath()) {
                 note.addPin(cloudSave: false)
+            } else {
+                note.removePin(cloudSave: false)
             }
         }
         #endif
@@ -1183,6 +1187,7 @@ class Storage {
             removeNotes.append(contentsOf: append)
         }
 
+        loadPins(notes: insertNotes)
 
         return (remove, insert, removeNotes, insertNotes)
     }
