@@ -322,12 +322,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     public static func buildPage(for note: Note, at dst: URL, web: Bool = false, print: Bool = false) -> URL? {
-        var markdownString = note.getPrettifiedContent()
-        
-        // Hack for WebView compatibility
-        if print {
-            markdownString = MPreviewView.assignBase64Images(note: note, html: markdownString)
-        }
+        let markdownString = note.getPrettifiedContent()
         
         var htmlString = renderMarkdownHTML(markdown: markdownString)!
         
@@ -364,7 +359,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let state = !(web || print)
         htmlString = MPreviewView.loadAttachments(html: htmlString, note: note, showButton: state)
 
-        if let urls = note.imageUrl, urls.count > 0, !print {
+        if let urls = note.imageUrl, urls.count > 0 {
             htmlString = MPreviewView.loadImages(imagesStorage: imagesStorage, html: htmlString, at: dst, web: web)
         }
 
