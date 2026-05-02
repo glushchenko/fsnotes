@@ -824,67 +824,68 @@ public class Note: NSObject  {
         var extractedTitle = String()
         var author = String()
         var date = String()
-        
+
         if (content.hasPrefix("---\n")) {
-            var list = content.components(separatedBy: "---")
-            
-            if (list.count > 2) {
-                let headerList = list[1].components(separatedBy: "\n")
+            let searchStart = content.index(content.startIndex, offsetBy: 4)
+
+            if let closingRange = content.range(of: "\n---\n", range: searchStart..<content.endIndex) {
+                let yamlBlock = String(content[searchStart..<closingRange.lowerBound])
+                let remainingContent = String(content[closingRange.upperBound...])
+
+                let headerList = yamlBlock.components(separatedBy: "\n")
                 for header in headerList {
                     if header.hasPrefix("title:") {
                         extractedTitle = header.replacingOccurrences(of: "title:", with: "").trim()
-                        
+
                         if extractedTitle.hasPrefix("\"") && extractedTitle.hasSuffix("\""){
                             extractedTitle = String(extractedTitle.dropFirst(1))
                             extractedTitle = String(extractedTitle.dropLast(1))
                         }
                     }
-                    
+
                     if header.hasPrefix("author:") {
                         author = header.replacingOccurrences(of: "author:", with: "").trim()
-                        
+
                         if author.hasPrefix("\"") && author.hasSuffix("\""){
                             author = String(author.dropFirst(1))
                             author = String(author.dropLast(1))
                         }
                     }
-                    
+
                     if header.hasPrefix("date:") {
                         date = header.replacingOccurrences(of: "date:", with: "").trim()
-                        
+
                         if date.hasPrefix("\"") && date.hasSuffix("\""){
                             date = String(date.dropFirst(1))
                             date = String(date.dropLast(1))
                         }
                     }
                 }
-                
-                list.removeSubrange(Range(0...1))
-                
+
                 var result = String()
-                
+
                 if (extractedTitle.count > 0) {
                     result = "<h1 class=\"no-border\">" + extractedTitle + "</h1>\n\n"
                 }
-                
+
                 if (author.count > 0) {
                     result += "_" + author + "_\n\n"
                 }
-                
+
                 if (date.count > 0) {
                     result += "_" + date + "_\n\n"
                 }
-                
+
                 if result.count > 0 {
                     result += "<hr>\n\n"
                 }
-                
-                result += list.joined()
-                
+
+                result += remainingContent
+
                 return result
             }
         }
-        
+
         return content
     }
     
