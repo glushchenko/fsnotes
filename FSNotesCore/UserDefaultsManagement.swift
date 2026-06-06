@@ -1737,8 +1737,8 @@ public class UserDefaultsManagement {
 
     static var maxChildDirs: Int {
         get {
-            if let returnFontSize = shared?.object(forKey: Constants.MaxChildDirs), 
-                let value = returnFontSize as? Int {
+            if let maxChildDirs = shared?.object(forKey: Constants.MaxChildDirs),
+                let value = maxChildDirs as? Int {
 
                 if value < 200 {
                     return 200
@@ -1750,7 +1750,7 @@ public class UserDefaultsManagement {
             return 200
         }
         set {
-            shared?.set(newValue, forKey: Constants.CodeFontSizeKey)
+            shared?.set(newValue, forKey: Constants.MaxChildDirs)
         }
     }
 
