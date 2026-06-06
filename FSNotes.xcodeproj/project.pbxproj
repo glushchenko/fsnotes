@@ -567,6 +567,12 @@
 		D785805C27A3483B000C1BAF /* FolderPopoverActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785805B27A3483B000C1BAF /* FolderPopoverActions.swift */; };
 		D78678CB2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D78678CC2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
+		D787740A2FD41C5D00CF33BD /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78774092FD41C5D00CF33BD /* Json.swift */; };
+		D787740B2FD41C5D00CF33BD /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78774092FD41C5D00CF33BD /* Json.swift */; };
+		D787740C2FD41C5D00CF33BD /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78774092FD41C5D00CF33BD /* Json.swift */; };
+		D787740E2FD41C6800CF33BD /* Xml.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787740D2FD41C6800CF33BD /* Xml.swift */; };
+		D787740F2FD41C6800CF33BD /* Xml.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787740D2FD41C6800CF33BD /* Xml.swift */; };
+		D78774102FD41C6800CF33BD /* Xml.swift in Sources */ = {isa = PBXBuildFile; fileRef = D787740D2FD41C6800CF33BD /* Xml.swift */; };
 		D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
 		D792297621A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
 		D792DD8227A6C980006ADC01 /* FSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792DD8127A6C980006ADC01 /* FSParser.swift */; };
@@ -1172,6 +1178,8 @@
 		D783B504208A1BFD00328A41 /* EditorSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSplitView.swift; sourceTree = "<group>"; };
 		D785805B27A3483B000C1BAF /* FolderPopoverActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPopoverActions.swift; sourceTree = "<group>"; };
 		D78678CA2093AE10001A6620 /* UndoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoData.swift; sourceTree = "<group>"; };
+		D78774092FD41C5D00CF33BD /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
+		D787740D2FD41C6800CF33BD /* Xml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xml.swift; sourceTree = "<group>"; };
 		D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "FSNotes (CloudKit).entitlements"; sourceTree = "<group>"; };
 		D792297421A845B4005F468F /* ProjectSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSettingsViewController.swift; sourceTree = "<group>"; };
 		D792DD8127A6C980006ADC01 /* FSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSParser.swift; sourceTree = "<group>"; };
@@ -1419,6 +1427,8 @@
 				11D943212E643F3B0010CC2B /* Php.swift */,
 				11D9431D2E643F1F0010CC2B /* Swift.swift */,
 				11D943192E643EF20010CC2B /* JavaScript.swift */,
+				D78774092FD41C5D00CF33BD /* Json.swift */,
+				D787740D2FD41C6800CF33BD /* Xml.swift */,
 			);
 			path = Languages;
 			sourceTree = "<group>";
@@ -2677,6 +2687,7 @@
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
 				D7C9029523547A1E00A89BD8 /* FSTag.swift in Sources */,
 				D768D75A245E86690028F344 /* NSAttributedString+.swift in Sources */,
+				D787740F2FD41C6800CF33BD /* Xml.swift in Sources */,
 				D75A34E527D7CD440085438F /* SidebarViewController.swift in Sources */,
 				110BE0212EE8C53C00C5E456 /* TypeScript.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+.swift in Sources */,
@@ -2735,6 +2746,7 @@
 				11F389562EEA10930008EC18 /* Mermaid.swift in Sources */,
 				D78115672153D4D9004FA1CA /* ProjectsViewController.swift in Sources */,
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
+				D787740A2FD41C5D00CF33BD /* Json.swift in Sources */,
 				D792DD9927A6D71C006ADC01 /* String+Punycode.swift in Sources */,
 				D709C9E229AFD9E0006EF9A8 /* GitTableViewCell.swift in Sources */,
 				11D6C0D32EE227F9006017F0 /* Java.swift in Sources */,
@@ -2874,6 +2886,7 @@
 				D73BCC9B28EB5EC3008B3BBC /* ConfigManager.swift in Sources */,
 				D73BCCBF28EB5EC3008B3BBC /* FileHistoryIterator.swift in Sources */,
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
+				D787740B2FD41C5D00CF33BD /* Json.swift in Sources */,
 				D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */,
 				D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2121033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
@@ -3043,6 +3056,7 @@
 				D7153E092285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 				1161828D2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
+				D78774102FD41C6800CF33BD /* Xml.swift in Sources */,
 				110E40A02EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				11D6C0FF2EE22E4A006017F0 /* Scratch.swift in Sources */,
 				D73BCC9228EB5EC3008B3BBC /* Branches.swift in Sources */,
@@ -3108,6 +3122,7 @@
 				D73BCCC028EB5EC3008B3BBC /* FileHistoryIterator.swift in Sources */,
 				D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */,
 				D792297621A845B4005F468F /* ProjectSettingsViewController.swift in Sources */,
+				D787740C2FD41C5D00CF33BD /* Json.swift in Sources */,
 				D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2221033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D73BCCE728EB5EC4008B3BBC /* Index+Files.swift in Sources */,
@@ -3277,6 +3292,7 @@
 				D7153E0A2285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 				1161828E2E637E31005B5EE0 /* SwiftHighlighter.swift in Sources */,
+				D787740E2FD41C6800CF33BD /* Xml.swift in Sources */,
 				110E40A22EA0150300C62F49 /* NSTextCheckingResult+.swift in Sources */,
 				11D6C1012EE22E4A006017F0 /* Scratch.swift in Sources */,
 				D73BCC9328EB5EC3008B3BBC /* Branches.swift in Sources */,
