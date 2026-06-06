@@ -36,8 +36,9 @@ Alternative: you can do same in menu bar `View - Toggle Preview`
 - `cmd + r` - rename note
 - `cmd + 8` - pin note
 - `cmd + 7` - remove encryption (un encrypt previously encrypted note)
-- `cmd + n` - make note
-- `cmd + shift + n` - make RTF
+- `cmd + n` - new note
+- `cmd + shift + n` - new note in new window
+- `cmd + option + n` - new folder
 - `ctrl + cmd + e` – open selected in external editor
 - `ctrl + cmd + o` – show selected in finder
 - `shift + cmd + m` – move selected note in storage
