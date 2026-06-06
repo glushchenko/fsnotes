@@ -891,6 +891,11 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         UserDataService.instance.searchTrigger = true
         vc.notesTableView.removeRows(notes: notes)
         
+        // Delete sharing
+        for note in notes {
+            vc.deleteAPI(note: note)
+        }
+        
         // Delete tags
         for note in notes {
             let tags = note.tags
