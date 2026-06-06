@@ -30391,91 +30391,91 @@
       }
     },
     "Q9n-yE-Ul0.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Report Bugs or Feature Requests\"; ObjectID = \"Q9n-yE-Ul0\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Report Bugs\"; ObjectID = \"Q9n-yE-Ul0\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "ar-IQ" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تبليغ عن خطأ برمجي او  طلب ميزة جديدة"
+            "value" : "الإبلاغ عن الأخطاء"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ohlásit chyby nebo návrhy pro zlěpšení"
+            "value" : "Nahlásit chyby"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Report Bugs or Feature Requests"
+            "value" : "Fehler melden"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Report Bugs or Feature Requests"
+            "value" : "Report Bugs"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informar de Errores o Mejoras"
+            "value" : "Informar de errores"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remonter des bugs ou des demandes de fonctionnalités"
+            "value" : "Remonter des bugs"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "דוחות באגים ובקשות"
+            "value" : "דווח על באגים"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "समस्या या सुविधा अनुरोध की रिपोर्ट करें"
+            "value" : "बग रिपोर्ट करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Segnala bug o richiedi una funzionalità"
+            "value" : "Segnala bug"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バグや機能要望の報告"
+            "value" : "バグを報告する"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "버그 보고 및 기능 제안"
+            "value" : "버그 신고"
           }
         },
         "nl-NL" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Meld bugs of functieverzoeken"
+            "value" : "Fouten melden"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reportar erros ou solicitação de funcionalidades"
+            "value" : "Reportar erros"
           }
         },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reportar Bugs ou Pedir Funcionalidades"
+            "value" : "Reportar Bugs"
           }
         },
         "ru" : {
@@ -30487,25 +30487,25 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hataları veya Özellik İsteklerini Bildirin"
+            "value" : "Hataları Bildir"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Повідомити про помилки або запитати про нові функції"
+            "value" : "Повідомити про помилки"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "报告错误或者提交功能请求"
+            "value" : "报告错误"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "回報錯誤或功能請求"
+            "value" : "回報錯誤"
           }
         }
       }

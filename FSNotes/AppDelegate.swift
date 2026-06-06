@@ -305,8 +305,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/wiki")!)
     }
 
-    @IBAction func openReportsAndRequests(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/issues/new/choose")!)
+    @IBAction func openBugReports(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/issues/new?template=bug_report.yml")!)
     }
 
     @IBAction func openSite(_ sender: Any) {
