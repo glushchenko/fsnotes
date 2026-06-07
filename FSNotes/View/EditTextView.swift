@@ -34,7 +34,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     public var isScrollPositionSaverLocked = false
     
-    override func becomeFirstResponder() -> Bool {        
+    override func becomeFirstResponder() -> Bool {
         if let note = self.note {
             if note.container == .encryptedTextPack {
                 return false
@@ -42,10 +42,22 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             textStorage?.removeHighlight()
         }
-        
-        loadSelectedRange()
-        
+
+        if !isMouseDownInsideEditor() {
+            loadSelectedRange()
+        }
+
         return super.becomeFirstResponder()
+    }
+
+    private func isMouseDownInsideEditor() -> Bool {
+        guard let event = NSApp.currentEvent,
+              event.type == .leftMouseDown || event.type == .rightMouseDown || event.type == .otherMouseDown,
+              event.window == window
+        else { return false }
+
+        let location = convert(event.locationInWindow, from: nil)
+        return bounds.contains(location)
     }
 
     //MARK: caret width
