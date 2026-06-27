@@ -2710,7 +2710,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Editorin"
+            "value" : "Editor"
           }
         },
         "fr" : {
@@ -3478,7 +3478,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Datei Format"
+            "value" : "Dateien"
           }
         },
         "fr" : {
@@ -8794,7 +8794,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select"
+            "value" : "Auswählen"
           }
         },
         "fr" : {
