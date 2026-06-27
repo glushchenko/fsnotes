@@ -1986,7 +1986,14 @@ class ViewController: EditorViewController,
                     self.notesTableView.selectRow(i)
                     self.notesTableView.scrollRowToVisible(i)
 
-                    self.editor.window?.makeFirstResponder(self.editor)
+                    // selectRow(_:) fills the editor asynchronously. Restore the
+                    // first responder only after the note and its text storage
+                    // are ready, otherwise becomeFirstResponder() cannot restore
+                    // the saved selection for the initially opened note.
+                    DispatchQueue.main.async {
+                        self.editor.window?.makeFirstResponder(self.editor)
+                        self.editor.loadSelectedRange()
+                    }
                 }
             } else {
                 guard let frame = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSValue.self, from: frameData)?.rectValue else { continue }
