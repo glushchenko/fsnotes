@@ -84,6 +84,15 @@ extension NSTextStorage {
 
         let markers = ["* ", "- ", "+ ", "> "]
 
+        // `enumerateSubstrings(.byParagraphs)` does not visit empty paragraphs.
+        // Give the entire range a baseline style first so blank lines use the
+        // same line spacing as paragraphs containing text.
+        let defaultParagraph = NSMutableParagraphStyle()
+        defaultParagraph.lineSpacing = lineSpacing
+        defaultParagraph.alignment = .left
+        defaultParagraph.tabStops = tabs
+        addAttribute(.paragraphStyle, value: defaultParagraph, range: paragraphRange)
+
         mutableString.enumerateSubstrings(in: paragraphRange, options: .byParagraphs) { value, parRange, _, _ in
             guard let value = value else { return }
 
