@@ -9,8 +9,11 @@
 import UIKit.UIGestureRecognizerSubclass
 
 class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
+    private let allowableTodoMovement: CGFloat = 10
     private var beginTimer: Timer?
     private var beginTime: Date?
+    private var initialTouchPoint: CGPoint?
+    private var isTodoTouch = false
     public var isLongPress: Bool = false
     public var touchCharIndex: Int?
     public var selectedRange: UITextRange?
@@ -29,6 +32,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
         if self.state == .possible {
             for touch in touches {
                 let point = touch.location(in: view)
+                self.initialTouchPoint = point
                 let characterIndex = view.layoutManager.characterIndex(for: point, in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
                 self.touchCharIndex = characterIndex
 
@@ -39,7 +43,9 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)
 
                 if isTodoInTouchArea(point: point, characterIndex: characterIndex, view: view) && (self.selectedRange?.isEmpty == true || !view.isFirstResponder) {
-                    self.state = .recognized
+                    // Wait for touchesEnded before recognizing the tap. Recognizing
+                    // here toggles the checkbox before a scroll gesture can win.
+                    self.isTodoTouch = true
                     return
                 }
                 
@@ -69,6 +75,19 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 }
             }
 
+            self.state = .failed
+            view.isAllowedScrollRect = true
+        }
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        guard isTodoTouch,
+              let view = self.view as? EditTextView,
+              let initialTouchPoint,
+              let touch = touches.first else { return }
+
+        let point = touch.location(in: view)
+        if hypot(point.x - initialTouchPoint.x, point.y - initialTouchPoint.y) > allowableTodoMovement {
             self.state = .failed
             view.isAllowedScrollRect = true
         }
@@ -146,6 +165,15 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
         if self.state == .possible {
             for touch in touches {
                 let point = touch.location(in: view)
+
+                if isTodoTouch,
+                   let initialTouchPoint,
+                   hypot(point.x - initialTouchPoint.x, point.y - initialTouchPoint.y) > allowableTodoMovement {
+                    self.state = .failed
+                    view.isAllowedScrollRect = true
+                    return
+                }
+
                 let characterIndex = view.layoutManager.characterIndex(for: point, in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
                 self.touchCharIndex = characterIndex
 
@@ -171,5 +199,21 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
             self.state = .failed
             view.isAllowedScrollRect = true
         }
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+        if let view = self.view as? EditTextView {
+            view.isAllowedScrollRect = true
+        }
+        // A discrete recognizer must leave .possible through .failed. Using
+        // .cancelled here is only valid after a continuous gesture has begun.
+        self.state = .failed
+    }
+
+    override func reset() {
+        super.reset()
+        initialTouchPoint = nil
+        isTodoTouch = false
+        touchCharIndex = nil
     }
 }
