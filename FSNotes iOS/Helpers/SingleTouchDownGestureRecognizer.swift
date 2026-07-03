@@ -75,42 +75,62 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
     }
 
     private func isTodoInTouchArea(point: CGPoint, characterIndex: Int, view: EditTextView) -> Bool {
-        if view.isTodo(at: characterIndex) {
+        func checkTodoInLine(lineRange: NSRange) -> Bool {
+            let storage = view.textStorage
+            let safeRange = NSIntersectionRange(
+                lineRange,
+                NSRange(location: 0, length: storage.length)
+            )
+            guard safeRange.length > 0 else { return false }
+
+            var todoLocation: Int? = storage.attribute(
+                .todo,
+                at: safeRange.location,
+                effectiveRange: nil
+            ) == nil ? nil : safeRange.location
+
+            // A freshly typed checkbox may not have its attachment attribute yet.
+            if todoLocation == nil {
+                let prefixLength = min(5, safeRange.length)
+                let prefix = storage.mutableString.substring(
+                    with: NSRange(location: safeRange.location, length: prefixLength)
+                )
+                if prefix == "- [ ]" || prefix == "- [x]" {
+                    todoLocation = safeRange.location
+                }
+            }
+
+            guard let todoLocation = todoLocation else { return false }
+
+            let glyphRange = view.layoutManager.glyphRange(
+                forCharacterRange: NSRange(location: todoLocation, length: 1),
+                actualCharacterRange: nil
+            )
+            let todoRect = view.layoutManager.boundingRect(
+                forGlyphRange: glyphRange,
+                in: view.textContainer
+            )
+            let expandedRect = CGRect(
+                x: todoRect.origin.x - 50,
+                y: todoRect.origin.y - 15,
+                width: todoRect.width + 65,
+                height: todoRect.height + 35
+            )
+
+            guard expandedRect.contains(point) else { return false }
+            self.touchCharIndex = todoLocation
             return true
         }
         
-        func checkTodoInLine(lineRange: NSRange) -> Bool {
-            for i in lineRange.location..<min(lineRange.location + lineRange.length, view.textStorage.length) {
-                if view.isTodo(at: i) {
-                    let glyphRange = view.layoutManager.glyphRange(forCharacterRange: NSRange(location: i, length: 1), actualCharacterRange: nil)
-                    let todoRect = view.layoutManager.boundingRect(forGlyphRange: glyphRange, in: view.textContainer)
-                    
-                    let expandedRect = CGRect(
-                        x: todoRect.origin.x - 50,
-                        y: todoRect.origin.y - 15,
-                        width: todoRect.width + 65,
-                        height: todoRect.height + 35
-                    )
-                    
-                    if expandedRect.contains(point) {
-                        self.touchCharIndex = i
-                        return true
-                    }
-                    
-                    break
-                }
-            }
-            return false
-        }
-        
-        let currentLineRange = (view.text as NSString).lineRange(for: NSRange(location: characterIndex, length: 0))
+        let text = view.textStorage.mutableString
+        let currentLineRange = text.lineRange(for: NSRange(location: characterIndex, length: 0))
         
         if checkTodoInLine(lineRange: currentLineRange) {
             return true
         }
         
         if currentLineRange.location > 0 {
-            let previousLineRange = (view.text as NSString).lineRange(for: NSRange(location: currentLineRange.location - 1, length: 0))
+            let previousLineRange = text.lineRange(for: NSRange(location: currentLineRange.location - 1, length: 0))
             
             if checkTodoInLine(lineRange: previousLineRange) {
                 return true
