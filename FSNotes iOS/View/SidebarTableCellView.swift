@@ -46,6 +46,11 @@ class SidebarTableCellView: UITableViewCell {
     }
 
     private func configureDisclosure(for item: SidebarItem) {
+        guard item.type != .Inbox else {
+            accessoryView = nil
+            return
+        }
+
         let project = item.project
         let tag = item.tag
         let isProjectExpandable = project?.child.contains(where: { $0.settings.showInSidebar }) == true
