@@ -609,7 +609,17 @@ extension ViewController: UIDocumentPickerDelegate {
 
             if let projects = Storage.shared().insert(url: newDir) {
                 OperationQueue.main.addOperation {
-                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                    let sidebar = UIApplication.getVC().sidebarTableView!
+                    selectedProject.isExpanded = true
+                    Storage.shared().saveProjectsExpandState()
+                    sidebar.insertRows(projects: projects)
+
+                    guard let project = projects.first(where: { $0.url == newDir }) else { return }
+
+                    sidebar.select(project: project)
+                    if let indexPath = sidebar.getIndexPathBy(project: project) {
+                        sidebar.scrollToRow(at: indexPath, at: .middle, animated: true)
+                    }
                 }
             }
         }

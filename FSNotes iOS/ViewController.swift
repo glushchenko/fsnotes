@@ -1251,20 +1251,38 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let todo = NSLocalizedString("Todo", comment: "Todo in sidebar")
         let trash = NSLocalizedString("Trash", comment: "Trash in sidebar")
 
-        var sidebarItems = [String]()
+        var sidebarItems = [(label: String, depth: Int)]()
         var tags = [String]()
 
         if let project = storage.searchQuery.projects.first {
             tags = sidebarTableView.getAllTags(projects: [project])
         }
 
-        sidebarItems = tags + Storage.shared().getProjects().map({ $0.label })
-            + [settings, inbox, notes, todo, trash, untagged]
+        sidebarItems = tags.map { ($0, 0) }
+            + Storage.shared().getProjects().map { project in
+                var depth = 0
+                var parent = project.parent
+                var visited = Set<ObjectIdentifier>()
+
+                while let current = parent, !current.isDefault {
+                    let identifier = ObjectIdentifier(current)
+                    guard !visited.contains(identifier) else { break }
+
+                    visited.insert(identifier)
+                    depth += 1
+                    parent = current.parent
+                }
+
+                return (project.label, depth)
+            }
+            + [settings, inbox, notes, todo, trash, untagged].map { ($0, 0) }
 
         for item in sidebarItems {
             guard let font = font else { continue }
 
-            let labelWidth = (item as NSString).size(withAttributes: [.font: font]).width + 60
+            let labelWidth = (item.label as NSString).size(withAttributes: [.font: font]).width
+                + 60
+                + CGFloat(item.depth * 18)
 
             if labelWidth < (view.frame.size.width / 2) {
                 if labelWidth > width {

@@ -13,6 +13,7 @@ class FSTag {
     public var parent: FSTag?
 
     public var child = [FSTag]()
+    public var isExpanded = false
 
     init(name: String, parent: FSTag? = nil) {
         self.name = name

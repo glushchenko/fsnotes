@@ -20,6 +20,16 @@ extension UserDefaultsManagement {
         static let editorState = "editorState"
         static let editorSuggestions = "editorSuggestions"
         static let ImportURLsKey = "ImportURLs"
+        static let expandedSidebarTags = "expandedSidebarTags"
+    }
+
+    static var expandedSidebarTags: [String] {
+        get {
+            return shared?.stringArray(forKey: Constants.expandedSidebarTags) ?? []
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.expandedSidebarTags)
+        }
     }
 
     static var appIcon: Int {

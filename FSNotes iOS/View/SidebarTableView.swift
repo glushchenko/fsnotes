@@ -17,6 +17,7 @@ class SidebarTableView: UITableView,
     UITableViewDropDelegate {
 
     public var sidebar = Sidebar()
+    private var allTagNames = Set<String>()
     private var busyTrashReloading = false
     public var viewController: ViewController?
 
@@ -36,10 +37,158 @@ class SidebarTableView: UITableView,
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
         cell.configure(sidebarItem: sidebarItem)
+        cell.onDisclosureToggle = { [weak self] project in
+            self?.toggleDisclosure(for: project)
+        }
+        cell.onTagDisclosureToggle = { [weak self] tag in
+            self?.toggleDisclosure(for: tag)
+        }
         cell.contentView.setNeedsLayout()
         cell.contentView.layoutIfNeeded()
 
         return cell
+    }
+
+    private func toggleDisclosure(for project: Project) {
+        let selectedProject = getSelectedSidebarItem()?.project
+        let projectsSection = SidebarSection.Projects.rawValue
+        let oldItems = sidebar.items[projectsSection]
+        let oldURLs = Set(oldItems.compactMap { $0.project?.url })
+
+        project.isExpanded.toggle()
+        Storage.shared().saveProjectsExpandState()
+        sidebar.reloadProjects()
+        let newItems = sidebar.items[projectsSection]
+        let newURLs = Set(newItems.compactMap { $0.project?.url })
+
+        let deleted = oldItems.enumerated().compactMap { index, item -> IndexPath? in
+            guard let url = item.project?.url, !newURLs.contains(url) else { return nil }
+            return IndexPath(row: index, section: projectsSection)
+        }
+        let inserted = newItems.enumerated().compactMap { index, item -> IndexPath? in
+            guard let url = item.project?.url, !oldURLs.contains(url) else { return nil }
+            return IndexPath(row: index, section: projectsSection)
+        }
+
+        performBatchUpdates {
+            if !deleted.isEmpty {
+                deleteRows(at: deleted, with: .fade)
+            }
+            if !inserted.isEmpty {
+                insertRows(at: inserted, with: .fade)
+            }
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
+
+            if let projectPath = self.getIndexPathBy(project: project) {
+                self.reloadRows(at: [projectPath], with: .none)
+            }
+
+            if let selectedProject = selectedProject,
+               let selectedPath = self.getIndexPathBy(project: selectedProject) {
+                self.selectRow(at: selectedPath, animated: false, scrollPosition: .none)
+            }
+
+            self.viewController?.resizeSidebar(withAnimation: true)
+        }
+    }
+
+    private func toggleDisclosure(for tag: FSTag) {
+        let tagsSection = SidebarSection.Tags.rawValue
+        let tagName = tag.getFullName()
+        let selectedTag = viewController?.storage.searchQuery.tags.first
+        let oldItems = sidebar.items[tagsSection]
+        let oldNames = Set(oldItems.map { $0.name })
+        var expanded = Set(UserDefaultsManagement.expandedSidebarTags)
+
+        if expanded.contains(tagName) {
+            expanded.remove(tagName)
+        } else {
+            expanded.insert(tagName)
+        }
+        UserDefaultsManagement.expandedSidebarTags = Array(expanded).sorted()
+
+        rebuildTagItems()
+        let newItems = sidebar.items[tagsSection]
+        let newNames = Set(newItems.map { $0.name })
+        let deleted = oldItems.enumerated().compactMap { index, item in
+            newNames.contains(item.name) ? nil : IndexPath(row: index, section: tagsSection)
+        }
+        let inserted = newItems.enumerated().compactMap { index, item in
+            oldNames.contains(item.name) ? nil : IndexPath(row: index, section: tagsSection)
+        }
+
+        performBatchUpdates {
+            if !deleted.isEmpty {
+                deleteRows(at: deleted, with: .fade)
+            }
+            if !inserted.isEmpty {
+                insertRows(at: inserted, with: .fade)
+            }
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
+
+            if let tagPath = self.getIndexPathBy(tag: tagName) {
+                self.reloadRows(at: [tagPath], with: .none)
+            }
+            if let selectedTag = selectedTag,
+               let selectedPath = self.getIndexPathBy(tag: selectedTag) {
+                self.selectRow(at: selectedPath, animated: false, scrollPosition: .none)
+            }
+
+            self.viewController?.resizeSidebar(withAnimation: true)
+        }
+    }
+
+    private func rebuildTagItems() {
+        let tagsSection = SidebarSection.Tags.rawValue
+        guard sidebar.items.indices.contains(tagsSection) else { return }
+
+        var roots = [FSTag]()
+
+        func insert(_ components: ArraySlice<String>, parent: FSTag?) {
+            guard let name = components.first else { return }
+            let siblings = parent?.child ?? roots
+            let tag: FSTag
+
+            if let existing = siblings.first(where: { $0.name == name }) {
+                tag = existing
+            } else {
+                tag = FSTag(name: name, parent: parent)
+                if let parent = parent {
+                    parent.child.append(tag)
+                    parent.child.sort {
+                        $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+                    }
+                } else {
+                    roots.append(tag)
+                }
+            }
+
+            insert(components.dropFirst(), parent: tag)
+        }
+
+        for fullName in allTagNames.sorted() {
+            let components = fullName.split(separator: "/").map(String.init)
+            insert(components[...], parent: nil)
+        }
+
+        roots.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        let expanded = Set(UserDefaultsManagement.expandedSidebarTags)
+        var items = [SidebarItem]()
+
+        func append(_ tag: FSTag) {
+            let fullName = tag.getFullName()
+            tag.isExpanded = expanded.contains(fullName)
+            items.append(SidebarItem(name: fullName, type: .Tag, tag: tag))
+
+            if tag.isExpanded {
+                tag.child.forEach(append)
+            }
+        }
+
+        roots.forEach(append)
+        sidebar.items[tagsSection] = items
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -381,13 +530,9 @@ class SidebarTableView: UITableView,
 
         guard tags.count > 0, self.sidebar.items.indices.contains(2) else { return }
 
-        var indexPaths = [IndexPath]()
-        for tag in tags {
-            let position = self.sidebar.items[2].count
-            let element = SidebarItem(name: tag, type: .Tag)
-            self.sidebar.items[2].insert(element, at: position)
-            indexPaths.append(IndexPath(row: position, section: 2))
-        }
+        allTagNames = Set(tags)
+        rebuildTagItems()
+        let indexPaths = sidebar.items[2].indices.map { IndexPath(row: $0, section: 2) }
 
         insertRows(at: indexPaths, with: .automatic)
     }
@@ -399,6 +544,7 @@ class SidebarTableView: UITableView,
 
         if rows > 0 {
             self.sidebar.items[2].removeAll()
+            allTagNames.removeAll()
 
             var indexPaths = [IndexPath]()
             for index in stride(from: rows - 1, to: -1, by: -1) {
@@ -443,29 +589,12 @@ class SidebarTableView: UITableView,
     }
 
     public func insert(tags: [String]) {
-        let currentTags = sidebar.items[2].compactMap({ $0.name })
-        var toInsert = [String]()
+        let newTags = Set(tags).subtracting(allTagNames)
+        guard !newTags.isEmpty else { return }
 
-        for tag in tags {
-            if currentTags.contains(tag) {
-                continue
-            }
-            toInsert.append(tag)
-        }
-
-        guard toInsert.count > 0 else { return }
-
-        let nonSorted = currentTags + toInsert
-        let sorted = nonSorted.sorted()
-
-        var indexPaths = [IndexPath]()
-        for tag in toInsert {
-            guard let index = sorted.firstIndex(of: tag) else { continue }
-            indexPaths.append(IndexPath(row: index, section: 2))
-        }
-
-        sidebar.items[2] = sorted.compactMap({ SidebarItem(name: $0, type: .Tag) })
-        insertRows(at: indexPaths, with: .fade)
+        allTagNames.formUnion(newTags)
+        rebuildTagItems()
+        reloadSections(IndexSet(integer: SidebarSection.Tags.rawValue), with: .fade)
     }
 
     public func delete(tags: [String]) {
@@ -495,21 +624,10 @@ class SidebarTableView: UITableView,
             }
         }
 
-        let currentTags = sidebar.items[2].compactMap({ $0.name })
-        var toRemovePaths = [IndexPath]()
-        var toRemoveTags = [String]()
-
-        for tag in tags {
-            if !allTags.contains(tag) {
-                if let row = currentTags.firstIndex(of: tag) {
-                    toRemovePaths.append(IndexPath(row: row, section: 2))
-                    toRemoveTags.append(tag)
-                }
-            }
-        }
-
-        sidebar.items[2].removeAll(where: { toRemoveTags.contains($0.name) })
-        deleteRows(at: toRemovePaths, with: .fade)
+        let toRemoveTags = tags.filter { !allTags.contains($0) }
+        allTagNames = Set(allTags)
+        rebuildTagItems()
+        reloadSections(IndexSet(integer: SidebarSection.Tags.rawValue), with: .fade)
 
         deSelectTagIfNonExist(tags: toRemoveTags)
     }
@@ -611,37 +729,48 @@ class SidebarTableView: UITableView,
     public func insertRows(projects: [Project]) {
         guard sidebar.items.indices.contains(1) else { return }
 
-        var localItems = sidebar.items[1]
-        let existingProjects = localItems.compactMap { $0.project }
+        var selectedProject: Project?
+        var selectedTag: String?
+        var selectedType: SidebarItemType?
+        if let selectedPath = indexPathForSelectedRow,
+           sidebar.items.indices.contains(selectedPath.section),
+           sidebar.items[selectedPath.section].indices.contains(selectedPath.row) {
+            let selectedItem = sidebar.items[selectedPath.section][selectedPath.row]
+            selectedProject = selectedItem.project
+            selectedTag = selectedItem.type == .Tag ? selectedItem.name : nil
+            selectedType = selectedItem.type
+        }
+
+        let existingProjects = sidebar.items[1].compactMap { $0.project }
 
         let toInsert = projects
             .filter { !existingProjects.contains($0) && $0.settings.showInSidebar }
-            .sorted {
-                $0.label.localizedCaseInsensitiveCompare($1.label) == .orderedAscending
-            }
 
         guard !toInsert.isEmpty else { return }
 
-        performBatchUpdates({
-            for project in toInsert {
-                let insertIndex = localItems.firstIndex {
-                    $0.name.localizedCaseInsensitiveCompare(project.label) == .orderedDescending
-                } ?? localItems.count
+        sidebar.reloadProjects()
+        performBatchUpdates {
+            reloadSections(IndexSet(integer: SidebarSection.Projects.rawValue), with: .fade)
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
 
-                let item = SidebarItem(
-                    name: project.label,
-                    project: project,
-                    type: .Project
-                )
-                
-                localItems.insert(item, at: insertIndex)
-                sidebar.items[1].insert(item, at: insertIndex)
-
-                insertRows(at: [IndexPath(row: insertIndex, section: 1)], with: .fade)
+            let restoredPath: IndexPath?
+            if let selectedProject = selectedProject {
+                restoredPath = self.getIndexPathBy(project: selectedProject)
+            } else if let selectedTag = selectedTag {
+                restoredPath = self.getIndexPathBy(tag: selectedTag)
+            } else if let selectedType = selectedType {
+                restoredPath = self.getIndexPathBy(type: selectedType)
+            } else {
+                restoredPath = nil
             }
-        }, completion: { _ in
+
+            if let restoredPath = restoredPath {
+                self.selectRow(at: restoredPath, animated: false, scrollPosition: .none)
+            }
+
             UIApplication.getVC().resizeSidebar()
-        })
+        }
     }
 
     
@@ -698,10 +827,9 @@ class SidebarTableView: UITableView,
     }
 
     public func remove(tag: String) {
-        guard let indexPath = getIndexPathBy(tag: tag) else { return }
-
-        sidebar.items[2].removeAll(where: { $0.name == tag})
-        deleteRows(at: [indexPath], with: .automatic)
+        allTagNames.remove(tag)
+        rebuildTagItems()
+        reloadSections(IndexSet(integer: SidebarSection.Tags.rawValue), with: .automatic)
 
         selectCurrentProject()
     }

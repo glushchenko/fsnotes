@@ -1467,6 +1467,9 @@
         }
       }
     },
+    "Collapse folder" : {
+      "comment" : "Sidebar accessibility"
+    },
     "Compatible with Bear and Ulysses (textbundle), markdown, txt." : {
       "localizations" : {
         "cs" : {
@@ -3232,6 +3235,9 @@
           }
         }
       }
+    },
+    "Expand folder" : {
+      "comment" : "Sidebar accessibility"
     },
     "Extension" : {
       "comment" : "Settings",

@@ -296,6 +296,11 @@ class Storage {
                 _ = item.loadNotes(cacheOnly: cacheOnly)
             }
         }
+
+        // Newly discovered folders must have their parent/child relationships
+        // before sidebar observers render them. Otherwise a new subfolder is
+        // briefly (or permanently) treated as a root project.
+        loadProjectRelations()
         
         return insert
     }
@@ -1262,7 +1267,6 @@ class Storage {
         return nil
     }
 
-    #if os(OSX)
     public func saveProjectsExpandState() {
         var urls = [URL]()
         for project in projects {
@@ -1294,12 +1298,9 @@ class Storage {
         }
 
         for project in projects {
-            if urls.contains(project.url) {
-                project.isExpanded = true
-            }
+            project.isExpanded = urls.contains(project.url)
         }
     }
-    #endif
 
     public func getRevisionsHistory() -> URL {
         let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
