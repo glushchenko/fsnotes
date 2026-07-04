@@ -1282,10 +1282,22 @@ class ViewController: EditorViewController,
     }
         
     public func updateCounters(note: Note? = nil, charRange: NSRange? = nil) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.updateCounters(note: note, charRange: charRange)
+            }
+            return
+        }
+
         guard let note = note else {
             self.counter.stringValue = String()
             return
         }
+
+        // NSMutableAttributedString is not safe to read while the editor mutates it.
+        // Take an immutable snapshot on the main thread and only count that snapshot
+        // in the background operation.
+        let content = note.content.string
         
         counterQueue.cancelAllOperations()
         
@@ -1294,12 +1306,12 @@ class ViewController: EditorViewController,
             var title = String()
             
             if let charRange = charRange, charRange.length > 0 {
-                if let string = note.content.string.substring(nsRange: charRange) {
+                if let string = content.substring(nsRange: charRange) {
                     title = "W: \(string.countWords()) | C: \(string.countChars())"
                     
                 }
             } else {
-                title = "W: \(note.content.string.countWords()) | C: \(note.content.string.countChars())"
+                title = "W: \(content.countWords()) | C: \(content.countChars())"
             }
             
             if operation.isCancelled { return }
@@ -1375,29 +1387,21 @@ class ViewController: EditorViewController,
             
             let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
 
-            if orderedNotesList == self.notesTableView.getNoteList() {
-                
-                // important for cleanSearchAndEditArea func call
-                completion()
-                return
-            }
-
-            if operation.isCancelled {
-                return
-            }
-            
-            guard orderedNotesList.count > 0 else {
-                DispatchQueue.main.async {
-                    self.editor.clear()
-                    self.notesTableView.setNoteList(notes: orderedNotesList)
-                    self.notesTableView.reloadData()
-                    self.updateNotesCounter()
-                    completion()
-                }
-                return
-            }
-
             DispatchQueue.main.async {
+                guard !operation.isCancelled else { return }
+
+                // NotesTableView owns AppKit state and its backing array must only
+                // be read or mutated on the main thread.
+                if orderedNotesList == self.notesTableView.getNoteList() {
+                    // Important for cleanSearchAndEditArea completion handling.
+                    completion()
+                    return
+                }
+
+                if orderedNotesList.isEmpty {
+                    self.editor.clear()
+                }
+
                 self.notesTableView.setNoteList(notes: orderedNotesList)
                 self.notesTableView.reloadData()
                 self.updateNotesCounter()

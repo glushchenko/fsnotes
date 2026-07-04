@@ -49,6 +49,7 @@ public class Note: NSObject  {
     public var isParsed = false
 
     private var decryptedTemporarySrc: URL?
+    private let writeLock = NSRecursiveLock()
 
     public var isLoaded = false
     public var isLoadedFromCache = false
@@ -1012,6 +1013,9 @@ public class Note: NSObject  {
     }
 
     public func save(content: NSMutableAttributedString) {
+        writeLock.lock()
+        defer { writeLock.unlock() }
+
         self.content = content
 
         let copy = content.unloadAttachments()
@@ -1039,6 +1043,9 @@ public class Note: NSObject  {
     }
 
     private func write(attributedString: NSAttributedString) -> Bool {
+        writeLock.lock()
+        defer { writeLock.unlock() }
+
         let url = getURL()
         let attributes = getFileAttributes()
         
@@ -1077,7 +1084,7 @@ public class Note: NSObject  {
                 }
             }
         } catch {
-            print("Write error \(String(describing: error))")
+            NSLog("Write error: %@", error.localizedDescription)
             return false
         }
 

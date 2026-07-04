@@ -560,7 +560,7 @@ public class Project: NSObject {
         for removeURL in removed {
             if let note = memoryNotes.first(where: { $0.url == removeURL }) {
                 foundRemoved.append(note)
-                storage.noteList.removeAll(where: { $0 == note })
+                storage.removeBy(note: note)
             }
         }
 
@@ -568,7 +568,7 @@ public class Project: NSObject {
             if let note = fileSystemNotes.first(where: { $0.url == addURL }) {
                 note.load()
                 foundAdded.append(note)
-                storage.noteList.append(note)
+                storage.add(note)
             }
         }
 

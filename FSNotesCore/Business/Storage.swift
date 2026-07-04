@@ -18,7 +18,20 @@ import UIKit
 class Storage {
     public static var instance: Storage? = nil
 
-    public var noteList = [Note]()
+    private let noteListLock = NSRecursiveLock()
+    private var _noteList = [Note]()
+    public private(set) var noteList: [Note] {
+        get {
+            noteListLock.lock()
+            defer { noteListLock.unlock() }
+            return _noteList
+        }
+        set {
+            noteListLock.lock()
+            defer { noteListLock.unlock() }
+            _noteList = newValue
+        }
+    }
     public var projects = [Project]()
     private var imageFolders = [URL]()
     public var tags = [String]()
@@ -354,7 +367,10 @@ class Storage {
     }
     
     public func removeBy(project: Project) {
-        self.noteList.removeAll(where: { $0.project.url ==
+        noteListLock.lock()
+        defer { noteListLock.unlock() }
+
+        _noteList.removeAll(where: { $0.project.url ==
             project.url })
         
         projects.removeAll(where: { $0.url == project.url })
@@ -559,15 +575,21 @@ class Storage {
     }
     
     func add(_ note: Note) {
-        if !noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
-           noteList.append(note)
+        noteListLock.lock()
+        defer { noteListLock.unlock() }
+
+        if !_noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
+           _noteList.append(note)
         } else {
             print("Note already exists: \(note.name) (\(note.url))")
         }
     }
 
     public func contains(note: Note) -> Bool {
-        if noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
+        noteListLock.lock()
+        defer { noteListLock.unlock() }
+
+        if _noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
            return true
         }
 
@@ -575,21 +597,30 @@ class Storage {
     }
     
     func removeBy(note: Note) {
-        if let i = noteList.firstIndex(where: {$0 === note}) {
-            noteList.remove(at: i)
+        noteListLock.lock()
+        defer { noteListLock.unlock() }
+
+        if let i = _noteList.firstIndex(where: {$0 === note}) {
+            _noteList.remove(at: i)
         }
     }
     
     func getNextId() -> Int {
-        return noteList.count
+        noteListLock.lock()
+        defer { noteListLock.unlock() }
+
+        return _noteList.count
     }
     
     func getBy(url: URL, caseSensitive: Bool = false) -> Note? {
+        noteListLock.lock()
+        defer { noteListLock.unlock() }
+
         let standardized = url.standardized
 
         if caseSensitive {
             return
-                noteList.first(where: {
+                _noteList.first(where: {
                     return (
                         $0.url.path == standardized.path
                     )
@@ -597,7 +628,7 @@ class Storage {
         }
 
         return
-            noteList.first(where: {
+            _noteList.first(where: {
                 return (
                     $0.url.path.lowercased() == standardized.path.lowercased()
                 )
@@ -924,7 +955,10 @@ class Storage {
     }
 
     public func getNotesBy(project: Project) -> [Note] {
-        return noteList.filter({ $0.project == project })
+        noteListLock.lock()
+        defer { noteListLock.unlock() }
+
+        return _noteList.filter({ $0.project == project })
     }
 
     public func loadProjects(from urls: [URL]) {
