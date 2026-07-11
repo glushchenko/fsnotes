@@ -211,7 +211,26 @@ class MiniPreviewCellView: NoteCellView {
         updateCardAppearance()
     }
 
+    // Stripped card text per note version: content is read once per edit
+    // instead of on every cell render (it can be mutated by background
+    // indexing, so fewer reads also mean fewer chances to race with it).
+    private static let cardTextCache = NSCache<NSString, NSString>()
+
     private func getCardPreviewText(note: Note) -> String {
+        let modified = note.modifiedLocalAt.timeIntervalSince1970
+        let key = "\(note.url.path)|\(modified)|\(UserDefaultsManagement.firstLineAsTitle)" as NSString
+
+        if let cached = MiniPreviewCellView.cardTextCache.object(forKey: key) {
+            return cached as String
+        }
+
+        let text = buildCardPreviewText(note: note)
+        MiniPreviewCellView.cardTextCache.setObject(text as NSString, forKey: key)
+
+        return text
+    }
+
+    private func buildCardPreviewText(note: Note) -> String {
         var text = String(note.content.string.prefix(MiniPreviewCellView.previewMaxChars))
 
         // The first line is already shown as the note title below the card
