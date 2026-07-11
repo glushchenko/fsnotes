@@ -1266,7 +1266,7 @@ CA
             <objects>
                 <viewController title="Layout" id="P2a-yk-5Rx" customClass="PreferencesUserInterfaceViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" horizontalHuggingPriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
-                        <rect key="frame" x="0.0" y="0.0" width="550" height="446"/>
+                        <rect key="frame" x="0.0" y="0.0" width="550" height="468"/>
                         <subviews>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9b2-ti-sGJ">
                                 <rect key="frame" x="20" y="236" width="510" height="5"/>
@@ -1345,6 +1345,16 @@ CA
                                 </buttonCell>
                                 <connections>
                                     <action selector="boldTitles:" target="P2a-yk-5Rx" id="dim-22-act"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mpv-01-chk">
+                                <rect key="frame" x="35" y="57" width="170" height="16"/>
+                                <buttonCell key="cell" type="check" title="MiniPreview note list" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mpv-02-cel">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="miniPreview:" target="P2a-yk-5Rx" id="mpv-03-act"/>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="thJ-9r-qKd">
@@ -1469,7 +1479,10 @@ CA
                             <constraint firstItem="Yn6-yP-tkd" firstAttribute="leading" secondItem="Hy2-6l-V6s" secondAttribute="leading" id="BOL-TI-Qnj"/>
                             <constraint firstAttribute="bottom" secondItem="4gq-Ny-8kZ" secondAttribute="bottom" constant="35" id="DAN-1V-Dpo"/>
                             <constraint firstItem="BWu-lt-Hmt" firstAttribute="top" secondItem="9b2-ti-sGJ" secondAttribute="bottom" constant="20" id="H6i-af-SIR"/>
-                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="dim-20-chk" secondAttribute="bottom" constant="6" symbolic="YES" id="HlI-v1-5rk"/>
+                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="mpv-01-chk" secondAttribute="bottom" constant="6" symbolic="YES" id="HlI-v1-5rk"/>
+                            <constraint firstItem="mpv-01-chk" firstAttribute="leading" secondItem="dim-20-chk" secondAttribute="leading" id="mpv-05-lea"/>
+                            <constraint firstItem="mpv-01-chk" firstAttribute="top" secondItem="dim-20-chk" secondAttribute="bottom" constant="6" symbolic="YES" id="mpv-04-top"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mpv-01-chk" secondAttribute="trailing" constant="20" symbolic="YES" id="mpv-06-tra"/>
                             <constraint firstItem="nct-01-cnt" firstAttribute="leading" secondItem="Yn6-yP-tkd" secondAttribute="leading" id="nct-05-lea"/>
                             <constraint firstItem="nct-01-cnt" firstAttribute="top" secondItem="Yn6-yP-tkd" secondAttribute="bottom" constant="6" symbolic="YES" id="nct-06-top"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nct-01-cnt" secondAttribute="trailing" constant="20" symbolic="YES" id="nct-07-tra"/>
@@ -1530,6 +1543,7 @@ CA
                         <outlet property="textBrightness" destination="dim-03-sld" id="dim-50-out"/>
                         <outlet property="titleFontSize" destination="dim-09-pop" id="dim-51-out"/>
                         <outlet property="boldTitles" destination="dim-20-chk" id="dim-52-out"/>
+                        <outlet property="miniPreview" destination="mpv-01-chk" id="mpv-07-out"/>
                     </connections>
                 </viewController>
                 <customObject id="7Tr-yU-uWi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

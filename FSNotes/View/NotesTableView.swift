@@ -208,6 +208,10 @@ class NotesTableView: NSTableView,
             note.loadPreviewInfo()
         }
 
+        if UserDefaultsManagement.miniPreview && !UserDefaultsManagement.horizontalOrientation {
+            return MiniPreviewCellView.rowHeight
+        }
+
         if !UserDefaultsManagement.horizontalOrientation
             && !UserDefaultsManagement.hidePreviewImages,
             let urls = note.imageUrl,
@@ -410,6 +414,25 @@ class NotesTableView: NSTableView,
     }
     
     func makeCell(note: Note) -> NoteCellView {
+        if UserDefaultsManagement.miniPreview && !UserDefaultsManagement.horizontalOrientation {
+            let identifier = NSUserInterfaceItemIdentifier(rawValue: "MiniPreviewCellView")
+            let cell: MiniPreviewCellView
+
+            if let reused = makeView(withIdentifier: identifier, owner: self) as? MiniPreviewCellView {
+                cell = reused
+            } else {
+                cell = MiniPreviewCellView(frame: .zero)
+                cell.identifier = identifier
+            }
+
+            cell.imageKeys = []
+            cell.timestamp = nil
+            cell.configure(note: note)
+            cell.attachHeaders(note: note)
+
+            return cell
+        }
+
         let cell = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
 
         cell.imageKeys = []
@@ -654,7 +677,12 @@ class NotesTableView: NSTableView,
         
         if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
             cell.date.stringValue = note.getDateForLabel()
-            cell.loadImagesPreview(position: i, urls: urls)
+
+            // MiniPreview cards render no image previews
+            if !(cell is MiniPreviewCellView) {
+                cell.loadImagesPreview(position: i, urls: urls)
+            }
+
             cell.attachHeaders(note: note)
             cell.renderPin()
             cell.applyPreviewStyle()

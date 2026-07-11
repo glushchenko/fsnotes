@@ -58,6 +58,44 @@ public extension String {
             .replacingOccurrences(of: "\u{FFFC}", with: "")
     }
 
+    /// Strips common markdown syntax for plain-text display (MiniPreview cards).
+    /// Builds on trimMDSyntax(), additionally handling emphasis markers,
+    /// links, blockquotes, list markers and common HTML entities.
+    func stripMarkdownSyntax() -> String {
+        var result = trimMDSyntax()
+
+        let regexReplacements: [(String, String)] = [
+            ("!\\[([^\\]]*)\\]\\(([^)]*)\\)", "$1"),                 // images -> alt text
+            ("\\[([^\\]]+)\\]\\(([^)]*)\\)", "$1"),                  // links -> link text
+            ("(?m)^\\s{0,3}#{1,6}[ \\t]+", ""),                      // heading markers
+            ("(?m)^\\s{0,3}>[ \\t]?", ""),                           // blockquotes
+            ("(\\*{1,3}|_{1,3}|~~)(?=\\S)(.+?)(?<=\\S)\\1", "$2"),   // bold/italic/strike
+            ("`([^`\\n]+)`", "$1"),                                  // inline code
+            ("(?m)^[ \\t]*([-*_][ \\t]*){3,}$", ""),                 // horizontal rules
+            ("(?m)^\\s*[-+*][ \\t]+", "• "),                        // unordered lists -> bullet
+            ("[*_]{2,}|~~", "")                                      // leftover markers
+        ]
+
+        for (pattern, template) in regexReplacements {
+            result = result.replacingOccurrences(
+                of: pattern,
+                with: template,
+                options: .regularExpression
+            )
+        }
+
+        let entities: [(String, String)] = [
+            ("&quot;", "\""), ("&#34;", "\""), ("&apos;", "'"), ("&#39;", "'"),
+            ("&lt;", "<"), ("&gt;", ">"), ("&nbsp;", " "), ("&amp;", "&")
+        ]
+
+        for (entity, character) in entities {
+            result = result.replacingOccurrences(of: entity, with: character)
+        }
+
+        return result
+    }
+
     func getPrefixMatchSequentially(char: String) -> String? {
         var result = String()
 

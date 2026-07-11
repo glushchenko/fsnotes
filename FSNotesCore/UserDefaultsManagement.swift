@@ -118,6 +118,7 @@ public class UserDefaultsManagement {
         static let MarginSizeKey = "marginSize"
         static let MasterPasswordHint = "masterPasswordHint"
         static let MathJaxPreview = "mathJaxPreview"
+        static let MiniPreview = "miniPreview"
         static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
         static let NotesListTextBrightness = "notesListTextBrightness"
@@ -1080,6 +1081,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.NotesListTextBrightness)
+        }
+    }
+
+    static var miniPreview: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.MiniPreview) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.MiniPreview)
         }
     }
 

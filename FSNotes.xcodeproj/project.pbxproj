@@ -363,6 +363,8 @@
 		D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
+		1DC0FFEE2F1A000200000002 /* MiniPreviewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC0FFEE2F1A000100000001 /* MiniPreviewCellView.swift */; };
+		1DC0FFEE2F1A000300000003 /* MiniPreviewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC0FFEE2F1A000100000001 /* MiniPreviewCellView.swift */; };
 		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
 		D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73673A720D10CF2000BA61D /* CloudDriveManager.swift */; };
 		D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDA827B5DD370012ED70 /* EditorSelectionRect.swift */; };
@@ -1065,6 +1067,7 @@
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
 		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
+		1DC0FFEE2F1A000100000001 /* MiniPreviewCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPreviewCellView.swift; sourceTree = "<group>"; };
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		D73673A720D10CF2000BA61D /* CloudDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDriveManager.swift; sourceTree = "<group>"; };
 		D736DDA827B5DD370012ED70 /* EditorSelectionRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSelectionRect.swift; sourceTree = "<group>"; };
@@ -1886,6 +1889,7 @@
 				1102DDB02EE4C277005029A6 /* EditTextView+Complete.swift */,
 				110E40A32EA039AA00C62F49 /* EditTextView+DragOperation.swift */,
 				11A6A8F92EF06B90005D000A /* EditTextView+MoveLines.swift */,
+				1DC0FFEE2F1A000100000001 /* MiniPreviewCellView.swift */,
 				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
 				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
 				D7A415131F2FBDA00099B82C /* NotesTableView.swift */,
@@ -2943,6 +2947,7 @@
 				11BD8FA02EDE0235000673A7 /* AtomOneLight.swift in Sources */,
 				11D702AD2E5B8E0C004DBAEC /* HtmlExtractor.swift in Sources */,
 				D7D1DE68216D05A800AC1845 /* NameTextField.swift in Sources */,
+				1DC0FFEE2F1A000200000002 /* MiniPreviewCellView.swift in Sources */,
 				D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */,
 				D7CA7FD4232652E300E9717A /* PreferencesGitViewController.swift in Sources */,
 				D7CD5CCD21820B7B0009D63B /* UserDefaultsManagement+.swift in Sources */,
@@ -3203,6 +3208,7 @@
 				D73BCCB428EB5EC3008B3BBC /* TagIterator.swift in Sources */,
 				D73BCCDE28EB5EC4008B3BBC /* StatusIterator.swift in Sources */,
 				D73BCCA228EB5EC3008B3BBC /* Wrapper.swift in Sources */,
+				1DC0FFEE2F1A000300000003 /* MiniPreviewCellView.swift in Sources */,
 				D7E81C371F925B5F00416A91 /* NoteRowView.swift in Sources */,
 				110E40A42EA039CE00C62F49 /* EditTextView+DragOperation.swift in Sources */,
 				D772C8852217362C007E440B /* ViewController+Print.swift in Sources */,

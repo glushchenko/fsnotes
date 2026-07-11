@@ -23,10 +23,11 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var textBrightness: NSSlider!
     @IBOutlet weak var titleFontSize: NSPopUpButton!
     @IBOutlet weak var boldTitles: NSButton!
+    @IBOutlet weak var miniPreview: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 560)
+        preferredContentSize = NSSize(width: 550, height: 582)
     }
 
     override func viewDidAppear() {
@@ -56,6 +57,8 @@ class PreferencesUserInterfaceViewController: NSViewController {
         titleFontSize.selectItem(withTag: UserDefaultsManagement.noteTitleFontSize)
 
         boldTitles.state = UserDefaultsManagement.boldNoteTitles ? .on : .off
+
+        miniPreview.state = UserDefaultsManagement.miniPreview ? .on : .off
 
         horizontalOrientation.state =
             UserDefaultsManagement
@@ -125,6 +128,16 @@ class PreferencesUserInterfaceViewController: NSViewController {
         UserDefaultsManagement.boldNoteTitles = (sender.state == .on)
 
         guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
+    @IBAction func miniPreview(_ sender: NSButton) {
+        UserDefaultsManagement.miniPreview = (sender.state == .on)
+
+        guard let vc = ViewController.shared() else { return }
+
+        // Full reload re-queries heightOfRow for every row, so the
+        // card/list switch applies live.
         vc.notesTableView.reloadData()
     }
 
