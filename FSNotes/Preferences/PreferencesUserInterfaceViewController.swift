@@ -19,10 +19,14 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var horizontalOrientation: NSButton!
     @IBOutlet weak var showDockIcon: NSButton!
     @IBOutlet weak var showInMenuBar: NSButton!
+    @IBOutlet weak var showNoteCounts: NSButton!
+    @IBOutlet weak var textBrightness: NSSlider!
+    @IBOutlet weak var titleFontSize: NSPopUpButton!
+    @IBOutlet weak var boldTitles: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 460)
+        preferredContentSize = NSSize(width: 550, height: 560)
     }
 
     override func viewDidAppear() {
@@ -44,7 +48,15 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
-        
+
+        showNoteCounts.state = UserDefaultsManagement.showNoteCountsInSidebar ? .on : .off
+
+        textBrightness.doubleValue = UserDefaultsManagement.notesListTextBrightness
+
+        titleFontSize.selectItem(withTag: UserDefaultsManagement.noteTitleFontSize)
+
+        boldTitles.state = UserDefaultsManagement.boldNoteTitles ? .on : .off
+
         horizontalOrientation.state =
             UserDefaultsManagement
             .horizontalOrientation ? .on : .off
@@ -81,6 +93,36 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
     @IBAction func hideDate(_ sender: NSButton) {
         UserDefaultsManagement.hideDate = (sender.state == .on)
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
+    @IBAction func showNoteCounts(_ sender: NSButton) {
+        UserDefaultsManagement.showNoteCountsInSidebar = (sender.state == .on)
+
+        guard let vc = ViewController.shared() else { return }
+        vc.sidebarOutlineView.reloadData()
+    }
+
+    @IBAction func changeTextBrightness(_ sender: NSSlider) {
+        UserDefaultsManagement.notesListTextBrightness = sender.doubleValue
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
+    @IBAction func changeTitleFontSize(_ sender: NSPopUpButton) {
+        guard let tag = sender.selectedItem?.tag else { return }
+
+        UserDefaultsManagement.noteTitleFontSize = tag
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
+    @IBAction func boldTitles(_ sender: NSButton) {
+        UserDefaultsManagement.boldNoteTitles = (sender.state == .on)
 
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()

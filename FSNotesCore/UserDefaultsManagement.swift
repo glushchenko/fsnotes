@@ -60,6 +60,7 @@ public class UserDefaultsManagement {
         static let BackupManually = "backupManually"
         static let BgColorKey = "bgColorKeyed"
         static let boldKey = "boldKeyed"
+        static let BoldNoteTitles = "boldNoteTitles"
         static let CacheDiff = "cacheDiff"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
@@ -119,6 +120,8 @@ public class UserDefaultsManagement {
         static let MathJaxPreview = "mathJaxPreview"
         static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
+        static let NotesListTextBrightness = "notesListTextBrightness"
+        static let NoteTitleFontSize = "noteTitleFontSize"
         static let Preview = "preview"
         static let PreviewFontSize = "previewFontSize"
         static let ProjectsKey = "projects"
@@ -142,6 +145,7 @@ public class UserDefaultsManagement {
         static let ShowDockIcon = "showDockIcon"
         static let shouldFocusSearchOnESCKeyDown = "shouldFocusSearchOnESCKeyDown"
         static let ShowInMenuBar = "showInMenuBar"
+        static let ShowNoteCountsInSidebar = "showNoteCountsInSidebar"
         static let SmartInsertDelete = "smartInsertDelete"
         static let SnapshotsInterval = "snapshotsInterval"
         static let SnapshotsIntervalMinutes = "snapshotsIntervalMinutes"
@@ -623,7 +627,19 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.ShowDockIcon)
         }
     }
-    
+
+    static var showNoteCountsInSidebar: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.ShowNoteCountsInSidebar) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.ShowNoteCountsInSidebar)
+        }
+    }
+
     static var editorLineSpacing: Float {
         get {
             if let result = shared?.object(forKey: Constants.LineSpacingEditorKey) as? Float {
@@ -1028,6 +1044,42 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.FirstLineAsTitle)
+        }
+    }
+
+    static var boldNoteTitles: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.BoldNoteTitles) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.BoldNoteTitles)
+        }
+    }
+
+    static var noteTitleFontSize: Int {
+        get {
+            if let result = shared?.object(forKey: Constants.NoteTitleFontSize) as? NSNumber {
+                return result.intValue
+            }
+            return 13
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.NoteTitleFontSize)
+        }
+    }
+
+    static var notesListTextBrightness: Double {
+        get {
+            if let result = shared?.object(forKey: Constants.NotesListTextBrightness) as? Double {
+                return result
+            }
+            return 1.0
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.NotesListTextBrightness)
         }
     }
 

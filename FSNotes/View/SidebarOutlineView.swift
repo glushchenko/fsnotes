@@ -457,6 +457,9 @@ class SidebarOutlineView: NSOutlineView,
 
         cell.icon.contentTintColor = NSColor.controlAccentColor
 
+        // Reset possible stale count from a reused cell; project rows set it below.
+        cell.updateCount(nil)
+
         if let tag = item as? FSTag {
             cell.type = .Tag
 
@@ -498,6 +501,8 @@ class SidebarOutlineView: NSOutlineView,
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
             cell.textField?.stringValue = project.label
+
+            cell.updateCount(UserDefaultsManagement.showNoteCountsInSidebar ? project.getNotes().count : nil)
 
         } else if let si = item as? SidebarItem {
             let name = si.type == .Separator ? "" : si.name

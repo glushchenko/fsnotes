@@ -1266,7 +1266,7 @@ CA
             <objects>
                 <viewController title="Layout" id="P2a-yk-5Rx" customClass="PreferencesUserInterfaceViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" horizontalHuggingPriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
-                        <rect key="frame" x="0.0" y="0.0" width="550" height="346"/>
+                        <rect key="frame" x="0.0" y="0.0" width="550" height="446"/>
                         <subviews>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9b2-ti-sGJ">
                                 <rect key="frame" x="20" y="236" width="510" height="5"/>
@@ -1327,6 +1327,26 @@ CA
                                     <action selector="firstLineAsTitle:" target="P2a-yk-5Rx" id="xpg-88-OBx"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nct-01-cnt">
+                                <rect key="frame" x="35" y="57" width="200" height="16"/>
+                                <buttonCell key="cell" type="check" title="Show note counts in sidebar" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nct-02-cel">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showNoteCounts:" target="P2a-yk-5Rx" id="nct-03-act"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dim-20-chk">
+                                <rect key="frame" x="35" y="57" width="130" height="16"/>
+                                <buttonCell key="cell" type="check" title="Bold note titles" bezelStyle="regularSquare" imagePosition="left" inset="2" id="dim-21-cel">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="boldTitles:" target="P2a-yk-5Rx" id="dim-22-act"/>
+                                </connections>
+                            </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="thJ-9r-qKd">
                                 <rect key="frame" x="20" y="157" width="510" height="5"/>
                             </box>
@@ -1359,6 +1379,51 @@ CA
                                 </popUpButtonCell>
                                 <connections>
                                     <action selector="changePreviewFontSize:" target="P2a-yk-5Rx" id="peK-BX-xIu"/>
+                                </connections>
+                            </popUpButton>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dim-01-lbl">
+                                <rect key="frame" x="130" y="231" width="147" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Note Title Brightness:" id="dim-02-lbc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dim-03-sld">
+                                <rect key="frame" x="300" y="231" width="150" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="dim-06-wid"/>
+                                </constraints>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.3" maxValue="1" doubleValue="1" sliderType="linear" id="dim-04-slc"/>
+                                <connections>
+                                    <action selector="changeTextBrightness:" target="P2a-yk-5Rx" id="dim-05-act"/>
+                                </connections>
+                            </slider>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dim-07-lbl">
+                                <rect key="frame" x="175" y="199" width="102" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Title Font Size:" id="dim-08-lbc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dim-09-pop">
+                                <rect key="frame" x="300" y="195" width="96" height="24"/>
+                                <popUpButtonCell key="cell" type="push" title="13" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="13" imageScaling="proportionallyDown" inset="2" selectedItem="dim-15-mi3" id="dim-10-ppc">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <menu key="menu" id="dim-11-mnu">
+                                        <items>
+                                            <menuItem title="11" tag="11" id="dim-13-mi1"/>
+                                            <menuItem title="12" tag="12" id="dim-14-mi2"/>
+                                            <menuItem title="13" state="on" tag="13" id="dim-15-mi3"/>
+                                            <menuItem title="14" tag="14" id="dim-16-mi4"/>
+                                            <menuItem title="16" tag="16" id="dim-17-mi6"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="changeTitleFontSize:" target="P2a-yk-5Rx" id="dim-12-act"/>
                                 </connections>
                             </popUpButton>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BWu-lt-Hmt">
@@ -1404,7 +1469,23 @@ CA
                             <constraint firstItem="Yn6-yP-tkd" firstAttribute="leading" secondItem="Hy2-6l-V6s" secondAttribute="leading" id="BOL-TI-Qnj"/>
                             <constraint firstAttribute="bottom" secondItem="4gq-Ny-8kZ" secondAttribute="bottom" constant="35" id="DAN-1V-Dpo"/>
                             <constraint firstItem="BWu-lt-Hmt" firstAttribute="top" secondItem="9b2-ti-sGJ" secondAttribute="bottom" constant="20" id="H6i-af-SIR"/>
-                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="Yn6-yP-tkd" secondAttribute="bottom" constant="6" symbolic="YES" id="HlI-v1-5rk"/>
+                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="dim-20-chk" secondAttribute="bottom" constant="6" symbolic="YES" id="HlI-v1-5rk"/>
+                            <constraint firstItem="nct-01-cnt" firstAttribute="leading" secondItem="Yn6-yP-tkd" secondAttribute="leading" id="nct-05-lea"/>
+                            <constraint firstItem="nct-01-cnt" firstAttribute="top" secondItem="Yn6-yP-tkd" secondAttribute="bottom" constant="6" symbolic="YES" id="nct-06-top"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nct-01-cnt" secondAttribute="trailing" constant="20" symbolic="YES" id="nct-07-tra"/>
+                            <constraint firstItem="dim-20-chk" firstAttribute="leading" secondItem="nct-01-cnt" secondAttribute="leading" id="dim-41-lea"/>
+                            <constraint firstItem="dim-20-chk" firstAttribute="top" secondItem="nct-01-cnt" secondAttribute="bottom" constant="6" symbolic="YES" id="dim-40-top"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dim-20-chk" secondAttribute="trailing" constant="20" symbolic="YES" id="dim-42-tra"/>
+                            <constraint firstItem="dim-01-lbl" firstAttribute="top" secondItem="GN8-Yw-N26" secondAttribute="bottom" constant="16" id="dim-30-top"/>
+                            <constraint firstItem="dim-01-lbl" firstAttribute="trailing" secondItem="GGR-Nj-xCY" secondAttribute="centerX" id="dim-31-tra"/>
+                            <constraint firstItem="dim-03-sld" firstAttribute="leading" secondItem="dim-01-lbl" secondAttribute="trailing" constant="25" id="dim-32-lea"/>
+                            <constraint firstItem="dim-03-sld" firstAttribute="centerY" secondItem="dim-01-lbl" secondAttribute="centerY" id="dim-33-cey"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dim-03-sld" secondAttribute="trailing" constant="35" id="dim-34-tge"/>
+                            <constraint firstItem="dim-07-lbl" firstAttribute="top" secondItem="dim-01-lbl" secondAttribute="bottom" constant="16" id="dim-35-top"/>
+                            <constraint firstItem="dim-07-lbl" firstAttribute="trailing" secondItem="GGR-Nj-xCY" secondAttribute="centerX" id="dim-36-tra"/>
+                            <constraint firstItem="dim-09-pop" firstAttribute="leading" secondItem="dim-07-lbl" secondAttribute="trailing" constant="25" id="dim-37-lea"/>
+                            <constraint firstItem="dim-09-pop" firstAttribute="firstBaseline" secondItem="dim-07-lbl" secondAttribute="firstBaseline" id="dim-38-bas"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dim-09-pop" secondAttribute="trailing" constant="35" id="dim-39-tge"/>
                             <constraint firstItem="thJ-9r-qKd" firstAttribute="top" secondItem="ax0-sQ-dzy" secondAttribute="bottom" constant="20" id="ICs-MT-tFX"/>
                             <constraint firstAttribute="trailing" secondItem="9b2-ti-sGJ" secondAttribute="trailing" constant="20" symbolic="YES" id="JeV-Ik-fQo"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="h8R-h7-V5R" secondAttribute="trailing" constant="35" id="KPN-gr-sZx"/>
@@ -1416,7 +1497,7 @@ CA
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BWu-lt-Hmt" secondAttribute="trailing" constant="251" id="Tjz-rm-KA4"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FFS-iV-L6i" secondAttribute="trailing" constant="20" symbolic="YES" id="UYU-pg-OGA"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Hy2-6l-V6s" secondAttribute="trailing" constant="20" symbolic="YES" id="VBP-ry-ssb"/>
-                            <constraint firstItem="9b2-ti-sGJ" firstAttribute="top" secondItem="h8R-h7-V5R" secondAttribute="bottom" constant="20" id="Vby-Rc-07A"/>
+                            <constraint firstItem="9b2-ti-sGJ" firstAttribute="top" secondItem="dim-09-pop" secondAttribute="bottom" constant="20" id="Vby-Rc-07A"/>
                             <constraint firstItem="X4v-hO-tFb" firstAttribute="leading" secondItem="MAi-TG-JXR" secondAttribute="trailing" constant="25" id="cJK-rm-4cP"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Yn6-yP-tkd" secondAttribute="trailing" constant="20" symbolic="YES" id="eSt-TT-Z2A"/>
                             <constraint firstItem="kBX-OV-8sO" firstAttribute="top" secondItem="thJ-9r-qKd" secondAttribute="bottom" constant="20" id="fav-MJ-PDz"/>
@@ -1445,6 +1526,10 @@ CA
                         <outlet property="previewFontSize" destination="h8R-h7-V5R" id="yTV-Pf-FSJ"/>
                         <outlet property="showDockIcon" destination="BWu-lt-Hmt" id="ttK-Oh-uLh"/>
                         <outlet property="showInMenuBar" destination="ax0-sQ-dzy" id="vW6-kA-hRk"/>
+                        <outlet property="showNoteCounts" destination="nct-01-cnt" id="nct-04-out"/>
+                        <outlet property="textBrightness" destination="dim-03-sld" id="dim-50-out"/>
+                        <outlet property="titleFontSize" destination="dim-09-pop" id="dim-51-out"/>
+                        <outlet property="boldTitles" destination="dim-20-chk" id="dim-52-out"/>
                     </connections>
                 </viewController>
                 <customObject id="7Tr-yU-uWi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1545,7 +1630,7 @@ CA
                                                                                 <constraint firstItem="kTp-qw-RCd" firstAttribute="leading" secondItem="1dd-W4-MiY" secondAttribute="trailing" constant="5" id="bav-Au-PqY"/>
                                                                                 <constraint firstItem="kTp-qw-RCd" firstAttribute="centerY" secondItem="I0q-sX-uBq" secondAttribute="centerY" id="fox-W9-Kiy"/>
                                                                                 <constraint firstItem="1dd-W4-MiY" firstAttribute="centerY" secondItem="I0q-sX-uBq" secondAttribute="centerY" id="slG-ke-sdb"/>
-                                                                                <constraint firstAttribute="trailing" secondItem="kTp-qw-RCd" secondAttribute="trailing" constant="3" id="uQs-RT-dHB"/>
+                                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kTp-qw-RCd" secondAttribute="trailing" constant="3" id="uQs-RT-dHB"/>
                                                                             </constraints>
                                                                             <connections>
                                                                                 <outlet property="icon" destination="1dd-W4-MiY" id="cb4-9r-kd2"/>

@@ -12,7 +12,8 @@ class NameTextField: NSTextField {
     override func becomeFirstResponder() -> Bool {
         let status = super.becomeFirstResponder()
 
-        self.textColor = NSColor.init(named: "mainText")
+        self.textColor = NSColor.init(named: "mainText")?
+            .withAlphaComponent(CGFloat(UserDefaultsManagement.notesListTextBrightness))
 
         return status
     }

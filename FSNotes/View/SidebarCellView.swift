@@ -15,6 +15,52 @@ class SidebarCellView: NSTableCellView {
     public var type: SidebarItemType?
     public var storage = Storage.shared()
 
+    private var countLabel: NSTextField?
+
+    public func updateCount(_ count: Int?) {
+        guard let count = count, UserDefaultsManagement.showNoteCountsInSidebar else {
+            // Do not create the label (and its constraints) for cells that
+            // never showed a count — just reset reused ones.
+            countLabel?.stringValue = ""
+            countLabel?.isHidden = true
+            return
+        }
+
+        let field = countLabel ?? createCountLabel()
+        field.stringValue = String(count)
+        field.isHidden = false
+    }
+
+    private func createCountLabel() -> NSTextField {
+        let field = NSTextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.isEditable = false
+        field.isSelectable = false
+        field.isBordered = false
+        field.drawsBackground = false
+        field.backgroundColor = .clear
+        field.alignment = .right
+        field.font = NSFont.systemFont(ofSize: 11)
+        field.textColor = .secondaryLabelColor
+        field.lineBreakMode = .byClipping
+
+        field.setContentHuggingPriority(.required, for: .horizontal)
+        field.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+        addSubview(field)
+
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        NSLayoutConstraint.activate([
+            field.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            field.centerYAnchor.constraint(equalTo: label.centerYAnchor),
+            field.leadingAnchor.constraint(greaterThanOrEqualTo: label.trailingAnchor, constant: 4)
+        ])
+
+        countLabel = field
+        return field
+    }
+
     @IBAction func projectName(_ sender: NSTextField) {
         let cell = sender.superview as? SidebarCellView
 
