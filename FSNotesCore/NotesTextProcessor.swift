@@ -21,6 +21,11 @@ public class NotesTextProcessor {
 
     public static var fontColor: NSColor {
         get {
+            let brightness = UserDefaultsManagement.editorTextBrightness
+            if brightness < 1.0 {
+                return NSColor(named: "mainText")!.withAlphaComponent(CGFloat(brightness))
+            }
+
             return NSColor(named: "mainText")!
         }
     }

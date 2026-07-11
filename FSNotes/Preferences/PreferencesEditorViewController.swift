@@ -21,6 +21,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var imagesWidth: NSSlider!
     @IBOutlet weak var lineWidth: NSSlider!
     @IBOutlet weak var marginSize: NSSlider!
+    @IBOutlet weak var editorTextBrightness: NSSlider!
     @IBOutlet weak var inlineTags: NSButton!
     @IBOutlet weak var clickableLinks: NSButton!
     
@@ -33,7 +34,7 @@ class PreferencesEditorViewController: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 495)
+        preferredContentSize = NSSize(width: 550, height: 519)
     }
 
     override func viewDidAppear() {
@@ -54,6 +55,8 @@ class PreferencesEditorViewController: NSViewController {
         lineWidth.floatValue = UserDefaultsManagement.lineWidth
 
         marginSize.floatValue = UserDefaultsManagement.marginSize
+
+        editorTextBrightness.doubleValue = UserDefaultsManagement.editorTextBrightness
 
         inlineTags.state = UserDefaultsManagement.inlineTags ? .on : .off
         
@@ -198,6 +201,20 @@ class PreferencesEditorViewController: NSViewController {
                 MPreviewView.template = nil
                 NotesTextProcessor.resetCaches()
     
+                evc.refillEditArea(force: true)
+            }
+        }
+    }
+
+    @IBAction func editorTextBrightness(_ sender: NSSlider) {
+        UserDefaultsManagement.editorTextBrightness = sender.doubleValue
+
+        let editors = AppDelegate.getEditTextViews()
+        for editor in editors {
+            if let evc = editor.editorViewController {
+                MPreviewView.template = nil
+                NotesTextProcessor.resetCaches()
+
                 evc.refillEditArea(force: true)
             }
         }

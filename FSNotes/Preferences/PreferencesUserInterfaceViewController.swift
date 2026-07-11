@@ -24,10 +24,13 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var titleFontSize: NSPopUpButton!
     @IBOutlet weak var boldTitles: NSButton!
     @IBOutlet weak var miniPreview: NSButton!
+    @IBOutlet weak var miniPreviewFontSize: NSPopUpButton!
+    @IBOutlet weak var miniPreviewLines: NSPopUpButton!
+    @IBOutlet weak var miniPreviewBrightness: NSSlider!
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 582)
+        preferredContentSize = NSSize(width: 550, height: 666)
     }
 
     override func viewDidAppear() {
@@ -59,6 +62,12 @@ class PreferencesUserInterfaceViewController: NSViewController {
         boldTitles.state = UserDefaultsManagement.boldNoteTitles ? .on : .off
 
         miniPreview.state = UserDefaultsManagement.miniPreview ? .on : .off
+
+        miniPreviewFontSize.selectItem(withTag: UserDefaultsManagement.miniPreviewFontSize)
+
+        miniPreviewLines.selectItem(withTag: UserDefaultsManagement.miniPreviewLines)
+
+        miniPreviewBrightness.doubleValue = UserDefaultsManagement.miniPreviewTextBrightness
 
         horizontalOrientation.state =
             UserDefaultsManagement
@@ -138,6 +147,31 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         // Full reload re-queries heightOfRow for every row, so the
         // card/list switch applies live.
+        vc.notesTableView.reloadData()
+    }
+
+    @IBAction func changeMiniPreviewFontSize(_ sender: NSPopUpButton) {
+        guard let tag = sender.selectedItem?.tag else { return }
+
+        UserDefaultsManagement.miniPreviewFontSize = tag
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
+    @IBAction func changeMiniPreviewLines(_ sender: NSPopUpButton) {
+        guard let tag = sender.selectedItem?.tag else { return }
+
+        UserDefaultsManagement.miniPreviewLines = tag
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
+    @IBAction func changeMiniPreviewBrightness(_ sender: NSSlider) {
+        UserDefaultsManagement.miniPreviewTextBrightness = sender.doubleValue
+
+        guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
     }
 

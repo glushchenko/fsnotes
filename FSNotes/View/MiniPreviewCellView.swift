@@ -18,12 +18,19 @@ class MiniPreviewCellView: NoteCellView {
 
     private let cardView = NSView()
 
+    // Cells are reused across reloads; refreshed when preview prefs change.
+    private var cardHeightConstraint: NSLayoutConstraint?
+
     // Strong backing for the weak inherited image outlets; never displayed.
     private var offscreenImageViews = [NSImageView]()
 
-    private static let previewFontSize: CGFloat = 10
+    private static var previewFontSize: CGFloat {
+        return CGFloat(UserDefaultsManagement.miniPreviewFontSize)
+    }
     private static let previewLineSpacing: CGFloat = 2
-    private static let previewLines = 8
+    private static var previewLines: Int {
+        return UserDefaultsManagement.miniPreviewLines
+    }
     private static let previewMaxChars = 1500
     private static let cardPadding: CGFloat = 10
     private static let cardCornerRadius: CGFloat = 8
@@ -123,11 +130,14 @@ class MiniPreviewCellView: NoteCellView {
         let sideMargin = MiniPreviewCellView.sideMargin
         let cardPadding = MiniPreviewCellView.cardPadding
 
+        let cardHeight = cardView.heightAnchor.constraint(equalToConstant: MiniPreviewCellView.cardHeight)
+        cardHeightConstraint = cardHeight
+
         NSLayoutConstraint.activate([
             cardView.topAnchor.constraint(equalTo: topAnchor, constant: MiniPreviewCellView.cardTopMargin),
             cardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: sideMargin),
             cardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -sideMargin),
-            cardView.heightAnchor.constraint(equalToConstant: MiniPreviewCellView.cardHeight),
+            cardHeight,
 
             previewField.topAnchor.constraint(equalTo: cardView.topAnchor, constant: cardPadding),
             previewField.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: cardPadding),
@@ -223,15 +233,21 @@ class MiniPreviewCellView: NoteCellView {
         paragraph.lineSpacing = MiniPreviewCellView.previewLineSpacing
         paragraph.lineBreakMode = .byTruncatingTail
 
+        let previewBrightness = UserDefaultsManagement.miniPreviewTextBrightness
+        let previewColor = previewBrightness < 1.0
+            ? NSColor.labelColor.withAlphaComponent(CGFloat(previewBrightness))
+            : NSColor.labelColor
+
         preview.attributedStringValue = NSAttributedString(
             string: preview.stringValue,
             attributes: [
                 .font: previewFont,
                 .paragraphStyle: paragraph,
-                .foregroundColor: NSColor.labelColor
+                .foregroundColor: previewColor
             ]
         )
         preview.maximumNumberOfLines = MiniPreviewCellView.previewLines
+        cardHeightConstraint?.constant = MiniPreviewCellView.cardHeight
 
         let titleSize = CGFloat(UserDefaultsManagement.noteTitleFontSize)
         name.font = UserDefaultsManagement.boldNoteTitles

@@ -1266,7 +1266,7 @@ CA
             <objects>
                 <viewController title="Layout" id="P2a-yk-5Rx" customClass="PreferencesUserInterfaceViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" horizontalHuggingPriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="GGR-Nj-xCY">
-                        <rect key="frame" x="0.0" y="0.0" width="550" height="468"/>
+                        <rect key="frame" x="0.0" y="0.0" width="550" height="552"/>
                         <subviews>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9b2-ti-sGJ">
                                 <rect key="frame" x="20" y="236" width="510" height="5"/>
@@ -1357,6 +1357,78 @@ CA
                                     <action selector="miniPreview:" target="P2a-yk-5Rx" id="mpv-03-act"/>
                                 </connections>
                             </button>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mp2-01-lbl">
+                                <rect key="frame" x="55" y="33" width="120" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Preview font size:" id="mp2-02-lbc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mp2-03-pop">
+                                <rect key="frame" x="183" y="29" width="96" height="24"/>
+                                <popUpButtonCell key="cell" type="push" title="10" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="10" imageScaling="proportionallyDown" inset="2" selectedItem="mp2-07-mi2" id="mp2-04-ppc">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <menu key="menu" id="mp2-05-mnu">
+                                        <items>
+                                            <menuItem title="9" tag="9" id="mp2-06-mi1"/>
+                                            <menuItem title="10" state="on" tag="10" id="mp2-07-mi2"/>
+                                            <menuItem title="11" tag="11" id="mp2-08-mi3"/>
+                                            <menuItem title="12" tag="12" id="mp2-09-mi4"/>
+                                            <menuItem title="14" tag="14" id="mp2-10-mi5"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="changeMiniPreviewFontSize:" target="P2a-yk-5Rx" id="mp2-11-act"/>
+                                </connections>
+                            </popUpButton>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mp2-12-lbl">
+                                <rect key="frame" x="55" y="5" width="120" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Preview lines:" id="mp2-13-lbc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mp2-14-pop">
+                                <rect key="frame" x="183" y="1" width="96" height="24"/>
+                                <popUpButtonCell key="cell" type="push" title="8 lines" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="8" imageScaling="proportionallyDown" inset="2" selectedItem="mp2-19-mi3" id="mp2-15-ppc">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <menu key="menu" id="mp2-16-mnu">
+                                        <items>
+                                            <menuItem title="4 lines" tag="4" id="mp2-17-mi1"/>
+                                            <menuItem title="6 lines" tag="6" id="mp2-18-mi2"/>
+                                            <menuItem title="8 lines" state="on" tag="8" id="mp2-19-mi3"/>
+                                            <menuItem title="10 lines" tag="10" id="mp2-20-mi4"/>
+                                            <menuItem title="12 lines" tag="12" id="mp2-21-mi5"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="changeMiniPreviewLines:" target="P2a-yk-5Rx" id="mp2-22-act"/>
+                                </connections>
+                            </popUpButton>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mp2-23-lbl">
+                                <rect key="frame" x="55" y="-23" width="120" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Preview brightness:" id="mp2-24-lbc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mp2-25-sld">
+                                <rect key="frame" x="183" y="-23" width="150" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="mp2-27-wid"/>
+                                </constraints>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.3" maxValue="1" doubleValue="1" sliderType="linear" id="mp2-26-slc"/>
+                                <connections>
+                                    <action selector="changeMiniPreviewBrightness:" target="P2a-yk-5Rx" id="mp2-28-act"/>
+                                </connections>
+                            </slider>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="thJ-9r-qKd">
                                 <rect key="frame" x="20" y="157" width="510" height="5"/>
                             </box>
@@ -1479,7 +1551,22 @@ CA
                             <constraint firstItem="Yn6-yP-tkd" firstAttribute="leading" secondItem="Hy2-6l-V6s" secondAttribute="leading" id="BOL-TI-Qnj"/>
                             <constraint firstAttribute="bottom" secondItem="4gq-Ny-8kZ" secondAttribute="bottom" constant="35" id="DAN-1V-Dpo"/>
                             <constraint firstItem="BWu-lt-Hmt" firstAttribute="top" secondItem="9b2-ti-sGJ" secondAttribute="bottom" constant="20" id="H6i-af-SIR"/>
-                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="mpv-01-chk" secondAttribute="bottom" constant="6" symbolic="YES" id="HlI-v1-5rk"/>
+                            <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="mp2-23-lbl" secondAttribute="bottom" constant="12" id="HlI-v1-5rk"/>
+                            <constraint firstItem="mp2-01-lbl" firstAttribute="top" secondItem="mpv-01-chk" secondAttribute="bottom" constant="10" id="mp2-30-top"/>
+                            <constraint firstItem="mp2-01-lbl" firstAttribute="leading" secondItem="mpv-01-chk" secondAttribute="leading" constant="20" id="mp2-31-lea"/>
+                            <constraint firstItem="mp2-03-pop" firstAttribute="firstBaseline" secondItem="mp2-01-lbl" secondAttribute="firstBaseline" id="mp2-32-bas"/>
+                            <constraint firstItem="mp2-03-pop" firstAttribute="leading" secondItem="mp2-01-lbl" secondAttribute="trailing" constant="8" id="mp2-33-lea"/>
+                            <constraint firstItem="mp2-12-lbl" firstAttribute="top" secondItem="mp2-01-lbl" secondAttribute="bottom" constant="14" id="mp2-34-top"/>
+                            <constraint firstItem="mp2-12-lbl" firstAttribute="trailing" secondItem="mp2-01-lbl" secondAttribute="trailing" id="mp2-35-tra"/>
+                            <constraint firstItem="mp2-14-pop" firstAttribute="firstBaseline" secondItem="mp2-12-lbl" secondAttribute="firstBaseline" id="mp2-36-bas"/>
+                            <constraint firstItem="mp2-14-pop" firstAttribute="leading" secondItem="mp2-01-lbl" secondAttribute="trailing" constant="8" id="mp2-37-lea"/>
+                            <constraint firstItem="mp2-23-lbl" firstAttribute="top" secondItem="mp2-12-lbl" secondAttribute="bottom" constant="14" id="mp2-38-top"/>
+                            <constraint firstItem="mp2-23-lbl" firstAttribute="trailing" secondItem="mp2-01-lbl" secondAttribute="trailing" id="mp2-39-tra"/>
+                            <constraint firstItem="mp2-25-sld" firstAttribute="centerY" secondItem="mp2-23-lbl" secondAttribute="centerY" id="mp2-40-cey"/>
+                            <constraint firstItem="mp2-25-sld" firstAttribute="leading" secondItem="mp2-01-lbl" secondAttribute="trailing" constant="8" id="mp2-41-lea"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mp2-25-sld" secondAttribute="trailing" constant="35" id="mp2-42-tge"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mp2-03-pop" secondAttribute="trailing" constant="35" id="mp2-43-tge"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mp2-14-pop" secondAttribute="trailing" constant="35" id="mp2-44-tge"/>
                             <constraint firstItem="mpv-01-chk" firstAttribute="leading" secondItem="dim-20-chk" secondAttribute="leading" id="mpv-05-lea"/>
                             <constraint firstItem="mpv-01-chk" firstAttribute="top" secondItem="dim-20-chk" secondAttribute="bottom" constant="6" symbolic="YES" id="mpv-04-top"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mpv-01-chk" secondAttribute="trailing" constant="20" symbolic="YES" id="mpv-06-tra"/>
@@ -1544,6 +1631,9 @@ CA
                         <outlet property="titleFontSize" destination="dim-09-pop" id="dim-51-out"/>
                         <outlet property="boldTitles" destination="dim-20-chk" id="dim-52-out"/>
                         <outlet property="miniPreview" destination="mpv-01-chk" id="mpv-07-out"/>
+                        <outlet property="miniPreviewFontSize" destination="mp2-03-pop" id="mp2-50-out"/>
+                        <outlet property="miniPreviewLines" destination="mp2-14-pop" id="mp2-51-out"/>
+                        <outlet property="miniPreviewBrightness" destination="mp2-25-sld" id="mp2-52-out"/>
                     </connections>
                 </viewController>
                 <customObject id="7Tr-yU-uWi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -3588,7 +3678,7 @@ Olena Hlushcneko</string>
             <objects>
                 <viewController title="Editor" id="ssC-ed-19K" customClass="PreferencesEditorViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GY1-6c-5uL">
-                        <rect key="frame" x="0.0" y="0.0" width="468" height="567"/>
+                        <rect key="frame" x="0.0" y="0.0" width="468" height="591"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-4N-l26">
@@ -3693,6 +3783,21 @@ Olena Hlushcneko</string>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="200" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="10" sliderType="linear" id="UC2-tH-UtC"/>
                                 <connections>
                                     <action selector="marginSize:" target="ssC-ed-19K" id="Hhx-hm-H5O"/>
+                                </connections>
+                            </slider>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="edb-01-lbl">
+                                <rect key="frame" x="33" y="237" width="91" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Text Brightness:" id="edb-02-lbc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="edb-03-sld">
+                                <rect key="frame" x="147" y="237" width="286" height="16"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.3" maxValue="1" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="8" sliderType="linear" id="edb-04-slc"/>
+                                <connections>
+                                    <action selector="editorTextBrightness:" target="ssC-ed-19K" id="edb-05-act"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-Se-i0R">
@@ -3998,7 +4103,13 @@ Olena Hlushcneko</string>
                             <constraint firstItem="Kcg-vn-Dwj" firstAttribute="trailing" secondItem="mLR-t7-nz0" secondAttribute="trailing" id="t3P-9h-M9O"/>
                             <constraint firstItem="7Az-gx-yGL" firstAttribute="top" secondItem="B07-UG-KXb" secondAttribute="bottom" constant="10" symbolic="YES" id="t7Z-Fy-QdR"/>
                             <constraint firstItem="gk5-il-WSG" firstAttribute="trailing" secondItem="cj1-ab-Sv6" secondAttribute="trailing" id="uDF-5L-1Qp"/>
-                            <constraint firstItem="2ZF-VY-6Ij" firstAttribute="top" secondItem="3el-ze-TIn" secondAttribute="bottom" constant="20" id="uQn-Tx-nFn"/>
+                            <constraint firstItem="2ZF-VY-6Ij" firstAttribute="top" secondItem="edb-01-lbl" secondAttribute="bottom" constant="20" id="uQn-Tx-nFn"/>
+                            <constraint firstItem="edb-01-lbl" firstAttribute="top" secondItem="3el-ze-TIn" secondAttribute="bottom" constant="8" symbolic="YES" id="edb-06-top"/>
+                            <constraint firstItem="edb-01-lbl" firstAttribute="trailing" secondItem="3el-ze-TIn" secondAttribute="trailing" id="edb-07-tra"/>
+                            <constraint firstItem="edb-01-lbl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="edb-08-lea"/>
+                            <constraint firstItem="edb-03-sld" firstAttribute="centerY" secondItem="edb-01-lbl" secondAttribute="centerY" id="edb-09-cey"/>
+                            <constraint firstItem="edb-03-sld" firstAttribute="leading" secondItem="gl0-rI-S66" secondAttribute="leading" id="edb-10-lea"/>
+                            <constraint firstItem="edb-03-sld" firstAttribute="trailing" secondItem="gl0-rI-S66" secondAttribute="trailing" id="edb-11-tra"/>
                             <constraint firstItem="bEN-ep-bl6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="vH1-tR-yNz"/>
                             <constraint firstItem="9qv-bd-BU8" firstAttribute="centerY" secondItem="dKW-T5-3Vc" secondAttribute="centerY" id="viq-c7-D8b"/>
                             <constraint firstItem="QvM-a9-vnf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GY1-6c-5uL" secondAttribute="leading" constant="35" id="vxD-V3-CzO"/>
@@ -4027,6 +4138,7 @@ Olena Hlushcneko</string>
                         <outlet property="lineSpacing" destination="T2k-ya-69N" id="JH9-pd-ke1"/>
                         <outlet property="lineWidth" destination="DQU-Se-i0R" id="k9W-FU-OtS"/>
                         <outlet property="marginSize" destination="gl0-rI-S66" id="Apd-uE-KF3"/>
+                        <outlet property="editorTextBrightness" destination="edb-03-sld" id="edb-12-out"/>
                         <outlet property="markdownCodeTheme" destination="xZA-pB-1nm" id="lkX-04-F8B"/>
                         <outlet property="noteFontPreview" destination="7Az-gx-yGL" id="Glc-ZA-s8C"/>
                     </connections>

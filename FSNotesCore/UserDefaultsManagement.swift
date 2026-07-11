@@ -75,6 +75,7 @@ public class UserDefaultsManagement {
         static let CustomWebServer = "customWebServer"
         static let DefaultLanguageKey = "defaultLanguage"
         static let DefaultKeyboardKey = "defaultKeyboard"
+        static let EditorTextBrightness = "editorTextBrightness"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
@@ -119,6 +120,9 @@ public class UserDefaultsManagement {
         static let MasterPasswordHint = "masterPasswordHint"
         static let MathJaxPreview = "mathJaxPreview"
         static let MiniPreview = "miniPreview"
+        static let MiniPreviewFontSize = "miniPreviewFontSize"
+        static let MiniPreviewLines = "miniPreviewLines"
+        static let MiniPreviewTextBrightness = "miniPreviewTextBrightness"
         static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
         static let NotesListTextBrightness = "notesListTextBrightness"
@@ -1072,6 +1076,18 @@ public class UserDefaultsManagement {
         }
     }
 
+    static var editorTextBrightness: Double {
+        get {
+            if let result = shared?.object(forKey: Constants.EditorTextBrightness) as? Double {
+                return result
+            }
+            return 1.0
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.EditorTextBrightness)
+        }
+    }
+
     static var notesListTextBrightness: Double {
         get {
             if let result = shared?.object(forKey: Constants.NotesListTextBrightness) as? Double {
@@ -1093,6 +1109,42 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.MiniPreview)
+        }
+    }
+
+    static var miniPreviewFontSize: Int {
+        get {
+            if let result = shared?.object(forKey: Constants.MiniPreviewFontSize) as? NSNumber {
+                return result.intValue
+            }
+            return 10
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.MiniPreviewFontSize)
+        }
+    }
+
+    static var miniPreviewLines: Int {
+        get {
+            if let result = shared?.object(forKey: Constants.MiniPreviewLines) as? NSNumber {
+                return result.intValue
+            }
+            return 8
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.MiniPreviewLines)
+        }
+    }
+
+    static var miniPreviewTextBrightness: Double {
+        get {
+            if let result = shared?.object(forKey: Constants.MiniPreviewTextBrightness) as? Double {
+                return result
+            }
+            return 1.0
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.MiniPreviewTextBrightness)
         }
     }
 
