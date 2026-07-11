@@ -70,18 +70,6 @@ class NoteCellView: NSTableCellView {
         renderPin()
         name.layer?.zPosition = 1000
 
-        let titleSize = CGFloat(UserDefaultsManagement.noteTitleFontSize)
-        name.font = UserDefaultsManagement.boldNoteTitles
-            ? NSFont.systemFont(ofSize: titleSize, weight: .semibold)
-            : NSFont.systemFont(ofSize: titleSize)
-
-        let brightness = UserDefaultsManagement.notesListTextBrightness
-        if brightness < 1.0 {
-            name.textColor = NSColor(named: "mainText")?.withAlphaComponent(CGFloat(brightness))
-        } else {
-            name.textColor = .labelColor
-        }
-
         if let descriptor = date.font?.fontDescriptor {
             date.font = NSFont.init(descriptor: descriptor, size: 11)
         }
@@ -393,5 +381,23 @@ class NoteCellView: NSTableCellView {
         }
 
         self.date.stringValue = note.getDateForLabel()
+
+        applyTitleStyle()
+    }
+
+    // Kept out of draw(): font changes invalidate intrinsic content size,
+    // and layout must not be mutated during the drawing pass.
+    public func applyTitleStyle() {
+        let titleSize = CGFloat(UserDefaultsManagement.noteTitleFontSize)
+        name.font = UserDefaultsManagement.boldNoteTitles
+            ? NSFont.systemFont(ofSize: titleSize, weight: .semibold)
+            : NSFont.systemFont(ofSize: titleSize)
+
+        let brightness = UserDefaultsManagement.notesListTextBrightness
+        if brightness < 1.0 {
+            name.textColor = NSColor(named: "mainText")?.withAlphaComponent(CGFloat(brightness))
+        } else {
+            name.textColor = .labelColor
+        }
     }
 }

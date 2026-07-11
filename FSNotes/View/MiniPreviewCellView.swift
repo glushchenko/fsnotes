@@ -184,6 +184,8 @@ class MiniPreviewCellView: NoteCellView {
         preview.stringValue = getCardPreviewText(note: note)
 
         applyCardStyle()
+        renderPin()
+        updateCardAppearance()
     }
 
     // Called by NotesTableView.performReload; card text has its own fixed style.
@@ -191,24 +193,22 @@ class MiniPreviewCellView: NoteCellView {
         applyCardStyle()
     }
 
-    // Intentionally no super call: NoteCellView.draw() touches storyboard-only
-    // outlets (titleConstraint) and re-applies list styling that does not
-    // exist in the card layout.
-    override func draw(_ dirtyRect: NSRect) {
-        applyCardStyle()
-        renderPin()
-        updateCardAppearance()
-    }
+    // Intentionally empty, no super call: NoteCellView.draw() touches
+    // storyboard-only outlets (titleConstraint) and mutates fonts and
+    // constraints, which is not safe during the drawing pass (it corrupts
+    // the Auto Layout engine). All card styling happens in attachHeaders
+    // and the observers below; subviews and the card layer draw themselves.
+    override func draw(_ dirtyRect: NSRect) {}
 
     override var backgroundStyle: NSView.BackgroundStyle {
         didSet {
-            needsDisplay = true
+            updateCardAppearance()
         }
     }
 
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
-        needsDisplay = true
+        updateCardAppearance()
     }
 
     private func getCardPreviewText(note: Note) -> String {

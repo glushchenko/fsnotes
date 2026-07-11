@@ -209,6 +209,10 @@ class PreferencesEditorViewController: NSViewController {
     @IBAction func editorTextBrightness(_ sender: NSSlider) {
         UserDefaultsManagement.editorTextBrightness = sender.doubleValue
 
+        // Colors are baked into cached note attributes; drop them so the
+        // open note re-highlights with the new brightness.
+        Storage.shared().resetCacheAttributes()
+
         let editors = AppDelegate.getEditTextViews()
         for editor in editors {
             if let evc = editor.editorViewController {
