@@ -6,6 +6,8 @@
 //  Copyright © 2022 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Foundation
+
 class SearchQuery {
     var type: SidebarItemType? = nil
     var projects = [Project]()
@@ -87,9 +89,15 @@ class SearchQuery {
     }
 
     private func isMatched(note: Note, terms: [Substring]) -> Bool {
+        let name = note.name as NSString
+        let content = note.content.mutableString
+        let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
+
         for term in terms {
-            if note.name.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil ||
-                note.content.string.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil {
+            let term = String(term)
+
+            if name.range(of: term, options: options).location != NSNotFound ||
+                content.range(of: term, options: options).location != NSNotFound {
                 continue
             }
 
