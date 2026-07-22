@@ -139,15 +139,17 @@ class MoveViewController: UITableViewController {
                 return
             }
 
-            if let projects = Storage.shared().insert(url: newDir) {
-                OperationQueue.main.addOperation {
+            let projects = Storage.shared().insert(url: newDir)
+
+            OperationQueue.main.addOperation {
+                if let projects = projects {
                     UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
-                    
-                    self.projects?.append(contentsOf: projects)
-                    self.tableView.reloadData()
-                    
-                    self.notesTableView.viewDelegate?.sidebarTableView.reloadSidebar()
                 }
+
+                // The file-system observer may insert the project before this
+                // method does. Refresh the move destinations in either case.
+                self.projects = Storage.shared().getProjects()
+                self.tableView.reloadData()
             }
         }
 

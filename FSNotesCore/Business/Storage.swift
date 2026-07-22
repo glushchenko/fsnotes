@@ -19,6 +19,8 @@ class Storage {
     public static var instance: Storage? = nil
 
     private let noteListLock = NSRecursiveLock()
+    private let projectsLock = NSRecursiveLock()
+
     private var _noteList = [Note]()
     public private(set) var noteList: [Note] {
         get {
@@ -164,6 +166,9 @@ class Storage {
     }
 
     public func insertProject(project: Project) {
+        projectsLock.lock()
+        defer { projectsLock.unlock() }
+
         if projectExist(url: project.url) {
             print("Project exist: \(project.label)")
             return
@@ -280,6 +285,12 @@ class Storage {
     }
         
     public func insert(url: URL, bookmark: Bool = false, cacheOnly: Bool = false) -> [Project]? {
+        // Directory creation is also reported by the file-system observer. Keep
+        // the existence check and insertion in one critical section so both
+        // callers cannot create Project instances for the same directory.
+        projectsLock.lock()
+        defer { projectsLock.unlock() }
+
         if projectExist(url: url)
             || url.lastPathComponent == "i"
             || url.lastPathComponent == "files"
@@ -363,7 +374,13 @@ class Storage {
     }
             
     func projectExist(url: URL) -> Bool {
-        return projects.contains(where: {$0.url == url})
+        projectsLock.lock()
+        defer { projectsLock.unlock() }
+
+        let standardizedPath = url.standardizedFileURL.path
+        return projects.contains(where: {
+            $0.url.standardizedFileURL.path == standardizedPath
+        })
     }
     
     public func removeBy(project: Project) {

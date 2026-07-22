@@ -132,12 +132,15 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 return
             }
 
-            if let projects = Storage.shared().insert(url: newDir) {
-                self.tableView.reloadData()
-                
-                OperationQueue.main.addOperation {
+            let projects = Storage.shared().insert(url: newDir)
+
+            OperationQueue.main.addOperation {
+                if let projects = projects {
                     UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
                 }
+
+                self.projects = Storage.shared().getProjects()
+                self.tableView.reloadData()
             }
         }
 
