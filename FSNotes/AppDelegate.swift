@@ -376,24 +376,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     public func loadDockIcon() {
-        var image: Image?
-
-        switch UserDefaultsManagement.dockIcon {
-        case 0:
-            image = NSImage(named: "modern")
-            break
-        case 1:
-            image = NSImage(named: "AppIconClassic")
-            break
-        default:
-            break
-        }
-
-        guard let im = image else { return }
-
         let appDockTile = NSApplication.shared.dockTile
+
+        // Only the classic icon needs a custom Dock tile. For the default icon
+        // the tile is left to the system, so it follows the Dark/Clear/Tinted
+        // icon style on macOS 26+.
         if #available(OSX 10.12, *) {
-            appDockTile.contentView = NSImageView(image: im)
+            if UserDefaultsManagement.dockIcon == 1, let image = NSImage(named: "AppIconClassic") {
+                appDockTile.contentView = NSImageView(image: image)
+            } else {
+                appDockTile.contentView = nil
+            }
         }
 
         appDockTile.display()
