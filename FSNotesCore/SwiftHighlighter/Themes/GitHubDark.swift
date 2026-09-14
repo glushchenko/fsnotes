@@ -78,12 +78,12 @@ struct GitHubDarkTheme {
 
         // .hljs-addition
         style.styles["addition"]  = .init(
-            color: PlatformColor(hex: "#aff5b4"),
+            color: PlatformColor(hex: "#aff5b4")
         )
 
         // .hljs-deletion
         style.styles["deletion"]  = .init(
-            color: PlatformColor(hex: "#ffdcd7"),
+            color: PlatformColor(hex: "#ffdcd7")
         )
 
         // punctuation / params / property — deliberately default
