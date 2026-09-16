@@ -61,9 +61,12 @@ public class Remote {
         
         
         // test authentication
-        if (authentication != nil) {
-            setAuthenticationCallback(&fetchOptions.callbacks, authentication: authentication)
+        var authenticationPayload: UnsafeMutableRawPointer?
+        if let authentication = authentication {
+            authenticationPayload = setAuthenticationCallback(&fetchOptions.callbacks,
+                                                              authentication: authentication)
         }
+        defer { releaseAuthenticationCallback(authenticationPayload) }
         
         // Fetch remote
         let error = git_remote_fetch(pointer.pointee, nil, &fetchOptions, nil)
@@ -90,12 +93,10 @@ public class Remote {
         let remoteBranch: Branch
         
         if (remote == nil) {
-            
-            // Find spec informations
-            let specInfo = try Branch.getSpecInfo(spec: repository.head().targetReference().name)
-            
+            let localBranch = try repository.currentBranch()
+
             // Find remote branch
-            remoteBranch = try repository.branches.get(name: "\(name)/\(specInfo.name)", type: .remote)
+            remoteBranch = try repository.branches.get(name: "\(name)/\(localBranch.shortName)", type: .remote)
         } else {
             remoteBranch = remote!
         }
@@ -137,9 +138,12 @@ public class Remote {
         pushOptions.callbacks.pack_progress = ProgressDelegate.packBuilderCallback
         
         // test authentication
-        if (authentication != nil) {
-            setAuthenticationCallback(&pushOptions.callbacks, authentication: authentication)
+        var authenticationPayload: UnsafeMutableRawPointer?
+        if let authentication = authentication {
+            authenticationPayload = setAuthenticationCallback(&pushOptions.callbacks,
+                                                              authentication: authentication)
         }
+        defer { releaseAuthenticationCallback(authenticationPayload) }
         
         // Create refspec
         let refspec : String

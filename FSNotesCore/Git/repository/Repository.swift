@@ -70,6 +70,12 @@ public class Repository {
         // Create head
         return try Head(repository: self, name: "HEAD", pointer: try gitReferenceLookup(repository: pointer, name: "HEAD"))
     }
+
+    /// Retrieve the local branch referenced by HEAD.
+    public func currentBranch() throws -> Branch {
+        let reference = try head().targetReference()
+        return try branches.get(spec: reference.name)
+    }
     
     /// Get the index for the repo. The caller is responsible for freeing the index.
     func unsafeIndex() -> Result<OpaquePointer, NSError> {

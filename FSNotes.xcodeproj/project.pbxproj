@@ -188,6 +188,20 @@
 		11D943272E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
 		11D943282E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
 		11D943292E643F630010CC2B /* GitHubLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D943262E643F5E0010CC2B /* GitHubLight.swift */; };
+		11E000000000000000000001 /* libcmark_gfm in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000001 /* libcmark_gfm */; };
+		11E000000000000000000002 /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000002 /* RNCryptor */; };
+		11E000000000000000000003 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000003 /* ZipArchive */; };
+		11E000000000000000000004 /* libcmark_gfm in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000004 /* libcmark_gfm */; };
+		11E000000000000000000005 /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000005 /* RNCryptor */; };
+		11E000000000000000000006 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000006 /* ZipArchive */; };
+		11E000000000000000000007 /* libcmark_gfm in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000007 /* libcmark_gfm */; };
+		11E000000000000000000008 /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000008 /* RNCryptor */; };
+		11E000000000000000000009 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000009 /* ZipArchive */; };
+		11E00000000000000000000A /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000A /* DropDown */; };
+		11E00000000000000000000B /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000B /* SwipeCellKit */; };
+		11E00000000000000000000C /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000C /* CropViewController */; };
+		11E00000000000000000000D /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000D /* RNCryptor */; };
+		11E00000000000000000000E /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000E /* ZipArchive */; };
 		11F018AC2EF7E78600F07580 /* MPreviewFindPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F018AB2EF7E77B00F07580 /* MPreviewFindPanel.swift */; };
 		11F018AD2EF7E78600F07580 /* MPreviewFindPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F018AB2EF7E77B00F07580 /* MPreviewFindPanel.swift */; };
 		11F018B22EF8415600F07580 /* MPreviewContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F018B12EF8415200F07580 /* MPreviewContainerView.swift */; };
@@ -210,20 +224,6 @@
 		11F43F3C2F127EE300652350 /* Meet FSNotes 7.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 11F43F3A2F127C6900652350 /* Meet FSNotes 7.textbundle */; };
 		11F5D53B2EFDA17000A66466 /* modern.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11F5D53A2EFDA17000A66466 /* modern.icon */; };
 		11F5D53C2EFDA17000A66466 /* modern.icon in Resources */ = {isa = PBXBuildFile; fileRef = 11F5D53A2EFDA17000A66466 /* modern.icon */; };
-		11E000000000000000000001 /* libcmark_gfm in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000001 /* libcmark_gfm */; };
-		11E000000000000000000002 /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000002 /* RNCryptor */; };
-		11E000000000000000000003 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000003 /* ZipArchive */; };
-		11E000000000000000000004 /* libcmark_gfm in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000004 /* libcmark_gfm */; };
-		11E000000000000000000005 /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000005 /* RNCryptor */; };
-		11E000000000000000000006 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000006 /* ZipArchive */; };
-		11E000000000000000000007 /* libcmark_gfm in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000007 /* libcmark_gfm */; };
-		11E000000000000000000008 /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000008 /* RNCryptor */; };
-		11E000000000000000000009 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D000000000000000000009 /* ZipArchive */; };
-		11E00000000000000000000A /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000A /* DropDown */; };
-		11E00000000000000000000B /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000B /* SwipeCellKit */; };
-		11E00000000000000000000C /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000C /* CropViewController */; };
-		11E00000000000000000000D /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000D /* RNCryptor */; };
-		11E00000000000000000000E /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000E /* ZipArchive */; };
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		2799407C218484C900727B20 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
 		42E001C62ADAC2930099E7AD /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 42E001C52ADAC2930099E7AD /* Localizable.xcstrings */; };
@@ -3151,7 +3151,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 338;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -3160,7 +3160,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.3.2;
+				MARKETING_VERSION = 7.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -3184,7 +3184,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 338;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -3194,7 +3194,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.3.2;
+				MARKETING_VERSION = 7.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -3222,7 +3222,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 339;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -3232,7 +3232,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.3.2;
+				MARKETING_VERSION = 7.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3262,7 +3262,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 339;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -3272,7 +3272,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.3.2;
+				MARKETING_VERSION = 7.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

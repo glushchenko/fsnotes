@@ -28,12 +28,13 @@ public protocol AuthenticationHandler {
 
 
 func setAuthenticationCallback(_ callbacksStruct: inout git_remote_callbacks,
-                               authentication: AuthenticationHandler?) {
+                               authentication: AuthenticationHandler) -> UnsafeMutableRawPointer {
     
     // Convert handler to payload pointer
-    callbacksStruct.payload = Unmanaged
+    let payload = Unmanaged
         .passRetained(CWrapper(authentication))
         .toOpaque()
+    callbacksStruct.payload = payload
     
     // Create crdential lambda calling credential handler
     callbacksStruct.credentials = { out, url, username_from_url, allowed_types, payload in
@@ -57,11 +58,21 @@ func setAuthenticationCallback(_ callbacksStruct: inout git_remote_callbacks,
         // Transformation du pointer en wrapper
         let authenticationWrapper = Unmanaged<CWrapper<AuthenticationHandler>>
             .fromOpaque(payload!)
-            .takeRetainedValue()
+            .takeUnretainedValue()
         let result = authenticationWrapper.object.authenticate(out: out,
                                                                url: sUrl,
                                                                username: userName)
         
         return result
     }
+
+    return payload
+}
+
+func releaseAuthenticationCallback(_ payload: UnsafeMutableRawPointer?) {
+    guard let payload = payload else { return }
+
+    Unmanaged<CWrapper<AuthenticationHandler>>
+        .fromOpaque(payload)
+        .release()
 }
