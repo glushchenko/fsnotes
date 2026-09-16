@@ -121,9 +121,12 @@ extension Repository {
         opts.fetch_opts.callbacks.transfer_progress = ProgressDelegate.fetchProgressCallback
         
         // Check handler
-        if (authentication != nil) {
-            setAuthenticationCallback(&opts.fetch_opts.callbacks, authentication: authentication!)
+        var authenticationPayload: UnsafeMutableRawPointer?
+        if let authentication = authentication {
+            authenticationPayload = setAuthenticationCallback(&opts.fetch_opts.callbacks,
+                                                              authentication: authentication)
         }
+        defer { releaseAuthenticationCallback(authenticationPayload) }
         
         // Clone repository
         let error = git_clone(repository, url.absoluteString, at.path, &opts)

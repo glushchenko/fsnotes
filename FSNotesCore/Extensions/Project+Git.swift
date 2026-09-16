@@ -243,13 +243,7 @@ extension Project {
 
     public func getLocalBranch(repository: Repository) -> Branch? {
         do {
-            let names = try Branches(repository: repository).names(type: .local)
-
-            guard names.count > 0 else { return nil }
-            guard let branchName = names.first?.components(separatedBy: "/").last else { return nil }
-
-            let localMaster = try repository.branches.get(name: branchName)
-            return localMaster
+            return try repository.currentBranch()
         } catch {/**/}
 
         return nil
@@ -262,13 +256,8 @@ extension Project {
         repository.addRemoteOrigin(path: origin)
 
         let handler = getAuthHandler()
-
-        let names = try Branches(repository: repository).names(type: .local)
-        guard names.count > 0 else { return }
-        guard let branchName = names.first?.components(separatedBy: "/").last else { return }
-
-        let localMaster = try repository.branches.get(name: branchName)
-        try repository.remotes.get(remoteName: "origin").push(local: localMaster, authentication: handler)
+        let localBranch = try repository.currentBranch()
+        try repository.remotes.get(remoteName: "origin").push(local: localBranch, authentication: handler)
 
         if let progress = progress {
             progress.log(message: "\(label) – successful push 👌")
@@ -460,7 +449,7 @@ extension Project {
         } catch GitError.notFound(let ref) {
 
             // Empty repository – commit and push
-            if ref == "refs/heads/master" {
+            if ref.hasPrefix("refs/heads/") {
                 do {
                     try commit(message: nil, progress: progress)
                     try push(progress: progress)
@@ -480,8 +469,19 @@ extension Project {
         
         // No hands – no mults
         guard getGitOrigin() != nil else { return }
-        
-        try pull()
+
+        do {
+            try pull()
+        } catch GitError.notFound(let ref) {
+            let repository = try getRepository()
+            let branch = try repository.currentBranch()
+
+            // The current branch has not been pushed to origin yet.
+            guard ref == "origin/\(branch.shortName)" else {
+                throw GitError.notFound(ref: ref)
+            }
+        }
+
         try push()
     }
 }
