@@ -1753,16 +1753,16 @@ class ViewController: EditorViewController,
     }
     
     func registerKeyValueObserver() {
+        let store = NSUbiquitousKeyValueStore.default
+
         NotificationCenter.default.addObserver(self,
             selector: #selector(ubiquitousKeyValueStoreDidChange(_:)),
             name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-            object: NSUbiquitousKeyValueStore.default)
+            object: store)
 
-        if NSUbiquitousKeyValueStore.default.synchronize() == false {
-            fatalError("This app was not built with the proper entitlement requests.")
+        if !store.synchronize() {
+            NSLog("iCloud key-value store is unavailable")
         }
-        
-        NSUbiquitousKeyValueStore.default.synchronize()
     }
     
     @objc func ubiquitousKeyValueStoreDidChange(_ notification: NSNotification) {
