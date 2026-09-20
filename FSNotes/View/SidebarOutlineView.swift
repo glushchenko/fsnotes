@@ -1251,21 +1251,19 @@ class SidebarOutlineView: NSOutlineView,
               vc.isVisibleSidebar(),
               let lastProjectIndex = vc.sidebarOutlineView.getProjectsSeparatorPosition() else { return }
 
-        let parent = project.parent ?? storage.findParent(url: project.url)
-        if let parent = parent {
+        if let parent = storage.findParent(url: project.url) {
             if parent.isDefault {
                 let offset = lastProjectIndex + countProjects() + 1
                 vc.sidebarOutlineView.sidebarItems?.insert(project, at: offset)
                 vc.sidebarOutlineView.insertItems(at: [offset], inParent: nil, withAnimation: .effectFade)
             } else {
-                if !parent.child.contains(where: { $0.url == project.url }) {
-                    parent.child.append(project)
-                    parent.child.sort(by: { $0.label.lowercased() < $1.label.lowercased() })
-                    parent.child.sort(by: { $0.settings.priority < $1.settings.priority })
+                if parent.child.filter({ $0.url == project.url }).count == 0 {
+                    parent.child.insert(project, at: 0)
+                    vc.sidebarOutlineView.insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
                 }
                 
                 vc.sidebarOutlineView.reloadItem(parent, reloadChildren: true)
-                vc.sidebarOutlineView.expandItem(parent)
+
             }
         } else {
             let offset = lastProjectIndex + countProjects() + 1
@@ -2016,19 +2014,11 @@ class SidebarOutlineView: NSOutlineView,
     
     public func focus(on project: Project) {
         guard let vc = ViewController.shared() else { return }
+        let expand = project.parent
         
-        var expandQueue = [Project]()
-        var current = project
-        while let parent = current.parent, !parent.isDefault {
-            expandQueue.append(parent)
-            current = parent
-        }
-        
-        for item in expandQueue.reversed() {
-            vc.sidebarOutlineView.expandItem(item)
-        }
-        
+        vc.sidebarOutlineView.expandItem(expand)
         let row = vc.sidebarOutlineView.row(forItem: project)
+        
         guard row != -1 else { return }
         vc.sidebarOutlineView.selectRowIndexes(
             IndexSet(integer: row),
