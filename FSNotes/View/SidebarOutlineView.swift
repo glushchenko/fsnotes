@@ -1262,7 +1262,7 @@ class SidebarOutlineView: NSOutlineView,
                     vc.sidebarOutlineView.insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
                 }
                 
-                vc.sidebarOutlineView.reloadItem(parent)
+                vc.sidebarOutlineView.reloadItem(parent, reloadChildren: true)
 
             }
         } else {
