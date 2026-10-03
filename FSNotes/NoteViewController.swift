@@ -26,7 +26,7 @@ class NoteViewController: EditorViewController, NSWindowDelegate {
         view.window?.title = "New note"
         view.window?.titleVisibility = .hidden
         view.window?.titlebarAppearsTransparent = true
-        view.window?.backgroundColor = NSColor(named: "background_win")
+        view.window?.backgroundColor = NSColor(named: "mainBackground")
         view.window?.delegate = self
         view.window?.setFrameOriginToPositionWindowInCenterOfScreen()
         

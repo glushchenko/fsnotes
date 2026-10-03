@@ -18,7 +18,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     let storage = Storage.shared()
     let caretWidth: CGFloat = 2
-    var downView: MPreviewView?
     
     public var timer: Timer?
     public var tagsTimer: Timer?
@@ -1590,12 +1589,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let note = self.note else { return }
         NotesTextProcessor.highlight(attributedString: note.content)
 
-        let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"
-        let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"
-
-        downView?.evaluateJavaScript(switchScript)
-
-        viewDelegate?.refillEditArea(force: true)
+        editorViewController?.refillEditArea(force: true)
     }
 
     private func saveFile(url: URL, in note: Note) -> Bool {
