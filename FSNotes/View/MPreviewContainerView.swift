@@ -408,7 +408,17 @@ class MPreviewContainerView: NSView {
     }
     
     func restoreScrollPosition(_ point: CGPoint) {
-        let js = "window.scrollTo(\(point.x), \(point.y));"
+        let js = "restorePreviewScrollPosition(\(point.x), \(point.y));"
         webView.evaluateJavaScript(js, completionHandler: nil)
+    }
+
+    func getSourceLine(_ completion: @escaping (Int?) -> Void) {
+        webView.evaluateJavaScript("previewSourceLineAfterScrolling()") { result, _ in
+            completion((result as? NSNumber)?.intValue)
+        }
+    }
+
+    func restoreSourceLine(_ line: Int) {
+        webView.evaluateJavaScript("scrollToSourceLine(\(line));", completionHandler: nil)
     }
 }

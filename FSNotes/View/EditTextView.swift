@@ -22,6 +22,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var timer: Timer?
     public var tagsTimer: Timer?
     public var markdownView: MPreviewContainerView?
+    var pendingPreviewSourceLine: Int?
+    var editorScrollPositionBeforePreview: CGPoint?
+    var previewScrollRestorationID: UUID?
     public var isLastEdited: Bool = false
     
     @IBOutlet weak var previewMathJax: NSMenuItem!
@@ -769,6 +772,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     func fill(note: Note, highlight: Bool = false, force: Bool = false) {
         isScrollPositionSaverLocked = true
+        if self.note !== note {
+            pendingPreviewSourceLine = nil
+            editorScrollPositionBeforePreview = nil
+            previewScrollRestorationID = nil
+        }
         
         if !note.isLoaded {
             note.load()
@@ -845,7 +853,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             textStorage?.highlightKeyword(search: getSearchText())
         }
 
-        viewDelegate?.restoreScrollPosition()
+        editorViewController?.restoreScrollPosition()
     }
 
     private func loadMarkdownWebView(note: Note, force: Bool) {
@@ -859,8 +867,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             let frame = scrollView.bounds
             
             let containerView = MPreviewContainerView(frame: frame, note: note, closure: { [weak self] in
-                if let point = self?.note?.contentOffsetWeb {
-                    self?.markdownView?.restoreScrollPosition(point)
+                guard let self = self, self.note === note else { return }
+                if let line = self.pendingPreviewSourceLine {
+                    self.pendingPreviewSourceLine = nil
+                    self.markdownView?.restoreSourceLine(line)
+                } else {
+                    self.markdownView?.restoreScrollPosition(note.contentOffsetWeb)
                 }
             })
             markdownView = containerView

@@ -472,6 +472,12 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         
         let firstResp = view.window?.firstResponder
 
+        if !editor.isPreviewEnabled() {
+            editor.previewScrollRestorationID = nil
+            editor.editorScrollPositionBeforePreview = editor.enclosingScrollView?.contentView.bounds.origin
+            editor.pendingPreviewSourceLine = previewSourceLine()
+        }
+
         editor.togglePreviewState()
         
         if (editor.isPreviewEnabled()) {
@@ -1018,9 +1024,25 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         guard let textView = self.vcEditor else { return }
         
         textView.disablePreviewEditorAndNote()
-        
+        textView.pendingPreviewSourceLine = nil
+
+        let note = textView.note
+        let restorationID = UUID()
+        textView.previewScrollRestorationID = restorationID
+        let editorPosition = textView.editorScrollPositionBeforePreview
+        textView.editorScrollPositionBeforePreview = nil
         textView.markdownView?.getScrollPosition { point in
-            self.vcEditor?.note?.contentOffsetWeb = point
+            note?.contentOffsetWeb = point
+        }
+        textView.markdownView?.getSourceLine { [weak self, weak textView] line in
+            guard let self = self, let textView = textView,
+                  textView.note === note, !textView.isPreviewEnabled(),
+                  textView.previewScrollRestorationID == restorationID else { return }
+            if let line = line {
+                self.restoreEditorSourceLine(line)
+            } else if let point = editorPosition {
+                textView.scroll(point)
+            }
         }
         
         textView.markdownView?.removeFromSuperview()
@@ -1029,6 +1051,9 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         textView.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 
         refillEditArea()
+        if let point = editorPosition {
+            textView.scroll(point)
+        }
     }
     
     public func viewDidResize() {

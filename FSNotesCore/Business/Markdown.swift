@@ -43,7 +43,7 @@ func replaceHorizontalRulesOutsideCodeBlocks(in markdown: String) -> String {
     return result.joined(separator: "\n")
 }
 
-func renderMarkdownHTML(markdown: String) -> String? {
+func renderMarkdownHTML(markdown: String, sourcePositions: Bool = false) -> String? {
     let markdown = markdown.replacingOccurrences(of: "{{TOC}}", with: "<div id=\"toc\"></div>")
         
     cmark_gfm_core_extensions_ensure_registered()
@@ -69,7 +69,8 @@ func renderMarkdownHTML(markdown: String) -> String? {
 
     cmark_parser_feed(parser, markdown, markdown.utf8.count)
     guard let node = cmark_parser_finish(parser) else { return nil }
-    return String(cString: cmark_render_html(node, CMARK_OPT_HARDBREAKS | CMARK_OPT_UNSAFE, nil))
+    let options = CMARK_OPT_HARDBREAKS | CMARK_OPT_UNSAFE | (sourcePositions ? CMARK_OPT_SOURCEPOS : 0)
+    return String(cString: cmark_render_html(node, options, nil))
 }
 
 func generateAlphabeticalString(length: Int) -> String {

@@ -238,7 +238,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 loadFileURL(i, allowingReadAccessTo: accessURL)
             }
         } else {
-            var htmlString = renderMarkdownHTML(markdown: markdownString)!
+            var htmlString = renderMarkdownHTML(markdown: markdownString, sourcePositions: true)!
             htmlString = MPreviewView.loadAttachments(html: htmlString, note: note)
 
             if let pageHTMLString = try? MPreviewView.htmlFromTemplate(htmlString),
@@ -324,7 +324,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     public static func buildPage(for note: Note, at dst: URL, web: Bool = false, print: Bool = false) -> URL? {
         let markdownString = note.getPrettifiedContent()
         
-        var htmlString = renderMarkdownHTML(markdown: markdownString)!
+        var htmlString = renderMarkdownHTML(markdown: markdownString, sourcePositions: !web && !print)!
         
         var imagesStorage = note.project.url
         if note.isTextBundle() {

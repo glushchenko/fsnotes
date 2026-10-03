@@ -56,6 +56,51 @@
             window.addEventListener('scroll', reportScroll, { passive: true });
         })();
         
+        function previewSourceBlocks() {
+            return Array.from(document.querySelectorAll('[data-sourcepos]')).map(node => {
+                const position = node.dataset.sourcepos.match(/^(\d+):\d+-(\d+):\d+$/);
+                return position ? { node, start: Number(position[1]), end: Number(position[2]), rect: node.getBoundingClientRect() } : null;
+            }).filter(block => block && block.rect.height > 0);
+        }
+
+        function previewSourceLine() {
+            const blocks = previewSourceBlocks();
+            // Prefer the smallest visible block, rather than its enclosing list or quote.
+            const visible = blocks.filter(block => block.rect.top <= 1 && block.rect.bottom > 1)
+                .sort((a, b) => (a.end - a.start) - (b.end - b.start));
+            const block = visible[0] || blocks.filter(block => block.rect.bottom > 0)
+                .sort((a, b) => a.rect.top - b.rect.top)[0];
+            if (!block) return null;
+            const fraction = Math.min(1, Math.max(0, -block.rect.top / block.rect.height));
+            return block.start + Math.floor(fraction * (block.end - block.start + 1));
+        }
+
+        let restoredPreviewScroll = { x: 0, y: 0 };
+
+        function restorePreviewScrollPosition(x, y) {
+            window.scrollTo(x, y);
+            restoredPreviewScroll.x = window.scrollX;
+            restoredPreviewScroll.y = window.scrollY;
+        }
+
+        function previewSourceLineAfterScrolling() {
+            if (Math.abs(window.scrollX - restoredPreviewScroll.x) < 0.5 &&
+                Math.abs(window.scrollY - restoredPreviewScroll.y) < 0.5) {
+                return null;
+            }
+            return previewSourceLine();
+        }
+
+        function scrollToSourceLine(line) {
+            const blocks = previewSourceBlocks();
+            const containing = blocks.filter(block => block.start <= line && block.end >= line)
+                .sort((a, b) => (a.end - a.start) - (b.end - b.start));
+            const block = containing[0] || blocks.sort((a, b) => Math.abs(a.start - line) - Math.abs(b.start - line))[0];
+            if (!block) return;
+            const fraction = Math.min(1, Math.max(0, (line - block.start) / (block.end - block.start + 1)));
+            restorePreviewScrollPosition(0, window.scrollY + block.rect.top + fraction * block.rect.height);
+        }
+
         function getElementsByText(str, tag = 'h1') {
             return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
         }
