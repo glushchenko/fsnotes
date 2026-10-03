@@ -14,9 +14,25 @@ class SearchQuery {
     var tags = [String]()
     var terms: [Substring]? = nil
     var tagsAnd: Bool = false
+    var sortBy: SortBy = .modificationDate
+    var sortDirection: SortDirection = .asc
     public var filter = String()
 
     init() {}
+
+    // Query fields are value types; projects keep their existing identities.
+    public func snapshot() -> SearchQuery {
+        let query = SearchQuery()
+        query.type = type
+        query.projects = projects
+        query.tags = tags
+        query.terms = terms
+        query.tagsAnd = tagsAnd
+        query.sortBy = sortBy
+        query.sortDirection = sortDirection
+        query.filter = filter
+        return query
+    }
     
     public func tagsModifierAnd(_ value: Bool = false) {
         tagsAnd = value

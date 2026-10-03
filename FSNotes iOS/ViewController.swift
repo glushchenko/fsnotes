@@ -860,6 +860,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         setNavTitle(qty: "∞")
         searchQueue.cancelAllOperations()
 
+        let query = storage.searchQuery
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {
@@ -877,19 +878,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     break
                 }
 
-                if Storage.shared().searchQuery.isFit(note: note) {
+                if query.isFit(note: note) {
                     notes.append(note)
                 }
             }
 
-            if let project = Storage.shared().searchQuery.projects.first, project.isLocked() {
+            if let project = query.projects.first, project.isLocked() {
                 notes.removeAll()
             }
 
             var modifiedNotesList = [Note]()
 
             if !notes.isEmpty {
-                modifiedNotesList = self.storage.sortNotes(noteList: notes)
+                modifiedNotesList = self.storage.sortNotes(noteList: notes, query: query)
             }
 
             if operation.isCancelled {

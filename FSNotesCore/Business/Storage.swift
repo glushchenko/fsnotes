@@ -61,10 +61,14 @@ class Storage {
     public var plainWriter = OperationQueue.init()
     public var ciphertextWriter = OperationQueue.init()
 
-    public var searchQuery: SearchQuery = SearchQuery()
+    private let searchQueryLock = NSLock()
+    private var currentSearchQuery = SearchQuery()
 
-    private var sortByState: SortBy = .modificationDate
-    private var sortDirectionState: SortDirection = .asc
+    public var searchQuery: SearchQuery {
+        searchQueryLock.lock()
+        defer { searchQueryLock.unlock() }
+        return currentSearchQuery.snapshot()
+    }
 
     // Virtual projects
     public var allNotesProject: Project?
@@ -488,7 +492,10 @@ class Storage {
             })
     }
         
-    public func sortNotes(noteList: [Note], operation: BlockOperation? = nil) -> [Note] {
+    public func sortNotes(noteList: [Note], operation: BlockOperation? = nil, query: SearchQuery? = nil) -> [Note] {
+        let searchQuery = query ?? self.searchQuery
+        let sortBy = searchQuery.sortBy
+        let sortDirection = searchQuery.sortDirection
         var noteList = noteList
         
         // Pre sort by creation and modified date, title
@@ -498,7 +505,7 @@ class Storage {
                     return false
                 }
                 
-                return sortQuery(note: $0, next: $1)
+                return sortQuery(note: $0, next: $1, sortBy: sortBy, sortDirection: sortDirection)
             })
         }
         
@@ -529,19 +536,19 @@ class Storage {
                 return false
             }
             
-            return sortQuery(note: $0, next: $1)
+            return sortQuery(note: $0, next: $1, sortBy: sortBy, sortDirection: sortDirection)
         })
     }
     
-    private func sortQuery(note: Note, next: Note) -> Bool {
+    private func sortQuery(note: Note, next: Note, sortBy: SortBy, sortDirection: SortDirection) -> Bool {
         if note.isPinned == next.isPinned {
-            switch self.sortByState {
+            switch sortBy {
             case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
-                    return self.sortDirectionState == .asc && prevDate < nextDate || self.sortDirectionState == .desc && prevDate > nextDate
+                    return sortDirection == .asc && prevDate < nextDate || sortDirection == .desc && prevDate > nextDate
                 }
             case .modificationDate, .none:
-                return self.sortDirectionState == .asc && note.modifiedLocalAt < next.modifiedLocalAt || self.sortDirectionState == .desc && note.modifiedLocalAt > next.modifiedLocalAt
+                return sortDirection == .asc && note.modifiedLocalAt < next.modifiedLocalAt || sortDirection == .desc && note.modifiedLocalAt > next.modifiedLocalAt
             case .title:
                 var title = note.title
                 var nextTitle = next.title
@@ -554,7 +561,7 @@ class Storage {
                 
                 let comparisonResult = title.localizedStandardCompare(nextTitle)
                 
-                return self.sortDirectionState == .asc
+                return sortDirection == .asc
                     ? comparisonResult == .orderedAscending
                     : comparisonResult == .orderedDescending
             }
@@ -1515,30 +1522,29 @@ class Storage {
     }
 
     public func setSearchQuery(value: SearchQuery) {
-        self.searchQuery = value
+        let query = value.snapshot()
+        updateSortBy(query: query)
 
-        buildSortBy()
+        searchQueryLock.lock()
+        defer { searchQueryLock.unlock() }
+        currentSearchQuery = query
     }
 
     public func getSortByState() -> SortBy {
-        return self.sortByState
+        return searchQuery.sortBy
     }
 
-    public func getSortDirectionState() -> SortDirection {
-        return self.sortDirectionState
-    }
-
-    public func buildSortBy() {
-        if let project = self.searchQuery.projects.first, project.settings.sortBy != .none {
-            self.sortByState = project.settings.sortBy
-            self.sortDirectionState = project.settings.sortDirection
+    private func updateSortBy(query: SearchQuery) {
+        if let project = query.projects.first, project.settings.sortBy != .none {
+            query.sortBy = project.settings.sortBy
+            query.sortDirection = project.settings.sortDirection
             return
         }
 
-        if self.searchQuery.projects.count == 0 {
+        if query.projects.count == 0 {
             var project: Project?
 
-            switch self.searchQuery.type {
+            switch query.type {
             case .All:
                 project = self.allNotesProject
             case .Untagged:
@@ -1550,14 +1556,14 @@ class Storage {
             }
 
             if let project = project, project.settings.sortBy != .none {
-                self.sortByState =  project.settings.sortBy
-                self.sortDirectionState = project.settings.sortDirection
+                query.sortBy =  project.settings.sortBy
+                query.sortDirection = project.settings.sortDirection
                 return
             }
         }
 
-        self.sortByState = UserDefaultsManagement.sort
-        self.sortDirectionState = UserDefaultsManagement.sortDirection ? .desc : .asc
+        query.sortBy = UserDefaultsManagement.sort
+        query.sortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
     }
 
     public func migrationAPIIds() {

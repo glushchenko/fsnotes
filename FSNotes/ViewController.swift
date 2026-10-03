@@ -1380,11 +1380,12 @@ class ViewController: EditorViewController,
         self.search.timestamp = timestamp
         self.searchQueue.cancelAllOperations()
 
+        let query = storage.searchQuery
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {return}
 
-            let projects = Storage.shared().searchQuery.projects
+            let projects = query.projects
             for project in projects {
                 self.preLoadNoteTitles(in: project)
             }
@@ -1398,12 +1399,12 @@ class ViewController: EditorViewController,
                     return
                 }
 
-                if self.storage.searchQuery.isFit(note: note) {
+                if query.isFit(note: note) {
                     notes.append(note)
                 }
             }
             
-            let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation)
+            let orderedNotesList = self.storage.sortNotes(noteList: notes, operation: operation, query: query)
 
             DispatchQueue.main.async {
                 guard !operation.isCancelled else { return }
