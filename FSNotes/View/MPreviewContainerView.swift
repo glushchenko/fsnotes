@@ -393,16 +393,16 @@ class MPreviewContainerView: NSView {
         }
     }
     
-    func getScrollPosition(_ completion: @escaping (CGPoint) -> Void) {
-        let js = "({ x: window.scrollX, y: window.scrollY })"
+    func getScrollState(_ completion: @escaping (CGPoint?, Int?) -> Void) {
+        let js = "({ x: window.scrollX, y: window.scrollY, line: previewSourceLineAfterScrolling() })"
 
         webView.evaluateJavaScript(js) { result, _ in
-            if let dict = result as? [String: CGFloat],
-               let x = dict["x"],
-               let y = dict["y"] {
-                completion(CGPoint(x: x, y: y))
+            if let dict = result as? [String: Any],
+               let x = dict["x"] as? NSNumber,
+               let y = dict["y"] as? NSNumber {
+                completion(CGPoint(x: x.doubleValue, y: y.doubleValue), (dict["line"] as? NSNumber)?.intValue)
             } else {
-                completion(.zero)
+                completion(nil, nil)
             }
         }
     }
@@ -410,12 +410,6 @@ class MPreviewContainerView: NSView {
     func restoreScrollPosition(_ point: CGPoint) {
         let js = "restorePreviewScrollPosition(\(point.x), \(point.y));"
         webView.evaluateJavaScript(js, completionHandler: nil)
-    }
-
-    func getSourceLine(_ completion: @escaping (Int?) -> Void) {
-        webView.evaluateJavaScript("previewSourceLineAfterScrolling()") { result, _ in
-            completion((result as? NSNumber)?.intValue)
-        }
     }
 
     func restoreSourceLine(_ line: Int) {

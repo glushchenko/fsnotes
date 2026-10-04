@@ -25,6 +25,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     var pendingPreviewSourceLine: Int?
     var editorScrollPositionBeforePreview: CGPoint?
     var previewScrollRestorationID: UUID?
+    var preserveScrollPositionOnNextFocus = false
     public var isLastEdited: Bool = false
     
     @IBOutlet weak var previewMathJax: NSMenuItem!
@@ -37,6 +38,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var isScrollPositionSaverLocked = false
     
     override func becomeFirstResponder() -> Bool {
+        let preserveScrollPosition = preserveScrollPositionOnNextFocus
+        preserveScrollPositionOnNextFocus = false
+        let scrollPosition = enclosingScrollView?.contentView.bounds.origin
         if let note = self.note {
             if note.container == .encryptedTextPack {
                 return false
@@ -46,10 +50,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         if !isMouseDownInsideEditor() {
-            loadSelectedRange()
+            loadSelectedRange(scrollToSelection: !preserveScrollPosition)
         }
 
-        return super.becomeFirstResponder()
+        let becameFirstResponder = super.becomeFirstResponder()
+        if preserveScrollPosition, let point = scrollPosition {
+            scroll(point)
+        }
+        return becameFirstResponder
     }
 
     private func isMouseDownInsideEditor() -> Bool {
@@ -167,6 +175,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
     
     public func configure() {
+        linkTextAttributes = [
+            .foregroundColor: NSColor(named: "link")!
+        ]
+
         DispatchQueue.main.async {
             self.updateTextContainerInset()
         }
@@ -776,6 +788,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             pendingPreviewSourceLine = nil
             editorScrollPositionBeforePreview = nil
             previewScrollRestorationID = nil
+            preserveScrollPositionOnNextFocus = false
         }
         
         if !note.isLoaded {
@@ -1320,12 +1333,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         note.setSelectedRange(range: selectedRange)
     }
     
-    func loadSelectedRange() {
+    func loadSelectedRange(scrollToSelection: Bool = true) {
         guard let storage = textStorage else { return }
 
         if let range = self.note?.getSelectedRange(), range.upperBound <= storage.length {
             setSelectedRange(range)
-            scrollToCursor()
+            if scrollToSelection {
+                scrollToCursor()
+            }
         }
     }
 

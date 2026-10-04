@@ -435,10 +435,6 @@ class ViewController: EditorViewController,
     }
 
     private func configureEditor() {
-        self.editor?.linkTextAttributes = [
-            .foregroundColor:  NSColor.init(named: "link")!
-        ]
-
         self.editor.usesFindBar = true
         self.editor.isIncrementalSearchingEnabled = true
 

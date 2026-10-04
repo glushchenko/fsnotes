@@ -1024,6 +1024,7 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         guard let textView = self.vcEditor else { return }
         
         textView.disablePreviewEditorAndNote()
+        textView.preserveScrollPositionOnNextFocus = true
         textView.pendingPreviewSourceLine = nil
 
         let note = textView.note
@@ -1031,25 +1032,21 @@ class EditorViewController: NSViewController, NSTextViewDelegate, NSMenuItemVali
         textView.previewScrollRestorationID = restorationID
         let editorPosition = textView.editorScrollPositionBeforePreview
         textView.editorScrollPositionBeforePreview = nil
-        textView.markdownView?.getScrollPosition { point in
-            note?.contentOffsetWeb = point
-        }
-        textView.markdownView?.getSourceLine { [weak self, weak textView] line in
+        textView.markdownView?.getScrollState { [weak self, weak textView] point, line in
+            if let point = point {
+                note?.contentOffsetWeb = point
+            }
             guard let self = self, let textView = textView,
                   textView.note === note, !textView.isPreviewEnabled(),
                   textView.previewScrollRestorationID == restorationID else { return }
             if let line = line {
                 self.restoreEditorSourceLine(line)
-            } else if let point = editorPosition {
-                textView.scroll(point)
             }
         }
         
         textView.markdownView?.removeFromSuperview()
         textView.markdownView = nil
         
-        textView.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
-
         refillEditArea()
         if let point = editorPosition {
             textView.scroll(point)
