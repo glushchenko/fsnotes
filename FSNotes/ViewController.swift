@@ -156,14 +156,17 @@ class ViewController: EditorViewController,
 
         isPreLoaded = true
 
-        if #available(macOS 12.0, *) {
-            let image = NSImage(systemSymbolName: "square.and.pencil", accessibilityDescription: nil)
-            var config = NSImage.SymbolConfiguration(textStyle: .body, scale: .large)
-            config = config.applying(.init(paletteColors: [.systemTeal, .systemGray]))
+        newNoteButton.bezelStyle = .texturedRounded
+        newNoteButton.isBordered = false
+        newNoteButton.imagePosition = .imageOnly
+        newNoteButton.contentTintColor = .labelColor
 
+        if #available(macOS 11.0, *) {
+            let image = NSImage(systemSymbolName: "square.and.pencil", accessibilityDescription: nil)
+            let config = NSImage.SymbolConfiguration(pointSize: 16, weight: .regular)
             newNoteButton.image = image?.withSymbolConfiguration(config)
         } else {
-            newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_button").resize(to: CGSize(width: 20, height: 20))
+            newNoteButton.image = NSImage(named: NSImage.touchBarComposeTemplateName)
         }
 
         configureShortcuts()
@@ -1142,6 +1145,7 @@ class ViewController: EditorViewController,
             vc.reloadSideBar()
         }
 
+        vc.checkSidebarConstraint()
         vc.editor.updateTextContainerInset()
     }
     
@@ -1800,18 +1804,9 @@ class ViewController: EditorViewController,
     }
     
     func checkSidebarConstraint() {
-        if sidebarSplitView.subviews[0].frame.width > 50 {
-            searchTopConstraint.constant = 8
-            return
-        }
-        
-        if UserDefaultsManagement.hideSidebarTable || sidebarSplitView.subviews[0].frame.width < 50 {
-            
-            searchTopConstraint.constant = CGFloat(25)
-            return
-        }
-        
-        searchTopConstraint.constant = 8
+        let sidebarHidden = sidebarSplitView.subviews[0].frame.width <= 50
+        let fullScreen = search.window?.styleMask.contains(.fullScreen) == true
+        searchTopConstraint.constant = sidebarHidden && !fullScreen ? 32 : 8
     }
             
     @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {

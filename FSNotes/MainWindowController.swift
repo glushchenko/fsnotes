@@ -70,9 +70,11 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
 
     func windowDidEnterFullScreen(_ notification: Notification) {
         UserDefaultsManagement.fullScreen = true
+        ViewController.shared()?.checkSidebarConstraint()
     }
 
     func windowDidExitFullScreen(_ notification: Notification) {
         UserDefaultsManagement.fullScreen = false
+        ViewController.shared()?.checkSidebarConstraint()
     }
 }

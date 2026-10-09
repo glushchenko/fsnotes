@@ -170,8 +170,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             UserDataService.instance.isDark = false
         }
 
-        if UserDefaultsManagement.appearanceType == .System, NSAppearance.current.isDark {
-            UserDataService.instance.isDark = true
+        if UserDefaultsManagement.appearanceType == .System {
+            UserDataService.instance.isDark = NSApp.effectiveAppearance.isDark
         }
     }
     

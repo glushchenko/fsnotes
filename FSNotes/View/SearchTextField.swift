@@ -9,7 +9,44 @@
 import Cocoa
 import Carbon.HIToolbox
 
+class SearchTextFieldCell: NSSearchFieldCell {
+    override func draw(withFrame frame: NSRect, in controlView: NSView) {
+        if controlView.effectiveAppearance.isDark {
+            NSColor(calibratedWhite: 0.20, alpha: 1).setFill()
+            let radius = frame.height / 2
+            NSBezierPath(roundedRect: frame, xRadius: radius, yRadius: radius).fill()
+            let originalDrawsBackground = drawsBackground
+            drawsBackground = false
+            drawInterior(withFrame: frame, in: controlView)
+            drawsBackground = originalDrawsBackground
+        } else {
+            super.draw(withFrame: frame, in: controlView)
+        }
+    }
+}
+
 class SearchTextField: NSSearchField, NSSearchFieldDelegate {
+
+    // Use the cell's drawing instead of AppKit's layer-backed search bezel.
+    override var wantsUpdateLayer: Bool { false }
+
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        updateSearchBackground()
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateSearchBackground()
+    }
+
+    private func updateSearchBackground() {
+        backgroundColor = effectiveAppearance.isDark
+            ? NSColor(calibratedWhite: 0.20, alpha: 1)
+            : .textBackgroundColor
+        currentEditor()?.backgroundColor = backgroundColor
+        needsDisplay = true
+    }
 
     public var vcDelegate: ViewController!
     
