@@ -12,7 +12,7 @@ import CoreData
 class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 481)
+        preferredContentSize = NSSize(width: 550, height: 503)
     }
 
     @IBOutlet var externalEditorApp: NSTextField!
@@ -22,6 +22,7 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
     @IBOutlet weak var quickNote: ShortcutRecorderView!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
     @IBOutlet weak var searchFocusOnESC: NSButton!
+    @IBOutlet weak var searchFocusOnLaunch: NSButton!
     @IBOutlet weak var defaultExtension: NSPopUpButton!
     @IBOutlet weak var fileContainer: NSPopUpButton!
     @IBOutlet weak var filesNaming: NSPopUpButton!
@@ -49,6 +50,8 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         }
 
         searchFocusOnESC.state = UserDefaultsManagement.shouldFocusSearchOnESCKeyDown ? .on : .off
+
+        searchFocusOnLaunch.state = UserDefaultsManagement.focusSearchOnLaunch ? .on : .off
         
         fileContainer.selectItem(withTag: UserDefaultsManagement.fileContainer.tag)
 
@@ -111,6 +114,10 @@ class PreferencesGeneralViewController: NSViewController, NSTextFieldDelegate {
         UserDefaultsManagement.shouldFocusSearchOnESCKeyDown = sender.state == .on
     }
      
+    @IBAction func searchFocusOnLaunch(_ sender: NSButton) {
+        UserDefaultsManagement.focusSearchOnLaunch = sender.state == .on
+    }
+
     @IBAction func fileContainer(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else { return }
 

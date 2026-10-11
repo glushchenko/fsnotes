@@ -544,6 +544,18 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var focusSearchOnLaunch: Bool {
+        get {
+            if let result = shared?.object(forKey: "focusSearchOnLaunch") as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: "focusSearchOnLaunch")
+        }
+    }
+
     static var defaultKeyboard: String? {
         get {
             if let dk = shared?.string(forKey: Constants.DefaultKeyboardKey) as? String {

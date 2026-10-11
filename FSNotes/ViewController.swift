@@ -2007,6 +2007,11 @@ class ViewController: EditorViewController,
                 }
                 
                 editor.changePreviewState(preview)
+
+                if UserDefaultsManagement.focusSearchOnLaunch {
+                    self.search.window?.makeFirstResponder(self.search)
+                    continue
+                }
                 
                 if let i = self.notesTableView.getIndex(for: note) {
                     note.previewState = self.editor.isPreviewEnabled()

@@ -977,6 +977,16 @@ CA
                                     <action selector="searchFocusOnESC:" target="NHv-lG-vxt" id="tvd-sF-9ty"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fSl-nc-h01">
+                                <rect key="frame" x="35" y="216" width="398" height="16"/>
+                                <buttonCell key="cell" type="check" title="Focus on search bar at launch instead of the last note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="fSl-nc-h02">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="searchFocusOnLaunch:" target="NHv-lG-vxt" id="fSl-nc-h03"/>
+                                </connections>
+                            </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="e7K-T3-Vtb">
                                 <rect key="frame" x="20" y="316" width="428" height="5"/>
                             </box>
@@ -1231,7 +1241,10 @@ CA
                             <constraint firstItem="dkg-Hb-c1w" firstAttribute="leading" secondItem="4Xk-4f-czc" secondAttribute="leading" constant="35" id="ps6-UX-PGe"/>
                             <constraint firstItem="4Kr-dW-0Jm" firstAttribute="top" secondItem="dkg-Hb-c1w" secondAttribute="bottom" constant="20" id="q98-nm-CRR"/>
                             <constraint firstItem="0MX-CO-c4Y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4Xk-4f-czc" secondAttribute="leading" constant="20" symbolic="YES" id="sF2-OW-MBx"/>
-                            <constraint firstItem="187-a6-mAR" firstAttribute="top" secondItem="UaP-4D-ZNN" secondAttribute="bottom" constant="6" symbolic="YES" id="ss9-0K-Jlm"/>
+                            <constraint firstItem="187-a6-mAR" firstAttribute="top" secondItem="fSl-nc-h01" secondAttribute="bottom" constant="6" symbolic="YES" id="ss9-0K-Jlm"/>
+                            <constraint firstItem="fSl-nc-h01" firstAttribute="top" secondItem="UaP-4D-ZNN" secondAttribute="bottom" constant="6" symbolic="YES" id="fSl-nc-h04"/>
+                            <constraint firstItem="fSl-nc-h01" firstAttribute="leading" secondItem="qW8-n9-YAx" secondAttribute="leading" id="fSl-nc-h05"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fSl-nc-h01" secondAttribute="trailing" constant="35" id="fSl-nc-h06"/>
                             <constraint firstAttribute="trailing" secondItem="e7K-T3-Vtb" secondAttribute="trailing" constant="20" symbolic="YES" id="uCD-Gg-boQ"/>
                             <constraint firstItem="1vW-Wi-nGt" firstAttribute="trailing" secondItem="0MX-CO-c4Y" secondAttribute="trailing" id="vyF-e3-TtX"/>
                             <constraint firstItem="7Hz-R4-h7D" firstAttribute="firstBaseline" secondItem="1vW-Wi-nGt" secondAttribute="firstBaseline" id="xNe-4T-VFA"/>
@@ -1251,6 +1264,7 @@ CA
                         <outlet property="quickNote" destination="B3F-c9-AP8" id="VI1-A8-kXk"/>
                         <outlet property="saveTextBundleMetaData" destination="Akc-AN-R9w" id="Xcl-DD-egH"/>
                         <outlet property="searchFocusOnESC" destination="UaP-4D-ZNN" id="SX9-jC-ect"/>
+                        <outlet property="searchFocusOnLaunch" destination="fSl-nc-h01" id="fSl-nc-h07"/>
                         <outlet property="searchNotesShortcut" destination="XYa-Po-O09" id="EWj-n1-bzn"/>
                         <outlet property="showInMenuBar" destination="ax0-sQ-dzy" id="nPC-Ke-oHy"/>
                         <outlet property="textMatchAutoSelection" destination="uTG-yn-jge" id="f4H-hJ-RvZ"/>
