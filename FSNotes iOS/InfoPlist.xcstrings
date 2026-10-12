@@ -17,6 +17,12 @@
             "value" : "FSNotes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
@@ -53,6 +59,12 @@
             "value" : "FSNotes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
@@ -64,6 +76,12 @@
     "Markdown" : {
       "localizations" : {
         "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Markdown"
@@ -97,6 +115,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Needs for attach photo in notes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برای پیوست کردن عکس در یادداشت‌ها لازم است"
           }
         },
         "fr" : {
@@ -169,6 +193,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Note encryption and decryption with FaceID"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگذاری و رمزگشایی یادداشت با FaceID"
           }
         },
         "fr" : {
@@ -255,6 +285,12 @@
             "value" : "Requested when photo attached"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هنگام پیوست کردن عکس درخواست می‌شود"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -325,6 +361,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Needs permission to write images in photos app"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برای ذخیره تصاویر در برنامه Photos به مجوز نیاز است"
           }
         },
         "fr" : {
@@ -399,6 +441,12 @@
             "value" : "Needs for attach images in notes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برای پیوست کردن تصاویر در یادداشت‌ها لازم است"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -452,6 +500,12 @@
     "TextBundle" : {
       "localizations" : {
         "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextBundle"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "TextBundle"

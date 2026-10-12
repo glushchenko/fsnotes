@@ -9,6 +9,12 @@
             "value" : "Příchozí"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صندوق ورودی"
+          }
+        },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41,6 +47,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nueva nota"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت جدید"
           }
         },
         "fr" : {

@@ -27,6 +27,12 @@
             "value" : "Añadir"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افزودن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -138,6 +144,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adjuntar almacenamiento..."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افزودن پوشه خارجی..."
           }
         },
         "fr" : {
@@ -252,6 +264,12 @@
             "value" : "¿Seguro que quieres borrar %d etiqueta/s? Esta operación no se puede deshacer."
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا واقعاً می‌خواهید %d برچسب را حذف کنید؟ این اقدام قابل بازگشت نیست."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -364,6 +382,12 @@
             "value" : "¿Seguro que quieres borrar definitivamente %d notas?"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا مطمئن هستید که می‌خواهید %d یادداشت را برای همیشه حذف کنید؟"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -474,6 +498,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¿Seguro que quieres borrar el proyecto \"%@\" con todo su contenido?"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا مطمئن هستید که می‌خواهید پروژه \"%@\" و همه فایل‌های درون آن را حذف کنید؟"
           }
         },
         "fr" : {
@@ -589,6 +619,12 @@
             "value" : "Almacenamiento de respaldo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشتیبان‌گیری از فضای ذخیره‌سازی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -700,6 +736,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancelar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لغو"
           }
         },
         "fr" : {
@@ -816,6 +858,12 @@
             "value" : "Cambiar la fecha de creación"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر تاریخ ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -927,6 +975,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cambiar fecha de creación"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر تاریخ ایجاد"
           }
         },
         "fr" : {
@@ -1041,6 +1095,12 @@
             "value" : "Limpiar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پاک کردن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1135,6 +1195,12 @@
             "value" : "Portapapeles guardado correctamente"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کلیپ‌بورد با موفقیت ذخیره شد"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1186,6 +1252,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cerrar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بستن"
           }
         },
         "fr" : {
@@ -1301,6 +1373,12 @@
             "value" : "Commit & Push “%@”"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کامیت و پوش “%@”"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1411,6 +1489,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Commit message:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیام کامیت:"
           }
         },
         "fr" : {
@@ -1525,6 +1609,12 @@
             "value" : "Connection established successfully 🤟"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اتصال با موفقیت برقرار شد 🤟"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1635,6 +1725,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Convertir a Plain"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبدیل به متن ساده"
           }
         },
         "fr" : {
@@ -1749,6 +1845,12 @@
             "value" : "Convertir a TextBundle"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبدیل به TextBundle"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1859,6 +1961,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copiar HTML"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی HTML"
           }
         },
         "fr" : {
@@ -1973,6 +2081,12 @@
             "value" : "Copiar enlace"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی پیوند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2083,6 +2197,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copiar texto sin estilo"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی متن ساده"
           }
         },
         "fr" : {
@@ -2198,6 +2318,12 @@
             "value" : "Copiar título"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2311,6 +2437,12 @@
             "value" : "Copiar enlace"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی URL"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2406,6 +2538,12 @@
             "value" : "Crear carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد پوشه"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2457,6 +2595,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Crear página web"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد صفحه وب"
           }
         },
         "fr" : {
@@ -2573,6 +2717,12 @@
             "value" : "Fecha de creación:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخ ایجاد:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2683,6 +2833,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La contraseña actual no coincide con la contraseña en el Llavero"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه فعلی با گذرواژه موجود در Keychain مطابقت ندارد"
           }
         },
         "fr" : {
@@ -2798,6 +2954,12 @@
             "value" : "Descifrar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگشایی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2911,6 +3073,12 @@
             "value" : "Descifrar carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگشایی پوشه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3021,6 +3189,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La carpeta de almacenamiento por defecto no puede ser un repositorio Git."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مسیر پیش‌فرض ذخیره‌سازی نباید با مسیر Git یکسان باشد."
           }
         },
         "fr" : {
@@ -3136,6 +3310,12 @@
             "value" : "Eliminar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3247,6 +3427,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف پوشه"
           }
         },
         "fr" : {
@@ -3362,6 +3548,12 @@
             "value" : "Eliminar etiqueta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف برچسب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3473,6 +3665,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar página web"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف صفحه وب"
           }
         },
         "fr" : {
@@ -3588,6 +3786,12 @@
             "value" : "Do you want force checkout?"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا می‌خواهید checkout اجباری انجام دهید؟"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3698,6 +3902,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¿Quieres mover las notas al nuevo destino?"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا می‌خواهید یادداشت‌های فعلی را به مقصد جدید منتقل کنید؟"
           }
         },
         "fr" : {
@@ -3812,6 +4022,12 @@
             "value" : "Documentos"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسناد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3906,6 +4122,12 @@
             "value" : "Hecho"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انجام شد"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3957,6 +4179,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplicar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تکثیر"
           }
         },
         "fr" : {
@@ -4071,6 +4299,12 @@
             "value" : "Editar enlace…"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ویرایش پیوند…"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4181,6 +4415,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vaciar papelera"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خالی کردن سطل زباله"
           }
         },
         "fr" : {
@@ -4295,6 +4535,12 @@
             "value" : "Contraseña vacía"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه خالی است"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4405,6 +4651,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Introduzca una contraseña de cifrado:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یک گذرواژه برای رمزگذاری وارد کنید:"
           }
         },
         "fr" : {
@@ -4519,6 +4771,12 @@
             "value" : "Introduce la contraseña maestra"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه اصلی را وارد کنید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4631,6 +4889,12 @@
             "value" : "Ya existe una carpeta nombrada '%@'"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوشه‌ای با نام '%@' از قبل وجود دارد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4741,6 +5005,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Font"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قلم"
           }
         },
         "fr" : {
@@ -4856,6 +5126,12 @@
             "value" : "Forzar la Eliminación"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف اجباری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4967,6 +5243,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes [edición]"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes [ویرایش]"
           }
         },
         "fr" : {
@@ -5082,6 +5364,12 @@
             "value" : "FSNotes [previsualización]"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes [پیش‌نمایش]"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5194,6 +5482,12 @@
             "value" : "git error"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای git"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5304,6 +5598,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git error"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای Git"
           }
         },
         "fr" : {
@@ -5419,6 +5719,12 @@
             "value" : "Git push error"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای Git push"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5530,6 +5836,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git repository already exists, delete it and clone again??"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مخزن Git از قبل وجود دارد، حذف شود و دوباره کلون شود؟؟"
           }
         },
         "fr" : {
@@ -5644,6 +5956,12 @@
             "value" : "Ocultar notas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن فهرست یادداشت‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5754,6 +6072,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocultar barra lateral"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن نوار کناری"
           }
         },
         "fr" : {
@@ -5869,6 +6193,12 @@
             "value" : "Historia"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخچه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5976,6 +6306,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud Drive"
@@ -6094,6 +6430,12 @@
             "value" : "Importar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "درون‌بری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6204,6 +6546,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrada"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صندوق ورودی"
           }
         },
         "fr" : {
@@ -6319,6 +6667,12 @@
             "value" : "Libgit2 error"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای Libgit2"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6430,6 +6784,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Libgit2 error: (code)"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای Libgit2: (code)"
           }
         },
         "fr" : {
@@ -6545,6 +6905,12 @@
             "value" : "Enlace"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیوند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6658,6 +7024,12 @@
             "value" : "Cerrar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل کردن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6768,6 +7140,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquar todas las encriptadas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل کردن همه موارد رمزگذاری‌شده"
           }
         },
         "fr" : {
@@ -6883,6 +7261,12 @@
             "value" : "Bloquear carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل کردن پوشه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6993,6 +7377,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloqueado"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل‌شده"
           }
         },
         "fr" : {
@@ -7107,6 +7497,12 @@
             "value" : "Make Link"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد پیوند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7217,6 +7613,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contraseña maestra:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه اصلی:"
           }
         },
         "fr" : {
@@ -7332,6 +7734,12 @@
             "value" : "Mover"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7442,6 +7850,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error de movimiento"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای انتقال"
           }
         },
         "fr" : {
@@ -7557,6 +7971,12 @@
             "value" : "Nuevo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7668,6 +8088,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nueva carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوشه جدید"
           }
         },
         "fr" : {
@@ -7783,6 +8209,12 @@
             "value" : "Crear carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوشه جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7894,6 +8326,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nueva nota"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت جدید"
           }
         },
         "fr" : {
@@ -8009,6 +8447,12 @@
             "value" : "Nueva nota en una ventana nueva"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت جدید در پنجره جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8119,6 +8563,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nuevo proyecto"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پروژه جدید"
           }
         },
         "fr" : {
@@ -8233,6 +8683,12 @@
             "value" : "No"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خیر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8345,6 +8801,12 @@
             "value" : "Ninguno Seleccionado"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موردی انتخاب نشده"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8455,6 +8917,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ya existe una carpeta nombrada '%@' en el directorio seleccionado."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشتی با نام \"%@\" از قبل در دایرکتوری انتخاب‌شده وجود دارد."
           }
         },
         "fr" : {
@@ -8570,6 +9038,12 @@
             "value" : "Notas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8680,6 +9154,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تأیید"
           }
         },
         "fr" : {
@@ -8795,6 +9275,12 @@
             "value" : "Abrir externo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن خارجی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8906,6 +9392,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abrir nota"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن یادداشت"
           }
         },
         "fr" : {
@@ -9021,6 +9513,12 @@
             "value" : "Abrir nota en una ventana nueva"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن یادداشت در پنجره جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9131,6 +9629,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De lo contrario la base de datos de tus notas estará disponible en: "
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "در غیر این صورت، پایگاه‌داده یادداشت‌های شما در این مسیر در دسترس خواهد بود: "
           }
         },
         "fr" : {
@@ -9245,6 +9749,12 @@
             "value" : "Contraseña:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9355,6 +9865,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Carpeta no disponible"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مسیر در دسترس نیست"
           }
         },
         "fr" : {
@@ -9470,6 +9986,12 @@
             "value" : "Anclar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سنجاق کردن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9581,6 +10103,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor, introduce un título para la imagen:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً عنوان تصویر را وارد کنید:"
           }
         },
         "fr" : {
@@ -9695,6 +10223,12 @@
             "value" : "Por favor, introduce una contraseña para la nota"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً گذرواژه یادداشت فعلی را وارد کنید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9807,6 +10341,12 @@
             "value" : "Por favor, introduce un nombre para el proyecto:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً نام پروژه را وارد کنید:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9917,6 +10457,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor, introduce un nombre para la etiqueta:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً نام برچسب را وارد کنید:"
           }
         },
         "fr" : {
@@ -10033,6 +10579,12 @@
             "value" : "Por favor, introduce las etiquetas (separadas por comas):"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً برچسب‌ها را وارد کنید (جداشده با ویرگول):"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10143,6 +10695,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Please init git repository before (Preferences -> Git -> Init/commit)"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً ابتدا مخزن git را مقداردهی اولیه کنید (Preferences -> Git -> Init/commit)"
           }
         },
         "fr" : {
@@ -10257,6 +10815,12 @@
             "value" : "Seleccione la clave pública y privada"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً کلید خصوصی و عمومی را انتخاب کنید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10369,6 +10933,12 @@
             "value" : "Por favor seleccione clave privada"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً کلید خصوصی را انتخاب کنید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10479,6 +11049,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor intenta de nuevo"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً دوباره امتحان کنید"
           }
         },
         "fr" : {
@@ -10595,6 +11171,12 @@
             "value" : "Preferencias"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10706,6 +11288,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Imprimir"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چاپ"
           }
         },
         "fr" : {
@@ -10820,6 +11408,12 @@
             "value" : "Salir de FSNotes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خروج از FSNotes"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10932,6 +11526,12 @@
             "value" : "Recientes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موارد اخیر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11042,6 +11642,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Búqueda de Recientes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجوی موارد اخیر"
           }
         },
         "fr" : {
@@ -11157,6 +11763,12 @@
             "value" : "Borrar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11267,6 +11879,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar enlace"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف پیوند"
           }
         },
         "fr" : {
@@ -11381,6 +11999,12 @@
             "value" : "Eliminar nota(s)"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف یادداشت‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11491,6 +12115,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar etiquetas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف برچسب‌ها"
           }
         },
         "fr" : {
@@ -11606,6 +12236,12 @@
             "value" : "Renombrar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11717,6 +12353,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renombar carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام پوشه"
           }
         },
         "fr" : {
@@ -11832,6 +12474,12 @@
             "value" : "Renombar etiqueta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام برچسب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11944,6 +12592,12 @@
             "value" : "Renombar etiqueta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام برچسب‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12054,6 +12708,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repository not found"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مخزن یافت نشد"
           }
         },
         "fr" : {
@@ -12169,6 +12829,12 @@
             "value" : "Mostrar en el Finder"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در Finder"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12263,6 +12929,12 @@
             "value" : "Buscar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجو"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12313,6 +12985,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buscar y crear"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجو و ایجاد"
           }
         },
         "fr" : {
@@ -12428,6 +13106,12 @@
             "value" : "Buscar y crear"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجو و ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12538,6 +13222,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferencias"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات"
           }
         },
         "fr" : {
@@ -12653,6 +13343,12 @@
             "value" : "Mostrar carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در Finder"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12763,6 +13459,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar notas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش فهرست یادداشت‌ها"
           }
         },
         "fr" : {
@@ -12878,6 +13580,12 @@
             "value" : "Ver configuración"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش گزینه‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12988,6 +13696,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar barra lateral"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش نوار کناری"
           }
         },
         "fr" : {
@@ -13103,6 +13817,12 @@
             "value" : "Ver configuración"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش گزینه‌های نما"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13216,6 +13936,12 @@
             "value" : "Ordenar por"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرتب‌سازی بر اساس"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13326,6 +14052,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SSH error"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای SSH"
           }
         },
         "fr" : {
@@ -13441,6 +14173,12 @@
             "value" : "Etiquetas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برچسب‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13554,6 +14292,12 @@
             "value" : "Esta operación no se puede deshacer."
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "این اقدام قابل بازگشت نیست."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13664,6 +14408,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pendientes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وظایف"
           }
         },
         "fr" : {
@@ -13779,6 +14529,12 @@
             "value" : "Cambiar previsualización"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر حالت پیش‌نمایش"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13892,6 +14648,12 @@
             "value" : "Papelera"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سطل زباله"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13987,6 +14749,12 @@
             "value" : "Desvincular carpeta externa"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لغو پیوند پوشه خارجی"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14038,6 +14806,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desbloquear"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن قفل"
           }
         },
         "fr" : {
@@ -14150,6 +14924,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desbloquear carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن قفل پوشه"
           }
         },
         "fr" : {
@@ -14265,6 +15045,12 @@
             "value" : "Desanclar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برداشتن سنجاق"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14375,6 +15161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sin etiquetar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدون برچسب"
           }
         },
         "fr" : {
@@ -14491,6 +15283,12 @@
             "value" : "Nota sin título"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت بدون عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14602,6 +15400,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actualizar página web"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "به‌روزرسانی صفحه وب"
           }
         },
         "fr" : {
@@ -14716,6 +15520,12 @@
             "value" : "Upload error"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای بارگذاری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14826,6 +15636,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "El enlace se ha copiado al portapapeles"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL در کلیپ‌بورد کپی شد"
           }
         },
         "fr" : {
@@ -14940,6 +15756,12 @@
             "value" : "Verificar contraseña:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تأیید گذرواژه:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15051,6 +15873,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visualización"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نما"
           }
         },
         "fr" : {
@@ -15171,6 +15999,12 @@
             "value" : "Se ha detectado que la versión de FSNotes instalada es del Mac App Store, con almacenamiento por defecto en iCloud Drive. ¿Quieres mover la base de datos antigua a iCloud Drive?"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تشخیص داده شد که شما FSNotes را از Mac App Store با محل ذخیره پیش‌فرض در iCloud Drive نصب کرده‌اید، آیا می‌خواهید پایگاه‌داده قدیمی را به iCloud Drive منتقل کنید؟"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15281,6 +16115,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No se puede mover \"{DST_PATH}\" porque ya existe en el destino seleccionado."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امکان انتقال \"{DST_PATH}\" وجود ندارد زیرا این مورد از قبل در مقصد انتخاب‌شده وجود دارد."
           }
         },
         "fr" : {
@@ -15395,6 +16235,12 @@
             "value" : "Web"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15505,6 +16351,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error de publicación web"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای انتشار وب"
           }
         },
         "fr" : {
@@ -15619,6 +16471,12 @@
             "value" : "Contraseña incorrecta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه نادرست"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15729,6 +16587,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repetición de contraseña incorrecta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تکرار گذرواژه نادرست است"
           }
         },
         "fr" : {
@@ -15843,6 +16707,12 @@
             "value" : "Si"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بله"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15953,6 +16823,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No puedes mover una nota ya encriptada a un directorio encriptado. Primero debes desencriptar la nota y repetir los pasos."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمی‌توانید یادداشت از قبل رمزگذاری‌شده را به دایرکتوری رمزگذاری‌شده منتقل کنید. ابتدا باید یادداشت را رمزگشایی کرده و مراحل را تکرار کنید."
           }
         },
         "fr" : {
