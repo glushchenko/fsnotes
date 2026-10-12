@@ -118,15 +118,24 @@ extension NSMutableAttributedString {
     }
 
     public func loadTasks() {
-        while mutableString.contains("- [ ] ") {
-            let range = mutableString.range(of: "- [ ] ")
+        var cursor = 0
+        while cursor < length {
+            let searchRange = NSRange(location: cursor, length: length - cursor)
+            let range = mutableString.range(of: "- [ ] ", options: [], range: searchRange)
+            if range.location == NSNotFound { break }
+
             if length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {
                 replaceCharacters(in: range, with: unChecked)
+                cursor = range.location + unChecked.length
             }
         }
 
-        while mutableString.contains("- [x] ") {
-            let range = mutableString.range(of: "- [x] ")
+        cursor = 0
+        while cursor < length {
+            let searchRange = NSRange(location: cursor, length: length - cursor)
+            let range = mutableString.range(of: "- [x] ", options: [], range: searchRange)
+            if range.location == NSNotFound { break }
+
             let parRange = mutableString.paragraphRange(for: range)
 
             if length >= range.upperBound, let checked = AttributedBox.getChecked() {
@@ -139,6 +148,7 @@ extension NSMutableAttributedString {
                 #endif
 
                 replaceCharacters(in: range, with: checked)
+                cursor = range.location + checked.length
             }
         }
     }
