@@ -625,9 +625,12 @@ class SidebarTableView: UITableView,
         }
 
         let toRemoveTags = tags.filter { !allTags.contains($0) }
-        allTagNames = Set(allTags)
-        rebuildTagItems()
-        reloadSections(IndexSet(integer: SidebarSection.Tags.rawValue), with: .fade)
+        let newTagNames = Set(allTags)
+        if newTagNames != allTagNames {
+            allTagNames = newTagNames
+            rebuildTagItems()
+            reloadSections(IndexSet(integer: SidebarSection.Tags.rawValue), with: .fade)
+        }
 
         deSelectTagIfNonExist(tags: toRemoveTags)
     }
