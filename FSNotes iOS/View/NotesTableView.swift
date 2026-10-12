@@ -605,17 +605,34 @@ class NotesTableView: UITableView,
 
         vc.removeSpotlightIndex(notes: notes)
 
+        let isBatch = notes.count > 1
+        var firstRowByNote = [ObjectIdentifier: Int]()
+        if isBatch {
+            for (row, note) in self.notes.enumerated() {
+                let id = ObjectIdentifier(note)
+                if firstRowByNote[id] == nil {
+                    firstRowByNote[id] = row
+                }
+            }
+        }
+
         var indexPaths = [IndexPath]()
         var tags = [String]()
         for note in notes {
-            if let i = self.notes.firstIndex(where: { $0 === note }) {
+            let row = isBatch ? firstRowByNote[ObjectIdentifier(note)] : self.notes.firstIndex(where: { $0 === note })
+            if let i = row {
                 indexPaths.append(IndexPath(row: i, section: 0))
                 tags.append(contentsOf: note.tags)
             }
         }
         
         beginUpdates()
-        self.notes.removeAll(where: { notes.contains($0) })
+        if isBatch {
+            let noteIDs = Set(notes.map { ObjectIdentifier($0) })
+            self.notes.removeAll(where: { noteIDs.contains(ObjectIdentifier($0)) })
+        } else {
+            self.notes.removeAll(where: { notes.contains($0) })
+        }
         deleteRows(at: indexPaths, with: .automatic)
         endUpdates()
         
@@ -628,10 +645,12 @@ class NotesTableView: UITableView,
 
         vc.storage.loadPins(notes: notes)
 
+        let isBatch = notes.count > 1
+        let existingNoteIDs = isBatch ? Set(self.notes.map { ObjectIdentifier($0) }) : []
         var toInsert = [Note]()
         for note in notes {
             guard vc.storage.searchQuery.isFit(note: note),
-                  !self.notes.contains(where: { $0 === note })
+                  !(isBatch ? existingNoteIDs.contains(ObjectIdentifier(note)) : self.notes.contains(where: { $0 === note }))
             else { continue }
             toInsert.append(note)
         }
@@ -643,9 +662,20 @@ class NotesTableView: UITableView,
         let nonSorted = self.notes + toInsert
         let sorted = vc.storage.sortNotes(noteList: nonSorted)
 
+        var firstRowByNote = [ObjectIdentifier: Int]()
+        if toInsert.count > 1 {
+            for (row, note) in sorted.enumerated() {
+                let id = ObjectIdentifier(note)
+                if firstRowByNote[id] == nil {
+                    firstRowByNote[id] = row
+                }
+            }
+        }
+
         var indexPaths = [IndexPath]()
         for note in toInsert {
-            guard let index = sorted.firstIndex(where: { $0 === note }) else { continue }
+            let row = toInsert.count > 1 ? firstRowByNote[ObjectIdentifier(note)] : sorted.firstIndex(where: { $0 === note })
+            guard let index = row else { continue }
             indexPaths.append(IndexPath(row: index, section: 0))
         }
 
@@ -658,8 +688,19 @@ class NotesTableView: UITableView,
 
     public func reloadRows(notes: [Note], resetKeys: Bool = false) {
         beginUpdates()
+        var firstRowByNote = [ObjectIdentifier: Int]()
+        if notes.count > 1 {
+            for (row, note) in self.notes.enumerated() {
+                let id = ObjectIdentifier(note)
+                if firstRowByNote[id] == nil {
+                    firstRowByNote[id] = row
+                }
+            }
+        }
+
         for note in notes {
-            if let row = self.notes.firstIndex(where: { $0 === note }) {
+            let row = notes.count > 1 ? firstRowByNote[ObjectIdentifier(note)] : self.notes.firstIndex(where: { $0 === note })
+            if let row = row {
                 let indexPath = IndexPath(row: row, section: 0)
 
                 if let cell = cellForRow(at: indexPath) as? NoteCellView {
