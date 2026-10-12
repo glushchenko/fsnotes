@@ -488,15 +488,13 @@ class SidebarTableView: UITableView,
     }
 
     public func getAllTags(projects: [Project]? = nil) -> [String] {
-        var tags = [String]()
+        var tags = Set<String>()
 
         if let projects = projects {
             for project in projects {
                 let projectTags = project.getAllTags()
                 for tag in projectTags {
-                    if !tags.contains(tag) {
-                        tags.append(tag)
-                    }
+                    tags.insert(tag)
                 }
             }
         }
@@ -505,14 +503,12 @@ class SidebarTableView: UITableView,
     }
 
     private func getAllTags(notes: [Note]? = nil) -> [String] {
-        var tags = [String]()
+        var tags = Set<String>()
 
         if let notes = notes {
             for note in notes {
                for tag in note.tags {
-                   if !tags.contains(tag) {
-                       tags.append(tag)
-                   }
+                   tags.insert(tag)
                }
             }
         }
