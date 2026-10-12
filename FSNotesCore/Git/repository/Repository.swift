@@ -123,13 +123,15 @@ public class Repository {
     public func setWorkTree(path: String) {
         var configPointer: OpaquePointer? = nil
         
-        var result = git_repository_config(&configPointer, self.pointer.pointee);
-        if result != GIT_OK.rawValue {
+        let result = git_repository_config(&configPointer, self.pointer.pointee)
+        guard result == GIT_OK.rawValue, let config = configPointer else {
             print("Config opening error")
+            return
         }
+        defer { git_config_free(config) }
         
-        result = git_config_set_string(configPointer, "core.worktree", path);
-        if result != GIT_OK.rawValue {
+        let setResult = git_config_set_string(config, "core.worktree", path)
+        if setResult != GIT_OK.rawValue {
             print("Core config error")
         }
     }
