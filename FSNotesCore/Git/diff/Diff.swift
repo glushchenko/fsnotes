@@ -13,20 +13,6 @@ import Cgit2
 var paths = NSMutableDictionary()
 
 
-/// Define internal object to cast and use with C hander
-class InternalDiffWrapper {
-    
-    /// Diff object
-    var diff : Diff
-    
-    /// Entries parsed
-    var entries = Dictionary<String, Bool>()
-    
-    init(_ diff: Diff) {
-        self.diff = diff
-    }
-}
-
 /// Diff
 public class Diff {
     
@@ -59,14 +45,8 @@ public class Diff {
             return paths.contains(path)
         }
         
-        // Create internal object to convert in C pointer
-        let payload = InternalDiffWrapper(self)
-        
-        // COnvert in C pointer
-        let ptr = Unmanaged.passRetained(CWrapper(payload)).toOpaque()
-        
         // Foreach on all diff entries
-        let error = git_diff_foreach(self.pointer.pointee, DiffFile.callback, nil, nil, nil, ptr)
+        let error = git_diff_foreach(self.pointer.pointee, DiffFile.callback, nil, nil, nil, nil)
         if (error != 0) {
             print("git diff error \(git_error_message())")
         }
