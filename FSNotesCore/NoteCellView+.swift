@@ -177,6 +177,9 @@ extension NoteCellView {
 
             if let image = getPreviewImage(imageUrl: imageUrl, note: note) {
                 resizedImages.append(image)
+                if resizedImages.count == 3 {
+                    break
+                }
             }
         }
 
