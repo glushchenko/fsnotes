@@ -830,24 +830,27 @@ class Storage {
             "PNG", ".icloud", ".cache", ".Trash", "i"
         ])
 
-        let urls = fileEnumerator.allObjects.compactMap({ $0 as? URL })
-            .filter({
-                !extensions.contains($0.pathExtension)
-                && !extensions.contains($0.lastPathComponent)
-                && !$0.path.contains("/assets")
-                && !$0.path.contains("/.cache")
-                && !$0.path.contains("/files")
-                && !$0.path.contains("/.Trash")
-                && !$0.path.contains("/Trash")
-                && !$0.path.contains(".textbundle")
-                && !$0.path.contains(".revisions")
-                && !$0.path.contains("/.git")
-            })
-
         var fin = [URL]()
         var i = 0
 
-        for url in urls {
+        while let url = fileEnumerator.nextObject() as? URL {
+            if url.path.contains("/assets")
+                || url.path.contains("/.cache")
+                || url.path.contains("/files")
+                || url.path.contains("/.Trash")
+                || url.path.contains("/Trash")
+                || url.path.contains(".textbundle")
+                || url.path.contains(".revisions")
+                || url.path.contains("/.git") {
+                fileEnumerator.skipDescendants()
+                continue
+            }
+
+            if extensions.contains(url.pathExtension)
+                || extensions.contains(url.lastPathComponent) {
+                continue
+            }
+
             do {
                 var isDirectoryResourceValue: AnyObject?
                 try (url as NSURL).getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
