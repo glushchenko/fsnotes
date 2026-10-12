@@ -440,15 +440,13 @@ class EditorViewController: UIViewController,
 
         let textStorage = textView.textStorage
         let location = textView.selectedRange.location
-
-        // Encoded offset for Emoji
-        guard let cursor = textView.cursorDistance else { return }
+        guard location >= 0, location <= textStorage.length else { return }
 
         let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: location, length: 0))
 
         let paragraph = textStorage.attributedSubstring(from: parRange).string
         guard paragraph.contains("[[") && paragraph.contains("]]"),
-            let result = isBetweenBraces(location: cursor) else { return }
+            let result = isBetweenBraces(paragraph: paragraph, location: location - parRange.location) else { return }
 
         let word = result.0 + text
 
@@ -459,20 +457,25 @@ class EditorViewController: UIViewController,
 
         dropDown.dataSource = titles
 
-        let range = result.1
-
-        // Decode multibyte offset for Emoji like "🇺🇦"
-        let startIndex = textView.text.index(textView.text.startIndex, offsetBy: range.lowerBound + 2)
-        let startRange = NSRange(startIndex...startIndex, in: textView.text)
-        let replacementRange = NSRange(location: startRange.lowerBound, length: word.count)
+        let replacementRange = NSRange(location: parRange.location + result.1.location + 2,
+                                       length: (word as NSString).length)
 
         complete(offset: replacementRange.location, replacementRange: replacementRange)
     }
 
-    private func isBetweenBraces(location: Int) -> (String, NSRange)? {
-        let storage = editArea.textStorage
-        let string = Array(storage.string)
-        let length = storage.length
+    private func isBetweenBraces(paragraph: String, location: Int) -> (String, NSRange)? {
+        let string = paragraph as NSString
+        let length = string.length
+        guard location >= 0, location <= length else { return nil }
+
+        func isNewline(_ char: unichar) -> Bool {
+            switch char {
+            case 0x000A, 0x000D, 0x000B, 0x000C, 0x0085, 0x2028, 0x2029:
+                return true
+            default:
+                return false
+            }
+        }
 
         var firstLeftFound = false
         var firstRigthFound = false
@@ -484,17 +487,17 @@ class EditorViewController: UIViewController,
         var j = location
 
         while i >= 0 {
-            let char = string[i]
+            let char = string.character(at: i)
             if firstLeftFound {
-                leftFound = char == "["
+                leftFound = char == 0x005B
                 break
             }
 
-            if char.isNewline {
+            if isNewline(char) {
                 break
             }
 
-            if char == "[" {
+            if char == 0x005B {
                 firstLeftFound = true
             }
 
@@ -502,33 +505,30 @@ class EditorViewController: UIViewController,
         }
 
         while length > j {
-            let char = string[j]
+            let char = string.character(at: j)
             if firstRigthFound {
-                rigthFound = char == "]"
+                rigthFound = char == 0x005D
                 break
             }
 
-            if char.isNewline {
+            if isNewline(char) {
                 break
             }
 
-            if char == "]" {
+            if char == 0x005D {
                 firstRigthFound = true
             }
 
             j += 1
         }
 
-        var result = String()
         if leftFound && rigthFound {
-            result =
-                String(string[i...j])
-
-            result = result
+            let range = NSRange(location: i, length: j - i + 1)
+            let result = string.substring(with: range)
                 .replacingOccurrences(of: "[[", with: "")
                 .replacingOccurrences(of: "]]", with: "")
 
-            return (result, NSRange(i...j))
+            return (result, range)
         }
 
         return nil
