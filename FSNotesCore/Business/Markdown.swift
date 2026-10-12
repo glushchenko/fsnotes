@@ -7,6 +7,7 @@
 //
 
 import libcmark_gfm
+import Darwin
 
 /// Replaces Markdown horizontal-rule lines without touching fenced code blocks.
 func replaceHorizontalRulesOutsideCodeBlocks(in markdown: String) -> String {
@@ -69,8 +70,11 @@ func renderMarkdownHTML(markdown: String, sourcePositions: Bool = false) -> Stri
 
     cmark_parser_feed(parser, markdown, markdown.utf8.count)
     guard let node = cmark_parser_finish(parser) else { return nil }
+    defer { cmark_node_free(node) }
     let options = CMARK_OPT_HARDBREAKS | CMARK_OPT_UNSAFE | (sourcePositions ? CMARK_OPT_SOURCEPOS : 0)
-    return String(cString: cmark_render_html(node, options, nil))
+    guard let html = cmark_render_html(node, options, nil) else { return nil }
+    defer { free(html) }
+    return String(cString: html)
 }
 
 func generateAlphabeticalString(length: Int) -> String {
