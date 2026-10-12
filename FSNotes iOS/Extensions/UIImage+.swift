@@ -69,6 +69,19 @@ extension UIImage {
         return image
     }
 
+    func resizedAndCropped(to size: CGSize) -> UIImage? {
+        let actualWidth = Double(self.size.width)
+        let actualHeight = Double(self.size.height)
+        let aspectFillScale = max(Double(size.width) / actualWidth, Double(size.height) / actualHeight)
+        let drawSize = CGSize(width: actualWidth * aspectFillScale, height: actualHeight * aspectFillScale)
+        let renderer = UIGraphicsImageRenderer(size: size)
+        let image = renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: drawSize))
+        }
+
+        return image
+    }
+
     func croppedInRect(rect: CGRect) -> UIImage {
         func rad(_ degree: Double) -> CGFloat {
             return CGFloat(degree / 180.0 * .pi)

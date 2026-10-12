@@ -157,8 +157,7 @@ class NoteCellView: SwipeTableViewCell {
             do {
                 let data = try Data(contentsOf: imageUrl)
                 if let image = UIImage(data: data) {
-                    let size = CGRect(x: 0, y: 0, width: 70, height: 70)
-                    if let resized = image.resize(height: 70)?.croppedInRect(rect: size) {
+                    if let resized = image.resizedAndCropped(to: CGSize(width: 70, height: 70)) {
                         let jpegImageData = resized.jpegData(compressionQuality: 1)
                         try? jpegImageData?.write(to: file, options: .atomic)
                         return resized
