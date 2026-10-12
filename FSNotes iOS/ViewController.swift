@@ -883,6 +883,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
 
+            if operation.isCancelled {
+                completion?()
+                return
+            }
+
             if let project = query.projects.first, project.isLocked() {
                 notes.removeAll()
             }
