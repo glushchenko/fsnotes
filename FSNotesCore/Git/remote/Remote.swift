@@ -34,6 +34,14 @@ public class Remote {
         self.name = name
         self.pointer = pointer
     }
+
+    deinit {
+        if let ptr = pointer.pointee {
+            git_remote_free(ptr)
+        }
+        pointer.deinitialize(count: 1)
+        pointer.deallocate()
+    }
     
     
     /// Fetch all remote branches
