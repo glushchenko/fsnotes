@@ -572,8 +572,15 @@ public class Project: NSObject {
             }
         }
 
+        var fileSystemNotesByURL = [URL: Note]()
+        for note in fileSystemNotes {
+            if fileSystemNotesByURL[note.url] == nil {
+                fileSystemNotesByURL[note.url] = note
+            }
+        }
+
         for memoryNote in memoryNotes {
-            if let note = fileSystemNotes.first(where: { $0.url == memoryNote.url }) {
+            if let note = fileSystemNotesByURL[memoryNote.url] {
                 if memoryNote.modifiedLocalAt != note.modifiedLocalAt {
                     memoryNote.forceLoad()
                     foundChanged.append(memoryNote)
