@@ -22,23 +22,15 @@ public class Repository {
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
     
     /// Branches manager
-    lazy public private(set) var branches : Branches = {
-        Branches(repository: self)
-    } ()
+    public var branches: Branches { Branches(repository: self) }
     
     /// Statuses manager
-    lazy public private(set) var statuses : Statuses = {
-        Statuses(repository: self)
-    } ()
+    public var statuses: Statuses { Statuses(repository: self) }
     
     /// Access tags manager
-    lazy public private(set) var tags : Tags = {
-        Tags(repository: self)
-    } ()
+    public var tags: Tags { Tags(repository: self) }
     
-    lazy public private(set) var remotes : Remotes = {
-        Remotes(repository: self)
-    } ()
+    public var remotes: Remotes { Remotes(repository: self) }
     
     /// Constructor with repository manager and libgit2 repository
     ///
