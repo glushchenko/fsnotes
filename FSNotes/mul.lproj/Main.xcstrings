@@ -38,7 +38,7 @@
         "fa" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nتمامی حقوق محفوظ است."
+            "value" : "‏Copyright © 2017-2024 Oleksandr Hlushchenko.\nتمامی حقوق محفوظ است."
           }
         },
         "fr" : {
@@ -21419,7 +21419,7 @@
         "fa" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Commit و Push"
+            "value" : "‏Commit و Push"
           }
         },
         "fr" : {
@@ -35227,7 +35227,7 @@
         "fa" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Commit/Push هر"
+            "value" : "‏Commit/Push هر"
           }
         },
         "fr" : {
@@ -37856,7 +37856,7 @@
         "fa" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pull هر"
+            "value" : "‏Pull هر"
           }
         },
         "fr" : {
