@@ -291,10 +291,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
             object: NSUbiquitousKeyValueStore.default)
 
-        if NSUbiquitousKeyValueStore.default.synchronize() == false {
-            fatalError("This app was not built with the proper entitlement requests.")
-        }
-        
         NSUbiquitousKeyValueStore.default.synchronize()
 
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
