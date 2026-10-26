@@ -15,6 +15,12 @@
             "value" : "..."
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "..."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -98,6 +104,12 @@
             "value" : "+"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -169,6 +181,12 @@
           }
         },
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "✅ - "
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "✅ - "
@@ -254,6 +272,12 @@
             "value" : "Externer Ordner"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افزودن پوشه خارجی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -329,6 +353,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profi"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیشرفته"
           }
         },
         "fr" : {
@@ -407,6 +437,12 @@
             "value" : "Möchten Sie wirklich alle Versionen dieser Notiz löschen?"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا مطمئن هستید که می‌خواهید همه نسخه‌های این یادداشت را حذف کنید؟"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -481,6 +517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Möchten Sie den Verlauf aller Notizen wirklich löschen?"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا مطمئن هستید که می‌خواهید تاریخچه همه یادداشت‌ها را حذف کنید؟"
           }
         },
         "fr" : {
@@ -559,6 +601,12 @@
             "value" : "Möchten Sie dieses Bild wirklich löschen?"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیا مطمئن هستید که می‌خواهید این تصویر را حذف کنید؟"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -633,6 +681,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aufsteigend"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صعودی"
           }
         },
         "fr" : {
@@ -715,6 +769,12 @@
             "value" : "Nach Titel umbenennen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام خودکار بر اساس عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -790,6 +850,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autokorrektur"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تصحیح خودکار"
           }
         },
         "fr" : {
@@ -869,6 +935,12 @@
             "value" : "Automatische Benennung nach Titel"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام‌گذاری خودکار بر اساس عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -944,6 +1016,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "version"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ساخت"
           }
         },
         "fr" : {
@@ -1022,6 +1100,12 @@
             "value" : "Abbrechen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لغو"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1096,6 +1180,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Datum erstellt"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر تاریخ ایجاد"
           }
         },
         "fr" : {
@@ -1175,6 +1265,12 @@
             "value" : "Rechtschreibung prüfen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بررسی املا"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1249,6 +1345,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Code"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کد"
           }
         },
         "fr" : {
@@ -1328,6 +1430,12 @@
             "value" : "Code hervorheben"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برجسته‌سازی زنده بلوک کد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1403,6 +1511,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Code-Design"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوسته کد"
           }
         },
         "fr" : {
@@ -1482,6 +1596,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kompatibel mit Bear und Ulysses (Textbundle), markdown, txt."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سازگار با Bear و Ulysses (textbundle)، markdown، txt."
           }
         },
         "fr" : {
@@ -1567,6 +1687,12 @@
             "value" : "Container"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کانتینر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1641,6 +1767,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Text kopieren"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی متن ساده"
           }
         },
         "fr" : {
@@ -1723,6 +1855,12 @@
             "value" : "Ordner erstellen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد پوشه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1797,6 +1935,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner erstellen:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد پوشه:"
           }
         },
         "fr" : {
@@ -1875,6 +2019,12 @@
             "value" : "Web-Seite erstellen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد صفحه وب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1949,6 +2099,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erstelldatum"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخ ایجاد"
           }
         },
         "fr" : {
@@ -2028,6 +2184,12 @@
             "value" : "Entschlüsseln"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگشایی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2103,6 +2265,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Standard-Tastatur"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صفحه‌کلید پیش‌فرض"
           }
         },
         "fr" : {
@@ -2182,6 +2350,12 @@
             "value" : "Löschen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2256,6 +2430,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web-Seite löschen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف صفحه وب"
           }
         },
         "fr" : {
@@ -2334,6 +2514,12 @@
             "value" : "Absteigend"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نزولی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2408,6 +2594,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dokumente"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسناد"
           }
         },
         "fr" : {
@@ -2486,6 +2678,12 @@
             "value" : "Erledigt"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انجام شد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2560,6 +2758,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplikat"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تکثیر"
           }
         },
         "fr" : {
@@ -2639,6 +2843,12 @@
             "value" : "Dynamische Schriftart"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamic Type"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2714,6 +2924,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editor"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ویرایشگر"
           }
         },
         "fr" : {
@@ -2793,6 +3009,12 @@
             "value" : "Leerer Behälter"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خالی کردن سطل زباله"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2868,6 +3090,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verschlüsseln Sie"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگذاری"
           }
         },
         "fr" : {
@@ -2946,6 +3174,12 @@
             "value" : "Ordnername eingeben"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام پوشه را وارد کنید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3020,6 +3254,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passwort eingeben"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه اصلی را وارد کنید"
           }
         },
         "fr" : {
@@ -3098,6 +3338,12 @@
             "value" : "Tag eingeben"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام برچسب جدید را وارد کنید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3172,6 +3418,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notizname eingeben"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام یادداشت را وارد کنید"
           }
         },
         "fr" : {
@@ -3254,6 +3506,12 @@
             "value" : "Dateiformat"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پسوند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3334,6 +3592,12 @@
             "value" : "Schriftfamilie"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خانواده"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3408,6 +3672,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eine Datei mit diesem Namen existiert bereits"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فایلی با این نام از قبل وجود دارد"
           }
         },
         "fr" : {
@@ -3487,6 +3757,12 @@
             "value" : "Dateien"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فایل‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3562,6 +3838,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dateinamen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام‌گذاری فایل‌ها"
           }
         },
         "fr" : {
@@ -3640,6 +3922,12 @@
             "value" : "Ordnername:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام پوشه:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3714,6 +4002,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ein Ordner mit diesem Namen existiert bereits"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوشه‌ای با این نام از قبل وجود دارد"
           }
         },
         "fr" : {
@@ -3793,6 +4087,12 @@
             "value" : "Ordner"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوشه‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3868,6 +4168,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schrift"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قلم"
           }
         },
         "fr" : {
@@ -3947,6 +4253,12 @@
             "value" : "Schriftart"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خانواده قلم"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4022,6 +4334,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schriftgröße"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اندازه قلم"
           }
         },
         "fr" : {
@@ -4101,6 +4419,12 @@
             "value" : "Format: Untitled Note"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب: یادداشت بدون عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4176,6 +4500,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Format: yyyy-MM-dd hh.mm.ss a"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب: yyyy-MM-dd hh.mm.ss a"
           }
         },
         "fr" : {
@@ -4255,6 +4585,12 @@
             "value" : "Format: yyyyMMddHHmmss"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب: yyyyMMddHHmmss"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4327,6 +4663,12 @@
           }
         },
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -4409,6 +4751,12 @@
             "value" : "Allgemein"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عمومی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4481,6 +4829,12 @@
           }
         },
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
@@ -4563,6 +4917,12 @@
             "value" : "Git Add/commit/push"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git Add/commit/push"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4640,6 +5000,12 @@
             "value" : "Git settings"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات Git"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4714,6 +5080,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geschichte"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخچه"
           }
         },
         "fr" : {
@@ -4796,6 +5168,12 @@
             "value" : "iCloud Drive"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4873,6 +5251,12 @@
             "value" : "Icon"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیکون"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4947,6 +5331,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bildquelle:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "منبع تصاویر:"
           }
         },
         "fr" : {
@@ -5026,6 +5416,12 @@
             "value" : "Importieren"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "درون‌ریزی یادداشت‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5101,6 +5497,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eingang"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صندوق ورودی"
           }
         },
         "fr" : {
@@ -5182,6 +5584,12 @@
             "value" : "Ungültiges Passwort"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه نامعتبر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5257,6 +5665,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seitenleiste"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کتابخانه"
           }
         },
         "fr" : {
@@ -5336,6 +5750,12 @@
             "value" : "Zeilenabstand"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فاصله خطوط"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5412,6 +5832,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bilder аnzeigen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیش‌نمایش زنده تصاویر"
           }
         },
         "fr" : {
@@ -5493,6 +5919,12 @@
             "value" : "Laden..."
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "در حال بارگذاری..."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5568,6 +6000,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sperren"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل کردن"
           }
         },
         "fr" : {
@@ -5647,6 +6085,12 @@
             "value" : "Master"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اصلی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5723,6 +6167,12 @@
             "value" : "Master Passwort:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه اصلی:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5795,6 +6245,12 @@
           }
         },
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MathJax"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "MathJax"
@@ -5879,6 +6335,12 @@
             "value" : "Änderungsdatum"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخ ویرایش"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5955,6 +6417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mehr"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بیشتر"
           }
         },
         "fr" : {
@@ -6034,6 +6502,12 @@
             "value" : "Bewegen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6110,6 +6584,12 @@
             "value" : "Neues Dokument"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6184,6 +6664,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Standard"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هیچ‌کدام"
           }
         },
         "fr" : {
@@ -6266,6 +6752,12 @@
             "value" : "Notizen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6340,6 +6832,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notizenliste"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فهرست یادداشت‌ها"
           }
         },
         "fr" : {
@@ -6419,6 +6917,12 @@
             "value" : "In Files.app öffnen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن در Files.app"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6494,6 +6998,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geöffnete Notiz"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن یادداشت"
           }
         },
         "fr" : {
@@ -6572,6 +7082,12 @@
             "value" : "Passphrase"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عبارت عبور"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6646,6 +7162,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passwort"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه"
           }
         },
         "fr" : {
@@ -6724,6 +7246,12 @@
             "value" : "Das Passwort wurde erfolgreich geändert"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه با موفقیت تغییر کرد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6798,6 +7326,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passwort:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه:"
           }
         },
         "fr" : {
@@ -6876,6 +7410,12 @@
             "value" : "Fotos"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عکس‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6950,6 +7490,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bild entfernen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف تصویر"
           }
         },
         "fr" : {
@@ -7027,6 +7573,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fixieren"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سنجاق کردن"
           }
         },
         "fr" : {
@@ -7108,6 +7660,12 @@
             "value" : "Bitte geben Sie ein gültiges Passwort ein"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً گذرواژه معتبری وارد کنید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7185,6 +7743,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bitte versuchen Sie es erneut"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لطفاً دوباره تلاش کنید"
           }
         },
         "fr" : {
@@ -7266,6 +7830,12 @@
             "value" : "Private key"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کلید خصوصی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7340,6 +7910,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Projekt entfernen ❌"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف پروژه ❌"
           }
         },
         "fr" : {
@@ -7421,6 +7997,12 @@
             "value" : "Public key (optional)"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کلید عمومی (اختیاری)"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7495,6 +8077,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pull (alle 30 Sekunden)"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‏Pull (هر 30 sec)"
           }
         },
         "fr" : {
@@ -7579,6 +8167,12 @@
             "value" : "Verschlüsselung entfernen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف رمزگذاری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7654,6 +8248,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ordner enfernen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف پوشه"
           }
         },
         "fr" : {
@@ -7733,6 +8333,12 @@
             "value" : "Tag entfernen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف برچسب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7807,6 +8413,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Umbenennen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام"
           }
         },
         "fr" : {
@@ -7886,6 +8498,12 @@
             "value" : "Ordner umbenennen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام پوشه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7963,6 +8581,12 @@
             "value" : "Ordner löschen:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام پوشه:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8037,6 +8661,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notiz umbenennen:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام یادداشت:"
           }
         },
         "fr" : {
@@ -8116,6 +8746,12 @@
             "value" : "Tag umbenennen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام برچسب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8191,6 +8827,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tag umbenennen:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام برچسب:"
           }
         },
         "fr" : {
@@ -8269,6 +8911,12 @@
             "value" : "Speichern Sie"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ذخیره"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8343,6 +8991,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kopieren"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ذخیره بریده‌دان"
           }
         },
         "fr" : {
@@ -8421,6 +9075,12 @@
             "value" : "Revision speichern"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ذخیره نسخه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8495,6 +9155,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gespeicherte Versionen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخه‌های ذخیره‌شده"
           }
         },
         "fr" : {
@@ -8573,6 +9239,12 @@
             "value" : "Suchen oder erstellen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجو یا ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8647,6 +9319,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Suchen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجو یا ایجاد"
           }
         },
         "fr" : {
@@ -8726,6 +9404,12 @@
             "value" : "Sicherheit"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امنیت"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8801,6 +9485,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auswählen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتخاب"
           }
         },
         "fr" : {
@@ -8883,6 +9573,12 @@
             "value" : "Einstellungen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8962,6 +9658,12 @@
             "value" : "Teilen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اشتراک‌گذاری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9038,6 +9740,12 @@
             "value" : "Projekt in Seitenleiste anzeigen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش پوشه در کتابخانه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9112,6 +9820,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notizen in \"Notizen\" und \"Todo\" anzeigen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش یادداشت‌ها در «یادداشت‌ها» و «وظایف»"
           }
         },
         "fr" : {
@@ -9191,6 +9905,12 @@
             "value" : "Sortieren nach"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرتب‌سازی بر اساس"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9265,6 +9985,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Richtung"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جهت مرتب‌سازی"
           }
         },
         "fr" : {
@@ -9351,6 +10077,12 @@
             "value" : "Storage"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ذخیره‌سازی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9431,6 +10163,12 @@
             "value" : "Support"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشتیبانی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9506,6 +10244,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tags"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برچسب‌ها"
           }
         },
         "fr" : {
@@ -9591,6 +10335,12 @@
             "value" : "Dank an"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سپاسگزاری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9666,6 +10416,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Thema"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوسته"
           }
         },
         "fr" : {
@@ -9744,6 +10500,12 @@
             "value" : "Tipp: Um alte Notizen zu verwenden, müssen Sie sie separat mit dem alten Schlüssel entschlüsseln und erneut verschlüsseln."
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نکته: برای استفاده از یادداشت‌های قدیمی، باید آن‌ها را به‌طور جداگانه با کلید قدیمی رمزگشایی کرده و دوباره رمزگذاری کنید."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9818,6 +10580,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Titel"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان"
           }
         },
         "fr" : {
@@ -9897,6 +10665,12 @@
             "value" : "Todo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وظایف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9972,6 +10746,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Papierkorb"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سطل زباله"
           }
         },
         "fr" : {
@@ -10051,6 +10831,12 @@
             "value" : "Entsperren"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن قفل"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10126,6 +10912,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loslösen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برداشتن سنجاق"
           }
         },
         "fr" : {
@@ -10205,6 +10997,12 @@
             "value" : "Ungetaggt"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدون برچسب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10281,6 +11079,12 @@
             "value" : "Update"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "به‌روزرسانی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10355,6 +11159,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geteilte aktualisieren"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "به‌روزرسانی صفحه وب"
           }
         },
         "fr" : {
@@ -10436,6 +11246,12 @@
             "value" : "Erste Zeile als Titel"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استفاده از سطر اول به‌عنوان عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10513,6 +11329,12 @@
             "value" : "Inlinetags verwenden"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استفاده از برچسب‌های درون‌خطی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10587,6 +11409,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "TextBundle info.json zum Speichern von c/mtime verwenden"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استفاده از TextBundle info.json برای ذخیره c/mtime"
           }
         },
         "fr" : {
@@ -10668,6 +11496,12 @@
             "value" : "Passwort überprüfen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تأیید گذرواژه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10743,6 +11577,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخه"
           }
         },
         "fr" : {
@@ -10822,6 +11662,12 @@
             "value" : "Sicht"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نما"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10899,6 +11745,12 @@
             "value" : "Einstellungen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات نما"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10973,6 +11825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sichtbarkeit"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایانی"
           }
         },
         "fr" : {
@@ -11055,6 +11913,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web sharing error"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطای اشتراک‌گذاری وب"
           }
         },
         "fr" : {
@@ -11140,6 +12004,12 @@
             "value" : "Startseite"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وب‌سایت"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11214,6 +12084,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falsches Passwort"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه نادرست"
           }
         },
         "fr" : {
@@ -11292,6 +12168,12 @@
             "value" : "Falsches wiederholtes Passwort"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تکرار گذرواژه نادرست است"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11366,6 +12248,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verlauf löschen"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پاک‌سازی تاریخچه"
           }
         },
         "fr" : {

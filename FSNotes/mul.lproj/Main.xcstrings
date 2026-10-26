@@ -35,6 +35,12 @@
             "value" : "Copyright © 2017-2024 Oleksandr Hlushchenko.\nAll rights reserved."
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‏Copyright © 2017-2024 Oleksandr Hlushchenko.\nتمامی حقوق محفوظ است."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -143,6 +149,12 @@
             "value" : "Activar:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فعال‌سازی:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -222,6 +234,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "example.com"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "example.com"
@@ -347,6 +365,12 @@
             "value" : "Buscar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یافتن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -455,6 +479,12 @@
             "value" : "Enlaces externos"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیوندهای برگشتی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -537,6 +567,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "2 Spaces"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "۲ فاصله"
           }
         },
         "fr" : {
@@ -659,6 +695,12 @@
             "value" : "Bloqueado"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل‌شده"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -777,6 +819,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Título"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان"
           }
         },
         "fr" : {
@@ -899,6 +947,12 @@
             "value" : "Lista"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فهرست"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1019,6 +1073,12 @@
             "value" : "Remove"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1134,6 +1194,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -1259,6 +1325,12 @@
             "value" : "TextEdit"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextEdit"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1377,6 +1449,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icono del Dock:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آیکون Dock:"
           }
         },
         "fr" : {
@@ -1499,6 +1577,12 @@
             "value" : "Nuevo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1617,6 +1701,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "hora a las"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ساعت در"
           }
         },
         "fr" : {
@@ -1739,6 +1829,12 @@
             "value" : "Transformaciones"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبدیل‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1854,6 +1950,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
@@ -1979,6 +2081,12 @@
             "value" : "Nueva nota en ventana nueva"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت جدید در پنجره جدید  "
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2087,6 +2195,12 @@
             "value" : "Mover elemento"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال مورد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2169,6 +2283,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ortografía y gramática"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "املا و دستور زبان"
           }
         },
         "fr" : {
@@ -2291,6 +2411,12 @@
             "value" : "Copiar título"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2409,6 +2535,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cambiar contraseña maestra"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر گذرواژه اصلی"
           }
         },
         "fr" : {
@@ -2531,6 +2663,12 @@
             "value" : "Habla"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گفتار"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2649,6 +2787,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ninguno Seleccionado"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موردی انتخاب نشده"
           }
         },
         "fr" : {
@@ -2771,6 +2915,12 @@
             "value" : "Abrir"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن خارجی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2889,6 +3039,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nueva carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد پوشه"
           }
         },
         "fr" : {
@@ -3011,6 +3167,12 @@
             "value" : "Ordenar por:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرتب‌سازی بر اساس:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3131,6 +3293,12 @@
             "value" : "Buscar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یافتن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3246,6 +3414,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hlushchenko"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "hlushchenko"
@@ -3371,6 +3545,12 @@
             "value" : "Usar pantalla completa"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ورود به حالت تمام‌صفحه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3489,6 +3669,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salir de FSNotes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خروج از FSNotes"
           }
         },
         "fr" : {
@@ -3611,6 +3797,12 @@
             "value" : "https://github.com/glushchenko/fsnotes.git"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git@github.com:username/repo.git"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3729,6 +3921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar encriptación"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگشایی"
           }
         },
         "fr" : {
@@ -3851,6 +4049,12 @@
             "value" : "Acerca de FSNotes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "درباره FSNotes"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3969,6 +4173,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copiar título"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی عنوان"
           }
         },
         "fr" : {
@@ -4091,6 +4301,12 @@
             "value" : "Ordenar por"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرتب‌سازی بر اساس"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4209,6 +4425,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ویرایش"
           }
         },
         "fr" : {
@@ -4331,6 +4553,12 @@
             "value" : "Ocultar la previsualización de imágenes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن پیش‌نمایش تصویرها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4449,6 +4677,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rehacer"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انجام دوباره"
           }
         },
         "fr" : {
@@ -4571,6 +4805,12 @@
             "value" : "Tema:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوسته کد:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4689,6 +4929,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cerrar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بستن"
           }
         },
         "fr" : {
@@ -4811,6 +5057,12 @@
             "value" : "Clone"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کلون"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4929,6 +5181,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contraseña actual:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه فعلی:"
           }
         },
         "fr" : {
@@ -5051,6 +5309,12 @@
             "value" : "Abrir externo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن خارجی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5169,6 +5433,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escoger"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیم"
           }
         },
         "fr" : {
@@ -5291,6 +5561,12 @@
             "value" : "Cambiar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5409,6 +5685,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pequeño"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کوچک"
           }
         },
         "fr" : {
@@ -5531,6 +5813,12 @@
             "value" : "Lista ordenada"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فهرست شماره‌دار"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5649,6 +5937,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquear al cambiar de usuario"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل شدن هنگام تعویض کاربر"
           }
         },
         "fr" : {
@@ -5771,6 +6065,12 @@
             "value" : "Cartas credenciales:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اعتبارنامه‌ها:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5891,6 +6191,12 @@
             "value" : "Sustituciones"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جایگزینی‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6009,6 +6315,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Port:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پورت:"
           }
         },
         "fr" : {
@@ -6246,6 +6558,12 @@
             "value" : "Copiado/pegado Inteligente"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی/چسباندن هوشمند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6364,6 +6682,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Traductores:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مترجمان:"
           }
         },
         "fr" : {
@@ -6486,6 +6810,12 @@
             "value" : "Frase de contraseña:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عبارت عبور:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6604,6 +6934,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fuente:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قلم کد:"
           }
         },
         "fr" : {
@@ -6726,6 +7062,12 @@
             "value" : "Corregir ortografía automáticamente"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تصحیح خودکار املا"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6844,6 +7186,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "empty log"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گزارش خالی"
           }
         },
         "fr" : {
@@ -6966,6 +7314,12 @@
             "value" : "Minimizar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کمینه‌کردن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7084,6 +7438,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Función rápida de búsqueda:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "میانبر جست‌وجو:"
           }
         },
         "fr" : {
@@ -7206,6 +7566,12 @@
             "value" : "Host:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "میزبان:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7326,6 +7692,12 @@
             "value" : "Cargar y probar datos iniciales"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بارگذاری و آزمایش داده‌های اولیه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7434,6 +7806,12 @@
             "value" : "Cursiva:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایتالیک:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7516,6 +7894,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repositorios:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مخزن‌ها:"
           }
         },
         "fr" : {
@@ -7638,6 +8022,12 @@
             "value" : "Git origin:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origin:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7756,6 +8146,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Historia"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخچه"
           }
         },
         "fr" : {
@@ -7878,6 +8274,12 @@
             "value" : "Formato: yyyyMMddHHmmss"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب: yyyyMMddHHmmss"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7993,6 +8395,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "iCloud Drive"
@@ -8118,6 +8526,12 @@
             "value" : "Establecer"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیم"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8236,6 +8650,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menú principal"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "منوی اصلی"
           }
         },
         "fr" : {
@@ -8358,6 +8778,12 @@
             "value" : "Buscar o crear"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجو یا ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8473,6 +8899,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".md"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".md"
@@ -8598,6 +9030,12 @@
             "value" : "/var/www/example.com"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/var/www/example.com"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8716,6 +9154,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cambiar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر"
           }
         },
         "fr" : {
@@ -8838,6 +9282,12 @@
             "value" : "Fuente:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قلم یادداشت:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8958,6 +9408,12 @@
             "value" : "Mostrar icono en el Dock"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش آیکون در Dock"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9066,6 +9522,12 @@
             "value" : "Borrar tareas completadas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پاک کردن وظایف انجام‌شده"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9148,6 +9610,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferencias…"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات…"
           }
         },
         "fr" : {
@@ -9270,6 +9738,12 @@
             "value" : "minuto"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دقیقه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9388,6 +9862,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mover abajo en la lista de notas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حرکت به پایین در فهرست یادداشت‌ها"
           }
         },
         "fr" : {
@@ -9510,6 +9990,12 @@
             "value" : "Usar selección para buscar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استفاده از انتخاب برای جست‌وجو"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9628,6 +10114,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicar notas sobre:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتشار یادداشت‌ها در:"
           }
         },
         "fr" : {
@@ -9750,6 +10242,12 @@
             "value" : "Sin etiquetar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدون برچسب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9868,6 +10366,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Espaciado en la lista:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فاصله‌گذاری فهرست یادداشت‌ها:"
           }
         },
         "fr" : {
@@ -9990,6 +10494,12 @@
             "value" : "Transformaciones"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبدیل‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10108,6 +10618,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sitio web de FSNotes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وب‌سایت رسمی"
           }
         },
         "fr" : {
@@ -10230,6 +10746,12 @@
             "value" : "UUID"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب: UUID"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10348,6 +10870,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encabezado 6"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرتیتر ۶"
           }
         },
         "fr" : {
@@ -10470,6 +10998,12 @@
             "value" : "Remove"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10588,6 +11122,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Formato:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب:"
           }
         },
         "fr" : {
@@ -10710,6 +11250,12 @@
             "value" : "Grande"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بزرگ"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10828,6 +11374,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mover"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال"
           }
         },
         "fr" : {
@@ -10950,6 +11502,12 @@
             "value" : "Enlaces inteligentes"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیوندهای هوشمند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11068,6 +11626,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encabezado 2"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرتیتر ۲"
           }
         },
         "fr" : {
@@ -11190,6 +11754,12 @@
             "value" : "Todo en minúsculas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کوچک کردن حروف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11308,6 +11878,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fecha de modificación"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخ ویرایش"
           }
         },
         "fr" : {
@@ -11430,6 +12006,12 @@
             "value" : "Mostrar/ocultar barra lateral"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان/نمایان کردن نوار کناری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11548,6 +12130,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mediano"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متوسط"
           }
         },
         "fr" : {
@@ -11670,6 +12258,12 @@
             "value" : "Tabular a la izquierda"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال به چپ"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11788,6 +12382,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ""
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "v2.9.0"
           }
         },
         "fr" : {
@@ -11910,6 +12510,12 @@
             "value" : "no key"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدون کلید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12028,6 +12634,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Separate .git in project dir (except iCloud Drive)"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوشه .git جداگانه در پوشه پروژه (به‌جز iCloud Drive)"
           }
         },
         "fr" : {
@@ -12150,6 +12762,12 @@
             "value" : "Servidor personalizado"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرور سفارشی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12268,6 +12886,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cifrar carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگشایی پوشه"
           }
         },
         "fr" : {
@@ -12390,6 +13014,12 @@
             "value" : "Deshacer"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "واگرد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12508,6 +13138,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ortografía y gramática"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "املا و دستور زبان"
           }
         },
         "fr" : {
@@ -12630,6 +13266,12 @@
             "value" : "Encabezado 5"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرتیتر ۵"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12748,6 +13390,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clave:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه:"
           }
         },
         "fr" : {
@@ -12870,6 +13518,12 @@
             "value" : "Idioma (requiere reiniciar):"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زبان:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12988,6 +13642,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pendientes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وظیفه"
           }
         },
         "fr" : {
@@ -13110,6 +13770,12 @@
             "value" : "SSH configuración:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیکربندی SSH:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13228,6 +13894,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplicar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تکثیر"
           }
         },
         "fr" : {
@@ -13367,6 +14039,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocultar la fecha"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن تاریخ"
           }
         },
         "fr" : {
@@ -13592,6 +14270,12 @@
             "value" : "Compartir"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اشتراک‌گذاری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13674,6 +14358,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Path:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مسیر:"
           }
         },
         "fr" : {
@@ -13796,6 +14486,12 @@
             "value" : "Escoger"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیم"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13914,6 +14610,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tachado"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خط‌خورده"
           }
         },
         "fr" : {
@@ -14036,6 +14738,12 @@
             "value" : "Font preview"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیش‌نمایش قلم"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14154,6 +14862,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versión"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخه"
           }
         },
         "fr" : {
@@ -14276,6 +14990,12 @@
             "value" : "Fecha de creación"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخ ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14394,6 +15114,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ascendente"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صعودی"
           }
         },
         "fr" : {
@@ -14516,6 +15242,12 @@
             "value" : "Ayuda"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "راهنما"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14634,6 +15366,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocultar la previsualización de notas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن پیش‌نمایش"
           }
         },
         "fr" : {
@@ -14756,6 +15494,12 @@
             "value" : "Mostrar el contenido de las carpetas anidadas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش محتوای پوشه‌های تودرتو"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14874,6 +15618,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sustituciones"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جایگزینی‌ها"
           }
         },
         "fr" : {
@@ -14996,6 +15746,12 @@
             "value" : "Eliminar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15114,6 +15870,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ayuda de FSNotes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "راهنمای FSNotes"
           }
         },
         "fr" : {
@@ -15236,6 +15998,12 @@
             "value" : "Icons design:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "طراحی آیکون‌ها:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15354,6 +16122,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quitar encriptación"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمزگشایی"
           }
         },
         "fr" : {
@@ -15476,6 +16250,12 @@
             "value" : "Almacenamiento por defecto:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "محل ذخیره‌سازی پیش‌فرض:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15594,6 +16374,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoom"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بزرگ‌نمایی"
           }
         },
         "fr" : {
@@ -15716,6 +16502,12 @@
             "value" : "Cambiar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15834,6 +16626,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nombre de archivos:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام‌گذاری فایل‌ها:"
           }
         },
         "fr" : {
@@ -15956,6 +16754,12 @@
             "value" : "Hecho con ❤️ en Ucrania 🇺🇦 "
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ساخته‌شده با ❤️ در اوکراین 🇺🇦 "
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16074,6 +16878,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renombar carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام پوشه"
           }
         },
         "fr" : {
@@ -16196,6 +17006,12 @@
             "value" : "Bloquear autómaticamente las notas encriptadas:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل خودکار یادداشت‌های رمزگذاری‌شده:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16314,6 +17130,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escanear etiquetas automáticamente"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پویش برچسب‌های درون‌خطی"
           }
         },
         "fr" : {
@@ -16436,6 +17258,12 @@
             "value" : "F. rápida guardar portapapeles:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "میانبر ذخیره کلیپ‌بورد:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16554,6 +17382,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "seconds"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ثانیه"
           }
         },
         "fr" : {
@@ -16676,6 +17510,12 @@
             "value" : "Fecha de modificación"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخ ویرایش"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16794,6 +17634,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancelar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لغو"
           }
         },
         "fr" : {
@@ -16916,6 +17762,12 @@
             "value" : "Formato"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب‌بندی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17034,6 +17886,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Servidor de FSNotes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرور FSNotes"
           }
         },
         "fr" : {
@@ -17156,6 +18014,12 @@
             "value" : "Ninguno Seleccionado"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موردی انتخاب نشده است"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17274,6 +18138,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وب:"
           }
         },
         "fr" : {
@@ -17396,6 +18266,12 @@
             "value" : "Encabezado 4"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرتیتر ۴"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17514,6 +18390,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در Finder"
           }
         },
         "fr" : {
@@ -17636,6 +18518,12 @@
             "value" : "Mostrar carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در Finder"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17754,6 +18642,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquear todas las notas encriptadas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل همه موارد رمزگذاری‌شده"
           }
         },
         "fr" : {
@@ -17876,6 +18770,12 @@
             "value" : "Pegar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چسباندن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17991,6 +18891,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -18116,6 +19022,12 @@
             "value" : "Librería"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کتابخانه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18234,6 +19146,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oscuro"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تیره"
           }
         },
         "fr" : {
@@ -18356,6 +19274,12 @@
             "value" : "Alejar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کوچک‌نمایی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18474,6 +19398,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visualización"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش"
           }
         },
         "fr" : {
@@ -18596,6 +19526,12 @@
             "value" : "Restablecer la configuración"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بازنشانی تنظیمات"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18714,6 +19650,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar ortografía y gramática"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش املا و دستور زبان"
           }
         },
         "fr" : {
@@ -18836,6 +19778,12 @@
             "value" : "Reemplazar texto"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جایگزینی متن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -18951,6 +19899,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".markdown"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".markdown"
@@ -19076,6 +20030,12 @@
             "value" : "Abrir en Nueva ventana"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن یادداشت در پنجره جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19194,6 +20154,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reiniciar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بازنشانی"
           }
         },
         "fr" : {
@@ -19316,6 +20282,12 @@
             "value" : "Buscar y crear"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جست‌وجو و ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19436,6 +20408,12 @@
             "value" : "Comillas tipográficas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گیومه‌های هوشمند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19551,6 +20529,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WikiLinks"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "WikiLinks"
@@ -19676,6 +20660,12 @@
             "value" : "Mover arriba en la lista de notas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حرکت به بالا در فهرست یادداشت‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -19794,6 +20784,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visualización"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش"
           }
         },
         "fr" : {
@@ -19916,6 +20912,12 @@
             "value" : "Comprobar documento ahora"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بررسی سند هم‌اکنون"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20034,6 +21036,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Servicios"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرویس‌ها"
           }
         },
         "fr" : {
@@ -20156,6 +21164,12 @@
             "value" : "Papelera:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سطل زباله:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20274,6 +21288,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrada"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "صندوق ورودی"
           }
         },
         "fr" : {
@@ -20396,6 +21416,12 @@
             "value" : "Almacenamiento de respaldo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‏Commit و Push"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20514,6 +21540,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquear cuando se active el salvapantallas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل هنگام فعال شدن محافظ صفحه"
           }
         },
         "fr" : {
@@ -20636,6 +21668,12 @@
             "value" : "Contraseña nueva:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه جدید:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20754,6 +21792,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Indicación:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "راهنما:"
           }
         },
         "fr" : {
@@ -20876,6 +21920,12 @@
             "value" : "Tabular a la derecha"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال به راست"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -20996,6 +22046,12 @@
             "value" : "no key"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدون کلید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21111,6 +22167,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -21236,6 +22298,12 @@
             "value" : "Espaciado de línea:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فاصله خطوط:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21354,6 +22422,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Formato: Nota sin título"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب: یادداشت بدون عنوان"
           }
         },
         "fr" : {
@@ -21476,6 +22550,12 @@
             "value" : "Ancho de línea:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عرض خط:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21594,6 +22674,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anclar/Desanclar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سنجاق کردن/برداشتن سنجاق"
           }
         },
         "fr" : {
@@ -21716,6 +22802,12 @@
             "value" : "Renombrar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21831,6 +22923,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🔗fsnotes/contributors"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "🔗fsnotes/contributors"
@@ -21956,6 +23054,12 @@
             "value" : "Visibilidad:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قابلیت مشاهده:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22074,6 +23178,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encabezado 1"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرتیتر ۱"
           }
         },
         "fr" : {
@@ -22215,6 +23325,12 @@
             "value" : "Establecer"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیم"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22333,6 +23449,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Formato"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب‌بندی"
           }
         },
         "fr" : {
@@ -22455,6 +23577,12 @@
             "value" : "Eliminar página web"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف صفحه وب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22573,6 +23701,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cursiva"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مورب"
           }
         },
         "fr" : {
@@ -22695,6 +23829,12 @@
             "value" : "Contraseña:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گذرواژه:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22813,6 +23953,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Utilizar la primera línea como título"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استفاده از خط اول به‌عنوان عنوان"
           }
         },
         "fr" : {
@@ -22935,6 +24081,12 @@
             "value" : "Mostrar todo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش همه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23053,6 +24205,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquear/desbloquear"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل/باز کردن قفل"
           }
         },
         "fr" : {
@@ -23175,6 +24333,12 @@
             "value" : "Cerrar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بستن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23293,6 +24457,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Previsualizar MathJax"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیش‌نمایش MathJax"
           }
         },
         "fr" : {
@@ -23415,6 +24585,12 @@
             "value" : ""
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23533,6 +24709,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Permitir desbloquar las notas con Touch ID"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اجازه به Touch ID برای باز کردن قفل یادداشت‌ها"
           }
         },
         "fr" : {
@@ -23655,6 +24837,12 @@
             "value" : "Origin para el proyecto principal:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مبدأ پروژه اصلی:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23773,6 +24961,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferencias"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات"
           }
         },
         "fr" : {
@@ -23895,6 +25089,12 @@
             "value" : "Tamaño real"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اندازه واقعی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24015,6 +25215,12 @@
             "value" : "Restablecer:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بازنشانی:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24123,6 +25329,12 @@
             "value" : "Compartir"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اشتراک‌گذاری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24205,6 +25417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encabezado 3"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرتیتر ۳"
           }
         },
         "fr" : {
@@ -24327,6 +25545,12 @@
             "value" : "Título"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24445,6 +25669,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ancho de imágenes:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عرض تصاویر:"
           }
         },
         "fr" : {
@@ -24567,6 +25797,12 @@
             "value" : "Negrita"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پررنگ"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24685,6 +25921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Private key"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کلید خصوصی"
           }
         },
         "fr" : {
@@ -24807,6 +26049,12 @@
             "value" : "Ocultar FSNotes cuando no sea la aplicación activa"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن FSNotes هنگام فعال شدن برنامه‌ای دیگر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24922,6 +26170,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextBundle"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "TextBundle"
@@ -25072,6 +26326,12 @@
             "value" : "4 Spaces"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "۴ فاصله"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25190,6 +26450,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comprobar gramática con la ortografía"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بررسی دستور زبان همراه با املا"
           }
         },
         "fr" : {
@@ -25312,6 +26578,12 @@
             "value" : "Ventana"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنجره"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25427,6 +26699,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://example.com/"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://example.com/"
@@ -25552,6 +26830,12 @@
             "value" : "Avanzado"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیشرفته"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25670,6 +26954,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contenedor:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ظرف:"
           }
         },
         "fr" : {
@@ -25792,6 +27082,12 @@
             "value" : "Insertar Pendiente"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر وضعیت وظیفه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25910,6 +27206,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clickable links"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیوندهای قابل کلیک"
           }
         },
         "fr" : {
@@ -26032,6 +27334,12 @@
             "value" : "Cambiar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26152,6 +27460,12 @@
             "value" : "Frase de contraseña:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عبارت عبور:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26267,6 +27581,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tab"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tab"
@@ -26392,6 +27712,12 @@
             "value" : "Imprimir"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چاپ"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26510,6 +27836,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Web"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وب"
           }
         },
         "fr" : {
@@ -26632,6 +27964,12 @@
             "value" : "General"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عمومی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26750,6 +28088,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Servicios"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرویس‌ها"
           }
         },
         "fr" : {
@@ -26872,6 +28216,12 @@
             "value" : "Utilizar TextBundle info.json para almacenar c/mtime"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استفاده از info.json در TextBundle برای ذخیره c/mtime"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26987,6 +28337,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touch ID:"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID:"
@@ -27112,6 +28468,12 @@
             "value" : "Acercar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بزرگ‌نمایی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27230,6 +28592,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بازنشانی"
           }
         },
         "fr" : {
@@ -27352,6 +28720,12 @@
             "value" : "Mostrar en la terminal"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در Terminal"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27470,6 +28844,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "درون‌ریزی"
           }
         },
         "fr" : {
@@ -27592,6 +28972,12 @@
             "value" : "Mostrar en la barra lateral"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در نوار کناری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27710,6 +29096,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Título"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان"
           }
         },
         "fr" : {
@@ -27832,6 +29224,12 @@
             "value" : ""
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27950,6 +29348,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajustes globales"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هیچ‌کدام (استفاده از تنظیمات کلی)"
           }
         },
         "fr" : {
@@ -28072,6 +29476,12 @@
             "value" : "Crear página web"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد صفحه وب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28190,6 +29600,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocultar FSNotes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن FSNotes"
           }
         },
         "fr" : {
@@ -28312,6 +29728,12 @@
             "value" : "Bloque de código"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بلوک کد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28430,6 +29852,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adelante"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جلو"
           }
         },
         "fr" : {
@@ -28552,6 +29980,12 @@
             "value" : "Imprimir…"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چاپ"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28670,6 +30104,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buscar anterior"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یافتن قبلی"
           }
         },
         "fr" : {
@@ -28792,6 +30232,12 @@
             "value" : "Detener locución"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "توقف گفتار"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28910,6 +30356,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Disposición"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "طرح‌بندی"
           }
         },
         "fr" : {
@@ -29032,6 +30484,12 @@
             "value" : "Sangría usando:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تورفتگی با:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29150,6 +30608,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copia de seguridad automática:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عکس‌های فوری خودکار:"
           }
         },
         "fr" : {
@@ -29272,6 +30736,12 @@
             "value" : "Eliminar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29392,6 +30862,12 @@
             "value" : "Cambiar previsualización"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر وضعیت پیش‌نمایش"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29507,6 +30983,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "git@github.com:glushchenko/example.git"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "git@github.com:glushchenko/example.git"
@@ -29632,6 +31114,12 @@
             "value" : "Repetir contraseña:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تکرار گذرواژه:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29750,6 +31238,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplicar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تکثیر"
           }
         },
         "fr" : {
@@ -29872,6 +31366,12 @@
             "value" : "Seguridad"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امنیت"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29992,6 +31492,12 @@
             "value" : "Fecha de creación"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخ ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30100,6 +31606,12 @@
             "value" : "Encabezados"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سرتیترها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30182,6 +31694,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar página web"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف صفحه وب"
           }
         },
         "fr" : {
@@ -30304,6 +31822,12 @@
             "value" : "Buscar siguiente"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یافتن بعدی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30422,6 +31946,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Informar de errores"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گزارش خطاها"
           }
         },
         "fr" : {
@@ -30544,6 +32074,12 @@
             "value" : "Cambiar fecha de creación"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر تاریخ ایجاد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30662,6 +32198,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O use la clave privada .ssh (recomendado):"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مخزن Git:"
           }
         },
         "fr" : {
@@ -30784,6 +32326,12 @@
             "value" : "Formato: yyyy-MM-dd hh.mm.ss a"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قالب: yyyy-MM-dd hh.mm.ss a"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -30902,6 +32450,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atrás"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عقب"
           }
         },
         "fr" : {
@@ -31024,6 +32578,12 @@
             "value" : "Ver configuración"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش گزینه‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31142,6 +32702,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dirección:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جهت:"
           }
         },
         "fr" : {
@@ -31264,6 +32830,12 @@
             "value" : "Ventana principal"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنجره اصلی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31382,6 +32954,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Empezar con la edición al seleccionar una nota"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تمرکز روی ویرایشگر هنگام انتخاب یادداشت"
           }
         },
         "fr" : {
@@ -31504,6 +33082,12 @@
             "value" : "Tamaño del margen: "
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اندازه حاشیه:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31622,6 +33206,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comprobar ortografía mientras se escribe"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بررسی املا هنگام تایپ"
           }
         },
         "fr" : {
@@ -31744,6 +33334,12 @@
             "value" : "Reiniciar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بازنشانی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -31862,6 +33458,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Papelera"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سطل زباله"
           }
         },
         "fr" : {
@@ -31984,6 +33586,12 @@
             "value" : "Copiar enlace"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی URL"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32102,6 +33710,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Guiones inteligentes"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خط‌های تیره هوشمند"
           }
         },
         "fr" : {
@@ -32224,6 +33838,12 @@
             "value" : "Ordenar por"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرتب‌سازی بر اساس"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32342,6 +33962,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clone"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کلون"
           }
         },
         "fr" : {
@@ -32464,6 +34090,12 @@
             "value" : "Bloquear/desbloquear"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل/باز کردن قفل"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32582,6 +34214,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sistema"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سیستم"
           }
         },
         "fr" : {
@@ -32704,6 +34342,12 @@
             "value" : "Seleccionar todo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتخاب همه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -32822,6 +34466,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar carpeta"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف پوشه"
           }
         },
         "fr" : {
@@ -32944,6 +34594,12 @@
             "value" : "Mostrar en el Finder"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در Finder"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33062,6 +34718,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "passphrase"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عبارت عبور"
           }
         },
         "fr" : {
@@ -33184,6 +34846,12 @@
             "value" : "Ir a la selección"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پرش به انتخاب"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33302,6 +34970,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Traer todo al frente"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال همه به جلو"
           }
         },
         "fr" : {
@@ -33424,6 +35098,12 @@
             "value" : "Adjuntar almacenamiento..."
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افزودن پوشه خارجی..."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33542,6 +35222,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Respaldar cada"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‏Commit/Push هر"
           }
         },
         "fr" : {
@@ -33664,6 +35350,12 @@
             "value" : "Lista de notas:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فهرست یادداشت‌ها:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -33782,6 +35474,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mover arriba en la barra lateral"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حرکت به بالا در نوار کناری"
           }
         },
         "fr" : {
@@ -33904,6 +35602,12 @@
             "value" : "Ventana"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنجره"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34022,6 +35726,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Restablecer cachés"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بازنشانی حافظه پنهان"
           }
         },
         "fr" : {
@@ -34144,6 +35854,12 @@
             "value" : "Archivo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پرونده"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34264,6 +35980,12 @@
             "value" : "Code Font"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قلم کد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34382,6 +36104,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Historia"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخچه"
           }
         },
         "fr" : {
@@ -34535,6 +36263,12 @@
             "value" : "Nueva carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پوشه جدید"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34653,6 +36387,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editor"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ویرایشگر"
           }
         },
         "fr" : {
@@ -34775,6 +36515,12 @@
             "value" : "Mostrar icono en la barra de menús"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش آیکون در نوار منو"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34883,6 +36629,12 @@
             "value" : "Mover líneas seleccionadas hacia abajo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حرکت خطوط انتخابی به پایین"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -34962,6 +36714,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dylan Seeger — https://www.lovably.com\nOlena Hlushcneko"
@@ -35087,6 +36845,12 @@
             "value" : "Resolver automáticamente conflictos de iCloud Drive"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حل خودکار تداخل‌های iCloud Drive"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35207,6 +36971,12 @@
             "value" : "Descendiendo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نزولی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35322,6 +37092,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".txt"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : ".txt"
@@ -35447,6 +37223,12 @@
             "value" : "Apariencia:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ظاهر:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35565,6 +37347,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "In memory of Mars. ? - 25.08.2022"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "به یاد Mars. ? - 25.08.2022"
           }
         },
         "fr" : {
@@ -35687,6 +37475,12 @@
             "value" : "Primera línea como título"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خط اول به‌عنوان عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35805,6 +37599,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferencias"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات"
           }
         },
         "fr" : {
@@ -35927,6 +37727,12 @@
             "value" : "Detectores de datos"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آشکارسازهای داده"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36045,6 +37851,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pull every"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‏Pull هر"
           }
         },
         "fr" : {
@@ -36167,6 +37979,12 @@
             "value" : "Abrir en Nueva ventana"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36285,6 +38103,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Label"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برچسب"
           }
         },
         "fr" : {
@@ -36407,6 +38231,12 @@
             "value" : "Mayúsculas iniciales"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بزرگ‌نویسی حرف اول"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36527,6 +38357,12 @@
             "value" : "Claro"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "روشن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36642,6 +38478,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "22"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "22"
@@ -36767,6 +38609,12 @@
             "value" : "Intervalo de código"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کد درون‌خطی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36875,6 +38723,12 @@
             "value" : "Encabezados"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -36957,6 +38811,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Archivo"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پرونده"
           }
         },
         "fr" : {
@@ -37079,6 +38939,12 @@
             "value" : "Copiar enlace"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی URL"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37194,6 +39060,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FSNotes"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "FSNotes"
@@ -37317,6 +39189,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cortar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برش"
           }
         },
         "fr" : {
@@ -37452,6 +39330,12 @@
             "value" : "empty log"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گزارش خالی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37570,6 +39454,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocultar otros"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان کردن بقیه"
           }
         },
         "fr" : {
@@ -37692,6 +39582,12 @@
             "value" : "Bloquar al entrar en reposo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل هنگام به خواب رفتن"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -37810,6 +39706,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O use la clave privada .ssh:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یا استفاده از کلید خصوصی .ssh:"
           }
         },
         "fr" : {
@@ -37932,6 +39834,12 @@
             "value" : "Ask commit message on note save"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "درخواست پیام کامیت هنگام ذخیره یادداشت"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38052,6 +39960,12 @@
             "value" : "Todo en mayúsculas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تبدیل به حروف بزرگ"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38170,6 +40084,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mover abajo en la barra lateral"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال به پایین در نوار کناری"
           }
         },
         "fr" : {
@@ -38311,6 +40231,12 @@
             "value" : "Utilizar la barra de búsqueda al presionar la tecla ESC"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تمرکز روی نوار جست‌وجو با فشردن ESC"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38429,6 +40355,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Crear página web"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ایجاد صفحه وب"
           }
         },
         "fr" : {
@@ -38551,6 +40483,12 @@
             "value" : "Bloquear carpeta"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قفل کردن پوشه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38669,6 +40607,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ویرایش"
           }
         },
         "fr" : {
@@ -38791,6 +40735,12 @@
             "value" : "opcional"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختیاری"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38909,6 +40859,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "~/.ssh/id_rsa"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کلید id_rsa انتخاب نشده است"
           }
         },
         "fr" : {
@@ -39031,6 +40987,12 @@
             "value" : "Pegar con el mismo estilo"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چسباندن و تطبیق سبک"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39149,6 +41111,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocultar/mostrar notas"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنهان/نمایش فهرست یادداشت‌ها"
           }
         },
         "fr" : {
@@ -39271,6 +41239,12 @@
             "value" : "Ayuda"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "راهنما"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39389,6 +41363,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colocar la lista de notas encima del editor"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چیدمان فهرست یادداشت‌ها بالای ویرایشگر"
           }
         },
         "fr" : {
@@ -39511,6 +41491,12 @@
             "value" : "Passphrase:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عبارت عبور:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39631,6 +41617,12 @@
             "value" : "Renombrar automáticamente por título"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام خودکار بر اساس عنوان"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39746,6 +41738,12 @@
           }
         },
         "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git"
+          }
+        },
+        "fa" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git"
@@ -39871,6 +41869,12 @@
             "value" : "Citar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نقل‌قول"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39989,6 +41993,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copiar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کپی"
           }
         },
         "fr" : {
@@ -40111,6 +42121,12 @@
             "value" : "Publicar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتشار"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40231,6 +42247,12 @@
             "value" : "Renombrar"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر نام"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40339,6 +42361,12 @@
             "value" : "Negrita:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ضخیم:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40421,6 +42449,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reiniciar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بازنشانی"
           }
         },
         "fr" : {
@@ -40543,6 +42577,12 @@
             "value" : "Enlace"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیوند"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40661,6 +42701,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar en la barra lateral"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در نوار کناری"
           }
         },
         "fr" : {
@@ -40783,6 +42829,12 @@
             "value" : "Tamaño de fuente de la previsualización:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اندازه قلم پیش‌نمایش:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -40901,6 +42953,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Historia"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تاریخچه"
           }
         },
         "fr" : {
@@ -41023,6 +43081,12 @@
             "value" : "Notas"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت‌ها"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41141,6 +43205,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Habla"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "گفتار"
           }
         },
         "fr" : {
@@ -41263,6 +43333,12 @@
             "value" : "Mostrar en el Finder"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش در Finder"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41381,6 +43457,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "opcional"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختیاری"
           }
         },
         "fr" : {
@@ -41503,6 +43585,12 @@
             "value" : "Resaltado sintáctico de código"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "برجسته‌سازی زنده بلوک کد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41621,6 +43709,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ninguno"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هیچ‌کدام"
           }
         },
         "fr" : {
@@ -41743,6 +43837,12 @@
             "value" : "passphrase"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عبارت عبور"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -41861,6 +43961,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buscar…"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یافتن…"
           }
         },
         "fr" : {
@@ -41983,6 +44089,12 @@
             "value" : "Toggle Container"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغییر وضعیت کانتینر"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42101,6 +44213,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Asignación automática de nombres por título"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام‌گذاری خودکار بر اساس عنوان (30s)"
           }
         },
         "fr" : {
@@ -42338,6 +44456,12 @@
             "value" : "Git repository"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مخزن Git"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42458,6 +44582,12 @@
             "value" : "Buscar y reemplazar…"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یافتن و جایگزینی…"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42566,6 +44696,12 @@
             "value" : "Mover líneas seleccionadas hacia arriba"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال خطوط انتخاب‌شده به بالا"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42667,6 +44803,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nota rápida:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یادداشت سریع:"
           }
         },
         "fr" : {
@@ -42789,6 +44931,12 @@
             "value" : "Iniciar locución"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شروع گفتار"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42907,6 +45055,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anclar/desanclar"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سنجاق کردن/برداشتن سنجاق"
           }
         },
         "fr" : {
@@ -43029,6 +45183,12 @@
             "value" : "Cerrar corchetes y comillas automáticamente"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "درج خودکار آکولادها و علامت‌های نقل‌قول پایانی"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -43147,6 +45307,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nombre de usuario:"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام کاربری:"
           }
         },
         "fr" : {
@@ -43269,6 +45435,12 @@
             "value" : "Imagen"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تصویر یا فایل"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -43387,6 +45559,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar substituciones"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش جایگزینی‌ها"
           }
         },
         "fr" : {
@@ -43509,6 +45687,12 @@
             "value" : "Abrir en editor externo:"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باز کردن در ویرایشگر خارجی:"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -43627,6 +45811,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Forzar eliminación"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف اجباری"
           }
         },
         "fr" : {
@@ -43749,6 +45939,12 @@
             "value" : "3"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -43867,6 +46063,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copia de seguridad manual"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پشتیبان‌گیری دستی"
           }
         },
         "fr" : {
@@ -43989,6 +46191,12 @@
             "value" : "Seleccionar la nota automáticamente cuando el texto coincida"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتخاب خودکار یادداشت در صورت تطابق متن بدنه"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -44097,6 +46305,12 @@
             "value" : "Mover elemento"
           }
         },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتقال مورد"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -44179,6 +46393,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostras las notas en las listas \"Notas\" y \"Pendientes\""
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نمایش یادداشت‌ها در فهرست‌های «یادداشت‌ها» و «وظایف»"
           }
         },
         "fr" : {
