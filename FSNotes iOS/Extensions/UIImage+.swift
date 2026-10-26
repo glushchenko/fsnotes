@@ -37,6 +37,7 @@ extension UIImage {
         let scale: CGFloat = 0.0
         
         UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: maxHeight), !hasAlpha, scale)
+        defer { UIGraphicsEndImageContext() }
         self.draw(in: CGRect(origin: .zero, size: CGSize(width: maxWidth, height: maxHeight)))
         
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
