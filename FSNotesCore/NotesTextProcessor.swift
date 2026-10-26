@@ -1234,7 +1234,7 @@ public class NotesTextProcessor {
 
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    fileprivate static let autolinkPattern = "([\\(]*(https?|sftp|file|ftp):[^`\'\">\\s\\*]+)"
+    fileprivate static let autolinkPattern = "([\\(]*(https?|sftp|file|ftp):[^`\'\">\\s\\*\\u3000-\\u303F\\uFF00-\\uFFEF]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
