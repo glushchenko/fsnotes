@@ -326,7 +326,11 @@ class EditTextView: UITextView, UITextViewDelegate {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        UIApplication.getEVC().themeObserver()
+        guard let sceneDelegate = window?.windowScene?.delegate as? SceneDelegate else {
+            return
+        }
+
+        sceneDelegate.editorController.themeObserver()
     }
 }
 
