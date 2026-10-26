@@ -142,12 +142,56 @@ class ShareViewController: SLComposeServiceViewController {
             return
         }
 
-        let note = createNote()
+        guard let project = resolveSaveProject() else {
+            showStorageUnavailableError()
+            return
+        }
+
+        let note = createNote(project: project)
         processAttachments(from: inputItems, note: note)
     }
 
-    private func createNote() -> Note {
-        let note = Note()
+    private func resolveSaveProject() -> Project? {
+        let storage = Storage.shared()
+        if let project = storage.getDefault() {
+            return project
+        }
+
+        guard let url = storage.getRoot() else { return nil }
+
+        do {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            return nil
+        }
+
+        let project = Project(storage: storage, url: url, isDefault: true)
+        storage.insertProject(project: project)
+        return project
+    }
+
+    private func showStorageUnavailableError() {
+        let message = NSLocalizedString("The notes folder is unavailable. Open FSNotes to check your storage settings, then try sharing again.", comment: "Share extension storage unavailable error")
+        
+        let alert = UIAlertController(
+            title: NSLocalizedString("Unable to save note", comment: "Share extension save error title"),
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default) { [weak self] _ in
+            self?.extensionContext?.cancelRequest(withError: NSError(
+                domain: "co.fluder.mobile.FSNotes-iOS.Share",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: message]
+            ))
+        })
+        
+        present(alert, animated: true)
+    }
+
+    private func createNote(project: Project) -> Note {
+        let note = Note(project: project)
         Storage.shared().add(note)
 
         var urls = UserDefaultsManagement.importURLs
