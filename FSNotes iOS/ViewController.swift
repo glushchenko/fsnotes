@@ -958,7 +958,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func createNote(content: String? = nil, pasteboard: Bool = false) {
         var currentProject: Project
-        if let project = storage.getProjects().first {
+        if let project = storage.getDefault() {
             currentProject = project
         } else {
             return
@@ -971,7 +971,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             currentProject = project
         }
 
-        let note = Note(name: "", project: currentProject)
+        let name = content?.components(separatedBy: .newlines).first?
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        
+        let note = Note(name: String(name.prefix(120)), project: currentProject)
         if let content = content {
             note.content = NSMutableAttributedString(string: content)
         }
@@ -991,9 +994,27 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
         }
         
-        if note.save() {
-            Storage.shared().add(note)
+        guard note.save() else {
+            if let content = content, !content.isEmpty {
+                getSearchBar()?.text = content
+                buildSearchQuery()
+                reloadNotesTable()
+            }
+
+            let reason = note.lastSaveError?.localizedDescription
+                ?? NSLocalizedString("The notes folder is unavailable.", comment: "Note save failure")
+            let message = "\(note.url.path)\n\n\(reason)"
+            let alert = UIAlertController(
+                title: NSLocalizedString("Unable to save note", comment: "Note save error title"),
+                message: message,
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+            present(alert, animated: true)
+            return
         }
+        
+        Storage.shared().add(note)
 
         let evc = UIApplication.getEVC()
         evc.note = note

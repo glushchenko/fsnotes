@@ -50,6 +50,7 @@ public class Note: NSObject  {
 
     private var decryptedTemporarySrc: URL?
     private let writeLock = NSRecursiveLock()
+    public private(set) var lastSaveError: Error?
 
     public var isLoaded = false
     public var isLoadedFromCache = false
@@ -1045,6 +1046,7 @@ public class Note: NSObject  {
     private func write(attributedString: NSAttributedString) -> Bool {
         writeLock.lock()
         defer { writeLock.unlock() }
+        lastSaveError = nil
 
         let url = getURL()
         let attributes = getFileAttributes()
@@ -1084,6 +1086,7 @@ public class Note: NSObject  {
                 }
             }
         } catch {
+            lastSaveError = error
             NSLog("Write error: %@", error.localizedDescription)
             return false
         }
