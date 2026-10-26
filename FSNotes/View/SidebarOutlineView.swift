@@ -63,7 +63,8 @@ class SidebarOutlineView: NSOutlineView,
         }
     }
 
-    override func draw(_ dirtyRect: NSRect) {
+    override func awakeFromNib() {
+        super.awakeFromNib()
         allowsTypeSelect = false
         delegate = self
         dataSource = self
@@ -72,7 +73,7 @@ class SidebarOutlineView: NSOutlineView,
             NSPasteboard.note,
             NSPasteboard.project
         ])
-        super.draw(dirtyRect)
+        wantsLayer = true
     }
     
     override func keyDown(with event: NSEvent) {

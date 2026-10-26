@@ -24,12 +24,13 @@ class NotesTableView: NSTableView,
     
     private var selectedHistory: IndexSet?
 
-    override func draw(_ dirtyRect: NSRect) {
+    override func awakeFromNib() {
+        super.awakeFromNib()
         allowsTypeSelect = false
         self.gridColor = NSColor.clear
         self.dataSource = self
         self.delegate = self
-        super.draw(dirtyRect)
+        wantsLayer = true
     }
     
     override func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {

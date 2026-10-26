@@ -9,43 +9,43 @@
 import Cocoa
 import Carbon.HIToolbox
 
-class SearchTextFieldCell: NSSearchFieldCell {
-    override func draw(withFrame frame: NSRect, in controlView: NSView) {
-        if controlView.effectiveAppearance.isDark {
-            NSColor(calibratedWhite: 0.20, alpha: 1).setFill()
-            let radius = frame.height / 2
-            NSBezierPath(roundedRect: frame, xRadius: radius, yRadius: radius).fill()
-            let originalDrawsBackground = drawsBackground
-            drawsBackground = false
-            drawInterior(withFrame: frame, in: controlView)
-            drawsBackground = originalDrawsBackground
-        } else {
-            super.draw(withFrame: frame, in: controlView)
-        }
-    }
-}
-
 class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
-    // Use the cell's drawing instead of AppKit's layer-backed search bezel.
-    override var wantsUpdateLayer: Bool { false }
+    var headerVerticalPadding: CGFloat {
+        if #available(macOS 26.0, *) {
+            return 4
+        }
+        return 8
+    }
 
-    override func viewDidChangeEffectiveAppearance() {
-        super.viewDidChangeEffectiveAppearance()
-        updateSearchBackground()
+    private var preferredFieldHeight: CGFloat {
+        if #available(macOS 26.0, *) {
+            return 44
+        }
+        return 22
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        updateSearchBackground()
-    }
 
-    private func updateSearchBackground() {
-        backgroundColor = effectiveAppearance.isDark
-            ? NSColor(calibratedWhite: 0.20, alpha: 1)
-            : .textBackgroundColor
-        currentEditor()?.backgroundColor = backgroundColor
-        needsDisplay = true
+        // Let AppKit provide the search bezel, icons, and focus appearance.
+        if #available(macOS 26.0, *) {
+            controlSize = .extraLarge
+        } else {
+            controlSize = .regular
+        }
+        
+        font = .systemFont(ofSize: NSFont.systemFontSize(for: controlSize))
+        if #available(macOS 26.0, *) {
+            focusRingType = .default
+        } else {
+            focusRingType = .none
+        }
+        // Older AppKit search bezels should use their natural control height.
+        for constraint in constraints where constraint.firstAttribute == .height
+            && constraint.secondItem == nil {
+            constraint.constant = preferredFieldHeight
+        }
     }
 
     public var vcDelegate: ViewController!
@@ -96,6 +96,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
 
     override func textDidEndEditing(_ notification: Notification) {
+        super.textDidEndEditing(notification)
+
         self.skipAutocomplete = false
         self.lastQuery = String()
         self.lastQueryLength = 0

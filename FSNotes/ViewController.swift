@@ -70,6 +70,7 @@ class ViewController: EditorViewController,
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
     @IBOutlet weak var showInSidebar: NSMenuItem!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var lockedFolder: NSTextField!
     @IBOutlet weak var newNoteButton: NSButton!
@@ -126,6 +127,7 @@ class ViewController: EditorViewController,
                     }
 
                     self?.lockUnlock.isHidden = (self?.editor.note == nil)
+                    self?.editorLockSeparator?.isHidden = (self?.editor.note == nil)
 
                     NSAnimationContext.runAnimationGroup({ context in
                         context.duration = 0.35
@@ -137,6 +139,7 @@ class ViewController: EditorViewController,
     }
 
     @IBOutlet weak var lockUnlock: NSButton!
+    private var editorLockSeparator: NSBox?
 
     @IBOutlet weak var sidebarScrollView: NSScrollView!
     @IBOutlet weak var notesScrollView: NSScrollView!
@@ -156,10 +159,24 @@ class ViewController: EditorViewController,
 
         isPreLoaded = true
 
-        newNoteButton.bezelStyle = .texturedRounded
-        newNoteButton.isBordered = false
+        if #available(macOS 26.0, *) {
+            newNoteButton.bezelStyle = .glass
+            newNoteButton.borderShape = .circle
+            newNoteButton.controlSize = .large
+            newNoteButton.isBordered = true
+        } else {
+            newNoteButton.bezelStyle = .texturedRounded
+            newNoteButton.controlSize = .regular
+            newNoteButton.isBordered = false
+            newNoteButton.contentTintColor = .labelColor
+            for constraint in newNoteButton.constraints where constraint.secondItem == nil
+                && (constraint.firstAttribute == .width || constraint.firstAttribute == .height) {
+                constraint.constant = 28
+            }
+        }
         newNoteButton.imagePosition = .imageOnly
-        newNoteButton.contentTintColor = .labelColor
+
+        configureEditorActionsGroup()
 
         if #available(macOS 11.0, *) {
             let image = NSImage(systemSymbolName: "square.and.pencil", accessibilityDescription: nil)
@@ -304,6 +321,24 @@ class ViewController: EditorViewController,
     // MARK: - Initial configuration
     
     private func configureLayout() {
+        searchTopConstraint.constant = search.headerVerticalPadding
+        searchBottomConstraint.constant = search.headerVerticalPadding
+
+        if #available(macOS 26.0, *) {
+            // Keep the taller header layout for Liquid Glass.
+        } else {
+            for constraint in outlineHeader.constraints where constraint.firstAttribute == .height
+                && constraint.secondItem == nil {
+                constraint.constant = 40
+            }
+            for constraint in titleBarView.constraints where constraint.firstAttribute == .height
+                && constraint.secondItem == nil {
+                constraint.constant = 38
+            }
+            sidebarScrollView.contentView.contentInsets.top = 38
+            sidebarScrollView.scrollerInsets.top = 38
+        }
+        
         dropTitle()
 
         editor.configure()
@@ -323,8 +358,9 @@ class ViewController: EditorViewController,
         self.sidebarOutlineView.sidebarItems = Sidebar().getList()
         self.sidebarOutlineView.reloadData()
 
-        sidebarOutlineView.selectionHighlightStyle = .regular
-        sidebarOutlineView.backgroundColor = .windowBackgroundColor
+        configureSidebarAppearance()
+        notesTableView.backgroundColor = .textBackgroundColor
+        notesScrollView.backgroundColor = .textBackgroundColor
 
         self.sidebarSplitView.autosaveName = "SidebarSplitView"
         self.splitView.autosaveName = "EditorSplitView"
@@ -454,6 +490,105 @@ class ViewController: EditorViewController,
         vcNonSelectedLabel = nonSelectedLabel
         
         super.initView()
+    }
+
+    private func configureSidebarAppearance() {
+        guard let container = sidebarScrollView.superview else { return }
+
+        let background = NSVisualEffectView()
+        background.material = .sidebar
+        background.blendingMode = .withinWindow
+        background.state = .followsWindowActiveState
+        background.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(background, positioned: .below, relativeTo: sidebarScrollView)
+        NSLayoutConstraint.activate([
+            background.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            background.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            background.topAnchor.constraint(equalTo: container.topAnchor),
+            background.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+        ])
+
+        sidebarScrollView.drawsBackground = false
+        sidebarScrollView.contentView.drawsBackground = false
+        sidebarOutlineView.backgroundColor = .clear
+        if #available(macOS 11.0, *) {
+            sidebarOutlineView.style = .sourceList
+        } else {
+            sidebarOutlineView.selectionHighlightStyle = .sourceList
+        }
+    }
+
+    private func configureEditorActionsGroup() {
+        guard #available(macOS 26.0, *) else {
+            // Preserve the original compact toolbar on pre-Tahoe AppKit.
+            for button in [lockUnlock, previewButton, shareButton].compactMap({ $0 }) {
+                for constraint in button.constraints where constraint.secondItem == nil
+                    && (constraint.firstAttribute == .width || constraint.firstAttribute == .height) {
+                    constraint.constant = 16
+                }
+            }
+            return
+        }
+
+        for button in [lockUnlock, previewButton, shareButton].compactMap({ $0 }) {
+            button.bezelStyle = .circular
+            button.borderShape = .circle
+            button.controlSize = .regular
+            button.isBordered = true
+            button.showsBorderOnlyWhileMouseInside = true
+            button.imagePosition = .imageOnly
+            button.imageScaling = .scaleProportionallyDown
+        }
+
+        guard let stack = lockUnlock.superview as? NSStackView,
+              let container = stack.superview else { return }
+
+        NSLayoutConstraint.deactivate(container.constraints.filter {
+            ($0.firstItem as? NSView) === stack || ($0.secondItem as? NSView) === stack
+        })
+        
+        stack.removeFromSuperview()
+        stack.spacing = 4
+        stack.alignment = .centerY
+
+        for (index, button) in [lockUnlock, previewButton].enumerated() {
+            let separator = NSBox()
+            separator.boxType = .separator
+            separator.translatesAutoresizingMaskIntoConstraints = false
+            stack.insertArrangedSubview(separator, at: index * 2 + 1)
+            NSLayoutConstraint.activate([
+                separator.widthAnchor.constraint(equalToConstant: 1),
+                separator.heightAnchor.constraint(equalToConstant: 20)
+            ])
+            if button === lockUnlock {
+                editorLockSeparator = separator
+                separator.isHidden = lockUnlock.isHidden
+            }
+        }
+
+        // AppKit manages the glass content view's frame. Keep the stack inside
+        // a separate view so its padding doesn't compete with that layout.
+        let content = NSView()
+        content.addSubview(stack)
+        let group = NSGlassEffectView()
+        group.cornerRadius = 18
+        group.contentView = content
+        if #available(macOS 27.0, *) {
+            group.effectIsInteractive = true
+        }
+
+        group.translatesAutoresizingMaskIntoConstraints = false
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(group)
+        NSLayoutConstraint.activate([
+            group.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 12),
+            group.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -12),
+            group.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            group.heightAnchor.constraint(equalToConstant: 36),
+            group.widthAnchor.constraint(equalTo: stack.widthAnchor, constant: 12),
+            stack.centerXAnchor.constraint(equalTo: content.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: content.centerYAnchor)
+        ])
     }
 
     private func configureShortcuts() {
@@ -1806,7 +1941,8 @@ class ViewController: EditorViewController,
     func checkSidebarConstraint() {
         let sidebarHidden = sidebarSplitView.subviews[0].frame.width <= 50
         let fullScreen = search.window?.styleMask.contains(.fullScreen) == true
-        searchTopConstraint.constant = sidebarHidden && !fullScreen ? 32 : 8
+        searchTopConstraint.constant = search.headerVerticalPadding
+            + (sidebarHidden && !fullScreen ? 24 : 0)
     }
             
     @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {

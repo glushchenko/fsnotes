@@ -68,14 +68,12 @@ class NoteCellView: NSTableCellView {
         super.draw(dirtyRect)
 
         renderPin()
-        name.layer?.zPosition = 1000
 
         if let descriptor = date.font?.fontDescriptor {
             date.font = NSFont.init(descriptor: descriptor, size: 11)
         }
 
         date.layer?.cornerRadius = 5
-        date.layer?.zPosition = 1001
         date.isHidden = UserDefaultsManagement.hideDate
 
         titleConstraint.constant = UserDefaultsManagement.hideDate ? 0 : 5

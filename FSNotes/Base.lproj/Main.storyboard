@@ -1598,9 +1598,9 @@ CA
                                                         </outlineView>
                                                     </subviews>
                                                     <nil key="backgroundColor"/>
-                                                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
+                                                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="52" bottom="0.0"/>
                                                 </clipView>
-                                                <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
+                                                <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="52" bottom="0.0"/>
                                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.23935756602005698" horizontal="YES" id="hZT-KZ-qyF">
                                                     <rect key="frame" x="0.0" y="584" width="144" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
@@ -1619,12 +1619,12 @@ CA
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
-                                                        <color key="fillColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </box>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="l75-ic-hjm" firstAttribute="top" secondItem="vp7-cq-QSI" secondAttribute="top" id="61i-47-0DS"/>
-                                                    <constraint firstAttribute="height" constant="40" id="9sA-Ak-h1e"/>
+                                                    <constraint firstAttribute="height" constant="52" id="9sA-Ak-h1e"/>
                                                     <constraint firstAttribute="bottom" secondItem="l75-ic-hjm" secondAttribute="bottom" id="Sky-NF-cd8"/>
                                                     <constraint firstAttribute="trailing" secondItem="l75-ic-hjm" secondAttribute="trailing" id="U7g-d3-tVU"/>
                                                     <constraint firstItem="l75-ic-hjm" firstAttribute="leading" secondItem="vp7-cq-QSI" secondAttribute="leading" id="rfK-qX-KDe"/>
@@ -1654,12 +1654,12 @@ CA
                                                         </view>
                                                         <color key="fillColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </box>
-                                                    <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bd7-O3-GQF" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="8" y="570" width="187" height="22"/>
+                                                    <searchField wantsLayer="YES" focusRingType="default" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bd7-O3-GQF" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
+                                                        <rect key="frame" x="8" y="552" width="179" height="44"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="22" id="Ptr-z2-0T0"/>
+                                                            <constraint firstAttribute="height" constant="44" id="Ptr-z2-0T0"/>
                                                         </constraints>
-                                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search or create" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" sendsWholeSearchString="YES" recentsAutosaveName="recentFSearch" id="B7t-9v-bSk" customClass="SearchTextFieldCell" customModule="FSNotes" customModuleProvider="target">
+                                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search or create" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" sendsWholeSearchString="YES" recentsAutosaveName="recentFSearch" id="B7t-9v-bSk">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1817,14 +1817,14 @@ CA
                                                         </scroller>
                                                     </scrollView>
                                                     <button imageHugsTitle="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TiA-aF-Uev">
-                                                        <rect key="frame" x="202" y="543" width="28" height="76"/>
+                                                        <rect key="frame" x="194" y="556" width="36" height="36"/>
                                                         <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="new_note_button" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Y7B-FM-tuq">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="28" id="q4S-bz-l8F"/>
-                                                            <constraint firstAttribute="height" constant="28" id="new-note-button-height"/>
+                                                            <constraint firstAttribute="width" constant="36" id="q4S-bz-l8F"/>
+                                                            <constraint firstAttribute="height" constant="36" id="new-note-button-height"/>
                                                         </constraints>
                                                         <connections>
                                                             <action selector="fileMenuNewNote:" target="XfG-lQ-9wD" id="4o2-hM-kTQ"/>
@@ -1878,11 +1878,11 @@ CA
                                                     <constraint firstItem="nVd-Zp-Vjx" firstAttribute="top" secondItem="Kzf-Jh-YEb" secondAttribute="bottom" id="d92-f0-7dC"/>
                                                     <constraint firstItem="bd7-O3-GQF" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" priority="2" constant="8" id="fJK-am-Cfu"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="lGx-ze-4gU"/>
-                                                    <constraint firstItem="bd7-O3-GQF" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="8" id="nXO-Fh-8nv"/>
+                                                    <constraint firstItem="bd7-O3-GQF" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="4" id="nXO-Fh-8nv"/>
                                                     <constraint firstItem="TiA-aF-Uev" firstAttribute="centerY" secondItem="bd7-O3-GQF" secondAttribute="centerY" id="pTm-L3-mZO"/>
                                                     <constraint firstAttribute="trailing" secondItem="Kzf-Jh-YEb" secondAttribute="trailing" id="vRz-kK-vLv"/>
                                                     <constraint firstItem="xRe-j4-nd1" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="xIy-MR-UUn"/>
-                                                    <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="bd7-O3-GQF" secondAttribute="bottom" constant="8" id="z4N-Ag-s6x"/>
+                                                    <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="bd7-O3-GQF" secondAttribute="bottom" constant="4" id="z4N-Ag-s6x"/>
                                                 </constraints>
                                             </customView>
                                             <customView autoresizesSubviews="NO" misplaced="YES" id="at7-wA-VAS" customClass="EditorView" customModule="FSNotes" customModuleProvider="target">
@@ -1947,8 +1947,8 @@ CA
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="height" constant="16" id="KX9-jI-cyF"/>
-                                                                                    <constraint firstAttribute="width" constant="16" id="fyl-XF-faY"/>
+                                                                                    <constraint firstAttribute="height" constant="28" id="KX9-jI-cyF"/>
+                                                                                    <constraint firstAttribute="width" constant="28" id="fyl-XF-faY"/>
                                                                                 </constraints>
                                                                                 <connections>
                                                                                     <action selector="toggleNotesLock:" target="rPt-NT-nkU" id="3gl-Ik-HTx"/>
@@ -1964,8 +1964,8 @@ CA
                                                                                     </connections>
                                                                                 </buttonCell>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="width" constant="16" id="cL1-PF-gSQ"/>
-                                                                                    <constraint firstAttribute="height" constant="16" id="mhf-Ok-C0D"/>
+                                                                                    <constraint firstAttribute="width" constant="28" id="cL1-PF-gSQ"/>
+                                                                                    <constraint firstAttribute="height" constant="28" id="mhf-Ok-C0D"/>
                                                                                 </constraints>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
@@ -1975,8 +1975,8 @@ CA
                                                                                     <font key="font" metaFont="system"/>
                                                                                 </buttonCell>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="width" constant="16" id="FOv-xI-qeM"/>
-                                                                                    <constraint firstAttribute="height" constant="16" id="cQg-Gn-wlM"/>
+                                                                                    <constraint firstAttribute="width" constant="28" id="FOv-xI-qeM"/>
+                                                                                    <constraint firstAttribute="height" constant="28" id="cQg-Gn-wlM"/>
                                                                                 </constraints>
                                                                                 <connections>
                                                                                     <action selector="shareSheet:" target="rPt-NT-nkU" id="Kfd-pJ-Bqc"/>
@@ -2008,14 +2008,14 @@ CA
                                                             </customView>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xSU-Mk-2F1" secondAttribute="leading" constant="85" id="1I0-Qm-T21"/>
+                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xSU-Mk-2F1" secondAttribute="leading" constant="8" id="1I0-Qm-T21"/>
                                                             <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerY" secondItem="xSU-Mk-2F1" secondAttribute="centerY" id="3lf-bf-dJA"/>
-                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerX" secondItem="xSU-Mk-2F1" secondAttribute="centerX" id="L0y-rf-Cem"/>
+                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerX" secondItem="xSU-Mk-2F1" secondAttribute="centerX" priority="250" id="L0y-rf-Cem"/>
                                                             <constraint firstAttribute="trailing" secondItem="Ua8-RE-q01" secondAttribute="trailing" id="Uos-hm-kn6"/>
-                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rZx-hk-GcJ" secondAttribute="trailing" constant="85" id="ZjM-uT-4wC"/>
+                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Ua8-RE-q01" secondAttribute="leading" constant="-8" id="ZjM-uT-4wC"/>
                                                             <constraint firstItem="Ua8-RE-q01" firstAttribute="top" secondItem="xSU-Mk-2F1" secondAttribute="top" id="esv-qQ-apf"/>
                                                             <constraint firstAttribute="bottom" secondItem="Ua8-RE-q01" secondAttribute="bottom" id="nac-xp-D3Y"/>
-                                                            <constraint firstAttribute="height" constant="38" id="uht-o4-cfz"/>
+                                                            <constraint firstAttribute="height" constant="52" id="uht-o4-cfz"/>
                                                         </constraints>
                                                     </customView>
                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvZ-Tf-26e">
@@ -2106,6 +2106,7 @@ CA
                         <outlet property="previewButton" destination="Bn7-FD-jzc" id="RxQ-Au-NBr"/>
                         <outlet property="search" destination="bd7-O3-GQF" id="HjC-CH-gRR"/>
                         <outlet property="searchTopConstraint" destination="nXO-Fh-8nv" id="p8r-Pf-fo8"/>
+                        <outlet property="searchBottomConstraint" destination="z4N-Ag-s6x" id="search-bottom-constraint-outlet"/>
                         <outlet property="shareButton" destination="oDB-Y6-20P" id="8bV-gW-UaW"/>
                         <outlet property="sidebarOutlineView" destination="urA-eK-bWB" id="ytX-z3-4Mi"/>
                         <outlet property="sidebarScrollView" destination="BdT-Ac-GAV" id="XbT-MU-nJA"/>
