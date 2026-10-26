@@ -493,29 +493,16 @@ class ViewController: EditorViewController,
     }
 
     private func configureSidebarAppearance() {
-        guard let container = sidebarScrollView.superview else { return }
-
-        let background = NSVisualEffectView()
-        background.material = .sidebar
-        background.blendingMode = .withinWindow
-        background.state = .followsWindowActiveState
-        background.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(background, positioned: .below, relativeTo: sidebarScrollView)
-        NSLayoutConstraint.activate([
-            background.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            background.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            background.topAnchor.constraint(equalTo: container.topAnchor),
-            background.bottomAnchor.constraint(equalTo: container.bottomAnchor)
-        ])
-
-        sidebarScrollView.drawsBackground = false
+        sidebarScrollView.backgroundColor = .underPageBackgroundColor
+        sidebarScrollView.drawsBackground = true
         sidebarScrollView.contentView.drawsBackground = false
-        sidebarOutlineView.backgroundColor = .clear
         if #available(macOS 11.0, *) {
             sidebarOutlineView.style = .sourceList
         } else {
             sidebarOutlineView.selectionHighlightStyle = .sourceList
         }
+        // sourceList resets backgroundColor, so apply the color after the style.
+        sidebarOutlineView.backgroundColor = .underPageBackgroundColor
     }
 
     private func configureEditorActionsGroup() {

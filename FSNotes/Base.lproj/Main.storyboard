@@ -1619,7 +1619,7 @@ CA
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </view>
-                                                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <color key="fillColor" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </box>
                                                 </subviews>
                                                 <constraints>
