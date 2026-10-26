@@ -1373,6 +1373,13 @@ class EditorViewController: UIViewController,
     }
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        let textLength = textView.textStorage.length
+        guard characterRange.location >= 0,
+              characterRange.location < textLength,
+              characterRange.length >= 0,
+              characterRange.length <= textLength - characterRange.location else {
+            return false
+        }
 
         if URL.absoluteString.starts(with: "fsnotes://find?id=") {
             if interaction == .invokeDefaultAction {
@@ -1394,6 +1401,11 @@ class EditorViewController: UIViewController,
 
         if textView.isFirstResponder {
             DispatchQueue.main.async {
+                let currentLength = textView.textStorage.length
+                guard characterRange.location < currentLength,
+                      characterRange.length <= currentLength - characterRange.location else {
+                    return
+                }
                 textView.selectedRange = NSRange(location: characterRange.upperBound, length: 0)
             }
 
