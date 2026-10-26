@@ -82,7 +82,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         navigationController?.navigationBar.prefersLargeTitles = false
 
         super.viewWillAppear(animated)
-        navigationItem.searchController = nil
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -318,7 +317,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func configureSearchController() {
-        let text = navigationItem.searchController?.searchBar.text
+        guard navigationItem.searchController == nil else { return }
 
         let searchController = UISearchController(searchResultsController: nil)
         searchController.hidesNavigationBarDuringPresentation = false
@@ -335,10 +334,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         searchController.searchBar.autocapitalizationType = .none
         searchController.searchBar.keyboardAppearance = traitCollection.userInterfaceStyle == .dark ? .dark : .default
-
-        if let text = text {
-            searchController.searchBar.text = text
-        }
 
         navigationItem.searchController = searchController
         navigationController?.setToolbarHidden(false, animated: true)
@@ -793,6 +788,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadSearchController(query: String? = nil) {
+        configureSearchController()
+
         if let query = query {
             navigationItem.searchController?.searchBar.text = query
         }

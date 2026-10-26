@@ -1228,13 +1228,24 @@ class EditorViewController: UIViewController,
         } else {
             let vc = UIApplication.getVC()
 
-            navigationController?.popViewController(animated: true)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            let showSearch = {
                 vc.shouldReturnToControllerIndex = true
                 vc.loadSearchController(query: query)
                 vc.buildSearchQuery()
                 vc.reloadNotesTable()
+            }
+
+            let navigationController = navigationController
+            navigationController?.popViewController(animated: true)
+
+            if let coordinator = navigationController?.transitionCoordinator {
+                coordinator.animate(alongsideTransition: nil) { context in
+                    if !context.isCancelled {
+                        showSearch()
+                    }
+                }
+            } else {
+                showSearch()
             }
         }
     }
