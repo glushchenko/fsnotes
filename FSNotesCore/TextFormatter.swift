@@ -837,7 +837,7 @@ public class TextFormatter {
                 storage.removeAttribute(.strikethroughStyle, range: paragraph)
             }
             
-            updateCurrentParagraph()
+            storage.updateParagraphStyle(range: paragraph)
             
             return
         }
