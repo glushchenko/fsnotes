@@ -1826,6 +1826,10 @@ public class Note: NSObject  {
     }
 
     public func encrypt(password: String) -> Bool {
+        if isUnlocked() {
+            return lock()
+        }
+
         if container == .encryptedTextPack {
             return false
         }
