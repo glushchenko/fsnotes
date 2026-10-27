@@ -652,6 +652,9 @@ class NotesTableView: NSTableView,
     private func performReload(note: Note) {
         guard let i = self.noteList.firstIndex(of: note) else { return }
         let urls = note.imageUrl
+
+        // Heights are cached even for rows that do not currently have a cell view.
+        self.noteHeightOfRows(withIndexesChanged: [i])
         
         if let cell = self.view(atColumn: 0, row: i, makeIfNecessary: false) as? NoteCellView {
             cell.date.stringValue = note.getDateForLabel()
@@ -659,7 +662,6 @@ class NotesTableView: NSTableView,
             cell.attachHeaders(note: note)
             cell.renderPin()
             cell.applyPreviewStyle()
-            self.noteHeightOfRows(withIndexesChanged: [i])
         }
     }
     
