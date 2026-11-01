@@ -360,8 +360,13 @@ class EditTextView: UITextView, UITextViewDelegate, NSLayoutManagerDelegate {
     }
     
     public func initUndoRedoButons() {
-        UIApplication.getEVC().undoBarButton?.isEnabled = undoManager?.canUndo == true
-        UIApplication.getEVC().redoBarButton?.isEnabled = undoManager?.canRedo == true
+        let editor = UIApplication.getEVC()
+        let canUndo = undoManager?.canUndo == true
+        let canRedo = undoManager?.canRedo == true
+        editor.undoBarButton?.isEnabled = canUndo
+        editor.redoBarButton?.isEnabled = canRedo
+        (editor.undoBarButton?.customView as? UIControl)?.isEnabled = canUndo
+        (editor.redoBarButton?.customView as? UIControl)?.isEnabled = canRedo
     }
     
     public func isTodo(at location: Int) -> Bool {

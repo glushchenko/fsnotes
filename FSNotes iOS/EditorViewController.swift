@@ -743,6 +743,7 @@ class EditorViewController: UIViewController,
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        scroll.contentInsetAdjustmentBehavior = .never
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: 50)
         scroll.addSubview(toolbar)
@@ -810,18 +811,24 @@ class EditorViewController: UIViewController,
         items.append(self.redoBarButton!)
 
         var totalWidth: CGFloat = 0
+        let buttons = UIStackView()
+        buttons.axis = .horizontal
+        buttons.alignment = .fill
+        buttons.spacing = 0
         for item in items {
-            if item.tag == 0x03 {
-                item.width = 30
-                totalWidth += 30
-            } else {
-                item.width = 54
-                totalWidth += 54
-            }
+            guard let button = item.customView else { continue }
+            let width: CGFloat = item.tag == 0x03 ? 30 : 54
+            button.widthAnchor.constraint(equalToConstant: width).isActive = true
+            buttons.addArrangedSubview(button)
+            totalWidth += width
         }
 
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: totalWidth, height: 50))
-        toolBar.setItems(items, animated: false)
+        // Lay out the custom buttons directly so UIKit's bar-item margins and
+        // spacing cannot push the last buttons outside the scrollable width.
+        buttons.frame = toolBar.bounds
+        buttons.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        toolBar.addSubview(buttons)
         toolBar.isUserInteractionEnabled = true
 
         let appearance = UIToolbarAppearance()
