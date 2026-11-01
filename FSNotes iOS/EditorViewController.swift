@@ -743,6 +743,7 @@ class EditorViewController: UIViewController,
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        scroll.backgroundColor = .systemBackground
         scroll.contentInsetAdjustmentBehavior = .never
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: 50)
@@ -824,6 +825,8 @@ class EditorViewController: UIViewController,
         }
 
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: totalWidth, height: 50))
+        toolBar.backgroundColor = .systemBackground
+        toolBar.isTranslucent = false
         // Lay out the custom buttons directly so UIKit's bar-item margins and
         // spacing cannot push the last buttons outside the scrollable width.
         buttons.frame = toolBar.bounds
@@ -833,10 +836,12 @@ class EditorViewController: UIViewController,
 
         let appearance = UIToolbarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .darkGray
-        appearance.shadowColor = .clear
+        appearance.backgroundColor = .systemBackground
+        appearance.shadowColor = .separator
         toolBar.standardAppearance = appearance
+        toolBar.compactAppearance = appearance
         toolBar.scrollEdgeAppearance = appearance
+        toolBar.compactScrollEdgeAppearance = appearance
 
         return toolBar
     }
@@ -919,7 +924,7 @@ class EditorViewController: UIViewController,
         }
 
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 50))
-        toolBar.backgroundColor = .darkGray
+        toolBar.backgroundColor = .systemBackground
         toolBar.isTranslucent = false
         toolBar.tintColor = UIColor.mainTheme
         toolBar.setItems(items, animated: false)
