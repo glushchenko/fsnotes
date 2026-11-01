@@ -11,6 +11,7 @@ import Foundation
 import RNCryptor
 import ZipArchive
 import LocalAuthentication
+import Darwin
 
 public class Note: NSObject  {
     @objc var title: String = ""
@@ -280,6 +281,8 @@ public class Note: NSObject  {
 
 
     public func uiLoad() {
+        guard isAvailableLocally(getURL()) else { return }
+
         if let size = fileSize(atPath: self.url.path), size > 100000 {
             loadFileName()
             
@@ -302,6 +305,13 @@ public class Note: NSObject  {
         #if SHARE_EXT
             return
         #endif
+
+        guard isAvailableLocally(getURL()) else { return }
+
+        if container != .encryptedTextPack {
+            guard let contentURL = getContentFileURL(),
+                  isAvailableLocally(contentURL) else { return }
+        }
 
         if let attributedString = getContent() {
             cacheHash = nil
@@ -770,8 +780,18 @@ public class Note: NSObject  {
         }
     }
     
+    private func isAvailableLocally(_ url: URL) -> Bool {
+        // Read local filesystem flags without asking FileProvider for metadata.
+        var info = stat()
+        return url.withUnsafeFileSystemRepresentation { path in
+            guard let path = path, lstat(path, &info) == 0 else { return false }
+            return info.st_flags & UInt32(SF_DATALESS) == 0
+        }
+    }
+
     func getContent() -> NSMutableAttributedString? {
-        guard container != .encryptedTextPack, let url = getContentFileURL() else { return nil }
+        guard container != .encryptedTextPack, let url = getContentFileURL(),
+              isAvailableLocally(url) else { return nil }
 
         do {
             return try NSMutableAttributedString(url: url, options: [
@@ -919,9 +939,9 @@ public class Note: NSObject  {
                 type = .Markdown
                 container = .textBundle
 
-                let infoUrl = url.appendingPathComponent("info.json")
+                let infoUrl = url.appendingPathComponent("info.json", isDirectory: false)
 
-                if FileManager.default.fileExists(atPath: infoUrl.path) {
+                if isAvailableLocally(url), isAvailableLocally(infoUrl) {
                     do {
                         let jsonData = try Data(contentsOf: infoUrl)
                         let info = try JSONDecoder().decode(TextBundleInfo.self, from: jsonData)
@@ -1107,10 +1127,11 @@ public class Note: NSObject  {
 
     public func getContentFileURL() -> URL? {
         var url = getURL()
+        guard isAvailableLocally(url) else { return nil }
 
         if isTextBundle() {
             let ext = getExtensionForContainer()
-            url = url.appendingPathComponent("text.\(ext)")
+            url = url.appendingPathComponent("text.\(ext)", isDirectory: false)
 
             if !FileManager.default.fileExists(atPath: url.path) {
                 url = url.deletingLastPathComponent()
@@ -1118,7 +1139,7 @@ public class Note: NSObject  {
                 if let dirList = try? FileManager.default.contentsOfDirectory(atPath: url.path),
                     let first = dirList.first(where: { $0.starts(with: "text.") })
                 {
-                    url = url.appendingPathComponent(first)
+                    url = url.appendingPathComponent(first, isDirectory: false)
 
                     return url
                 }
