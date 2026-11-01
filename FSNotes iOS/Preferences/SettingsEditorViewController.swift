@@ -19,7 +19,7 @@ class SettingsEditorViewController: UITableViewController {
         NSLocalizedString("Code", comment: "")
     ]
 
-    private var rowsInSection = [2, 2, 1, 3, 2]
+    private var rowsInSection = [2, 3, 1, 3, 2]
 
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
@@ -31,6 +31,7 @@ class SettingsEditorViewController: UITableViewController {
         [
             NSLocalizedString("Code Block Live Highlighting", comment: "Settings"),
             NSLocalizedString("MathJax", comment: "Settings"),
+            NSLocalizedString("Hide Markdown syntax", comment: "Editor setting"),
         ],
         [""],
         [
@@ -117,6 +118,9 @@ class SettingsEditorViewController: UITableViewController {
             case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.mathJaxPreview
+            case 2:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.hideMarkdownSyntax
             default:
                 return cell
             }
@@ -231,6 +235,15 @@ class SettingsEditorViewController: UITableViewController {
             case 1:
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
                 UserDefaultsManagement.mathJaxPreview = uiSwitch.isOn
+            case 2:
+                UserDefaultsManagement.hideMarkdownSyntax = sender.isOn
+                Storage.shared().resetCacheAttributes()
+                let editor = UIApplication.getEVC()
+                if let note = editor.note {
+                    let offset = editor.editArea.contentOffset
+                    editor.fill(note: note, selectedRange: editor.editArea.selectedRange, enableHandoff: false)
+                    editor.editArea.setContentOffset(offset, animated: false)
+                }
             default:
                 return
             }

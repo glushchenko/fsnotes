@@ -35,6 +35,13 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         self.allowsNonContiguousLayout = true
     }
     
+    func layoutManager(_ layoutManager: NSLayoutManager, shouldGenerateGlyphs glyphs: UnsafePointer<CGGlyph>,
+                       properties: UnsafePointer<NSLayoutManager.GlyphProperty>, characterIndexes: UnsafePointer<Int>,
+                       font: NSFont, forGlyphRange glyphRange: NSRange) -> Int {
+        return NotesTextProcessor.generateConcealedGlyphs(layoutManager, glyphs: glyphs, properties: properties,
+                                                        characterIndexes: characterIndexes, font: font, glyphRange: glyphRange)
+    }
+
     public var lineHeightMultiple: CGFloat = CGFloat(UserDefaultsManagement.lineHeightMultiple)
 
     private var defaultFont: NSFont {
@@ -53,8 +60,18 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             return defaultFont
         }
         
-        let attributes = textStorage.attributes(at: safeCharRange.location, effectiveRange: nil)
-        return attributes[.font] as? NSFont ?? defaultFont
+        var tallestFont: NSFont?
+        var tallestHeight: CGFloat = 0
+        textStorage.enumerateAttributes(in: safeCharRange) { attributes, _, _ in
+            guard attributes[NotesTextProcessor.concealedSyntaxHidden] as? Bool != true,
+                  let font = attributes[.font] as? NSFont else { return }
+            let height = self.defaultLineHeight(for: font)
+            if height > tallestHeight {
+                tallestFont = font
+                tallestHeight = height
+            }
+        }
+        return tallestFont ?? defaultFont
     }
     
     private func hasAttachment(in glyphRange: NSRange) -> (hasAttachment: Bool, maxAttachmentHeight: CGFloat) {
@@ -130,7 +147,6 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             return
         }
 
-        let storageFullRange = NSRange(location: 0, length: textStorage.length)
         guard let allCodeBlocks = processor?.editor?.note?.codeBlockRangesCache else { return }
         guard let textContainer = self.textContainers.first else { return }
         
@@ -141,14 +157,13 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         
         guard !relevantCodeBlocks.isEmpty else { return }
         
-        textContainer.lineFragmentPadding = 10
         context.saveGState()
         
         let backgroundColor = NotesTextProcessor.getHighlighter().options.style.backgroundColor.cgColor
         let borderColor = NSColor.lightGray.cgColor
         
         for codeBlockRange in relevantCodeBlocks {  // ← теперь только релевантные блоки!
-            let safeCharRange = codeBlockRange.clamped(to: storageFullRange)
+            let safeCharRange = NotesTextProcessor.codeBlockBackgroundRange(in: textStorage, range: codeBlockRange)
             if safeCharRange.length == 0 { continue }
             
             let glyphRange = self.glyphRange(forCharacterRange: safeCharRange, actualCharacterRange: nil)
@@ -159,9 +174,9 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             
             // Padding left/right
             let horizontalPadding: CGFloat = 5.0
-            let paddedRect = boundingRect
-                .insetBy(dx: -horizontalPadding, dy: 0)
-                .offsetBy(dx: origin.x, dy: origin.y)
+            let inset = max(0, textContainer.lineFragmentPadding - horizontalPadding)
+            let paddedRect = NSRect(x: origin.x + inset, y: origin.y + boundingRect.minY,
+                                    width: max(0, textContainer.size.width - 2 * inset), height: boundingRect.height)
             
             // Round borders
             let radius: CGFloat = 5.0
@@ -189,6 +204,15 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             in textContainer: NSTextContainer,
             forGlyphRange glyphRange: NSRange) -> Bool {
 
+        let characters = characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+        if let textStorage = textStorage, characters.location < textStorage.length,
+           textStorage.attribute(NotesTextProcessor.collapsedCodeFence, at: characters.location, effectiveRange: nil) as? Bool == true {
+            lineFragmentRect.pointee.size.height = 0.1
+            lineFragmentUsedRect.pointee.size.height = 0.1
+            baselineOffset.pointee = 0.1
+            return true
+        }
+
         // Get the font for the current range of glyphs
         let currentFont = font(for: glyphRange)
         let fontLineHeight = layoutManager.defaultLineHeight(for: currentFont)
@@ -215,14 +239,19 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         }
 
         var rect = lineFragmentRect.pointee
-        rect.size.height = ceil(finalLineHeight)
+        let style = textStorage?.attribute(.paragraphStyle, at: characters.location, effectiveRange: nil) as? NSParagraphStyle
+        // Null glyphs from the next heading may belong to this line's glyph range.
+        // Their fonts must not determine the line's height or baseline.
+        rect.size.height = ceil(max(finalLineHeight, fontLineHeight + (style?.lineSpacing ?? 0)))
 
         var usedRect = lineFragmentUsedRect.pointee
-        usedRect.size.height = max(rect.size.height, ceil(usedRect.size.height))
+        usedRect.size.height = rect.size.height
 
         lineFragmentRect.pointee = rect
         lineFragmentUsedRect.pointee = usedRect
-        baselineOffset.pointee = baselineOffset.pointee + baselineNudge
+        baselineOffset.pointee = attachmentInfo.hasAttachment
+            ? baselineOffset.pointee + baselineNudge
+            : layoutManager.defaultBaselineOffset(for: currentFont) + baselineNudge
 
         return true
     }

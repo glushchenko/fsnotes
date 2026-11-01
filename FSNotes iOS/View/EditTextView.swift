@@ -10,7 +10,7 @@ import UIKit
 import MobileCoreServices
 import UniformTypeIdentifiers
 
-class EditTextView: UITextView, UITextViewDelegate {
+class EditTextView: UITextView, UITextViewDelegate, NSLayoutManagerDelegate {
 
     public var textStorageProcessor: TextStorageProcessor?
     
@@ -23,6 +23,53 @@ class EditTextView: UITextView, UITextViewDelegate {
     public var keyboardIsOpened = true
     public var callCounter = 0
     public var isUpdating = false
+    private var updatingConcealedSyntax = false
+    private let codeBlockBackground = CAShapeLayer()
+
+    @objc func refreshConcealedSyntax() {
+        guard !updatingConcealedSyntax, markedTextRange == nil,
+              textStorage.length > 0 else { return }
+        updatingConcealedSyntax = true
+        defer { updatingConcealedSyntax = false }
+
+        let changed = NotesTextProcessor.refreshConcealedSyntax(
+            in: textStorage, selection: selectedRange,
+            codeBlockRanges: note?.codeBlockRangesCache ?? [], isFocused: isFirstResponder
+        )
+        if changed {
+            setNeedsDisplay()
+            setNeedsLayout()
+        }
+
+        if let font = typingAttributes[NotesTextProcessor.concealedSyntaxFont] as? UIFont {
+            typingAttributes[.font] = font
+            typingAttributes[.foregroundColor] = NotesTextProcessor.fontColor
+        }
+        typingAttributes.removeValue(forKey: NotesTextProcessor.concealedSyntaxFont)
+        typingAttributes.removeValue(forKey: NotesTextProcessor.concealedSyntaxHidden)
+        typingAttributes.removeValue(forKey: NotesTextProcessor.collapsedCodeFence)
+    }
+
+    func layoutManager(_ layoutManager: NSLayoutManager, shouldGenerateGlyphs glyphs: UnsafePointer<CGGlyph>,
+                       properties: UnsafePointer<NSLayoutManager.GlyphProperty>, characterIndexes: UnsafePointer<Int>,
+                       font: UIFont, forGlyphRange glyphRange: NSRange) -> Int {
+        return NotesTextProcessor.generateConcealedGlyphs(layoutManager, glyphs: glyphs, properties: properties,
+                                                        characterIndexes: characterIndexes, font: font, glyphRange: glyphRange)
+    }
+
+    func layoutManager(_ layoutManager: NSLayoutManager,
+                       shouldSetLineFragmentRect lineFragmentRect: UnsafeMutablePointer<CGRect>,
+                       lineFragmentUsedRect: UnsafeMutablePointer<CGRect>,
+                       baselineOffset: UnsafeMutablePointer<CGFloat>,
+                       in textContainer: NSTextContainer, forGlyphRange glyphRange: NSRange) -> Bool {
+        let characters = layoutManager.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+        guard characters.location < textStorage.length,
+              textStorage.attribute(NotesTextProcessor.collapsedCodeFence, at: characters.location, effectiveRange: nil) as? Bool == true else { return false }
+        lineFragmentRect.pointee.size.height = 0.1
+        lineFragmentUsedRect.pointee.size.height = 0.1
+        baselineOffset.pointee = 0.1
+        return true
+    }
     
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
@@ -47,7 +94,15 @@ class EditTextView: UITextView, UITextViewDelegate {
     override func becomeFirstResponder() -> Bool {
         textStorage.removeHighlight()
         
-        return super.becomeFirstResponder()
+        let became = super.becomeFirstResponder()
+        refreshConcealedSyntax()
+        return became
+    }
+
+    override func resignFirstResponder() -> Bool {
+        let resigned = super.resignFirstResponder()
+        if resigned { refreshConcealedSyntax() }
+        return resigned
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -65,11 +120,46 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     public func initTextStorage() {
+        layoutManager.delegate = self
+        NotificationCenter.default.removeObserver(self, name: UITextView.textDidChangeNotification, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshConcealedSyntax), name: UITextView.textDidChangeNotification, object: self)
         let processor = TextStorageProcessor()
         processor.editor = self
         
         textStorageProcessor = processor
         textStorage.delegate = processor
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateCodeBlockBackground()
+    }
+
+    private func updateCodeBlockBackground() {
+        let path = UIBezierPath()
+        for block in note?.codeBlockRangesCache ?? [] {
+            let range = NotesTextProcessor.codeBlockBackgroundRange(in: textStorage, range: block)
+            guard range.length > 0 else { continue }
+            let glyphs = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            let bounds = layoutManager.boundingRect(forGlyphRange: glyphs, in: textContainer)
+            let inset = max(0, textContainer.lineFragmentPadding - 5)
+            let rect = CGRect(x: textContainerInset.left + inset, y: textContainerInset.top + bounds.minY,
+                              width: max(0, textContainer.size.width - 2 * inset), height: bounds.height)
+            guard !rect.isEmpty else { continue }
+            path.append(UIBezierPath(roundedRect: rect, cornerRadius: 5))
+        }
+
+        // Keep decoration below UIKit's text/selection layers without replacing TextKit.
+        if codeBlockBackground.superlayer == nil {
+            layer.insertSublayer(codeBlockBackground, at: 0)
+        }
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        codeBlockBackground.path = path.cgPath
+        codeBlockBackground.fillColor = NotesTextProcessor.getHighlighter().options.style.backgroundColor.cgColor
+        codeBlockBackground.strokeColor = UIColor.lightGray.cgColor
+        codeBlockBackground.lineWidth = 1
+        CATransaction.commit()
     }
 
     override func selectionRects(for range: UITextRange) -> [UITextSelectionRect] {

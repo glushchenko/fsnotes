@@ -67,6 +67,7 @@ public class UserDefaultsManagement {
         static let CodeFontNameKey = "codeFont"
         static let CodeFontSizeKey = "codeFontSize"
         static let codeBlockHighlight = "codeBlockHighlight"
+        static let hideMarkdownSyntax = "hideMarkdownSyntax"
         static let CodeBlocksWithSyntaxHighlighting = "codeBlocksWithSyntaxHighlighting"
         static let codeTheme = "codeTheme2025"
         static let ContinuousSpellChecking = "continuousSpellChecking"
@@ -508,6 +509,11 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var hideMarkdownSyntax: Bool {
+        get { shared?.object(forKey: Constants.hideMarkdownSyntax) as? Bool ?? true }
+        set { shared?.set(newValue, forKey: Constants.hideMarkdownSyntax) }
+    }
+
     static var codeBlockHighlight: Bool {
         get {
             if let highlight = shared?.object(forKey: Constants.codeBlockHighlight) as? Bool {

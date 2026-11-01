@@ -330,7 +330,6 @@ public class SwiftHighlighter {
     ) {
         let language = getLanguage(from: attributedString, startingAt: fullRange.location)
         let langDefinition = language.flatMap { getLanguage($0) }
-        let shouldHighlightTicks = editedRange.map { fullRange.location == $0.location } ?? true
         
         var codeRange = calculateCodeRange(
             fullRange: fullRange,
@@ -352,6 +351,8 @@ public class SwiftHighlighter {
         }
         
         // Reset formatting (no language)
+        attributedString.removeAttribute(NotesTextProcessor.concealedSyntaxFont, range: codeRange)
+        attributedString.removeAttribute(NotesTextProcessor.concealedSyntaxHidden, range: codeRange)
         attributedString.addAttributes([
             .font: options.style.font,
             .foregroundColor: options.style.foregroundColor
@@ -368,15 +369,8 @@ public class SwiftHighlighter {
         
         attributedString.fixAttributes(in: codeRange)
         
-        // Apply ticks and lang highlighting
-        if shouldHighlightTicks {
-            highlightCodeBlockDelimiters(
-                in: attributedString,
-                range: fullRange,
-                language: language,
-                hasLanguageDefinition: langDefinition != nil
-            )
-        }
+        // Restore both fences after incremental Markdown processing.
+        highlightCodeBlockDelimiters(in: attributedString, range: fullRange)
     }
 
     private func calculateCodeRange(
@@ -393,32 +387,18 @@ public class SwiftHighlighter {
 
     private func highlightCodeBlockDelimiters(
         in attributedString: NSMutableAttributedString,
-        range: NSRange,
-        language: String?,
-        hasLanguageDefinition: Bool
+        range: NSRange
     ) {
-        let grayColor = Color.lightGray
-        let greenColor = Color(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.0)
-        
-        // open ```
-        let openRange = NSRange(location: range.location, length: 3)
-        attributedString.addAttributes([
-            .foregroundColor: grayColor,
-            .font: NotesTextProcessor.codeFont
-        ], range: openRange)
-        
-        // lang
-        if hasLanguageDefinition, let language = language, !language.isEmpty {
-            let langRange = NSRange(location: range.location + 3, length: language.count)
-            attributedString.addAttribute(.foregroundColor, value: greenColor, range: langRange)
+        // Include line breaks so both fence paragraphs collapse outside the active block.
+        let text = attributedString.string as NSString
+        let openingLine = text.lineRange(for: NSRange(location: range.location, length: 3))
+        let closingLine = text.lineRange(for: NSRange(location: range.upperBound - 3, length: 3))
+        for fence in [openingLine, closingLine] {
+            attributedString.removeAttribute(NotesTextProcessor.concealedSyntaxFont, range: fence)
+            attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: fence)
+            NotesTextProcessor.concealSyntax(in: attributedString, range: fence)
+            attributedString.addAttribute(NotesTextProcessor.collapsedCodeFence, value: UserDefaultsManagement.hideMarkdownSyntax, range: fence)
         }
-        
-        // close ```
-        let closeRange = NSRange(location: range.upperBound - 4, length: 4)
-        attributedString.addAttributes([
-            .foregroundColor: grayColor,
-            .font: NotesTextProcessor.codeFont
-        ], range: closeRange)
     }
     
     private func getLanguage(from attributedString: NSMutableAttributedString, startingAt start: Int) -> String? {

@@ -20122,6 +20122,18 @@
         }
       }
     },
+    "hms-Ed-Cel.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Hide Markdown syntax\"; ObjectID = \"hms-Ed-Cel\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hide Markdown syntax"
+          }
+        }
+      }
+    },
     "HPa-9J-5dS.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Reset\"; ObjectID = \"HPa-9J-5dS\";",
       "extractionState" : "extracted_with_value",

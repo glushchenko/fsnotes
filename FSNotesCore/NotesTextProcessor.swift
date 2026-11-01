@@ -105,7 +105,135 @@ public class NotesTextProcessor {
      If the markdown syntax should be hidden or visible
      */
     public static var hideSyntax = false
+
+    public static let concealedSyntaxFont = NSAttributedString.Key("concealedSyntaxFont")
+    public static let collapsedCodeFence = NSAttributedString.Key("collapsedCodeFence")
+    public static let concealedSyntaxHidden = NSAttributedString.Key("concealedSyntaxHidden")
+
+    static func generateConcealedGlyphs(_ manager: NSLayoutManager, glyphs: UnsafePointer<CGGlyph>,
+                                       properties: UnsafePointer<NSLayoutManager.GlyphProperty>,
+                                       characterIndexes: UnsafePointer<Int>, font: PlatformFont,
+                                       glyphRange: NSRange) -> Int {
+        guard let storage = manager.textStorage else { return 0 }
+        let text = storage.string as NSString
+        var modified = Array(UnsafeBufferPointer(start: properties, count: glyphRange.length))
+        var changed = false
+        for i in modified.indices {
+            let index = characterIndexes[i]
+            guard index < storage.length,
+                  let hidden = storage.attribute(concealedSyntaxHidden, at: index, effectiveRange: nil) as? Bool,
+                  text.character(at: index) != 0x0A, text.character(at: index) != 0x0D else { continue }
+            let previous = modified[i]
+            if hidden {
+                modified[i].insert(.null)
+            } else {
+                modified[i].remove(.null)
+            }
+            changed = changed || previous != modified[i]
+        }
+        guard changed else { return 0 }
+        manager.setGlyphs(glyphs, properties: &modified, characterIndexes: characterIndexes, font: font, forGlyphRange: glyphRange)
+        return glyphRange.length
+    }
+
+    public static func concealSyntax(in text: NSMutableAttributedString, range: NSRange) {
+        // Do not briefly hide the paragraph being edited and then reveal it
+        // in a selection notification: TextKit may already be laying out the edit.
+        var activeParagraph: NSRange?
+        if let storage = text as? NSTextStorage {
+        #if os(OSX)
+            if let editor = storage.layoutManagers.first?.textContainers.first?.textView,
+               editor.window?.firstResponder == editor,
+               NSMaxRange(editor.selectedRange()) <= storage.length {
+                activeParagraph = (storage.string as NSString).paragraphRange(for: editor.selectedRange())
+            }
+        #else
+            if let editor = storage.layoutManagers.first?.delegate as? UITextView,
+               editor.isFirstResponder, NSMaxRange(editor.selectedRange) <= storage.length {
+                activeParagraph = (storage.string as NSString).paragraphRange(for: editor.selectedRange)
+            }
+        #endif
+        }
+        text.enumerateAttribute(.font, in: range) { value, subrange, _ in
+            guard let font = (text.attribute(concealedSyntaxFont, at: subrange.location, effectiveRange: nil) as? PlatformFont) ?? (value as? PlatformFont) else { return }
+            let reveal = !UserDefaultsManagement.hideMarkdownSyntax ||
+                (activeParagraph.map { NSIntersectionRange($0, subrange).length > 0 } ?? false)
+            text.addAttributes([
+                concealedSyntaxFont: font,
+                .font: font,
+                concealedSyntaxHidden: !reveal,
+                .foregroundColor: reveal ? syntaxColor : Color.clear
+            ], range: subrange)
+        }
+    }
     
+    static func refreshConcealedSyntax(in textStorage: NSTextStorage, selection: NSRange,
+                                       codeBlockRanges: [NSRange], isFocused: Bool) -> Bool {
+        guard NSMaxRange(selection) <= textStorage.length else { return false }
+        let activeParagraph = (textStorage.string as NSString).paragraphRange(for: selection)
+        let activeCodeBlocks = codeBlockRanges.filter { block in
+            if selection.length == 0 {
+                return selection.location >= block.location && selection.location <= NSMaxRange(block)
+            }
+            return NSIntersectionRange(selection, block).length > 0
+        }
+        var changedRange: NSRange?
+        textStorage.beginEditing()
+        textStorage.enumerateAttribute(NotesTextProcessor.concealedSyntaxFont, in: NSRange(location: 0, length: textStorage.length)) { value, range, _ in
+            guard let font = value as? PlatformFont else { return }
+            let isCodeFence = textStorage.attribute(NotesTextProcessor.collapsedCodeFence, at: range.location, effectiveRange: nil) != nil
+            let isActive = isCodeFence
+                ? activeCodeBlocks.contains { NSIntersectionRange($0, range).length > 0 }
+                : NSIntersectionRange(activeParagraph, range).length > 0
+            let reveal = !UserDefaultsManagement.hideMarkdownSyntax || (isFocused && isActive)
+            var markerChanged = false
+            if isCodeFence,
+               textStorage.attribute(NotesTextProcessor.collapsedCodeFence, at: range.location, effectiveRange: nil) as? Bool != !reveal {
+                textStorage.addAttribute(NotesTextProcessor.collapsedCodeFence, value: !reveal, range: range)
+                markerChanged = true
+            }
+            if textStorage.attribute(concealedSyntaxHidden, at: range.location, effectiveRange: nil) as? Bool != !reveal {
+                textStorage.addAttribute(concealedSyntaxHidden, value: !reveal, range: range)
+                markerChanged = true
+            }
+            let color = reveal ? NotesTextProcessor.syntaxColor : PlatformColor.clear
+            if (textStorage.attribute(.font, at: range.location, effectiveRange: nil) as? PlatformFont) != font ||
+               (textStorage.attribute(.foregroundColor, at: range.location, effectiveRange: nil) as? PlatformColor) != color {
+                textStorage.addAttributes([.font: font, .foregroundColor: color], range: range)
+                markerChanged = true
+            }
+            if markerChanged {
+                let paragraph = (textStorage.string as NSString).paragraphRange(for: range)
+                changedRange = changedRange.map { NSUnionRange($0, paragraph) } ?? paragraph
+            }
+        }
+        textStorage.endEditing()
+        if let range = changedRange {
+            for manager in textStorage.layoutManagers {
+                manager.invalidateGlyphs(forCharacterRange: range, changeInLength: 0, actualCharacterRange: nil)
+                // Revealing markers changes advances, including caret and selection geometry.
+                manager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
+                manager.invalidateDisplay(forCharacterRange: range)
+            }
+        }
+        return changedRange != nil
+    }
+
+    static func codeBlockBackgroundRange(in text: NSAttributedString, range: NSRange) -> NSRange {
+        var result = NSIntersectionRange(range, NSRange(location: 0, length: text.length))
+        guard result.length > 0 else { return result }
+        let string = text.string as NSString
+        let opening = string.lineRange(for: NSRange(location: result.location, length: 0))
+        let closing = string.lineRange(for: NSRange(location: NSMaxRange(result) - 1, length: 0))
+        if text.attribute(collapsedCodeFence, at: closing.location, effectiveRange: nil) as? Bool == true {
+            result.length = max(0, closing.location - result.location)
+        }
+        if text.attribute(collapsedCodeFence, at: opening.location, effectiveRange: nil) as? Bool == true {
+            result = NSIntersectionRange(result, NSRange(location: NSMaxRange(opening), length: text.length - NSMaxRange(opening)))
+        }
+        return result
+    }
+
     private var note: Note?
     private var storage: NSTextStorage?
     private var range: NSRange?
@@ -278,34 +406,6 @@ public class NotesTextProcessor {
         }
     }
     
-    public static func removeFontTraits(
-        _ traitsToRemove: FontTraits,
-        range: NSRange,
-        attributedString: NSMutableAttributedString
-    ) {
-        let baseFont = UserDefaultsManagement.noteFont
-        let pointSize = baseFont.pointSize
-
-        attributedString.enumerateAttribute(.font, in: range) { value, subrange, _ in
-            guard let font = value as? PlatformFont else { return }
-
-            let currentTraits = font.fontDescriptor.symbolicTraits
-            guard !currentTraits.isDisjoint(with: traitsToRemove) else { return }
-
-            let newTraits = currentTraits.subtracting(traitsToRemove)
-            let newDesc = font.fontDescriptor.withSymbolicTraits(newTraits)
-            
-        #if os(iOS)
-            guard let newDesc = newDesc else { return }
-            let newFont = PlatformFont(descriptor: newDesc, size: pointSize)
-        #else
-            guard let newFont = PlatformFont(descriptor: newDesc, size: pointSize) else { return }
-        #endif
-            
-            attributedString.addAttribute(.font, value: newFont, range: subrange)
-        }
-    }
-
     public static func addFontTraits(
         _ traitsToAdd: FontTraits,
         range: NSRange,
@@ -338,12 +438,17 @@ public class NotesTextProcessor {
         let paragraphRange = paragraphRange ?? NSRange(0..<attributedString.length)
         
         attributedString.beginEditing()
-        if paragraphRange.length == attributedString.length {
-            // Initial operation
-            resetFont(attributedString: attributedString, paragraphRange: paragraphRange)
-        } else {
-            removeFontTraits([.bold, .italic], range: paragraphRange, attributedString: attributedString)
+        // Clear concealed marker colors before parsing the paragraph again.
+        attributedString.enumerateAttribute(concealedSyntaxFont, in: paragraphRange) { value, range, _ in
+            if value != nil {
+                attributedString.addAttribute(.foregroundColor, value: fontColor, range: range)
+            }
         }
+        attributedString.removeAttribute(concealedSyntaxFont, range: paragraphRange)
+        attributedString.removeAttribute(concealedSyntaxHidden, range: paragraphRange)
+        attributedString.removeAttribute(collapsedCodeFence, range: paragraphRange)
+        // Reparse from the body font so removed/split headings cannot retain their size.
+        resetFont(attributedString: attributedString, paragraphRange: paragraphRange)
         
         defer {
             attributedString.endEditing()
@@ -489,15 +594,12 @@ public class NotesTextProcessor {
 
             NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                let syntaxRange = NSMakeRange(innerRange.location, innerRange.length + 1)
-                hideSyntaxIfNecessary(range: syntaxRange)
+                concealSyntax(in: attributedString, range: innerRange)
             }
 
             NotesTextProcessor.headersAtxClosingRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                hideSyntaxIfNecessary(range: innerRange)
+                concealSyntax(in: attributedString, range: innerRange)
             }
         }
         
@@ -677,9 +779,14 @@ public class NotesTextProcessor {
             }
         }
                 
+        let inlineCodeRanges = codeSpanRegex.regularExpression.matches(in: string, range: paragraphRange).map { $0.range }
+
         // We detect and process italics
         NotesTextProcessor.strictItalicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range(at: 3) else { return }
+
+            if inlineCodeRanges.contains(where: { NSIntersectionRange($0, range).length > 0 }) { return }
+            if codeBlockRanges?.contains(where: { NSIntersectionRange($0, range).length > 0 }) == true { return }
 
             if NotesTextProcessor.isLink(attributedString: attributedString, range: range) {
                 return
@@ -693,22 +800,24 @@ public class NotesTextProcessor {
             }
             
             let preRange = NSMakeRange(range.location - 1, 1)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-            hideSyntaxIfNecessary(range: preRange)
+            concealSyntax(in: attributedString, range: preRange)
             
             let postRange = NSMakeRange(range.location + range.length, 1)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-            hideSyntaxIfNecessary(range: postRange)
+            concealSyntax(in: attributedString, range: postRange)
         }
 
         // We detect and process bolds
         NotesTextProcessor.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range(at: 3) else { return }
 
+            if inlineCodeRanges.contains(where: { NSIntersectionRange($0, range).length > 0 }) { return }
+
             let boldString = attributedString.attributedSubstring(from: range)
             if boldString.string.contains("__") || boldString.string == "_" {
                 return
             }
+
+            if codeBlockRanges?.contains(where: { NSIntersectionRange($0, range).length > 0 }) == true { return }
 
             if NotesTextProcessor.isLink(attributedString: attributedString, range: range) {
                 return
@@ -725,53 +834,24 @@ public class NotesTextProcessor {
             }
 
             let preRange = NSMakeRange(range.location - 2, 2)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-            hideSyntaxIfNecessary(range: preRange)
+            concealSyntax(in: attributedString, range: preRange)
             
             let postRange = NSMakeRange(range.location + range.length, 2)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-            hideSyntaxIfNecessary(range: postRange)
+            concealSyntax(in: attributedString, range: postRange)
         }
 
-//        NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
-//            guard let range = result?.range else { return }
-//            addFontTraits([.italic], range: range, attributedString: attributedString)
-//
-//            let preRange = NSMakeRange(range.location, 1)
-//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-//
-//            let postRange = NSMakeRange(range.location + range.length - 1, 1)
-//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-//        }
-//
-//        NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
-//            guard let range = result?.range else { return }
-//            addFontTraits([.bold], range: range, attributedString: attributedString)
-//            
-//            let preRange = NSMakeRange(range.location, 2)
-//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-//
-//            let postRange = NSMakeRange(range.location + range.length - 2, 2)
-//            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-//        }
-
-        // We detect and process bolds
+        // We detect and process strikethrough.
         NotesTextProcessor.strikeRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
+            if inlineCodeRanges.contains(where: { NSIntersectionRange($0, range).length > 0 }) { return }
+            if codeBlockRanges?.contains(where: { NSIntersectionRange($0, range).length > 0 }) == true { return }
 
-            attributedString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: range.location + 2, length: range.length - 4))
-
-            //attributedString.fixAttributes(in: range)
-
-            let preRange = NSMakeRange(range.location, 2)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-            hideSyntaxIfNecessary(range: preRange)
-
-            let postRange = NSMakeRange(range.location + range.length - 2, 2)
-            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-            hideSyntaxIfNecessary(range: postRange)
+            attributedString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue,
+                                          range: NSRange(location: range.location + 2, length: range.length - 4))
+            concealSyntax(in: attributedString, range: NSRange(location: range.location, length: 2))
+            concealSyntax(in: attributedString, range: NSRange(location: NSMaxRange(range) - 2, length: 2))
         }
-        
+
         // We detect and process inline mailto links not formatted
         NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -854,25 +934,27 @@ public class NotesTextProcessor {
         }
 
         NotesTextProcessor.codeSpanRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
+            guard let result = result else { return }
+            let range = result.range
 
             if attributedString.mutableString.substring(with: range).startsWith(string: "```") {
                 return
             }
 
+            if codeBlockRanges?.contains(where: { NSIntersectionRange($0, range).length > 0 }) == true { return }
+            attributedString.removeAttribute(concealedSyntaxFont, range: range)
+            attributedString.removeAttribute(concealedSyntaxHidden, range: range)
             attributedString.addAttribute(.font, value: codeFont, range: range)
             attributedString.fixAttributes(in: range)
 
-            attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: range)
+            // Null delimiter glyphs may be laid out on the preceding line.
+            // Only the content of the span should carry its background.
+            attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: result.range(at: 2))
 
-            NotesTextProcessor.codeSpanOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-            NotesTextProcessor.codeSpanClosingRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
+            let opening = result.range(at: 1)
+            let closing = NSRange(location: NSMaxRange(range) - opening.length, length: opening.length)
+            concealSyntax(in: attributedString, range: opening)
+            concealSyntax(in: attributedString, range: closing)
         }
     }
 
@@ -924,7 +1006,7 @@ public class NotesTextProcessor {
         "(.+?)        # $2 = Header text",
         "\\p{Z}*",
         "\\#*         # optional closing #'s (not counted)",
-        "(?:\\n|\\Z)"
+        "(?=\\n|\\Z)"
         ].joined(separator: "\n")
     
     public static let headersAtxRegex = MarklightRegex(pattern: headerAtxPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -936,7 +1018,7 @@ public class NotesTextProcessor {
     public static let headersAtxOpeningRegex = MarklightRegex(pattern: headersAtxOpeningPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     fileprivate static let headersAtxClosingPattern = [
-        "\\#{1,6}\\ \\n+"
+        "[\\t ]+\\#+[\\t ]*(?=\\n|\\z)"
         ].joined(separator: "\n")
     
     public static let headersAtxClosingRegex = MarklightRegex(pattern: headersAtxClosingPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -1154,20 +1236,6 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let codeSpanRegex = MarklightRegex(pattern: codeSpanPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
-    
-    fileprivate static let codeSpanOpeningPattern = [
-        "(?<![\\\\`])   # Character before opening ` can't be a backslash or backtick",
-        "(`+)           # $1 = Opening run of `"
-        ].joined(separator: "\n")
-    
-    public static let codeSpanOpeningRegex = MarklightRegex(pattern: codeSpanOpeningPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
-    
-    fileprivate static let codeSpanClosingPattern = [
-        "(?<![\\\\`])   # Character before opening ` can't be a backslash or backtick",
-        "(`+)           # $1 = Opening run of `"
-        ].joined(separator: "\n")
-    
-    public static let codeSpanClosingRegex = MarklightRegex(pattern: codeSpanClosingPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
     // MARK: Block quotes
     

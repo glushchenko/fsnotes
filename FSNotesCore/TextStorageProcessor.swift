@@ -56,24 +56,26 @@ class TextStorageProcessor: NSObject, NSTextStorageDelegate {
             textStorage.updateParagraphStyle(range: editedRange)
         }
 
+        // Drawing needs current ranges even when highlighting is skipped.
+        let codeBlockRanges = detector.findCodeBlocks(in: textStorage)
+        note.codeBlockRangesCache = codeBlockRanges
+
         if note.content.length == textStorage.length && (
             note.content.string.fnv1a == note.cacheHash
         ) { return }
-        
+
         // Full load
         if editedRange.length == textStorage.length {
             NotesTextProcessor.highlight(attributedString: textStorage)
             return
         }
 
-        let codeBlockRanges = detector.findCodeBlocks(in: textStorage)
         let paragraphRange = (textStorage.string as NSString).paragraphRange(for: editedRange)
 
         NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: paragraphRange, codeBlockRanges: codeBlockRanges)
 
         // Code block founds
         var result = detector.codeBlocks(textStorage: textStorage, editedRange: editedRange, delta: delta, newRanges: codeBlockRanges)
-        note.codeBlockRangesCache = codeBlockRanges
 
         // Highlight code block end (```), that wiped previously in highlightMarkdown
         for range in codeBlockRanges {

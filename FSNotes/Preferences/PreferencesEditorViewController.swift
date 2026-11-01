@@ -13,6 +13,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var codeFontPreview: NSTextField!
     @IBOutlet weak var noteFontPreview: NSTextField!
     @IBOutlet weak var codeBlockHighlight: NSButton!
+    @IBOutlet weak var hideMarkdownSyntax: NSButton!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
     @IBOutlet weak var indentUsing: NSPopUpButton!
     @IBOutlet weak var inEditorFocus: NSButton!
@@ -33,7 +34,7 @@ class PreferencesEditorViewController: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 495)
+        preferredContentSize = NSSize(width: 550, height: 519)
     }
 
     override func viewDidAppear() {
@@ -42,6 +43,8 @@ class PreferencesEditorViewController: NSViewController {
         }
 
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
+        hideMarkdownSyntax.title = NSLocalizedString("Hide Markdown syntax", comment: "Editor setting")
+        hideMarkdownSyntax.state = UserDefaultsManagement.hideMarkdownSyntax ? .on : .off
 
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
         indentUsing.selectItem(at: UserDefaultsManagement.indentUsing)
@@ -83,6 +86,14 @@ class PreferencesEditorViewController: NSViewController {
             if let evc = editor.editorViewController {
                 evc.refillEditArea(force: true)
             }
+        }
+    }
+
+    @IBAction func hideMarkdownSyntax(_ sender: NSButton) {
+        UserDefaultsManagement.hideMarkdownSyntax = sender.state == .on
+        Storage.shared().resetCacheAttributes()
+        for editor in AppDelegate.getEditTextViews() {
+            editor.editorViewController?.refillEditArea(force: true)
         }
     }
 

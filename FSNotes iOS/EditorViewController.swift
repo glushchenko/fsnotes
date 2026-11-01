@@ -277,6 +277,7 @@ class EditorViewController: UIViewController,
         editArea.layoutIfNeeded()
         
         self.loadSelectedRange()
+        editArea.refreshConcealedSyntax()
         
         if let query = self.getSearchText(), query.count > 0 {
             UIApplication.getVC().enableSearchFocus(string: query)
@@ -621,6 +622,7 @@ class EditorViewController: UIViewController,
     }
 
     func textViewDidChangeSelection(_ textView: UITextView) {
+        (textView as? EditTextView)?.refreshConcealedSyntax()
         if textView.isFirstResponder {
             // Handoff needs update in cursor position cahnged
             userActivity?.needsSave = true

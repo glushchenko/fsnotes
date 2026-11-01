@@ -3739,6 +3739,16 @@ Olena Hlushcneko</string>
                                     <action selector="codeBlockHighlight:" target="ssC-ed-19K" id="Ygz-lW-YAb"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hms-Ed-Tgl">
+                                <rect key="frame" x="35" y="92" width="398" height="16"/>
+                                <buttonCell key="cell" type="check" title="Hide Markdown syntax" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hms-Ed-Cel">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="hideMarkdownSyntax:" target="ssC-ed-19K" id="hms-Ed-Act"/>
+                                </connections>
+                            </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="dof-lA-EwF">
                                 <rect key="frame" x="20" y="93" width="428" height="5"/>
                             </box>
@@ -3909,7 +3919,10 @@ Olena Hlushcneko</string>
                             <constraint firstItem="y1p-hH-bBl" firstAttribute="centerY" secondItem="cO6-GH-v1T" secondAttribute="centerY" id="wkx-jp-KWV"/>
                             <constraint firstItem="rmv-ik-PYa" firstAttribute="centerY" secondItem="B07-UG-KXb" secondAttribute="centerY" id="xg5-Ka-fyG"/>
                             <constraint firstItem="GnH-BV-JGa" firstAttribute="trailing" secondItem="QvM-a9-vnf" secondAttribute="trailing" id="yef-tJ-6pg"/>
-                            <constraint firstItem="dof-lA-EwF" firstAttribute="top" secondItem="Kcg-vn-Dwj" secondAttribute="bottom" constant="20" id="yvx-pF-jgL"/>
+                            <constraint firstItem="hms-Ed-Tgl" firstAttribute="top" secondItem="Kcg-vn-Dwj" secondAttribute="bottom" constant="8" id="hms-Ed-Top"/>
+                            <constraint firstItem="hms-Ed-Tgl" firstAttribute="leading" secondItem="Kcg-vn-Dwj" secondAttribute="leading" id="hms-Ed-Lft"/>
+                            <constraint firstItem="hms-Ed-Tgl" firstAttribute="trailing" secondItem="Kcg-vn-Dwj" secondAttribute="trailing" id="hms-Ed-Rgt"/>
+                            <constraint firstItem="dof-lA-EwF" firstAttribute="top" secondItem="hms-Ed-Tgl" secondAttribute="bottom" constant="20" id="yvx-pF-jgL"/>
                             <constraint firstItem="dof-lA-EwF" firstAttribute="trailing" secondItem="2ZF-VY-6Ij" secondAttribute="trailing" id="zQm-5d-zfY"/>
                             <constraint firstItem="mLR-t7-nz0" firstAttribute="trailing" secondItem="XOm-C4-sCs" secondAttribute="trailing" id="zc0-G9-yAY"/>
                         </constraints>
@@ -3920,6 +3933,7 @@ Olena Hlushcneko</string>
                         <outlet property="boldUnderscore" destination="y1p-hH-bBl" id="IJw-SX-nBJ"/>
                         <outlet property="clickableLinks" destination="mLR-t7-nz0" id="Obm-sY-z1U"/>
                         <outlet property="codeBlockHighlight" destination="Kcg-vn-Dwj" id="7yz-yx-8Tu"/>
+                        <outlet property="hideMarkdownSyntax" destination="hms-Ed-Tgl" id="hms-Ed-Out"/>
                         <outlet property="codeFontPreview" destination="B07-UG-KXb" id="3G7-e5-Ckw"/>
                         <outlet property="imagesWidth" destination="dmd-5j-kY7" id="cti-S4-1DA"/>
                         <outlet property="inEditorFocus" destination="cj1-ab-Sv6" id="KG5-A9-BXB"/>

@@ -5930,6 +5930,29 @@
         }
       }
     },
+    "Hide Markdown syntax" : {
+      "comment" : "Editor setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Markdown syntax"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать Markdown-синтаксис"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приховувати Markdown-синтаксис"
+          }
+        }
+      }
+    },
     "Hide Note List" : {
       "localizations" : {
         "ar-IQ" : {

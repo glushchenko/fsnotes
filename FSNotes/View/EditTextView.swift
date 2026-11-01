@@ -34,6 +34,36 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     public var attributesCachingQueue = OperationQueue.init()
     
     private var preview = false
+    private var updatingConcealedSyntax = false
+    private var selectingWithMouse = false
+
+    @objc private func refreshConcealedSyntax() {
+        guard !updatingConcealedSyntax, !selectingWithMouse, let textStorage = textStorage,
+              textStorage.length > 0 else { return }
+        updatingConcealedSyntax = true
+        defer { updatingConcealedSyntax = false }
+
+        let appearanceChanged = NotesTextProcessor.refreshConcealedSyntax(
+            in: textStorage, selection: selectedRange(),
+            codeBlockRanges: note?.codeBlockRangesCache ?? [],
+            isFocused: window?.firstResponder == self
+        )
+
+        // Expanding a fence moves the border beyond the edited character range.
+        // Redraw the whole view to erase the border at its previous position.
+        if appearanceChanged {
+            needsDisplay = true
+        }
+
+        // Hidden marker attributes must never leak into newly entered text.
+        if let font = typingAttributes[NotesTextProcessor.concealedSyntaxFont] as? NSFont {
+            typingAttributes[.font] = font
+            typingAttributes[.foregroundColor] = NotesTextProcessor.fontColor
+        }
+        typingAttributes.removeValue(forKey: NotesTextProcessor.concealedSyntaxFont)
+        typingAttributes.removeValue(forKey: NotesTextProcessor.concealedSyntaxHidden)
+        typingAttributes.removeValue(forKey: NotesTextProcessor.collapsedCodeFence)
+    }
     
     public var isScrollPositionSaverLocked = false
     
@@ -54,6 +84,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         let becameFirstResponder = super.becomeFirstResponder()
+        if !isMouseDownInsideEditor() {
+            refreshConcealedSyntax()
+        }
+
         if preserveScrollPosition, let point = scrollPosition {
             scroll(point)
         }
@@ -153,6 +187,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     public func initTextStorage() {
+        for name in [NSTextView.didChangeSelectionNotification, NSText.didChangeNotification] {
+            NotificationCenter.default.removeObserver(self, name: name, object: self)
+            NotificationCenter.default.addObserver(self, selector: #selector(refreshConcealedSyntax), name: name, object: self)
+        }
+
         let processor = TextStorageProcessor()
         processor.editor = self
         
@@ -166,6 +205,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         textStorage.removeLayoutManager(oldLayoutManager)
 
         let customLayoutManager = LayoutManager()
+        textContainer.lineFragmentPadding = 10
+
         customLayoutManager.addTextContainer(textContainer)
         customLayoutManager.delegate = customLayoutManager
         
@@ -345,7 +386,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
         
         dragDetected = false
+        selectingWithMouse = true
         super.mouseDown(with: event)
+        selectingWithMouse = false
+        refreshConcealedSyntax()
         saveSelectedRange()
 
         if !self.dragDetected {
@@ -1828,8 +1872,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override func resignFirstResponder() -> Bool {
         userActivity?.needsSave = true
-
-        return super.resignFirstResponder()
+        let resigned = super.resignFirstResponder()
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshConcealedSyntax()
+        }
+        return resigned
     }
 
     public func registerHandoff(note: Note) {
