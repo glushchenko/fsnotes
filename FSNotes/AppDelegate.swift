@@ -213,7 +213,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
                 UserDefaultsManagement.storageType = .custom
                 UserDefaultsManagement.customStoragePath = url.path
-                
+
+                // restartApp() calls exit(0), which can drop a not yet
+                // persisted default: the restarted app would prompt for the
+                // storage directory again.
+                UserDefaultsManagement.shared?.synchronize()
+
                 self.restartApp()
             } else {
                 exit(EXIT_SUCCESS)

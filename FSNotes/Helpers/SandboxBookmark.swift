@@ -97,8 +97,20 @@ class SandboxBookmark {
         guard let url = restoredUrl else { return false }
 
         if isStale {
-            Swift.print("URL is stale: \(url)")
-            return false
+            // A stale bookmark must be renewed, otherwise the storage folder
+            // stays inaccessible forever (this happens after app updates,
+            // reboots or when the folder is moved/renamed) and the app silently
+            // falls back to an empty default storage.
+            Swift.print("URL is stale, refreshing bookmark: \(url)")
+
+            if let data = try? url.bookmarkData(
+                options: NSURL.BookmarkCreationOptions.withSecurityScope,
+                includingResourceValuesForKeys: nil,
+                relativeTo: nil
+            ) {
+                bookmarks[url] = data
+                save()
+            }
         }
 
         if url.startAccessingSecurityScopedResource() {

@@ -302,12 +302,23 @@ public class Project: NSObject {
             }
 
             print("From cache: \(notes.count)")
-            
+
             isNeededCacheValidation = true
-        } else if !cacheOnly {
+        } else {
+            // A project restored from the cached sidebar tree may have no note
+            // cache at all: it was created or moved during the previous session
+            // (or its cache file was removed/corrupted). Never leave such a
+            // project empty, even on the "cache only" startup fast path,
+            // otherwise the folder is listed in the sidebar but all of its notes
+            // are missing until the next launch.
             notes = fetchNotes()
-            
+
             print("From disk: \(notes.count), lbl: \(label)")
+
+            // The list is complete and can be cached on quit. Projects inserted
+            // later (e.g. by the file system watcher) would otherwise never get
+            // a cache file and would be empty on the next launch.
+            isReadyForCacheSaving = true
         }
         
         storage.loadPins(notes: notes)
@@ -758,10 +769,20 @@ public class Project: NSObject {
         // if not cached – load all results for cache
         // (not loaded instantly because is resource consumption operation, loaded later in background)
         guard isNeededCacheValidation || isGit else {
+            let loadedNotes = storage.getNotesBy(project: self)
 
-            _ = storage.noteList
-                .filter({ $0.project == self })
-                .map({ $0.load() })
+            // Safety net: a project without a note cache could reach this point
+            // with an empty in-memory list and would never be validated against
+            // the file system. Scan it instead of trusting the empty list.
+            if loadedNotes.isEmpty && FileManager.default.fileExists(atPath: url.path) {
+                let results = checkFSAndMemoryDiff()
+
+                print("Cache diff found (no cache): removed - \(results.0.count), added - \(results.1.count), modified - \(results.2.count), lbl: \(label)")
+
+                return results
+            }
+
+            _ = loadedNotes.map({ $0.load() })
 
             isReadyForCacheSaving = true
             return ([], [], [])
