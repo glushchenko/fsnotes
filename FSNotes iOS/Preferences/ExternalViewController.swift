@@ -16,12 +16,18 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
             return
         }
 
-        defer { url.stopAccessingSecurityScopedResource() }
+        var accessTransferred = false
+        defer {
+            if !accessTransferred {
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
 
         do {
             let bookmarkData = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
 
-            try SandboxBookmark.sharedInstance().save(data: bookmarkData)
+            SandboxBookmark.sharedInstance().save(data: bookmarkData, accessing: url)
+            accessTransferred = true
 
             let storage = Storage.shared()
             if storage.projectExist(url: url) {
@@ -30,15 +36,15 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
             
             if let projects = Storage.shared().insert(url: url, bookmark: true) {
                 OperationQueue.main.addOperation {
-                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
+                    UIApplication.getVC().sidebarTableView.insertRows(projects: projects) {
+                        if let project = projects.first {
+                            UIApplication.getVC().sidebarTableView.select(project: project)
+                        }
+                    }
                     _ = UIApplication.getNC()?.popViewController(animated: true)
                     
                     if !UserDefaultsManagement.sidebarIsOpened {
                         UIApplication.getVC().openSidebar()
-                    }
-                    
-                    if let project = projects.first {
-                        UIApplication.getVC().sidebarTableView.select(project: project)
                     }
                 }
             }

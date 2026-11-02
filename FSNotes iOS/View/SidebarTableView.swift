@@ -726,8 +726,11 @@ class SidebarTableView: UITableView,
         return nil
     }
 
-    public func insertRows(projects: [Project]) {
-        guard sidebar.items.indices.contains(1) else { return }
+    public func insertRows(projects: [Project], completion: (() -> Void)? = nil) {
+        guard sidebar.items.indices.contains(1) else {
+            completion?()
+            return
+        }
 
         var selectedProject: Project?
         var selectedTag: String?
@@ -746,7 +749,10 @@ class SidebarTableView: UITableView,
         let toInsert = projects
             .filter { !existingProjects.contains($0) && $0.settings.showInSidebar }
 
-        guard !toInsert.isEmpty else { return }
+        guard !toInsert.isEmpty else {
+            completion?()
+            return
+        }
 
         sidebar.reloadProjects()
         performBatchUpdates {
@@ -770,6 +776,7 @@ class SidebarTableView: UITableView,
             }
 
             UIApplication.getVC().resizeSidebar()
+            completion?()
         }
     }
 

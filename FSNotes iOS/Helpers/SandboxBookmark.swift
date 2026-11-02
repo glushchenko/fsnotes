@@ -13,7 +13,7 @@ class SandboxBookmark {
 
     private let bookmarksKey = "SecurityBookmarksKey"
     private var defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults")
-    private var bookmarks = [URL: Data]()
+    private var accessedURLs = [URL: URL]()
 
     public static func sharedInstance() -> SandboxBookmark {
         guard let sandbox = self.instance else {
@@ -29,11 +29,16 @@ class SandboxBookmark {
     }
 
     private func retainAccess(to url: URL) -> Bool {
-        let url = url.standardizedFileURL
-        if bookmarks[url] != nil {
+        let key = url.standardizedFileURL
+        if accessedURLs[key] != nil {
             return true
         }
-        return url.startAccessingSecurityScopedResource()
+        guard url.startAccessingSecurityScopedResource() else {
+            print("Couldn't access bookmarked folder: \(url)")
+            return false
+        }
+        accessedURLs[key] = url
+        return true
     }
 
     private func persist(_ data: [Data]) {
@@ -48,22 +53,16 @@ class SandboxBookmark {
             do {
                 var isStale = false
                 let url = try URL(resolvingBookmarkData: saved[index], bookmarkDataIsStale: &isStale)
-                    .standardizedFileURL
                 guard retainAccess(to: url) else { continue }
 
-                var data = saved[index]
                 if isStale {
                     do {
-                        data = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
-                        saved[index] = data
+                        saved[index] = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
                         changed = true
                     } catch {
                         print("Couldn't refresh bookmark: \(error)")
                     }
                 }
-
-                bookmarks[url] = data
-                print("URL loaded from security scope: \(url)")
             } catch {
                 // Keep temporarily unavailable bookmarks so a provider can recover.
                 print("Couldn't resolve bookmark: \(error)")
@@ -75,12 +74,13 @@ class SandboxBookmark {
         }
     }
 
-    public func save(data: Data) throws {
-        var isStale = false
-        let url = try URL(resolvingBookmarkData: data, bookmarkDataIsStale: &isStale)
-            .standardizedFileURL
-        guard retainAccess(to: url) else {
-            throw CocoaError(.fileReadNoPermission)
+    // Takes ownership of the access already started by the document picker.
+    public func save(data: Data, accessing url: URL) {
+        let key = url.standardizedFileURL
+        if accessedURLs[key] != nil {
+            url.stopAccessingSecurityScopedResource()
+        } else {
+            accessedURLs[key] = url
         }
 
         // Persist from the complete saved list, including unavailable providers.
@@ -92,7 +92,6 @@ class SandboxBookmark {
             return existingURL.standardizedFileURL.path != url.path
         }
         saved.append(data)
-        bookmarks[url] = data
         persist(saved)
     }
 
@@ -112,14 +111,13 @@ class SandboxBookmark {
             return !matches(restored)
         }
 
-        for restored in Array(bookmarks.keys) where matches(restored) {
-            restored.stopAccessingSecurityScopedResource()
-            bookmarks.removeValue(forKey: restored)
+        for restored in Array(accessedURLs.keys) where matches(restored) {
+            accessedURLs.removeValue(forKey: restored)?.stopAccessingSecurityScopedResource()
         }
         persist(saved)
     }
 
     public func getRestoredUrls() -> [URL] {
-        return Array(bookmarks.keys)
+        return Array(accessedURLs.values)
     }
 }

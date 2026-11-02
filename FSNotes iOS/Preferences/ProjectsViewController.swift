@@ -209,12 +209,18 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             return
         }
 
-        defer { url.stopAccessingSecurityScopedResource() }
+        var accessTransferred = false
+        defer {
+            if !accessTransferred {
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
 
         do {
             let bookmarkData = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
 
-            try SandboxBookmark.sharedInstance().save(data: bookmarkData)
+            SandboxBookmark.sharedInstance().save(data: bookmarkData, accessing: url)
+            accessTransferred = true
 
             if let projects = Storage.shared().insert(url: url, bookmark: true) {
                 OperationQueue.main.addOperation {
