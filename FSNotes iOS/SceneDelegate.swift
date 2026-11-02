@@ -125,9 +125,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             print("File imported: \(note.url)")
         } else {
-            guard url.startAccessingSecurityScopedResource(), let inbox = storage.getDefault() else {
+            guard let inbox = storage.getDefault(), url.startAccessingSecurityScopedResource() else {
                 return
             }
+
+            defer { url.stopAccessingSecurityScopedResource() }
 
             let dst = NameHelper.getUniqueFileName(name: "", project: inbox, ext: url.pathExtension)
 

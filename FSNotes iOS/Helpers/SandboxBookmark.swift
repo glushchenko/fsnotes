@@ -24,59 +24,102 @@ class SandboxBookmark {
         return sandbox
     }
 
-    public func load() {
-        if let bookmarks = defaults?.object(forKey: bookmarksKey) as? [Data] {
-            for bookmarkData in bookmarks {
-                do {
-                    var isStale = false
-                    let url = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
+    private var storedBookmarks: [Data] {
+        return defaults?.array(forKey: bookmarksKey) as? [Data] ?? []
+    }
 
-                    if !isStale {
-                        if url.startAccessingSecurityScopedResource() {
-                            self.bookmarks[url.standardized] = bookmarkData
-                            print("URL loaded from security scope: \(url)")
-                        }
-                    } else {
-                        remove(url: url)
+    private func retainAccess(to url: URL) -> Bool {
+        let url = url.standardizedFileURL
+        if bookmarks[url] != nil {
+            return true
+        }
+        return url.startAccessingSecurityScopedResource()
+    }
+
+    private func persist(_ data: [Data]) {
+        defaults?.set(data, forKey: bookmarksKey)
+    }
+
+    public func load() {
+        var saved = storedBookmarks
+        var changed = false
+
+        for index in saved.indices {
+            do {
+                var isStale = false
+                let url = try URL(resolvingBookmarkData: saved[index], bookmarkDataIsStale: &isStale)
+                    .standardizedFileURL
+                guard retainAccess(to: url) else { continue }
+
+                var data = saved[index]
+                if isStale {
+                    do {
+                        data = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
+                        saved[index] = data
+                        changed = true
+                    } catch {
+                        print("Couldn't refresh bookmark: \(error)")
                     }
                 }
-                catch let error {
-                    print(error)
-                }
+
+                bookmarks[url] = data
+                print("URL loaded from security scope: \(url)")
+            } catch {
+                // Keep temporarily unavailable bookmarks so a provider can recover.
+                print("Couldn't resolve bookmark: \(error)")
             }
         }
+
+        if changed {
+            persist(saved)
+        }
     }
 
-    public func save(data: Data) {
-        var bookmarks = [Data]()
-
-        if let bookmarksData = defaults?.object(forKey: bookmarksKey) as? [Data] {
-            bookmarks = bookmarksData
+    public func save(data: Data) throws {
+        var isStale = false
+        let url = try URL(resolvingBookmarkData: data, bookmarkDataIsStale: &isStale)
+            .standardizedFileURL
+        guard retainAccess(to: url) else {
+            throw CocoaError(.fileReadNoPermission)
         }
 
-        bookmarks.append(data)
-        save(data: bookmarks)
-    }
-
-    public func save(data: [Data]) {
-        defaults?.set(data, forKey: bookmarksKey)
-        defaults?.synchronize()
+        // Persist from the complete saved list, including unavailable providers.
+        var saved = storedBookmarks.filter { existing in
+            var stale = false
+            guard let existingURL = try? URL(resolvingBookmarkData: existing, bookmarkDataIsStale: &stale) else {
+                return true
+            }
+            return existingURL.standardizedFileURL.path != url.path
+        }
+        saved.append(data)
+        bookmarks[url] = data
+        persist(saved)
     }
 
     public func remove(url: URL) {
-        self.bookmarks.removeValue(forKey: url)
-
-        // old style bookmarks
-        let oldStylePath = "/private" + url.path
-        if let index = bookmarks.firstIndex(where: { $0.key.path == oldStylePath }) {
-            bookmarks.remove(at: index)
+        let path = url.standardizedFileURL.path
+        let oldStylePath = "/private" + path
+        func matches(_ candidate: URL) -> Bool {
+            let candidatePath = candidate.standardizedFileURL.path
+            return candidatePath == path || candidatePath == oldStylePath
         }
 
-        let values = bookmarks.map({ $0.value })
-        save(data: values)
+        let saved = storedBookmarks.filter { data in
+            var stale = false
+            guard let restored = try? URL(resolvingBookmarkData: data, bookmarkDataIsStale: &stale) else {
+                return true
+            }
+            return !matches(restored)
+        }
+
+        for restored in Array(bookmarks.keys) where matches(restored) {
+            restored.stopAccessingSecurityScopedResource()
+            bookmarks.removeValue(forKey: restored)
+        }
+        persist(saved)
     }
-    
+
     public func getRestoredUrls() -> [URL] {
-        return bookmarks.map({ $0.key })
+        return Array(bookmarks.keys)
     }
 }

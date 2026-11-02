@@ -209,12 +209,14 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             return
         }
 
+        defer { url.stopAccessingSecurityScopedResource() }
+
         do {
             let bookmarkData = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
 
-            SandboxBookmark.sharedInstance().save(data: bookmarkData)
+            try SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
-            if let projects = Storage.shared().insert(url: url) {
+            if let projects = Storage.shared().insert(url: url, bookmark: true) {
                 OperationQueue.main.addOperation {
                     UIApplication.getVC().sidebarTableView.insertRows(projects: projects)
                     

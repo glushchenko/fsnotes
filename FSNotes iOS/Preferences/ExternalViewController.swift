@@ -16,10 +16,12 @@ class ExternalViewController: UIDocumentPickerViewController, UIDocumentPickerDe
             return
         }
 
+        defer { url.stopAccessingSecurityScopedResource() }
+
         do {
             let bookmarkData = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
 
-            SandboxBookmark.sharedInstance().save(data: bookmarkData)
+            try SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
             let storage = Storage.shared()
             if storage.projectExist(url: url) {
