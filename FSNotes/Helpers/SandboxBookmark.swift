@@ -96,12 +96,23 @@ class SandboxBookmark {
 
         guard let url = restoredUrl else { return false }
 
-        if isStale {
-            Swift.print("URL is stale: \(url)")
-            return false
-        }
-
         if url.startAccessingSecurityScopedResource() {
+            if isStale {
+                do {
+                    let data = try url.bookmarkData(
+                        options: .withSecurityScope,
+                        includingResourceValuesForKeys: nil,
+                        relativeTo: nil
+                    )
+
+                    bookmarks.removeValue(forKey: bookmark.key)
+                    bookmarks[url] = data
+                    save()
+                } catch {
+                    print("Couldn't refresh bookmark: \(error)")
+                }
+            }
+
             print("Bookmark restored: \(url.path)")
             successfullyRestored.append(url)
             return true

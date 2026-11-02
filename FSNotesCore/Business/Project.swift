@@ -308,6 +308,10 @@ public class Project: NSObject {
             notes = fetchNotes()
             
             print("From disk: \(notes.count), lbl: \(label)")
+        } else {
+            isNeededCacheValidation = true
+
+            return []
         }
         
         storage.loadPins(notes: notes)
@@ -579,6 +583,12 @@ public class Project: NSObject {
                     foundChanged.append(memoryNote)
                 }
             }
+        }
+
+        if !foundAdded.isEmpty {
+            storage.loadPins(notes: foundAdded)
+            loadNotesPreview()
+            _ = loadWebAPI()
         }
 
         isReadyForCacheSaving = true
