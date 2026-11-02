@@ -507,8 +507,12 @@ public class NotesTextProcessor {
         #endif
 
         // We detect and process inline links not formatted
+        let markdownLinkRanges = NotesTextProcessor.anchorInlineGFMRegex.regularExpression
+            .matches(in: string, range: paragraphRange).map { $0.range }
         NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range else { return }
+            // Markdown destinations are handled below; a bare URL match can extend past their closing parenthesis.
+            if markdownLinkRanges.contains(where: { NSLocationInRange(range.location, $0) }) { return }
             var substring = attributedString.mutableString.substring(with: range)
             
             guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
