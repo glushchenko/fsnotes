@@ -97,6 +97,8 @@ class SandboxBookmark {
         guard let url = restoredUrl else { return false }
 
         if url.startAccessingSecurityScopedResource() {
+            UserDefaultsManagement.updateCustomStoragePath(from: bookmark.key, to: url)
+
             if isStale {
                 do {
                     let data = try url.bookmarkData(

@@ -304,6 +304,14 @@ public class UserDefaultsManagement {
         }
     }
     
+    static func updateCustomStoragePath(from oldURL: URL, to newURL: URL) {
+        guard let path = shared?.string(forKey: Constants.StoragePathKey),
+              URL(fileURLWithPath: path).standardizedFileURL.path == oldURL.standardizedFileURL.path,
+              oldURL.standardizedFileURL.path != newURL.standardizedFileURL.path else { return }
+
+        customStoragePath = newURL.path
+    }
+
     static var storagePath: String? {
         get {
             if let customStoragePath = self.customStoragePath {
