@@ -568,7 +568,7 @@
 		D77E0537246312B300AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
 		D77E0538246312B400AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
 		D77E0539246312B400AD7772 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E05282463124300AD7772 /* StorageType.swift */; };
-		D77F41B32A0D48F500E2B7A2 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */; };
+		D77F41B32A0D48F500E2B7A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D77F41B22A0D48F500E2B7A2 /* LaunchScreen.storyboard */; };
 		D77F89DF28D38B5D00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
 		D77F89E028D38B5E00BECC87 /* ViewController+Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */; };
 		D78115632153B36C004FA1CA /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78115622153B36C004FA1CA /* Buttons.swift */; };
@@ -1178,7 +1178,7 @@
 		D77AD7FB27F9D1C90077BD45 /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		D77CC040216A608500582B97 /* EditorScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorScrollView.swift; sourceTree = "<group>"; };
 		D77E05282463124300AD7772 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
-		D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		D77F41B22A0D48F500E2B7A2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Web.swift"; sourceTree = "<group>"; };
 		D78115622153B36C004FA1CA /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		D78115662153D4D9004FA1CA /* ProjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
@@ -1778,7 +1778,7 @@
 				11B3F5952F182E4E00A3531D /* EditorViewController+Search.swift */,
 				D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */,
 				D7163D2E24E81B5C00B1FC05 /* Main.storyboard */,
-				D77F41B22A0D48F500E2B7A2 /* Launch Screen.storyboard */,
+				D77F41B22A0D48F500E2B7A2 /* LaunchScreen.storyboard */,
 				D7679397201F21F5000F7BBF /* Info.plist */,
 				42E001CB2ADAC2930099E7AD /* InfoPlist.xcstrings */,
 				42E001CE2ADAC2930099E7AD /* Localizable.xcstrings */,
@@ -2350,7 +2350,7 @@
 				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				42E001CF2ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
 				D7ECE68A22B6B481006A14C6 /* TextBundle.icns in Resources */,
-				D77F41B32A0D48F500E2B7A2 /* Launch Screen.storyboard in Resources */,
+				D77F41B32A0D48F500E2B7A2 /* LaunchScreen.storyboard in Resources */,
 				D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7F2F1A821C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
