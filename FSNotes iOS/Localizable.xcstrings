@@ -11109,6 +11109,9 @@
         }
       }
     },
+    "Untitled Note" : {
+      "comment" : "Editor subtitle for a note with a generated filename"
+    },
     "Update" : {
       "localizations" : {
         "cs" : {

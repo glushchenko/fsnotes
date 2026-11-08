@@ -179,7 +179,12 @@ class EditorViewController: UIViewController,
         navigationItem.title = note?.project.label
         
         if #available(iOS 26.0, *) {
-            navigationItem.subtitle = note?.url.lastPathComponent
+            let url = note?.url
+            if url?.deletingPathExtension().lastPathComponent.isValidUUID == true {
+                navigationItem.subtitle = NSLocalizedString("Untitled Note", comment: "Editor subtitle for a note with a generated filename")
+            } else {
+                navigationItem.subtitle = url?.lastPathComponent
+            }
         }
     }
 
@@ -233,6 +238,7 @@ class EditorViewController: UIViewController,
         }
 
         self.note = note
+        updateTitle()
         if !note.isLoaded {
             note.load()
         }
