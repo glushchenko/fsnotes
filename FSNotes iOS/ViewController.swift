@@ -31,6 +31,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public var indicator: UIActivityIndicatorView?
 
+    private let startupIndicator = UIActivityIndicatorView(style: .medium)
+
     public var storage = Storage.shared()
     public var cloudDriveManager: CloudDriveManager?
 
@@ -114,8 +116,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
                 self.navigationItem.searchController?.searchBar.becomeFirstResponder()
             })
-        } else if !isLoadedSidebar {
-            notesTable.showLoader()
         }
 
         super.viewDidAppear(animated)
@@ -150,6 +150,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             configureSearchController()
 
             initialLoadingState = true
+            showStartupIndicatorIfNeeded()
             
             loadNews()
             
@@ -486,7 +487,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     self.restoreFindID = nil
                     if let note = Storage.shared().getBy(title: restore) {
                         OperationQueue.main.addOperation {
-                            self.notesTable.hideLoader()
                             UIApplication.getEVC().load(note: note)
                         }
                     }
@@ -506,6 +506,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
                 DispatchQueue.main.async {
                     self.isLoadedDB = true
+                    self.hideStartupIndicator()
                     if let scene = UIApplication.getSceneDelegate() {
                         scene.openRequestedInboxNote()
                         scene.openRequestedInboxFromWidget()
@@ -516,6 +517,25 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.gitQueue.isSuspended = false
             }
         }
+    }
+
+    private func showStartupIndicatorIfNeeded() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self, !self.isLoadedSidebar, !self.isLoadedDB,
+                  self.notesTable.notes.isEmpty, self.notesTable.backgroundView == nil else { return }
+
+            self.startupIndicator.color = .secondaryLabel
+            self.startupIndicator.isUserInteractionEnabled = false
+            self.startupIndicator.accessibilityLabel = NSLocalizedString("Loading...", comment: "")
+            self.notesTable.backgroundView = self.startupIndicator
+            self.startupIndicator.startAnimating()
+        }
+    }
+
+    func hideStartupIndicator() {
+        guard notesTable.backgroundView === startupIndicator else { return }
+        startupIndicator.stopAnimating()
+        notesTable.backgroundView = nil
     }
 
     private func reIndexSpotlight() {

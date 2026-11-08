@@ -286,9 +286,9 @@ class SidebarTableView: UITableView,
         vc.buildSearchQuery()
         vc.reloadNotesTable() {
             DispatchQueue.main.async {
-                vc.notesTable.hideLoader()
                 vc.setNavTitle(folder: name)
                 vc.isLoadedSidebar = true
+                vc.hideStartupIndicator()
 
                 guard vc.notesTable.notes.count > 0 else {
                     self.unloadAllTags()
