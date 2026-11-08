@@ -10,6 +10,24 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    private static var inboxNoteRequested = false
+
+    static func requestInboxNote() {
+        inboxNoteRequested = true
+        UIApplication.getSceneDelegate()?.openRequestedInboxNote()
+    }
+
+    func openRequestedInboxNote() {
+        guard Self.inboxNoteRequested,
+              window?.windowScene?.activationState == .foregroundActive,
+              listController.isLoadedDB else {
+            return
+        }
+
+        Self.inboxNoteRequested = false
+        listController.openNewInboxNote()
+    }
+
     var window: UIWindow?
     var launchedShortcutItem: UIApplicationShortcutItem?
 
@@ -58,7 +76,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
+        openRequestedInboxNote()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

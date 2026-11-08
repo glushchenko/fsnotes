@@ -146,6 +146,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadPreSafeArea()
 
         if !initialLoadingState {
+            isLoadedDB = false
             configureSearchController()
 
             initialLoadingState = true
@@ -502,7 +503,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 
                 // enable iCloud Drive updates after projects structure formalized
                 self.cloudDriveManager?.metadataQuery.enableUpdates()
-                self.isLoadedDB = true
+
+                DispatchQueue.main.async {
+                    self.isLoadedDB = true
+                    UIApplication.getSceneDelegate()?.openRequestedInboxNote()
+                }
 
                 self.gitQueue.isSuspended = false
             }
@@ -953,7 +958,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UserDefaultsManagement.lastNews = storage.getNewsDate()
     }
 
-    public func createNote(content: String? = nil, pasteboard: Bool = false) {
+    func openNewInboxNote() {
+        newsPopup?.removeFromSuperview()
+        newsOverlay?.removeFromSuperview()
+
+        if let navigationController, navigationController.presentedViewController != nil {
+            navigationController.dismiss(animated: false) {
+                self.createNote(inInbox: true)
+            }
+        } else {
+            createNote(inInbox: true)
+        }
+    }
+
+    public func createNote(content: String? = nil, pasteboard: Bool = false, inInbox: Bool = false) {
         var currentProject: Project
         if let project = storage.getDefault() {
             currentProject = project
@@ -961,7 +979,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             return
         }
 
-        if let item = self.sidebarTableView.getSidebarItem(),
+        if !inInbox, let item = self.sidebarTableView.getSidebarItem(),
             let project = item.project,
             !project.isTrash,
             !project.isVirtual {
@@ -1518,9 +1536,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         UIApplication.getVC().openEditorViewController()
         
+        let editor = UIApplication.getEVC()
+        let previousNote = editor.note
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            UIApplication.getEVC().fill(note: note)
-            UIApplication.getEVC().configureNavMenu()
+            guard editor.note === previousNote else { return }
+            editor.fill(note: note)
+            editor.configureNavMenu()
             
             if UserDefaultsManagement.currentEditorState == true,
                let selectedRange = UserDefaultsManagement.currentRange,
