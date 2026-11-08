@@ -5,6 +5,7 @@ import WidgetKit
 struct FSNotesControls: WidgetBundle {
     var body: some Widget {
         NewInboxNoteControl()
+        InboxWidget()
     }
 }
 

@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import WidgetKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private static var inboxNoteRequested = false
+    private(set) var isOpeningInboxFromWidget = false
 
     static func requestInboxNote() {
         inboxNoteRequested = true
@@ -42,6 +44,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let shortcutItem = connectionOptions.shortcutItem {
             launchedShortcutItem = shortcutItem
         }
+        let launchURL = connectionOptions.urlContexts.first?.url
+        let opensInbox = launchURL == InboxWidgetSnapshot.inboxURL
+        isOpeningInboxFromWidget = opensInbox
 
         window = UIWindow(windowScene: windowScene)
 
@@ -61,8 +66,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.handle(shortcutItem: shortcutItem)
             }
 
-            if let urlContext = connectionOptions.urlContexts.first {
-                self.handle(url: urlContext.url)
+            if opensInbox {
+                self.openRequestedInboxFromWidget()
+                return
+            }
+
+            if let launchURL {
+                self.handle(url: launchURL)
             }
 
             if let userActivity = connectionOptions.userActivities.first ?? session.stateRestorationActivity {
@@ -90,6 +100,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         saveEditorState()
+        refreshInboxWidget()
     }
 
     // MARK: - Shortcut Actions
@@ -115,6 +126,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func handle(url: URL) {
+        if url == InboxWidgetSnapshot.inboxURL {
+            isOpeningInboxFromWidget = true
+            openRequestedInboxFromWidget()
+            return
+        }
+
         let vc = UIApplication.getVC()
         let storage = Storage.shared()
         var note = storage.getBy(url: url)
@@ -161,6 +178,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             } catch {
                 print("Note opening error: \(error)")
             }
+        }
+    }
+
+    func openRequestedInboxFromWidget() {
+        guard isOpeningInboxFromWidget, listController.isLoadedDB else { return }
+
+        isOpeningInboxFromWidget = false
+        listController.openInboxFromWidget()
+    }
+
+    func refreshInboxWidget() {
+        guard listController.isLoadedDB else { return }
+
+        let notes = listController.storage.noteList.filter { !$0.isTrash() && !$0.name.isEmpty }
+        let inbox = notes.filter { $0.project.isDefault }
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let thresholds = inbox.compactMap { note -> Date? in
+            let added = (try? note.url.resourceValues(forKeys: [.addedToDirectoryDateKey]))?.addedToDirectoryDate
+            guard let date = added ?? note.creationDate, date != .distantPast else { return nil }
+            let inboxDay = min(calendar.startOfDay(for: date), today)
+            return calendar.date(byAdding: .day, value: 7, to: inboxDay)
+        }
+
+        let snapshot = InboxWidgetSnapshot(
+            inboxCount: inbox.count,
+            totalCount: notes.count,
+            weekThresholds: thresholds.sorted()
+        )
+
+        do {
+            if try snapshot.write() {
+                WidgetCenter.shared.reloadTimelines(ofKind: InboxWidgetSnapshot.kind)
+            }
+        } catch {
+            print("Inbox widget snapshot could not be updated: \(error.localizedDescription)")
         }
     }
 

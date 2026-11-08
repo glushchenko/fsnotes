@@ -842,6 +842,10 @@
 		11E020480000000000000006 /* FSNotesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000002 /* FSNotesControls.swift */; };
 		11E020480000000000000007 /* NewInboxNoteIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000003 /* NewInboxNoteIntent.swift */; };
 		11E020480000000000000008 /* NewInboxNoteIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000003 /* NewInboxNoteIntent.swift */; };
+		11E020480000000000000023 /* InboxWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000020 /* InboxWidget.swift */; };
+		11E020480000000000000024 /* InboxWidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000021 /* InboxWidgetSnapshot.swift */; };
+		11E020480000000000000025 /* InboxWidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000021 /* InboxWidgetSnapshot.swift */; };
+		11E020480000000000000027 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000026 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1286,6 +1290,10 @@
 		11E020480000000000000002 /* FSNotesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesControls.swift; sourceTree = "<group>"; };
 		11E020480000000000000003 /* NewInboxNoteIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInboxNoteIntent.swift; sourceTree = "<group>"; };
 		11E020480000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11E020480000000000000020 /* InboxWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InboxWidget.swift"; sourceTree = "<group>"; };
+		11E020480000000000000021 /* InboxWidgetSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InboxWidgetSnapshot.swift"; sourceTree = "<group>"; };
+		11E020480000000000000022 /* FSNotes iOS Controls.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOS Controls.entitlements"; sourceTree = "<group>"; };
+		11E020480000000000000026 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2035,6 +2043,10 @@
 			children = (
 				11E020480000000000000002 /* FSNotesControls.swift */,
 				11E020480000000000000003 /* NewInboxNoteIntent.swift */,
+				11E020480000000000000022 /* FSNotes iOS Controls.entitlements */,
+				11E020480000000000000021 /* InboxWidgetSnapshot.swift */,
+				11E020480000000000000020 /* InboxWidget.swift */,
+				11E020480000000000000026 /* Localizable.xcstrings */,
 				11E020480000000000000004 /* Info.plist */,
 			);
 			path = "FSNotes iOS Controls";
@@ -2428,6 +2440,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E020480000000000000027 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2545,6 +2558,7 @@
 				D75629B327D4DE9F00F55588 /* CodeThemeViewController.swift in Sources */,
 				D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */,
 				11E020480000000000000008 /* NewInboxNoteIntent.swift in Sources */,
+				11E020480000000000000025 /* InboxWidgetSnapshot.swift in Sources */,
 				113685682EC889E20033767F /* SceneDelegate.swift in Sources */,
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
 				D70E9E052901AEC400A3C634 /* Index+Files.swift in Sources */,
@@ -3181,7 +3195,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				11E020480000000000000006 /* FSNotesControls.swift in Sources */,
+				11E020480000000000000023 /* InboxWidget.swift in Sources */,
 				11E020480000000000000007 /* NewInboxNoteIntent.swift in Sources */,
+				11E020480000000000000024 /* InboxWidgetSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3647,6 +3663,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Controls/FSNotes iOS Controls.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -3680,6 +3697,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Controls/FSNotes iOS Controls.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;

@@ -226,6 +226,10 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectItem(at: indexPath)
+    }
+
+    private func selectItem(at indexPath: IndexPath, force: Bool = false) {
         guard let vc = self.viewController else { return }
         let selectedSection = SidebarSection(rawValue: indexPath.section)
 
@@ -233,7 +237,7 @@ class SidebarTableView: UITableView,
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
 
-        guard vc.storage.searchQuery.projects.first != sidebarItem.project
+        guard force || vc.storage.searchQuery.projects.first != sidebarItem.project
             || sidebarItem.type == .Tag else { return }
 
         if let project = vc.storage.searchQuery.projects.first, getIndexPathBy(project: project) == indexPath, vc.notesTable.isEditing {
@@ -826,6 +830,12 @@ class SidebarTableView: UITableView,
     public func select(project: Project) {
         guard let indexPath = getIndexPathBy(project: project) else { return }
         tableView(self, didSelectRowAt: indexPath)
+    }
+
+    func selectInbox() -> Bool {
+        guard let indexPath = getIndexPathBy(type: .Inbox) else { return false }
+        selectItem(at: indexPath, force: true)
+        return true
     }
 
     public func select(tag: String) {

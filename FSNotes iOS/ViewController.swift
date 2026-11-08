@@ -157,7 +157,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                let shortcut = sceneDelegate.launchedShortcutItem {
                 handleShortCutItem(shortcut)
                 sceneDelegate.launchedShortcutItem = nil
-            } else {
+            } else if UIApplication.getSceneDelegate()?.isOpeningInboxFromWidget != true {
                 self.restoreLastController()
             }
 
@@ -506,7 +506,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
                 DispatchQueue.main.async {
                     self.isLoadedDB = true
-                    UIApplication.getSceneDelegate()?.openRequestedInboxNote()
+                    if let scene = UIApplication.getSceneDelegate() {
+                        scene.openRequestedInboxNote()
+                        scene.openRequestedInboxFromWidget()
+                        scene.refreshInboxWidget()
+                    }
                 }
 
                 self.gitQueue.isSuspended = false
@@ -951,17 +955,48 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc public func closeNews() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
 
-        newsPopup?.removeFromSuperview()
-        newsOverlay?.removeFromSuperview()
+        hideNews()
 
         // mark as read
         UserDefaultsManagement.lastNews = storage.getNewsDate()
     }
 
-    func openNewInboxNote() {
+    private func hideNews() {
         newsPopup?.removeFromSuperview()
         newsOverlay?.removeFromSuperview()
+    }
 
+    func openInboxFromWidget() {
+        hideNews()
+        guard let navigationController else { return }
+
+        let showInbox = {
+            navigationController.popToRootViewController(animated: false)
+            self.navigationItem.searchController?.isActive = false
+            self.navigationItem.searchController?.searchBar.text = ""
+            self.notesTable.turnOffEditing()
+            guard !self.sidebarTableView.selectInbox(), let inbox = self.storage.getDefault() else { return }
+
+            self.sidebarTableView.deselectAll()
+            let label = NSLocalizedString("Inbox", comment: "")
+            self.configureNavMenu(for: SidebarItem(name: label, project: inbox, type: .Inbox))
+            let query = SearchQuery()
+            query.projects = [inbox]
+            query.setType(.Inbox)
+            self.storage.setSearchQuery(value: query)
+            self.setNavTitle(folder: label)
+            self.reloadNotesTable()
+        }
+
+        if navigationController.presentedViewController != nil {
+            navigationController.dismiss(animated: false, completion: showInbox)
+        } else {
+            showInbox()
+        }
+    }
+
+    func openNewInboxNote() {
+        hideNews()
         if let navigationController, navigationController.presentedViewController != nil {
             navigationController.dismiss(animated: false) {
                 self.createNote(inInbox: true)
