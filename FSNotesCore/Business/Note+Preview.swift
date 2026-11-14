@@ -61,7 +61,7 @@ extension Note {
                         line = line.trimMDSyntax()
                     }
                     
-                    if !line.isEmpty {
+                    if !line.trimmingCharacters(in: .whitespaces).isEmpty {
                         lines.append(line)
                     }
                 }
@@ -69,14 +69,23 @@ extension Note {
                 location = range.location + range.length
             } else {
                 let line = nsText.substring(from: location)
-                if !line.isEmpty {
+                if !line.trimmingCharacters(in: .whitespaces).isEmpty {
                     lines.append(line)
                 }
                 break
             }
         }
         
-        return lines
+        // A remote cover image stays as Markdown, while local images become attachments.
+        // Neither should hide a title or caption that follows it.
+        let textLines = lines.compactMap { line -> String? in
+            let text = FSParser.imageInlineRegex.regularExpression.stringByReplacingMatches(
+                in: line, range: NSRange(line.startIndex..., in: line), withTemplate: ""
+            ).trimMDSyntax().trim()
+            return text.isEmpty ? nil : text
+        }
+
+        return textLines.isEmpty ? lines : textLines
     }
     
     func loadYaml(components: [String]) -> (String, String)? {

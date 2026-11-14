@@ -219,10 +219,52 @@ class ViewController: EditorViewController,
                 self.buildSearchQuery()
                 self.configureSidebar()
                 self.configureNoteList()
+                self.observeSharedInbox()
             }
         }
     }
     
+    private func observeSharedInbox() {
+        DistributedNotificationCenter.default().addObserver(
+            self, selector: #selector(importSharedClips), name: SharedInbox.didEnqueue, object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(importSharedClips), name: NSApplication.didBecomeActiveNotification, object: nil
+        )
+        importSharedClips()
+    }
+
+    @objc private func importSharedClips() {
+        guard let inbox = storage.getDefault(), !inbox.isEncrypted,
+              let queue = try? SharedInbox.directory() else { return }
+
+        let files = FileManager.default
+        guard let clips = try? files.contentsOfDirectory(at: queue, includingPropertiesForKeys: nil,
+                                                         options: .skipsHiddenFiles) else { return }
+        for clip in clips where SharedInbox.fileExtensions.contains(clip.pathExtension) {
+            let title = SharedInbox.noteTitle(from: clip)
+            let ext = clip.pathExtension
+            do {
+                let data = try Data(contentsOf: clip)
+                var number = 1
+                while true {
+                    let name = number == 1 ? title : "\(title) \(number)"
+                    let destination = inbox.url.appendingPathComponent(name).appendingPathExtension(ext)
+                    if !files.fileExists(atPath: destination.path) {
+                        try data.write(to: destination, options: .atomic)
+                        break
+                    }
+                    // Identical content also covers a retry after writing the note.
+                    if (try? Data(contentsOf: destination)) == data { break }
+                    number += 1
+                }
+                try files.removeItem(at: clip)
+            } catch {
+                NSLog("Could not import shared page: %@", error.localizedDescription)
+            }
+        }
+    }
+
     override func viewDidAppear() {
         
         // Init window size

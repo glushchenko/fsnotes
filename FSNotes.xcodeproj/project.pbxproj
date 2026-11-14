@@ -202,6 +202,14 @@
 		11E00000000000000000000C /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000C /* CropViewController */; };
 		11E00000000000000000000D /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000D /* RNCryptor */; };
 		11E00000000000000000000E /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 11D00000000000000000000E /* ZipArchive */; };
+		11E020480000000000000005 /* FSNotes iOS Controls.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000001 /* FSNotes iOS Controls.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		11E020480000000000000006 /* FSNotesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000002 /* FSNotesControls.swift */; };
+		11E020480000000000000007 /* NewInboxNoteIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000003 /* NewInboxNoteIntent.swift */; };
+		11E020480000000000000008 /* NewInboxNoteIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000003 /* NewInboxNoteIntent.swift */; };
+		11E020480000000000000023 /* InboxWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000020 /* InboxWidget.swift */; };
+		11E020480000000000000024 /* InboxWidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000021 /* InboxWidgetSnapshot.swift */; };
+		11E020480000000000000025 /* InboxWidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000021 /* InboxWidgetSnapshot.swift */; };
+		11E020480000000000000027 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000026 /* Localizable.xcstrings */; };
 		11F018AC2EF7E78600F07580 /* MPreviewFindPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F018AB2EF7E77B00F07580 /* MPreviewFindPanel.swift */; };
 		11F018AD2EF7E78600F07580 /* MPreviewFindPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F018AB2EF7E77B00F07580 /* MPreviewFindPanel.swift */; };
 		11F018B22EF8415600F07580 /* MPreviewContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F018B12EF8415200F07580 /* MPreviewContainerView.swift */; };
@@ -838,17 +846,32 @@
 		D7FB716C2BE7F66500808E56 /* EditorViewController+QuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */; };
 		D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */; };
 		D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
-		11E020480000000000000005 /* FSNotes iOS Controls.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000001 /* FSNotes iOS Controls.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		11E020480000000000000006 /* FSNotesControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000002 /* FSNotesControls.swift */; };
-		11E020480000000000000007 /* NewInboxNoteIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000003 /* NewInboxNoteIntent.swift */; };
-		11E020480000000000000008 /* NewInboxNoteIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000003 /* NewInboxNoteIntent.swift */; };
-		11E020480000000000000023 /* InboxWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000020 /* InboxWidget.swift */; };
-		11E020480000000000000024 /* InboxWidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000021 /* InboxWidgetSnapshot.swift */; };
-		11E020480000000000000025 /* InboxWidgetSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000021 /* InboxWidgetSnapshot.swift */; };
-		11E020480000000000000027 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11E020480000000000000026 /* Localizable.xcstrings */; };
+		11E053A20000000000000008 /* FSNotes Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000001 /* FSNotes Share.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		11E053A20000000000000028 /* FSNotes Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000021 /* FSNotes Share.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		11E053A20000000000000009 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000002 /* ShareViewController.swift */; };
+		11E053A20000000000000029 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000002 /* ShareViewController.swift */; };
+		11E053A2000000000000000A /* HTMLClip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000003 /* HTMLClip.swift */; };
+		11E053A2000000000000002A /* HTMLClip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000003 /* HTMLClip.swift */; };
+		11E053A2000000000000000B /* SharedInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000004 /* SharedInbox.swift */; };
+		11E053A2000000000000002B /* SharedInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000004 /* SharedInbox.swift */; };
+		11E053A2000000000000000C /* Page.js in Resources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000005 /* Page.js */; };
+		11E053A2000000000000002C /* Page.js in Resources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000005 /* Page.js */; };
+		11E053A2000000000000000D /* SharedInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000004 /* SharedInbox.swift */; };
+		11E053A2000000000000000E /* SharedInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000004 /* SharedInbox.swift */; };
+		11E053A20000000000000052 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000050 /* Localizable.xcstrings */; };
+		11E053A20000000000000053 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000050 /* Localizable.xcstrings */; };
+		11E053A20000000000000054 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000051 /* InfoPlist.xcstrings */; };
+		11E053A20000000000000055 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11E053A20000000000000051 /* InfoPlist.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		11E020480000000000000010 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 11E02048000000000000000A;
+			remoteInfo = "FSNotes iOS Controls";
+		};
 		D75F333E205EC34800CC887E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
@@ -856,12 +879,19 @@
 			remoteGlobalIDString = D75F3335205EC34800CC887E;
 			remoteInfo = "FSNotes iOS Share";
 		};
-		11E020480000000000000010 /* PBXContainerItemProxy */ = {
+		11E053A20000000000000017 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 11E02048000000000000000A;
-			remoteInfo = "FSNotes iOS Controls";
+			remoteGlobalIDString = 11E053A20000000000000013;
+			remoteInfo = "FSNotes Share";
+		};
+		11E053A20000000000000018 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 11E053A20000000000000033;
+			remoteInfo = "FSNotes Share (iCloud)";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -934,6 +964,28 @@
 			dstSubfolderSpec = 7;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11E053A2000000000000001B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				11E053A20000000000000008 /* FSNotes Share.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11E053A2000000000000001C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				11E053A20000000000000028 /* FSNotes Share.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -1009,6 +1061,14 @@
 		11D9431D2E643F1F0010CC2B /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		11D943212E643F3B0010CC2B /* Php.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Php.swift; sourceTree = "<group>"; };
 		11D943262E643F5E0010CC2B /* GitHubLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubLight.swift; sourceTree = "<group>"; };
+		11E020480000000000000001 /* FSNotes iOS Controls.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "FSNotes iOS Controls.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		11E020480000000000000002 /* FSNotesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesControls.swift; sourceTree = "<group>"; };
+		11E020480000000000000003 /* NewInboxNoteIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInboxNoteIntent.swift; sourceTree = "<group>"; };
+		11E020480000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11E020480000000000000020 /* InboxWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxWidget.swift; sourceTree = "<group>"; };
+		11E020480000000000000021 /* InboxWidgetSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxWidgetSnapshot.swift; sourceTree = "<group>"; };
+		11E020480000000000000022 /* FSNotes iOS Controls.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOS Controls.entitlements"; sourceTree = "<group>"; };
+		11E020480000000000000026 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		11F018AB2EF7E77B00F07580 /* MPreviewFindPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPreviewFindPanel.swift; sourceTree = "<group>"; };
 		11F018B12EF8415200F07580 /* MPreviewContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPreviewContainerView.swift; sourceTree = "<group>"; };
 		11F177192EF1E92C00CC566F /* ViewController+Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Menu.swift"; sourceTree = "<group>"; };
@@ -1178,7 +1238,7 @@
 		D77AD7FB27F9D1C90077BD45 /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		D77CC040216A608500582B97 /* EditorScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorScrollView.swift; sourceTree = "<group>"; };
 		D77E05282463124300AD7772 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
-		D77F41B22A0D48F500E2B7A2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		D77F41B22A0D48F500E2B7A2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D77F89DE28D38B5D00BECC87 /* ViewController+Web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Web.swift"; sourceTree = "<group>"; };
 		D78115622153B36C004FA1CA /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		D78115662153D4D9004FA1CA /* ProjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
@@ -1286,17 +1346,26 @@
 		D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextProcessor.swift; sourceTree = "<group>"; };
 		D7FB716B2BE7F66500808E56 /* EditorViewController+QuickLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorViewController+QuickLook.swift"; sourceTree = "<group>"; };
 		D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
-		11E020480000000000000001 /* FSNotes iOS Controls.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "FSNotes iOS Controls.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		11E020480000000000000002 /* FSNotesControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesControls.swift; sourceTree = "<group>"; };
-		11E020480000000000000003 /* NewInboxNoteIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInboxNoteIntent.swift; sourceTree = "<group>"; };
-		11E020480000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		11E020480000000000000020 /* InboxWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InboxWidget.swift"; sourceTree = "<group>"; };
-		11E020480000000000000021 /* InboxWidgetSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InboxWidgetSnapshot.swift"; sourceTree = "<group>"; };
-		11E020480000000000000022 /* FSNotes iOS Controls.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOS Controls.entitlements"; sourceTree = "<group>"; };
-		11E020480000000000000026 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		11E053A20000000000000001 /* FSNotes Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "FSNotes Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		11E053A20000000000000021 /* FSNotes Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "FSNotes Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		11E053A20000000000000002 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShareViewController.swift"; sourceTree = "<group>"; };
+		11E053A20000000000000003 /* HTMLClip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTMLClip.swift"; sourceTree = "<group>"; };
+		11E053A20000000000000004 /* SharedInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharedInbox.swift"; sourceTree = "<group>"; };
+		11E053A20000000000000005 /* Page.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "Page.js"; sourceTree = "<group>"; };
+		11E053A20000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>"; };
+		11E053A20000000000000007 /* FSNotes Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes Share.entitlements"; sourceTree = "<group>"; };
+		11E053A20000000000000050 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		11E053A20000000000000051 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		11E020480000000000000011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D75F3333205EC34800CC887E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1346,7 +1415,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		11E020480000000000000011 /* Frameworks */ = {
+		11E053A20000000000000011 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11E053A20000000000000031 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1473,6 +1549,20 @@
 				11D943262E643F5E0010CC2B /* GitHubLight.swift */,
 			);
 			path = Themes;
+			sourceTree = "<group>";
+		};
+		11E020480000000000000009 /* FSNotes iOS Controls */ = {
+			isa = PBXGroup;
+			children = (
+				11E020480000000000000002 /* FSNotesControls.swift */,
+				11E020480000000000000003 /* NewInboxNoteIntent.swift */,
+				11E020480000000000000022 /* FSNotes iOS Controls.entitlements */,
+				11E020480000000000000021 /* InboxWidgetSnapshot.swift */,
+				11E020480000000000000020 /* InboxWidget.swift */,
+				11E020480000000000000026 /* Localizable.xcstrings */,
+				11E020480000000000000004 /* Info.plist */,
+			);
+			path = "FSNotes iOS Controls";
 			sourceTree = "<group>";
 		};
 		6F13BB2320FEDE230005E120 /* FSNotesCore */ = {
@@ -1796,6 +1886,7 @@
 				D7679387201F21F5000F7BBF /* FSNotes iOS */,
 				11E020480000000000000009 /* FSNotes iOS Controls */,
 				D75F3337205EC34800CC887E /* FSNotes iOS Share */,
+				11E053A2000000000000000F /* FSNotes Share */,
 				D7793C701F211C6000CA39B7 /* Products */,
 				C5F4774EAA923C4003B182F8 /* Frameworks */,
 			);
@@ -1809,6 +1900,8 @@
 				D7679386201F21F5000F7BBF /* FSNotes iOS.app */,
 				11E020480000000000000001 /* FSNotes iOS Controls.appex */,
 				D75F3336205EC34800CC887E /* FSNotes iOS Share Extension.appex */,
+				11E053A20000000000000001 /* FSNotes Share.appex */,
+				11E053A20000000000000021 /* FSNotes Share.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2038,23 +2131,41 @@
 			path = Preferences;
 			sourceTree = "<group>";
 		};
-		11E020480000000000000009 /* FSNotes iOS Controls */ = {
+		11E053A2000000000000000F /* FSNotes Share */ = {
 			isa = PBXGroup;
 			children = (
-				11E020480000000000000002 /* FSNotesControls.swift */,
-				11E020480000000000000003 /* NewInboxNoteIntent.swift */,
-				11E020480000000000000022 /* FSNotes iOS Controls.entitlements */,
-				11E020480000000000000021 /* InboxWidgetSnapshot.swift */,
-				11E020480000000000000020 /* InboxWidget.swift */,
-				11E020480000000000000026 /* Localizable.xcstrings */,
-				11E020480000000000000004 /* Info.plist */,
+				11E053A20000000000000050 /* Localizable.xcstrings */,
+				11E053A20000000000000051 /* InfoPlist.xcstrings */,
+				11E053A20000000000000002 /* ShareViewController.swift */,
+				11E053A20000000000000003 /* HTMLClip.swift */,
+				11E053A20000000000000004 /* SharedInbox.swift */,
+				11E053A20000000000000005 /* Page.js */,
+				11E053A20000000000000006 /* Info.plist */,
+				11E053A20000000000000007 /* FSNotes Share.entitlements */,
 			);
-			path = "FSNotes iOS Controls";
+			path = "FSNotes Share";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		11E02048000000000000000A /* FSNotes iOS Controls */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 11E02048000000000000000C /* Build configuration list for PBXNativeTarget "FSNotes iOS Controls" */;
+			buildPhases = (
+				11E02048000000000000000B /* Sources */,
+				11E020480000000000000011 /* Frameworks */,
+				11E020480000000000000012 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FSNotes iOS Controls";
+			productName = "FSNotes iOS Controls";
+			productReference = 11E020480000000000000001 /* FSNotes iOS Controls.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		D75F3335205EC34800CC887E /* FSNotes iOS Share Extension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D75F3341205EC34800CC887E /* Build configuration list for PBXNativeTarget "FSNotes iOS Share Extension" */;
@@ -2117,11 +2228,13 @@
 				D7793C6D1F211C6000CA39B7 /* Resources */,
 				6F13BB1A20FEDDF50005E120 /* Embed Frameworks */,
 				D7D7CD58232791810016AC15 /* CopyFiles */,
+				11E053A2000000000000001B /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				D70B1FA52920DA6A003923DC /* PBXTargetDependency */,
+				11E053A20000000000000019 /* PBXTargetDependency */,
 			);
 			name = FSNotes;
 			packageProductDependencies = (
@@ -2144,11 +2257,13 @@
 				D7E81C491F925B5F00416A91 /* Resources */,
 				D721893F21020D3300FE3AF2 /* Embed Frameworks */,
 				D7D7CD56232791670016AC15 /* CopyFiles */,
+				11E053A2000000000000001C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				D70B1FA72920DA73003923DC /* PBXTargetDependency */,
+				11E053A2000000000000001A /* PBXTargetDependency */,
 			);
 			name = "FSNotes (iCloud)";
 			packageProductDependencies = (
@@ -2162,21 +2277,34 @@
 			productReference = D7E81C5A1F925B5F00416A91 /* FSNotes.app */;
 			productType = "com.apple.product-type.application";
 		};
-		11E02048000000000000000A /* FSNotes iOS Controls */ = {
+		11E053A20000000000000013 /* FSNotes Share */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 11E02048000000000000000C /* Build configuration list for PBXNativeTarget "FSNotes iOS Controls" */;
+			buildConfigurationList = 11E053A20000000000000014 /* Build configuration list for PBXNativeTarget "FSNotes Share" */;
 			buildPhases = (
-				11E02048000000000000000B /* Sources */,
-				11E020480000000000000011 /* Frameworks */,
-				11E020480000000000000012 /* Resources */,
+				11E053A20000000000000010 /* Sources */,
+				11E053A20000000000000011 /* Frameworks */,
+				11E053A20000000000000012 /* Resources */,
 			);
-			buildRules = (
+			buildRules = ();
+			dependencies = ();
+			name = "FSNotes Share";
+			productName = "FSNotes Share";
+			productReference = 11E053A20000000000000001 /* FSNotes Share.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		11E053A20000000000000033 /* FSNotes Share (iCloud) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 11E053A20000000000000034 /* Build configuration list for PBXNativeTarget "FSNotes Share (iCloud)" */;
+			buildPhases = (
+				11E053A20000000000000030 /* Sources */,
+				11E053A20000000000000031 /* Frameworks */,
+				11E053A20000000000000032 /* Resources */,
 			);
-			dependencies = (
-			);
-			name = "FSNotes iOS Controls";
-			productName = "FSNotes iOS Controls";
-			productReference = 11E020480000000000000001 /* FSNotes iOS Controls.appex */;
+			buildRules = ();
+			dependencies = ();
+			name = "FSNotes Share (iCloud)";
+			productName = "FSNotes Share (iCloud)";
+			productReference = 11E053A20000000000000021 /* FSNotes Share.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -2307,11 +2435,21 @@
 				D7679385201F21F5000F7BBF /* FSNotes iOS */,
 				11E02048000000000000000A /* FSNotes iOS Controls */,
 				D75F3335205EC34800CC887E /* FSNotes iOS Share Extension */,
+				11E053A20000000000000013 /* FSNotes Share */,
+				11E053A20000000000000033 /* FSNotes Share (iCloud) */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		11E020480000000000000012 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11E020480000000000000027 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D75F3334205EC34800CC887E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2436,17 +2574,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		11E020480000000000000012 /* Resources */ = {
+		11E053A20000000000000012 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11E020480000000000000027 /* Localizable.xcstrings in Resources */,
+				11E053A20000000000000052 /* Localizable.xcstrings in Resources */,
+				11E053A20000000000000054 /* InfoPlist.xcstrings in Resources */,
+				11E053A2000000000000000C /* Page.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11E053A20000000000000032 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11E053A20000000000000053 /* Localizable.xcstrings in Resources */,
+				11E053A20000000000000055 /* InfoPlist.xcstrings in Resources */,
+				11E053A2000000000000002C /* Page.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		11E02048000000000000000B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11E020480000000000000006 /* FSNotesControls.swift in Sources */,
+				11E020480000000000000023 /* InboxWidget.swift in Sources */,
+				11E020480000000000000007 /* NewInboxNoteIntent.swift in Sources */,
+				11E020480000000000000024 /* InboxWidgetSnapshot.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D75F3332205EC34800CC887E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2722,6 +2883,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E053A2000000000000000D /* SharedInbox.swift in Sources */,
 				A1B2C3D42F56789000112233 /* GlobalShortcut.swift in Sources */,
 				D73BCCAA28EB5EC3008B3BBC /* OID.swift in Sources */,
 				D7D97F3C290437A200C651D4 /* NSWindowController+.swift in Sources */,
@@ -2958,6 +3120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E053A2000000000000000E /* SharedInbox.swift in Sources */,
 				A1B2C3D52F56789000112233 /* GlobalShortcut.swift in Sources */,
 				D73BCCAB28EB5EC3008B3BBC /* OID.swift in Sources */,
 				D7D97F3D290437A200C651D4 /* NSWindowController+.swift in Sources */,
@@ -3190,20 +3353,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		11E02048000000000000000B /* Sources */ = {
+		11E053A20000000000000010 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11E020480000000000000006 /* FSNotesControls.swift in Sources */,
-				11E020480000000000000023 /* InboxWidget.swift in Sources */,
-				11E020480000000000000007 /* NewInboxNoteIntent.swift in Sources */,
-				11E020480000000000000024 /* InboxWidgetSnapshot.swift in Sources */,
+				11E053A20000000000000009 /* ShareViewController.swift in Sources */,
+				11E053A2000000000000000A /* HTMLClip.swift in Sources */,
+				11E053A2000000000000000B /* SharedInbox.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11E053A20000000000000030 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11E053A20000000000000029 /* ShareViewController.swift in Sources */,
+				11E053A2000000000000002A /* HTMLClip.swift in Sources */,
+				11E053A2000000000000002B /* SharedInbox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		11E02048000000000000000F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 11E02048000000000000000A /* FSNotes iOS Controls */;
+			targetProxy = 11E020480000000000000010 /* PBXContainerItemProxy */;
+		};
 		D70B1FA52920DA6A003923DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = D70B1FA42920DA6A003923DC /* SoulverCore */;
@@ -3217,10 +3394,15 @@
 			target = D75F3335205EC34800CC887E /* FSNotes iOS Share Extension */;
 			targetProxy = D75F333E205EC34800CC887E /* PBXContainerItemProxy */;
 		};
-		11E02048000000000000000F /* PBXTargetDependency */ = {
+		11E053A20000000000000019 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 11E02048000000000000000A /* FSNotes iOS Controls */;
-			targetProxy = 11E020480000000000000010 /* PBXContainerItemProxy */;
+			target = 11E053A20000000000000013 /* FSNotes Share */;
+			targetProxy = 11E053A20000000000000017 /* PBXContainerItemProxy */;
+		};
+		11E053A2000000000000001A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 11E053A20000000000000033 /* FSNotes Share (iCloud) */;
+			targetProxy = 11E053A20000000000000018 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3237,6 +3419,74 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		11E02048000000000000000D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Controls/FSNotes iOS Controls.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 346;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FSNotes iOS Controls/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = FSNotes;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 7.6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.Controls";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		11E02048000000000000000E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Controls/FSNotes iOS Controls.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 346;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FSNotes iOS Controls/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = FSNotes;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 7.6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.Controls";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D75F3342205EC34800CC887E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3244,7 +3494,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 341;
+				CURRENT_PROJECT_VERSION = 346;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -3253,7 +3503,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -3277,7 +3527,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 341;
+				CURRENT_PROJECT_VERSION = 346;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -3287,7 +3537,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.4.0;
+				MARKETING_VERSION = 7.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -3315,7 +3565,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 345;
+				CURRENT_PROJECT_VERSION = 346;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -3325,7 +3575,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.5.1;
+				MARKETING_VERSION = 7.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3355,7 +3605,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 345;
+				CURRENT_PROJECT_VERSION = 346;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
@@ -3365,7 +3615,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.5.1;
+				MARKETING_VERSION = 7.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3389,6 +3639,9 @@
 		D7793C931F211C6000CA39B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 742;
+				FSNOTES_SHARE_GROUP = 866P6MTE92.co.fluder.FSNotes.Share;
+				MARKETING_VERSION = 7.5.1;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -3453,6 +3706,9 @@
 		D7793C941F211C6000CA39B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 742;
+				FSNOTES_SHARE_GROUP = 866P6MTE92.co.fluder.FSNotes.Share;
+				MARKETING_VERSION = 7.5.1;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -3659,77 +3915,106 @@
 			};
 			name = Release;
 		};
-		11E02048000000000000000D /* Debug */ = {
+		11E053A20000000000000015 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Controls/FSNotes iOS Controls.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 345;
-				DEVELOPMENT_TEAM = 866P6MTE92;
+				CODE_SIGN_ENTITLEMENTS = "FSNotes Share/FSNotes Share.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "FSNotes iOS Controls/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = FSNotes;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 7.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.Controls";
+				INFOPLIST_FILE = "FSNotes Share/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
+				OTHER_LDFLAGS = ("$(inherited)", "-lxml2");
+				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes.Share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INCLUDE_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		11E02048000000000000000E /* Release */ = {
+		11E053A20000000000000035 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Controls/FSNotes iOS Controls.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "FSNotes Share/FSNotes Share.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 345;
 				DEVELOPMENT_TEAM = 866P6MTE92;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "FSNotes iOS Controls/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = FSNotes;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 7.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.Controls";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
+				INFOPLIST_FILE = "FSNotes Share/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
+				OTHER_LDFLAGS = ("$(inherited)", "-lxml2");
+				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes.Share;
+				PRODUCT_NAME = "FSNotes Share";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INCLUDE_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		11E053A20000000000000016 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "FSNotes Share/FSNotes Share.entitlements";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FSNotes Share/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
+				OTHER_LDFLAGS = ("$(inherited)", "-lxml2");
+				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes.Share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SDKROOT)/usr/include/libxml2";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		11E053A20000000000000036 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "FSNotes Share/FSNotes Share.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FSNotes Share/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
+				OTHER_LDFLAGS = ("$(inherited)", "-lxml2");
+				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes.Share;
+				PRODUCT_NAME = "FSNotes Share";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SDKROOT)/usr/include/libxml2";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		11E02048000000000000000C /* Build configuration list for PBXNativeTarget "FSNotes iOS Controls" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11E02048000000000000000D /* Debug */,
+				11E02048000000000000000E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D75F3341205EC34800CC887E /* Build configuration list for PBXNativeTarget "FSNotes iOS Share Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3775,11 +4060,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		11E02048000000000000000C /* Build configuration list for PBXNativeTarget "FSNotes iOS Controls" */ = {
+		11E053A20000000000000014 /* Build configuration list for PBXNativeTarget "FSNotes Share" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				11E02048000000000000000D /* Debug */,
-				11E02048000000000000000E /* Release */,
+				11E053A20000000000000015 /* Debug */,
+				11E053A20000000000000016 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		11E053A20000000000000034 /* Build configuration list for PBXNativeTarget "FSNotes Share (iCloud)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11E053A20000000000000035 /* Debug */,
+				11E053A20000000000000036 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

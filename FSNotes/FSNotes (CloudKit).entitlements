@@ -22,6 +22,10 @@
 	<string>$(TeamIdentifierPrefix)co.fluder.fsnotes</string>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>$(FSNOTES_SHARE_GROUP)</string>
+	</array>
 	<key>com.apple.security.files.user-selected.read-write</key>
 	<true/>
 	<key>com.apple.security.network.client</key>
