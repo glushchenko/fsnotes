@@ -27,6 +27,11 @@ extension UserDefaultsManagement {
         static let QuickNoteKeyModifier = "quickNoteKeyModifier"
     }
 
+    static var hideCounters: Bool {
+        get { UserDefaults.standard.bool(forKey: "hideCounters") }
+        set { UserDefaults.standard.set(newValue, forKey: "hideCounters") }
+    }
+
     static var appearanceType: AppearanceType {
         get {
             if let result = UserDefaults.standard.object(forKey: Constants.AppearanceTypeKey) as? Int {

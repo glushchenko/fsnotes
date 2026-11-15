@@ -147,6 +147,8 @@ class ViewController: EditorViewController,
     @IBOutlet weak var menuChangeCreationDate: NSMenuItem!
     
     @IBOutlet weak var counter: NSTextField!
+    @IBOutlet weak var editorCounterViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var editorCounterTopSpacing: NSLayoutConstraint!
     @IBOutlet weak var notesCounterViewHeight: NSLayoutConstraint!
     @IBOutlet weak var notesCounter: NSTextField!
     
@@ -415,9 +417,9 @@ class ViewController: EditorViewController,
                 
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
-            notesCounterViewHeight.constant = 0
-            notesCounter.isHidden = true
         }
+
+        updateCounterVisibility()
 
         self.menuChangeCreationDate.title = NSLocalizedString("Change Creation Date", comment: "Menu")
 
@@ -1490,6 +1492,17 @@ class ViewController: EditorViewController,
         notesTableView.endUpdates()
     }
         
+    public func updateCounterVisibility() {
+        let hideCounters = UserDefaultsManagement.hideCounters
+        let hideNotesCounter = hideCounters || UserDefaultsManagement.horizontalOrientation
+
+        notesCounterViewHeight.constant = hideNotesCounter ? 0 : 45
+        notesCounter.superview?.isHidden = hideNotesCounter
+        editorCounterViewHeight.constant = hideCounters ? 0 : 45
+        editorCounterTopSpacing.constant = hideCounters ? 0 : 2
+        counter.superview?.isHidden = hideCounters
+    }
+
     public func updateCounters(note: Note? = nil, charRange: NSRange? = nil) {
         if !Thread.isMainThread {
             DispatchQueue.main.async { [weak self] in

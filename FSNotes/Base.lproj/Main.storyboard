@@ -1391,8 +1391,21 @@ CA
                                     <action selector="horizontalOrientation:" target="P2a-yk-5Rx" id="jgb-f7-Qie"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hide-counters-button">
+                                <rect key="frame" x="35" y="13" width="120" height="16"/>
+                                <buttonCell key="cell" type="check" title="Hide counters" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hide-counters-cell">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="hideCounters:" target="P2a-yk-5Rx" id="hide-counters-action"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="hide-counters-button" firstAttribute="leading" secondItem="4gq-Ny-8kZ" secondAttribute="leading" id="hide-counters-leading"/>
+                            <constraint firstItem="hide-counters-button" firstAttribute="top" secondItem="4gq-Ny-8kZ" secondAttribute="bottom" constant="6" id="hide-counters-top"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hide-counters-button" secondAttribute="trailing" constant="20" id="hide-counters-trailing"/>
                             <constraint firstItem="kBX-OV-8sO" firstAttribute="leading" secondItem="GGR-Nj-xCY" secondAttribute="leading" constant="35" id="1Xz-yx-yJY"/>
                             <constraint firstItem="4gq-Ny-8kZ" firstAttribute="leading" secondItem="Yn6-yP-tkd" secondAttribute="leading" id="2ny-5B-EKG"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4gq-Ny-8kZ" secondAttribute="trailing" constant="20" symbolic="YES" id="3Tx-Gi-Vl9"/>
@@ -1402,7 +1415,7 @@ CA
                             <constraint firstItem="FFS-iV-L6i" firstAttribute="leading" secondItem="kBX-OV-8sO" secondAttribute="leading" id="9Vk-O1-Gw0"/>
                             <constraint firstItem="ax0-sQ-dzy" firstAttribute="leading" secondItem="BWu-lt-Hmt" secondAttribute="leading" id="9fh-G3-nKW"/>
                             <constraint firstItem="Yn6-yP-tkd" firstAttribute="leading" secondItem="Hy2-6l-V6s" secondAttribute="leading" id="BOL-TI-Qnj"/>
-                            <constraint firstAttribute="bottom" secondItem="4gq-Ny-8kZ" secondAttribute="bottom" constant="35" id="DAN-1V-Dpo"/>
+                            <constraint firstAttribute="bottom" secondItem="hide-counters-button" secondAttribute="bottom" constant="35" id="DAN-1V-Dpo"/>
                             <constraint firstItem="BWu-lt-Hmt" firstAttribute="top" secondItem="9b2-ti-sGJ" secondAttribute="bottom" constant="20" id="H6i-af-SIR"/>
                             <constraint firstItem="4gq-Ny-8kZ" firstAttribute="top" secondItem="Yn6-yP-tkd" secondAttribute="bottom" constant="6" symbolic="YES" id="HlI-v1-5rk"/>
                             <constraint firstItem="thJ-9r-qKd" firstAttribute="top" secondItem="ax0-sQ-dzy" secondAttribute="bottom" constant="20" id="ICs-MT-tFX"/>
@@ -1438,6 +1451,7 @@ CA
                     <connections>
                         <outlet property="cellSpacing" destination="X4v-hO-tFb" id="r4Y-4Z-kV3"/>
                         <outlet property="firstLineAsTitle" destination="Yn6-yP-tkd" id="Ap9-EI-2Tb"/>
+                        <outlet property="hideCounters" destination="hide-counters-button" id="hide-counters-outlet"/>
                         <outlet property="hideDate" destination="Hy2-6l-V6s" id="Tfc-Ur-PnR"/>
                         <outlet property="hideImagesPreview" destination="kBX-OV-8sO" id="tgI-8X-Re0"/>
                         <outlet property="hidePreview" destination="FFS-iV-L6i" id="6e2-Xa-nly"/>
@@ -2088,6 +2102,8 @@ CA
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="editorCounterViewHeight" destination="9A6-2x-DoV" id="editor-counter-height-outlet"/>
+                        <outlet property="editorCounterTopSpacing" destination="U4c-ky-F5D" id="editor-counter-spacing-outlet"/>
                         <outlet property="counter" destination="2wI-jF-KzC" id="idm-XG-ZqO"/>
                         <outlet property="editAreaScroll" destination="qJO-7f-vkL" id="X69-yq-N67"/>
                         <outlet property="editor" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>

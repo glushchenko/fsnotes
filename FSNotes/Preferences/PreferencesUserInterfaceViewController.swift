@@ -14,6 +14,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var previewFontSize: NSPopUpButton!
     @IBOutlet weak var hideImagesPreview: NSButton!
     @IBOutlet weak var hidePreview: NSButton!
+    @IBOutlet weak var hideCounters: NSButton!
     @IBOutlet weak var hideDate: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
     @IBOutlet weak var horizontalOrientation: NSButton!
@@ -40,6 +41,8 @@ class PreferencesUserInterfaceViewController: NSViewController {
         previewFontSize.selectItem(withTag: UserDefaultsManagement.previewFontSize)
 
         hideImagesPreview.state = UserDefaultsManagement.hidePreviewImages ? .on : .off
+
+        hideCounters.state = UserDefaultsManagement.hideCounters ? .on : .off
 
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
@@ -77,6 +80,11 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
+    }
+
+    @IBAction func hideCounters(_ sender: NSButton) {
+        UserDefaultsManagement.hideCounters = sender.state == .on
+        ViewController.shared()?.updateCounterVisibility()
     }
 
     @IBAction func hideDate(_ sender: NSButton) {
