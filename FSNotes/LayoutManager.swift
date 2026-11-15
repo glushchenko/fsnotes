@@ -207,9 +207,12 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         let characters = characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
         if let textStorage = textStorage, characters.location < textStorage.length,
            textStorage.attribute(NotesTextProcessor.collapsedCodeFence, at: characters.location, effectiveRange: nil) as? Bool == true {
-            lineFragmentRect.pointee.size.height = 0.1
-            lineFragmentUsedRect.pointee.size.height = 0.1
-            baselineOffset.pointee = 0.1
+            // Keep collapsed fences positive but on whole-point boundaries.
+            // A 0.1-point fragment shifts every following line off the pixel
+            // grid, leaving selection edge pixels outside partial redraws.
+            lineFragmentRect.pointee.size.height = 1
+            lineFragmentUsedRect.pointee.size.height = 1
+            baselineOffset.pointee = 1
             return true
         }
 

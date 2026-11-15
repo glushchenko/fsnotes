@@ -297,6 +297,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func setNeedsDisplay(_ invalidRect: NSRect) {
         var newInvalidRect = NSRect(origin: invalidRect.origin, size: invalidRect.size)
         newInvalidRect.size.width += self.caretWidth - 1
+
         super.setNeedsDisplay(newInvalidRect)
     }
     
