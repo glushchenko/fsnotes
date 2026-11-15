@@ -293,6 +293,24 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func updateInsertionPointStateAndRestartTimer(_ restartFlag: Bool) {
         super.updateInsertionPointStateAndRestartTimer(true)
     }
+
+    override func setSelectedRanges(_ ranges: [NSValue], affinity: NSSelectionAffinity, stillSelecting flag: Bool) {
+        let blocks = note?.codeBlockRangesCache ?? []
+        func selectedBlocks(in ranges: [NSValue]) -> [NSRange] {
+            blocks.filter { block in
+                ranges.contains { NSIntersectionRange($0.rangeValue, block).length > 0 }
+            }
+        }
+
+        let previouslySelectedBlocks = selectedBlocks(in: selectedRanges)
+        super.setSelectedRanges(ranges, affinity: affinity, stillSelecting: flag)
+
+        // Redraw the decoration outside the selection only when a block
+        // enters or leaves the selection, including during mouse tracking.
+        if previouslySelectedBlocks != selectedBlocks(in: selectedRanges) {
+            needsDisplay = true
+        }
+    }
     
     override func setNeedsDisplay(_ invalidRect: NSRect) {
         var newInvalidRect = NSRect(origin: invalidRect.origin, size: invalidRect.size)

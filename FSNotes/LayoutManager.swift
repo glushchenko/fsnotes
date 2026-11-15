@@ -163,6 +163,14 @@ class LayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
         let borderColor = NSColor.lightGray.cgColor
         
         for codeBlockRange in relevantCodeBlocks {  // ← теперь только релевантные блоки!
+            // The box extends beyond AppKit's selection background. Hide its
+            // decoration while selected so the side padding cannot stick out.
+            if firstTextView?.selectedRanges.contains(where: {
+                NSIntersectionRange($0.rangeValue, codeBlockRange).length > 0
+            }) == true {
+                continue
+            }
+
             let safeCharRange = NotesTextProcessor.codeBlockBackgroundRange(in: textStorage, range: codeBlockRange)
             if safeCharRange.length == 0 { continue }
             
