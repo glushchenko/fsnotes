@@ -1612,8 +1612,15 @@ class ViewController: EditorViewController,
                     self.editor.clear()
                 }
 
+                // Preserve selection if search finishes after a click on a result.
+                let selectedNotes = self.notesTableView.getSelectedNotes() ?? []
+                let selectedIndexes = IndexSet(orderedNotesList.indices.filter { index in
+                    selectedNotes.contains { $0 === orderedNotesList[index] }
+                })
+
                 self.notesTableView.setNoteList(notes: orderedNotesList)
                 self.notesTableView.reloadData()
+                self.notesTableView.selectRowIndexes(selectedIndexes, byExtendingSelection: false)
                 self.updateNotesCounter()
                 completion()
             }
