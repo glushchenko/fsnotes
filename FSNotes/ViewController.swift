@@ -243,8 +243,35 @@ class ViewController: EditorViewController,
                                                          options: .skipsHiddenFiles) else { return }
         for clip in clips where SharedInbox.fileExtensions.contains(clip.pathExtension) {
             let title = SharedInbox.noteTitle(from: clip)
-            let ext = clip.pathExtension
             do {
+                if clip.pathExtension == "fsclip" {
+                    let note = Note(name: title, project: inbox, type: .Markdown, cont: .textBundleV2)
+                    do {
+                        var links: [String] = []
+                        let folders = try files.contentsOfDirectory(at: clip, includingPropertiesForKeys: nil)
+                            .sorted { (Int($0.lastPathComponent) ?? 0) < (Int($1.lastPathComponent) ?? 0) }
+                        for folder in folders {
+                            for attachment in try files.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil) {
+                                let data = try Data(contentsOf: attachment)
+                                guard let (path, _) = note.save(data: data, preferredName: attachment.lastPathComponent) else {
+                                    throw CocoaError(.fileWriteUnknown)
+                                }
+                                let allowed = CharacterSet.urlPathAllowed.subtracting(CharacterSet(charactersIn: "()[]"))
+                                let label = attachment.lastPathComponent.addingPercentEncoding(withAllowedCharacters: allowed) ?? attachment.lastPathComponent
+                                let escapedPath = path.addingPercentEncoding(withAllowedCharacters: allowed) ?? path
+                                links.append("![\(label)](\(escapedPath))")
+                            }
+                        }
+                        note.content = NSMutableAttributedString(string: title + "\n\n" + links.joined(separator: "\n\n") + "\n")
+                        guard note.saveSimple() else { throw CocoaError(.fileWriteUnknown) }
+                    } catch {
+                        try? files.removeItem(at: note.url)
+                        throw error
+                    }
+                    try files.removeItem(at: clip)
+                    continue
+                }
+                let ext = clip.pathExtension
                 let data = try Data(contentsOf: clip)
                 var number = 1
                 while true {

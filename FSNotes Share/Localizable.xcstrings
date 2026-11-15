@@ -502,127 +502,127 @@
         }
       }
     },
-    "Save a page or selected text to Inbox.": {
+    "Save a page, text, images or files to Inbox.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Save a page or selected text to Inbox."
+            "value": "Save a page, text, images or files to Inbox."
           }
         },
         "ar-IQ": {
           "stringUnit": {
             "state": "translated",
-            "value": "احفظ صفحة أو نصًا محددًا في الوارد."
+            "value": "حفظ صفحة أو نص أو صور أو ملفات في صندوق الوارد."
           }
         },
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Uložte stránku nebo vybraný text do složky Příchozí."
+            "value": "Uložit stránku, text, obrázky nebo soubory do složky Doručené."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Seite oder ausgewählten Text im Posteingang sichern."
+            "value": "Seite, Text, Bilder oder Dateien im Eingang speichern."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guarda una página o el texto seleccionado en Entrada."
+            "value": "Guardar una página, texto, imágenes o archivos en la bandeja de entrada."
           }
         },
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "یک صفحه یا متن انتخاب‌شده را در صندوق ورودی ذخیره کنید."
+            "value": "ذخیرهٔ صفحه، متن، تصاویر یا فایل‌ها در صندوق ورودی."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrez une page ou le texte sélectionné dans la boîte de réception."
+            "value": "Enregistrer une page, du texte, des images ou des fichiers dans la boîte de réception."
           }
         },
         "he": {
           "stringUnit": {
             "state": "translated",
-            "value": "שמירת עמוד או טקסט נבחר בתיבת דואר נכנס."
+            "value": "שמירת עמוד, טקסט, תמונות או קבצים בתיבת הדואר הנכנס."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "पेज या चुने हुए टेक्स्ट को इनबॉक्स में सहेजें।"
+            "value": "पेज, टेक्स्ट, चित्र या फ़ाइलें इनबॉक्स में सहेजें।"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salva una pagina o il testo selezionato nella cartella In Entrata."
+            "value": "Salva una pagina, testo, immagini o file nella cartella In arrivo."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ページまたは選択したテキストを「未整理」に保存します。"
+            "value": "ページ、テキスト、画像、ファイルを受信トレイに保存します。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "페이지 또는 선택한 텍스트를 Inbox에 저장합니다."
+            "value": "페이지, 텍스트, 이미지 또는 파일을 받은 편지함에 저장합니다."
           }
         },
         "nl-NL": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bewaar een pagina of geselecteerde tekst in Postvak In."
+            "value": "Een pagina, tekst, afbeeldingen of bestanden in Inbox opslaan."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Salve uma página ou o texto selecionado no Inbox."
+            "value": "Salvar uma página, texto, imagens ou arquivos na Caixa de Entrada."
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Guarde uma página ou o texto selecionado na Caixa de entrada."
+            "value": "Guardar uma página, texto, imagens ou ficheiros na Caixa de Entrada."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохранить страницу или выделенный текст во «Входящие»."
+            "value": "Сохранить страницу, текст, изображения или файлы во «Входящие»."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bir sayfayı veya seçili metni Gelen kutusuna kaydedin."
+            "value": "Sayfa, metin, resim veya dosyaları Gelen Kutusu’na kaydedin."
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Збережіть сторінку або виділений текст у «Вхідні»."
+            "value": "Зберегти сторінку, текст, зображення або файли у «Вхідні»."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "将页面或所选文本保存到收集箱。"
+            "value": "将网页、文本、图片或文件保存到收件箱。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "將網頁或所選文字儲存至收件匣。"
+            "value": "將網頁、文字、圖片或檔案儲存至收件匣。"
           }
         }
       }

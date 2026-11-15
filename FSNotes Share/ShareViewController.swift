@@ -2,7 +2,7 @@ import AppKit
 import UniformTypeIdentifiers
 
 final class ShareViewController: NSViewController {
-    private let status = NSTextField(wrappingLabelWithString: NSLocalizedString("Save a page or selected text to Inbox.", comment: ""))
+    private let status = NSTextField(wrappingLabelWithString: NSLocalizedString("Save a page, text, images or files to Inbox.", comment: ""))
     private lazy var saveButton = NSButton(title: NSLocalizedString("Save to Inbox", comment: ""),
                                            target: self, action: #selector(save))
     private lazy var cancelButton = NSButton(title: NSLocalizedString("Cancel", comment: ""),
@@ -80,9 +80,15 @@ final class ShareViewController: NSViewController {
 
         saveTask = Task {
             do {
-                let clip = try await Self.loadClip(from: items, asMarkdown: asMarkdown)
+                let attachments = try await Self.loadAttachments(from: items)
                 try Task.checkCancellation()
-                try SharedInbox.enqueue(title: clip.title, text: clip.text, asMarkdown: asMarkdown)
+                if attachments.isEmpty {
+                    let clip = try await Self.loadClip(from: items, asMarkdown: asMarkdown)
+                    try Task.checkCancellation()
+                    try SharedInbox.enqueue(title: clip.title, text: clip.text, asMarkdown: asMarkdown)
+                } else {
+                    try SharedInbox.enqueue(attachments: attachments)
+                }
                 context.completeRequest(returningItems: nil)
             } catch is CancellationError {
                 return
@@ -98,6 +104,68 @@ final class ShareViewController: NSViewController {
     @objc private func cancel() {
         saveTask?.cancel()
         extensionContext?.cancelRequest(withError: CocoaError(.userCancelled))
+    }
+
+    private nonisolated static func loadAttachments(from items: [NSExtensionItem]) async throws -> [SharedInbox.Attachment] {
+        let providers = items.flatMap { $0.attachments ?? [] }
+        var attachments: [SharedInbox.Attachment] = []
+        for provider in providers {
+            try Task.checkCancellation()
+            if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
+                let attachment = try await load(provider, type: .fileURL) { item -> SharedInbox.Attachment? in
+                    let url: URL?
+                    switch item {
+                    case let value as URL: url = value
+                    case let value as Data: url = URL(dataRepresentation: value, relativeTo: nil)
+                    case let value as String: url = URL(string: value)
+                    default: url = nil
+                    }
+                    guard let url, url.isFileURL else { throw CocoaError(.fileReadUnsupportedScheme) }
+                    let type = UTType(filenameExtension: url.pathExtension)
+                    // Keep converting individual HTML and text documents as before.
+                    if providers.count == 1, let type, type.conforms(to: .html) || type.conforms(to: .plainText) {
+                        return nil
+                    }
+                    let access = url.startAccessingSecurityScopedResource()
+                    defer { if access { url.stopAccessingSecurityScopedResource() } }
+                    return SharedInbox.Attachment(name: url.lastPathComponent, data: try Data(contentsOf: url))
+                }
+                if let attachment { attachments.append(attachment) }
+                continue
+            }
+            // Ignore alternate text/HTML representations of pages and selections.
+            guard let type = provider.registeredTypeIdentifiers.compactMap({ UTType($0) }).first(where: {
+                $0.conforms(to: .image) || ($0.conforms(to: .data) && !$0.conforms(to: .text)
+                    && !$0.conforms(to: .url) && !$0.conforms(to: .propertyList))
+            }) else { continue }
+            let suggestedName = provider.suggestedName
+            let attachment: SharedInbox.Attachment
+            do {
+                attachment = try await withCheckedThrowingContinuation { continuation in
+                    provider.loadFileRepresentation(forTypeIdentifier: type.identifier) { url, error in
+                        guard let url else {
+                            continuation.resume(throwing: error ?? CocoaError(.fileReadCorruptFile))
+                            return
+                        }
+                        continuation.resume(with: Result {
+                            var name = suggestedName ?? url.lastPathComponent
+                            if (name as NSString).pathExtension.isEmpty, let ext = type.preferredFilenameExtension {
+                                name += "." + ext
+                            }
+                            return SharedInbox.Attachment(name: name, data: try Data(contentsOf: url))
+                        })
+                    }
+                }
+            } catch {
+                var name = suggestedName ?? "Attachment"
+                if (name as NSString).pathExtension.isEmpty, let ext = type.preferredFilenameExtension {
+                    name += "." + ext
+                }
+                attachment = SharedInbox.Attachment(name: name, data: try await loadTextData(from: provider, type: type))
+            }
+            attachments.append(attachment)
+        }
+        return attachments
     }
 
     private nonisolated static func loadClip(from items: [NSExtensionItem], asMarkdown: Bool) async throws -> HTMLClip {
