@@ -387,7 +387,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         dragDetected = false
         selectingWithMouse = true
-        super.mouseDown(with: event)
+        if !selectLinkText(with: event) {
+            super.mouseDown(with: event)
+        }
         selectingWithMouse = false
         refreshConcealedSyntax()
         saveSelectedRange()
@@ -396,6 +398,46 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             self.handleClick(event)
             self.dragDetected = false
         }
+    }
+
+    private func selectLinkText(with event: NSEvent) -> Bool {
+        guard isEditable, event.clickCount == 1,
+              !event.modifierFlags.contains(.command),
+              !event.modifierFlags.contains(.shift),
+              let window = window, let storage = textStorage else {
+            return false
+        }
+
+        let anchor = characterIndexForInsertion(at: convert(event.locationInWindow, from: nil))
+        guard anchor < storage.length,
+              storage.attribute(.link, at: anchor, effectiveRange: nil) != nil,
+              storage.attribute(.attachment, at: anchor, effectiveRange: nil) == nil else {
+            return false
+        }
+
+        // Leave ordinary clicks to AppKit, but track link selections ourselves:
+        // its built-in link tracking expands the selection to the entire link.
+        let mask: NSEvent.EventTypeMask = [.leftMouseDragged, .leftMouseUp]
+        guard let next = window.nextEvent(matching: mask, until: .distantFuture,
+                                          inMode: .eventTracking, dequeue: false),
+              next.type == .leftMouseDragged else {
+            return false
+        }
+
+        window.makeFirstResponder(self)
+        dragDetected = true
+        selectionGranularity = .selectByCharacter
+        while let next = window.nextEvent(matching: mask, until: .distantFuture,
+                                          inMode: .eventTracking, dequeue: true) {
+            autoscroll(with: next)
+            let index = characterIndexForInsertion(at: convert(next.locationInWindow, from: nil))
+            let range = NSRange(location: min(anchor, index), length: abs(index - anchor))
+            setSelectedRange(range, affinity: .downstream, stillSelecting: next.type != .leftMouseUp)
+            if next.type == .leftMouseUp {
+                break
+            }
+        }
+        return true
     }
     
     private func handleTodo(_ event: NSEvent) -> Bool {
