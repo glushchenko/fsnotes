@@ -78,10 +78,7 @@ class NotesTableView: UITableView,
 
         let note = self.notes[indexPath.row]
 
-        if !note.isLoaded && !note.isLoadedFromCache {
-            note.uiLoad()
-        }
-        
+        // Content is loaded by loadDB in the background, never while creating cells.
         cell.configure(note: note)
         cell.selectionStyle = .gray
         cell.loadImagesPreview(position: indexPath.row)

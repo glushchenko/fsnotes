@@ -279,10 +279,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             qty += " | git ✓"
         }
 
-        navigationItem.title = folder
+        if navigationItem.title != folder {
+            navigationItem.title = folder
+        }
         
         if #available(iOS 26.0, *) {
-            navigationItem.subtitle = qty
+            if navigationItem.subtitle != qty {
+                navigationItem.subtitle = qty
+            }
         }
     }
 
@@ -496,6 +500,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 let notesFullLoading = Date()
                 self.storage.loadNotesContent()
                 print("4. Full notes loading in \(notesFullLoading.timeIntervalSinceNow * -1) seconds")
+
+                DispatchQueue.main.async {
+                    self.reloadNotesTable()
+                }
                 
                 let spotlightPoint = Date()
                 self.reIndexSpotlight()
@@ -879,7 +887,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func reloadNotesTable(completion: (() -> ())? = nil) {
         isActiveTableUpdating = true
         searchQueue.cancelAllOperations()
-        setNavTitle(qty: "∞")
         searchQueue.cancelAllOperations()
 
         let query = storage.searchQuery
@@ -1501,6 +1508,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             alertController.addTextField(configurationHandler: {
                 [] (textField: UITextField) in
                 textField.placeholder = "mast3r passw0rd"
+                textField.isSecureTextEntry = true
             })
 
             let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
@@ -1586,7 +1594,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             
         let note = Storage.shared().addNote(url: noteURL)
         
-        guard !note.isEncrypted() else { return }
+        guard note.hasLocalContent(), !note.isEncrypted() else { return }
         note.loadPreviewState()
 
         UIApplication.getVC().openEditorViewController()

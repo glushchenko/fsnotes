@@ -18,6 +18,9 @@ class CloudDriveManager {
 
     public let metadataQuery = NSMetadataQuery()
     private var resultsDict = NSMutableDictionary()
+    private let downloadQueue = DispatchQueue(label: "co.fluder.fsnotes.icloud.downloads", qos: .utility)
+    private var requestedDownloads = Set<URL>()
+    
     private let workerQueue: OperationQueue = {
         let workerQueue = OperationQueue()
         workerQueue.name = "co.fluder.fsnotes.manager.browserdatasource.workerQueue"
@@ -46,6 +49,19 @@ class CloudDriveManager {
 
         self.delegate = delegate
         self.storage = storage
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(queryGatheringProgress(notification:)),
+            name: .NSMetadataQueryGatheringProgress,
+            object: metadataQuery
+        )
+    }
+
+    @objc private func queryGatheringProgress(notification: NSNotification) {
+        if let results = metadataQuery.results as? [NSMetadataItem] {
+            startInitialLoading(results: results)
+        }
     }
 
     @objc func queryDidFinishGathering(notification: NSNotification) {
@@ -54,6 +70,19 @@ class CloudDriveManager {
         if let results = query?.results as? [NSMetadataItem] {
             saveCloudDriveResultsCache(results: results)
             startInitialLoading(results: results)
+
+            // Already downloaded items need not generate a later update.
+            for item in results {
+                guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL,
+                      Note.isDownloaded(at: url),
+                      storage.getBy(url: url) == nil,
+                      storage.isValidNote(url: url),
+                      let note = storage.importNote(url: url) else { continue }
+                
+                notesInsertionQueue.append(note)
+            }
+            
+            doVisualChanges()
         }
 
         metadataQuery.enableUpdates()
@@ -62,6 +91,10 @@ class CloudDriveManager {
     @objc func handleMetadataQueryUpdates(notification: NSNotification) {
         guard let metadataQuery = notification.object as? NSMetadataQuery else { return }
         metadataQuery.disableUpdates()
+
+        let changedItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] ?? []
+        let addedItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] ?? []
+        startInitialLoading(results: changedItems + addedItems)
 
         let changed = change(notification: notification)
         let added = added(notification: notification)
@@ -90,18 +123,26 @@ class CloudDriveManager {
     }
 
     private func startInitialLoading(results: [NSMetadataItem]) {
-        for metadataItem in results {
-            let url = metadataItem.value(forAttribute: NSMetadataItemURLKey) as? URL
-            let status = metadataItem.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
+        let items: [(URL, String)] = results.compactMap { metadataItem in
+            guard let url = metadataItem.value(forAttribute: NSMetadataItemURLKey) as? URL,
+                  let status = metadataItem.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String else { return nil }
+            return (url, status)
+        }
 
-            if status == NSMetadataUbiquitousItemDownloadingStatusNotDownloaded,
-                let url = url,
-                FileManager.default.isUbiquitousItem(at: url) {
+        downloadQueue.async { [weak self] in
+            guard let self = self else { return }
+            for (url, status) in items {
+                if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
+                    self.requestedDownloads.remove(url)
+                    continue
+                }
+                guard self.requestedDownloads.insert(url).inserted else { continue }
 
                 do {
                     try FileManager.default.startDownloadingUbiquitousItem(at: url)
                 } catch {
-                    print("Download error: \(error)")
+                    self.requestedDownloads.remove(url)
+                    print("Download error: \(url.lastPathComponent): \(error)")
                 }
             }
         }
@@ -130,13 +171,22 @@ class CloudDriveManager {
             let creationDate = item.value(forAttribute: NSMetadataItemFSCreationDateKey) as? Date
             
             
-            if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
+            let isDownloaded = status == NSMetadataUbiquitousItemDownloadingStatusCurrent
+                || status == NSMetadataUbiquitousItemDownloadingStatusDownloaded
+
+            if isDownloaded {
                 completed += 1
             }
             
-            guard let url = itemUrl?.standardized, status == NSMetadataUbiquitousItemDownloadingStatusCurrent else {
-                continue
+            guard let url = itemUrl?.standardized else { continue }
+
+            if let note = storage.getBy(url: url), !note.hasLocalContent() {
+                storage.removeBy(note: note)
+                notesDeletionQueue.append(note)
+                completed += 1
             }
+            
+            guard isDownloaded else { continue }
 
             if isProject(item: item) {
 
@@ -244,6 +294,12 @@ class CloudDriveManager {
 
                 let srcUrl = note.url
                 note.url = url
+
+                guard note.hasLocalContent() else {
+                    storage.removeBy(note: note)
+                    continue
+                }
+
                 note.parseURL()
                 note.moveHistory(src: srcUrl, dst: url)
 
@@ -306,18 +362,9 @@ class CloudDriveManager {
 
             let status = item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
 
-            if status != NSMetadataUbiquitousItemDownloadingStatusCurrent
-                && FileManager.default.isUbiquitousItem(at: url) {
+            guard status == NSMetadataUbiquitousItemDownloadingStatusCurrent
+                || status == NSMetadataUbiquitousItemDownloadingStatusDownloaded else { continue }
 
-                do {
-                    try FileManager.default.startDownloadingUbiquitousItem(at: url)
-                } catch {
-                    print("Download error: \(error)")
-                }
-
-                continue
-            }
-            
             if isProject(item: item) {
                 if let projects = storage.insert(url: url) {
                     projectsInsertionQueue.append(contentsOf: projects)

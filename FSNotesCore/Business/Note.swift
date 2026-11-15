@@ -281,8 +281,6 @@ public class Note: NSObject  {
 
 
     public func uiLoad() {
-        guard isAvailableLocally(getURL()) else { return }
-
         if let size = fileSize(atPath: self.url.path), size > 100000 {
             loadFileName()
             
@@ -306,17 +304,10 @@ public class Note: NSObject  {
             return
         #endif
 
-        guard isAvailableLocally(getURL()) else { return }
-
-        if container != .encryptedTextPack {
-            guard let contentURL = getContentFileURL(),
-                  isAvailableLocally(contentURL) else { return }
-        }
-
-        if let attributedString = getContent() {
-            cacheHash = nil
-            content = attributedString.loadAttachments(self)
-        }
+        guard let attributedString = getContent() else { return }
+        cacheHash = nil
+        content = attributedString.loadAttachments(self)
+        isParsed = false
 
         loadFileName()
         loadPreviewInfo()
@@ -780,8 +771,7 @@ public class Note: NSObject  {
         }
     }
     
-    private func isAvailableLocally(_ url: URL) -> Bool {
-        // Read local filesystem flags without asking FileProvider for metadata.
+    static func isDownloaded(at url: URL) -> Bool {
         var info = stat()
         return url.withUnsafeFileSystemRepresentation { path in
             guard let path = path, lstat(path, &info) == 0 else { return false }
@@ -789,9 +779,15 @@ public class Note: NSObject  {
         }
     }
 
+    func hasLocalContent() -> Bool {
+        guard Self.isDownloaded(at: getURL()) else { return false }
+        guard isTextBundle() else { return true }
+        guard let contentURL = getContentFileURL() else { return false }
+        return Self.isDownloaded(at: contentURL)
+    }
+
     func getContent() -> NSMutableAttributedString? {
-        guard container != .encryptedTextPack, let url = getContentFileURL(),
-              isAvailableLocally(url) else { return nil }
+        guard container != .encryptedTextPack, let url = getContentFileURL() else { return nil }
 
         do {
             return try NSMutableAttributedString(url: url, options: [
@@ -941,7 +937,7 @@ public class Note: NSObject  {
 
                 let infoUrl = url.appendingPathComponent("info.json", isDirectory: false)
 
-                if isAvailableLocally(url), isAvailableLocally(infoUrl) {
+                if Self.isDownloaded(at: url), Self.isDownloaded(at: infoUrl) {
                     do {
                         let jsonData = try Data(contentsOf: infoUrl)
                         let info = try JSONDecoder().decode(TextBundleInfo.self, from: jsonData)
@@ -1127,7 +1123,6 @@ public class Note: NSObject  {
 
     public func getContentFileURL() -> URL? {
         var url = getURL()
-        guard isAvailableLocally(url) else { return nil }
 
         if isTextBundle() {
             let ext = getExtensionForContainer()

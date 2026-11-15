@@ -599,6 +599,9 @@ class Storage {
     }
     
     func add(_ note: Note) {
+        #if os(iOS)
+        guard note.hasLocalContent() else { return }
+        #endif
         noteListLock.lock()
         defer { noteListLock.unlock() }
 
@@ -830,19 +833,23 @@ class Storage {
             "PNG", ".icloud", ".cache", ".Trash", "i"
         ])
 
-        let urls = fileEnumerator.allObjects.compactMap({ $0 as? URL })
-            .filter({
-                !extensions.contains($0.pathExtension)
-                && !extensions.contains($0.lastPathComponent)
-                && !$0.path.contains("/assets")
-                && !$0.path.contains("/.cache")
-                && !$0.path.contains("/files")
-                && !$0.path.contains("/.Trash")
-                && !$0.path.contains("/Trash")
-                && !$0.path.contains(".textbundle")
-                && !$0.path.contains(".revisions")
-                && !$0.path.contains("/.git")
-            })
+        var urls = [URL]()
+        while let item = fileEnumerator.nextObject() as? URL {
+            if extensions.contains(item.pathExtension)
+                || extensions.contains(item.lastPathComponent)
+                || item.path.contains("/assets")
+                || item.path.contains("/.cache")
+                || item.path.contains("/files")
+                || item.path.contains("/.Trash")
+                || item.path.contains("/Trash")
+                || item.path.contains(".textbundle")
+                || item.path.contains(".revisions")
+                || item.path.contains("/.git") {
+                fileEnumerator.skipDescendants()
+                continue
+            }
+            urls.append(item)
+        }
 
         var fin = [URL]()
         var i = 0
@@ -1256,6 +1263,9 @@ class Storage {
     }
 
     public func importNote(url: URL) -> Note? {
+        #if os(iOS)
+        guard Note.isDownloaded(at: url) else { return nil }
+        #endif
         if !FileManager.default.fileExists(atPath: url.path) {
             return nil
         }
@@ -1265,6 +1275,10 @@ class Storage {
         else { return nil }
         
         let note = Note(url: url, with: project)
+
+        #if os(iOS)
+        guard note.hasLocalContent() else { return nil }
+        #endif
         
         if note.isTextBundle() && !note.isFullLoadedTextBundle() {
             return nil
