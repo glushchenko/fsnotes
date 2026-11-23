@@ -819,10 +819,11 @@ class Storage {
 
     private func fetchAllDirectories(url: URL) -> [URL]? {
         let maxDirs = UserDefaultsManagement.maxChildDirs
+        let keys: [URLResourceKey] = [.isDirectoryKey, .isPackageKey]
 
         guard let fileEnumerator =
             FileManager.default.enumerator(
-                at: url, includingPropertiesForKeys: nil,
+                at: url, includingPropertiesForKeys: keys,
                 options: FileManager.DirectoryEnumerationOptions()
             )
         else { return nil }
@@ -833,9 +834,23 @@ class Storage {
             "PNG", ".icloud", ".cache", ".Trash", "i"
         ])
 
-        var urls = [URL]()
+        var fin = [URL]()
+        var i = 0
+
         while let item = fileEnumerator.nextObject() as? URL {
-            if extensions.contains(item.pathExtension)
+            let values: URLResourceValues
+            do {
+                values = try item.resourceValues(forKeys: Set(keys))
+            } catch {
+                print("Error: ", error.localizedDescription)
+                continue
+            }
+
+            // skipDescendants() on a regular file skips the rest of its parent directory
+            guard values.isDirectory == true else { continue }
+
+            if values.isPackage == true
+                || extensions.contains(item.pathExtension)
                 || extensions.contains(item.lastPathComponent)
                 || item.path.contains("/assets")
                 || item.path.contains("/.cache")
@@ -848,30 +863,9 @@ class Storage {
                 fileEnumerator.skipDescendants()
                 continue
             }
-            urls.append(item)
-        }
 
-        var fin = [URL]()
-        var i = 0
-
-        for url in urls {
-            do {
-                var isDirectoryResourceValue: AnyObject?
-                try (url as NSURL).getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
-
-                var isPackageResourceValue: AnyObject?
-                try (url as NSURL).getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
-
-                if isDirectoryResourceValue as? Bool == true,
-                    isPackageResourceValue as? Bool == false {
-                    
-                    i = i + 1
-                    fin.append(url)
-                }
-            }
-            catch let error as NSError {
-                print("Error: ", error.localizedDescription)
-            }
+            i = i + 1
+            fin.append(item)
 
             if i > maxDirs {
                 break
